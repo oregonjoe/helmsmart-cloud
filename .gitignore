@@ -1,0 +1,8 @@
+venv
+*.pyc
+.DS_Store
+.coverage
+.env
+web/__pycache__
+web/static/.sass-cache
+web/static/.webassets-cache
