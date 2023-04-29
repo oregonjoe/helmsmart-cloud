@@ -1,6 +1,6 @@
 import urllib
 from urlparse import urlparse
-import psycopg2  
+import psycopg  
 
 #from flask import Flask
 from flask import (
@@ -26,7 +26,7 @@ from flask_cors import CORS, cross_origin
 
 
 
-from psycopg2.pool import ThreadedConnectionPool
+from psycopg.pool import ThreadedConnectionPool
 db_pool = ThreadedConnectionPool(
   1, # min connections,
   int(os.environ.get('MAX_DB_CONNECTIONS',3)),
