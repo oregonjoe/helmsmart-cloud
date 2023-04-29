@@ -1,9 +1,34 @@
-from flask import Flask
+#from flask import Flask
+from flask import (
+  Flask,
+  session,
+  render_template,
+  url_for,
+  make_response,
+  Response,
+  stream_with_context,
+  redirect,
+  request,  
+  jsonify
+)
+
+from flask.ext.cors import CORS, cross_origin
+
+
+
+
+#app = Flask(__name__)
+
 
 app = Flask(__name__)
+CORS(app) 
+app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['DEBUG'] = True
+app.debug = True
+
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, Joe World!</p>"
+    return "<p>Hello, Joe World 2!</p>"
 
 #app.run(debug=True)
