@@ -26,14 +26,10 @@ from flask import (
 from flask_cors import CORS, cross_origin
 
 
-
-from psycopg.pool import ThreadedConnectionPool
-db_pool = ThreadedConnectionPool(
-  1, # min connections,
-  int(os.environ.get('MAX_DB_CONNECTIONS',3)),
-  **connection_from(os.environ['DATABASE_URL'])
-)
-
+#from psycopg.pool import ThreadedConnectionPool
+from psycopg.pool import ConnectionPool
+#db_pool = ThreadedConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
+db_pool = ConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
 
 
 #app = Flask(__name__)
