@@ -30,7 +30,7 @@ from flask_cors import CORS, cross_origin
 from psycopg_pool import ConnectionPool
 #db_pool = ThreadedConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
 #db_pool = ConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
-db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
+#db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
 
 #app = Flask(__name__)
 
@@ -44,6 +44,6 @@ app.debug = True
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, Joe World 2!</p>"
+    return "<p>Hello, Joe World 3!</p>"
 
 #app.run(debug=True)
