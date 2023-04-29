@@ -6,4 +6,4 @@ app = Flask(__name__)
 def hello_world():
     return "<p>Hello, Joe World!</p>"
 
-#app.run(debug=True)
+app.run(debug=True)
