@@ -30,7 +30,7 @@ from flask_cors import CORS, cross_origin
 from psycopg_pool import ConnectionPool
 #db_pool = ThreadedConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
 #db_pool = ConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
-db_pool = ConnectionPool( **connection_from(os.environ['DATABASE_URL']))
+db_pool = ConnectionPool(os.environ['DATABASE_URL'])
 
 #app = Flask(__name__)
 
