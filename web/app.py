@@ -700,9 +700,9 @@ def getdashboardlists(userid):
             preferences = [dict((cursor.description[i][0], value) \
                 for i, value in enumerate(row)) for row in cursor.fetchall()]
 
-          log.info("freeboard getdashboardlists response %s", preferences)     
-          db_pool.putconn(conn) 
-          return preferences
+              log.info("freeboard getdashboardlists response %s", preferences)     
+              db_pool.putconn(conn) 
+              return preferences
 
 
     except TypeError as e:
