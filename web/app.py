@@ -257,8 +257,8 @@ def dashboards_list():
       pass
 
     
-    #return render_template('dashboards_list.html',  env=env)
-    return render_template("authohome.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+    return render_template('dashboards_list.html',  env=env)
+    #return render_template("authohome.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
     #response = make_response(render_template('index.html', features = []))
     #response.headers['Cache-Control'] = 'public, max-age=0'
@@ -289,7 +289,7 @@ def login():
     #return oauth.auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL, audience=AUTH0_AUDIENCE, screen_hint=signup)
     return oauth.auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL)
 
-@app.route('/auth0logout')
+@app.route('/oldauth0logout')
 def auth0logout():
     session.clear()
     log.info('auth0logout: AUTH0_CALLBACK_URL %s:  ' , AUTH0_CALLBACK_URL)
@@ -304,7 +304,7 @@ def auth0logout():
     return redirect('https://%s/v2/logout?returnTo=%s&client_id=%s' % (AUTH0_DOMAIN, base_url, AUTH0_CLIENT_ID))
   
 
-@app.route("/logout")
+@app.route("/auth0logout")
 def logout():
     session.clear()
 
