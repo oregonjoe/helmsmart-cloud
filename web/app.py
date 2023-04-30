@@ -538,6 +538,77 @@ def help():
 
 
 ### dashboard functions ####
+    
+@app.route('/freeboard_addnewdashboard')
+@cross_origin()
+def freeboard_addnewdashboard():
+  
+  log.info('freeboard_addnewdashboard start:  ')
+  #return jsonify(result="error")
+
+
+  try:  
+    conn = db_pool.getconn()
+    
+    userid = request.args.get('userid',1)
+    useremail = request.args.get('useremail',1)
+    prefname = request.args.get('prefname',1)
+
+    defaultjson = '{"version": 1,"allow_edit": true}'
+    
+    log.info('freeboard_addnewdashboard: userid  %s:  ', userid)
+    log.info('freeboard_addnewdashboard: useremail  %s:  ', useremail)
+    log.info('freeboard_addnewdashboard: prefname  %s:  ', prefname)
+    
+    prefuid=hash_string(useremail+prefname)
+    log.info('freeboard_addnewdashboard: prefuid  %s:  ', prefuid)
+
+
+    cursor = conn.cursor()
+    
+    sqlstr = " insert into dashboard_prefs (prefuid, userid, useremail, prefname, jsondata ) Values (%s,%s,%s,%s,%s);"
+                                                                                    
+    cursor.execute(sqlstr, (prefuid, userid, useremail, prefname, defaultjson))   
+    conn.commit()
+    
+    return jsonify(result="OK")  
+
+
+  #except psycopg2.ProgrammingError as e:
+  #  log.info('freeboard_addnewdashboard: ProgrammingError in  update pref %s:  ', userid)
+  #  log.info('freeboard_addnewdashboard: ProgrammingError in  update pref  %s:  ' % str(e))
+  #  return jsonify(result="ProgrammingError error")
+  
+  except TypeError as e:
+    log.info('freeboard_addnewdashboard: TypeError in  update pref %s:  ', userid)
+    log.info('freeboard_addnewdashboard: TypeError in  update pref  %s:  ' % str(e))
+
+  except ValueError as e:
+    log.info('freeboard_addnewdashboard: ValueError in  update pref  %s:  ', userid)
+    log.info('freeboard_addnewdashboard: ValueError in  update pref %s:  ' % str(e))
+    
+  except KeyError as e:
+    log.info('freeboard_addnewdashboard: KeyError in  update pref  %s:  ', userid)
+    log.info('freeboard_addnewdashboard: KeyError in  update pref  %s:  ' % str(e))
+
+  except NameError as e:
+    log.info('freeboard_addnewdashboard: NameError in  update pref  %s:  ', userid)
+    log.info('freeboard_addnewdashboard: NameError in  update pref %s:  ' % str(e))
+        
+  except IndexError as e:
+    log.info('freeboard_addnewdashboard: IndexError in  update pref  %s:  ', userid)
+    log.info('freeboard_addnewdashboard: IndexError in  update pref  %s:  ' % str(e))  
+
+
+  except:
+    e = sys.exc_info()[0]
+    log.info('freeboard_addnewdashboard: Error in update pref  %s:  ' % str(e))
+    return jsonify(result="error") 
+
+  
+  finally:
+    db_pool.putconn(conn)
+
 
 
 def getdashboardjson(prefuid):
