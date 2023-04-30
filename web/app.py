@@ -13,7 +13,7 @@ import urllib
 from urllib.parse import urlparse
 import psycopg
 
-
+import logging
 # *******************************************************************
 # Debug Output defines
 # Comment to enable/disable
