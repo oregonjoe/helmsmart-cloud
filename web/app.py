@@ -307,12 +307,19 @@ def auth0logout():
 @app.route("/logout")
 def logout():
     session.clear()
+
+    parsed_base_url = urlparse(AUTH0_CALLBACK_URL)
+    #base_url = parsed_base_url.scheme + '://' + parsed_base_url.netloc
+    base_url = 'http://' + parsed_base_url.netloc
+    log.info('auth0logout: base_url %s:  ' , base_url)
+
+    
     return redirect(
         "https://" + env.get("AUTH0_DOMAIN")
         + "/v2/logout?"
         + urlencode(
             {
-                "returnTo": url_for("home", _external=True),
+                "returnTo": base_url,
                 "client_id": env.get("AUTH0_CLIENT_ID"),
             },
             quote_via=quote_plus,
