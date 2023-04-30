@@ -1,0 +1,960 @@
+{
+	"version": 1,
+	"allow_edit": true,
+	"plugins": [],
+	"panes": [
+		{
+			"title": "Vessel Positions",
+			"width": 1,
+			"row": {
+				"0": 1,
+				"2": 1,
+				"3": 1
+			},
+			"col": {
+				"0": 0,
+				"2": 1,
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "google_map",
+					"settings": {
+						"position": "",
+						"blocks": 4,
+						"mapstyle": "roadmap",
+						"mapzoom": "0",
+						"trailColor": "0",
+						"zone0": "datasources[\"Royal One Location\"][\"location_wind\"]",
+						"zone0label": "Royal One",
+						"zone0color": "0",
+						"zone1": "datasources[\"Royal Two Location\"][\"location_wind\"]",
+						"zone1label": "Royal Two",
+						"zone1color": "0",
+						"zone2": "datasources[\"Jean Location\"][\"location_wind\"]",
+						"zone2label": "Jean",
+						"zone2color": "0",
+						"zone3": "datasources[\"Liberty Location\"][\"location_wind\"]",
+						"zone3label": "Liberty",
+						"zone3color": "4",
+						"zone4": "datasources[\"Reaktor Location\"][\"location_wind\"]",
+						"zone4label": "Reaktor",
+						"zone4color": "7",
+						"zone5color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Royal One ",
+			"width": 1,
+			"row": {
+				"3": 11
+			},
+			"col": {
+
+				"3": 1
+
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"Royal One Environment\"][\"temperature\"]",
+						"animate": true,
+						"units": "C"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"Royal One Environment\"][\"atmospheric_pressure\"]",
+						"animate": true,
+						"units": "inHg"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"Royal One Wind\"][\"truewindspeed\"]",
+						"animate": true,
+						"units": "knts"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Dir",
+						"size": "regular",
+						"value": "datasources[\"Royal One Wind\"][\"truewinddir\"]",
+						"animate": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Royal One - Wind Speed",
+			"width": 1,
+			"row": {
+				"3": 21
+
+			},
+			"col": {
+				"3": 1
+
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"title": "",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Royal One Wind\"][\"averagewindspeed\"]",
+						"series1label": "average",
+						"series1color": "0",
+						"series2": "datasources[\"Royal One Wind\"][\"truewindspeed\"]",
+						"series2label": "speed",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Royal One Wind Dir",
+			"width": 1,
+			"row": {
+				"3": 31
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Royal One Wind\"][\"averagewinddir\"]",
+						"series1label": "average",
+						"series1color": "3",
+						"series2": "datasources[\"Royal One Wind\"][\"truewinddir\"]",
+						"series2label": "direction",
+						"series2color": "0",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Royal Two",
+			"width": 1,
+			"row": {
+
+				"3": 41
+
+			},
+			"col": {
+
+				"3": 1
+
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"Royal Two Environment\"][\"temperature\"]",
+						"animate": true,
+						"units": "C"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"Royal Two Environment\"][\"atmospheric_pressure\"]",
+						"animate": true,
+						"units": "inHg"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"Royal Two Wind\"][\"truewindspeed\"]",
+						"animate": true,
+						"units": "knts"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Dir",
+						"size": "regular",
+						"value": "datasources[\"Royal Two Wind\"][\"truewinddir\"]",
+						"animate": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Royal Two Wind Speed",
+			"width": 1,
+			"row": {
+				"3": 51
+			},
+			"col": {
+				"3": 1
+
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"title": "",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Royal Two Wind\"][\"averagewindspeed\"]",
+						"series1label": "average",
+						"series1color": "0",
+						"series2": "datasources[\"Royal Two Wind\"][\"truewindspeed\"]",
+						"series2label": "speed",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Royal Two Wind Dir",
+			"width": 1,
+			"row": {
+				"3": 61
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Royal Two Wind\"][\"averagewinddir\"]",
+						"series1label": "average",
+						"series1color": "3",
+						"series2": "datasources[\"Royal Two Wind\"][\"truewinddir\"]",
+						"series2label": "direction",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Jean",
+			"width": 1,
+			"row": {
+
+				"3": 71
+			},
+			"col": {
+
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"Jean Environment\"][\"temperature\"]",
+						"animate": true,
+						"units": "C"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"Jean Environment\"][\"atmospheric_pressure\"]",
+						"animate": true
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"Jean Wind\"][\"truewindspeed\"]",
+						"animate": true,
+						"units": "knts"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Dir",
+						"size": "regular",
+						"value": "datasources[\"Jean Wind\"][\"truewinddir\"]",
+						"animate": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Jean Wind Speed",
+			"width": 1,
+			"row": {
+				"3": 81
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"title": "",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Jean Wind\"][\"averagewindspeed\"]",
+						"series1label": "average",
+						"series1color": "0",
+						"series2": "datasources[\"Jean Wind\"][\"truewindspeed\"]",
+						"series2label": "speed",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Jean Wind Dir",
+			"width": 1,
+			"row": {
+				"3": 91
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Jean Wind\"][\"averagewinddir\"]",
+						"series1label": "average",
+						"series1color": "3",
+						"series2": "datasources[\"Jean Wind\"][\"truewinddir\"]",
+						"series2label": "direction",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Reaktor",
+			"width": 1,
+			"row": {
+				"3": 101
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"Reaktor Environment\"][\"temperature\"]",
+						"animate": true,
+						"units": "C"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"Reaktor Environment\"][\"atmospheric_pressure\"]",
+						"animate": true,
+						"units": "inHg"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"Reaktor Wind\"][\"truewindspeed\"]",
+						"animate": true,
+						"units": "knts"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Dir",
+						"size": "regular",
+						"value": "datasources[\"Reaktor Wind\"][\"truewinddir\"]",
+						"sparkline": false,
+						"animate": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Reaktor Wind Speed",
+			"width": 1,
+			"row": {
+				"3": 111
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"title": "",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Reaktor Wind\"][\"averagewindspeed\"]",
+						"series1label": "average",
+						"series1color": "0",
+						"series2": "datasources[\"Reaktor Wind\"][\"truewindspeed\"]",
+						"series2label": "speed",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Reaktor Wind Dir",
+			"width": 1,
+			"row": {
+				"3": 121
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Reaktor Wind\"][\"averagewinddir\"]",
+						"series1label": "average",
+						"series1color": "3",
+						"series2": "datasources[\"Reaktor Wind\"][\"truewinddir\"]",
+						"series2label": "direction",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Liberty",
+			"width": 1,
+			"row": {
+				"3": 131
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"Liberty Environment\"][\"temperature\"]",
+						"animate": true,
+						"units": "C"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"Liberty Environment\"][\"atmospheric_pressure\"]",
+						"animate": true,
+						"units": "inHg"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"Liberty Wind\"][\"apparentwindspeed\"]",
+						"animate": true,
+						"units": "knts"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Dir",
+						"size": "regular",
+						"value": "datasources[\"Liberty Wind\"][\"apparentwinddirection\"]",
+						"sparkline": false,
+						"animate": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Liberty Wind Speed",
+			"width": 1,
+			"row": {
+				"3": 141
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"title": "",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Liberty Wind\"][\"averagewindspeed\"]",
+						"series1label": "speed",
+						"series1color": "0",
+						"series2": "datasources[\"Liberty Wind\"][\"truewindspeed\"]",
+						"series2label": "speed",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Liberty Wind Dir",
+			"width": 1,
+			"row": {
+				"3": 151
+			},
+			"col": {
+				"3": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Values\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"Liberty Wind\"][\"averagewinddirection\"]",
+						"series1label": "average",
+						"series1color": "3",
+						"series2": "datasources[\"Liberty Wind\"][\"truewinddir\"]",
+						"series2label": "direction",
+						"series2color": "8",
+						"series3color": "0"
+					}
+				}
+			]
+		}
+
+	],
+	"datasources": [
+		{
+			"name": "Royal One Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_location_wind",
+				"apikey": "f6921c762fd5cc567db2c9c722ae34d1",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median",
+				"name": "Royal One Location"
+			}
+		},
+		{
+			"name": "Royal Two Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_location_wind",
+				"apikey": "ef03ce2de5526c223d97480eee1ea2ce",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median",
+				"name": "Royal Two Location"
+			}
+		},
+		{
+			"name": "Jean Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_location_wind",
+				"apikey": "1064cf71a70e89dfbe92c38cdcc877c4",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Royal One Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental",
+				"apikey": "f6921c762fd5cc567db2c9c722ae34d1",
+				"refresh": 60,
+				"span": "30min",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "metric",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Royal Two Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental",
+				"apikey": "ef03ce2de5526c223d97480eee1ea2ce",
+				"refresh": 60,
+				"span": "30min",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "metric",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Jean Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental",
+				"apikey": "1064cf71a70e89dfbe92c38cdcc877c4",
+				"refresh": 60,
+				"span": "30min",
+				"resolution": "120",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "metric",
+				"mode": "median",
+				"name": "Jean Environment"
+			}
+		},
+		{
+			"name": "Royal One Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata",
+				"apikey": "f6921c762fd5cc567db2c9c722ae34d1",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "nautical",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Royal Two Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata",
+				"apikey": "ef03ce2de5526c223d97480eee1ea2ce",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "nautical",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Jean Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata",
+				"apikey": "1064cf71a70e89dfbe92c38cdcc877c4",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "nautical",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Reaktor Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_location_wind",
+				"apikey": "d6840d9e246ae9598bc3a663d23fd0ec",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Liberty Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_location_wind",
+				"apikey": "79fda3d6decfa34944329fc8097c27d9",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "apparent",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Unknown Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_location_wind",
+				"apikey": "05f20edbd652056ec099ac7393ccbed4",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median",
+				"name": "Unknown Location"
+			}
+		},
+		{
+			"name": "Reaktor Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental",
+				"apikey": "d6840d9e246ae9598bc3a663d23fd0ec",
+				"refresh": 60,
+				"span": "30min",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "metric",
+				"mode": "median",
+				"name": "Reaktor Environment"
+			}
+		},
+		{
+			"name": "Liberty Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental",
+				"apikey": "79fda3d6decfa34944329fc8097c27d9",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "metric",
+				"mode": "median",
+				"name": "Liberty Environment"
+			}
+		},
+		{
+			"name": "Unknown Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental",
+				"apikey": "05f20edbd652056ec099ac7393ccbed4",
+				"refresh": 60,
+				"span": "30min",
+				"resolution": "120",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "metric",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Reaktor Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata",
+				"apikey": "d6840d9e246ae9598bc3a663d23fd0ec",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "nautical",
+				"mode": "mean",
+				"name": "Reaktor Wind"
+			}
+		},
+		{
+			"name": "Liberty Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata",
+				"apikey": "79fda3d6decfa34944329fc8097c27d9",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "nautical",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Unknown Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata",
+				"apikey": "05f20edbd652056ec099ac7393ccbed4",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "nautical",
+				"mode": "median"
+			}
+		}
+	],
+	"columns": 3
+}

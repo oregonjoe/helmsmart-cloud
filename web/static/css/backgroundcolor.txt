@@ -1,0 +1,6 @@
+https://github.com/Freeboard/freeboard/blob/master/css/freeboard.css
+Line 1379
+
+.gridster .gs_w { background: #2a2a2a; padding: 0px; margin: 0px; overflow: hidden; z-index: auto; -webkit-touch-callout: text; -webkit-user-select: text; -khtml-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
+
+You have to change it on freeboard.min.css though. Or edit freeboards.css as you want then minify it back.

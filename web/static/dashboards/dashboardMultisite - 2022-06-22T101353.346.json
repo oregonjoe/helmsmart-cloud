@@ -1,0 +1,407 @@
+{
+	"version": 1,
+	"allow_edit": true,
+	"plugins": [],
+	"panes": [
+		{
+			"title": "GEMECO",
+			"width": 1,
+			"row": {
+				"0": 1,
+				"2": 1,
+				"3": 1
+			},
+			"col": {
+				"0": 0,
+				"2": 1,
+				"3": 1
+			},
+			"col_width": 3,
+			"widgets": [
+				{
+					"type": "google_map",
+					"settings": {
+						"position": "",
+						"blocks": 4,
+						"mapstyle": "roadmap",
+						"trailColor": "0",
+						"zone0": "datasources[\"GEMECO\"][\"location_wind\"]",
+						"zone0label": "GEMECO",
+						"zone0color": "0",
+						"zone1": "datasources[\"SeaDream Location\"][\"location_wind\"]",
+						"zone1label": "SeaDream",
+						"zone1color": "0",
+						"zone2": "datasources[\"Winchuck Location\"][\"location_wind\"]",
+						"zone2label": "Winchuck",
+						"zone2color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "GEMECO ",
+			"width": 1,
+			"row": {
+				"0": 1,
+				"2": 11,
+				"3": 11,
+				"5": 11
+			},
+			"col": {
+				"0": 0,
+				"2": 1,
+				"3": 1,
+				"5": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"GEMECO Environment\"][\"temperature\"]",
+						"animate": true,
+						"units": "F"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"GEMECO Environment\"][\"atmospheric_pressure_sea\"]",
+						"animate": true,
+						"units": "inHg"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Humidity",
+						"size": "regular",
+						"value": "datasources[\"GEMECO Environment\"][\"humidity\"]",
+						"animate": true,
+						"units": "%"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"Gemeco Wind\"][\"truewindspeed\"]",
+						"animate": true,
+						"units": "mph"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Dir",
+						"size": "regular",
+						"value": "datasources[\"Gemeco Wind\"][\"truewinddir\"]",
+						"animate": true
+					}
+				}
+			]
+		},
+		{
+			"title": "SeaDream",
+			"width": 1,
+			"row": {
+				"0": 1,
+				"2": 11,
+				"3": 11,
+				"5": 11
+			},
+			"col": {
+				"0": 0,
+				"2": 2,
+				"3": 2,
+				"5": 2
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"SeaDream Environment\"][\"temperature\"]",
+						"animate": true,
+						"units": "F"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"SeaDream Environment\"][\"atmospheric_pressure_sea\"]",
+						"animate": true,
+						"units": "inHg"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Humidity",
+						"size": "regular",
+						"value": "datasources[\"SeaDream Environment\"][\"humidity\"]",
+						"animate": true,
+						"units": "%"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"SeaDream Wind\"][\"truewindspeed\"]",
+						"animate": true,
+						"units": "mph"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Dir",
+						"size": "regular",
+						"value": "datasources[\"SeaDream Wind\"][\"truewinddir\"]",
+						"animate": true
+					}
+				}
+			]
+		},
+		{
+			"title": "Winchuck",
+			"width": 1,
+			"row": {
+				"0": 1,
+				"2": 23,
+				"3": 11,
+				"5": 11
+			},
+			"col": {
+				"0": 0,
+				"2": 1,
+				"3": 3,
+				"5": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"Winchuck Environment\"][\"temperature\"]",
+						"animate": true,
+						"units": "F"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"Winchuck Environment\"][\"atmospheric_pressure_sea\"]",
+						"animate": true
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Humidity",
+						"size": "regular",
+						"value": "datasources[\"Winchuck Environment\"][\"humidity\"]",
+						"animate": true,
+						"units": "%"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"Winchuck Wind\"][\"truewindspeed\"]",
+						"animate": true,
+						"units": "mph"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Dir",
+						"size": "regular",
+						"value": "datasources[\"Winchuck Wind\"][\"truewinddir\"]",
+						"animate": true
+					}
+				}
+			]
+		}
+	],
+	"datasources": [
+		{
+			"name": "GEMECO",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_location_wind",
+				"apikey": "86c56044e069d557fa29987aecb2f3c0",
+				"refresh": 30,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "SeaDream Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_location_wind",
+				"apikey": "735aaf7afea3e3e3e07c267a93de6347",
+				"refresh": 30,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Winchuck Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_location_wind",
+				"apikey": "a5069b96637473d7701fa11eb9baad3d",
+				"refresh": 30,
+				"span": "1hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median",
+				"name": "Winchuck Location"
+			}
+		},
+		{
+			"name": "GEMECO Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_environmental",
+				"apikey": "4dd8ad3ef99448d180f71a1309952d96",
+				"refresh": 30,
+				"span": "30min",
+				"resolution": "120",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "SeaDream Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_environmental",
+				"apikey": "735aaf7afea3e3e3e07c267a93de6347",
+				"refresh": 30,
+				"span": "30min",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Winchuck Environment",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_environmental",
+				"apikey": "a5069b96637473d7701fa11eb9baad3d",
+				"refresh": 30,
+				"span": "30min",
+				"resolution": "120",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Gemeco Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_winddata",
+				"apikey": "4dd8ad3ef99448d180f71a1309952d96",
+				"refresh": 30,
+				"span": "30min",
+				"resolution": "120",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "SeaDream Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_winddata",
+				"apikey": "735aaf7afea3e3e3e07c267a93de6347",
+				"refresh": 30,
+				"span": "30min",
+				"resolution": "120",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		},
+		{
+			"name": "Winchuck Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_winddata",
+				"apikey": "a5069b96637473d7701fa11eb9baad3d",
+				"refresh": 30,
+				"span": "30min",
+				"resolution": "120",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "UTC",
+				"units": "US",
+				"mode": "median"
+			}
+		}
+	],
+	"columns": 3
+}

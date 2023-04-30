@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HelmSmart Dashboards List</title>
+	<meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content = "width = device-width, initial-scale = 1, user-scalable = no" />
+	<meta http-equiv="cache-control" content="no-store" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />	
+	
+  <!--  <link href="css/freeboard.min.css" rel="stylesheet" /> -->
+  <!--  <script src="js/freeboard.thirdparty.min.js"></script> -->
+  
+  <!--
+  <link rel="stylesheet" href="/freeboard/layouts/core.min.css">
+
+<link rel="stylesheet" href="/freeboard/views/account/index.min.css">   --> 
+   
+<link href="{{ url_for('static', filename='layouts/core.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ url_for('static', filename='views/account/index.min.css') }}" rel="stylesheet" type="text/css" />  
+	
+<link href="{{ url_for('static', filename='css/freeboard.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- <script type="text/javascript" src="{{ url_for('static', filename='js/freeboard.thirdparty.min.js') }}"></script> -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/freeboard.thirdparty.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+      <script src="https://cdn.auth0.com/js/auth0/8.6.0/auth0.min.js"></script>
+       <!-- <script src="/public/app.js"> </script> -->
+        <!-- <link href="/public/app.css" rel="stylesheet"> -->
+		 <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/auth0app.js') }}" ></script> -->
+		 <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/auth0app.css') }}"/> -->
+        <script>
+        var AUTH0_CLIENT_ID = '{{env.AUTH0_CLIENT_ID}}';
+        var AUTH0_DOMAIN = '{{env.AUTH0_DOMAIN}}';
+        var AUTH0_CALLBACK_URL = '{{env.AUTH0_CALLBACK_URL if env.AUTH0_CALLBACK_URL else "http://localhost:3000/callback" }}';
+        var API_AUDIENCE = '{{env.API_ID}}';
+        </script>  
+
+	
+    <script type="text/javascript">
+		var gUserID= "";
+		var gUseremail = ""
+		var currentUser = null;
+
+$(window).bind("load", function() {
+var myusername
+
+ var auth = new auth0.WebAuth({
+    domain: AUTH0_DOMAIN,
+    clientID: AUTH0_CLIENT_ID
+   });
+
+
+ {% if session['username'] %}
+     myusername = "{{session['username']}}";  
+	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span> HelmSmart: ' + myusername + ': Sign Out</span>  </a>';
+
+ $("#logout").click(function(e) {
+            e.preventDefault();
+window.location.href = '/auth0logout';
+			 });
+
+	 {% else %}
+     myusername = ""; 
+	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="login" class="persona-button"><span>HelmSmart: Sign in with your Email</span>  </a>';
+ 
+  $("#login").click(function(e) {
+            e.preventDefault();
+		auth.authorize({
+				audience: 'https://'+AUTH0_DOMAIN+'/userinfo', // you can also set this on the .env file and put API_AUDIENCE instead
+				scope: 'openid profile',
+				responseType: 'code',
+				redirectUri: AUTH0_CALLBACK_URL
+			  }); 
+			
+			
+          });
+ {% endif %}
+
+
+
+
+
+
+});
+	
+	$(document).ready(function () {
+	
+	   gUserID = "0";
+    {% if session['userid'] %}
+    gUserID = "{{session['userid']}}";
+	gUseremail = "{{session['username']}}";
+    {% else %}
+    gUserID = "0";
+    {% endif %}
+
+
+    if (gUserID == null)
+    {
+    gUserID = "0";
+    }
+    else if(gUserID != "0")
+    {
+		getDashboardLists(gUserID);
+    
+    }
+	
+	}); 
+	
+//	document.getElementById("EditBoardID").value = "";
+//	 var showPopup = function(event) {
+//        event.preventDefault();
+//        document
+ //           .getElementById('popup-form')
+ //           .style.display = 'block';
+ //   };
+
+//    document
+//        .getElementById('popup-clickie')
+//        .addEventListener('click', showPopup);
+
+function shareboard(sel)
+{
+
+	var prefuid = sel.name;
+	prefuid =  sel.name.replace("Share-", "");
+	
+	var url = "https://helmsmart-weatherstation.herokuapp.com/dashboards#prefuid=" + prefuid ;
+	
+	window.location.href = url;
+}
+function deleteboard(sel)
+{
+
+	var prefuid = sel.name;
+	prefuid =  sel.name.replace("Delete-", "");
+	
+	        $.blockUI({ 
+     message: '<h1>Delete in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+	var devicedataurl;
+	var prefname = document.getElementById("freeboardName").value;
+	
+    devicedataurl = "https://helmsmart-weatherstation.herokuapp.com/freeboard_deletedashboard?prefuid=" + prefuid ;
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 30000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    $.unblockUI();
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+		console.log('completed');
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+	
+	console.log(status);
+	console.log(errorThrown);
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+	
+	
+	
+}	
+
+	
+function editboardname()
+{
+	///var newname = document.getElementById("EditName").value;
+	var newname = document.getElementById("modal_new_name").value;
+	var prefuid = document.getElementById("EditBoardID").value;
+	
+	$('#myModal').modal("hide")  ;
+	
+	        $.blockUI({ 
+     message: '<h1>Update in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+	var devicedataurl;
+	var prefname = document.getElementById("freeboardName").value;
+	
+    devicedataurl = "https://helmsmart-weatherstation.herokuapp.com/freeboard_editdashboard?prefuid=" + prefuid + "&prefname=" + newname;
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 30000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    $.unblockUI();
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+		console.log('completed');
+		location.reload();
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+	
+	console.log(status);
+	console.log(errorThrown);
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+	
+	
+	
+}	
+
+	
+function editboard(sel)
+{
+
+	//	showPopup();
+	var editname = sel.name.split(":");
+	var boardname = editname[0];
+	var boardid = editname[1];
+	
+	//document.getElementById("EditName").value
+		//document.getElementById("popup-form").style.display = 'block';
+		document.getElementById("EditBoardID").value = boardid;
+		//document.getElementById("EditName").value = boardname;
+		
+		document.getElementById("modal_new_name").value = boardname;
+	//	$("#myModal").modal()({backdrop: false})  ;
+		
+		$('#myModal').modal({backdrop: false})  ;
+		
+}		
+function closepopup()
+{
+
+//	showPopup();
+	//var boardid = sel.name;
+	
+		document.getElementById("popup-form").style.display = 'none';
+		
+		
+}		
+function handleaddnewboard()
+{
+ $.unblockUI();
+}	
+	
+function addnewboard()
+{
+
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+	var devicedataurl;
+	var prefname = document.getElementById("freeboardName").value;
+	
+    devicedataurl = "https://helmsmart-weatherstation.herokuapp.com/freeboard_addnewdashboard?userid=" + gUserID + "&useremail=" + gUseremail + "&prefname=" + prefname;
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 30000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handleaddnewboard(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+		console.log('completed');
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+	
+	console.log(status);
+	console.log(errorThrown);
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+
+}
+				
+function handlegetDashboardLists(response)
+{
+
+	var myPrefID;
+	var myPrefName;
+	
+	 $.unblockUI();
+	
+	mydata = response.preferences;;
+
+	var table = document.getElementById("ReportData");
+ 
+    var rowCount = table.rows.length;
+	   	
+	while(table.rows.length > 0) {
+		table.deleteRow(1);
+	}
+	
+	 mydata.forEach(function(row){
+		//myMessage = JSON.parse(row[1]);
+		myPrefName = row.prefname;
+		myPrefID = row.prefuid;
+		myButtonID = myPrefID;
+		
+		var myCellText = "<a href=https://helmsmart-weatherstation.herokuapp.com/dashboard#prefuid=" + myPrefID + "> " + myPrefName + "</a>";
+		 var row = table.insertRow(0);
+		 
+		   var cell0 = row.insertCell(0);
+			cell0.innerHTML = myCellText;
+			cell0.style.textAlign = 'left';
+			
+			//myCellText =  '<input type="button" value = "Edit" name="' + myPrefName + ":" + myButtonID +'" class="btn btn-default btn-sm btn-details" onclick="editboard(this);" style="width:80px" >';
+			
+			myCellText =  '<input type="button" value = "Edit" name="' + myPrefName + ":" + myButtonID +'" class="btn btn-default btn-sm btn-details" onclick="editboard(this);" style="width:80px" >';
+			//myCellText =  '<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Edit</button>';
+		//	myCellText =  '<button type="button" name="' + myPrefName + ":" + myButtonID +'" class="btn btn-default btn-sm btn-details" data-toggle="modal" data-target="#myModal"; style="width:80px">Edit</button>';
+				
+						
+			
+			var cell1 = row.insertCell(1);
+			cell1.innerHTML = myCellText;
+			cell1.style.textAlign = 'left';
+			cell1.style.width = '90px';
+			
+			myCellText =  '<form method="get" action="?" "> <input type="submit" value="Delete" name="Delete-' + myButtonID + '"class="btn btn-default btn-sm btn-details" onclick="deleteboard(this);" style="width:80px" ></form>';
+			var cell2 = row.insertCell(2);
+			cell2.innerHTML = myCellText;
+			cell2.style.textAlign = 'left';	
+			cell2.style.width = '90px';			
+			
+			myCellText =  '<input type="button" value="Share"  name="Share-' + myButtonID + '" class="btn btn-default btn-sm btn-details" onclick="shareboard(this);" style="width:80px" >';
+			var cell3 = row.insertCell(3);
+			cell3.innerHTML = myCellText;
+			cell3.style.textAlign = 'left';	
+			cell3.style.width = '90px';			
+			
+			
+		});
+		
+		
+		// document.getElementById('popup-clickie')
+       // document.addEventListener('click', showPopup);
+
+
+}		
+
+function getDashboardLists(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Getting DashBoards ...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+	var devicedataurl;
+	
+    devicedataurl = "https://helmsmart-weatherstation.herokuapp.com/freeboard_getdashboardlist?userid=" + userid;
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 30000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handlegetDashboardLists(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+		console.log('completed');
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+	
+	console.log(status);
+	console.log(errorThrown);
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+
+
+}				
+				
+    </script>
+</head>
+<body style=" margin: 0;">
+<div style="padding:5px">
+  <center>
+  	<div id = 'loginbutton'>
+
+	</div>
+	<!--
+  {% if session['userid'] %}
+     <a href="https://helmsmart-weatherstation.herokuapp.com/dashboard" id="login" class="persona-button">
+    <span>HelmSmart: {{session['username']}}</span></a>
+  {% else %}
+    <a href="https://helmsmart-weatherstation.herokuapp.com/dashboard" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span></a>
+  {% endif %}
+  -->
+  </center>
+</div>
+
+
+
+
+<div class="page">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div id="header">
+					<div class="page-header">
+						<form method="get" action='?' class="form-inline pull-right"> 
+							<div class="input-group"><input id="freeboardName" name="freeboardName" type="text" placeholder="enter a name" class="form-control">
+								<button id="create-new-btn" type="submit" class="btn btn-primary btn-add" onclick="addnewboard();">Create New</button>
+							</div>
+						 </form> 
+						<h1>HelmSmart DashBoards</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div id="results-table">
+				<!-- <table class="table table-striped" id="ReportData"> -->
+				<table class="table" id="ReportData">
+				<tbody id="results-rows">
+				<!--
+				<tr>
+				<td><a href="https://helmsmart-weatherstation.herokuapp.com/dashboard">Name 1</a></td><td class="private-status"></td>
+				<td class="text-right"><input type="button" value="Edit" class="btn btn-default btn-sm btn-details"></td>
+				</tr>
+				<tr>
+				<td><a href="https://helmsmart-weatherstation.herokuapp.com/dashboard">Name 2</a></td><td class="private-status"></td>
+				<td class="text-right"><input type="button" value="Edit" class="btn btn-default btn-sm btn-details"></td>
+				</tr>
+				-->
+				</table>
+				</div>
+			</div>
+		</div>
+	
+
+<script type="text/javascript" src="{{ url_for('static', filename='layouts/core.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	
+	
+
+	<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close"  data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Name</h4>
+      </div>
+      <div class="modal-body">
+        <p> <input type="text" id="modal_new_name"></p>
+      </div>
+      <div class="modal-footer">
+	  <button id="create-new-btn" type="submit" class="btn btn-primary btn-add" onclick="editboardname();">Edit Name</button>
+		<input id="EditBoardID" name="EditBoardID" type="hidden"  class="form-control">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+	
+<div >
+</div>
+<div class="footer">
+
+<div class="container">
+<div class="inner">
+<center>
+		<table>
+		<tr>
+          <td  align="center" >
+		  <a href="http://www.helmsmart.com">
+		  <img alt="" class="auto-style19" height="50" src="/static/img/helmsmart_logo_small.jpg" width="200"></a>
+		  </td>
+		   <td  align="center" >
+		  <a href="https://helmsmart-weatherstation.herokuapp.com/help">
+		  <img alt="" class="auto-style19" height="50" src="/static/img/freeboard_logo_small.jpg" width="200"></a></td>
+        </tr>
+		<tr><td colspan=2 align="center"> www.netgauges.net www.helmsmart.com www.seasmart.net www.chetcodigital.com </td></tr>
+				<tr><td colspan=2 align="center"> copyright 2019 </td></tr>
+		</table>
+		<center>
+		</div>
+		</div>
+</div>
+<script type="text/javascript">
+	document.getElementById("EditBoardID").value = "";
+</script>
+</body>
+</html>

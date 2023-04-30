@@ -1,0 +1,335 @@
+{
+	"version": 1,
+	"allow_edit": true,
+	"plugins": [
+		"https://helmsmart-freeboard.herokuapp.com/static/plugins/helmsmart.widgets.js",
+		"https://helmsmart-freeboard.herokuapp.com/static/plugins/helmsmart.datasources.js",
+		"https://helmsmart-freeboard.herokuapp.com/static/plugins/plugin_highcharts_historical.js"
+	],
+	"panes": [
+		{
+			"title": "Wind Dir True",
+			"width": 1,
+			"row": {
+				"2": 5,
+				"3": 1,
+				"5": 5
+			},
+			"col": {
+				"2": 1,
+				"3": 3,
+				"5": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "gauge",
+					"settings": {
+						"title": "",
+						"value": "datasources[\"MARPORT Wind Live\"][\"apparentwinddirection\"]",
+						"units": "degrees",
+						"min_value": 0,
+						"max_value": 360,
+						"gaugeStyle": "compass",
+						"dropshadow": true,
+						"blocks": "4",
+						"gaugeBackColor": "10",
+						"gaugeFillColor": "11",
+						"gaugePointerColor": "6"
+					}
+				}
+			]
+		},
+		{
+			"title": "Current Location",
+			"width": 1,
+			"row": {
+				"2": 15,
+				"3": 1,
+				"4": 5,
+				"5": 5
+			},
+			"col": {
+				"2": 1,
+				"3": 1,
+				"4": 1,
+				"5": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "google_map",
+					"settings": {
+						"position": "datasources[\"MARPORT Location\"][\"position\"]",
+						"blocks": 4,
+						"mapstyle": "roadmap",
+						"trailColor": "0",
+						"zone0": "",
+						"zone0color": "0",
+						"zone1color": "0",
+						"zone2color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Weather",
+			"width": 1,
+			"row": {
+				"2": 15,
+				"3": 1,
+				"4": 5,
+				"5": 5
+			},
+			"col": {
+				"2": 2,
+				"3": 2,
+				"4": 2,
+				"5": 2
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Air Temp",
+						"size": "regular",
+						"value": "datasources[\"MARPORT Environmental Live\"][\"temperature\"]",
+						"animate": true,
+						"units": "F"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Baro",
+						"size": "regular",
+						"value": "datasources[\"MARPORT Environmental Live\"][\"atmospheric_pressure\"]",
+						"animate": true,
+						"units": "inhg"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Wind Speed",
+						"size": "regular",
+						"value": "datasources[\"MARPORT Wind\"][\"truewindspeed\"]",
+						"animate": true,
+						"units": "knots"
+					}
+				},
+				{
+					"type": "hstext_widget",
+					"settings": {
+						"title": "Humidity",
+						"size": "regular",
+						"value": "datasources[\"MARPORT Environmental Live\"][\"humidity\"]",
+						"animate": true,
+						"units": "%"
+					}
+				}
+			]
+		},
+		{
+			"title": "Baro (24 hr)",
+			"width": 1,
+			"row": {
+				"2": 5,
+				"3": 11,
+				"4": 15,
+				"5": 15
+			},
+			"col": {
+				"2": 2,
+				"3": 3,
+				"4": 3,
+				"5": 3
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "spline",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"inhg\"}, \"minorTickInterval\":\"auto\", \"max\":32,  \"min\":26, \"floor\":0}",
+						"series1": "datasources[\"MARPORT Environmental\"][\"atmospheric_pressure\"]",
+						"series1color": "0",
+						"series2color": "7",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Air Temp (24 hr)",
+			"width": 1,
+			"row": {
+				"2": 25,
+				"3": 11,
+				"4": 15,
+				"5": 15
+			},
+			"col": {
+				"2": 1,
+				"3": 1,
+				"4": 1,
+				"5": 1
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"title": "",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"degrees F\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"MARPORT Environmental\"][\"temperature\"]",
+						"series1label": "Air temperature (24 hours)",
+						"series1color": "0",
+						"series2color": "0",
+						"series3color": "0"
+					}
+				}
+			]
+		},
+		{
+			"title": "Wind Speed (24 hr)",
+			"width": 1,
+			"row": {
+				"2": 25,
+				"3": 11,
+				"4": 15,
+				"5": 15
+			},
+			"col": {
+				"2": 2,
+				"3": 2,
+				"4": 2,
+				"5": 2
+			},
+			"col_width": 1,
+			"widgets": [
+				{
+					"type": "highcharts-timeseries",
+					"settings": {
+						"showledgen": false,
+						"blocks": 4,
+						"chartType": "area",
+						"title": "",
+						"xaxis": "{\"title\":{\"text\" : \"Time\"}, \"type\": \"datetime\", \"floor\":0}",
+						"yaxis": "{\"title\":{\"text\" : \"Wind Speed\"}, \"minorTickInterval\":\"auto\", \"floor\":0}",
+						"series1": "datasources[\"MARPORT Wind\"][\"truewindspeed\"]",
+						"series1label": "Wind Speed (24 hours)",
+						"series1color": "6",
+						"series2color": "0",
+						"series3color": "0"
+					}
+				}
+			]
+		}
+	],
+	"datasources": [
+		{
+			"name": "MARPORT Wind",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_winddata",
+				"apikey": "341dcefa38d0759f650d072a88d241ed",
+				"refresh": 60,
+				"span": "1day",
+				"resolution": "900",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "true",
+				"timezone": "US%2FEastern",
+				"units": "US",
+				"mode": "median",
+				"name": "MARPORT Wind"
+			}
+		},
+		{
+			"name": "MARPORT Wind Live",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_winddata",
+				"apikey": "341dcefa38d0759f650d072a88d241ed",
+				"refresh": 60,
+				"span": "10min",
+				"resolution": "300",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "true",
+				"timezone": "US%2FEastern",
+				"units": "US",
+				"mode": "median",
+				"name": "MARPORT Wind Live"
+			}
+		},
+		{
+			"name": "MARPORT Environmental",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_environmental",
+				"apikey": "341dcefa38d0759f650d072a88d241ed",
+				"refresh": 60,
+				"span": "1day",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "US%2FEastern",
+				"units": "US",
+				"mode": "median",
+				"name": "MARPORT Environmental"
+			}
+		},
+		{
+			"name": "MARPORT Environmental Live",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_environmental",
+				"apikey": "341dcefa38d0759f650d072a88d241ed",
+				"refresh": 60,
+				"span": "1hour",
+				"resolution": "60",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "US%2FEastern",
+				"units": "US",
+				"mode": "median",
+				"name": "MARPORT Environmental Live"
+			}
+		},
+		{
+			"name": "MARPORT Location",
+			"type": "JSON",
+			"settings": {
+				"url": "https://helmsmart-freeboard.herokuapp.com/freeboard_location",
+				"apikey": "341dcefa38d0759f650d072a88d241ed",
+				"refresh": 60,
+				"span": "2hour",
+				"resolution": "600",
+				"source": "",
+				"instance": "",
+				"index": "",
+				"type": "",
+				"timezone": "US%2FEastern",
+				"units": "US",
+				"mode": "median"
+			}
+		}
+	],
+	"columns": 3
+}
