@@ -338,8 +338,10 @@ def callback_handling():
 
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+
+    user_info = token.userinfo
     
-    log.info('auth0callback: user_info %s:  ' , token)
+    log.info('auth0callback: user_info %s:  ' , user_info)
 
 
 
