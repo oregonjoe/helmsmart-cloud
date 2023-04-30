@@ -127,7 +127,7 @@ function shareboard(sel)
 	var prefuid = sel.name;
 	prefuid =  sel.name.replace("Share-", "");
 	
-	var url = "https://helmsmart-weatherstation.herokuapp.com/dashboards#prefuid=" + prefuid ;
+	var url = "https://helmsmart-flasktest.herokuapp.com/dashboards#prefuid=" + prefuid ;
 	
 	window.location.href = url;
 }
@@ -154,7 +154,7 @@ function deleteboard(sel)
 	var devicedataurl;
 	var prefname = document.getElementById("freeboardName").value;
 	
-    devicedataurl = "https://helmsmart-weatherstation.herokuapp.com/freeboard_deletedashboard?prefuid=" + prefuid ;
+    devicedataurl = "https://helmsmart-flasktest.herokuapp.com/freeboard_deletedashboard?prefuid=" + prefuid ;
 
     return $.ajax({
     //async: false,
@@ -215,7 +215,7 @@ function editboardname()
 	var devicedataurl;
 	var prefname = document.getElementById("freeboardName").value;
 	
-    devicedataurl = "https://helmsmart-weatherstation.herokuapp.com/freeboard_editdashboard?prefuid=" + prefuid + "&prefname=" + newname;
+    devicedataurl = "https://helmsmart-flasktest.herokuapp.com/freeboard_editdashboard?prefuid=" + prefuid + "&prefname=" + newname;
 
     return $.ajax({
     //async: false,
@@ -307,7 +307,7 @@ function addnewboard()
 	var devicedataurl;
 	var prefname = document.getElementById("freeboardName").value;
 	
-    devicedataurl = "https://helmsmart-weatherstation.herokuapp.com/freeboard_addnewdashboard?userid=" + gUserID + "&useremail=" + gUseremail + "&prefname=" + prefname;
+    devicedataurl = "https://helmsmart-flasktest.herokuapp.com/freeboard_addnewdashboard?userid=" + gUserID + "&useremail=" + gUseremail + "&prefname=" + prefname;
 
     return $.ajax({
     //async: false,
@@ -364,7 +364,7 @@ function handlegetDashboardLists(response)
 		myPrefID = row.prefuid;
 		myButtonID = myPrefID;
 		
-		var myCellText = "<a href=https://helmsmart-weatherstation.herokuapp.com/dashboard#prefuid=" + myPrefID + "> " + myPrefName + "</a>";
+		var myCellText = "<a href=https://helmsmart-flasktest.herokuapp.com/dashboard#prefuid=" + myPrefID + "> " + myPrefName + "</a>";
 		 var row = table.insertRow(0);
 		 
 		   var cell0 = row.insertCell(0);
@@ -425,7 +425,7 @@ function getDashboardLists(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "https://helmsmart-weatherstation.herokuapp.com/freeboard_getdashboardlist?userid=" + userid;
+    devicedataurl = "https://helmsmart-flasktest.herokuapp.com/freeboard_getdashboardlist?userid=" + userid;
 
     return $.ajax({
     //async: false,
@@ -469,10 +469,10 @@ function getDashboardLists(userid)
 	</div>
 	<!--
   {% if session['userid'] %}
-     <a href="https://helmsmart-weatherstation.herokuapp.com/dashboard" id="login" class="persona-button">
+     <a href="https://helmsmart-flasktest.herokuapp.com/dashboard" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="https://helmsmart-weatherstation.herokuapp.com/dashboard" id="login" class="persona-button">
+    <a href="https://helmsmart-flasktest.herokuapp.com/dashboard" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   -->
@@ -506,11 +506,11 @@ function getDashboardLists(userid)
 				<tbody id="results-rows">
 				<!--
 				<tr>
-				<td><a href="https://helmsmart-weatherstation.herokuapp.com/dashboard">Name 1</a></td><td class="private-status"></td>
+				<td><a href="https://helmsmart-flasktest.herokuapp.com/dashboard">Name 1</a></td><td class="private-status"></td>
 				<td class="text-right"><input type="button" value="Edit" class="btn btn-default btn-sm btn-details"></td>
 				</tr>
 				<tr>
-				<td><a href="https://helmsmart-weatherstation.herokuapp.com/dashboard">Name 2</a></td><td class="private-status"></td>
+				<td><a href="https://helmsmart-flasktest.herokuapp.com/dashboard">Name 2</a></td><td class="private-status"></td>
 				<td class="text-right"><input type="button" value="Edit" class="btn btn-default btn-sm btn-details"></td>
 				</tr>
 				-->
@@ -562,7 +562,7 @@ function getDashboardLists(userid)
 		  <img alt="" class="auto-style19" height="50" src="/static/img/helmsmart_logo_small.jpg" width="200"></a>
 		  </td>
 		   <td  align="center" >
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/help">
+		  <a href="https://helmsmart-flasktest.herokuapp.com/help">
 		  <img alt="" class="auto-style19" height="50" src="/static/img/freeboard_logo_small.jpg" width="200"></a></td>
         </tr>
 		<tr><td colspan=2 align="center"> www.netgauges.net www.helmsmart.com www.seasmart.net www.chetcodigital.com </td></tr>
