@@ -298,17 +298,17 @@ def auth0logout():
 
 @app.route('/callback')
 def callback_handling():
-    #code = request.args.get('code')
+    code = request.args.get('code')
     #get_token = GetToken(AUTH0_DOMAIN)
     #auth0_users = Users(AUTH0_DOMAIN)
     #token = get_token.authorization_code(AUTH0_CLIENT_ID,  AUTH0_CLIENT_SECRET, code, AUTH0_CALLBACK_URL)
     #user_info = auth0_users.userinfo(token['access_token'])
 
 
-    token = oauth.auth0.authorize_access_token()
+    #token = oauth.auth0.authorize_access_token()
     #session["user"] = token
     
-    log.info('auth0callback: user_info %s:  ' , token)
+    log.info('auth0callback: user_info %s:  ' , code)
 
 
 
