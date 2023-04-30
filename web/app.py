@@ -690,13 +690,15 @@ def getdashboardlists(userid):
 
         # see we got any matches
         if cursor.rowcount == 0:
+            log.info("freeboard getdashboardlists no matches")
             return jsonify( message='Could not get prefuids', status='error')
             db_pool.putconn(conn) 
             return ""
         
         else:
-          preferences = [dict((cursor.description[i][0], value) \
-            for i, value in enumerate(row)) for row in cursor.fetchall()]
+            log.info("freeboard getdashboardlists got matches %s : %s", cursor.description[0][0], value)
+            preferences = [dict((cursor.description[i][0], value) \
+                for i, value in enumerate(row)) for row in cursor.fetchall()]
 
           log.info("freeboard getdashboardlists response %s", preferences)     
           db_pool.putconn(conn) 
