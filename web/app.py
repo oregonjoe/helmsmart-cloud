@@ -315,7 +315,7 @@ def callback_handling():
       session['profile'] =json.loads(user_info_json)
       log.info('auth0callback: TypeError in session user_info %s:  ', session)
       
-    except TypeError, e:
+    except TypeError(e):
       log.info('auth0callback: TypeError in user_info %s:  ', user_info_json)
       #e = sys.exc_info()[0]
 
