@@ -63,7 +63,7 @@ app.debug = True
 #Adding auth0
 #from auth0.v3.authentication import GetToken
 #from auth0.v3.authentication import Users
-
+# this is a new API 4/30/23
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 
@@ -71,6 +71,22 @@ AUTH0_CALLBACK_URL = environ.get('AUTH0_CALLBACK_URL')
 AUTH0_CLIENT_ID = environ.get('AUTH0_CLIENT_ID')
 AUTH0_CLIENT_SECRET = environ.get('AUTH0_CLIENT_SECRET')
 AUTH0_DOMAIN = environ.get('AUTH0_DOMAIN')
+
+# this is a new API 4/30/23
+
+oauth = OAuth(app)
+
+oauth.register(
+    "auth0",
+    client_id=environ.get("AUTH0_CLIENT_ID"),
+    client_secret=environ.get("AUTH0_CLIENT_SECRET"),
+    client_kwargs={
+        "scope": "openid profile email",
+    },
+    server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
+)
+
+# end of auth0 init
 
 
 
