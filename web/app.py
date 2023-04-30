@@ -10,7 +10,7 @@ from requests.exceptions import HTTPError
 
 import urllib
 #from urlparse import urlparse
-from urllib.parse import urlparse
+from urllib.parse import urlparse,urlencode, quote_plus
 import psycopg
 
 import logging
