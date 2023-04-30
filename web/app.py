@@ -227,23 +227,23 @@ def dashboards_list():
       
 
 
-    except TypeError, e:
+    except TypeError(e):
       #log.info('dashboards_list: TypeError in  update pref %s:  ', userid)
       log.info('dashboards_list: TypeError in  update pref  %s:  ' % str(e))
 
-    except ValueError, e:
+    except ValueError(e):
       #log.info('dashboards_list: ValueError in  update pref  %s:  ', userid)
       log.info('dashboards_list: ValueError in  update pref %s:  ' % str(e))
       
-    except KeyError, e:
+    except KeyError(e):
       #log.info('dashboards_list: KeyError in  update pref  %s:  ', userid)
       log.info('dashboards_list: KeyError in  update pref  %s:  ' % str(e))
 
-    except NameError, e:
+    except NameError(e):
       #log.info('dashboards_list: NameError in  update pref  %s:  ', userid)
       log.info('dashboards_list: NameError in  update pref %s:  ' % str(e))
           
-    except IndexError, e:
+    except IndexError(e):
       #log.info('dashboards_list: IndexError in  update pref  %s:  ', userid)
       log.info('dashboards_list: IndexError in  update pref  %s:  ' % str(e))  
 
@@ -339,7 +339,7 @@ def callback_handling():
           session['username'] = myusername
           log.info("authcallback: username:%s", myusername)
 
-      except TypeError, e:
+      except TypeError(e):
         log.info('auth0callback: TypeError in customdata %s:  ', mydata)
         #e = sys.exc_info()[0]
           
