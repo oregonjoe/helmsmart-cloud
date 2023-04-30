@@ -16,3 +16,5 @@ psycopg-pool==3.1.7
 urllib3==1.24.2
 pylibmc==1.6.3
 auth0-python
+python-dotenv>=0.19.2
+authlib>=1.0

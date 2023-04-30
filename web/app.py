@@ -61,8 +61,11 @@ app.debug = True
 
 
 #Adding auth0
-from auth0.v3.authentication import GetToken
-from auth0.v3.authentication import Users
+#from auth0.v3.authentication import GetToken
+#from auth0.v3.authentication import Users
+
+from authlib.integrations.flask_client import OAuth
+from dotenv import find_dotenv, load_dotenv
 
 AUTH0_CALLBACK_URL = environ.get('AUTH0_CALLBACK_URL')
 AUTH0_CLIENT_ID = environ.get('AUTH0_CLIENT_ID')
