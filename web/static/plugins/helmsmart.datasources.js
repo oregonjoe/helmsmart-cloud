@@ -194,7 +194,7 @@
 				options: [
 					{
 						name: "Environmental",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_environmental"
 					},
 					
 					{
