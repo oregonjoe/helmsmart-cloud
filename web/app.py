@@ -92,7 +92,7 @@ app.debug = True
 app.secret_key = 'J0Zr27j/3yX L~SMP!jmN]CDI/,?RB'
 app.config['SESSION_TYPE'] = 'filesystem'
 
-sess.init_app(app)
+#sess.init_app(app)
 #Adding auth0
 #from auth0.v3.authentication import GetToken
 #from auth0.v3.authentication import Users
