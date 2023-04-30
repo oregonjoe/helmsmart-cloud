@@ -73,13 +73,17 @@ window.location.href = '/auth0logout';
  
   $("#login").click(function(e) {
             e.preventDefault();
+			
+			window.location.href = '/login';
+		/*	
+		// old API
 		auth.authorize({
 				audience: 'https://'+AUTH0_DOMAIN+'/userinfo', // you can also set this on the .env file and put API_AUDIENCE instead
 				scope: 'openid profile',
 				responseType: 'code',
 				redirectUri: AUTH0_CALLBACK_URL
 			  }); 
-			
+			*/
 			
           });
  {% endif %}
