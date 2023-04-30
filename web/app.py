@@ -339,7 +339,7 @@ def callback_handling():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
 
-    user_info = token.userinfo
+    user_info = token.get('userinfo')
     
     log.info('auth0callback: user_info %s:  ' , user_info)
 
@@ -383,7 +383,7 @@ def callback_handling():
           
       except:
         e = sys.exc_info()[0]
-        log.info('auth0callback: Error in geting username  %s:  ' % str(e))
+        log.info('auth0callback: Error in geting username from profile  %s:  ' % str(e))
         pass
 
         
