@@ -14,3 +14,5 @@ psycopg==3.1.8
 psycopg-binary==3.1.8
 psycopg-pool==3.1.7
 urllib3==1.24.2
+pylibmc==1.6.3
+auth0-python
