@@ -299,6 +299,7 @@ def auth0logout():
 @app.route('/callback')
 def callback_handling():
     code = request.args.get('code')
+    log.info('auth0callback: code %s:  ' , code)
     #get_token = GetToken(AUTH0_DOMAIN)
     #auth0_users = Users(AUTH0_DOMAIN)
     #token = get_token.authorization_code(AUTH0_CLIENT_ID,  AUTH0_CLIENT_SECRET, code, AUTH0_CALLBACK_URL)
