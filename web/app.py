@@ -277,12 +277,13 @@ def login():
 
     log.info('auth0login: AUTH0_CALLBACK_URL %s:  ' , AUTH0_CALLBACK_URL)
     
-    response = make_response(render_template('freeboard.html', features = []))
+    #response = make_response(render_template('freeboard.html', features = []))
 
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0, max-age=0'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '-1'
-    return response  
+    #response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    #response.headers['Pragma'] = 'no-cache'
+    #response.headers['Expires'] = '-1'
+    #return response  
+    return render_template("authohome.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 
 @app.route('/auth0logout')
@@ -300,7 +301,20 @@ def auth0logout():
     return redirect('https://%s/v2/logout?returnTo=%s&client_id=%s' % (AUTH0_DOMAIN, base_url, AUTH0_CLIENT_ID))
   
 
-
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(
+        "https://" + env.get("AUTH0_DOMAIN")
+        + "/v2/logout?"
+        + urlencode(
+            {
+                "returnTo": url_for("home", _external=True),
+                "client_id": env.get("AUTH0_CLIENT_ID"),
+            },
+            quote_via=quote_plus,
+        )
+    )
 
 @app.route('/callback')
 def callback_handling():
@@ -361,8 +375,8 @@ def callback_handling():
         pass
 
         
-    return redirect('/dashboards_list')
-
+    #return redirect('/dashboards_list')
+    return redirect('/')
 
 
 
