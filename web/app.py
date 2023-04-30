@@ -286,7 +286,8 @@ def login():
     #return render_template("authohome.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
     #return oauth.auth0.authorize_redirect( redirect_uri=url_for("callback", _external=True) )
 
-    return oauth.auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL, audience=AUTH0_AUDIENCE, screen_hint=signup)
+    #return oauth.auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL, audience=AUTH0_AUDIENCE, screen_hint=signup)
+    return oauth.auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL)
 
 @app.route('/auth0logout')
 def auth0logout():
