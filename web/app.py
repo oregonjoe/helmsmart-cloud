@@ -257,7 +257,9 @@ def dashboards_list():
       pass
 
     
-    return render_template('dashboards_list.html',  env=env)
+    #return render_template('dashboards_list.html',  env=env)
+    return render_template("authohome.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
     #response = make_response(render_template('index.html', features = []))
     #response.headers['Cache-Control'] = 'public, max-age=0'
     #return response
