@@ -571,19 +571,19 @@ def getdashboardjson(prefuid):
             return jsondata 
 
 
-    except TypeError, e:
+    except TypeError as e:
         log.info('freeboard: getdashboardjson TypeError in geting deviceid  %s:  ', prefuid)
         log.info('freeboard: getdashboardjson TypeError in geting deviceid  %s:  ' % str(e))
             
-    except KeyError, e:
+    except KeyError as e:
         log.info('freeboard: getdashboardjson KeyError in geting deviceid  %s:  ', prefuid)
         log.info('freeboard: getdashboardjson KeyError in geting deviceid  %s:  ' % str(e))
 
-    except NameError, e:
+    except NameError as e:
         log.info('freeboard: getdashboardjson NameError in geting deviceid  %s:  ', prefuid)
         log.info('freeboard: getdashboardjson NameError in geting deviceid  %s:  ' % str(e))
             
-    except IndexError, e:
+    except IndexError as e:
         log.info('freeboard: getdashboardjson IndexError in geting deviceid  %s:  ', prefuid)
         log.info('freeboard: getdashboardjson IndexError in geting deviceid  %s:  ' % str(e))  
 
