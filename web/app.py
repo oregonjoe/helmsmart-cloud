@@ -511,8 +511,8 @@ def freeboard_getdashboardlist():
 
 
   dashboardlists = getdashboardlists(userid)
-  
-  log.info("freeboard_GetDashboardJSON prefuid %s -> %s", userid, dashboardlists)
+  log.info("freeboard_GetDashboardJSON prefuid %s ", userid)
+  log.info("freeboard_GetDashboardJSON dashboardlists %s ",  jsonify(dashboardlists))
 
 
   return jsonify({'preferences':dashboardlists})
