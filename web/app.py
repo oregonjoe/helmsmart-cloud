@@ -1,3 +1,7 @@
+import os
+from os import environ
+import sys
+import json
 import urllib
 #from urlparse import urlparse
 from urllib.parse import urlparse
@@ -30,7 +34,7 @@ from flask_cors import CORS, cross_origin
 from psycopg_pool import ConnectionPool
 #db_pool = ThreadedConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
 #db_pool = ConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
-#db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
+db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
 
 #app = Flask(__name__)
 
