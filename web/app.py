@@ -226,8 +226,8 @@ def dashboards_list():
           pass
 
 
-        return render_template('dashboards_list.html', user=session['profile'], env=env)
-
+        #return render_template('dashboards_list.html', user=session['profile'], env=env)
+        return render_template("authohome.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
       
 
 
