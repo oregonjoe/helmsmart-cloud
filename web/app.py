@@ -481,6 +481,28 @@ def dashboard():
 
     return render_template('dashboards_list.html', user=session['profile'], env=env) 
 
+@app.route('/freeboard_getdashboardjson')
+@cross_origin()
+def freeboard_getdashboardjson():
+
+  prefuid = request.args.get('prefuid',1)
+
+
+  dashboardjson = getdashboardjson(prefuid)
+  
+  log.info("freeboard_GetDashboardJSON prefuid %s -> %s", prefuid, dashboardjson)
+
+
+  #return dashboardjson  
+  #  result = json.dumps(r, cls=DateEncoder)
+
+  response = make_response(dashboardjson)
+  response.headers['Cache-Control'] = 'public, max-age=0'
+  response.headers['content-type'] = "application/json"
+  return response
+
+
+
 @app.route('/freeboard_getdashboardlist')
 @cross_origin()
 def freeboard_getdashboardlist():
@@ -512,6 +534,69 @@ def help():
     #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
+
+
+
+### dashboard functions ####
+
+
+def getdashboardjson(prefuid):
+
+
+    conn = db_pool.getconn()
+
+    log.info("freeboard getdashboardjson data Query %s", prefuid)
+
+    try:
+    # first check db to see if deviceapikey is matched to device id
+
+        cursor = conn.cursor()
+        #cursor.execute(query, (deviceapikey,))
+        #cursor.execute("select deviceid from user_devices where deviceapikey = '%s'" % deviceapikey)
+        #key=('bfeba0c3c5244269b4c8d276872519a6',)
+        cursor.execute("select jsondata  from dashboard_prefs where prefuid = %s" , (prefuid,))
+        #response= cursor.query(query)
+        i = cursor.fetchone()
+        log.info("freeboard getdashboardjson response %s", i)            
+        # see we got any matches
+        if cursor.rowcount == 0:
+        #if not response:
+            # cursor.close
+            db_pool.putconn(conn) 
+            return ""
+        
+        else:
+            jsondata = str(i[0])
+            db_pool.putconn(conn) 
+            return jsondata 
+
+
+    except TypeError, e:
+        log.info('freeboard: getdashboardjson TypeError in geting deviceid  %s:  ', prefuid)
+        log.info('freeboard: getdashboardjson TypeError in geting deviceid  %s:  ' % str(e))
+            
+    except KeyError, e:
+        log.info('freeboard: getdashboardjson KeyError in geting deviceid  %s:  ', prefuid)
+        log.info('freeboard: getdashboardjson KeyError in geting deviceid  %s:  ' % str(e))
+
+    except NameError, e:
+        log.info('freeboard: getdashboardjson NameError in geting deviceid  %s:  ', prefuid)
+        log.info('freeboard: getdashboardjson NameError in geting deviceid  %s:  ' % str(e))
+            
+    except IndexError, e:
+        log.info('freeboard: getdashboardjson IndexError in geting deviceid  %s:  ', prefuid)
+        log.info('freeboard: getdashboardjson IndexError in geting deviceid  %s:  ' % str(e))  
+
+
+    except:
+        log.info('freeboard: getdashboardjson Error in geting  deviceid %s:  ', prefuid)
+        e = sys.exc_info()[0]
+        log.info('freeboard: getdashboardjson Error in geting deviceid  %s:  ' % str(e))
+
+    # cursor.close
+    db_pool.putconn(conn)                       
+
+    return ""  
 
 
 
