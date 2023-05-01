@@ -2169,8 +2169,11 @@ def freeboard_environmental():
             log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
 
-            mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-            mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            #mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
+            #mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            mydatetime_utctz = mydatetime.replace(tzinfo=ZoneInfo('UTC'))
+            mydatetimetz = mydatetime_utctz.astimezone(ZoneInfo(mytimezone))
+            
             log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
             print()
             d = '04/30/2023'
