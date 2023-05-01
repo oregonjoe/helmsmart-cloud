@@ -2241,7 +2241,7 @@ def freeboard_environmental():
       log.info('freeboard_environmental: AttributeError in freeboard_environmental %s:  ' % str(e))
       
     except TypeError as e:
-      l#og.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+      log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
       #e = sys.exc_info()[0]
 
       log.info('inFluxDB_GPS: TypeError in freeboard_environmental %s:  ' % str(e))
