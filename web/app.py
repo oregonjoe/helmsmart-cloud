@@ -2164,7 +2164,7 @@ def freeboard_environmental():
             mydatetimestr = str(point['time'])
             log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
             
-            #mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            # convert string to datetime opject
             mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
             log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
@@ -2172,53 +2172,24 @@ def freeboard_environmental():
             #mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
             #mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
             #mydatetime_utctz = mydatetime.replace(tzinfo=ZoneInfo('UTC'))
-            mydatetime_utctz = mydatetime.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
+            #mydatetime_utctz = mydatetime.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
             
             #mydatetimetz = mydatetime_utctz.astimezone(ZoneInfo(mytimezone))
             #mydatetimetz = mydatetime_utctz.astimezone(ZoneInfo('America/Los_Angeles'))
             #mydatetimetz = mydatetime_utctz.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
-            mydatetimetz = mydatetime_utctz
-
-            tzoffset = mydatetimetz.utcoffset()
-            log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset.total_seconds())           
-            log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
 
             
-            print()
-            d = '04/30/2023'
-            t = '12:40:00'
-            dj = d + ' ' + t
-            ts = datetime.datetime.strptime(dj, '%m/%d/%Y %H:%M:%S')
+            #mydatetimetz = mydatetime_utctz
+            # set timezone of new datetime opbect
+            mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+            log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
 
-            dtt = mydatetimetz.timetuple()
-            print(dtt)
-            #print()
+            tzoffset = mydatetimetz.utcoffset().total_seconds()
+            log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+  
+
             
-            #dtt = mydatetime.timetuple()
-            #dtt = ts.timetuple()
-            #print(dtt)
-            #print()
-            #log.info('freeboard_environmental:: dtt %s:  ' % mktime(dtt))
 
-
-            epoch_time = datetime.datetime(1970, 1, 1)
-            print(epoch_time)
-            epoch_time = epoch_time.replace(tzinfo=ZoneInfo('UTC'))
-            #epoch_time = epoch_time.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
-            #epoch_time = epoch_time.replace(tzinfo=ZoneInfo(mytimezone))
-            print(epoch_time)
-            #print(epoch_time.total_seconds())
-             
-            delta = (mydatetimetz - epoch_time)
-            print('Datetime to Seconds since epoch:', delta.total_seconds())
-
-            #ts = int(mktime(dtt)*1000)
-
-            #d = time.mktime(dtt)
-            #print ("time.mktime(t) : %f" %  d)
-            #print ("asctime(localtime(secs)): %s" % time.asctime(time.localtime(d)))
-
-            #ts = int(delta.total_seconds()*1000)
             ts = int((mydatetime.timestamp() + tzoffset.total_seconds()) * 1000 )
             log.info('freeboard_environmental:: ts %s:  ' % ts)
 
