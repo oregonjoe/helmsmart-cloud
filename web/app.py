@@ -2169,7 +2169,13 @@ def freeboard_environmental():
             mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
             log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
             print()
-            dtt = mydatetimetz.timetuple()
+            d = '04/04/2023'
+            t = '12:40:00'
+            dj = d + ' ' + t
+            ts = datetime.datetime.strptime(dj, '%m/%d/%Y %H:%M:%S')
+
+            #dtt = mydatetimetz.timetuple()
+            dtt = ts.timetuple()
             print(dtt)
             print()
             #log.info('freeboard_environmental:: dtt %s:  ' % mktime(dtt))
