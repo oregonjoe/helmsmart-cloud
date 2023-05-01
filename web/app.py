@@ -3045,15 +3045,32 @@ def freeboard_environmental_metar():
         winddir='---'
       
         if point['time'] is not None:
-          mydatetimestr = str(point['time'])
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetimestr = str(point['time'])
+            ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
+            
+            # convert string to datetime opject
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
+            ##log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-          mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-          mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            # set timezone of new datetime opbect
+            mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+            ##log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
 
-          #dtt = mydatetime.timetuple()       
-          dtt = mydatetimetz.timetuple()
-          ts = int(mktime(dtt)*1000)
+            ## This dosnt work for python 3.11 anymore
+            ## throws an OverFlow error
+            ##dtt = mydatetimetz.timetuple()
+            ##ts = int(mktime(dtt)*1000)
+            ## So we need to convert datetime directly to seconds and add in timezone offesets
+
+            # get seconds offset for selected timezone
+            tzoffset = mydatetimetz.utcoffset().total_seconds()
+            ##log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+
+            # adjust GMT time for slected timezone for display purposes
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
+            ##log.info('freeboard_environmental:: ts %s:  ' % ts)
+
+          
           
         if point['temperature'] is not None: 
           temperature = int(convertfbunits(point['temperature'],  1)   )
@@ -3554,15 +3571,30 @@ def helmsmart_environmental_baroncsv():
         winddir='---'
       
         if point['time'] is not None:
-          mydatetimestr = str(point['time'])
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetimestr = str(point['time'])
+            ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
+            
+            # convert string to datetime opject
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
+            ##log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-          mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-          mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            # set timezone of new datetime opbect
+            mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+            ##log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
 
-          #dtt = mydatetime.timetuple()       
-          dtt = mydatetimetz.timetuple()
-          ts = int(mktime(dtt)*1000)
+            ## This dosnt work for python 3.11 anymore
+            ## throws an OverFlow error
+            ##dtt = mydatetimetz.timetuple()
+            ##ts = int(mktime(dtt)*1000)
+            ## So we need to convert datetime directly to seconds and add in timezone offesets
+
+            # get seconds offset for selected timezone
+            tzoffset = mydatetimetz.utcoffset().total_seconds()
+            ##log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+
+            # adjust GMT time for slected timezone for display purposes
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
+            ##log.info('freeboard_environmental:: ts %s:  ' % ts)
           
         if point['temperature'] is not None: 
           temperature = convertfbunits(point['temperature'],  0)   
@@ -4064,15 +4096,30 @@ def helmsmart_environmental_nmea0183():
         winddir='---'
       
         if point['time'] is not None:
-          mydatetimestr = str(point['time'])
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetimestr = str(point['time'])
+            ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
+            
+            # convert string to datetime opject
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
+            ##log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-          mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-          mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            # set timezone of new datetime opbect
+            mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+            ##log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
 
-          #dtt = mydatetime.timetuple()       
-          dtt = mydatetimetz.timetuple()
-          ts = int(mktime(dtt)*1000)
+            ## This dosnt work for python 3.11 anymore
+            ## throws an OverFlow error
+            ##dtt = mydatetimetz.timetuple()
+            ##ts = int(mktime(dtt)*1000)
+            ## So we need to convert datetime directly to seconds and add in timezone offesets
+
+            # get seconds offset for selected timezone
+            tzoffset = mydatetimetz.utcoffset().total_seconds()
+            ##log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+
+            # adjust GMT time for slected timezone for display purposes
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
+            ##log.info('freeboard_environmental:: ts %s:  ' % ts)
           
         if point['temperature'] is not None: 
           temperature = convertfbunits(point['temperature'],  0)   
