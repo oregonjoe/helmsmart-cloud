@@ -9503,7 +9503,7 @@ def freeboard_fluidlevels():
     #jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
-    print 'freeboard start processing data points:'
+    print('freeboard start processing data points:')
     
     #log.info("freeboard jsonkey..%s", jsonkey )
     try:
@@ -13626,12 +13626,12 @@ def get_dbstat():
     #  #print 'inFluxDB Exception2:', response.response.successful, response.response.reason 
     #  return jsonify( message='No data to return 2', status='error')
 
-    print 'inFluxDB processing data headers:'
+    print('inFluxDB processing data headers:')
     jsondata=[]
     jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
-    print 'inFluxDB start processing data points:'
+    print('inFluxDB start processing data points:')
     #log.info("freeboard Get InfluxDB response %s", response)
 
     keys = response.raw.get('series',[])
@@ -13871,12 +13871,12 @@ def get_dbstats():
     #  #print 'inFluxDB Exception2:', response.response.successful, response.response.reason 
     #  return jsonify( message='No data to return 2', status='error')
 
-    print 'inFluxDB processing data headers:'
+    print('inFluxDB processing data headers:')
     jsondata=[]
     jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
-    print 'inFluxDB start processing data points:'
+    print('inFluxDB start processing data points:')
     #log.info("freeboard Get InfluxDB response %s", response)
 
     keys = response.raw.get('series',[])
@@ -14181,12 +14181,12 @@ def get_dbstats_html():
     #  #print 'inFluxDB Exception2:', response.response.successful, response.response.reason 
     #  return jsonify( message='No data to return 2', status='error')
 
-    print 'inFluxDB processing data headers:'
+    print('inFluxDB processing data headers:')
     jsondata=[]
     jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
-    print 'inFluxDB start processing data points:'
+    print('inFluxDB start processing data points:')
     #log.info("freeboard Get InfluxDB response %s", response)
 
     keys = response.raw.get('series',[])
@@ -14584,12 +14584,12 @@ def get_influxdbcloud_data():
       #  #print 'inFluxDB Exception2:', response.response.successful, response.response.reason 
       #  return jsonify( message='No data to return 2', status='error')
 
-      print 'inFluxDB processing data headers:'
+      print('inFluxDB processing data headers:')
       jsondata=[]
       jsonkey=[]
       #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
       #jsonkey.append(strvaluekey)
-      print 'inFluxDB start processing data points:'
+      print('inFluxDB start processing data points:')
       #log.info("freeboard Get InfluxDB response %s", response)
 
       keys = response.raw.get('series',[])
@@ -14638,7 +14638,7 @@ def get_influxdbcloud_data():
 
 
       jsondata = sorted(jsondata,key=itemgetter('epoch'))
-      print 'inFluxDB returning data points:'
+      print('inFluxDB returning data points:')
       #return jsonify( results = jsondata)      
       return jsonify(serieskey = jsonkey, results = jsondata)
       #result = json.dumps(data.data, cls=DateEncoder)
@@ -15225,7 +15225,7 @@ def getgpsseriesbydeviceid():
                 if speed < float(maxthreshold)/100:
                   gpsdata.append(gpsjson)
           
-          print 'inFluxDB_GPS JSONF returning data points:'
+          print('inFluxDB_GPS JSONF returning data points:')
 
           #return jsonify(serieskey = jsonkey, results = jsondata)
           response = make_response(json.dumps(gpsdata))
@@ -15296,7 +15296,7 @@ def getgpsseriesbydeviceid():
           #  log.info('inFluxDB_GPS: Error in geting inFluxDB JSON data %s:  ' % e)
 
           gpsdata = sorted(gpsdata,key=itemgetter('epoch'))
-          print 'GetGPSJSON returning data points:'
+          print('GetGPSJSON returning data points:')
           log.info('GetGPSJSON: returning JSON data:  ' )
 
           
