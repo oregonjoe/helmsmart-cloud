@@ -2208,11 +2208,11 @@ def freeboard_environmental():
 
             #ts = int(mktime(dtt)*1000)
 
-            d = time.mktime(dtt)
-            print ("time.mktime(t) : %f" %  d)
-            print ("asctime(localtime(secs)): %s" % time.asctime(time.localtime(d)))
+            #d = time.mktime(dtt)
+            #print ("time.mktime(t) : %f" %  d)
+            #print ("asctime(localtime(secs)): %s" % time.asctime(time.localtime(d)))
 
-            ts = int(d*1000)
+            ts = int(delta.total_seconds()*1000)
             log.info('freeboard_environmental:: ts %s:  ' % ts)
 
 
