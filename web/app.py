@@ -5,6 +5,9 @@ import pylibmc
 import sys
 import json
 
+import md5
+import base64
+
 import requests
 from requests.exceptions import HTTPError
 
@@ -507,15 +510,17 @@ def freeboard_getdashboardjson():
 @cross_origin()
 def freeboard_getdashboardlist():
 
-  userid = request.args.get('userid',1)
+    userid = request.args.get('userid',1)
 
 
-  dashboardlists = getdashboardlists(userid)
-  log.info("freeboard_GetDashboardJSON prefuid %s ", userid)
-  log.info("freeboard_GetDashboardJSON dashboardlists %s ",  jsonify(dashboardlists))
+    dashboardlists = getdashboardlists(userid)
+
+    
+    log.info("freeboard_GetDashboardJSON prefuid %s ", userid)
+    log.info("freeboard_GetDashboardJSON dashboardlists %s ",  jsonify(dashboardlists))
 
 
-  return jsonify({'preferences':dashboardlists})
+    return jsonify({'preferences':dashboardlists})
   #  result = json.dumps(r, cls=DateEncoder)
 
   #response = make_response(dashboardlists)
@@ -691,7 +696,7 @@ def getdashboardlists(userid):
         # see we got any matches
         if cursor.rowcount == 0:
             log.info("freeboard getdashboardlists no matches")
-            return jsonify( message='Could not get prefuids', status='error')
+            #return jsonify( message='Could not get prefuids', status='error')
             db_pool.putconn(conn) 
             return ""
         
@@ -731,6 +736,12 @@ def getdashboardlists(userid):
     db_pool.putconn(conn)                       
 
     return ""
+
+### hash ###
+def hash_string(string):
+    #salted_hash = string + application.config['SECRET_KEY']
+    salted_hash = string + app.secret_key
+    return md5.new(salted_hash).hexdigest()
 
 
 ### data conversion utilities #####
