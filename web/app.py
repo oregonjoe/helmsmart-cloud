@@ -2203,6 +2203,7 @@ def freeboard_environmental():
             #epoch_time = epoch_time.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
             #epoch_time = epoch_time.replace(tzinfo=ZoneInfo(mytimezone))
             print(epoch_time)
+            print(epoch_time.total_seconds())
              
             delta = (mydatetimetz - epoch_time)
             print('Datetime to Seconds since epoch:', delta.total_seconds())
