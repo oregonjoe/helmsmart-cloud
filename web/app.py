@@ -773,24 +773,24 @@ def freeboard_savedashboardjson():
     log.info('freeboard_savedashboardjson: prefuid  %s:  ', prefuid)
 
   
-    #mymessage = request.data
+    mymessage = request.data
     #mymessage = request.args.get('data')
     #mymessage = json.loads(request.data)
-    mymessage = json.dumps(request.data)
+    #mymessage = json.dumps(request.data)
     #response = requests.post(url, headers=header, json=data)
     #log.info('freeboard_savedashboardjson: data  %s:  ', mymessage)
     
     #mymessage  = request.get_json()
 
-  
     log.info('freeboard_savedashboardjson: json   %s:  ', mymessage)
+    log.info('freeboard_savedashboardjson: json   %s:  ', mymessage.decode("utf-8"))
 
     #mymessage = '{"version": 1,"allow_edit": true}'
 
     try:
         cursor = conn.cursor()
         sqlstr = " update dashboard_prefs SET jsondata =%s where  prefuid = %s;" 
-        cursor.execute(sqlstr, (mymessage, prefuid, ))   
+        cursor.execute(sqlstr, (mymessage.decode("utf-8"), prefuid, ))   
         conn.commit()
 
         return jsonify(result="OK")  
