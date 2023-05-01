@@ -2161,7 +2161,8 @@ def freeboard_environmental():
             mydatetimestr = str(point['time'])
             log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
             
-            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            #mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z)
             log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
 
