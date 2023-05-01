@@ -422,7 +422,8 @@ def dashboards():
 #@requires_auth
 def dashboard():
 
-
+    log.info("dashboard.html: START ****" )
+    
     try:
       
       if session['profile'] is not None:
@@ -476,7 +477,12 @@ def dashboard():
           e = sys.exc_info()[0]
           log.info('dashboard.html: Error in geting user_email  %s:  ' % str(e))
           pass
-          
+
+
+    except KeyError as e:
+        log.info('freeboard_addnewdashboard: KeyError in  update pref  %s:  ', session['profile'])
+        log.info('freeboard_addnewdashboard: KeyError in  update pref  %s:  ' % str(e))
+    
     except:
       e = sys.exc_info()[0]
       log.info('dashboard.html: Error in geting user  %s:  ' % str(e))
