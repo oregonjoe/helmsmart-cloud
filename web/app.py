@@ -2195,7 +2195,14 @@ def freeboard_environmental():
             #print(dtt)
             #print()
             #log.info('freeboard_environmental:: dtt %s:  ' % mktime(dtt))
+
+
+            epoch_time = datetime(1970, 1, 1)
+            print(epoch_time)
             
+            delta = (mydatetimetz - epoch_time)
+            print('Datetime to Seconds since epoch:', delta.total_seconds())
+
             #ts = int(mktime(dtt)*1000)
 
             d = time.mktime(dtt)
