@@ -782,8 +782,8 @@ def freeboard_savedashboardjson():
     
     #mymessage  = request.get_json()
 
-    log.info('freeboard_savedashboardjson: json   %s:  ', mymessage)
-    log.info('freeboard_savedashboardjson: json   %s:  ', mymessage.decode("utf-8"))
+    #log.info('freeboard_savedashboardjson: json   %s:  ', mymessage)
+    #log.info('freeboard_savedashboardjson: json   %s:  ', mymessage.decode("utf-8"))
 
     #mymessage = '{"version": 1,"allow_edit": true}'
 
