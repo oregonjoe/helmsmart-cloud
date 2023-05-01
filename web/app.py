@@ -20,10 +20,13 @@ import psycopg
 
 from calendar import timegm
 import datetime
+from datetime import timezone
 import time
 from time import mktime
-import pytz
-from pytz import timezone
+from zoneinfo import ZoneInfo
+
+#import pytz
+#from pytz import timezone
 
 
 
