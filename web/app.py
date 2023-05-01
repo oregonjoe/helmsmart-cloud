@@ -557,7 +557,210 @@ def help():
     return response
 
 
+### user functions #####
 
+def getedeviceid(deviceapikey):
+
+    conn = db_pool.getconn()
+
+    log.info("freeboard getedeviceid data Query %s", deviceapikey)
+    #query = "select deviceid from user_devices where deviceapikey = %s"
+
+    #query = ("select deviceid from user_devices where deviceapikey = '{}' ") \
+    #            .format(deviceapikey )
+
+
+    #log.info("freeboard getedeviceid Query %s", query)
+
+
+    try:
+    # first check db to see if deviceapikey is matched to device id
+
+        cursor = conn.cursor()
+        #cursor.execute(query, (deviceapikey,))
+        #cursor.execute("select deviceid from user_devices where deviceapikey = '%s'" % deviceapikey)
+        #key=('bfeba0c3c5244269b4c8d276872519a6',)
+        cursor.execute("select deviceid from user_devices where deviceapikey = %s" , (deviceapikey,))
+        #response= cursor.query(query)
+        i = cursor.fetchone()
+        log.info("freeboard getedeviceid response %s", i)            
+        # see we got any matches
+        if cursor.rowcount == 0:
+        #if not response:
+            # cursor.close
+            db_pool.putconn(conn) 
+            return ""
+        
+        else:
+            deviceid = str(i[0])
+            db_pool.putconn(conn) 
+            return deviceid 
+
+
+    except TypeError as e:
+        log.info('freeboard: TypeError in geting deviceid  %s:  ', deviceapikey)
+        log.info('freeboard: TypeError in geting deviceid  %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('freeboard: KeyError in geting deviceid  %s:  ', deviceapikey)
+        log.info('freeboard: KeyError in geting deviceid  %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('freeboard: NameError in geting deviceid  %s:  ', deviceapikey)
+        log.info('freeboard: NameError in geting deviceid  %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('freeboard: IndexError in geting deviceid  %s:  ', deviceapikey)
+        log.info('freeboard: IndexError in geting deviceid  %s:  ' % str(e))  
+
+
+    except:
+        log.info('freeboard: Error in geting  deviceid %s:  ', deviceapikey)
+        e = sys.exc_info()[0]
+        log.info('freeboard: Error in geting deviceid  %s:  ' % str(e))
+
+    # cursor.close
+    db_pool.putconn(conn)                       
+
+    return ""
+
+
+
+def getedevicename(deviceapikey):
+
+    conn = db_pool.getconn()
+
+    log.info("freeboard getedevicename data Query %s", deviceapikey)
+    #query = "select deviceid from user_devices where deviceapikey = %s"
+
+    #query = ("select deviceid from user_devices where deviceapikey = '{}' ") \
+    #            .format(deviceapikey )
+
+
+    #log.info("freeboard getedeviceid Query %s", query)
+
+
+    try:
+    # first check db to see if deviceapikey is matched to device id
+
+        cursor = conn.cursor()
+        #cursor.execute(query, (deviceapikey,))
+        #cursor.execute("select deviceid from user_devices where deviceapikey = '%s'" % deviceapikey)
+        #key=('bfeba0c3c5244269b4c8d276872519a6',)
+        cursor.execute("select devicename from user_devices where deviceapikey = %s" , (deviceapikey,))
+        #response= cursor.query(query)
+        i = cursor.fetchone()
+        log.info("freeboard getedevicename response %s", i)            
+        # see we got any matches
+        if cursor.rowcount == 0:
+        #if not response:
+            # cursor.close
+            db_pool.putconn(conn) 
+            return ""
+        
+        else:
+            devicename = str(i[0])
+            db_pool.putconn(conn) 
+            return devicename 
+
+
+    except TypeError as e:
+        log.info('freeboard: TypeError in geting devicename  %s:  ', deviceapikey)
+        log.info('freeboard: TypeError in geting devicename  %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('freeboard: KeyError in geting devicename  %s:  ', deviceapikey)
+        log.info('freeboard: KeyError in geting devicename  %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('freeboard: NameError in geting devicename  %s:  ', deviceapikey)
+        log.info('freeboard: NameError in geting devicename  %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('freeboard: IndexError in geting devicename  %s:  ', deviceapikey)
+        log.info('freeboard: IndexError in geting devicename  %s:  ' % str(e))  
+
+
+    except:
+        log.info('freeboard: Error in geting  devicename %s:  ', deviceapikey)
+        e = sys.exc_info()[0]
+        log.info('freeboard: Error in geting devicename  %s:  ' % str(e))
+
+    # cursor.close
+    db_pool.putconn(conn)                       
+
+    return ""
+
+
+
+
+def getuseremail(deviceapikey):
+
+    conn = db_pool.getconn()
+
+    log.info("freeboard getuseremail data Query %s", deviceapikey)
+    #query = "select deviceid from user_devices where deviceapikey = %s"
+
+    #query = ("select deviceid from user_devices where deviceapikey = '{}' ") \
+    #            .format(deviceapikey )
+
+
+    #log.info("freeboard getedeviceid Query %s", query)
+
+
+    try:
+    # first check db to see if deviceapikey is matched to device id
+
+        cursor = conn.cursor()
+        #cursor.execute(query, (deviceapikey,))
+        #cursor.execute("select deviceid from user_devices where deviceapikey = '%s'" % deviceapikey)
+        #key=('bfeba0c3c5244269b4c8d276872519a6',)
+        cursor.execute("select useremail from user_devices where deviceapikey = %s" , (deviceapikey,))
+        #response= cursor.query(query)
+        i = cursor.fetchone()
+        log.info("freeboard getuseremail response %s", i)            
+        # see we got any matches
+        if cursor.rowcount == 0:
+        #if not response:
+            # cursor.close
+            db_pool.putconn(conn) 
+            return ""
+        
+        else:
+            useremail = str(i[0])
+            db_pool.putconn(conn) 
+            return useremail 
+
+
+    except TypeError as e:
+        log.info('freeboard: TypeError in geting useremail  %s:  ', deviceapikey)
+        log.info('freeboard: TypeError in geting deviceid  %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('freeboard: KeyError in geting useremail  %s:  ', deviceapikey)
+        log.info('freeboard: KeyError in geting useremail  %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('freeboard: NameError in geting useremail  %s:  ', deviceapikey)
+        log.info('freeboard: NameError in geting useremail  %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('freeboard: IndexError in geting useremail  %s:  ', deviceapikey)
+        log.info('freeboard: IndexError in geting useremail  %s:  ' % str(e))  
+
+
+    except:
+        log.info('freeboard: Error in geting  useremail %s:  ', deviceapikey)
+        e = sys.exc_info()[0]
+        log.info('freeboard: Error in geting useremail  %s:  ' % str(e))
+
+    # cursor.close
+    db_pool.putconn(conn)                       
+
+    return ""
+
+
+  
 ### dashboard functions ####
     
 @app.route('/freeboard_addnewdashboard')
