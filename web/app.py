@@ -2180,7 +2180,7 @@ def freeboard_environmental():
             mydatetimetz = mydatetime_utctz
 
             tzoffset = mydatetimetz.utcoffset()
-            log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+            log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset.total_seconds())           
             log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
             print()
             d = '04/30/2023'
