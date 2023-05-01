@@ -2172,9 +2172,15 @@ def freeboard_environmental():
             dtt = mydatetimetz.timetuple()
             print(dtt)
             print()
-            #log.info('freeboard_environmental:: dtt %s:  ' % dtt)
+            #log.info('freeboard_environmental:: dtt %s:  ' % mktime(dtt))
             
             ts = int(mktime(dtt)*1000)
+
+            d = time.mktime(dtt)
+            print ("time.mktime(t) : %f" %  d)
+            print ("asctime(localtime(secs)): %s" % time.asctime(time.localtime(d)))
+
+            ts = int(d*1000)
             log.info('freeboard_environmental:: ts %s:  ' % ts)
 
 
