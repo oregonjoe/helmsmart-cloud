@@ -742,8 +742,12 @@ def getdashboardlists(userid):
 def hash_string(string):
     #salted_hash = string + application.config['SECRET_KEY']
     salted_hash = string + app.secret_key
+    log.info('freeboard: hash_string salted_hash %s:  ', salted_hash)
+
+    dashboardid = hashlib.md5(salted_hash.encode())
+    log.info('freeboard: hash_string salted_hash %s:  ', dashboardid)
     #return md5.new(salted_hash).hexdigest()
-    return hashlib.md5(salted_hash.encode())
+    return dashboardid
 
 
 ### data conversion utilities #####
