@@ -2179,7 +2179,7 @@ def freeboard_environmental():
             #mydatetimetz = mydatetime_utctz.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
             mydatetimetz = mydatetime_utctz
 
-            tzoffset = mydatetimetz.utcoffset(None)
+            tzoffset = mydatetimetz.utcoffset()
             log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
             log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
             print()
