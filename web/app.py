@@ -2190,7 +2190,7 @@ def freeboard_environmental():
 
             
 
-            ts = int((mydatetime.timestamp() + tzoffset.total_seconds()) * 1000 )
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
             log.info('freeboard_environmental:: ts %s:  ' % ts)
 
 
