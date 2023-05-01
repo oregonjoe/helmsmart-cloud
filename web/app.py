@@ -2176,8 +2176,8 @@ def freeboard_environmental():
             
             #mydatetimetz = mydatetime_utctz.astimezone(ZoneInfo(mytimezone))
             #mydatetimetz = mydatetime_utctz.astimezone(ZoneInfo('America/Los_Angeles'))
-            mydatetimetz = mydatetime_utctz.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
-            #mydatetimetz = mydatetime_utctz
+            #mydatetimetz = mydatetime_utctz.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
+            mydatetimetz = mydatetime_utctz
                         
             log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
             print()
