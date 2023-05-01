@@ -2197,7 +2197,7 @@ def freeboard_environmental():
             #log.info('freeboard_environmental:: dtt %s:  ' % mktime(dtt))
 
 
-            epoch_time = datetime(1970, 1, 1)
+            epoch_time = datetime.datetime(1970, 1, 1)
             print(epoch_time)
             
             delta = (mydatetimetz - epoch_time)
