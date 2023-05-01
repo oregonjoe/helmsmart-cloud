@@ -2168,8 +2168,10 @@ def freeboard_environmental():
             mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
             mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
             log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
-            
+            print()
             dtt = mydatetimetz.timetuple()
+            print(dtt)
+            print()
             log.info('freeboard_environmental:: dtt %s:  ' % dtt)
             
             ts = int(mktime(dtt)*1000)
@@ -2243,8 +2245,7 @@ def freeboard_environmental():
     except TypeError as e:
       log.info('freeboard_environmental:  TypeError in freeboard_environmental point %s:  ', point)
       #e = sys.exc_info()[0]
-
-      log.info('inFluxDB_GPS: TypeError in freeboard_environmental %s:  ' % str(e))
+      log.info('freeboard_environmental: TypeError in freeboard_environmental %s:  ' % str(e))
       
     except ValueError as e:
       log.info('freeboard_environmental: ValueError in freeboard_environmental point %s:  ', point)
