@@ -2179,7 +2179,7 @@ def freeboard_environmental():
             print(dtt)
             print()
             
-            dtt = mydatetime.timetuple()
+            #dtt = mydatetime.timetuple()
             #dtt = ts.timetuple()
             print(dtt)
             print()
