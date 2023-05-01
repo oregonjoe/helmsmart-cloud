@@ -2219,7 +2219,7 @@ def freeboard_environmental():
             #print ("asctime(localtime(secs)): %s" % time.asctime(time.localtime(d)))
 
             #ts = int(delta.total_seconds()*1000)
-            ts = int(mydatetime.timestamp()*1000 )
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
             log.info('freeboard_environmental:: ts %s:  ' % ts)
 
 
