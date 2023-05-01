@@ -774,7 +774,7 @@ def freeboard_savedashboardjson():
 
   
   mymessage = request.data
-  #mymessage = json.loads(request.data)
+  mymessage = json.loads(request.data)
   log.info('freeboard_savedashboardjson: json data  %s:  ', mymessage)
 
   try:
