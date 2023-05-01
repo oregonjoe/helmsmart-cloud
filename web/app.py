@@ -2200,7 +2200,8 @@ def freeboard_environmental():
             epoch_time = datetime.datetime(1970, 1, 1)
             print(epoch_time)
             #epoch_time = epoch_time.replace(tzinfo=ZoneInfo('UTC'))
-            epoch_time = epoch_time.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
+            #epoch_time = epoch_time.replace(tzinfo=ZoneInfo('America/Los_Angeles'))
+            epoch_time = epoch_time.replace(tzinfo=ZoneInfo(mytimezone))
             print(epoch_time)
              
             delta = (mydatetimetz - epoch_time)
