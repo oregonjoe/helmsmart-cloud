@@ -5,7 +5,7 @@ import pylibmc
 import sys
 import json
 
-import md5
+#import md5
 import hashlib
 import base64
 
