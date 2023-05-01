@@ -773,11 +773,11 @@ def freeboard_savedashboardjson():
     log.info('freeboard_savedashboardjson: prefuid  %s:  ', prefuid)
 
   
-    mymessage = request.data
-    mymessage = request.args.get('data')
+    #mymessage = request.data
+    #mymessage = request.args.get('data')
     #mymessage = json.loads(request.data)
-    response = requests.post(url, headers=header, json=data)
-    mymessage = response.json()
+    #response = requests.post(url, headers=header, json=data)
+    mymessage = = request.get_json()
 
   
     log.info('freeboard_savedashboardjson: json data  %s:  ', mymessage)
