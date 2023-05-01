@@ -767,19 +767,22 @@ def getuseremail(deviceapikey):
 @app.route('/freeboard_savedashboardjson' , methods=['POST'])
 @cross_origin()
 def freeboard_savedashboardjson():
-  conn = db_pool.getconn()
+    conn = db_pool.getconn()
   
-  prefuid = request.args.get('prefuid',1)
-  log.info('freeboard_savedashboardjson: prefuid  %s:  ', prefuid)
+    prefuid = request.args.get('prefuid',1)
+    log.info('freeboard_savedashboardjson: prefuid  %s:  ', prefuid)
 
   
-  mymessage = request.data
-  mymessage = request.args.get('data')
-  #mymessage = json.loads(request.data)
-  
-  log.info('freeboard_savedashboardjson: json data  %s:  ', mymessage)
+    mymessage = request.data
+    mymessage = request.args.get('data')
+    #mymessage = json.loads(request.data)
+    response = requests.post(url, headers=header, json=data)
+    mymessage = response.json()
 
-  mymessage = '{"version": 1,"allow_edit": true}'
+  
+    log.info('freeboard_savedashboardjson: json data  %s:  ', mymessage)
+
+    mymessage = '{"version": 1,"allow_edit": true}'
 
   try:
     cursor = conn.cursor()
