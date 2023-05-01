@@ -762,6 +762,182 @@ def getuseremail(deviceapikey):
 
   
 ### dashboard functions ####
+
+  
+@app.route('/freeboard_savedashboardjson' , methods=['POST'])
+@cross_origin()
+def freeboard_savedashboardjson():
+  conn = db_pool.getconn()
+  
+  prefuid = request.args.get('prefuid',1)
+  log.info('freeboard_savedashboardjson: prefuid  %s:  ', prefuid)
+
+  
+  mymessage = request.data
+  #mymessage = json.loads(request.data)
+  log.info('freeboard_savedashboardjson: json data  %s:  ', mymessage)
+
+  try:
+    cursor = conn.cursor()
+    sqlstr = " update dashboard_prefs SET jsondata =%s where  prefuid = %s;" 
+    cursor.execute(sqlstr, (mymessage, prefuid, ))   
+    conn.commit()
+    
+    return jsonify(result="OK")  
+
+
+
+  except TypeError as e:
+    log.info('freeboard_savedashboardjson: TypeError in  update pref %s:  ', prefuid)
+    log.info('freeboard_savedashboardjson: TypeError in  update pref  %s:  ' % str(e))
+
+  except ValueError as e:
+    log.info('freeboard_savedashboardjson: ValueError in  update pref  %s:  ', prefuid)
+    log.info('freeboard_savedashboardjson: ValueError in  update pref %s:  ' % str(e))
+    
+  except KeyError as e:
+    log.info('freeboard_savedashboardjson: KeyError in  update pref  %s:  ', prefuid)
+    log.info('freeboard_savedashboardjson: KeyError in  update pref  %s:  ' % str(e))
+
+  except NameError as e:
+    log.info('freeboard_savedashboardjson: NameError in  update pref  %s:  ', prefuid)
+    log.info('freeboard_savedashboardjson: NameError in  update pref %s:  ' % str(e))
+        
+  except IndexError as e:
+    log.info('freeboard_savedashboardjson: IndexError in  update pref  %s:  ', prefuid)
+    log.info('freeboard_savedashboardjson: IndexError in  update pref  %s:  ' % str(e))  
+
+
+  except:
+    e = sys.exc_info()[0]
+    log.info('freeboard_savedashboardjson: Error in update pref  %s:  ' % str(e))
+    return jsonify(result="error") 
+
+  
+  finally:
+    db_pool.putconn(conn)
+
+@app.route('/freeboard_deletedashboard')
+@cross_origin()
+def freeboard_deletedashboard():
+  conn = db_pool.getconn()
+  
+
+  prefuid = request.args.get('prefuid',1)
+
+
+
+  log.info('freeboard_deletedashboard: prefuid  %s:  ', prefuid)
+  
+
+
+  try:
+    cursor = conn.cursor()
+    
+    sqlstr = "delete from dashboard_prefs where prefuid = %s;"
+                                                                                    
+    cursor.execute(sqlstr, (prefuid,))   
+    conn.commit()
+    
+    return jsonify(result="OK")  
+
+
+
+  
+  except TypeError as e:
+    log.info('freeboard_editdashboard: TypeError in  edit pref %s:  ', prefuid)
+    log.info('freeboard_editdashboard: TypeError in  edit pref  %s:  ' % str(e))
+
+  except ValueError as e:
+    log.info('freeboard_deletedashboard: ValueError in  edit pref  %s:  ', prefuid)
+    log.info('freeboard_deletedashboard: ValueError in  edit pref %s:  ' % str(e))
+    
+  except KeyError as e:
+    log.info('freeboard_deletedashboard: KeyError in  edit pref  %s:  ', prefuid)
+    log.info('freeboard_deletedashboard: KeyError in  edit pref  %s:  ' % str(e))
+
+  except NameError as e:
+    log.info('freeboard_deletedashboard: NameError in  edit pref  %s:  ', prefuid)
+    log.info('freeboard_deletedashboard: NameError in  edit pref %s:  ' % str(e))
+        
+  except IndexError as e:
+    log.info('freeboard_deletedashboard: IndexError in  edit pref  %s:  ', prefuid)
+    log.info('freeboard_deletedashboard: IndexError in  edit pref  %s:  ' % str(e))  
+
+
+  except:
+    e = sys.exc_info()[0]
+    log.info('freeboard_deletedashboard: Error in edit pref  %s:  ' % str(e))
+    return jsonify(result="error") 
+
+  
+  finally:
+    db_pool.putconn(conn)
+
+
+    
+
+@app.route('/freeboard_editdashboard')
+@cross_origin()
+def freeboard_editdashboard():
+  conn = db_pool.getconn()
+  
+
+  prefname = request.args.get('prefname',1)
+  prefuid = request.args.get('prefuid',1)
+
+
+  
+
+  log.info('freeboard_editdashboard: prefname  %s:  ', prefname)
+  log.info('freeboard_editdashboard: prefuid  %s:  ', prefuid)
+  
+
+
+  try:
+    cursor = conn.cursor()
+    
+    sqlstr = "update dashboard_prefs set prefname = %s where prefuid = %s;"
+                                                                                    
+    cursor.execute(sqlstr, (prefname, prefuid))   
+    conn.commit()
+    
+    return jsonify(result="OK")  
+
+
+
+  
+  except TypeError as e:
+    log.info('freeboard_editdashboard: TypeError in  edit pref %s:  ', prefuid)
+    log.info('freeboard_editdashboard: TypeError in  edit pref  %s:  ' % str(e))
+
+  except ValueError as e:
+    log.info('freeboard_editdashboard: ValueError in  edit pref  %s:  ', prefuid)
+    log.info('freeboard_editdashboard: ValueError in  edit pref %s:  ' % str(e))
+    
+  except KeyError as e:
+    log.info('freeboard_editdashboard: KeyError in  edit pref  %s:  ', prefuid)
+    log.info('freeboard_editdashboard: KeyError in  edit pref  %s:  ' % str(e))
+
+  except NameError as e:
+    log.info('freeboard_editdashboard: NameError in  edit pref  %s:  ', prefuid)
+    log.info('freeboard_editdashboard: NameError in  edit pref %s:  ' % str(e))
+        
+  except IndexError as e:
+    log.info('freeboard_editdashboard: IndexError in  edit pref  %s:  ', prefuid)
+    log.info('freeboard_editdashboard: IndexError in  edit pref  %s:  ' % str(e))  
+
+
+  except:
+    e = sys.exc_info()[0]
+    log.info('freeboard_editdashboard: Error in edit pref  %s:  ' % str(e))
+    return jsonify(result="error") 
+
+  
+  finally:
+    db_pool.putconn(conn)
+
+
     
 @app.route('/freeboard_addnewdashboard')
 @cross_origin()
