@@ -2168,7 +2168,7 @@ def freeboard_environmental():
             mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
             log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-
+            log.info('freeboard_environmental:: tzoffset %s:  ' % mydatetime.total_seconds())    
             #mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
             #mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
             #mydatetime_utctz = mydatetime.replace(tzinfo=ZoneInfo('UTC'))
@@ -2182,6 +2182,8 @@ def freeboard_environmental():
             tzoffset = mydatetimetz.utcoffset()
             log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset.total_seconds())           
             log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
+
+            
             print()
             d = '04/30/2023'
             t = '12:40:00'
