@@ -2199,7 +2199,9 @@ def freeboard_environmental():
 
             epoch_time = datetime.datetime(1970, 1, 1)
             print(epoch_time)
-            
+            epoch_time = epoch_time.replace(tzinfo=ZoneInfo('UTC'))
+            print(epoch_time)
+             
             delta = (mydatetimetz - epoch_time)
             print('Datetime to Seconds since epoch:', delta.total_seconds())
 
