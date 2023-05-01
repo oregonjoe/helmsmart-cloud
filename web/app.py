@@ -2255,6 +2255,12 @@ def freeboard_environmental():
       log.info('freeboard_environmental: IndexError in freeboard_environmental point %s:  ', point)
       #e = sys.exc_info()[0]
       log.info('freeboard_environmental: IndexError in freeboard_environmental %s:  ' % str(e))
+
+    except OverflowError as e:
+      log.info('freeboard_environmental: OverflowError in freeboard_environmental point %s:  ', point)
+      #e = sys.exc_info()[0]
+      log.info('freeboard_environmental: OverflowError in freeboard_environmental %s:  ' % str(e))
+
       
     #except pyonep.exceptions.JsonRPCRequestException as ex:
     #    print('JsonRPCRequestException: {0}'.format(ex))
@@ -2266,9 +2272,9 @@ def freeboard_environmental():
     #    print('OnePlatformException: {0}'.format(ex))
        
     except:
-        log.info('freeboard: Error in geting freeboard response %s:  ', strvalue)
+        log.info('freeboard: Error in geting freeboard_environmental response %s:  ', strvalue)
         e = sys.exc_info()[0]
-        log.info('freeboard: Error in geting freeboard ststs %s:  ' % e)
+        log.info('freeboard: Error in geting freeboard_environmental ststs %s:  ' % e)
         #return jsonify(update=False, status='missing' )
         callback = request.args.get('callback')
         return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })

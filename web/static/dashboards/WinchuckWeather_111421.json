@@ -2,9 +2,9 @@
 	"version": 1,
 	"allow_edit": true,
 	"plugins": [
-		"https://helmsmart-weatherstation.herokuapp.com/static/plugins/helmsmart.widgets.js",
-		"https://helmsmart-weatherstation.herokuapp.com/static/plugins/helmsmart.datasources.js",
-		"https://helmsmart-weatherstation.herokuapp.com/static/plugins/plugin_highcharts_historical.js"
+		"https://helmsmart-flasktest.herokuapp.com/static/plugins/helmsmart.widgets.js",
+		"https://helmsmart-flasktest.herokuapp.com/static/plugins/helmsmart.datasources.js",
+		"https://helmsmart-flasktest.herokuapp.com/static/plugins/plugin_highcharts_historical.js"
 	],
 	"panes": [
 		{
@@ -204,8 +204,8 @@
 			"name": "SeaDream Wind",
 			"type": "JSON",
 			"settings": {
-				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata",
-				"apikey": "a5069b96637473d7701fa11eb9baad3d",
+				"url": "https://helmsmart-flasktest.herokuapp.com/freeboard_winddata",
+				"apikey": "6df777ec3890df47661c721ec3e33b53",
 				"refresh": 30,
 				"span": "1day",
 				"resolution": "900",
@@ -221,8 +221,8 @@
 			"name": "SeaDream Environmental",
 			"type": "JSON",
 			"settings": {
-				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental",
-				"apikey": "a5069b96637473d7701fa11eb9baad3d",
+				"url": "https://helmsmart-flasktest.herokuapp.com/freeboard_environmental",
+				"apikey": "6df777ec3890df47661c721ec3e33b53",
 				"refresh": 60,
 				"span": "1day",
 				"resolution": "600",
@@ -238,8 +238,8 @@
 			"name": "SeaDream Location",
 			"type": "JSON",
 			"settings": {
-				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_location",
-				"apikey": "a5069b96637473d7701fa11eb9baad3d",
+				"url": "https://helmsmart-flasktest.herokuapp.com/freeboard_location",
+				"apikey": "6df777ec3890df47661c721ec3e33b53",
 				"refresh": 15,
 				"span": "12hour",
 				"resolution": "600",
@@ -255,8 +255,8 @@
 			"name": "Engine Fuel used",
 			"type": "JSON",
 			"settings": {
-				"url": "https://helmsmart-weatherstation.herokuapp.com/freeboard_engine_aux",
-				"apikey": "a5069b96637473d7701fa11eb9baad3d",
+				"url": "https://helmsmart-flasktest.herokuapp.com/freeboard_engine_aux",
+				"apikey": "6df777ec3890df47661c721ec3e33b53",
 				"refresh": 30,
 				"span": "15min",
 				"resolution": "300",
