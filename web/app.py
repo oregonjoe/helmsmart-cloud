@@ -2158,15 +2158,21 @@ def freeboard_environmental():
         value5 = '---'
       
         if point['time'] is not None:
-          mydatetimestr = str(point['time'])
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetimestr = str(point['time'])
+            log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
+            
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-          mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-          mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
 
-          #dtt = mydatetime.timetuple()       
-          dtt = mydatetimetz.timetuple()
-          ts = int(mktime(dtt)*1000)
+            mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
+            mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)
+            
+            dtt = mydatetimetz.timetuple()
+            log.info('freeboard_environmental:: dtt %s:  ' % dtt)
+            
+            ts = int(mktime(dtt)*1000)
           
         if point['temperature'] is not None: 
           value1 = convertfbunits(point['temperature'],  convertunittype('temperature', units))
