@@ -745,9 +745,9 @@ def hash_string(string):
     log.info('freeboard: hash_string salted_hash %s:  ', salted_hash)
 
     dashboardid = hashlib.md5(salted_hash.encode())
-    log.info('freeboard: hash_string salted_hash %s:  ', dashboardid)
+    log.info('freeboard: hash_string salted_hash %s:  ', dashboardid.hexdigest())
     #return md5.new(salted_hash).hexdigest()
-    return dashboardid
+    return dashboardid.hexdigest()
 
 
 ### data conversion utilities #####
