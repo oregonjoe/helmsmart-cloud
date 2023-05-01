@@ -2177,12 +2177,12 @@ def freeboard_environmental():
 
             dtt = mydatetimetz.timetuple()
             print(dtt)
-            print()
+            #print()
             
             #dtt = mydatetime.timetuple()
             #dtt = ts.timetuple()
-            print(dtt)
-            print()
+            #print(dtt)
+            #print()
             #log.info('freeboard_environmental:: dtt %s:  ' % mktime(dtt))
             
             #ts = int(mktime(dtt)*1000)
