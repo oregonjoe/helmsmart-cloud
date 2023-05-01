@@ -2174,7 +2174,7 @@ def freeboard_environmental():
             print()
             #log.info('freeboard_environmental:: dtt %s:  ' % mktime(dtt))
             
-            ts = int(mktime(dtt)*1000)
+            #ts = int(mktime(dtt)*1000)
 
             d = time.mktime(dtt)
             print ("time.mktime(t) : %f" %  d)
