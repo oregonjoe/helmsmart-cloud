@@ -2172,9 +2172,12 @@ def freeboard_environmental():
             dtt = mydatetimetz.timetuple()
             print(dtt)
             print()
-            log.info('freeboard_environmental:: dtt %s:  ' % dtt)
+            #log.info('freeboard_environmental:: dtt %s:  ' % dtt)
             
             ts = int(mktime(dtt)*1000)
+            log.info('freeboard_environmental:: ts %s:  ' % ts)
+
+
           
         if point['temperature'] is not None: 
           value1 = convertfbunits(point['temperature'],  convertunittype('temperature', units))
