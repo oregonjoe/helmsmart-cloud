@@ -784,53 +784,53 @@ def freeboard_savedashboardjson():
 
     mymessage = '{"version": 1,"allow_edit": true}'
 
-  try:
-    cursor = conn.cursor()
-    sqlstr = " update dashboard_prefs SET jsondata =%s where  prefuid = %s;" 
-    cursor.execute(sqlstr, (mymessage, prefuid, ))   
-    conn.commit()
-    
-    return jsonify(result="OK")  
+    try:
+        cursor = conn.cursor()
+        sqlstr = " update dashboard_prefs SET jsondata =%s where  prefuid = %s;" 
+        cursor.execute(sqlstr, (mymessage, prefuid, ))   
+        conn.commit()
 
-  except psycopg.ProgrammingError as e:
-    log.info('freeboard_savedashboardjson: ProgrammingError in  update pref %s:  ', prefuid)
-    log.info('freeboard_savedashboardjson: ProgrammingError in  update pref  %s:  ' % str(e))
-    return jsonify(result="ProgrammingError error")
+        return jsonify(result="OK")  
 
-  except psycopg.DataError as e:
-    log.info('freeboard_savedashboardjson: DataError in  update pref %s:  ', prefuid)
-    log.info('freeboard_savedashboardjson: DataError in  update pref  %s:  ' % str(e))
-    return jsonify(result="DataError error")
+    except psycopg.ProgrammingError as e:
+        log.info('freeboard_savedashboardjson: ProgrammingError in  update pref %s:  ', prefuid)
+        log.info('freeboard_savedashboardjson: ProgrammingError in  update pref  %s:  ' % str(e))
+        return jsonify(result="ProgrammingError error")
 
-  except TypeError as e:
-    log.info('freeboard_savedashboardjson: TypeError in  update pref %s:  ', prefuid)
-    log.info('freeboard_savedashboardjson: TypeError in  update pref  %s:  ' % str(e))
+    except psycopg.DataError as e:
+        log.info('freeboard_savedashboardjson: DataError in  update pref %s:  ', prefuid)
+        log.info('freeboard_savedashboardjson: DataError in  update pref  %s:  ' % str(e))
+        return jsonify(result="DataError error")
 
-  except ValueError as e:
-    log.info('freeboard_savedashboardjson: ValueError in  update pref  %s:  ', prefuid)
-    log.info('freeboard_savedashboardjson: ValueError in  update pref %s:  ' % str(e))
-    
-  except KeyError as e:
-    log.info('freeboard_savedashboardjson: KeyError in  update pref  %s:  ', prefuid)
-    log.info('freeboard_savedashboardjson: KeyError in  update pref  %s:  ' % str(e))
+    except TypeError as e:
+        log.info('freeboard_savedashboardjson: TypeError in  update pref %s:  ', prefuid)
+        log.info('freeboard_savedashboardjson: TypeError in  update pref  %s:  ' % str(e))
 
-  except NameError as e:
-    log.info('freeboard_savedashboardjson: NameError in  update pref  %s:  ', prefuid)
-    log.info('freeboard_savedashboardjson: NameError in  update pref %s:  ' % str(e))
+    except ValueError as e:
+        log.info('freeboard_savedashboardjson: ValueError in  update pref  %s:  ', prefuid)
+        log.info('freeboard_savedashboardjson: ValueError in  update pref %s:  ' % str(e))
+
+    except KeyError as e:
+        log.info('freeboard_savedashboardjson: KeyError in  update pref  %s:  ', prefuid)
+        log.info('freeboard_savedashboardjson: KeyError in  update pref  %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('freeboard_savedashboardjson: NameError in  update pref  %s:  ', prefuid)
+        log.info('freeboard_savedashboardjson: NameError in  update pref %s:  ' % str(e))
         
-  except IndexError as e:
-    log.info('freeboard_savedashboardjson: IndexError in  update pref  %s:  ', prefuid)
-    log.info('freeboard_savedashboardjson: IndexError in  update pref  %s:  ' % str(e))  
+    except IndexError as e:
+        log.info('freeboard_savedashboardjson: IndexError in  update pref  %s:  ', prefuid)
+        log.info('freeboard_savedashboardjson: IndexError in  update pref  %s:  ' % str(e))  
 
 
-  except:
-    e = sys.exc_info()[0]
-    log.info('freeboard_savedashboardjson: Error in update pref  %s:  ' % str(e))
-    return jsonify(result="error") 
+    except:
+        e = sys.exc_info()[0]
+        log.info('freeboard_savedashboardjson: Error in update pref  %s:  ' % str(e))
+        return jsonify(result="error") 
 
-  
-  finally:
-    db_pool.putconn(conn)
+
+    finally:
+        db_pool.putconn(conn)
 
 @app.route('/freeboard_deletedashboard')
 @cross_origin()
