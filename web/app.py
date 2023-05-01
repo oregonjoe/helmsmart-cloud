@@ -774,8 +774,12 @@ def freeboard_savedashboardjson():
 
   
   mymessage = request.data
-  mymessage = json.loads(request.data)
+  mymessage = request.args.get('data')
+  #mymessage = json.loads(request.data)
+  
   log.info('freeboard_savedashboardjson: json data  %s:  ', mymessage)
+
+  mymessage = '{"version": 1,"allow_edit": true}'
 
   try:
     cursor = conn.cursor()
@@ -982,10 +986,10 @@ def freeboard_addnewdashboard():
     return jsonify(result="OK")  
 
 
-  #except psycopg2.ProgrammingError as e:
-  #  log.info('freeboard_addnewdashboard: ProgrammingError in  update pref %s:  ', userid)
-  #  log.info('freeboard_addnewdashboard: ProgrammingError in  update pref  %s:  ' % str(e))
-  #  return jsonify(result="ProgrammingError error")
+  except psycopg.ProgrammingError as e:
+    log.info('freeboard_addnewdashboard: ProgrammingError in  update pref %s:  ', userid)
+    log.info('freeboard_addnewdashboard: ProgrammingError in  update pref  %s:  ' % str(e))
+    return jsonify(result="ProgrammingError error")
   
   except TypeError as e:
     log.info('freeboard_addnewdashboard: TypeError in  update pref %s:  ', userid)
