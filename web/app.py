@@ -6,6 +6,7 @@ import sys
 import json
 
 import md5
+import hashlib
 import base64
 
 import requests
@@ -741,7 +742,8 @@ def getdashboardlists(userid):
 def hash_string(string):
     #salted_hash = string + application.config['SECRET_KEY']
     salted_hash = string + app.secret_key
-    return md5.new(salted_hash).hexdigest()
+    #return md5.new(salted_hash).hexdigest()
+    return hashlib.md5(salted_hash.encode())
 
 
 ### data conversion utilities #####
