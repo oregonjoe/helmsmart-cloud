@@ -294,7 +294,12 @@
 						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_switch_bank_status"
 					},
 					{
-						name: "Stats",
+						name: "Device Stats",
+						value: "https://helmsmart-flasktest.herokuapp.com/get_dbstat"
+					},
+					
+					{
+						name: "All Stats",
 						value: "https://helmsmart-flasktest.herokuapp.com/get_dbstats_html"
 					}
 
