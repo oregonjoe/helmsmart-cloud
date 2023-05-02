@@ -28,7 +28,7 @@ from zoneinfo import ZoneInfo
 #import pytz
 #from pytz import timezone
 
- 
+
 
 from influxdb.influxdb08 import InfluxDBClient
 
@@ -6451,18 +6451,33 @@ def freeboard_winddata():
       for point in points:
         
         if point['time'] is not None:
-          mydatetimestr = str(point['time'])
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetimestr = str(point['time'])
+            ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
+            
+            # convert string to datetime opject
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
+            ##log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-          mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-          mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            # set timezone of new datetime opbect
+            mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+            ##log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
 
-          #dtt = mydatetime.timetuple()       
-          dtt = mydatetimetz.timetuple()
-          ts = int(mktime(dtt)*1000)
+            ## This dosnt work for python 3.11 anymore
+            ## throws an OverFlow error
+            ##dtt = mydatetimetz.timetuple()
+            ##ts = int(mktime(dtt)*1000)
+            ## So we need to convert datetime directly to seconds and add in timezone offesets
+
+            # get seconds offset for selected timezone
+            tzoffset = mydatetimetz.utcoffset().total_seconds()
+            ##log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+
+            # adjust GMT time for slected timezone for display purposes
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
+            ##log.info('freeboard_environmental:: ts %s:  ' % ts)
           
-          average_windspeed.append( {'epoch':ts, 'value':avgwindspeed})
-          average_winddir.append( {'epoch':ts, 'value':avgwinddir})
+            average_windspeed.append( {'epoch':ts, 'value':avgwindspeed})
+            average_winddir.append( {'epoch':ts, 'value':avgwinddir})
 
       callback = request.args.get('callback')
       myjsondate = mydatetimetz.strftime("%B %d, %Y %H:%M:%S")
@@ -11362,7 +11377,7 @@ def freeboard_dimmer_status():
 
     deviceid = getedeviceid(deviceapikey)
     
-    log.info("freeboard freeboard_indicator_status deviceid %s", deviceid)
+    log.info("freeboard_dimmer_status deviceid %s", deviceid)
 
     if deviceid == "":
         callback = request.args.get('callback')
@@ -11438,68 +11453,68 @@ def freeboard_dimmer_status():
 
 
 
-    log.info("freeboard freeboard_dimmer_status data Query %s", query)
+    log.info("freeboard_dimmer_status data Query %s", query)
 
     try:
         response= dbc.query(query)
         
     except TypeError as e:
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', query)
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_status: Type Error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard_dimmer_status: Type Error in InfluxDB mydata append %s:  ' % str(e))
             
     except KeyError as e:
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ', query)
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_status: Key Error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard_dimmer_status: Key Error in InfluxDB mydata append %s:  ' % str(e))
 
     except NameError as e:
         log.info('freeboard: Name Error in InfluxDB mydata append %s:  ', query)
         log.info('freeboard: Name Error in InfluxDB mydata append %s:  ' % str(e))
             
     except IndexError as e:
-        log.info('freeboard: Index error in InfluxDB mydata append %s:  ', query)
-        log.info('freeboard: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+        log.info('freeboard_dimmer_status: Index error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard_dimmer_status: Index Error in InfluxDB mydata append %s:  ' % str(e))  
 
     except ValueError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: Value Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_status: Value Error in InfluxDB  %s:  ' % str(e))
 
     except AttributeError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_status: AttributeError in InfluxDB  %s:  ' % str(e))
 
     except UnboundLocalError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
       log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))  
 
     except InfluxDBClientError as e:
-      log.info('freeboard_createInfluxDB: Exception Client Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_status: Exception Client Error in InfluxDB  %s:  ' % str(e))
 
 
     except InfluxDBServerError as e:
-      log.info('freeboard_createInfluxDB: Exception Client Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_status: Exception Client Error in InfluxDB  %s:  ' % str(e))
 
       
     except:
-        log.info('freeboard: Error in InfluxDB mydata append %s:', query)
+        log.info('freeboard_dimmer_status: Error in InfluxDB mydata append %s:', query)
         e = sys.exc_info()[0]
-        log.info("freeboard: Error: %s" % e)
+        log.info("freeboard_dimmer_status: Error: %s" % e)
         callback = request.args.get('callback')
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
         return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','dimmer_bank':list(reversed(dimmerstatus))})    
 
     if response is None:
-        log.info('freeboard: InfluxDB Query has no data ')
+        log.info('freeboard_dimmer_status: InfluxDB Query has no data ')
         callback = request.args.get('callback')
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
         return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','dimmer_bank':list(reversed(dimmerstatus))})    
 
     if not response:
-        log.info('freeboard: InfluxDB Query has no data ')
+        log.info('freeboard_dimmer_status: InfluxDB Query has no data ')
         callback = request.args.get('callback')
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
         return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','dimmer_bank':list(reversed(dimmerstatus))})    
 
-    log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
+    log.info('freeboard_dimmer_status:  InfluxDB-Cloud response  %s:', response)
 
     keys = response.raw.get('series',[])
     #keys = result.keys()
@@ -11525,10 +11540,10 @@ def freeboard_dimmer_status():
        
       points = list(response.get_points())
 
-      log.info('freeboard:  InfluxDB-Cloud points%s:', points)
+      log.info('freeboard_dimmer_status:  InfluxDB-Cloud points%s:', points)
 
       for point in points:
-        log.info('freeboard:  InfluxDB-Cloud point%s:', point)
+        log.info('freeboard_dimmer_status:  InfluxDB-Cloud point%s:', point)
 
         if point['time'] is not None:
             mydatetimestr = str(point['time'])
@@ -11580,36 +11595,36 @@ def freeboard_dimmer_status():
       #return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True',  'status0':status0, 'status1':status1, 'status2':status2, 'status3':status3, 'status4':status4, 'status5':status5, 'status6':status6, 'status7':status7})
 
     except TypeError as e:
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_status: Type Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_status: Type Error in InfluxDB mydata append %s:  ' % str(e))
             
     except KeyError as e:
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_status: Key Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_status: Key Error in InfluxDB mydata append %s:  ' % str(e))
 
     except NameError as e:
-        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_status: Name Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_status: Name Error in InfluxDB mydata append %s:  ' % str(e))
             
     except IndexError as e:
-        log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Index Error in InfluxDB mydata append %s:  ' % str(e))   
+        log.info('freeboard_dimmer_status: Index error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_status: Index Error in InfluxDB mydata append %s:  ' % str(e))   
 
     except ValueError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: Value Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_status: Value Error in InfluxDB  %s:  ' % str(e))
 
     except AttributeError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))     
+      log.info('freeboard_dimmer_status: AttributeError in InfluxDB  %s:  ' % str(e))     
 
     except InfluxDBClientError as e:
-      log.info('freeboard_createInfluxDB: Exception Error in InfluxDB  %s:  ' % str(e))     
+      log.info('freeboard_dimmer_status: Exception Error in InfluxDB  %s:  ' % str(e))     
     
     except:
-        log.info('freeboard: Error in geting freeboard response %s:  ', strvalue)
+        log.info('freeboard_dimmer_status: Error in geting freeboard response %s:  ', strvalue)
         e = sys.exc_info()[0]
-        log.info('freeboard: Error in geting freeboard ststs %s:  ' % e)
+        log.info('freeboard_dimmer_status: Error in geting freeboard ststs %s:  ' % e)
         #return jsonify(update=False, status='missing' )
         callback = request.args.get('callback')
         return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
@@ -12809,7 +12824,7 @@ def freeboard_get_dimmer_values():
 
     deviceid = getedeviceid(deviceapikey)
     
-    log.info("freeboard freeboard_dimmer_values deviceid %s", deviceid)
+    log.info("freeboard_get_dimmer_values deviceid %s", deviceid)
 
     if deviceid == "":
       return jsonify(result="ERROR")
@@ -12851,51 +12866,51 @@ def freeboard_get_dimmer_values():
  
 
 
-    log.info("freeboard freeboard_dimmer_values data Query %s", query)
+    log.info("freeboard_get_dimmer_values data Query %s", query)
 
     try:
         response= dbc.query(query)
         
     except TypeError as e:
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', query)
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Type Error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard_dimmer_values: Type Error in InfluxDB mydata append %s:  ' % str(e))
             
     except KeyError as e:
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ', query)
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Key Error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard_dimmer_values: Key Error in InfluxDB mydata append %s:  ' % str(e))
 
     except NameError as e:
-        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ', query)
-        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Name Error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard_dimmer_values: Name Error in InfluxDB mydata append %s:  ' % str(e))
             
     except IndexError as e:
-        log.info('freeboard: Index error in InfluxDB mydata append %s:  ', query)
-        log.info('freeboard: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+        log.info('freeboard_dimmer_values: Index error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard_dimmer_values: Index Error in InfluxDB mydata append %s:  ' % str(e))  
 
     except ValueError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: Value Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_values: Value Error in InfluxDB  %s:  ' % str(e))
 
     except AttributeError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))
 
     except UnboundLocalError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))  
+      log.info('freeboard_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))  
 
     except InfluxDBClientError as e:
-      log.info('freeboard_createInfluxDB: Exception Client Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_values: Exception Client Error in InfluxDB  %s:  ' % str(e))
 
 
     except InfluxDBServerError as e:
-      log.info('freeboard_createInfluxDB: Exception Client Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_values: Exception Client Error in InfluxDB  %s:  ' % str(e))
 
       
     except:
-        log.info('freeboard: Error in InfluxDB mydata append %s:', query)
+        log.info('freeboard_dimmer_values: Error in InfluxDB mydata append %s:', query)
         e = sys.exc_info()[0]
-        log.info("freeboard: Error: %s" % e)
+        log.info("freeboard_dimmer_values: Error: %s" % e)
         return jsonify(result="ERROR")
 
     if response is None:
@@ -12904,7 +12919,7 @@ def freeboard_get_dimmer_values():
 
       
     if not response:
-        log.info('freeboard: InfluxDB Query has no data ')
+        log.info('freeboard_dimmer_values: InfluxDB Query has no data ')
         return jsonify(result="ERROR")
 
 
@@ -12927,10 +12942,10 @@ def freeboard_get_dimmer_values():
 
       points = list(response.get_points())
 
-      log.info('freeboard:  InfluxDB-Cloud points%s:', points)
+      log.info('freeboard_get_dimmer_values:  InfluxDB-Cloud points%s:', points)
 
       for point in points:
-        log.info('freeboard:  InfluxDB-Cloud point%s:', point)
+        log.info('freeboard_get_dimmer_values:  InfluxDB-Cloud point%s:', point)
         
         if point['dv0'] is not None:
           dimmer0=int(point['dv0'])
@@ -12962,36 +12977,36 @@ def freeboard_get_dimmer_values():
 
 
     except TypeError as e:
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Type Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_values: Type Error in InfluxDB mydata append %s:  ' % str(e))
             
     except KeyError as e:
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Key Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_values: Key Error in InfluxDB mydata append %s:  ' % str(e))
 
     except NameError as e:
-        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Name Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_values: Name Error in InfluxDB mydata append %s:  ' % str(e))
             
     except IndexError as e:
-        log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+        log.info('freeboard_dimmer_values: Index error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_values: Index Error in InfluxDB mydata append %s:  ' % str(e))  
 
     except ValueError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: Value Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_values: Value Error in InfluxDB  %s:  ' % str(e))
 
     except AttributeError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))     
+      log.info('freeboard_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))     
 
     except InfluxDBClientError as e:
-      log.info('freeboard_createInfluxDB: Exception Error in InfluxDB  %s:  ' % str(e))     
+      log.info('freeboard_dimmer_values: Exception Error in InfluxDB  %s:  ' % str(e))     
     
     except:
-        log.info('freeboard: Error in geting freeboard response %s:  ', strvalue)
+        log.info('freeboard_dimmer_values: Error in geting freeboard response %s:  ', strvalue)
         e = sys.exc_info()[0]
-        log.info('freeboard: Error in geting freeboard ststs %s:  ' % e)
+        log.info('freeboard_dimmer_values: Error in geting freeboard ststs %s:  ' % e)
 
         return jsonify(result="ERROR")
 
@@ -13091,7 +13106,7 @@ def freeboard_dimmer_values():
  
 
 
-    log.info("freeboard freeboard_dimmer_values data Query %s", query)
+    log.info("freeboard_dimmer_values data Query %s", query)
 
     try:
         response= dbc.query(query)
@@ -13153,11 +13168,11 @@ def freeboard_dimmer_values():
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
         return '{0}({1})'.format(callback, {'date_time':myjsondate, 'status':'missing','update':'False','dimmer0_value':list(reversed(dimmer0)),'dimmer1_value':list(reversed(dimmer1)),'dimmer2_value':list(reversed(dimmer2)),'dimmer3_value':list(reversed(dimmer3)),'dimmer4_value':list(reversed(dimmer4))})     
 
-    #log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
+    log.info('freeboard_dimmer_values:  InfluxDB-Cloud response  %s:', response)
 
     keys = response.raw.get('series',[])
     #keys = result.keys()
-    #log.info("freeboard Get InfluxDB series keys %s", keys)
+    #log.info("freeboard_dimmer_values Get InfluxDB series keys %s", keys)
 
 
     #callback = request.args.get('callback')
@@ -13169,7 +13184,7 @@ def freeboard_dimmer_values():
     #jsonkey.append(strvaluekey)
     #print 'freeboard start processing data points:'
     
-    #log.info("freeboard jsonkey..%s", jsonkey )
+    #log.info("freeboard_dimmer_values jsonkey..%s", jsonkey )
     try:
     
       strvalue = ""
@@ -13197,22 +13212,37 @@ def freeboard_dimmer_values():
        
       points = list(response.get_points())
 
-      #log.info('freeboard:  InfluxDB-Cloud points%s:', points)
+      log.info('freeboard_dimmer_values:  InfluxDB-Cloud points%s:', points)
 
       for point in points:
-        #log.info('freeboard:  InfluxDB-Cloud point%s:', point)
-
+        #log.info('freeboard_dimmer_values:  InfluxDB-Cloud point%s:', point)
+        
         if point['time'] is not None:
           mydatetimestr = str(point['time'])
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+          ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
 
-          mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-          mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+          # convert string to datetime opject
+          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
+          ##log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-          #dtt = mydatetime.timetuple()       
-          dtt = mydatetimetz.timetuple()
-          ts = int(mktime(dtt)*1000)
-  
+          # set timezone of new datetime opbect
+          mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+          ##log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
+
+          ## This dosnt work for python 3.11 anymore
+          ## throws an OverFlow error
+          ##dtt = mydatetimetz.timetuple()
+          ##ts = int(mktime(dtt)*1000)
+          ## So we need to convert datetime directly to seconds and add in timezone offesets
+
+          # get seconds offset for selected timezone
+          tzoffset = mydatetimetz.utcoffset().total_seconds()
+          ##log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+
+          # adjust GMT time for slected timezone for display purposes
+          ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
+          ##log.info('freeboard_environmental:: ts %s:  ' % ts)
+
         statusvalues=[]
         
         if point['dv0'] is not None:
@@ -13274,7 +13304,7 @@ def freeboard_dimmer_values():
           dimmer_photooverride.append({'epoch':ts, 'value':'---'})       
           dimmer_switchoverride.append({'epoch':ts, 'value':'---'})   
 
-        #log.info('freeboard_dimmer_values:  statusvalues%s:', statusvalues)
+        log.info('freeboard_dimmer_values:  statusvalues%s:', statusvalues)
         #statusvalues.append(int(Instance))
 
         # check if array was all NONE  - if so disgard it
@@ -13293,36 +13323,36 @@ def freeboard_dimmer_values():
         return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','dimmer0_value':list(reversed(dimmer0)),'dimmer1_value':list(reversed(dimmer1)),'dimmer2_value':list(reversed(dimmer2)),'dimmer3_value':list(reversed(dimmer3)),'dimmer4_value':list(reversed(dimmer4))})     
 
     except TypeError as e:
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Type Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_values: Type Error in InfluxDB mydata append %s:  ' % str(e))
             
     except KeyError as e:
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Key Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_values: Key Error in InfluxDB mydata append %s:  ' % str(e))
 
     except NameError as e:
-        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('freeboard_dimmer_values: Name Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_values: Name Error in InfluxDB mydata append %s:  ' % str(e))
             
     except IndexError as e:
-        log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-        log.info('freeboard: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+        log.info('freeboard_dimmer_values: Index error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard_dimmer_values: Index Error in InfluxDB mydata append %s:  ' % str(e))  
 
     except ValueError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: Value Error in InfluxDB  %s:  ' % str(e))
+      log.info('freeboard_dimmer_values: Value Error in InfluxDB  %s:  ' % str(e))
 
     except AttributeError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))     
+      log.info('freeboard_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))     
 
     except InfluxDBClientError as e:
-      log.info('freeboard_createInfluxDB: Exception Error in InfluxDB  %s:  ' % str(e))     
+      log.info('freeboard_dimmer_values: Exception Error in InfluxDB  %s:  ' % str(e))     
     
     except:
-        log.info('freeboard: Error in geting freeboard response %s:  ', strvalue)
+        log.info('freeboard_dimmer_values: Error in geting freeboard response %s:  ', strvalue)
         e = sys.exc_info()[0]
-        log.info('freeboard: Error in geting freeboard ststs %s:  ' % e)
+        log.info('freeboard_dimmer_values: Error in geting freeboard ststs %s:  ' % e)
         #return jsonify(update=False, status='missing' )
         callback = request.args.get('callback')
         return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
@@ -13546,15 +13576,32 @@ def freeboard_switch_bank_status():
         #log.info('freeboard:  InfluxDB-Cloud point%s:', point)
 
         if point['time'] is not None:
-          mydatetimestr = str(point['time'])
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetimestr = str(point['time'])
+            ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
+            
+            # convert string to datetime opject
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
+            ##log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-          mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-          mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            # set timezone of new datetime opbect
+            mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+            ##log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
 
-          #dtt = mydatetime.timetuple()       
-          dtt = mydatetimetz.timetuple()
-          ts = int(mktime(dtt)*1000)
+            ## This dosnt work for python 3.11 anymore
+            ## throws an OverFlow error
+            ##dtt = mydatetimetz.timetuple()
+            ##ts = int(mktime(dtt)*1000)
+            ## So we need to convert datetime directly to seconds and add in timezone offesets
+
+            # get seconds offset for selected timezone
+            tzoffset = mydatetimetz.utcoffset().total_seconds()
+            ##log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+
+            # adjust GMT time for slected timezone for display purposes
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
+            ##log.info('freeboard_environmental:: ts %s:  ' % ts)
+
+          
   
         statusvalues=[]
         
@@ -16535,15 +16582,32 @@ def freeboard_ac_status_array():
         log.info('freeboard:  InfluxDB-Cloud point%s:', point)
 
         if point['time'] is not None:
-          mydatetimestr = str(point['time'])
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetimestr = str(point['time'])
+            ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
+            
+            # convert string to datetime opject
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
+            ##log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
 
-          mydatetime_utctz = mydatetime.replace(tzinfo=timezone('UTC'))
-          mydatetimetz = mydatetime_utctz.astimezone(timezone(mytimezone))
+            # set timezone of new datetime opbect
+            mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+            ##log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
 
-          #dtt = mydatetime.timetuple()       
-          dtt = mydatetimetz.timetuple()
-          ts = int(mktime(dtt)*1000)
+            ## This dosnt work for python 3.11 anymore
+            ## throws an OverFlow error
+            ##dtt = mydatetimetz.timetuple()
+            ##ts = int(mktime(dtt)*1000)
+            ## So we need to convert datetime directly to seconds and add in timezone offesets
+
+            # get seconds offset for selected timezone
+            tzoffset = mydatetimetz.utcoffset().total_seconds()
+            ##log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+
+            # adjust GMT time for slected timezone for display purposes
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
+            ##log.info('freeboard_environmental:: ts %s:  ' % ts)
+
+          
 
         if point['volts'] is not None:
           value = convertfbunits( point['volts'], 40)
