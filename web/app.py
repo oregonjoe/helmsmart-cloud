@@ -14115,7 +14115,8 @@ def get_dbstat():
             #devicename = record[1]
 
             #strvalue = {'epoch': fields['time'], 'source':tag['deviceid'], 'name':devicename, 'value': fields['records']}        
-            strvalue = {'epoch': fields['time'],  'records': fields['records']}
+            #strvalue = {'epoch': fields['time'],  'records': fields['records']}
+            strvalue = {'epoch': fields['time'],  'value': fields['records']}
             jsondata.append(strvalue)
 
 
