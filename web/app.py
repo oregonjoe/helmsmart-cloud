@@ -14096,7 +14096,8 @@ def get_dbstat():
       jsonkey.append(strvaluekey)        
 
       #log.info("freeboard Get InfluxDB series tags3 %s ", tag['deviceid'])
-
+      # initialize datetime to default
+      mydatetime = datetime.datetime.now()
       
       for point in series['values']:
         fields = {}
@@ -14169,6 +14170,7 @@ def get_dbstat():
     #log.info('freeboard: freeboard returning data values wind_speed:%s, wind_direction:%s  ', stat1,stat2)            
 
     callback = request.args.get('callback')
+    # use the last valid timestamp for the update
     myjsondate = mydatetime.strftime("%B %d, %Y %H:%M:%S")
 
 
