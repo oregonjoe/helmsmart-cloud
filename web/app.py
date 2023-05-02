@@ -11545,7 +11545,7 @@ def freeboard_dimmer_status():
       for point in points:
         #log.info('freeboard_dimmer_status:  InfluxDB-Cloud point%s:', point)
 
-        if point['time'] is not None:
+        if point['time'] is not None: 
             mydatetimestr = str(point['time'])
             ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
             
