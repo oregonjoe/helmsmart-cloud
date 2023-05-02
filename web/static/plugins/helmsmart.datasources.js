@@ -199,103 +199,103 @@
 					
 					{
 						name: "Environmental Calculated",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental_calculated"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_environmental_calculated"
 					},
 					
 					
 					{ 
 						name: "Wind Data",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_winddata"
 					},					
 					
 					
 					{
 						name: "Weather WUN",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_weather_wung"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_weather_wung"
 					},		
 					
 					
 					{
 						name: "GPS Location",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_location"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_location"
 					},
 					
 					{
 						name: "GPS Location and Wind",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_location_wind"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_location_wind"
 					},	
 
 					{
 						name: "Rain Gauge",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_rain_gauge"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_rain_gauge"
 					},	
 					
 					
 					{
 						name: "Navigation",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_nav"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_nav"
 					},
 					{
 						name: "Attitude",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_attitude"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_attitude"
 					},
 					{
 						name: "Engine Status",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_engine"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_engine"
 					},	
 					{
 						name: "Engine Status Extended",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_engine_aux"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_engine_aux"
 					},	
 					{
 						name: "Fluid Levels",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_fluidlevels"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_fluidlevels"
 					},						
 					{
 						name: "DC Status",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_battery"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_battery"
 					},					
 					
 					{
 						name: "AC Status",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_ac_status"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_ac_status"
 					},
 					
 					{
 						name: "Water Depth",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_water_depth"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_water_depth"
 					},
 
 					{
 						name: "Indicator Bank",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_status"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_status"
 					},
 					
 					{
 						name: "Indicator",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_indicator_status"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_indicator_status"
 					},
 					
 					{
 						name: "Indicator Runtime",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_indicator_runtime"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_indicator_runtime"
 					},
 					
 					{
 						name: "Dimmer",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_dimmer_status"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_dimmer_status"
 					},
 					{
 						name: "Dimmer Values",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_dimmer_values"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_dimmer_values"
 					},
 					{
 						name: "Switches",
-						value: "https://helmsmart-weatherstation.herokuapp.com/freeboard_switch_bank_status"
+						value: "https://helmsmart-flasktest.herokuapp.com/freeboard_switch_bank_status"
 					},
 					{
 						name: "Stats",
-						value: "https://helmsmart-weatherstation.herokuapp.com/get_dbstats_html"
+						value: "https://helmsmart-flasktest.herokuapp.com/get_dbstats_html"
 					}
 
 				]
