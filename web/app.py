@@ -11514,7 +11514,7 @@ def freeboard_dimmer_status():
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
         return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','dimmer_bank':list(reversed(dimmerstatus))})    
 
-    log.info('freeboard_dimmer_status:  InfluxDB-Cloud response  %s:', response)
+    #log.info('freeboard_dimmer_status:  InfluxDB-Cloud response  %s:', response)
 
     keys = response.raw.get('series',[])
     #keys = result.keys()
@@ -11540,10 +11540,10 @@ def freeboard_dimmer_status():
        
       points = list(response.get_points())
 
-      log.info('freeboard_dimmer_status:  InfluxDB-Cloud points%s:', points)
+      #log.info('freeboard_dimmer_status:  InfluxDB-Cloud points%s:', points)
 
       for point in points:
-        log.info('freeboard_dimmer_status:  InfluxDB-Cloud point%s:', point)
+        #log.info('freeboard_dimmer_status:  InfluxDB-Cloud point%s:', point)
 
         if point['time'] is not None:
             mydatetimestr = str(point['time'])
@@ -13168,7 +13168,7 @@ def freeboard_dimmer_values():
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
         return '{0}({1})'.format(callback, {'date_time':myjsondate, 'status':'missing','update':'False','dimmer0_value':list(reversed(dimmer0)),'dimmer1_value':list(reversed(dimmer1)),'dimmer2_value':list(reversed(dimmer2)),'dimmer3_value':list(reversed(dimmer3)),'dimmer4_value':list(reversed(dimmer4))})     
 
-    log.info('freeboard_dimmer_values:  InfluxDB-Cloud response  %s:', response)
+    #log.info('freeboard_dimmer_values:  InfluxDB-Cloud response  %s:', response)
 
     keys = response.raw.get('series',[])
     #keys = result.keys()
@@ -13212,7 +13212,7 @@ def freeboard_dimmer_values():
        
       points = list(response.get_points())
 
-      log.info('freeboard_dimmer_values:  InfluxDB-Cloud points%s:', points)
+      #log.info('freeboard_dimmer_values:  InfluxDB-Cloud points%s:', points)
 
       for point in points:
         #log.info('freeboard_dimmer_values:  InfluxDB-Cloud point%s:', point)
@@ -13304,7 +13304,7 @@ def freeboard_dimmer_values():
           dimmer_photooverride.append({'epoch':ts, 'value':'---'})       
           dimmer_switchoverride.append({'epoch':ts, 'value':'---'})   
 
-        log.info('freeboard_dimmer_values:  statusvalues%s:', statusvalues)
+        #log.info('freeboard_dimmer_values:  statusvalues%s:', statusvalues)
         #statusvalues.append(int(Instance))
 
         # check if array was all NONE  - if so disgard it
