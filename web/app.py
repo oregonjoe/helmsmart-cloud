@@ -16069,7 +16069,7 @@ def getgpsseriesbydeviceid():
 
               deltatime = abs(newtime - oldtime)
               
-              delta = vincenty(oldvector, newvector).miles
+              delta = geodesic(oldvector, newvector).miles
               if deltatime == 0:
                 speed = float(0)
               else:
@@ -16130,7 +16130,7 @@ def getgpsseriesbydeviceid():
 
                 deltatime = abs(newtime - oldtime)
                 
-                delta = vincenty(oldvector, newvector).miles
+                delta = geodesic(oldvector, newvector).miles
 
                 if deltatime == 0:
                   speed = float(0)
@@ -16191,7 +16191,7 @@ def getgpsseriesbydeviceid():
 
               deltatime = abs(newtime - oldtime)
               
-              delta = vincenty(oldvector, newvector).miles
+              delta = geodesic(oldvector, newvector).miles
               if deltatime == 0:
                 speed = float(0)
               else:
@@ -16255,7 +16255,7 @@ def getgpsseriesbydeviceid():
 
               deltatime = abs(newtime - oldtime)
               
-              delta = vincenty(oldvector, newvector).miles
+              delta = geodesic(oldvector, newvector).miles
               #print 'GetGPSJSON processing dalta points:', delta
 
               #speed = {'speed':float(delta/(float(deltatime)*60*60))} 
@@ -16789,7 +16789,7 @@ def getgpsseriesbydeviceid_dbc():
 
               deltatime = abs(newtime - oldtime)
               
-              delta = vincenty(oldvector, newvector).miles
+              delta = geodesic(oldvector, newvector).miles
               if deltatime == 0:
                 speed = float(0)
               else:
@@ -16854,7 +16854,7 @@ def getgpsseriesbydeviceid_dbc():
 
                 deltatime = abs(newtime - oldtime)
                 
-                delta = vincenty(oldvector, newvector).miles
+                delta = geodesic(oldvector, newvector).miles
 
                 if deltatime == 0:
                   speed = float(0)
@@ -16915,7 +16915,7 @@ def getgpsseriesbydeviceid_dbc():
 
               deltatime = abs(newtime - oldtime)
               
-              delta = vincenty(oldvector, newvector).miles
+              delta = geodesic(oldvector, newvector).miles
               if deltatime == 0:
                 speed = float(0)
               else:
