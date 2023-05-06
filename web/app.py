@@ -315,6 +315,15 @@ def netview():
     features = [],
   )
 
+@app.route('/nethelm')
+def nethelm():
+
+  return render_template(
+    'nethelm.html',
+    features = [],
+  )
+
+
 @app.route('/alertsmart')
 def alertsmart():
   #userid=""
