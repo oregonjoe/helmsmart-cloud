@@ -16745,13 +16745,13 @@ def getgpsseriesbydeviceid_dbc():
 
           
       except NameError as e:
-        log.info('inFluxDB_GPS: NameError in geting gps data parsing  %s:  ', jsondataarray)
-        log.info('inFluxDB_GPS: NameError in geting gps data parsing  %s:  ' % str(e))
+        log.info('getgpsseriesbydeviceid_dbc: NameError in geting gps data parsing  %s:  ', jsondataarray)
+        log.info('getgpsseriesbydeviceid_dbc: NameError in geting gps data parsing  %s:  ' % str(e))
         
       except:
         #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
         e = sys.exc_info()[0]
-        log.info('get_influxdbcloud_gpsdata: Error in geting gps data parsing %s:  ' % e)
+        log.info('getgpsseriesbydeviceid_dbc: Error in geting gps data parsing %s:  ' % e)
       
         return jsonify( message='Error in inFluxDB_GPS  parsing', status='error')
 
@@ -16807,6 +16807,10 @@ def getgpsseriesbydeviceid_dbc():
           response.headers["Content-Disposition"] = "attachment; filename=HelmSmart.csv"
           return response
 
+
+        except NameError as e:
+          log.info('inFluxDB_GPS: NameError in parsing  CSV data  %s:  ', strvalue)
+          log.info('inFluxDB_GPS: NameError in  parsing  CSV data  %s:  ' % str(e))  
         
         except:
           #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
