@@ -1,0 +1,5344 @@
+﻿<!DOCTYPE html>
+<html ><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>GraphSmart - Vessel Data Graphs</title>
+<style type="text/css">
+
+ 
+  a {  
+  text-decoration: none;
+  color: #FFFFFF;
+  } 
+
+  .auto-style2 { 
+
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style3 {
+  color: #FFFFFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style5 {
+  color: #000000;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style6 {
+  color: #FFFFFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: x-small;
+  text-align: left;
+  border-top-style: solid;
+  border-top-color: #000080;
+  border-bottom-style: solid;
+  border-bottom-color: #000080;
+  }
+  .chartcontainer {
+  display: inline-block;
+  height: 300px;
+  width: 300px;
+  }
+  .clear { clear: both;}
+
+  .auto-style8 {
+  color: #FFFFFF;
+  font-size: small;
+  }
+  .auto-style9 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: center;
+  color: #FFFFFF;
+  }
+
+
+  .auto-style10 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: center;
+  color: #000000;
+  }
+
+  .auto-style11 {
+  text-align: center;
+  }
+  .auto-style12 {
+  color: #FFFFFF;
+  font-size: xx-large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-decoration:none;
+  }
+
+</style>
+
+ <script src="{{ url_for('static', filename='js/GraphSmarttempodbGlobals.js') }}" type="text/javascript"></script>
+
+ <script type="text/javascript" src="{{ url_for('static', filename='js/ChangeChartStyleBootstrap.js') }}" ></script>
+
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/>  
+  	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+     
+  <script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
+
+ <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+   
+       
+       <script type="text/javascript" src="{{ url_for('static', filename='js/themes/HighChartThemes.js') }} " ></script>
+
+
+	   
+	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 10px;
+		}
+	</style>	   
+	   
+	   
+  <script type="text/javascript">
+
+    var mydata = new String();
+    var myuserid;
+
+    var mySubStrings = new Array();
+    var myDataValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    var myJSONData = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
+    var myArrayLength;
+    var vGLinkTime;
+    var vGN2KTime;
+
+    var maxclip;
+    var myHexStr = new String();
+    var myHexLBStr = new String();
+    var myTimeStr = new String();
+    var mySwitchStr = new String();
+    var myPitchRoll = new Array();
+    //  var audioElement;
+    // var myJSONData;
+    var ChartType =  new Array();
+    var PlotLineSymbol = new Array();
+    var PlotLineColor = new Array();
+    var ChartTextColor = new Array();
+    var ChartBackColor = new Array();
+    var ChartTheme = DialFrameType[0];
+    var chart = new Array();
+    var chartoptions = new Array();
+    var OverlayChartTitle;
+    var OverlayChartSubTitle;
+
+    var numOfChartsDrawn = 0;
+
+
+    var DDListPGNNumber = new Array();
+    var DDListPGNSource = new Array();
+    var DDListPGNInstance = new Array();
+    var DDListPGNType = new Array();
+    var DDListPGNParameters = new Array();
+
+
+    var DisablePGNSourceflag = new Array(false,false,false,false,false,false,false,false);
+
+    var ShowHideDetails=0;
+    var ShowHidePrefsflag=false;
+    var url = [];
+
+    var myGraphData = [];
+    //  var myGraphData1 = [];
+    //  var myGraphData2 = [];
+    // var myGraphData3 = [];
+
+    var highcharts_theme = [];
+
+    var x
+    var i;
+    var tempXMLdata;
+    var XMLFile;
+    var DialIndex=0;
+    var CanvasIndex=0;
+
+
+    var myn2ktime = new Array();
+
+
+    var vGLinkTime;
+    var vGN2KTime;
+    zpad.zeros = new Array(5).join('0');
+    spad.spaces = new Array(7).join(' ');
+
+    // ***************************************************************
+    // get al cookie variables
+    // **************************************************************
+
+    //
+    /* ******************  Done getting cookies  variable ************************************************ */
+function ShowHidePrefs()
+{
+
+
+
+}
+function DisableSourcePGN()
+{
+
+    if(DisablePGNSourceflag[document.getElementById("DialID").selectedIndex ] == true)
+    {
+       DisablePGNSourceflag[document.getElementById("DialID").selectedIndex ] = false;
+        document.getElementById("PGNSource").disabled = false;
+    }
+    else
+    {
+        DisablePGNSourceflag[document.getElementById("DialID").selectedIndex ] = true;
+        document.getElementById("PGNSource").disabled = true;
+    }
+}
+
+
+function InitChartOptions()
+{
+
+    var i;
+
+
+
+
+    // ***************************************************************
+    // Set up all the chart variables
+    // **************************************************************
+
+    for (i=0; i < 16; i++)
+        {
+          switch (parseInt(DialType[i])) {
+            case 0:
+              ChartType[i] = "line";
+            break;
+            case 1:
+              ChartType[i]  = "spline";
+            break;
+            case 2:
+              ChartType[i]  = "area";
+            break;
+            case 3:
+              ChartType[i]  = "areaspline";
+            break;
+            case 4:
+              ChartType[i]  = "column";
+            break;
+            case 5:
+              ChartType[i]  = "bar";
+            break;
+            case 6:
+              ChartType[i]  = "gauge";
+            break;
+            case 7:
+              ChartType[i]  = "polar";
+            break;
+            
+            default:
+              ChartType[i]  = "line";
+            break;
+            
+          }
+    }
+    // if(DialFrameType[0] == 15)
+    
+    // set plot background color
+  
+    for (i=0; i < 16; i++)
+        {
+        
+           if(DialFrameType[0] != 15)
+           {
+              switch (parseInt(DialFrameType[0])) {
+                        case 0:
+                          ChartBackColor[i] = "#FFFFFF";
+                        break;
+                        case 1:
+                          ChartBackColor[i]  =  {
+			                      linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+			                      stops: [	[0, 'rgb(96, 96, 96)'],	[1, 'rgb(16, 16, 16)']] };
+                        break;
+                        case 2:
+                          ChartBackColor[i]  = {
+                              linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+			                        stops: [	[0, 'rgb(255, 255, 255)'],	[1, 'rgb(240, 240, 255)']	]};
+                        break;
+                        case 3:
+                          ChartBackColor[i]  = "#FFFFFF";
+                        break;
+                        case 4:
+                          ChartBackColor[i]  =  {
+			                      linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+			                      stops: [[0, 'rgb(48, 48, 96)'], [1, 'rgb(0, 0, 0)'] ] };
+                        break;
+                        case 5:
+                          ChartBackColor[i]  = {
+			                    linearGradient: [0, 0, 250, 500],
+			                    stops: [ [0, 'rgb(48, 96, 48)'],	[1, 'rgb(0, 0, 0)']	]	};
+                        break;
+                        
+                      default:
+                          ChartBackColor[i] = "#FFFFFF";
+                        break;
+                      }
+           }
+           else
+          {
+	          switch (parseInt(DialBackground[i])) 
+	          {
+	            case 0:
+	              ChartBackColor[i]  = "#FFFFFF";
+	            break;
+	            case 1:
+	              ChartBackColor[i]  = "#000000";
+	            break;
+	            
+	           case 2:
+	              ChartBackColor[i]  = "#EBE7C4";
+	            break;
+	      
+	            case 3:
+	              ChartBackColor[i]  = {
+				                    linearGradient: [0, 0, 500, 500],
+				                    stops: [ [0, '#444444'],	[1, '#949494']	]	};
+	            break;
+	            
+	            case 4:
+	             ChartBackColor[i]  = {
+				                    linearGradient: [0, 0, 500, 500],
+				                    stops: [ [0, '#616868'],	[1, '#949494']	]	};
+	            break;
+	            
+	            case 5:
+	             ChartBackColor[i]  = {
+				                    linearGradient: [0, 0, 500, 500],
+				                    stops: [ [0, '#979797'],	[1, '#E8E8E8']	]	};
+	            break;
+	            
+	          
+	            
+	           case 6:
+	              ChartBackColor[i]  = "#F7E5C8";
+	            break;
+	            
+	            case 7:
+	              ChartBackColor[i]  = {
+				                    linearGradient: [0, 0, 500, 500],
+				                    stops: [ [0, '#C28082'],	[1, '#E0CACA']	]	};
+	            break;
+	            
+	            case 8:
+	             ChartBackColor[i]  = {
+				                    linearGradient: [0, 0, 500, 500],
+				                    stops: [ [0, '#6F915F'],	[1, '#C5D7B7']	]	};
+	            break;
+	            case 9:
+	             ChartBackColor[i]  = {
+				                    linearGradient: [0, 0, 500, 500],
+				                    stops: [ [0, '#61778F'],	[1, '#D4DADE']	]	};
+	            break;        
+	      
+	           case 10:
+	             ChartBackColor[i]  = {
+				                    linearGradient: [0, 0, 500, 500],
+				                    stops: [ [0, '#646466'],	[1, '#3D3D42']	]	};
+	            break;
+	            case 11:
+	             ChartBackColor[i]  = {
+				                    linearGradient: [0, 0, 500, 500],
+				                    stops: [ [0, '#777A77'],	[1, '#353A36']	]	};
+	            break;        
+	      
+	            case 12:
+	              ChartBackColor[i]  = "#FFFFFF";
+	            break;
+	             case 13:
+	              ChartBackColor[i]  = "#FFFFFF";
+	            break;
+	            
+	             case 14:
+	              ChartBackColor[i]  = "#FFFFFF";
+	            break;
+	            
+	             case 15:
+	              ChartBackColor[i]  = "#FFFFFF";
+	            break;
+	            
+	           default:
+	              ChartBackColor[i]  = "#FFFFFF";
+	            break;
+	     
+	          }
+	        }
+        }
+        
+        // set plot line color
+       for (i=0; i < 16; i++)
+        {
+         if(DialFrameType[0] != 15)
+             PlotLineColor[i] = "";
+           else
+          switch (parseInt(DialPointerColor[i])) {
+            case 0:
+              PlotLineColor[i] = "#2f7ed8"; // Med Blue
+            break;
+            case 1:
+              PlotLineColor[i]  = "#144170"; // Dark blue
+            break;
+            case 2:
+              PlotLineColor[i]  = "#8bbc21"; // Lime
+            break;
+            case 3:
+              PlotLineColor[i]  = "#910000";  // Med red
+            break;
+            case 4:
+              PlotLineColor[i]  = "#1aadce"; // cyan
+            break;
+            case 5:
+               PlotLineColor[i]  = "#492970"; // med purple
+            break;
+             case 6:
+              PlotLineColor[i]  = "#f28f43"; // Orange
+            break;
+            case 7:
+              PlotLineColor[i]  = "#77a1e5"; // Light blue
+            break;
+            case 8:
+               PlotLineColor[i]  = "#c42525"; // red
+            break;          
+             case 9:
+              PlotLineColor[i]  = "#EBE7C4";  // Beige
+            break;
+            case 10:
+              PlotLineColor[i]  = "#DDE336"; // Yellow
+            break;
+            case 11:
+               PlotLineColor[i]  = "#0E641C"; // Dark Green
+            break;
+             case 12:
+              PlotLineColor[i]  = "#FFFFFF"; // White
+            break;
+            case 13:
+              PlotLineColor[i]  = "#C0C0C0"; // Gray
+            break;
+            case 14:
+               PlotLineColor[i]  = "#000000"; // Black
+            break;              
+            case 15:
+               PlotLineColor[i]  = "#000000"; // Black
+            break;   
+            
+          default:
+              PlotLineColor[i] = "#2f7ed8"; // Med Blue
+            break;
+         
+          }
+        }
+        
+         
+           // set plot line color
+       for (i=0; i < 16; i++)
+        {
+         if(DialFrameType[0] != 15)
+             ChartTextColor[i] = "";
+           else
+          switch (parseInt(DialLCDColor[i])) {
+            case 0:
+              ChartTextColor[i] =  { color: '#185AAD' }; // Med Blue
+            break;
+            case 1:
+              ChartTextColor[i]  =  { color: '#144170' };// Dark blue
+            break;
+            case 2:
+              ChartTextColor[i]  =  { color: '#8bbc21' }; // Lime
+            break;
+            case 3:
+              ChartTextColor[i]  =  { color: '#910000' };  // Med red
+            break;
+            case 4:
+              ChartTextColor[i]  =  { color: '#1aadce' };  // cyan
+            break;
+            case 5:
+               ChartTextColor[i]  =  { color: '#492970' };  // med purple
+            break;
+             case 6:
+              ChartTextColor[i]  =  { color: '#f28f43' };  // Orange
+            break;
+            case 7:
+              ChartTextColor[i]  =  { color: '#77a1e5' };  // Light blue
+            break;
+            case 8:
+               ChartTextColor[i]  =  { color: '#c42525' };  // red
+            break;          
+             case 9:
+              ChartTextColor[i]  =  { color: '#EBE7C4' };   // Beige
+            break;
+            case 10:
+              ChartTextColor[i]  =  { color: '#DDE336' }; // Yellow
+            break;
+            case 11:
+               ChartTextColor[i]  =  { color: '#0E641C' };  // Dark Green
+            break;
+             case 12:
+              ChartTextColor[i]  =  { color: '#FFFFFF' }; // White
+            break;
+            case 13:
+              ChartTextColor[i]  =  { color: '#C0C0C0' };  // Gray
+            break;
+            case 14:
+               ChartTextColor[i]  =  { color: '#404040' };  // Dark Grey
+            break;              
+            case 15:
+               ChartTextColor[i]  =  { color: '#000000' };  // Black
+            break;  
+            
+          default:
+              ChartTextColor[i] =  { color: '#185AAD' }; // Med Blue
+            break;
+         
+          }
+        }
+         
+        
+      
+        // set plot line color
+       for (i=0; i < 16; i++)
+        {
+        if(DialFrameType[0] != 15)
+            PlotLineSymbol[i] = {enabled: false} ;
+         else
+          switch (parseInt(DialPonterType[i])) {
+            case 0:
+              PlotLineSymbol[i] =  {symbol: 'circle'} ;
+            break;
+            case 1:
+              PlotLineSymbol[i]  = {symbol: 'square'} ;
+            break;
+            case 2:
+              PlotLineSymbol[i]  =  {symbol: 'diamond'};
+            break;
+            case 3:
+              PlotLineSymbol[i]  =  {symbol: 'triangle'} ;
+            break;
+            case 4:
+              PlotLineSymbol[i]  =  {symbol: 'triangle-down'} ;
+            break;
+            case 5:
+               PlotLineSymbol[i]  =  {fillColor: '#FFFFFF', lineWidth: 2, lineColor: null } ;
+            break;
+             case 6:
+              PlotLineSymbol[i]  = {enabled: false} ;
+            break;
+            case 7:
+              PlotLineSymbol[i]  = {enabled: false} ;
+            break;
+            case 8:
+               PlotLineSymbol[i]  =   {enabled: false} ;
+            break;    
+             default:
+               PlotLineSymbol[i]  =   {enabled: false} ;
+            break;  
+          }
+        } 
+		
+    for(var i=0; i< 16; i++)
+	{
+		document.getElementById("PGNDialID").options[i].disabled = true;
+		document.getElementById("PGNDialID").options[i].style.color = '#C0C0C0';
+		
+		document.getElementById("DialID").options[i].disabled = true;
+		document.getElementById("DialID").options[i].style.color = '#C0C0C0';
+	}    
+  
+	DialEnd = getEndDial(0, PageLayout);
+  
+	updateShowDataDetailsList();
+
+	ShowDataDetails();
+ 
+ 		for(i=0; i < DialEnd; i++)
+ 		GetDialStyleInfo(i);
+
+         
+  }
+  
+function updateShowDataDetailsList()
+{
+var charttitle
+
+DialEnd = getEndDial(0, PageLayout);
+  
+
+ document.getElementById("ShowDetails").options.length = 0;
+ document.getElementById("ShowDetails").options[0] = new Option("Hide", 0);
+  
+  for(i=0; i < 8; i++)
+  {
+      charttitle = DialText[i]; 
+      document.getElementById("ShowDetails").options[i+1] = new Option(charttitle, i+1);
+  }
+  
+   document.getElementById("ShowDetails").selectedIndex = ShowHideDetails;
+    
+ }    
+ 
+ 
+  function ChangedPGNSource(sel)
+{
+
+	var dialIndex = document.getElementById("PGNDialID").selectedIndex
+	
+	var myDeviceID = document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+	
+	
+	ConstructPGNTypeID(myDeviceID,dialIndex);
+}
+ function ChangedPGNTypeID(sel)
+{
+	var dialIndex = document.getElementById("PGNDialID").selectedIndex
+	var myDeviceID = document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+	
+	ConstructPGNTypeID(myDeviceID,dialIndex);
+	
+	DialText[dialIndex] = document.getElementById("PGNTypeID").options[sel.selectedIndex].text; 
+	//document.getElementById("DialLabel").value = DialText[dialIndex];
+	
+	
+	
+	
+}
+ 
+ 
+ 
+function ChangedSpan()
+{
+
+ var myRollup = document.getElementById("Span").options[document.getElementById("Span").selectedIndex].value;  
+
+	  
+	  if(myRollup!= "0")
+	  {
+
+		if(myRollup == "1m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(1);
+		}
+		else if(myRollup == "2m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(2);
+		}
+		else if(myRollup == "3m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(3);
+		}
+		else if(myRollup == "4m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(4);
+		}
+		else if(myRollup == "5m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(5);
+		}
+		else if(myRollup == "6m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(6);
+		}
+		else
+		{
+			var EndEpoch = new Date();
+		
+			var StartEpoch  = EndEpoch - (myRollup*60*1000);
+		}
+	
+
+	
+		//EndEpoch = Math.floor(EndEpoch.getTime()/1000);
+		//StartEpoch  = Math.floor(StartEpoch.getTime()/1000);
+	
+	
+	// var StartEpoch = new Date(StartEpochDB );
+ //var EndEpoch = new Date(EndEpochDB );
+ //var ResolutionSecs = new Date(ResSecsDB);
+
+    
+		$("#datepickerstart").datetimepicker('setDate', new Date(StartEpoch) );
+       
+		$("#datepickerend").datetimepicker('setDate', EndEpoch );
+		
+		GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+	
+	
+	}
+
+   
+ }
+ 
+ 
+function ResetFilterPGNList()
+{
+var index = 0;
+
+}
+    
+    
+ 
+function FilterPGNNumber()
+{
+
+
+}      
+ function SetAttributeList0( sel)
+ {
+ 
+ }
+ 
+function FilterPGNSource()
+{
+ 
+
+}
+        
+function SetAttributeList1( sel)
+{
+
+}
+
+function FilterPGNInstance()
+{
+
+}
+  function SetAttributeList2( sel)
+ {
+ 
+  
+ }
+ 
+        
+ function FilterPGNType()
+{
+ 
+}
+        
+        
+        
+  function SetAttributeList3( sel)
+ {
+   
+      
+ }
+ 
+function FilterPGNParameter()
+{
+ 
+}
+
+function SetAttributeList4( sel)
+{
+
+ }
+ 
+      
+    
+ function handleGetDeviceData(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+	document.getElementById("DeviceID").options.length = 0;
+  document.getElementById("SearchStatus").value = "Getting Devices ...";
+  
+   index = 0;
+   	response.records.forEach(function(row){
+   	
+   	    document.getElementById("DeviceID").options[index++] = new Option(row[1], row[0]);
+
+	   		});
+	   		
+      document.getElementById("DeviceID").selectedIndex = 0;  
+	   	   		
+  		document.getElementById("DeviceID").selectedIndex = 0;
+	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    		{
+	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
+		    		if(myDeviceID == AccountDataFolder)
+		    			document.getElementById("DeviceID").selectedIndex = i;
+		    	}
+          
+            
+		if(index == 0)
+     document.getElementById("SearchStatus").value = "Get Devices Error";
+     else
+      document.getElementById("SearchStatus").value = "Device List update succcessful ";
+      
+            
+          GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value); 
+          // GetSeriesAttributes(AccountDataFolder); 
+            
+        // after we get the list of devices we need to update the parameters list    
+        getDeviceParamList(myuserid);    
+ 
+}
+
+            
+          
+         
+ function handleGetSeriesAttributes(response)
+ {
+ var index=0;
+ var i;
+ 
+   	$.unblockUI();
+    
+     var myseriesattributes 
+     var myserieskey 
+     var mydeviceid;
+     var index
+     index = 0;
+     
+   //document.getElementById("PGNNumber").options.length = 0;
+   //document.getElementById("PGNSource").options.length = 0;
+   //document.getElementById("PGNInstance").options.length = 0;
+   //document.getElementById("PGNType").options.length = 0;
+   //document.getElementById("PGNParameter").options.length = 0;
+ 
+     
+    if(response.status == "error")
+   {
+      document.getElementById("SearchStatus").value = "No data from search";
+      return;
+      
+     }
+            
+     
+
+     
+    var PGNTypeIDLength = 	document.getElementById("PGNTypeID").length;
+	
+	for(var i=0; i< PGNTypeIDLength; i++)
+	{
+		document.getElementById("PGNTypeID").options[i].disabled = true;
+		document.getElementById("PGNTypeID").options[i].style.color = '#C0C0C0';
+	}
+	
+	
+	var PGNTypeSourceLength = 	document.getElementById("PGNTypeSource").length;
+	
+	for(var i=0; i< PGNTypeSourceLength; i++)
+	{
+		document.getElementById("PGNTypeSource").options[i].disabled = true;
+		document.getElementById("PGNTypeSource").options[i].style.color = '#CCCCCC';
+	}
+        
+            
+     response.series.forEach(function(mydata){
+     
+      
+            myserieskey = "deviceid:" + mydata.deviceid;
+            myserieskey = myserieskey  + ".sensor:" + mydata.sensor;
+            myserieskey = myserieskey  + ".source:" + mydata.source;
+            myserieskey = myserieskey  + ".instance:" + mydata.instance;
+            myserieskey = myserieskey  + ".type:" + mydata.type;
+            myserieskey = myserieskey  + ".parameter:" + mydata.parameter;
+            myserieskey = myserieskey  + ".HelmSmart";                                     
+            
+            myPGNEvent = GetPGNTypeFromSeries(myserieskey);
+			
+			for(var i=0; i< PGNTypeIDLength; i++)
+			{
+				if(document.getElementById("PGNTypeID").options[i].value == myPGNEvent)
+				{
+					document.getElementById("PGNTypeID").options[i].disabled = false;
+					//document.getElementById("PGNTypeID").options[i].style.backgroundColor = 'red';
+					document.getElementById("PGNTypeID").options[i].style.color = '#0D27C3';
+					
+					}
+
+			}
+			
+			
+			
+			for(var i=0; i< PGNTypeSourceLength; i++)
+				{
+				
+					if(document.getElementById("PGNTypeSource").options[i].value == mydata.source)
+					{
+						document.getElementById("PGNTypeSource").options[i].disabled = false;
+						document.getElementById("PGNTypeSource").options[i].style.color = '#0D27C3';
+						
+						}
+
+				}
+				
+					document.getElementById("PGNTypeSource").options[0].disabled = false;
+					document.getElementById("PGNTypeSource").options[0].style.color = '#0D27C3';
+					document.getElementById("PGNTypeSource").selectedIndex = 0;
+			
+			index++;
+            
+         });
+              
+            
+         
+            
+          // reset Device ID list to match the preferences just loaded  
+         // for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    	//	{
+	    	//		myDeviceID = document.getElementById("DeviceID").options[i].value;
+		    //		if(myDeviceID == mydeviceid)
+		    //			document.getElementById("DeviceID").selectedIndex = i;
+		    //	}
+            
+      if(index == 0)
+          document.getElementById("SearchStatus").value = "Get Series Error";
+      else
+          document.getElementById("SearchStatus").value = "Series List update succcessful ";  	   		
+
+		//getDeviceParamDetails(myuserid);
+ 
+}
+            
+            
+
+function handleGetDevicePramNames(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+   // initialize the user parameter list to zero         
+	document.getElementById("XMLFilesSelect").options.length = 0;
+	document.getElementById("XMLFilesSelect").options[index++] = new Option("Use Defaults", "0");
+	document.getElementById("XMLFilesSelect").selectedIndex = 0;
+
+  // get list of user parameters from the DB
+   	    response.records.forEach(function(row){
+        
+   	      document.getElementById("XMLFilesSelect").options[index++] = new Option(row[2],  row[0] );
+	   		});
+        
+     if(response.records.length == 0)
+          document.getElementById("SearchStatus").value = "Get Pref List Error";
+      else
+          document.getElementById("SearchStatus").value = "Pref List update succcessful ";  	  
+	
+   // set current user parameter to the indedx stored in the cookie
+   if(document.getElementById("XMLFilesSelect").options.length >= ConfigOptions)
+	    document.getElementById("XMLFilesSelect").selectedIndex = ConfigOptions;
+   else 
+	    document.getElementById("XMLFilesSelect").selectedIndex = 0;
+   
+    // load up user pameters from DB if there were any returned
+    if(index > 1)    
+    {
+	 	  getDeviceParamDetails(myuserid);
+    }
+    else // set up default parameters
+    {
+        createChartArea(PageLayout)	
+ 		    InitChartOptions();  
+        CloseTabs();
+     }
+	 
+}
+
+function handleUpdateDevicePramNames(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+   // initialize the user parameter list to zero         
+	document.getElementById("XMLFilesSelect").options.length = 0;
+	document.getElementById("XMLFilesSelect").options[index++] = new Option("Use Defaults", "0");
+	document.getElementById("XMLFilesSelect").selectedIndex = 0;
+
+  // get list of user parameters from the DB
+   	    response.records.forEach(function(row){
+   	      document.getElementById("XMLFilesSelect").options[index++] = new Option(row[2],  row[0] );
+	   		});
+	
+      if(response.records.length == 0)
+          document.getElementById("SearchStatus").value = "Update Preference Error";
+      else
+          document.getElementById("SearchStatus").value = "Preference update succcessful ";  	  
+          
+   // set current user parameter to the indedx stored in the cookie
+   if(document.getElementById("XMLFilesSelect").options.length >= ConfigOptions)
+	    document.getElementById("XMLFilesSelect").selectedIndex = ConfigOptions;
+   else 
+	    document.getElementById("XMLFilesSelect").selectedIndex = 0;
+   
+    // load up user pameters from DB if there were any returned
+    if(index > 1)  
+       // GetSeriesAttributes(userid);
+	 	  getDeviceParamDetails(myuserid);
+    else // set up default parameters
+    {
+        createChartArea(PageLayout)	
+ 		    InitChartOptions();  
+        CloseTabs();
+     }
+	 
+}            
+            
+function handleGetDevicePramDetails(response)
+ {
+ var index=0;
+ var rindex=0;
+ var myStartTimeStr;
+ var myEndTimeStr;
+ var myStartDays;
+ var myStartSecs;
+ var myEndDays;
+ var myEndSecs;
+ var mySearchTick;
+ var myprefdeviceid;
+ 
+ var myResolutionStr;
+ 
+ var StartEpochDB;
+ var EndEpochDB;
+ var ResSecsDB;
+
+
+  StartEpochDB = 126378000;
+  EndEpochDB = 126406800;
+  ResSecsDB = 60;
+ 
+            StartEpochDB = (new Date).getTime() - 60*60*24*1000;
+        EndEpochDB = (new Date).getTime();
+
+            StartEpochDB = (StartEpochDB/1000)-1262304000;
+        EndEpochDB = (EndEpochDB/1000)-1262304000;
+ 
+   ResSecsDB = 60;
+ 
+   	$.unblockUI();
+   	
+
+
+   	response.records.forEach(function(row){
+   	
+
+   		   
+  PageLayout   = row[5];
+	DialStart  =  parseInt(row[6]);
+	PageBackGroundColor  = "#" + row[7];
+	PageForeGroundColor  = "#" + row[8];
+	ClockLCDColor   = row[9];
+	SystemClockPGNID   = row[10];
+	UpdateInterval   = row[11];
+	DialTimeout   = row[12];
+  myprefdeviceid = row[30];
+				
+		var myDialSettingsSubStrings = new Array();
+
+		// parse the cookie string
+		
+		myDialSettingsSubStrings= row[13].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		//myDialSettingsSubStrings= row[14].split(",");
+		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+		//		DialPGNInstance[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		myDialSettingsSubStrings= row[14].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPGNNumber[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
+
+	//	myDialSettingsSubStrings= row[16].split(",");
+	//	for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+	//			DialPGNParameter[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[15].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialUnits[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[16].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialMin[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[17].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialMax[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[18].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialAlarm[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[19].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialAlarmState[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		myDialSettingsSubStrings= row[20].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
+
+
+		myDialSettingsSubStrings= row[21].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialFrameType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[22].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialBackground[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[23].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialLCDColor[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[24].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPointerColor[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[25].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPonterType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+			StartEpochDB =  parseInt(row[26]);
+					
+			EndEpochDB =  parseInt(row[27]);
+	
+	   		ResSecsDB =  parseInt(row[28]);
+        
+                        rindex++;
+   
+	   		});
+	   		
+	   		 ParameterInit = true;
+
+ 			
+      
+      
+ 			// check if we got any good records before update of prefs
+      if(rindex == 0)
+      {
+          document.getElementById("SearchStatus").value = "Get Preferences Error";
+          document.getElementById("XMLFilesSelect").selectedIndex = 0;
+      }
+      else
+      {
+      
+ 
+          // adjust SeaSMart Time format to UTC time
+ 			    StartEpochDB = StartEpochDB + 1262304000;	
+ 			    StartEpochDB = StartEpochDB * 1000; 
+ 
+			    EndEpochDB = EndEpochDB + 1262304000;	
+ 			    EndEpochDB = EndEpochDB * 1000;      
+      
+          document.getElementById("SearchStatus").value = "Preferences update succcessful ";  	  
+ 
+            
+           // reset Device ID list to match the preferences just loaded  
+          for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    		{
+	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
+		    		if(myDeviceID == myprefdeviceid)
+		    			document.getElementById("DeviceID").selectedIndex = i;
+		    	}
+      
+            
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+          // initializes the drop down menu
+          document.getElementById("SearchTick").selectedIndex = 5;
+    
+    
+	    		for(index=0; index< document.getElementById("SearchTick").options.length; index++)
+	    		{
+	    			mySearchTick = document.getElementById("SearchTick").options[index].value;
+		    		if(mySearchTick == ResSecsDB)
+		    			document.getElementById("SearchTick").selectedIndex = index;
+		    	}
+  
+        var StartEpoch = new Date(StartEpochDB );
+        var EndEpoch = new Date(EndEpochDB );
+
+    
+        $("#datepickerstart").datetimepicker('setDate', StartEpoch );
+       
+        $("#datepickerend").datetimepicker('setDate', EndEpoch );
+		
+		
+		document.getElementById("Span").selectedIndex=0;
+       
+        // Now that we have some parameters - initialize the charts
+ 		    createChartArea(PageLayout)	
+ 			
+ 		    InitChartOptions();  
+ 		    //ResetFilterPGNList();
+        GetSeriesAttributes(myprefdeviceid);
+      
+      } // end of valid results check      
+
+  		//CloseTabs();
+}
+
+function handleAddNewPref(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+    
+    // if(index == 0)
+    //      document.getElementById("SearchStatus").innerHTML = "Get Series Error";
+    //  else
+     //     document.getElementById("SearchStatus").innerHTML = "Series List update succcessful ";  	  
+    
+      document.getElementById("AddPreferenceName").value = "";
+      
+      getDeviceParamList(myuserid);
+
+}
+
+function handleModifyPref(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+    
+             document.getElementById("AddPreferenceName").value = "";
+
+}
+
+
+function handleDeletePref(response)
+ {
+ var index=0;
+ 
+ 	
+ 
+ 
+   	$.unblockUI();
+   	
+   	//InitalizePageDials();
+   	
+	ConfigOptions = 0;
+	getDeviceParamList(myuserid);
+
+}
+
+function handleGetData(response)
+ {
+ 
+ 
+ 	
+ 
+ 
+   	$.unblockUI();
+   	
+
+
+}
+function handleImportData(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+    
+          
+}
+    
+ /* ******************  Done Setting up chart  variable ************************************************ */
+ function InitializeDeviceOptionList()
+{
+
+			document.getElementById("DeviceID").options[0] = new Option("Demo Data", "000000000000");
+	
+ }
+ 
+ function SetDeviceOptionList()
+{
+   //document.getElementById("AccountFolder").value = document.getElementById("DeviceID").value;
+   AccountDataFolder = document.getElementById("DeviceID").value;
+   
+   SetServerType('1'); 
+  
+   getDeviceParamList(myuserid);
+   GetSeriesAttributes(AccountDataFolder);
+
+}
+  
+/* ******************  padding functions ************************************************ */
+  
+function zpad(num, len) {
+    var str = String(num),
+        diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > zpad.zeros.length)
+        zpad.zeros = new Array(diff + 1).join('0');
+    return zpad.zeros.substr(0, diff) + str;
+}
+
+function spad(num, len) {
+    var str = String(num),
+        diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > spad.spaces.length)
+        spad.spaces= new Array(diff + 1).join(' ');
+    return spad.spaces.substr(0, diff) + str;
+}
+
+
+function ShowDataDetails()
+{
+   ShowHideDetails = document.getElementById("ShowDetails").selectedIndex;
+}
+
+function SetOverlayScaleOptionList(sel)
+{
+
+      myDialID = document.getElementById("PGNDialID").selectedIndex;
+      
+      DialAlarm[myDialID] = document.getElementById("OverlayScale").options[sel.selectedIndex].value;
+
+         
+            
+}
+
+
+
+function ConvertValueUnits(value, type)  
+ {
+  
+  var overlayScale = 1;
+  var myHours;
+  var myMins;
+  
+  overlayScale = DialAlarm[type] * 0.01;
+  
+   switch (parseInt(DialUnits[type])) {
+            
+            case 0: //="0">Fahrenheit</option>
+            		return ((value * 1.8) - 459) * overlayScale;
+            break;
+            
+            case 1: //="1">Celsius</option>
+                    return ((value * 1.0) - 273) * overlayScale;
+            break;
+
+            case 2: //e="2">Kelvin</option>
+            		return value * overlayScale;
+            break;
+
+          //  case 3: //="3">- - -</option> 
+      
+      
+            case 4: //="4">Knots</option>
+                return (value * 1.94384449) * overlayScale;
+            break;
+
+            case 5: //="5">MPH</option>
+                return (value * 2.23694) * overlayScale;
+            break;
+            
+            case 6: //e="6">KPH</option>
+                return (value * 1.0) * overlayScale;
+            break;
+      
+      
+      // case 7: //="7">- - -</option>
+            case 8: //="8">PSI</option>
+                    return (value * 0.145037738007) * overlayScale;
+            break;
+            
+
+            case 9: //e="9">KPASCAL</option>
+                    return value * overlayScale;
+            break;
+   
+            
+            case 10: //="10">INHG</option>
+                     return (value * 0.295229) * overlayScale;
+            break;
+
+          //  case 11: //="11">- - -</option>
+          //  case 12: //="12">TRUE</option>
+         //   case 13: //="13">MAGNETIC</option>
+         //   case 14: //="14">- - -</option>
+         //   case 15: //="15">- - -</option>
+         //   case 16: //="16">DEGREES</option>
+         //   case 17: //="17">Radians</option>
+            case 18: //="18">Gallons/hs</option>
+            	return (value * 0.264172052 ) * overlayScale;
+            break;
+
+            case 19: //="19">Liters/hr</option>
+            	return (value * 1.0) * overlayScale;
+            break;
+
+            case 20: //="20">Liters</option>
+				return (value * 0.1) * overlayScale;
+            break;
+			
+            case 21: //="21">Gallons</option>
+				return (value * 0.264172052) * overlayScale;
+            break;
+         //   case 22: //="22">CubicMeter</option>
+         //   case 23: //="23">- - -</option>
+        //    case 24: //="24">RPM</option>
+        //    case 25: //="25">RPS</option>   
+        //    case 26: //="26">%</option>
+            case 27: //="27">Volts</option>
+               return (value *1.00) * overlayScale;
+      //   case 28: //="28">Amps</option> 
+         //   case 26: //="29">- - -</option>
+      
+          case 30: //="31">kWatthrs</option>
+              return (value * 1000.0) * overlayScale;
+            break;
+			
+            case 31: //="31">kWatthrs</option>
+              return (value * 1.0) * overlayScale;
+            break;
+            
+			case 32: //="32">Feet</option>
+              return (value * 3.28084) * overlayScale;
+            break;
+            
+			case 33: //="33">meters</option>
+              return (value * 1.0) * overlayScale;
+            break;
+			
+		
+			
+			
+            case 34: //="34">mile</option>
+              return (value * 0.000621371) * overlayScale;
+            break;
+            
+            case 35: //="35">nautical mile</option>
+              return (value * 0.000539957) * overlayScale;
+            break;
+            
+            case 36: //="36">Fathoms</option>
+              return (value * 0.546806649) * overlayScale;
+            break;            
+
+			case 37: //="37">HH:MM</option>
+				myHours = Math.floor(value / (60*60));
+				myMins = Math.floor((value % (60*60)) / 60);
+				value = parseFloat(myHours + (myMins * 0.01));
+			
+              return (value ) ;
+            break;
+			
+			case 43: //="43">volts 10X</option>
+              return (value % 16) * overlayScale;
+            break;
+			
+			case 44: //="43">volts 10X</option>
+              return (value * 0.1) * overlayScale;
+            break;
+			
+			case 45: //="43">volts 10X</option>
+              return (value * 0.1) * overlayScale;
+            break;
+			
+			case 46: //="46">inches</option>
+              //return (value * 1000/25.4) * overlayScale;
+			  return (value * 39.37) * overlayScale;
+            break;			
+			
+			case 47: //="47">milimeters</option>
+              //return (value * 0.001) * overlayScale;
+			  return (value * 1000.0) * overlayScale;
+            break;
+
+			case 48: //="48">milimeters</option>
+              //return (value * 0.001) * overlayScale;
+			  return (value * 1000.0) * overlayScale;
+            break;
+
+
+	//		case 45: //=inches
+    //          return (value * 39.3) * overlayScale;
+    //        break;
+     //       
+	//		case 44: //=millimeters
+    //          return (value * 1000.0) * overlayScale;
+    //        break;	
+
+			
+      //  case 33: //="33">- - -</option>
+        //    case 34: //="34">Indicator</option>
+        //    case 35: //="35">Switch</option>
+         //   case 36: //="36">- - -</option>         
+         //   case 37: //="37">Undefined</option>
+
+      default:
+        return value * overlayScale;
+      break;
+
+      }
+
+      }
+
+/* ******************* Set up DB functions ************************************************************ */
+function handleData(graphindex, response)
+{
+// var mylat = new Array();
+// var mylng = new Array();
+var index=0;
+var i;
+
+//   var mysqlstring = new Array();
+var mytime;
+var myNGTDate = new Date(0);
+var myGraphValue;
+     // var myjsonrecords = new  Array();     
+      var myjsonrecord;      
+      var myvalues;
+      var mytimes;
+      var myUTCtimes;
+      var myparams;
+	  var mysource;
+      var myvalue;
+
+      myn2ktime.length = 0;
+
+      var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+      $.unblockUI();
+      
+   if(response.status == "error")
+   {
+      document.getElementById("SearchStatus").value = "No data from search";
+      return;
+      
+     }
+	 
+	 
+	  var table = document.getElementById("ReportData");
+      var rowCount = table.rows.length;
+
+			
+	//while(table.rows.length > 1) {
+	//	table.deleteRow(1);
+	//}
+
+     // document.forms['N2KData']['N2KText'].value = "";
+      myGraphData.length=0;
+      myn2ktime.length=0;
+      var pindex = parseInt(DialPGNParameter[graphindex]);
+
+   // Displays textbox column headers if current chart matches selected 
+      if(ShowHideDetails > 0)
+      {
+          if(graphindex == (ShowHideDetails - 1))
+        //    document.forms['N2KData']['N2KText'].value =   "Index |TimeStamp                      |" +  DialText[graphindex] +  "\r\n";
+			document.getElementById("DataHeaderValue").innerHTML =  DialText[graphindex];
+		
+      }
+
+      // initialize for number of charts
+      for(i=0; i< 8; i++)
+	  	{
+			myGraphData.push([]);
+	
+		}
+		
+    mytime = 1262304000;
+    i=0;
+     
+    // make sure we have some records to process
+    if(response.status == "error")
+    {
+       document.getElementById("SearchStatus").value = "No records returned";
+    }
+    else if(response.length != 0)
+		{
+    
+   			response.results.forEach(function(){
+        
+          myjsonrecord =  response.results[i++] ; 
+                            
+          mytime =  myjsonrecord.epoch*1000;              
+					mytime = mytime + (mytimeZoneOffset * 60*1000); 
+              
+          myparams =  myjsonrecord.value;
+       
+         mysource =  myjsonrecord.source;
+					   		
+					myNGTDate.setTime(mytime );
+						
+					myn2ktime[index] = myNGTDate.toUTCString();
+
+      
+					myGraphvalue = ConvertValueUnits(parseFloat(myparams), graphindex);
+					myGraphData[graphindex].push([	mytime, myGraphvalue ]);
+
+					    index++;
+	          if(ShowHideDetails > 0)
+            {
+                if(graphindex == (ShowHideDetails - 1))
+				{
+				//document.forms['N2KData']['N2KText'].value += spad(index, 6)  + "|  " + myNGTDate.toUTCString() + "|  "  +  spad(parseFloat(myGraphvalue).toFixed(2),10) +  "\r\n";
+			
+				
+					var row = table.insertRow(1);
+					
+					var cell0 = row.insertCell(0);
+					cell0.innerHTML = spad(index, 6);
+					cell0.style.textAlign = 'left';
+				 
+					var cell1 = row.insertCell(1);
+					cell1.innerHTML = myNGTDate.toUTCString();
+					cell1.style.textAlign = 'left';
+					
+					var cell2 = row.insertCell(2);
+					cell2.innerHTML = mysource;
+					cell2.style.textAlign = 'left';
+					
+					var cell3 = row.insertCell(3);
+					cell3.innerHTML = spad(parseFloat(myGraphvalue).toFixed(2),10);
+					cell3.style.textAlign = 'left';
+				}
+				
+			}
+              
+
+	   		});
+        
+      	if(PageLayout < 10)
+	         ShowGraphSmartChart(graphindex, index);
+        else if(PageLayout == 10 || PageLayout == 11 || PageLayout == 12)
+	         ShowGraphSmartChartOverlay(graphindex, index);
+           
+           document.getElementById("SearchStatus").value = "Results = " + index;
+		}
+    else
+    {
+        document.getElementById("SearchStatus").value = "No records returned";
+    }
+	
+  
+
+
+ }
+ 
+function getPGNType(pgnnumber, instance)
+{
+
+  var typeString = "%";
+  return typeString;
+  switch (pgnnumber)
+	{ 
+    case "127488":
+
+		break
+
+		case "127489":
+			
+		break
+
+		case "127508":	
+
+		break
+
+		case "127505":
+
+		break
+
+		case "127493":
+
+		break
+
+		case "130311":
+        switch(instance)
+        {
+            case 0: 
+              typeString = "Sea Temperature";
+            break
+            
+            case 1: 
+              typeString = "Outside Temperature"; 
+            break           
+            case 2: 
+              typeString = "Inside Temperature";
+            break
+            case 3: 
+              typeString = "Engine Room Temperature";
+            break
+            case 4: 
+               typeString = "Main Cabin Temperature";
+            break
+            case 5: 
+               typeString = "Reserved";
+             break
+            case 6: 
+              typeString = "Reserved";
+            break
+            case 7: 
+             typeString =  "Reserved";
+            break
+            case 8: 
+             typeString = "Reserved";
+            break
+            case 9: 
+               typeString = "Reserved";
+            break
+            case 10:
+              typeString = "Reserved";
+            break
+            case 11:
+             typeString =  "Reserved";
+           break
+            case 12:
+              typeString = "Reserved";
+           break
+            case 13:
+              typeString = "Reserved";
+           break
+           case 14:
+             typeString =  "Reserved";
+           break
+           case 15:
+             typeString =  "No Data";
+           break
+        }
+			
+		break
+
+		case "130323":
+			
+		break
+
+		case "130306":
+        
+    switch(instance)
+        {
+            case 0: 
+              typeString = "TWIND True North";
+            break
+            
+            case 1: 
+              typeString = "TWIND Mag North"; 
+            break           
+            case 2: 
+              typeString = "Apparent Wind";
+            break
+            case 3: 
+              typeString = "TWIND VCGR";
+            break
+            case 4: 
+               typeString = "TWIND VCWR";
+            break
+            case 5: 
+               typeString = "Reserved";
+             break
+            case 6: 
+              typeString = "Reserved";
+            break
+            case 7: 
+             typeString =  "Reserved";
+            break
+            case 8: 
+             typeString = "Reserved";
+            break
+            case 9: 
+               typeString = "Reserved";
+            break
+            case 10:
+              typeString = "Reserved";
+            break
+            case 11:
+             typeString =  "Reserved";
+           break
+            case 12:
+              typeString = "Reserved";
+           break
+            case 13:
+              typeString = "Reserved";
+           break
+           case 14:
+             typeString =  "Reserved";
+           break
+           case 15:
+             typeString =  "No Data";
+           break
+        }
+    
+			
+		break
+
+		case "127250":
+
+		break
+
+		case "127257":
+
+		break
+
+		// Environmential Temperature 0x1FD08
+		case "130312":
+
+		break
+
+		// Rudder 0x1FD08
+		case "127245":
+			
+		break
+
+		// Rate of Turn 0x1F10D
+		case "127251":
+
+		break
+
+		// Switch Status 0x1F20D
+		case "127501":
+		
+		break
+						 
+		case "129026":
+
+		break
+    
+    }
+    
+    return typeString;
+}
+
+ function SearchDBbyURL(gindex)
+ {
+  
+ var myStartTimeStr;
+ var myEndTimeStr;
+ var myStartDays;
+ var myStartSecs;
+ var myEndDays;
+ var myEndSecs;
+ var SearchKey;
+ var SearchString;
+
+ var myResolutionStr;
+ 
+ var DeviceID;
+
+  
+  myStartTimeStr = document.getElementById("datepickerstart").value;
+  myEndTimeStr = document.getElementById("datepickerend").value;
+//  myResolutionSecStr = document.getElementById("timeresolution").value;
+  
+  
+    DeviceID = document.getElementById("DeviceID").value;
+
+    
+ var StartEpoch = new Date(myStartTimeStr + " GMT" );
+	StartEpoch = StartEpoch .getTime();
+
+ var EndEpoch = new Date(myEndTimeStr + " GMT" );
+	EndEpoch = EndEpoch .getTime();
+
+ //var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+        
+        
+	//ResolutionSecs = ResolutionSecs.getTime();
+	
+	//ResolutionSecs = ResolutionSecs / 1000;
+  var ResolutionSecs = document.getElementById("SearchTick").value;
+  
+	if(	ResolutionSecs < 1)
+		ResolutionSecs = 1;
+	
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  //StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+  
+  // get current event tag using current device id
+  // ooppps.... bad thing
+ // this reases the stored valuesa and replaces with currently select pgn
+  	//ConstructPGNTypeID(DeviceID,gindex);
+	try{
+		myKeys =  DialPGNNumber[gindex].split(".")
+		
+		myKeys[0] = "deviceid:" + DeviceID;
+		DialPGNNumber[gindex] = myKeys.join(".") ;
+	}
+	catch(err)
+	{
+	}
+	
+	
+    SearchString = DialPGNNumber[gindex];
+	
+	
+	
+	
+	
+	var SourceIndex = document.getElementById("PGNTypeSource").selectedIndex;
+	if( SourceIndex < 0)
+	{
+		SourceIndex = 0;
+		document.getElementById("PGNTypeSource").selectedIndex = 0;
+	}
+	
+	var mySource = document.getElementById("PGNTypeSource").options[SourceIndex].value;
+	
+		var SearchTypeIndex = document.getElementById("SearchType").selectedIndex;
+	var mySearchType = document.getElementById("SearchType").options[SearchTypeIndex].value;
+	//"&rollup=" + mySearchType;
+	
+	// always use the current device selection on searches
+	//strings1 =  SearchString;
+    //    strindex = strings1.indexOf("source:");
+   //     strings2 = strings1.substring(strindex, strindex + 9);
+   //     SearchString = strings1.replace( strings2, "source:*");
+	/*	
+		try{
+			var myEventKey  = DialPGNNumber[gindex];
+			var myPGNArray = myEventKey.split("."); 
+			var myValue = myPGNArray[0];
+			var myTextArray = myValue.split(":");
+			var myDevice = myTextArray[1]; 
+			
+			myPGNArray[0] = "deviceid:" + DeviceID;
+			
+			myPGNArray[2] = "source:" + mySource;
+			SearchString = myPGNArray.join(".");
+			
+		}
+		catch(err)
+		{
+		}
+		
+		*/
+/*
+     if(DisablePGNSourceflag[gindex] == true)
+     {
+        strings1 =  SearchString;
+        strindex = strings1.indexOf("source:");
+        strings2 = strings1.substring(strindex, strindex + 9);
+        SearchString = strings1.replace( strings2, "source:*");
+      }
+    */
+    
+    
+    if(DialPGNNumber[gindex] != 0)
+    {
+        url[gindex] = "http://pushsmartdata.herokuapp.com/get_influxdbcloud_data?serieskey=" + SearchString  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs + "&rollup=" + mySearchType;
+
+        document.getElementById("SearchStatus").value = "Starting Search";
+    }
+    else
+    {
+        url[gindex]="";
+    
+        document.getElementById("SearchStatus").value = "Search aborted";
+    }
+
+}
+
+function ShowGraphSmartChart(gindex, numpoints)
+{
+
+var i;
+var j;
+var graphindex=0;
+
+    graphindex = parseInt(gindex)
+
+
+
+    //for(i=0; i < DialEnd; i++) //
+   	chartoptions[graphindex] = {};
+ 	
+	if(chart[graphindex])
+	{
+		chart[graphindex].series[0].setData([]);
+		chart[graphindex].destroy;
+		}
+
+  
+   Highcharts.theme = highcharts_theme[ parseInt(DialFrameType[graphindex])];
+        // Apply the theme
+        chartoptions[graphindex] = Highcharts.setOptions(Highcharts.theme);
+
+ // chart[parseInt(DialIndex)].setTitle(null, { text: 'value = ' + myJSONData[parseInt(DialIndex)]});
+     
+  chartoptions[graphindex]  = {
+	  chart: {
+		  renderTo: 'ChartArea'+(graphindex+1),
+		  zoomType: 'xy',
+		  type: ChartType[graphindex],
+		  backgroundColor:  ChartBackColor[graphindex],
+		  defaultSeriesType: 'line'
+	  },
+	  title: {
+	    text: DialText[graphindex],
+		style: ChartTextColor[graphindex]
+	  },
+     
+    subtitle: {
+	    text: numpoints + 'points',
+		style: ChartTextColor[graphindex]
+	  },
+	  
+	  xAxis: {
+	  type: 'datetime',
+
+	  title: {
+	  text: 'Date/Time'
+	  },
+	  //categories: c
+	  },
+  
+  tooltip: {
+          formatter: function() {
+          return '<b>'+ this.series.name +'</b><br/>'+
+          Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br/>'+
+          Highcharts.numberFormat(this.y, 2);
+          }
+      },
+      legend: {
+         enabled: false
+      },
+      exporting: {
+       enabled: false
+    },
+
+  
+   yAxis: {
+	    title: {
+		    text: DialUnitsText[DialUnits[graphindex]]
+		    },
+			min: parseInt(DialMin[graphindex]),
+			max: parseInt(DialMax[graphindex]),
+			startOnTick: false,
+		    plotLines: [{
+		    value: 0,
+		    width: 1
+	    }]
+    },
+  
+  
+  series: [{
+    	name: DialText[graphindex],
+		color: PlotLineColor[graphindex],
+		marker: PlotLineSymbol[graphindex],
+  		data: myGraphData[graphindex] 
+  		}]
+  	};
+  
+     chart[graphindex] = new Highcharts.Chart(chartoptions[graphindex] );
+  
+ 
+
+
+  
+  }
+
+
+function ShowGraphSmartChartOverlay(gindex, numpoints)
+{
+
+var i;
+var j;
+var graphindex=0;
+
+  //  graphindex = parseInt(gindex)
+
+
+
+    //for(i=0; i < DialEnd; i++) //
+    // initialize first time through
+  
+    
+   //if(gindex == 0)
+   if(numOfChartsDrawn == 0)
+   {
+        OverlayChartTitle = DialText[parseInt(gindex)];
+        OverlayChartSubTitle =  numpoints + ' pts ';
+        
+   	    chartoptions[graphindex] = {};
+ 	
+	      if(chart[graphindex])
+	      {
+		      chart[graphindex].series[0].setData([]);
+		      chart[graphindex].destroy;
+		      }
+  
+
+  
+   Highcharts.theme = highcharts_theme[ parseInt(DialFrameType[graphindex])];
+   // Apply the theme
+   chartoptions[graphindex] = Highcharts.setOptions(Highcharts.theme);
+
+ 
+     
+  chartoptions[graphindex]  = {
+	  chart: {
+		  renderTo: 'ChartArea'+(graphindex+1),
+		  zoomType: 'xy',
+		  type: ChartType[graphindex],
+		  backgroundColor:  ChartBackColor[graphindex],
+		  defaultSeriesType: 'line'
+	  },
+	  title: {
+	    text: DialText[parseInt(gindex)],
+		style: ChartTextColor[graphindex]
+	  },
+     
+    subtitle: {
+	    text: numpoints + 'points',
+		style: ChartTextColor[graphindex]
+	  },
+	  
+	  xAxis: {
+	  type: 'datetime',
+
+	  title: {
+	  text: 'Date/Time'
+	  },
+	  //categories: c
+	  },
+  
+  tooltip: {
+          formatter: function() {
+          return '<b>'+ this.series.name +'</b><br/>'+
+          Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br/>'+
+          Highcharts.numberFormat(this.y, 2);
+          }
+      },
+      legend: {
+         enabled: false
+      },
+      exporting: {
+       enabled: false
+    },
+
+  
+   yAxis: {
+	    title: {
+		    text: DialUnitsText[DialUnits[parseInt(gindex)]]
+		    },
+			min: parseInt(DialMin[parseInt(gindex)]),
+			max: parseInt(DialMax[parseInt(gindex)]),
+			startOnTick: false,
+		    plotLines: [{
+		    value: 0,
+		    width: 1
+	    }]
+    },
+  
+  
+    series: [{
+    	name: DialText[parseInt(gindex)],
+		  color: PlotLineColor[parseInt(gindex)],
+		  marker: PlotLineSymbol[parseInt(gindex)],
+  		data: myGraphData[parseInt(gindex)] 
+  		}]
+  	};
+  
+     chart[graphindex] = new Highcharts.Chart(chartoptions[graphindex] );
+    // increment the the number of charts initialized
+    numOfChartsDrawn++;
+  
+ 
+  } // end of first time through
+  else
+  {
+   //   chartoptions[graphindex].series.push({ 
+   //   
+   //       "name": DialText[parseInt(gindex)],
+		//      "color": PlotLineColor[parseInt(gindex)],
+		//      "marker": PlotLineSymbol[parseInt(gindex)],
+     //     "data": myGraphData[parseInt(gindex)] });
+          
+          numOfChartsDrawn++;
+          chart[graphindex].addSeries({
+               showInLegend: true,
+               name: DialText[parseInt(gindex)],
+		          color: PlotLineColor[parseInt(gindex)],
+		          marker: PlotLineSymbol[parseInt(gindex)],
+              data: myGraphData[parseInt(gindex)] });
+              
+         OverlayChartTitle = OverlayChartTitle + ' - ' + DialText[gindex];
+         OverlayChartSubTitle = OverlayChartSubTitle + ' - ' + numpoints  + ' pts ';
+         chart[graphindex].setTitle({ text: OverlayChartTitle }, { text: OverlayChartSubTitle });
+              
+                chart[graphindex].redraw();
+                
+             
+     
+          // check if we got all the chart data so we can finish drawing the chart just once.
+        //  if(numOfChartsDrawn == NumOfDials[PageLayout])
+        //  {
+    //          chart[graphindex] = new Highcharts.Chart(chartoptions[graphindex] );
+
+
+
+        //  }
+          
+  
+  }
+  
+ // chart[graphindex] = new Highcharts.Chart(chartoptions[graphindex] );
+  
+  
+}
+  
+/* ******************  Done Setting up db functions ************************************************ */
+
+
+
+
+
+</script>
+  
+ 
+
+  
+  <script type='text/javascript'>
+
+
+
+    $(function() { $( "#datepickerstart" ).datetimepicker({
+    minDate: new Date(2010, 1 - 1, 1),
+    timeFormat: "HH:mm:ss",
+    showTimezone: true,
+    defaultTimezone: '-0800',
+    onClose: function(startdate){
+
+    var testEndDate = datepickerend.datetimepicker('getDate');
+    var testStartDate = datepickerstart.datetimepicker('getDate');
+
+    if(testEndDate < testStartDate)
+      alert('End date can not be before Start date');
+    else
+      UpdateSeriesList();
+ 
+    },
+    defaultDate: new Date() - (24*60*60*1000),
+    hour:0,
+    minute:0,
+    second:0,
+    millisec:0
+
+    });
+
+    });
+
+
+    $(function() { $( "#datepickerend" ).datetimepicker({
+    minDate: new Date(2010, 1 - 1, 1),
+    timeFormat: "HH:mm:ss",
+    showTimezone: true,
+    defaultTimezone: '-0800',
+     onClose: function(enddate){
+ 
+  var testEndDate = datepickerend.datetimepicker('getDate');
+  var testStartDate = datepickerstart.datetimepicker('getDate');
+  
+  if(testEndDate < testStartDate)
+      alert('End date can not be before Start date');
+  else
+    UpdateSeriesList();
+ 
+  },
+    defaultDate: new Date() , 
+    hour:0,
+    minute:0,
+    second:0,
+    millisec:0
+
+    });
+    });
+
+
+    $(function() { $( "#timeresolution" ).timepicker({
+    timeFormat: "HH:mm:ss",
+    defaultValue: "00:00:10",
+    hour:0,
+    minute:1,
+    second:0,
+    millisec:0
+
+    }); });
+
+
+	    datepickerend = $( "#datepickerend" );
+    datepickerstart = $( "#datepickerstart" );
+	
+	
+	
+		$("#datepickerstart").datetimepicker().on("change.dp", function(e) {
+    //alert('hey');
+		document.getElementById("Span").selectedIndex=0;
+		GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+	});
+	
+	
+		$("#datepickerend").datetimepicker().on("change.dp", function(e) {
+    //alert('hey');
+		document.getElementById("Span").selectedIndex=0;
+		GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+		});
+	
+	
+// Downloads data from TempoDB
+//
+function DownloadData()
+{
+
+
+	$('.nav-tabs a[href="#tabData"]').tab('show');
+
+    $.blockUI({
+    message: '<h1>Getting Data...</h1>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+    var devicedataurl;
+    var myStartTimeStr;
+    var myEndTimeStr;
+    var myStartDays;
+    var myStartSecs;
+    var myEndDays;
+    var myEndSecs;
+
+
+    var myResolutionStr;
+
+    var DeviceID;
+
+
+    myStartTimeStr = document.getElementById("datepickerstart").value;
+    myEndTimeStr = document.getElementById("datepickerend").value;
+ 
+
+    DeviceID = document.getElementById("DeviceID").value;
+
+
+    var StartEpoch = new Date(myStartTimeStr + " GMT" );
+    StartEpoch = StartEpoch .getTime();
+
+    var EndEpoch = new Date(myEndTimeStr + " GMT" );
+    EndEpoch = EndEpoch .getTime();
+
+
+    var ResolutionSecs = document.getElementById("SearchTick").value;
+
+    if(	ResolutionSecs < 1)
+		ResolutionSecs = 1;
+	
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  //StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+
+ var SearchTypeIndex = document.getElementById("SearchType").selectedIndex;
+  	var mySearchType = document.getElementById("SearchType").options[SearchTypeIndex].value;
+	//"&rollup=" + mySearchType;
+// set up the SQL query string
+//    url[gindex] = "http://pushsmartdata.herokuapp.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+//      devicedataurl = "http://pushsmartdata.herokuapp.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+
+
+      //devicedataurl = "http://pushsmartdata.herokuapp.com/getinfluxseriesmultibydeviceid?";
+      devicedataurl = "http://pushsmartdata.herokuapp.com/getinfluxseriesmultibydeviceid?";
+      devicedataurl =  devicedataurl + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+      //devicedataurl =  devicedataurl + "&serieskey1=" + DialPGNNumber[0] ;
+      //devicedataurl =  devicedataurl + "&serieskey2=" + DialPGNNumber[1] ;
+      //devicedataurl =  devicedataurl + "&serieskey3=" + DialPGNNumber[2] ;
+      //devicedataurl =  devicedataurl + "&serieskey4=" + DialPGNNumber[3] ;
+	  devicedataurl =  devicedataurl + "&serieskey1=" + DialPGNNumber[0] + "&unitskey1=" + DialUnits[0] ;
+      devicedataurl =  devicedataurl + "&serieskey2=" + DialPGNNumber[1] + "&unitskey2=" + DialUnits[1] ;
+      devicedataurl =  devicedataurl + "&serieskey3=" + DialPGNNumber[2] + "&unitskey3=" + DialUnits[2] ;
+      devicedataurl =  devicedataurl + "&serieskey4=" + DialPGNNumber[3] + "&unitskey4=" + DialUnits[3] ;
+	  devicedataurl =  devicedataurl + "&serieskey5=" + DialPGNNumber[4] + "&unitskey5=" + DialUnits[4] ;
+      devicedataurl =  devicedataurl + "&serieskey6=" + DialPGNNumber[5] + "&unitskey6=" + DialUnits[5] ;
+      devicedataurl =  devicedataurl + "&serieskey7=" + DialPGNNumber[6] + "&unitskey7=" + DialUnits[6] ;
+      devicedataurl =  devicedataurl + "&serieskey8=" + DialPGNNumber[7] + "&unitskey8=" + DialUnits[7] ;
+	  
+      devicedataurl =  devicedataurl + "&rollup=" + mySearchType + "&format=csv"  ;
+
+       window.location = devicedataurl;
+    $.unblockUI();
+    
+
+}
+
+
+// Starts a new search and creates the charts
+//
+//$(document).ready(function() {
+//    $('#SearchDB').click(function() {
+
+function GraphData()
+{
+   // document.getElementById("introText").style.display = "none";
+    //document.forms['N2KData']['N2KText'].value = "";
+	
+	var table = document.getElementById("ReportData");
+      var rowCount = table.rows.length;
+
+			
+	while(table.rows.length > 1) {
+		table.deleteRow(1);
+	}
+	
+	$('.nav-tabs a[href="#tabGraphs"]').tab('show');
+
+    $.blockUI({
+    message: '<h1>Search in progress...</h1>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+    // Update any chart options that may have changed
+    InitChartOptions();
+   // CloseTabs();
+
+    // Clear out any old chart options
+    var getGraphDataResults = [];
+    numOfChartsDrawn = 0;
+
+    // if PageLayout is a chart
+    if(PageLayout < 13)
+      {
+           
+          // generate each query for each graph
+           for(i=0; i < DialEnd; i++) //
+			    {
+          	 	    getGraphDataResults.push(getGraphData(i));
+          
+            }
+        }
+        else // PageLayout is just data
+        {
+            if( ShowHideDetails > 0)
+              getGraphDataResults.push(getGraphData((ShowHideDetails - 1)));
+        }
+
+   
+          // unblock UI whe all queries are done
+           $.when.apply(this, getGraphDataResults).done(function() {
+ 	
+ 				$.unblockUI();
+			}); 
+
+}
+           
+ // 		}); 
+ // }); 
+  
+ 
+function getGraphData(gindex)
+{
+
+  SearchDBbyURL(gindex);
+  
+  if(url[gindex] != "")
+  {
+  
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: url[gindex],
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleData(gindex, response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		      
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").value = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+      }
+      else
+      {
+          document.getElementById("SearchStatus").value = "Search aborted - no parameters selected";
+       }
+
+
+}	 
+
+function ImportData()
+{
+
+  $.blockUI({
+    message: '<h1>Search in progress...</h1>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+
+ var myStartTimeStr;
+ var myEndTimeStr;
+ var myStartDays;
+ var myStartSecs;
+ var myEndDays;
+ var myEndSecs;
+ var SearchKey;
+ var SearchString;
+
+ var myResolutionStr;
+ 
+ var DeviceID;
+ var gindex=0;
+
+  
+  myStartTimeStr = document.getElementById("datepickerstart").value;
+  myEndTimeStr = document.getElementById("datepickerend").value;
+//  myResolutionSecStr = document.getElementById("timeresolution").value;
+  
+  
+    DeviceID = document.getElementById("DeviceID").value;
+
+    
+ var StartEpoch = new Date(myStartTimeStr + " GMT" );
+	StartEpoch = StartEpoch .getTime();
+
+ var EndEpoch = new Date(myEndTimeStr + " GMT" );
+	EndEpoch = EndEpoch .getTime();
+
+ //var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+        
+        
+	//ResolutionSecs = ResolutionSecs.getTime();
+	
+	//ResolutionSecs = ResolutionSecs / 1000;
+  var ResolutionSecs = document.getElementById("SearchTick").value;
+  
+	if(	ResolutionSecs < 1)
+		ResolutionSecs = 1;
+	
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  //StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+
+    SearchString = DialPGNNumber[gindex];
+	
+	var SourceIndex = document.getElementById("PGNTypeSource").selectedIndex;
+	if( SourceIndex < 0)
+	{
+		SourceIndex = 0;
+		document.getElementById("PGNTypeSource").selectedIndex = 0;
+	}
+	var mySource = document.getElementById("PGNTypeSource").options[SourceIndex].value;
+	
+		var SearchTypeIndex = document.getElementById("SearchType").selectedIndex;
+	var mySearchType = document.getElementById("SearchType").options[SearchTypeIndex].value;
+	
+	
+
+        url[gindex] = "https://helmsmart-freeboard.herokuapp.com/freeboard_ImportSeries?serieskey=" + SearchString  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs + "&rollup=" + mySearchType;
+
+        document.getElementById("SearchStatus").value = "Starting Search";
+  
+
+  
+  if(url[gindex] != "")
+  {
+  
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: url[gindex],
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleImportData(gindex, response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		      
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").value = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+      }
+      else
+      {
+          document.getElementById("SearchStatus").value = "Search aborted - no parameters selected";
+       }
+
+
+}	 
+
+function getDeviceList(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+
+   devicedataurl = "http://pushsmartdata.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+
+
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDeviceData(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                 
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").value = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+function UpdateSeriesList()
+{
+    GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+}
+
+
+function GetSeriesAttributes(userid)
+{
+
+       
+
+	var devicedataurl;
+  
+   myStartTimeStr = document.getElementById("datepickerstart").value;
+   myEndTimeStr = document.getElementById("datepickerend").value;
+
+   var StartEpoch = new Date(myStartTimeStr + " GMT" );
+   StartEpoch = StartEpoch .getTime();
+
+   var EndEpoch = new Date(myEndTimeStr + " GMT" );
+   EndEpoch = EndEpoch .getTime();
+
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+  var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+  
+    if(EndEpoch < StartEpoch)
+  {
+     document.getElementById("SearchStatus").value = "End date is before Start Date";
+     return;
+  }
+
+  
+   $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+  
+  
+  
+   var DeviceID = document.getElementById("DeviceID").value;
+   //devicedataurl = "http://pushsmartdata.herokuapp.com/get_influxdbcloud_series_test?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "http://pushsmartdata.herokuapp.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+
+
+             return $.ajax({
+             //async: false,
+             cache: false,
+             url: devicedataurl,
+             dataType: "json",
+             timeout: 30000,
+             statusCode: {
+             404: function() {      alert( "page not found" );    },
+             200: function() {      }
+             },
+             success: function(response) {
+             handleGetSeriesAttributes(response)
+             },
+             complete: function() {
+             // unblock when remote call returns
+             // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+
+             //$.unblockUI();
+             },
+             error: function(request,status,errorThrown) {
+             document.getElementById("SearchStatus").value = "Data Series List Search Error";
+             $.unblockUI();
+             }
+             });
+
+
+             }
+
+function getDeviceParamList(userid)
+{
+
+    $.blockUI({
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+	 
+	            var StartEpochms = (new Date).getTime() - 60*60*24*1000;
+        var EndEpochms = (new Date).getTime();
+
+    var StartEpoch = new Date(StartEpochms);
+       var EndEpoch = new Date(EndEpochms);
+   
+        $("#datepickerstart").datetimepicker('setDate', StartEpoch );
+       
+        $("#datepickerend").datetimepicker('setDate', EndEpoch );
+	 
+	 
+	 
+
+var deviceid = document.getElementById("DeviceID").value;
+
+	var devicedataurl;
+	   devicedataurl = "http://pushsmartdata.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&deviceid="+ deviceid + "&pagetype=2";
+   
+   
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDevicePramNames(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").value = "Get Device Parameter Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+
+function updateDeviceParamList(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	     devicedataurl = "http://pushsmartdata.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&pagetype=2";
+
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleUpdateDevicePramNames(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").value = "Update Device Pram Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	
+
+function ShowSearchTick()
+{
+
+}
+
+function ShowSearchType()
+{
+
+}
+
+// Drop down menue is auto filled from DB with user preferences
+ function selectUserPref(sel)
+ {
+   ConfigOptions = parseInt(sel.selectedIndex);
+   // save new CongigOptions to Cookie file
+    SetServerType( 1);
+
+  // go to DB and load new prefs
+   getDeviceParamDetails(myuserid);
+
+ }
+
+
+
+// AJAX call to query DB and get selected user preferences
+  function getDeviceParamDetails(userid)
+{
+
+
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+
+   optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+      if( optionmenuindex < 0)
+   {
+		optionmenuindex = 0;
+		document.getElementById("XMLFilesSelect").selectedIndex = 0;
+	}
+	
+   // if defaults then don't go to DB
+   if(optionmenuindex == 0)
+      return;
+   
+   prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+   
+   
+  $.blockUI({ 
+     message: '<h1>Getting Preferences...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } });   
+   
+   
+       devicedataurl = "http://pushsmartdata.herokuapp.com/getuser?gettype=tempodb_pageprefs&userid=" + userid + "&pagetype=2&prefkey=" + prefkey;
+
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDevicePramDetails(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").value = "Search Error";
+		                           ParameterInit = true;
+
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+function AddNewPref()
+{
+
+ var myStartTimeStr;
+ var myEndTimeStr;
+ var myStartDays;
+ var myStartSecs;
+ var myEndDays;
+ var myEndSecs;
+
+ var myResolutionStr;
+ 
+ // Guests do not get to make changes
+// if(myuserid == 0)
+// return;
+ 
+  myStartTimeStr = document.getElementById("datepickerstart").value;
+  myEndTimeStr = document.getElementById("datepickerend").value;
+  //myResolutionSecStr = document.getElementById("timeresolution").value;
+
+    
+ var StartEpoch = new Date(myStartTimeStr + " GMT" );
+	StartEpoch = StartEpoch .getTime();
+
+ var EndEpoch = new Date(myEndTimeStr + " GMT" );
+	EndEpoch = EndEpoch .getTime();
+
+ //var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+        
+        
+	//ResolutionSecs = ResolutionSecs.getTime();
+	
+	//ResolutionSecs = ResolutionSecs / 1000;
+  var ResolutionSecs = document.getElementById("SearchTick").value;
+
+	
+	if(	ResolutionSecs < 1)
+		ResolutionSecs = 1;
+	
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+  //StartEpoch = StartEpoch - 1262304000;
+  //EndEpoch = EndEpoch -  1262304000;
+
+// Store time at GMT time
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+  EndEpoch = EndEpoch -  1262304000;	
+
+
+
+        $.blockUI({ 
+     message: '<h1>Adding Preferences...</h1>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+    var devicedataurl;
+    var optionmenuindex;
+    var nextConfigOption;
+
+
+    nextConfigOption = document.getElementById("XMLFilesSelect").options.length+1;
+
+    devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=add_tempodb&userid=" + myuserid + "&pagetype=2&prefkey=" +  nextConfigOption + "&options="
+
+    devicedataurl =  devicedataurl  + "'" + document.getElementById("AddPreferenceName").value + "'";
+    devicedataurl =  devicedataurl + ", '" + document.getElementById("DeviceID").value + "'";
+    devicedataurl =  devicedataurl + "," + PageLayout;
+    devicedataurl =  devicedataurl + "," + DialStart ;
+    devicedataurl =  devicedataurl + ",'" + PageBackGroundColor.replace("#", "") + "'";
+    devicedataurl =  devicedataurl + ",'" + PageForeGroundColor.replace("#", "") + "'";
+    devicedataurl =  devicedataurl + "," + ClockLCDColor ;
+    devicedataurl =  devicedataurl + "," + SystemClockPGNID ;
+    devicedataurl =  devicedataurl + "," + UpdateInterval ;
+    devicedataurl =  devicedataurl + "," + DialTimeout ;
+    devicedataurl =  devicedataurl + ",'" + DialType + "'";
+
+    devicedataurl =  devicedataurl + ",'" + DialPGNNumber + "'";
+
+    devicedataurl =  devicedataurl + ",'" + DialUnits + "'";
+    devicedataurl =  devicedataurl + ",'" + DialMin + "'";
+    devicedataurl =  devicedataurl + ",'" + DialMax + "'";
+    devicedataurl =  devicedataurl + ",'" + DialAlarm + "'";
+    devicedataurl =  devicedataurl + ",'" + DialAlarmState + "'";
+    devicedataurl =  devicedataurl + ",'" + DialText + "'";
+    devicedataurl =  devicedataurl + ",'" + DialFrameType + "'";
+    devicedataurl =  devicedataurl + ",'" + DialBackground + "'";
+    devicedataurl =  devicedataurl + ",'" + DialLCDColor + "'";
+    devicedataurl =  devicedataurl + ",'" + DialPointerColor + "'";
+    devicedataurl =  devicedataurl + ",'" + DialPonterType + "'";
+    devicedataurl =  devicedataurl + ",'" + StartEpoch + "'";
+    devicedataurl =  devicedataurl + ",'" + EndEpoch + "'";
+    devicedataurl =  devicedataurl + ",'" + ResolutionSecs + "'";
+    devicedataurl =  devicedataurl + ",0";
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 30000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handleAddNewPref(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    document.getElementById("SearchStatus").value = "Pref Add Error";
+
+    $.unblockUI();
+    }
+    });
+
+
+    }
+
+ function ModifyPref()
+ {
+    var myStartTimeStr;
+    var myEndTimeStr;
+    var myStartDays;
+    var myStartSecs;
+    var myEndDays;
+    var myEndSecs;
+
+    var myResolutionStr;
+
+    // Guests do not get to make changes
+    //  if(myuserid == 0)
+    //   return;
+
+    myStartTimeStr = document.getElementById("datepickerstart").value;
+    myEndTimeStr = document.getElementById("datepickerend").value;
+    //   myResolutionSecStr = document.getElementById("timeresolution").value;
+
+    var StartEpoch = new Date(myStartTimeStr + " GMT" );
+    StartEpoch = StartEpoch .getTime();
+
+    var EndEpoch = new Date(myEndTimeStr + " GMT" );
+    EndEpoch = EndEpoch .getTime();
+
+    // var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+
+
+    //   ResolutionSecs = ResolutionSecs.getTime();
+
+    //  ResolutionSecs = ResolutionSecs / 1000;
+    var ResolutionSecs = document.getElementById("SearchTick").value;
+
+    if(	ResolutionSecs < 1)
+		ResolutionSecs = 1;
+	
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+
+// Store time at GMT time
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+  EndEpoch = EndEpoch -  1262304000;	
+
+
+
+        $.blockUI({ 
+     message: '<h1>Adding Preferences...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+	var prefName;
+
+   optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+   
+   prefName = document.getElementById("AddPreferenceName").value;
+   if(prefName == "")
+   prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
+  
+   devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=update_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+
+  devicedataurl =  devicedataurl  + optionmenuindex;
+  devicedataurl =  devicedataurl + ",'" + prefName + "'";
+  devicedataurl =  devicedataurl + ", '" + document.getElementById("DeviceID").value + "'";
+  devicedataurl =  devicedataurl + "," + PageLayout;
+  devicedataurl =  devicedataurl + "," + DialStart ;
+  devicedataurl =  devicedataurl + ",'" + PageBackGroundColor.replace("#", "") + "'";
+  devicedataurl =  devicedataurl + ",'" + PageForeGroundColor.replace("#", "") + "'";
+  devicedataurl =  devicedataurl + "," + ClockLCDColor ;
+  devicedataurl =  devicedataurl + "," + SystemClockPGNID ;
+  devicedataurl =  devicedataurl + "," + UpdateInterval ;
+  devicedataurl =  devicedataurl + "," + DialTimeout ;
+  devicedataurl =  devicedataurl + ",'" + DialType + "'";
+  
+  devicedataurl =  devicedataurl + ",'" + DialPGNNumber + "'";
+
+  devicedataurl =  devicedataurl + ",'" + DialUnits + "'";
+  devicedataurl =  devicedataurl + ",'" + DialMin + "'";
+  devicedataurl =  devicedataurl + ",'" + DialMax + "'";
+  devicedataurl =  devicedataurl + ",'" + DialAlarm + "'";
+  devicedataurl =  devicedataurl + ",'" + DialAlarmState + "'";
+  devicedataurl =  devicedataurl + ",'" + DialText + "'";
+  devicedataurl =  devicedataurl + ",'" + DialFrameType + "'";
+  devicedataurl =  devicedataurl + ",'" + DialBackground + "'";
+  devicedataurl =  devicedataurl + ",'" + DialLCDColor + "'";
+  devicedataurl =  devicedataurl + ",'" + DialPointerColor + "'";
+  devicedataurl =  devicedataurl + ",'" + DialPonterType + "'";
+  devicedataurl =  devicedataurl + ",'" + StartEpoch + "'";
+  devicedataurl =  devicedataurl + ",'" + EndEpoch + "'";
+  devicedataurl =  devicedataurl + ",'" + ResolutionSecs + "'";
+  devicedataurl =  devicedataurl + ",0";
+
+    
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleModifyPref(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").value = "Pref Update Error";
+		                          
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+  
+function DeletePref()
+{
+
+ // Guests do not get to make changes
+ //if(myuserid == 0)
+ //return;
+ 
+ 
+  $.blockUI({ 
+     message: '<h1>Deleting Preferences...</h1>',
+      css: {
+      border: 'none',
+      padding: '15px',
+      backgroundColor: '#000',
+
+      '-webkit-border-radius': '10px',
+      '-moz-border-radius': '10px',
+      opacity: .5,
+      color: '#fff'
+      } });
+
+      var devicedataurl;
+      var optionmenuindex;
+      var prefkey;
+
+      optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+	     if( optionmenuindex < 0)
+   {
+		optionmenuindex = 0;
+		document.getElementById("XMLFilesSelect").selectedIndex = 0;
+	}
+	
+      prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+
+      devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=delete_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey ;
+
+      return $.ajax({
+      //async: false,
+      cache: false,
+      url: devicedataurl,
+      dataType: "json",
+      timeout: 30000,
+      statusCode: {
+      404: function() {      alert( "page not found" );    },
+      200: function() {      }
+      },
+      success: function(response) {
+      handleDeletePref(response)
+      },
+      complete: function() {
+      // unblock when remote call returns
+      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+      //   ShowGraphSmartChart(gindex);
+      //$.unblockUI();
+      },
+      error: function(request,status,errorThrown) {
+      document.getElementById("SearchStatus").value = "Pref Delete Error";
+
+      $.unblockUI();
+      }
+      });
+
+
+      }
+
+function createChartArea(PageLayout)
+{
+  var ChartDivContents;
+
+      document.getElementById("ChartArea").innerHTML ='';
+
+      switch (parseInt(PageLayout)) {
+   case 0:
+      ChartDivContents = '<div id="ChartArea1" class="chartcontainer"  ondblclick="GetDialStyleInfo(0);" style="width:95%; padding: 10px; "><\/div>';
+   break;
+      
+   case 1:
+      ChartDivContents ="<div id='ChartArea1' class='chartcontainer'  ondblclick='GetDialStyleInfo(0);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea2' class='chartcontainer'  ondblclick='GetDialStyleInfo(1);' style='width:95%; padding: 10px; '><\/div>";
+   break;
+      
+   case 2:
+      ChartDivContents ="<div id='ChartArea2' class='chartcontainer'  ondblclick='GetDialStyleInfo(0);' style='width:45%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea1' class='chartcontainer'  ondblclick='GetDialStyleInfo(1);' style='width:45%; padding: 10px; float:left; '><\/div>";
+   break;
+
+  case 3:
+      ChartDivContents ="<div id='ChartArea1' class='chartcontainer'  ondblclick='GetDialStyleInfo(0);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea2' class='chartcontainer'  ondblclick='GetDialStyleInfo(2);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea3' class='chartcontainer'  ondblclick='GetDialStyleInfo(3);' style='width:95%; padding: 10px; '><\/div>";
+   break;
+
+   case 4:
+      ChartDivContents ="<div id='ChartArea1' class='chartcontainer'  ondblclick='GetDialStyleInfo(0);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea2' class='chartcontainer'  ondblclick='GetDialStyleInfo(1);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea3' class='chartcontainer'  ondblclick='GetDialStyleInfo(2);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea4' class='chartcontainer'  ondblclick='GetDialStyleInfo(3);' style='width:95%; padding: 10px; '><\/div>";
+
+    break;
+
+    case 5:
+      ChartDivContents ="<div style='width:100%; '>";
+      ChartDivContents +="<div id='ChartArea1' class='chartcontainer' ondblclick='GetDialStyleInfo(0);' style='width:45%; padding: 10px; float:left;'><\/div>";
+      ChartDivContents +="<div id='ChartArea2' class='chartcontainer' ondblclick='GetDialStyleInfo(1);'  style='width:45%; padding: 10px; '><\/div>";
+      ChartDivContents +="<\/div>";
+        
+      ChartDivContents +="<div style='width:100%; '>";
+      ChartDivContents +="<div id='ChartArea3' class='chartcontainer' ondblclick='GetDialStyleInfo(2);'  style='width:45%; padding: 10px; float:left;'><\/div>";
+      ChartDivContents +="<div id='ChartArea4' class='chartcontainer' ondblclick='GetDialStyleInfo(3);'  style='width:45%; padding: 10px; '><\/div>";
+      ChartDivContents +="<\/div>";
+    break;
+      
+    case 6:
+      ChartDivContents ="<div style='width:100%; '>";
+      ChartDivContents +="<div id='ChartArea1' class='chartcontainer' ondblclick='GetDialStyleInfo(0);' style='width:45%; padding: 10px; float:left;'><\/div>";
+      ChartDivContents +="<div id='ChartArea2' class='chartcontainer' ondblclick='GetDialStyleInfo(1);'  style='width:45%; padding: 10px; '><\/div>";
+      ChartDivContents +="<\/div>";
+        
+      ChartDivContents +="<div style='width:100%; '>";
+      ChartDivContents +="<div id='ChartArea3' class='chartcontainer' ondblclick='GetDialStyleInfo(2);'  style='width:45%; padding: 10px; float:left;'><\/div>";
+      ChartDivContents +="<div id='ChartArea4' class='chartcontainer' ondblclick='GetDialStyleInfo(3);'  style='width:45%; padding: 10px; '><\/div>";
+      ChartDivContents +="<\/div>";
+      
+      ChartDivContents +="<div style='width:100%; '>";
+      ChartDivContents +="<div id='ChartArea5' class='chartcontainer' ondblclick='GetDialStyleInfo(4);'  style='width:45%; padding: 10px; float:left;'><\/div>";
+      ChartDivContents +="<div id='ChartArea6' class='chartcontainer' ondblclick='GetDialStyleInfo(5);'  style='width:45%; padding: 10px; '><\/div>";
+      ChartDivContents +="<\/div>";
+
+    break;
+
+    case 7:
+      ChartDivContents ="<div id='ChartArea1' class='chartcontainer'  ondblclick='GetDialStyleInfo(0);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea2' class='chartcontainer'  ondblclick='GetDialStyleInfo(1);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea3' class='chartcontainer'  ondblclick='GetDialStyleInfo(2);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea4' class='chartcontainer'  ondblclick='GetDialStyleInfo(3);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea5' class='chartcontainer'  ondblclick='GetDialStyleInfo(4);' style='width:95%; padding: 10px; '><\/div>";
+
+    break;
+      
+      
+    case 8:
+      ChartDivContents ="<div id='ChartArea1' class='chartcontainer'  ondblclick='GetDialStyleInfo(0);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea2' class='chartcontainer'  ondblclick='GetDialStyleInfo(1);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea3' class='chartcontainer'  ondblclick='GetDialStyleInfo(2);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea4' class='chartcontainer'  ondblclick='GetDialStyleInfo(3);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea5' class='chartcontainer'  ondblclick='GetDialStyleInfo(4);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea6' class='chartcontainer'  ondblclick='GetDialStyleInfo(5);' style='width:95%; padding: 10px; '><\/div>";
+
+    break;
+
+      
+    case 9:
+      ChartDivContents ="<div id='ChartArea1' class='chartcontainer'  ondblclick='GetDialStyleInfo(0);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea2' class='chartcontainer'  ondblclick='GetDialStyleInfo(1);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea3' class='chartcontainer'  ondblclick='GetDialStyleInfo(2);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea4' class='chartcontainer'  ondblclick='GetDialStyleInfo(3);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea5' class='chartcontainer'  ondblclick='GetDialStyleInfo(4);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea6' class='chartcontainer'  ondblclick='GetDialStyleInfo(5);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea7' class='chartcontainer'  ondblclick='GetDialStyleInfo(6);' style='width:95%; padding: 10px; '><\/div>";
+      ChartDivContents +="<div id='ChartArea8' class='chartcontainer'  ondblclick='GetDialStyleInfo(7);' style='width:95%; padding: 10px; '><\/div>";
+
+     break;
+     
+    case 10:
+      ChartDivContents = '<div id="ChartArea1" class="chartcontainer"  ondblclick="GetDialStyleInfo(0);" style="width:95%; padding: 10px; "><\/div>';
+    break;
+
+   case 11:
+      ChartDivContents = '<div id="ChartArea1" class="chartcontainer"  ondblclick="GetDialStyleInfo(0);" style="width:95%; padding: 10px; "><\/div>';
+    break;
+
+   case 12:
+      ChartDivContents = '<div id="ChartArea1" class="chartcontainer"  ondblclick="GetDialStyleInfo(0);" style="width:95%; padding: 10px; "><\/div>';
+    break;
+
+
+    case 13:
+      ChartDivContents ="<div id='ChartArea1' class='chartcontainer'  ondblclick='GetDialStyleInfo(0);' style='width:95%; height: 0%; padding: 0px; display: none'><\/div>";
+
+    break;
+
+
+        }
+
+        document.getElementById("ChartArea").innerHTML = ChartDivContents;
+
+
+        }
+
+
+
+
+
+
+function myonload()
+{
+
+// ***************************************************************
+// get all cookie variables
+// **************************************************************
+    // load up all the Themes
+    loadChartThemes();
+    
+    
+      AccountDataFolder = GetCookie(CookiePrefix + 'Account');
+      // alert('AccountDataFolder  ' + AccountDataFolder );
+
+      if (AccountDataFolder == null) {
+          AccountDataFolder = "000000000000"; 
+          AccountType = 1;
+          ConfigOptions = 0;
+          document.getElementById("XMLFilesSelect").selectedIndex = 0;
+          
+      }
+      else
+      {
+          var myStringArray
+          myStringArray = AccountDataFolder.split(":");
+          if(myStringArray.length != 0)
+          {
+              AccountDataFolder = myStringArray[0];
+              AccountType = myStringArray[1];
+              ConfigOptions = myStringArray[2];
+              document.getElementById("XMLFilesSelect").selectedIndex =0;
+          }
+          else
+          {
+              AccountDataFolder = "000000000000";
+              AccountType = 1;
+              ConfigOptions = 0;
+              document.getElementById("XMLFilesSelect").selectedIndex = 0;
+
+          }
+      }
+
+    document.getElementById("XMLFilesSelect").selectedIndex = 0;
+         // initializes the drop down menu
+    document.getElementById("SearchTick").selectedIndex = 5;
+
+      // Initialize the User ID from the Session variable
+      myuserid = "0";
+  {% if session['userid'] %}
+     myuserid = "{{session['userid']}}";  
+   {% else %}
+     myuserid = "0"; 
+   {% endif %}
+
+      if (myuserid == null)
+      {
+         myuserid = "0";
+      }
+      else
+      {
+          getDeviceList(myuserid);
+          //getDeviceParamList(myuserid);
+      }
+
+
+
+      ParameterInit = false;
+      CloseTabs();
+
+  
+
+      // set up Server Account Type
+      SetServerType( 1);
+      
+
+
+
+
+      CurrentDialID = 0;
+
+     // document.body.style.background = PageBackGroundColor;
+	   document.getElementById("ChartArea").style.background = PageBackGroundColor;
+	  
+      document.getElementById("ShowDetails").options.length = DialEnd + 1;
+      document.getElementById("ShowDetails").selectedIndex = 0;  
+    // 	document.getElementById("map_data").style.display = "none";  
+   //   document.getElementById("N2KText").style.display = "none"; 
+    //  document.getElementById("N2KText").style.visibility = "hidden"; 
+      
+     // document.getElementById("FilterListPGNNumber").checked = false;
+     // document.getElementById("FilterListPGNSource").checked = false;
+     // document.getElementById("FilterListPGNInstance").checked = false;
+     // document.getElementById("FilterListPGNType").checked = false;
+     // document.getElementById("FilterListPGNParameter").checked = false;
+
+      document.getElementById("ShowDetails").selectedIndex = 0;    
+      
+      document.getElementById("OverlayScale").selectedIndex = 6;
+	  
+	  
+	   
+	
+	for(var i=0; i< 16; i++)
+	{
+		document.getElementById("PGNDialID").options[i].disabled = true;
+		document.getElementById("PGNDialID").options[i].style.color = '#C0C0C0';
+		
+		document.getElementById("DialID").options[i].disabled = true;
+		document.getElementById("DialID").options[i].style.color = '#C0C0C0';
+	}
+	
+	var index=0;
+	
+	document.getElementById("PGNTypeSource").length = 0;
+	
+	document.getElementById("PGNTypeSource").options[index++] = new Option( "ANY", ".*");
+	
+	for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+		document.getElementById("PGNTypeSource").options[index++] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+	}
+ 
+   //   document.getElementById("ShowPrefs").checked = false;
+
+      //document.getElementById("TotalChartTime").innerHTML ='--- click here to open options ---  ';
+
+
+      // document.AccountFolder.value = AccountDataFolder;
+    //  document.getElementById("AccountFolder").value = AccountDataFolder;
+   	            var StartEpochms = (new Date).getTime() - 60*60*24*1000;
+        var EndEpochms = (new Date).getTime();
+
+    var StartEpoch = new Date(StartEpochms);
+       var EndEpoch = new Date(EndEpochms);
+   
+        $("#datepickerstart").datetimepicker('setDate', StartEpoch );
+       
+        $("#datepickerend").datetimepicker('setDate', EndEpoch );
+      
+      
+	          // Now that we have some parameters - initialize the charts
+ 		    createChartArea(PageLayout)	
+ 			
+ 		    InitChartOptions(); 
+	  
+	  
+      InitializePGNNumberOptionList(0);
+      numOfChartsDrawn = 0;
+
+
+
+}
+      </script>
+	
+
+	
+	
+</head>  
+
+
+<body  onload ="myonload(); ">
+
+  <center>
+    {% if session['userid'] %}
+    <a href="http://pushsmartdata.herokuapp.com" id="login" class="persona-button">
+      <span>HelmSmart: {{session['username']}}</span>
+    </a>
+    {% else %}
+    <a href="http://pushsmartdata.herokuapp.com" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span>
+    </a>
+    {% endif %}
+  </center>
+
+    	<div class="container body-content">
+		
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/support.js') }}" ></script>
+
+<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabEvents .form-control-static,
+	#tabEvents .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+
+<script>
+	$(function () {
+		$(document).ajaxComplete(function (event, xhr, settings) {
+			if (xhr.getResponseHeader('ReloadWholePage')) {
+				window.location.reload();	//Reload the whole datapane
+			}
+		});
+		
+		$('.nav-tabs a[href="#tabSearch"]').tab('show');
+
+	});
+
+  
+</script>
+
+
+	
+	
+
+
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="tab" role="tablist">
+	<li><a href="#tabInfo" role="tab" data-toggle="tab">Info</a></li>
+		<li><a href="#tabSearch" role="tab" data-toggle="tab">Search</a></li>
+		<li><a href="#tabGraphs" role="tab" data-toggle="tab">Graphs</a></li>
+		
+		<li><a href="#tabPrefs" role="tab" data-toggle="tab">Prefs</a></li>
+		<li><a href="#tabDesign" role="tab" data-toggle="tab">Design</a></li>
+		<li><a href="#tabEvents" role="tab" data-toggle="tab">Events</a></li>
+		<li><a href="#tabLayout" role="tab" data-toggle="tab">Layout</a></li>
+		<li><a href="#tabData" role="tab" data-toggle="tab">Data</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+  <!-- tabInfo TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabInfo">
+	<p id="introText">With this datapane you can view vessel position data from your SeaSmart device.</p>
+<div id="idMarketing">
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	
+	<p>
+		To get started  - select your registered device from the <B>PREF</B> tab and then enter the search dates on the <B> SEARCH </B>tab – select <B>MAP DATA</B>
+	</p>
+	
+	
+	<p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your HelmSmart site where you can search for vessel position and overlay sensor data on trails.</p>
+	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
+	<ul>
+		<li>Links to your existing NMEA 2000 network</li>
+		<li>Sends positions to your yacht site</li>
+		<li>Uses you existing internet service</li>
+		<li>No need for additional data plan charges</li>
+		<li>Automatically creates logbooks and trip segments for your journeys</li>
+		<li>Monitors the battery voltage</li>
+		<li>Monitors the temperature onboard</li>
+		<li>Monitors fuel and tanks onboard</li>
+		<li>Monitors weather and wind</li>
+		<li>Tracks the yacht in case of theft</li>
+	</ul>
+	<p>Built-in data logger to SD memory</p>
+	<ul>
+		<li>Records everything when vessel is out of range</li>
+		<li>Up to a full year of storage</li>
+		<li>Automatically syncs to Boatlogger site when internet service is found</li>
+		<li>Cloud base storage and access from the HelmSmart data server</li>
+		</ul>
+	<p>Add more vessel sensors</p>
+	<ul>		
+		<li>Install additional temperature sensors to monitor e.g. engine room temperature, sea temperature, outdoor temperature etc.</li>
+		<li>12 additional customized inputs (6 digital inputs, 2 tach, and 4 analog inputs)</li>
+	</ul>
+	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
+	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
+	<div style="margin: 15px;">
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+<!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+
+	</div>
+	<p>
+		If you already have a SeaSmart and want to connect it to HelmSmart, simply login with your username and password.
+	</p>
+
+
+
+
+</div>
+	</div>
+    <!-- end tabInfo TAB> ###################################################   -->
+  
+  
+  
+    <!-- tabPrefs TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabSearch">
+  
+
+ 	<div class="form-horizontal">
+
+
+	
+	 		<div class="form-group">	
+			<label class="control-label col-sm-2" for="datepickerstart">Start</label> 
+			<div class="col-sm-6"> 
+			<input type="text" class="form-control" name="datepickerstart" id="datepickerstart" value="01/2/2014 09:00:00" readonly="true" />
+			</div>
+			</div>
+			
+			
+		 	<div class="form-group">	
+			<label class="control-label col-sm-2" for="datepickerend">End</label> 
+			<div class="col-sm-6"> 
+			<input type="text" class="form-control" name="datepickerend" id="datepickerend" value="01/2/2014 09:00:00" readonly="true" />
+			</div>
+			</div>		
+			
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="Span">Search Span</label>
+			<div class="col-sm-6">
+			<select  class="form-control "  id="Span" name="Span" onchange="ChangedSpan(this);">
+					  <option value="0">Custom</option>
+					  <option value="1">1min</option>
+					  <option value="2">2min</option>
+					  <option value="5">5min</option>
+					  <option value="10">10min</option>
+					  <option value="15">15min</option>
+					  <option value="30">30min</option>
+					  <option value="60">1hour</option>
+					  <option value="120">2hour</option>
+					  <option value="240">4hour</option>
+					  <option value="360">6hour</option>
+					  <option value="480">8hour</option>
+					  <option value="720">12hour</option>
+					  <option value="1440">1day</option>
+					  <option value="2880">2day</option>
+					  <option value="4320">3day</option>
+					  <option value="5760">4day</option>
+					  <option value="7200">5day</option>
+					  <option value="8640">6day</option>
+					  <option value="10080">1week</option>
+					  <option value="20160">2weeks</option>
+					  <option value="30240">3weeks</option>
+					  <option value="1m">1month</option>
+					  <option value="2m">2months</option>
+					  <option value="2m">3months</option>
+					  <option value="4m">4months</option>
+					  <option value="5m">5months</option>
+					  <option value="6m">6months</option>
+				</select>		
+			</div>
+			</div>		
+			
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="SearchType">Type</label>
+			<div class="col-sm-6">
+			<select class="form-control"  id="SearchType" onchange="ShowSearchType(this);" >
+			  <option  selected="selected" value="mean">mean</option>
+			  <option value="median">median</option>
+			  <option value="min">min</option>
+			  <option value="max">max</option>
+			  <option value="count">count</option>
+			  
+			</select>
+			</div>
+			</div>
+	
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="SearchTick">Interval</label>
+			<div class="col-sm-6">
+			<select class="form-control"  id="SearchTick" onchange="ShowSearchTick(this);" >
+			  <option value="1">1 sec</option>
+			  <option value="2">2 sec</option>
+			  <option value="5">5 sec</option>
+			  <option value="10">10 sec</option>
+			  <option value="15">15 Sec</option>
+			  <option value="30">30 Sec</option>
+			  <option value="60">1 Min</option>
+			  <option value="120">2 Min</option>
+			  <option value="180">3 Min</option>
+			  <option value="240">4 Min</option>
+			  <option value="300">5 Min</option>
+			  <option value="600">10 Min</option>
+			  <option value="900">15 Min</option>
+			  <option value="1800">30 Min</option>
+			  <option value="2700">45 Min</option>
+			  <option value="3600">1 Hour</option>
+			  <option value="7200">2 Hour</option>
+			  <option value="10800">3 Hour</option>
+			  <option value="21600">6 Hour</option>
+			  <option value="28800">8 Hour</option>
+			  <option value="43200">12 Hour</option>
+			  <option value="86400">1 Day</option>
+			  <option value="432000">5 Day</option>
+			  <option value="864000">10 Day</option>
+			  <option value="1296000">15 Day</option>
+			  <option value="2592000">30 Day</option>
+			</select>
+			</div>
+			</div>
+			
+			
+			
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="SearchStatus">Status</label> 
+			 <div class="col-sm-6"> 
+			<input type="text" class="form-control" id="SearchStatus" >	
+			</div>
+			</div>  
+
+	   		<div class="form-group" style="margin-top:25px;">
+			<div class="col-sm-offset-4 col-sm-4">
+			<button id="btnSearchDB" class="btn btn-primary" name="btnValue" id="SearchDB"  value="Graph data" onclick="GraphData(this);" >Graph Data</button>
+			<button id="btnGetData" class="btn btn-primary" name="btnValue" id="GetData"  value="Get data" onclick="DownloadData(this);" >Get Data</button>
+						<button id="btnGetData" class="btn btn-primary" name="btnValue" id="ImportData"  value="Import data" onclick="ImportData(this);" >Import Data</button>
+			</div>
+			</div>
+
+	</div>
+
+  </div>
+    <!-- end tabSearch TAB> ###################################################   -->
+  
+  
+  
+    <!-- tabPrefs TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabPrefs">
+	
+		<div class="form-horizontal">
+
+				<div class="form-group">	
+				<label class="control-label col-sm-2" for="AddPreferenceName">Preference Name</label> 
+				<div class="col-sm-6"> 
+				<input type="text" class="form-control" id="AddPreferenceName"  />
+				</div>
+				</div>
+		
+				<div class="form-group">
+				<label class="control-label col-sm-2" for="DeviceID">Devices</label>
+				<div class="col-sm-6">
+				<select class="form-control"  id="DeviceID" name="DeviceID" size ="1"  onchange="SetDeviceOptionList(this);">
+				<option value="000000000000">Demo Data</option>
+				</select>
+				</div>
+				</div>
+	  
+				<div class="form-group">
+				<label class="control-label col-sm-2" for="XMLFilesSelect">Preferences</label>
+				<div class="col-sm-6">
+				<select class="form-control"  id="XMLFilesSelect" onchange="selectUserPref(this);" >
+				<option value="0">Use defaults</option>
+				</select>
+				</div>
+				</div>
+		
+
+				<div class="form-group">
+				<label class="control-label col-sm-2" for="ShowDetails">Show Data</label>
+				<div class="col-sm-6">
+				<select class="form-control"   id="ShowDetails"  onchange="ShowDataDetails(this);" >
+				  <option value="0">Hide</option>
+				  <option value="1">Chart 1</option>
+				  <option value="2">Chart 2</option>
+				  <option value="3">Chart 3</option>
+				  <option value="4">Chart 4</option>
+				  <option value="5">Chart 5</option>
+				  <option value="6">Chart 6</option>
+				  <option value="7">Chart 7</option>
+				  <option value="8">Chart 8</option>
+				</select>
+				</div>
+				</div>
+		
+				<div class="form-group" style="margin-top:25px;">
+				<div class="col-sm-offset-4 col-sm-4">
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="AddNewPref"  value="AddP" onclick="AddNewPref(this);" >Add</button>
+				<button id="btnShowPref" class="btn btn-primary" name="btnValue" id="ShowDefaults"  value="Show" onclick="ShowParameters(this);" >Show</button>
+				<button id="btnModifyPref" class="btn btn-primary" name="btnValue" id="ModifyPref"  value="Modify" onclick="ModifyPref(this);" >Modify</button>
+				<button id="btnDeletePref" class="btn btn-primary" name="btnValue" id="DeletePref"  value="Delete" onclick="DeletePref(this);" >Delete</button>
+				</div>
+				</div>
+	
+	
+		</div>
+
+	</div>
+	<!-- end tabPrefs TAB> ###################################################   -->
+  
+  
+  
+    <!-- tabGraphs TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabGraphs">
+	
+
+      <div class="clear"></div>
+      <div id="ChartArea" style="width:100%; "></div>
+ 
+
+    
+    <div class="clear"></div>
+  
+  
+
+	</div>
+    <!-- end tabGraphs TAB> ###################################################   -->
+  
+  
+  
+    <!-- tabDesign TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabDesign">
+
+		<div class="form-horizontal">
+
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="DialID">Graph ID</label>
+			<div class="col-sm-6">
+			<select class="form-control" id="DialID" onchange="setDialID(this);" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+			</select>
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="DialType">Graph Type</label>
+			<div class="col-sm-6">
+			<select class="form-control" id="DialType"  onchange="setDialType(this);">
+            <option value="0">Line</option>
+            <option value="1">Spline</option>
+            <option value="2">Area</option>
+            <option value="3">Area Spline</option>
+            <option value="4">Column</option>
+            <option value="5">Bar</option>
+            <option value="6">Gauge</option>
+            <option value="7">Polar</option>
+            <option value="8">Wind Direction</option>
+            <option value="9">Compass</option>
+            <option value="10">Attitude</option>
+            <option value="11">Dual Series Line</option>
+            <option value="12">Dual Series Column</option>
+            <option value="13">Dual Series Scatter</option>
+            <option value="14">Text Box</option>
+            <option value="15">Indicator</option>
+            <option value="16">Switch</option>
+			</select>
+			</div>
+			</div>
+					  
+		  
+		  
+		  
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="FrameStyle">Graph Style</label>
+			<div class="col-sm-6">
+			<select class="form-control" id="FrameStyle" onclick="selectFrameDesign(this);">
+            <option value="BLACK_METAL">Default</option>
+            <option value="METAL">Gray</option>
+            <option value="SHINY_METAL">Grid</option>
+            <option value="SHINY_METAL">Skies</option> 
+            <option value="BRASS">Dark-Blue</option>
+            <option value="STEEL">Dark-Green</option>
+            <option value="CHROME">Chrome</option>
+            <option value="GOLD">Gold</option>
+            <option value="ANTHRACITE">Anthracite</option>
+            <option value="TILTED_GRAY">TiltedGray</option>
+            <option value="TILTED_BLACK">TiltedBlack</option>
+            <option value="CUSTOM1">Custom</option>
+            <option value="CUSTOM2">Custom</option>
+            <option value="CUSTOM3">Custom</option>
+            <option value="CUSTOM4">Custom</option>
+            <option value="CUSTOM5">Custom</option>
+            </select>
+        	</div>
+			</div>
+			
+					  
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="PointerStyle">Marker Style</label>
+			<div class="col-sm-6">
+			<select class="form-control" id="PointerStyle"  onclick="selectPointerType(this);" >
+            <option value="TYPE1">Circle</option>
+            <option value="TYPE2">Square</option>
+            <option value="TYPE3">Diamond</option>
+            <option value="TYPE4">Triangle</option>
+            <option value="TYPE5">Triangle Down</option>
+            <option value="TYPE6">Blue Circle</option>
+            <option value="TYPE7">None</option>
+            <option value="TYPE8">None</option>
+            <option value="TYPE9">None</option>
+            <option value="TYPE10">None</option>
+            <option value="TYPE11">None</option>
+            <option value="TYPE12">None</option>
+            <option value="TYPE13">None</option>
+            <option value="TYPE14">None</option>
+            <option value="TYPE15">None</option>
+			</select>
+            </div>
+			</div>
+			
+			
+			
+			
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="DialBackground">Graph Background</label>
+			<div class="col-sm-6">
+			<select class="form-control" id="DialBackground"  onchange="selectBackgroundColor(this);">
+            <option value="WHITE">White</option>
+            <option value="BLACK">Black</option>
+            <option value="BEIGE">Beige</option>
+            <option value="DARK_GRAY">DarkGray</option>
+            <option value="SATIN_GRAY">SatinGray</option>
+            <option value="LIGHT_GRAY">LightGray</option>
+            <option value="BROWN">Brown</option>
+            <option value="RED">Red</option>
+            <option value="GREEN">Green</option>
+            <option value="BLUE">Blue</option>
+            <option value="ANTHRACITE">Anthracite</option>
+            <option value="MUD">Mud</option>
+            <option value="PUNCHED_SHEET">PunchedSheet</option>
+            <option value="CARBON">Carbon</option>
+            <option value="STAINLESS">Stainless</option>
+            <option value="BRUSHED_METAL">BrushedMetal</option>
+            <option value="BRUSHED_STAINLESS">BrushedStainless</option>
+            <option value="TURNED">Turned</option>
+			</select>
+             </div>
+			</div>
+			
+			
+			
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="DialPointerColor">Marker Color</label>
+			<div class="col-sm-6">
+			<select class="form-control" id="DialPointerColor"  onchange="selectPointerColor(this);" name="D4">
+            <option value="MBLUE">Med Blue</option>
+            <option value="NAVY">Navy</option>
+            <option value="LIME">Lime</option>
+            <option value="MRED">Med Red</option>
+            <option value="CYAN">Cyan</option>
+            <option value="PURPLE">Purple</option>
+            <option value="ORANGE">Orange</option>
+            <option value="LBLUE">Light Blue</option>
+            <option value="RED">Red</option>           
+            <option value="BEIGE">Beige</option>
+            <option value="YELLOW">Yellow</option>
+            <option value="DGREEN">Dark Green</option>
+            <option value="WHITE">White</option>
+            <option value="GRAY">Gray</option> 
+            <option value="DGRAY">Dark Gray</option>
+            <option value="BLACK">Black</option>
+            </select>
+		    </div>
+			</div>
+		  
+		  
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="DialLcdColor">Label Color</label>
+			<div class="col-sm-6">
+			<select class="form-control" id="DialLcdColor"  onchange="selectLcdColor(this);" >
+            <option value="MBLUE">Med Blue</option>
+            <option value="NAVY">Navy</option>
+            <option value="LIME">Lime</option>
+            <option value="MRED">Med Red</option>
+            <option value="CYAN">Cyan</option>
+            <option value="PURPLE">Purple</option>
+            <option value="ORANGE">Orange</option>
+            <option value="LBLUE">Light Blue</option>
+            <option value="RED">Red</option>
+            <option value="BEIGE">Beige</option>
+            <option value="YELLOW">Yellow</option>
+            <option value="DGREEN">Dark Green</option>
+            <option value="WHITE">White</option>
+            <option value="GRAY">Gray</option>
+            <option value="DGRAY">Dark Gray</option>
+            <option value="BLACK">Black</option>
+            </select>
+		    </div>
+			</div>
+   
+              
+			<div class="form-group" style="margin-top:25px;">
+			<div class="col-sm-offset-4 col-sm-4">
+			<button id="btnApplyAll" class="btn btn-primary" name="btnValue" id="ApplyAll"  value="ApplyAll" onclick="ApplyAllDialParameters();" >ApplyAll</button>
+			<button id="btnSaveDesign" class="btn btn-primary" name="btnValue" id="Save"  value="Save" onclick="SaveDialCookies(this);" >Save</button>
+			</div>
+			</div>
+				
+		</div>
+  
+  	</div>
+    <!-- end tabDesign TAB> ###################################################   -->
+  
+  
+  
+    <!-- tabEvents TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabEvents">
+  
+		<div class="form-horizontal">
+		
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="PGNDialID">Graph ID</label>
+			<div class="col-sm-10">
+			<select class="form-control" id="PGNDialID" style="width:300px;" onchange="setDialID(this);" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+			</select>
+			</div>
+			</div>
+		
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="DialLabel">Label</label> 
+			<div class="col-sm-10"> 
+			<input type="text" class="form-control" id="DialLabel" size="1" type="text" style="width:300px;" onchange="SetDialLabel(this);" />
+			</div>
+			</div>
+
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="DialUnits">Units</label>
+			<div class="col-sm-10">
+			<select class="form-control" id="DialUnits" style="width:300px;" onchange="updateDialUnits(this);">
+            <option value="0">Fahrenheit</option>
+            <option value="1">Celsius</option>
+            <option value="2">Kelvin</option>
+            <option value="3">- - -</option>
+            <option value="4">Knots</option>
+            <option value="5">MPH</option>
+            <option value="6">KPH</option>
+            <option value="7">Meters/sec</option>
+            <option value="8">PSI</option>
+            <option value="9">KPASCAL</option>
+            <option value="10">INHG</option>
+            <option value="11">- - -</option>
+            <option value="12">TRUE</option>
+            <option value="13">MAGNETIC</option>
+            <option value="14">- - -</option>
+            <option value="15">- - -</option>
+            <option value="16">DEGREES</option>
+            <option value="17">Radians</option>
+            <option value="18">Gallons/hr</option>
+            <option value="19">Liters/hr</option>
+            <option value="20">Liters</option>
+            <option value="21">Gallons</option>
+            <option value="22">CubicMeter</option>
+            <option value="23">Hertz</option>
+            <option value="24">RPM</option>
+            <option value="25">RPS</option>
+            <option value="26">%</option>
+            <option value="27">Volts</option>
+			<option value="28">Amps</option> 
+			<option value="29">Watts</option>
+			<option value="30">Watts/hr</option>
+			<option value="31">kWatts/hr</option>
+			<option value="32">Feet</option>				
+			<option value="33">Meters</option>
+			<option value="34">Mile</option>
+			<option value="35">Nautical Mile</option>
+			<option value="36">Fathoms</option>
+			<option value="37">Time H:M:S</option>
+			<option value="38">Date M.D.Y H:M:S</option>
+			<option value="39">Hours</option>
+			<option value="40">Indicator</option>
+			<option value="41">Switch</option>
+			<option value="42">Dimmer Value</option>
+			<option value="43">Dimmer Status</option>
+			<option value="44">Volts 10X</option>
+			<option value="45">Amps 10X</option>
+
+			<option value="46">inches</option>
+			<option value="47">millimeters</option>		
+			<option value="48">mm/hr</option>			
+			<option value="49">Undefined</option>
+			</select>
+       		</div>
+			</div>
+			
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="MinDial">Min</label> 
+			<div class="col-sm-10"> 
+			<input type="text" class="form-control" id="MinDial"   type="text" value="0" style="width:300px;" onchange="SetDialMin(this);" />
+            </div>
+			</div>
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="MaxDial">Max</label> 
+			<div class="col-sm-10"> 
+			<input type="text" class="form-control" id="MaxDial"  type="text" value="100" style="width:300px;" onchange="SetDialMax(this);" />
+         	</div>
+			</div>
+			
+
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="OverlayScale">Overlay Scale</label>
+			<div class="col-sm-10">
+			<select class="form-control" id="OverlayScale" name="OverlayScale" size ="1"  style="width:300px;"  onchange="SetOverlayScaleOptionList(this);">
+            <option value="1">  0.01</option>
+            <option value="5">  0.05</option>
+            <option value="10">  0.10</option>
+            <option value="25">  0.25</option>
+            <option value="50">  0.50</option>
+            <option value="75">  0.75</option>
+            <option value="100">  1.00</option>
+            <option value="200">  2.00</option>
+            <option value="300">  3.00</option>
+            <option value="400">  4.00</option>
+            <option value="500">  5.00</option>
+            <option value="600">  6.00</option>
+            <option value="700">  7.00</option>
+            <option value="800">  8.00</option>
+            <option value="900">  9.00</option>
+            <option value="1000"> 10.00</option>
+            <option value="1500"> 15.00</option>
+            <option value="2000"> 20.00</option>
+            <option value="2500"> 25.00</option>
+            <option value="3000"> 30.00</option>
+            <option value="4000"> 40.00</option>
+            <option value="5000"> 50.00</option>
+            <option value="7500"> 75.00</option>
+            <option value="10000">100.00</option>
+            <option value="15000">150.00</option>
+            <option value="20000">200.00</option>
+			</select>
+			</div>
+			</div>
+	
+			
+			
+	
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="PGNTypeID">Event Type</label>
+			<div class="col-sm-10">
+				<select class="form-control" style="width:300px;"  id="PGNTypeID" name="PGNTypeID" onchange="ChangedPGNTypeID(this);">
+				<option value="None"> -------- </option>
+				<option value="/Position">GPS - Position lat/lng</option>
+				<option value="/Position/lat">GPS - Position lat</option>
+				<option value="/Position/lng">GPS - Position lng</option>
+				
+				<option value="/Environmental/Wind Speed">Environmental - Wind Speed True</option>
+				<option value="/Environmental/Wind Direction">Environmental - Wind Direction True</option>
+				<option value="/Environmental/Air Pressure">Environmental - Air Pressure</option>
+				<option value="/Environmental/Air Temperature">Environmental - Air Temperature Outside</option>
+				<option value="/Environmental/Relative Humidity (%)">Environmental - Outside Humidity (%)</option>				
+				<option value="/Environmental/Air Pressure Inside">Environmental - Air Pressure Inside</option>
+				<option value="/Environmental/Air Temperature Inside">Environmental - Air Temperature Inside</option>
+				<option value="/Environmental/Humidity Inside">Environmental - Inside Humidity (%)</option>					
+				
+				<option value="/Environmental/Water Temperature">Environmental - Water Temperature</option>
+
+				
+				<option value="/Environmental/Temperature Inside 0">Environmental - Temperature Inside Zone 0</option>
+				<option value="/Environmental/Humidity Inside 0">Environmental - Humidity Inside Zone 0</option>
+				<option value="/Environmental/Temperature Inside 1">Environmental - Temperature Inside Zone 1</option>
+				<option value="/Environmental/Humidity Inside 1">Environmental - Humidity Inside Zone 1</option>				
+				<option value="/Environmental/Temperature Inside 2">Environmental - Temperature Inside Zone 2</option>
+				<option value="/Environmental/Humidity Inside 2">Environmental - Humidity Inside Zone 2</option>				
+				<option value="/Environmental/Temperature Inside 3">Environmental - Temperature Inside Zone 3</option>
+				<option value="/Environmental/Humidity Inside 3">Environmental - Humidity Inside Zone 3</option>
+				<option value="/Environmental/Temperature Inside 4">Environmental - Temperature Inside Zone 4</option>
+				<option value="/Environmental/Humidity Inside 4">Environmental - Humidity Inside Zone 4</option>
+				<option value="/Environmental/Temperature Inside 5">Environmental - Temperature Inside Zone 5</option>
+				<option value="/Environmental/Humidity Inside 5">Environmental - Humidity Inside Zone 5</option>
+				<option value="/Environmental/Temperature Inside 6">Environmental - Temperature Inside Zone 6</option>
+				<option value="/Environmental/Humidity Inside 6">Environmental - Humidity Inside Zone 6</option>
+				<option value="/Environmental/Temperature Inside 7">Environmental - Temperature Inside Zone 7</option>
+				<option value="/Environmental/Humidity Inside 7">Environmental - Humidity Inside Zone 7</option>
+				
+				<option value="/Environmental/Temperature Outside 0">Environmental - Temperature Outside Zone 0</option>
+				<option value="/Environmental/Humidity Outside 0">Environmental - Humidity Outside Zone 0</option>
+				<option value="/Environmental/Temperature Outside 1">Environmental - Temperature Outside Zone 1</option>
+				<option value="/Environmental/Humidity Outside 1">Environmental - Humidity Outside Zone 1</option>				
+				<option value="/Environmental/Temperature Outside 2">Environmental - Temperature Outside Zone 2</option>
+				<option value="/Environmental/Humidity Outside 2">Environmental - Humidity Outside Zone 2</option>				
+				<option value="/Environmental/Temperature Outside 3">Environmental - Temperature Outside Zone 3</option>
+				<option value="/Environmental/Humidity Outside 3">Environmental - Humidity Outside Zone 3</option>
+				<option value="/Environmental/Temperature Outside 4">Environmental - Temperature Outside Zone 4</option>
+				<option value="/Environmental/Humidity Outside 4">Environmental - Humidity Outside Zone 4</option>
+				<option value="/Environmental/Temperature Outside 5">Environmental - Temperature Outside Zone 5</option>
+				<option value="/Environmental/Humidity Outside 5">Environmental - Humidity Outside Zone 5</option>
+				<option value="/Environmental/Temperature Outside 6">Environmental - Temperature Outside Zone 6</option>
+				<option value="/Environmental/Humidity Outside 6">Environmental - Humidity Outside Zone 6</option>
+				<option value="/Environmental/Temperature Outside 7">Environmental - Temperature Outside Zone 7</option>
+				<option value="/Environmental/Humidity Outside 7">Environmental - Humidity Outside Zone 7</option>
+
+				
+				<option value="/M2M/Navigation/Speed Over Ground">Navigation - Speed Over Ground </option>
+				<option value="/M2M/Navigation/Course Over Ground">Navigation - Course over Ground </option>
+				<option value="/M2M/Navigation/Speed Over Ground Mag">Navigation - Speed Over Ground Magnetic</option>
+				<option value="/M2M/Navigation/Course Over Ground Mag">Navigation - Course over Ground Magnetic</option>
+				<option value="/M2M/Navigation/Heading True">Navigation - Heading True</option>
+				<option value="/M2M/Navigation/Heading Magnetic">Navigation - Heading Magnetic</option>
+				<option value="/M2M/Navigation/Rudder">Navigation - Rudder </option>
+				<option value="/M2M/Attitude/Pitch">Attitude - Pitch </option>
+				<option value="/M2M/Attitude/Roll">Attitude - Roll </option>
+				<option value="/M2M/Navigation/Rate Of Turn">Navigation - Rate Of Turn </option>
+				
+				<option value="/M2M/Navigation/Depth">Water - Depth</option>
+				<option value="/M2M/Navigation/Water Speed">Water - Speed</option>
+				<option value="/M2M/Environment/Water Temperature">Water - Temperature </option>
+				
+				<option value="/M2M/Engine/Engine RPM Port">Engine - Port - RPM</option>
+				<option value="/M2M/Engine/Engine Boost Port">Engine - Port - Boost</option>	
+				<option value="/M2M/Engine/Engine Trim Port">Engine - Port - Trim</option>
+				<option value="/M2M/Engine/Engine Temperature Port">Engine - Port - Temperature</option>			
+				<option value="/M2M/Engine/Engine OIL Pressure Port">Engine - Port - OIL Pressure</option>	
+				<option value="/M2M/Engine/Engine OIL Temperature Port">Engine - Port - OIL Temperature</option>
+				<option value="/M2M/Engine/Engine Alternator Volts Port">Engine - Port - Alternator Volts</option>
+				<option value="/M2M/Engine/Engine Fuel Rate Port">Engine - Port - Fuel Rate</option>	
+
+				
+				<option value="/M2M/Engine/Engine Trip Fuel Used Port">Engine - Port - Trip Fuel Used</option>				
+				<option value="/M2M/Engine/Engine Fuel Rate Average Port">Engine - Port - Fuel Rate Average </option>
+				<option value="/M2M/Engine/Engine Fuel Rate Economy Port">Engine - Port - Fuel Rate Economy</option>				
+				<option value="/M2M/Engine/Engine Instantaneous Fuel Economy Port">Engine - Port - Instantaneous Fuel Economy</option>
+
+				
+				<option value="/M2M/Engine/Engine Fuel Pressure Port">Engine - Port - Fuel Pressure</option>		
+				<option value="/M2M/Engine/Engine Coolant Pressure Port">Engine - Port - Coolant Pressure</option>	
+				<option value="/M2M/Engine/Engine Coolant Temperature Port">Engine - Port - Coolant Temperature</option>	
+				<option value="/M2M/Engine/EGT 0 Port">Engine - Port - EGT</option>				
+				<option value="/M2M/Engine/Engine Hours Port">Engine - Port - Hours</option>					
+			
+				<option value="/M2M/Engine/Engine RPM Starboard">Engine - Starboard - RPM</option>
+				<option value="/M2M/Engine/Engine Boost Starboard">Engine - Starboard - Boost</option>				
+				<option value="/M2M/Engine/Engine Trim Starboard">Engine - Starboard - Trim</option>	
+				<option value="/M2M/Engine/Engine Temperature Starboard">Engine - Starboard - Temperature</option>
+				<option value="/M2M/Engine/Engine OIL Pressure Starboard">Engine - Starboard - OIL Pressure</option>
+				<option value="/M2M/Engine/Engine OIL Temperature Starboard">Engine - Starboard - OIL Temperature</option>
+				<option value="/M2M/Engine/Engine Alternator Volts Starboard">Engine - Starboard - Alternator Volts</option>	
+				<option value="/M2M/Engine/Engine Fuel Rate Starboard">Engine - Starboard - Fuel Rate</option>
+				
+								
+				<option value="/M2M/Engine/Engine Trip Fuel Used Starboard">Engine - Starboard - Trip Fuel Used</option>				
+				<option value="/M2M/Engine/Engine Fuel Rate Average Starboard">Engine - Starboard - Fuel Rate Average </option>
+				<option value="/M2M/Engine/Engine Fuel Rate Economy Starboard">Engine - Starboard - Fuel Rate Economy</option>				
+				<option value="/M2M/Engine/Engine Instantaneous Fuel Economy Starboard">Engine - Starboard - Instantaneous Fuel Economy</option>
+
+				<option value="/M2M/Engine/Engine Fuel Pressure Starboard">Engine - Starboard - Fuel Pressure</option>
+				<option value="/M2M/Engine/Engine Coolant Pressure Starboard">Engine - Starboard - Coolant Pressure</option>
+				<option value="/M2M/Engine/Engine Coolant Temperature Starboard">Engine - Starboard - Coolant Temperature</option>	
+				<option value="/M2M/Engine/EGT 0 Starboard">Engine - Starboard - EGT</option>
+				<option value="/M2M/Engine/Engine Hours Starboard">Engine - Starboard - Hours</option>				
+					
+				<option value="/M2M/Engine/Engine RPM Center">Engine - Center - RPM</option>
+				<option value="/M2M/Engine/Engine Boost Center">Engine - Center - Boost</option>				
+				<option value="/M2M/Engine/Engine Trim Center">Engine - Center - Trim</option>
+				<option value="/M2M/Engine/Engine Temperature Center">Engine - Center - Temperature</option>
+				<option value="/M2M/Engine/Engine OIL Pressure Center">Engine - Center - OIL Pressure</option>
+				<option value="/M2M/Engine/Engine OIL Temperature Center">Engine - Center - OIL Temperature</option>
+				<option value="/M2M/Engine/Engine Alternator Volts Center">Engine - Center - Alternator Volts</option>
+				<option value="/M2M/Engine/Engine Fuel Rate Center">Engine - Center - Fuel Rate</option>
+				
+				<option value="/M2M/Engine/Engine Trip Fuel Used Center">Engine - Center - Trip Fuel Used</option>				
+				<option value="/M2M/Engine/Engine Fuel Rate Average Center">Engine - Center - Fuel Rate Average </option>
+				<option value="/M2M/Engine/Engine Fuel Rate Economy Center">Engine - Center - Fuel Rate Economy</option>				
+				<option value="/M2M/Engine/Engine Instantaneous Fuel Economy Center">Engine - Center - Instantaneous Fuel Economy</option>
+												
+				<option value="/M2M/Engine/Engine Fuel Pressure Center">Engine - Center - Fuel Pressure</option>
+				<option value="/M2M/Engine/Engine Coolant Pressure Center">Engine - Center - Coolant Pressure</option>
+				<option value="/M2M/Engine/Engine Coolant Temperature Center">Engine - Center - Coolant Temperature</option>	
+				<option value="/M2M/Engine/EGT 0 Center">Engine - Center - EGT Center </option>				
+				<option value="/M2M/Engine/Engine Hours Center">Engine - Center - Hours</option>	
+
+
+
+				<option value="/M2M/Engine/Generator RPM J1939">Generator - J1939 - RPM</option>
+				<option value="/M2M/Engine/Generator Boost J1939">Generator - J1939 - Boost</option>				
+				<option value="/M2M/Engine/Generator Trim J1939">Generator - J1939 - Trim</option>
+				<option value="/M2M/Engine/Generator Temperature J1939">Generator - J1939 - Temperature</option>
+				<option value="/M2M/Engine/Generator OIL Pressure J1939">Generator - J1939 - OIL Pressure</option>
+				<option value="/M2M/Engine/Generator OIL Temperature J1939">Generator - J1939 - OIL Temperature</option>
+				<option value="/M2M/Engine/Generator Alternator Volts J1939">Generator - J1939 - Alternator Volts</option>
+				<option value="/M2M/Engine/Generator Alternator Current J1939">Generator - J1939 - Alternator Current</option>		
+				<option value="/M2M/Engine/Generator Fuel Rate J1939">Generator - J1939 - Fuel Rate</option>
+				
+				<option value="/M2M/Engine/Generator Fuel Level J1939">Generator - J1939 - Fuel Level</option>	
+				<option value="/M2M/Engine/Generator Trip Fuel Used J1939">Generator - J1939 - Trip Fuel Used</option>				
+				<option value="/M2M/Engine/Generator Fuel Rate Average J1939">Generator - J1939 - Fuel Rate Average </option>
+				<option value="/M2M/Engine/Generator Fuel Rate Economy J1939">Generator - J1939 - Fuel Rate Economy</option>				
+				<option value="/M2M/Engine/Generator Instantaneous Fuel Economy J1939">Generator - J1939 - Instantaneous Fuel Economy</option>
+												
+				<option value="/M2M/Engine/Generator Fuel Pressure J1939">Generator - J1939 - Fuel Pressure</option>
+				<option value="/M2M/Engine/Generator Coolant Pressure J1939">Generator - J1939 - Coolant Pressure</option>
+				<option value="/M2M/Engine/Generator Coolant Temperature J1939">Generator - J1939 - Coolant Temperature</option>	
+				<option value="/M2M/Engine/Generator EGT J1939">Generator - J1939 - EGT </option>				
+				<option value="/M2M/Engine/Generator Hours J1939">Generator - J1939 - Hours</option>
+
+
+				
+
+				<option value="/M2M/Engine/Transmission OIL Pressure Port">Transmission - Port - OIL Pressure</option>
+				<option value="/M2M/Engine/Transmission OIL Temperature Port">Transmission - Port - OIL Temperature</option>
+
+				<option value="/M2M/Engine/Transmission OIL Pressure Starboard">Transmission - Starboard - OIL Pressure</option>
+				<option value="/M2M/Engine/Transmission OIL Temperature Starboard">Transmission - Starboard - OIL Temperature</option>
+
+				<option value="/M2M/Engine/Transmission OIL Pressure Center">Transmission - Center - OIL Pressure</option>	
+				<option value="/M2M/Engine/Transmission OIL Temperature Center">Transmission - Center - OIL Temperature</option>
+				
+				
+				
+				<option value="/M2M/Battery/Battery Volts Port">Battery - Port - Volts</option>
+				<option value="/M2M/Battery/Battery Current Port">Battery - Port - Current</option>
+				<option value="/M2M/Battery/Battery Temperature Port">Battery - Port - Temperature</option>
+				<option value="/M2M/Battery/Battery StateOfCharge Port">Battery - Port - StateOfCharge</option>				
+				<option value="/M2M/Battery/Battery TimeRemaining Port">Battery - Port - TimeRemaining</option>	
+	
+				<option value="/M2M/Battery/Battery Volts Starboard">Battery - Starboard - Volts</option>				
+				<option value="/M2M/Battery/Battery Current Starboard">Battery - Starboard - Current</option>
+				<option value="/M2M/Battery/Battery Temperature Starboard">Battery - Starboard - Temperature</option>	
+				<option value="/M2M/Battery/Battery StateOfCharge Starboard">Battery - Starboard - StateOfCharge</option>				
+				<option value="/M2M/Battery/Battery TimeRemaining Starboard">Battery - Starboard - TimeRemaining</option>					
+
+				<option value="/M2M/Battery/Battery Volts Center">Battery - Center - Volts</option>
+				<option value="/M2M/Battery/Battery Current Center">Battery - Center - Current</option>
+				<option value="/M2M/Battery/Battery Temperature Center">Battery - Center - Temperature</option>	
+				<option value="/M2M/Battery/Battery StateOfCharge Center">Battery - Center - StateOfCharge</option>				
+				<option value="/M2M/Battery/Battery TimeRemaining Center">Battery - Center - TimeRemaining</option>					
+				
+				
+				
+
+				
+				<option value="/M2M/Battery/Battery Volts J1939">Battery - J1939 - Volts</option>
+				<option value="/M2M/Battery/Battery Current J1939">Battery - J1939 - Current</option>				
+				
+				
+				<option value="/M2M/AC/UTIL/Volts_Phase_A">AC UTIL - Phase A - Volts L-N</option>
+				<option value="/M2M/AC/UTIL/Volts_Line_Phase_A">AC UTIL - Phase A - Volts L-L</option>
+				<option value="/M2M/AC/UTIL/Amps_Phase_A">AC UTIL - Phase A - Amps</option>	
+				<option value="/M2M/AC/UTIL/Frequency_Phase_A">AC UTIL - Phase A - Frequency</option>		
+				<option value="/M2M/AC/UTIL/Power_Phase_A">AC UTIL - Phase A - kWatts</option>				
+				<option value="/M2M/AC/UTIL/Energy_Phase_A">AC UTIL - Phase A - kWatts/hr</option>	
+
+				<option value="/M2M/AC/UTIL/Volts_Phase_B">AC UTIL - Phase B - Volts L-N</option>
+				<option value="/M2M/AC/UTIL/Volts_Line_Phase_B">AC UTIL - Phase B - Volts L-L</option>
+				<option value="/M2M/AC/UTIL/Amps_Phase_B">AC UTIL - Phase B - Amps</option>	
+				<option value="/M2M/AC/UTIL/Frequency_Phase_B">AC UTIL - Phase B - Frequency</option>		
+				<option value="/M2M/AC/UTIL/Power_Phase_B">AC UTIL - Phase B - kWatts</option>				
+				<option value="/M2M/AC/UTIL/Energy_Phase_B">AC UTIL - Phase B - kWatts/hr</option>	
+
+				<option value="/M2M/AC/UTIL/Volts_Phase_C">AC UTIL - Phase C - Volts L-N</option>
+				<option value="/M2M/AC/UTIL/Volts_Line_Phase_C">AC UTIL - Phase C - Volts L-L</option>
+				<option value="/M2M/AC/UTIL/Amps_Phase_C">AC UTIL - Phase C - Amps</option>	
+				<option value="/M2M/AC/UTIL/Frequency_Phase_C">AC UTIL - Phase C - Frequency</option>		
+				<option value="/M2M/AC/UTIL/Power_Phase_C">AC UTIL - Phase C - kWatts</option>				
+				<option value="/M2M/AC/UTIL/Energy_Phase_C">AC UTIL - Phase C - kWatts/hr</option>	
+
+				<option value="/M2M/AC/UTIL/Volts_Avg">AC UTIL- Avg - Volts L-N</option>
+				<option value="/M2M/AC/UTIL/Volts_Line_Avg">AC UTIL - Avg - Volts L-L</option>
+				<option value="/M2M/AC/UTIL/Amps_Avg">AC UTIL - Avg - Amps</option>	
+				<option value="/M2M/AC/UTIL/Frequency_Avg">AC UTIL - Avg - Frequency</option>		
+				<option value="/M2M/AC/UTIL/Power_Avg">AC UTIL - Avg - kWatts</option>	
+				<option value="/M2M/AC/UTIL/Energy_Avg">AC UTIL - Avg - kWatts/hr</option>	
+							
+				<option value="/M2M/AC/UTIL/TotalEnergy_Import">AC UTIL- Total Energy Import - kWatts/hr</option>					
+				<option value="/M2M/AC/UTIL/TotalEnergy_Export">AC UTIL- Total Energy Export - kWatts/hr</option>		
+				
+				<option value="/M2M/AC/GEN/Volts_Phase_A">AC GEN - Phase A - Volts L-N</option>
+				<option value="/M2M/AC/GEN/Volts_Line_Phase_A">AC GEN - Phase A - Volts L-L</option>
+				<option value="/M2M/AC/GEN/Amps_Phase_A">AC GEN - Phase A - Amps</option>	
+				<option value="/M2M/AC/GEN/Frequency_Phase_A">AC GEN - Phase A - Frequency</option>		
+				<option value="/M2M/AC/GEN/Power_Phase_A">AC GEN - Phase A - kWatts</option>				
+				<option value="/M2M/AC/GEN/Energy_Phase_A">AC GEN - Phase A - kWatts/hr</option>	
+
+				<option value="/M2M/AC/GEN/Volts_Phase_B">AC GEN - Phase B - Volts L-N</option>
+				<option value="/M2M/AC/GEN/Volts_Line_Phase_B">AC GEN - Phase B - Volts L-L</option>
+				<option value="/M2M/AC/GEN/Amps_Phase_B">AC GEN - Phase B - Amps</option>	
+				<option value="/M2M/AC/GEN/Frequency_Phase_B">AC GEN - Phase B - Frequency</option>		
+				<option value="/M2M/AC/GEN/Power_GPhase_B">AC GEN - Phase B - kWatts</option>				
+				<option value="/M2M/AC/GEN/Energy_Phase_B">AC GEN - Phase B - kWatts/hr</option>	
+
+				<option value="/M2M/AC/GEN/Volts_Phase_C">AC GEN - Phase C - Volts L-N</option>
+				<option value="/M2M/AC/GEN/Volts_Line_Phase_C">AC GEN - Phase C - Volts L-L</option>
+				<option value="/M2M/AC/GEN/Amps_Phase_C">AC GEN - Phase C - Amps</option>	
+				<option value="/M2M/AC/GEN/Frequency_Phase_C">AC GEN - Phase C - Frequency</option>		
+				<option value="/M2M/AC/GEN/Power_Phase_C">AC GEN - Phase C - kWatts</option>				
+				<option value="/M2M/AC/GEN/Energy_Phase_C">AC GEN - Phase C - kWatts/hr</option>	
+
+				<option value="/M2M/AC/GEN/Volts_Avg">AC GEN - Avg - Volts L-N</option>
+				<option value="/M2M/AC/GEN/Volts_Line_Avg">AC GEN - Avg - Volts L-L</option>
+				<option value="/M2M/AC/GEN/Amps_Avg">AC GEN - Avg - Amps</option>	
+				<option value="/M2M/AC/GEN/Frequency_Avg">AC GEN - Avg - Frequency</option>		
+				<option value="/M2M/AC/GEN/Power_Avg">AC GEN - Avg - kWatts</option>
+				<option value="/M2M/AC/GEN/Energy_Avg">AC GEN - Avg - kWatts/hr</option>	
+				
+				<option value="/M2M/AC/GEN/TotalEnergy_Import">AC GEN- Total Energy Import - kWatts/hr</option>					
+				<option value="/M2M/AC/GEN/TotalEnergy_Export">AC GEN- Total Energy Export - kWatts/hr</option>			
+
+					
+
+
+				<option value="/M2M/AC/LIGHTS/Volts_Line_Phase_A">AC LIGHTS - Circuit 0 - Volts L-L</option>
+				<option value="/M2M/AC/LIGHTS/Amps_Phase_A">AC LIGHTS - Circuit 0 - Amps</option>	
+				<option value="/M2M/AC/LIGHTS/Power_Phase_A">AC LIGHTS - Circuit 0 - kWatts</option>				
+
+				<option value="/M2M/AC/LIGHTS/Volts_Line_Phase_B">AC LIGHTS - Circuit 2 - Volts L-L</option>
+				<option value="/M2M/AC/LIGHTS/Amps_Phase_B">AC LIGHTS - Circuit 2 - Amps</option>	
+				<option value="/M2M/AC/LIGHTS/Power_Phase_B">AC LIGHTS - Circuit 2 - kWatts</option>				
+
+				<option value="/M2M/AC/LIGHTS/Volts_Line_Phase_C">AC LIGHTS - Circuit 2 - Volts L-L</option>
+				<option value="/M2M/AC/LIGHTS/Amps_Phase_C">AC LIGHTS - Circuit 2 - Amps</option>	
+				<option value="/M2M/AC/LIGHTS/Power_Phase_C">AC LIGHTS - Circuit 2 - kWatts</option>				
+
+				<option value="/M2M/AC/LIGHTS/Volts_Line_Avg">AC LIGHTS - Circuit 3 - Volts L-L</option>
+				<option value="/M2M/AC/LIGHTS/Amps_Avg">AC LIGHTS - Circuit 3 - Amps</option>	
+				<option value="/M2M/AC/LIGHTS/Power_Avg">AC LIGHTS - Circuit 3 - kWatts</option>				
+				
+				<option value="/M2M/AC/HEAT/Volts_Line_Phase_A">AC HEAT - Circuit 0 - Volts L-L</option>
+				<option value="/M2M/AC/HEAT/Amps_Phase_A">AC HEAT - Circuit 0 - Amps</option>	
+				<option value="/M2M/AC/HEAT/Power_Phase_A">AC HEAT - Circuit 0 - kWatts</option>				
+
+				<option value="/M2M/AC/HEAT/Volts_Line_Phase_B">AC HEAT - Circuit 2 - Volts L-L</option>
+				<option value="/M2M/AC/HEAT/Amps_Phase_B">AC HEAT - Circuit 2 - Amps</option>	
+				<option value="/M2M/AC/HEAT/Power_Phase_B">AC HEAT - Circuit 2 - kWatts</option>				
+
+				<option value="/M2M/AC/HEAT/Volts_Line_Phase_C">AC HEAT - Circuit 2 - Volts L-L</option>
+				<option value="/M2M/AC/HEAT/Amps_Phase_C">AC HEAT - Circuit 2 - Amps</option>	
+				<option value="/M2M/AC/HEAT/Power_Phase_C">AC HEAT - Circuit 2 - kWatts</option>				
+
+				<option value="/M2M/AC/HEAT/Volts_Line_Avg">AC HEAT - Circuit 3 - Volts L-L</option>
+				<option value="/M2M/AC/HEAT/Amps_Avg">AC HEAT - Circuit 3 - Amps</option>	
+				<option value="/M2M/AC/HEAT/Power_Avg">AC HEAT - Circuit 3 - kWatts</option>
+
+
+
+				<option value="/M2M/Tank/Fuel Level Port">Tanks - Port - Fuel Level</option>
+				<option value="/M2M/Tank/Water Level Port">Tanks - Port - Water Level</option>	
+				<option value="/M2M/Tank/Waste Level Port">Tanks - Port - Waste Level</option>	
+				<option value="/M2M/Tank/Live Well Port">Tanks - Port - Live Well</option>	
+				<option value="/M2M/Tank/Oil Level Port">Tanks - Port - Oil Level</option>						
+				<option value="/M2M/Tank/Black Water Level Port">Tanks - Port - Black Water Level</option>				
+				<option value="/M2M/Tank/Bilge Level Port">Tanks - Port - Bilge Level</option>	
+								
+				<option value="/M2M/Tank/Fuel Level Starboard">Tanks - Starboard - Fuel Level</option>
+				<option value="/M2M/Tank/Water Level Starboard">Tanks - Starboard - Water Level</option>	
+				<option value="/M2M/Tank/Waste Level Starboard">Tanks - Starboard - Waste Level</option>	
+				<option value="/M2M/Tank/Live Well Starboard">Tanks - Starboard - Live Well</option>	
+				<option value="/M2M/Tank/Oil Level Starboard">Tanks - Starboard - Oil Level</option>						
+				<option value="/M2M/Tank/Black Water Level Starboard">Tanks - Starboard - Black Water Level</option>	
+			   <option value="/M2M/Tank/Bilge Level Starboard">Tanks - Starboard - Bilge Level</option>	
+
+				
+				<option value="/M2M/Tank/Fuel Level Center">Tanks - Center - Fuel Level</option>
+				<option value="/M2M/Tank/Water Level Center">Tanks - Center - Water Level</option>
+				<option value="/M2M/Tank/Waste Level Center">Tanks - Center - Waste Level</option>	
+				<option value="/M2M/Tank/Live Well Center">Tanks - Center - Live Well</option>	
+				<option value="/M2M/Tank/Oil Level Center">Tanks - Center - Oil Level</option>		
+				<option value="/M2M/Tank/Black Water Level Center">Tanks - Center - Black Water Level</option>
+				<option value="/M2M/Tank/Bilge Level Center">Tanks - Center - Bilge Level</option>
+
+				<option value="/M2M/Tank/Fuel Level Fwd">Tanks - Fwd - Fuel Level</option>
+				<option value="/M2M/Tank/Fuel Level Aft">Tanks - Aft - Fuel Level</option>
+				<option value="/M2M/Tank/Fuel Level Day1">Tanks - Day1 - Fuel Level</option>
+				<option value="/M2M/Tank/Fuel Level Day2">Tanks - Day2 - Fuel Level</option>
+				<option value="/M2M/Tank/Fuel Level Day3">Tanks - Day3 - Fuel Level</option>
+				
+				
+				<option value="/M2M/Domestic/Water Temperature">Temperature - Water Temperature </option>				
+				<option value="/M2M/Domestic/Outside Temperature">Temperature - Outside Temperature </option>				
+				<option value="/M2M/Domestic/Inside Temperature">Temperature - Inside Temperature </option>	
+				
+				<option value="/M2M/Domestic/Engine Room Temperature">Temperature - Engine Room </option>
+				<option value="/M2M/Domestic/Main Cabin Temperature">Temperature - Main Cabin </option>
+				<option value="/M2M/Domestic/Live Well Temperature">Temperature - Live Well </option>
+				<option value="/M2M/Domestic/Bait Well Temperature">Temperature - Bait Well </option>
+				<option value="/M2M/Domestic/Refrigeration 1 Temperature">Temperature - Refrigeration 1 </option>
+				<option value="/M2M/Domestic/Refrigeration 2 Temperature">Temperature - Refrigeration 2 </option>
+				<option value="/M2M/Domestic/Heating Temperature">Temperature - Heating </option>
+				<option value="/M2M/Domestic/Freezer Temperature">Temperature - Freezer </option>
+				
+				<option value="/M2M/Domestic/Freezer 2 Temperature">Temperature - Freezer 2</option>
+				<option value="/M2M/Domestic/Freezer 3 Temperature">Temperature - Freezer 3</option>
+				
+				
+				<option value="/M2M/Domestic/Wind Chill A Temperature">Temperature - Wind Chill A </option>
+				<option value="/M2M/Domestic/Wind Chill T Temperature">Temperature - Wind Chill T </option>
+				<option value="/M2M/Domestic/Heat Index">Temperature - Heat Index </option>			
+
+
+				<option value="/M2M/Environment/Wind Direction True">Wind - Direction True</option>
+				<option value="/M2M/Environment/Wind Direction Magnetic">Wind - Direction Magnetic</option>
+				<option value="/M2M/Environment/Wind Direction Apparent">Wind - Direction Apparent</option>
+				<option value="/M2M/Environment/Wind Direction Ground">Wind - Direction Ground Ref</option>
+				<option value="/M2M/Environment/Wind Direction Water">Wind - Direction Water Ref</option>				
+				
+				<option value="/M2M/Environment/Wind Speed True">Wind - Speed True</option>
+				<option value="/M2M/Environment/Wind Speed Magnetic">Wind - Speed Magnetic</option>
+				<option value="/M2M/Environment/Wind Speed Apparent">Wind - Speed Apparent</option>
+				<option value="/M2M/Environment/Wind Speed Ground">Wind - Speed Ground Ref</option>
+				<option value="/M2M/Environment/Wind Speed Water">Wind - Speed Water Ref</option>				
+				<option value="/M2M/Environment/Wind Speed Gust">Wind - Speed Gust</option>	
+
+				
+				<option value="/M2M/Environment/Rain Accumulation">Rain - Accumulation</option>
+				<option value="/M2M/Environment/Rain Duration">Rain - Duration</option>
+				<option value="/M2M/Environment/Rain Rate">Rain - Rate</option>
+				<option value="/M2M/Environment/Rain Peak Rate">Rain - Peak Rate</option>
+		
+				
+				
+				<!-- <option value="/M2M/Environment/Outside Temperature">Outside Temperature </option> -->
+				<option value="/M2M/LED Dimmer/Value 0 Zone 0">LED Dimmer - Mesh Zone0 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 0">LED Dimmer - Mesh Zone0 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 0">LED Dimmer - Mesh Zone0 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 0">LED Dimmer - Mesh Zone0 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 0">LED Dimmer - Mesh Zone0 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 1">LED Dimmer - Mesh Zone1 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 1">LED Dimmer - Mesh Zone1 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 1">LED Dimmer - Mesh Zone1 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 1">LED Dimmer - Mesh Zone1 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 1">LED Dimmer - Mesh Zone1 - Status</option>
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 2">LED Dimmer - Mesh Zone2 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 2">LED Dimmer - Mesh Zone2 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 2">LED Dimmer - Mesh Zone2 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 2">LED Dimmer - Mesh Zone2 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 2">LED Dimmer - Mesh Zone2 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 3">LED Dimmer - Mesh Zone3 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 3">LED Dimmer - Mesh Zone3 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 3">LED Dimmer - Mesh Zone3 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 3">LED Dimmer - Mesh Zone3 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 3">LED Dimmer - Mesh Zone3 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 4">LED Dimmer - Mesh Zone4 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 4">LED Dimmer - Mesh Zone4 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 4">LED Dimmer - Mesh Zone4 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 4">LED Dimmer - Mesh Zone4 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 4">LED Dimmer - Mesh Zone4 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 5">LED Dimmer - Mesh Zone5 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 5">LED Dimmer - Mesh Zone5 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 5">LED Dimmer - Mesh Zone5 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 5">LED Dimmer - Mesh Zone5 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 5">LED Dimmer - Mesh Zone5 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 6">LED Dimmer - Mesh Zone6 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 6">LED Dimmer - Mesh Zone6 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 6">LED Dimmer - Mesh Zone6 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 6">LED Dimmer - Mesh Zone6 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 6">LED Dimmer - Mesh Zone6 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 7">LED Dimmer - Mesh Zone7 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 7">LED Dimmer - Mesh Zone7 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 7">LED Dimmer - Mesh Zone7 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 7">LED Dimmer - Mesh Zone7 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 7">LED Dimmer - Mesh Zone7 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 8">LED Dimmer - Mesh Zone8 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 8">LED Dimmer - Mesh Zone8 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 8">LED Dimmer - Mesh Zone8 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 8">LED Dimmer - Mesh Zone8 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 8">LED Dimmer - Mesh Zone8 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 9">LED Dimmer - Mesh Zone9 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 9">LED Dimmer - Mesh Zone9 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 9">LED Dimmer - Mesh Zone9 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 9">LED Dimmer - Mesh Zone9 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 9">LED Dimmer - Mesh Zone9 - Status</option>
+
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 10">LED Dimmer - Mesh Zone10 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 10">LED Dimmer - Mesh Zone10 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 10">LED Dimmer - Mesh Zone10 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 10">LED Dimmer - Mesh Zone10 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 10">LED Dimmer - Mesh Zone10 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 11">LED Dimmer - Mesh Zone11 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 11">LED Dimmer - Mesh Zone11 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 11">LED Dimmer - Mesh Zone11 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 11">LED Dimmer - Mesh Zone11 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 11">LED Dimmer - Mesh Zone11 - Status</option>
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 12">LED Dimmer - Mesh Zone12 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 12">LED Dimmer - Mesh Zone12 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 12">LED Dimmer - Mesh Zone12 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 12">LED Dimmer - Mesh Zone12 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 12">LED Dimmer - Mesh Zone12 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 13">LED Dimmer - Mesh Zone13 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 13">LED Dimmer - Mesh Zone13 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 13">LED Dimmer - Mesh Zone13 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 13">LED Dimmer - Mesh Zone13 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 13">LED Dimmer - Mesh Zone13 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 14">LED Dimmer - Mesh Zone14 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 14">LED Dimmer - Mesh Zone14 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 14">LED Dimmer - Mesh Zone14 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 14">LED Dimmer - Mesh Zone14 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 14">LED Dimmer - Mesh Zone14 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 15">LED Dimmer - Mesh Zone15 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 15">LED Dimmer - Mesh Zone15 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 15">LED Dimmer - Mesh Zone15 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 15">LED Dimmer - Mesh Zone15 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 15">LED Dimmer - Mesh Zone15 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 16">LED Dimmer - Mesh Zone16 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 16">LED Dimmer - Mesh Zone16 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 16">LED Dimmer - Mesh Zone16 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 16">LED Dimmer - Mesh Zone16 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 16">LED Dimmer - Mesh Zone16 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 17">LED Dimmer - Mesh Zone17 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 17">LED Dimmer - Mesh Zone17 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 17">LED Dimmer - Mesh Zone17 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 17">LED Dimmer - Mesh Zone17 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 17">LED Dimmer - Mesh Zone17 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 18">LED Dimmer - Mesh Zone18 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 18">LED Dimmer - Mesh Zone18 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 18">LED Dimmer - Mesh Zone18 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 18">LED Dimmer - Mesh Zone18 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 18">LED Dimmer - Mesh Zone18 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 19">LED Dimmer - Mesh Zone19 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 19">LED Dimmer - Mesh Zone19 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 19">LED Dimmer - Mesh Zone19 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 19">LED Dimmer - Mesh Zone19 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 19">LED Dimmer - Mesh Zone19 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 20">LED Dimmer - Mesh Zone20 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 20">LED Dimmer - Mesh Zone20 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 20">LED Dimmer - Mesh Zone20 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 20">LED Dimmer - Mesh Zone20 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 20">LED Dimmer - Mesh Zone20 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 21">LED Dimmer - Mesh Zone21 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 21">LED Dimmer - Mesh Zone21 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 21">LED Dimmer - Mesh Zone21 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 21">LED Dimmer - Mesh Zone21 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 21">LED Dimmer - Mesh Zone21 - Status</option>
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 22">LED Dimmer - Mesh Zone22 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 22">LED Dimmer - Mesh Zone22 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 22">LED Dimmer - Mesh Zone22 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 22">LED Dimmer - Mesh Zone22 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 22">LED Dimmer - Mesh Zone22 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 23">LED Dimmer - Mesh Zone23 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 23">LED Dimmer - Mesh Zone23 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 23">LED Dimmer - Mesh Zone23 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 23">LED Dimmer - Mesh Zone23 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 23">LED Dimmer - Mesh Zone23 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 24">LED Dimmer - Mesh Zone24 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 24">LED Dimmer - Mesh Zone24 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 24">LED Dimmer - Mesh Zone24 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 24">LED Dimmer - Mesh Zone24 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 24">LED Dimmer - Mesh Zone24 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 25">LED Dimmer - Mesh Zone25 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 25">LED Dimmer - Mesh Zone25 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 25">LED Dimmer - Mesh Zone25 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 25">LED Dimmer - Mesh Zone25 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 25">LED Dimmer - Mesh Zone25 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 26">LED Dimmer - Mesh Zone26 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 26">LED Dimmer - Mesh Zone26 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 26">LED Dimmer - Mesh Zone26 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 26">LED Dimmer - Mesh Zone26 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 26">LED Dimmer - Mesh Zone26 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 27">LED Dimmer - Mesh Zone27 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 27">LED Dimmer - Mesh Zone27 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 27">LED Dimmer - Mesh Zone27 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 27">LED Dimmer - Mesh Zone27 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 27">LED Dimmer - Mesh Zone27 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 28">LED Dimmer - Mesh Zone28 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 28">LED Dimmer - Mesh Zone28 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 28">LED Dimmer - Mesh Zone28 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 28">LED Dimmer - Mesh Zone28 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 28">LED Dimmer - Mesh Zone28 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 29">LED Dimmer - Mesh Zone29 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 29">LED Dimmer - Mesh Zone29 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 29">LED Dimmer - Mesh Zone29 - ADC3/Relay</option>				
+				<option value="/M2M/LED Dimmer/Value 3 Zone 29">LED Dimmer - Mesh Zone29 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 29">LED Dimmer - Mesh Zone29 - Status</option>
+
+			
+				<option value="/M2M/LED Dimmer/Value 0 Zone 30">LED Dimmer - Mesh Zone30 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 30">LED Dimmer - Mesh Zone30 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 30">LED Dimmer - Mesh Zone30 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 30">LED Dimmer - Mesh Zone30 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 30">LED Dimmer - Mesh Zone30 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 31">LED Dimmer - Mesh Zone31 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 1 Zone 31">LED Dimmer - Mesh Zone31 - ADC2</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 31">LED Dimmer - Mesh Zone31 - ADC3/Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 31">LED Dimmer - Mesh Zone31 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 31">LED Dimmer - Mesh Zone31 - Status</option>
+
+
+			
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 0">RGB Dimmer - Zone0 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 0">RGB Dimmer - Zone0 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 0">RGB Dimmer - Zone0 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 0">RGB Dimmer - Zone0 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 0">RGB Dimmer - Zone0 - Control</option> 
+				
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 1">RGB Dimmer - Zone1 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 1">RGB Dimmer - Zone1 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 1">RGB Dimmer - Zone1 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 1">RGB Dimmer - Zone1 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 1">RGB Dimmer - Zone1 - Control</option>
+				
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 2">RGB Dimmer - Zone2 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 2">RGB Dimmer - Zone2 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 2">RGB Dimmer - Zone2 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 2">RGB Dimmer - Zone2 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 2">RGB Dimmer - Zone2 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 3">RGB Dimmer - Zone3 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 3">RGB Dimmer - Zone3 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 4">RGB Dimmer - Zone4 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 4">RGB Dimmer - Zone4 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 5">RGB Dimmer - Zone5 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 5">RGB Dimmer - Zone5 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 6">RGB Dimmer - Zone6 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 6">RGB Dimmer - Zone6 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 7">RGB Dimmer - Zone7 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 7">RGB Dimmer - Zone7 - Control</option>
+				
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 0">LED Dimmer 4 Channel - Zone0 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 0">LED Dimmer 4 Channel - Zone0 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 0">LED Dimmer 4 Channel - Zone0 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 0">LED Dimmer 4 Channel - Zone0 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 0">LED Dimmer 4 Channel - Zone0 - Control</option>
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 1">LED Dimmer 4 Channel - Zone1 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 1">LED Dimmer 4 Channel - Zone1 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 1">LED Dimmer 4 Channel - Zone1 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 1">LED Dimmer 4 Channel - Zone1 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 1">LED Dimmer 4 Channel - Zone1 - Control</option>
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 2">LED Dimmer - 4 Channel Zone2 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 2">LED Dimmer - 4 Channel Zone2 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 2">LED Dimmer - 4 Channel Zone2 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 2">LED Dimmer - 4 Channel Zone2 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 2">LED Dimmer - 4 Channel Zone2 - Control</option>
+				
+				
+
+				
+				<option value="/M2M/Switch/Value 0 Port">Indicator - Port - Value0</option>
+				<option value="/M2M/Switch/Runtime 0 Port">Indicator - Port - Runtime 0</option>	
+				<option value="/M2M/Switch/Cycles 0 Port">Indicator - Port - Cycles 0</option>
+				
+				<option value="/M2M/Switch/Value 1 Port">Indicator - Port - Value1</option>
+				<option value="/M2M/Switch/Runtime 1 Port">Indicator - Port - Runtime 1</option>	
+				<option value="/M2M/Switch/Cycles 1 Port">Indicator - Port - Cycles 1</option>	
+				
+				<option value="/M2M/Switch/Value 2 Port">Indicator - Port - Value2</option>
+				<option value="/M2M/Switch/Runtime 2 Port">Indicator - Port - Runtime 2</option>	
+				<option value="/M2M/Switch/Cycles 2 Port">Indicator - Port - Cycles 2</option>	
+				
+				<option value="/M2M/Switch/Value 3 Port">Indicator - Port - Value3</option>
+				<option value="/M2M/Switch/Runtime 3 Port">Indicator - Port - Runtime 3</option>	
+				<option value="/M2M/Switch/Cycles 3 Port">Indicator - Port - Cycles 3</option>	
+				
+				<option value="/M2M/Switch/Value 4 Port">Indicator - Port - Value4</option>
+				<option value="/M2M/Switch/Runtime 4 Port">Indicator - Port - Runtime 4</option>	
+				<option value="/M2M/Switch/Cycles 4 Port">Indicator - Port - Cycles 4</option>	
+				
+				<option value="/M2M/Switch/Value 5 Port">Indicator - Port - Value5</option>
+				<option value="/M2M/Switch/Runtime 5 Port">Indicator - Port - Runtime 5</option>	
+				<option value="/M2M/Switch/Cycles 5 Port">Indicator - Port - Cycles 5</option>	
+				
+				<option value="/M2M/Switch/Value 6 Port">Indicator - Port - Value6</option>
+				<option value="/M2M/Switch/Runtime 6 Port">Indicator - Port - Runtime 6</option>	
+				<option value="/M2M/Switch/Cycles 6 Port">Indicator - Port - Cycles 6</option>	
+				
+				<option value="/M2M/Switch/Value 7 Port">Indicator - Port - Value7</option>
+				<option value="/M2M/Switch/Runtime 7 Port">Indicator - Port - Runtime 7</option>	
+				<option value="/M2M/Switch/Cycles 7 Port">Indicator - Port - Cycles 7</option>	
+				
+				
+				<option value="/M2M/Switch/Value 8 Port">Indicator - Port - Value8</option>
+				<option value="/M2M/Switch/Value 9 Port">Indicator - Port - Value9</option>
+				<option value="/M2M/Switch/Bank 0 Port">Indicator - Port - Bank0</option>	
+				<option value="/M2M/Switch/Bank 1 Port">Indicator - Port - Bank1</option>
+				<option value="/M2M/Switch/Bank 2 Port">Indicator - Port - Bank2</option>
+				
+
+				
+				
+				<option value="/M2M/Switch/Value 0 Starboard">Indicator - Starboard - Value0</option>
+				<option value="/M2M/Switch/Runtime 0 Starboard">Indicator - Starboard - Runtime 0</option>	
+				<option value="/M2M/Switch/Cycles 0 Starboard">Indicator - Starboard - Cycles 0</option>
+				
+				<option value="/M2M/Switch/Value 1 Starboard">Indicator - Starboard - Value1</option>
+				<option value="/M2M/Switch/Runtime 1 Starboard">Indicator - Starboard - Runtime 1</option>	
+				<option value="/M2M/Switch/Cycles 1 Starboard">Indicator - Starboard - Cycles 1</option>	
+				
+				<option value="/M2M/Switch/Value 2 Starboard">Indicator - Starboard - Value2</option>
+				<option value="/M2M/Switch/Runtime 2 Starboard">Indicator - Starboard - Runtime 2</option>	
+				<option value="/M2M/Switch/Cycles 2 Starboard">Indicator - Starboard - Cycles 2</option>	
+				
+				<option value="/M2M/Switch/Value 3 Starboard">Indicator - Starboard - Value3</option>
+				<option value="/M2M/Switch/Runtime 3 Starboard">Indicator - Starboard - Runtime 3</option>	
+				<option value="/M2M/Switch/Cycles 3 Starboard">Indicator - Starboard - Cycles 3</option>	
+				
+				<option value="/M2M/Switch/Value 4 Starboard">Indicator - Starboard - Value4</option>
+				<option value="/M2M/Switch/Runtime 4 Starboard">Indicator - Starboard - Runtime 4</option>	
+				<option value="/M2M/Switch/Cycles 4 Starboard">Indicator - Starboard - Cycles 4</option>	
+				
+				<option value="/M2M/Switch/Value 5 Starboard">Indicator - Starboard - Value5</option>
+				<option value="/M2M/Switch/Runtime 5 Starboard">Indicator - Starboard - Runtime 5</option>	
+				<option value="/M2M/Switch/Cycles 5 Starboard">Indicator - Starboard - Cycles 5</option>	
+				
+				<option value="/M2M/Switch/Value 6 Starboard">Indicator - Starboard - Value6</option>
+				<option value="/M2M/Switch/Runtime 6 Starboard">Indicator - Starboard - Runtime 6</option>	
+				<option value="/M2M/Switch/Cycles 6 Starboard">Indicator - Starboard - Cycles 6</option>	
+				
+				<option value="/M2M/Switch/Value 7 Starboard">Indicator - Starboard - Value7</option>
+				<option value="/M2M/Switch/Runtime 7 Starboard">Indicator - Starboard - Runtime 7</option>	
+				<option value="/M2M/Switch/Cycles 7 Starboard">Indicator - Starboard - Cycles 7</option>				
+				
+				
+				
+				
+				
+				
+				<option value="/M2M/Switch/Value 8 Starboard">Indicator - Starboard - Value8</option>
+				<option value="/M2M/Switch/Value 9 Starboard">Indicator - Starboard - Value9</option>				
+				<option value="/M2M/Switch/Bank 0 Starboard">Indicator - Starboard - Bank0</option>	
+				<option value="/M2M/Switch/Bank 1 Starboard">Indicator - Starboard - Bank1</option>
+				<option value="/M2M/Switch/Bank 2 Starboard">Indicator - Starboard - Bank2</option>
+				
+				<option value="/M2M/Switch/Value 0 Center">Indicator - Center - Value0</option>
+				<option value="/M2M/Switch/Runtime 0 Center">Indicator - Center - Runtime 0</option>	
+				<option value="/M2M/Switch/Cycles 0 Center">Indicator - Center - Cycles 0</option>
+				
+				<option value="/M2M/Switch/Value 1 Center">Indicator - Center - Value1</option>
+				<option value="/M2M/Switch/Runtime 1 Center">Indicator - Center - Runtime 1</option>	
+				<option value="/M2M/Switch/Cycles 1 Center">Indicator - Center - Cycles 1</option>	
+				
+				<option value="/M2M/Switch/Value 2 Center">Indicator - Center - Value2</option>
+				<option value="/M2M/Switch/Runtime 2 Center">Indicator - Center - Runtime 2</option>	
+				<option value="/M2M/Switch/Cycles 2 Center">Indicator - Center - Cycles 2</option>	
+				
+				<option value="/M2M/Switch/Value 3 Center">Indicator - Center - Value3</option>
+				<option value="/M2M/Switch/Runtime 3 Center">Indicator - Center - Runtime 3</option>	
+				<option value="/M2M/Switch/Cycles 3 Center">Indicator - Center - Cycles 3</option>	
+				
+				<option value="/M2M/Switch/Value 4 Center">Indicator - Center - Value4</option>
+				<option value="/M2M/Switch/Runtime 4 Center">Indicator - Center - Runtime 4</option>	
+				<option value="/M2M/Switch/Cycles 4 Center">Indicator - Starboard - Cycles 4</option>	
+				
+				<option value="/M2M/Switch/Value 5 Center">Indicator - Center - Value5</option>
+				<option value="/M2M/Switch/Runtime 5 Center">Indicator - Center - Runtime 5</option>	
+				<option value="/M2M/Switch/Cycles 5 Center">Indicator - Center - Cycles 5</option>	
+				
+				<option value="/M2M/Switch/Value 6 Center">Indicator - Center - Value6</option>
+				<option value="/M2M/Switch/Runtime 6 Center">Indicator - Center - Runtime 6</option>	
+				<option value="/M2M/Switch/Cycles 6 Center">Indicator - Center - Cycles 6</option>	
+				
+				<option value="/M2M/Switch/Value 7 Center">Indicator - Center - Value7</option>
+				<option value="/M2M/Switch/Runtime 7 Center">Indicator - Center - Runtime 7</option>	
+				<option value="/M2M/Switch/Cycles 7 Center">Indicator - Center - Cycles 7</option>	
+				
+				
+				
+				
+				
+				<option value="/M2M/Switch/Value 8 Center">Indicator - Center - Value8</option>
+				<option value="/M2M/Switch/Value 9 Center">Indicator - Center - Value9</option>	
+				<option value="/M2M/Switch/Bank 0 Center">Indicator - Center - Bank0</option>	
+				<option value="/M2M/Switch/Bank 1 Center">Indicator - Center - Bank1</option>
+				<option value="/M2M/Switch/Bank 2 Center">Indicator - Center - Bank2</option>				
+
+				
+				<option value="/General/Engine Started">Status - Engine Started</option>
+				<option value="/General/Engine Stopped">Status - Engine Stopped</option>
+				<option value="/General/Diesel Tank Level">Status - Diesel Tank Level %</option>
+				<option value="/General/Water Tank1">Status - Water Tank1 Level%</option>
+				<option value="/General/Water Tank2">Status - Water Tank2 Level%</option>
+				<option value="/M2M/Instruments/Tracker Battery Voltage">Status - Tracker Battery Voltage</option>		
+				<option value="/General/Heartbeat">Status - SeaSmart Heartbeat</option>
+				<option value="/General/Sessions">Status - SeaSmart Session</option>
+				<option value="/General/Status">Status - SeaSmart records posted</option>
+				
+				<option value="/Cellular/DB_Strength">Status - Cellular Strength</option>
+				<option value="/Cellular/Connect_Status">Status - Cellular Connect Status</option>
+				
+				
+				</select>
+				<!-- <span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span> -->
+			</div>
+			</div>
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="PGNTypeSource">Source</label> 
+			<div class="col-sm-10"> 
+				<select class="form-control "  style="width:300px;" id="PGNTypeSource" name="PGNTypeSource" onchange="ChangedPGNSource(this)";>
+				<option value="0">Any</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+			</select>		
+			</div>
+			</div>  
+
+
+
+	
+				<div class="form-group" style="margin-top:25px;">
+				<div class="col-sm-offset-4 col-sm-4">
+				<button id="btnSavePGN" class="btn btn-primary" name="btnValue" id="SavePGN"  value="SaveDialPGN" onclick="SaveDialCookies(this);" >Save</button>
+				<button id="btnResetPGN" class="btn btn-primary" name="btnValue" id="ResetPGN"  value="ResetPGN"  onclick="UpdateSeriesList()" >Reset</button>
+				</div>
+				</div>
+	
+	
+		</div>
+  
+  	</div>
+    <!-- end tabEvents TAB> ###################################################   -->
+  
+  
+  
+    <!-- tabLayout TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabLayout">
+  
+		<div class="form-horizontal">
+
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="PageLayout">Page layout</label> 
+			<div class="col-sm-6"> 
+			<select class="form-control" id="PageLayout"  onchange="SetPageLayout(this);" name="D3" >
+			  <option value="0">1X1</option>
+			  <option value="1">2X1</option>
+			  <option value="2">1X2</option>
+			  <option value="3">3X1</option>
+			  <option value="4">4X1</option>
+			  <option value="5">2X2</option>
+			  <option value="6">3X2</option>
+			  <option value="7">5X1</option>        
+			  <option value="8">6X1</option>
+			  <option value="9">8X1</option>
+			  <option value="10">Overlay 2</option>
+			  <option value="11">Overlay 3</option>
+			  <option value="12">Overlay 4</option>
+			  <option value="13">Data</option>
+			</select>
+			</div>
+			</div>
+		
+		
+
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="PageBckColor">Page Color</label> 
+			 <div class="col-sm-6"> 
+			<select class="form-control" id="PageBckColor"  onchange="selectPageColor(this);" >
+			  <option value="aqua">aqua</option>
+			  <option value="gray">gray</option>
+			  <option value="navy">navy</option>
+			  <option value="silver">silver</option>
+			  <option value="black">black</option>
+			  <option value="green">green</option>
+			  <option value="olive">olive</option>
+			  <option value="teal">teal</option>
+			  <option value="blue">blue</option>
+			  <option value="lime">lime</option>
+			  <option value="purple">purple</option>
+			  <option value="fuchsia">fuchsia</option>
+			  <option value="maroon">maroon</option>
+			  <option value="red">red</option>
+			  <option value="yellow">yellow</option>
+			  <option value="white">white</option>
+			  <option value="white">Custom</option>
+			</select>
+			</div>
+			</div>
+	
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="usercolor">Custom Color</label> 
+			 <div class="col-sm-6"> 
+			<input class="color" id="usercolor" onchange="updateBackColor(this.color.toString())" value="009687"  />
+			</div>
+			</div>
+
+
+			<div class="form-group" style="margin-top:25px;">
+			<div class="col-sm-offset-4 col-sm-4">
+			<button id="btnSettingsResetpage" class="btn btn-primary" name="btnValue" id="ApplyPage"  value="Reset" onclick="ResetPageParameters();" > Reset</button>
+			</div>
+			</div>
+			
+		</div>
+
+	</div>
+    <!-- end tabInfo TAB> ###################################################   -->
+  
+  
+  
+  
+  
+  
+  
+    <!-- tabPrefs TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabData">
+  <!--
+    <div id="map_data" style="width:100%; height:10%; display: block">
+		
+			<form name="N2KData">
+				<textarea id="N2KText" name="N2KText" rows="20" style="width: 100%; display: block"></textarea></form>
+	</div>
+	-->
+	
+			<div class="form-group text-center text-info" style="margin-top:10px;"  >
+			<div class="alertdiv" id="report_data" style="width:100%; height:10%; display: block">
+
+
+			<Table class="alerttable" id="ReportData" border="0" cellspacing="5" cellpadding="5" style="width:100%; display: block">
+
+			  <thead class="alertthead">
+				<TR>
+				  <th id="DataHeaderIndex" > Index</th>
+				  <th id="DataHeaderTimestamp" > Timestamp </th>
+				  <th id="DataHeaderSource" > Source </th>
+				  <th id="DataHeaderValue" > Value</th>    
+	
+				</TR>
+			  </thead>
+			  <tbody class="alerttbody"></tbody>
+			  
+			</Table>
+    
+			</div>
+			</div>
+	
+	
+	
+	
+	
+	<div id="linkbar" style="width:100%; height:2%; padding: 10px 10px 10px 10px;" class="auto-style9" >
+www.chetcodigital.com www.seasmart.net www.netgauges.net www.digitalmarinegauges.com
+	</div>
+
+
+ 
+  </div>
+  
+  
+</div>
+ <script src="http://code.highcharts.com/highcharts.js"></script>
+ </div>
+</body></html>
