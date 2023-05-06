@@ -16704,7 +16704,7 @@ def getgpsseriesbydeviceid_dbc():
         #jsondata = sorted(jsondata,key=itemgetter('epoch'))
         # sort based on epoch times
         jsondata = sorted(jsondata, key=lambda latlng: latlng[0])
-        #log.info("getgpsseriesbydeviceid_dbc  jsondata   %s",jsondata)
+        log.info("getgpsseriesbydeviceid_dbc  jsondata   %s",jsondata)
         #return jsonify( message=jsondata, status='success')
 
       
@@ -16960,7 +16960,7 @@ def getgpsseriesbydeviceid_dbc():
 
 
           jsondata = jsondataarray
-          #log.info("freeboard  jsondata  %s:  %s",len(jsondata),  jsondata)
+          log.info("freeboard  jsondata  %s:  %s",len(jsondata),  jsondata)
           
           list_length = len(jsondata)
           for i in range(list_length-1):
