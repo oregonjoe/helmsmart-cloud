@@ -1238,7 +1238,7 @@ def get_influxdbcloud_series():
     #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
     log.info('get_influxdbcloud_series: AttributeError in InfluxDB  %s:  ' % str(e))     
 
-  #except InfluxDBCloud.exceptions.InfluxDBClientError, e:
+  #except InfluxDBCloud.exceptions.InfluxDBClientError as e:
     #log.info('freeboard_createInfluxDB: Exception Error in InfluxDB  %s:  ' % str(e))
 
   except InfluxDBClientError as e:
@@ -16352,6 +16352,732 @@ def getgpsseriesbydeviceid():
 
   finally:
     db_pool.putconn(conn)
+
+
+
+
+
+# Gets GPS lat and lng with data overlay
+@app.route('/getgpsseriesbydeviceid_dbc')
+def getgpsseriesbydeviceid_dbc():
+  conn = db_pool.getconn()
+
+  devicekey = request.args.get('devicekey', '4d231fb3a164c5eeb1a8634d34c578eb')
+  deviceid = request.args.get('deviceid', '')
+  startepoch = request.args.get('startepoch', 0)
+  endepoch = request.args.get('endepoch', 0)
+  resolution = request.args.get('resolution', 60)
+  SERIES_KEY1 = request.args.get('serieskey1', '')
+  SERIES_KEY2 = request.args.get('serieskey2', '')
+
+  dataformat = request.args.get('format', 'json')
+  minthreshold = request.args.get('min', '0')
+  maxthreshold = request.args.get('max', '1000000')
+  maxinterval = request.args.get('maxinterval', '1440')
+  gpsmethod = request.args.get('fix', 15)
+
+  
+  query = "select deviceid from user_devices where deviceapikey = %s"
+
+  response = None
+  
+
+
+  try:
+  #if dataformat == 'json':
+      # first check db to see if deviceapikey is matched to device id
+      if deviceid == "":
+        cursor = conn.cursor()
+        cursor.execute(query, (devicekey,))
+        i = cursor.fetchone()
+        # if not then just exit
+        if cursor.rowcount == 0:
+            return jsonify( message='No device key found', status='error')
+        else:
+            deviceid = str(i[0]) 
+  
+      measurement = "HelmSmart"
+      measurement = "HS_" + str(deviceid)
+      # Modify these with your settings found at: http://tempo-db.com/manage/
+      API_KEY = '7be1d82569414dceaa82fd93fadd7940'
+      API_SECRET = '0447ec319c3148cb98d96bfc96c787e1'
+
+      host = 'hilldale-670d9ee3.influxcloud.net' 
+      port = 8086
+      username = 'helmsmart'
+      password = 'Salm0n16'
+      database = 'pushsmart-cloud'
+
+
+      db = InfluxDBCloud(host, port, username, password, database,  ssl=True)    
+
+
+      #rollup = "mean"
+      rollup = "median"
+
+      #print 'TempoDB Series Key:', SERIES_KEY
+
+      if SERIES_KEY1.find(".*.") > 0:  
+        SERIES_KEY1 = SERIES_KEY1.replace(".*.","*.")
+
+      if SERIES_KEY2.find(".*.") > 0:  
+        SERIES_KEY2 = SERIES_KEY2.replace(".*.","*.")        
+      
+      gpskey =SERIES_KEY1
+
+      overlaykey =SERIES_KEY2
+
+
+
+
+      seriesname = SERIES_KEY1
+      seriestags = seriesname.split(".")
+
+      seriesdeviceidtag = seriestags[0]
+      seriesdeviceid = seriesdeviceidtag.split(":")
+
+      seriessensortag = seriestags[1]
+      seriessensor = seriessensortag.split(":")
+
+      seriessourcetag = seriestags[2]
+      seriessource = seriessourcetag.split(":")
+
+      seriesinstancetag = seriestags[3]
+      seriesinstance = seriesinstancetag.split(":")
+
+      seriestypetag = seriestags[4]
+      seriestype = seriestypetag.split(":")
+
+      seriesparametertag = seriestags[5]
+      seriesparameter = seriesparametertag.split(":")    
+      parameter = seriesparameter[1]
+
+
+      if int(gpsmethod) == 0:
+        fixtype = 'no GPS'
+      elif int(gpsmethod) == 1:        
+        fixtype = 'GNSS fix'
+      elif int(gpsmethod) == 2:            
+        fixtype = 'DGNSS fix'
+      elif int(gpsmethod) == 3:            
+        fixtype = 'Precise GNSS'
+      elif int(gpsmethod) == 4:            
+        fixtype = 'RTK Fixed Integer'
+      elif int(gpsmethod) == 5:            
+        fixtype = 'RTK Float'
+      elif int(gpsmethod) == 6:            
+        fixtype = 'Estimated mode'
+      elif int(gpsmethod) == 7:            
+        fixtype = 'Manual Input'
+      elif int(gpsmethod) == 8:            
+        fixtype = 'Simulate mode'
+      else:            
+        fixtype = 'NULL'      
+
+      sourcekey = ""
+
+      if parameter == 'latlng':
+        serieskeys="( deviceid='"
+        serieskeys= serieskeys + seriesdeviceid[1] 
+        serieskeys= serieskeys +  "' AND sensor='" +  seriessensor[1]
+        if seriessource[1] != "*":
+          serieskeys= serieskeys +  "' AND source='" +  seriessource[1] 
+        serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1] 
+        serieskeys= serieskeys +  "' AND type='" +  fixtype
+        serieskeys= serieskeys +  "'  ) " 
+
+
+                
+      else:
+        serieskeys="( deviceid='"
+        serieskeys= serieskeys + seriesdeviceid[1] 
+        serieskeys= serieskeys +  "' AND sensor='" +  seriessensor[1]
+        if seriessource[1] != "*":
+          serieskeys= serieskeys +  "' AND source='" +  seriessource[1] 
+        serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1] 
+        serieskeys= serieskeys +  "' AND type='" +  fixtype
+        serieskeys= serieskeys +  "' AND parameter='" +  seriesparameter[1] + "'   )"
+
+        
+      if seriessource[1] != "*":
+        sourcekey = " AND source = '"  +  seriessource[1] 
+
+      log.info("inFlux-cloud serieskeys %s", serieskeys)
+
+
+ 
+
+      
+
+      if SERIES_KEY2 == "":
+      # Just get lat/lng
+
+        query = ('select median(lat) as lat, median(lng) as lng , last(source) as source from {} '
+                        'where {}  AND time > {}s and time < {}s '
+                       'group by *, time({}s)') \
+                  .format( measurement, serieskeys, 
+                          startepoch, endepoch,
+                          resolution)
+
+        """
+        query = ('select median(lat) as lat, median(lng) as lng from {} '
+                        'where {} AND time > {}s and time < {}s '
+                       'group by time({}s)') \
+                  .format( measurement, serieskeys,
+                          startepoch, endepoch,
+                          resolution)
+        """
+        
+        log.info("inFlux-cloud gps: Position Query %s", query)
+        
+      else:
+      # get lat/lng plus overlay series
+
+        overlayname = SERIES_KEY2
+        log.info("inFlux-cloud gps: overlayname Query %s", overlayname)
+        
+        overlaytags = overlayname.split(".")
+        log.info("inFlux-cloud gps: overlaytags Query %s", overlaytags)
+        
+        overlaydeviceidtag = overlaytags[0]
+        overlaydeviceid = overlaydeviceidtag.split(":")
+
+        overlaysensortag = overlaytags[1]
+        overlaysensor =overlaysensortag.split(":")
+
+        overlaysourcetag = overlaytags[2]
+        overlaysource = overlaysourcetag.split(":")
+
+        overlayinstancetag = overlaytags[3]
+        overlayinstance = overlayinstancetag.split(":")
+
+        overlaytypetag = overlaytags[4]
+        overlaytype = overlaytypetag.split(":")
+
+        overlayparametertag = overlaytags[5]
+        overlayparameter = overlayparametertag.split(":")    
+
+        log.info("inFlux-cloud gps: overlayparameter Query %s", overlayparameter)
+        
+        overlaykey="( deviceid='"
+        overlaykey= overlaykey + overlaydeviceid[1] 
+        overlaykey= overlaykey +  "' AND sensor='" +  overlaysensor[1]
+        #if overlaysource[1] != "*":
+        #  overlaykey= overlaykey +  "' AND source='" +  overlaysource[1] 
+        overlaykey= overlaykey +  "' AND instance='" +  overlayinstance[1] 
+        overlaykey= overlaykey +  "' AND type='" +  overlaytype[1] 
+        overlaykey= overlaykey +  "' AND parameter='" +  overlayparameter[1] + "'   )"
+
+        log.info("inFlux-cloud gps: overlaykey Query %s", overlaykey)
+
+        serieskeys   =    serieskeys  + " OR " +   overlaykey
+        log.info("inFlux-cloud gps: serieskeys Query %s", serieskeys)
+      
+        query = ('select median(lat) as lat, median(lng) as lng, mean({}) as {}, last(source) as source from {} '
+                        'where {} AND time > {}s and time < {}s '
+                       'group by *, time({}s)') \
+                  .format( overlayparameter[1], overlayparameter[1], measurement, serieskeys,
+                          startepoch, endepoch,
+                          resolution)
+
+   
+        log.info("inFlux gps: Overlay Query %s", query)
+
+        
+
+      try:
+        data= db.query(query)
+        
+      except TypeError as e:
+        log.info('get_influxdbcloud_data: Type Error in InfluxDB mydata append %s:  ', query)
+        log.info('get_influxdbcloud_data: Type Error in InfluxDB mydata append %s:  ' % str(e))
+              
+      except KeyError as e:
+        log.info('get_influxdbcloud_data: Key Error in InfluxDB mydata append %s:  ', query)
+        log.info('get_influxdbcloud_data: Key Error in InfluxDB mydata append %s:  ' % str(e))
+
+      except NameError as e:
+        log.info('get_influxdbcloud_data: Name Error in InfluxDB mydata append %s:  ', query)
+        log.info('get_influxdbcloud_data: Name Error in InfluxDB mydata append %s:  ' % str(e))
+              
+      except IndexError as e:
+        log.info('get_influxdbcloud_data: Index error in InfluxDB mydata append %s:  ', query)
+        log.info('get_influxdbcloud_data: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+
+      except ValueError as e:
+        log.info('get_influxdbcloud_data: Index error in InfluxDB mydata append %s:  ', query)
+        log.info('get_influxdbcloud_data: Value Error in InfluxDB  %s:  ' % str(e))
+
+      except AttributeError as e:
+        log.info('get_influxdbcloud_data: Index error in InfluxDB mydata append %s:  ', query)
+        log.info('get_influxdbcloud_data: AttributeError in InfluxDB  %s:  ' % str(e))     
+
+      except InfluxDBClientError as e:
+        log.info('get_influxdbcloud_data: Exception Error in InfluxDB  %s:  ' % str(e))     
+        
+      except:
+        #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
+        e = sys.exc_info()[0]
+        log.info('inFluxDB gps: Error in geting inFluxDB data %s:  ' % e)
+        
+        return jsonify( message='Error in inFluxDB query 2', status='error')
+        #raise
+      
+      #return jsonify(results=data)
+      #log.info('getgpsseriesbydeviceid: datad %s:  ', data)  
+
+      if not data:
+        return jsonify( message='No data object to return 1', status='error')
+
+      #return jsonify( message='data object to return 1', status='success')
+      # return csv formated data
+      try:
+        jsondata=[]
+        jsonkey=[]
+        strvaluekey = {'Series1': SERIES_KEY1, 'Series2': SERIES_KEY2,'start': startepoch,  'end': endepoch, 'resolution': resolution}
+        jsonkey.append(strvaluekey)
+        jsondataarray=[]
+
+        #if overlaykey == "":
+        # Just get lat/lng
+        keys = data.raw.get('series',[])
+        jsondata=[]
+        for series in keys:
+          #log.info("influxdb results..%s", series )
+          #log.info("influxdb results..%s", series )
+          strvalue ={}
+
+
+          #name = series['name']
+          name = series['tags']            
+          #log.info("inFluxDB_GPS_JSON name %s", name )
+          seriesname = series['tags'] 
+          #seriestags = seriesname.split(".")
+          #seriessourcetag = seriestags[2]
+          #seriessource = seriessourcetag.split(":")
+          #source= seriesname['source']
+          source='FF'
+          parameter = seriesname['parameter']
+          #log.info("inFluxDB_GPS_JSON values %s", series['values'] )
+          
+          for point in  series['values']:
+            fields = {}
+            fields[parameter] = None
+            for key, val in zip(series['columns'], point):
+              fields[key] = val
+            source = fields.get('source', '.*') 
+            #strvalue = {'epoch': fields['time'], 'tag':seriesname, 'lat': fields['lat'], 'lng': fields['lng']}
+            #log.info("freeboard Get InfluxDB series points %s , %s", fields['time'], fields[parameter])
+
+            mydatetimestr = str(fields['time'])
+
+            #mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+            mydatetime =  int(time.mktime(time.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')))
+            
+            #strvalue = {'epoch': fields['time'], 'source':tag['source'], 'value': fields[parameter]}
+            if fields[parameter] != None:
+              #strvalues = []
+              strvalue = {'epoch': mydatetime, 'tag':seriesname, 'value': fields[parameter]}
+              strvalues = (mydatetime, source,  parameter, fields[parameter] )
+
+              
+              jsondata.append(strvalues)
+
+
+            
+        # here we have an array of seperated lat and lng values taged with epoch times and series tags
+        # Like 
+        #'(u'HelmSmart', {u'instance': u'0', u'parameter': u'lat', u'deviceid': u'001EC010AD69', u'source': u'06', u'sensor': u'position_rapid', u'type': u'NULL'})':
+        # [{u'time': u'2016-08-18T11:00:00Z', u'lng': None, u'lat': 42.012865}],
+        # '(u'HelmSmart', {u'instance': u'0', u'parameter': u'lng', u'deviceid': u'001EC010AD69', u'source': u'06', u'sensor': u'position_rapid', u'type': u'NULL'})':
+        # [{u'time': u'2016-08-18T11:00:00Z', u'lng': -124.13088, u'lat': None}],
+        #
+        # We need to reorder this into joined lat and lng based on same epoch times
+
+        #jsondata = sorted(jsondata,key=itemgetter('epoch'))
+        # sort based on epoch times
+        jsondata = sorted(jsondata, key=lambda latlng: latlng[0])
+        #log.info("getgpsseriesbydeviceid_dbc  jsondata   %s",jsondata)
+        #return jsonify( message=jsondata, status='success')
+
+      
+        # group lat and lng values based on epoch times and get rid of repeated epoch times
+        for key, latlnggroup in groupby(jsondata, lambda x: x[0]):
+
+          valuelat = None
+          valuelng = None
+          valueoverlay = None
+          
+          for latlng_values in latlnggroup:
+            if latlng_values[2] == 'lat':
+              valuelat = latlng_values[3]
+              valuesource = latlng_values[1]
+              
+              
+            elif latlng_values[2] == 'lng':
+              valuelng = latlng_values[3]
+
+            elif latlng_values[2] != None:
+              valueoverlay = latlng_values[3]              
+              
+
+            
+          #strvalues=  {'epoch': key, 'source':thing[1], 'value': thing[3]}
+
+          # if we have valid lat and lng - make a json array
+          if  valuelat != None and valuelng != None and valueoverlay != None:
+            strvalues=  {'epoch': key, 'source':valuesource, 'lat': valuelat, 'lng': valuelng,  'overlay':valueoverlay}
+            jsondataarray.append(strvalues)
+            
+          elif  valuelat != None and valuelng != None:
+            strvalues=  {'epoch': key, 'source':valuesource, 'lat': valuelat, 'lng': valuelng}
+            jsondataarray.append(strvalues)
+            
+            #log.info("freeboard  jsondata group   %s",strvalues)
+
+
+          
+        #return jsonify( message=jsondataarray, status='success')
+      except:
+        #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
+        e = sys.exc_info()[0]
+        log.info('get_influxdbcloud_gpsdata: Error in geting gps data parsing %s:  ' % e)
+      
+        return jsonify( message='Error in inFluxDB_GPS  parsing', status='error')
+
+      
+      
+      if dataformat == 'csv':
+        try:
+          #def generate():
+          #if overlaykey == "":
+          # Just get lat/lng
+          # create header row
+          strvalue ='TimeStamp, serieskey1: ' + SERIES_KEY1 + ', serieskey2: ' + SERIES_KEY2 +', start: ' + startepoch + ', end: ' + endepoch +  ', resolution: ' + resolution  + ' \r\n'
+
+          # create header row
+          if SERIES_KEY2 != "":      
+            strvalue = strvalue + 'epoch, time, source, lat, lng, seg distance, speed, delta time, ' + overlayparameter[1] + ' \r\n'
+          else:
+            strvalue = strvalue + 'epoch, time, source, lat, lng, seg distance, speed, delta time \r\n'
+
+       
+          #get all other rows
+          #for dataset in data:
+          jsondata = jsondataarray
+
+          list_length = len(jsondata)
+          for i in range(list_length-1):
+            oldvector = (jsondata[i]['lat'], jsondata[i]['lng'])
+            oldsource = jsondata[i]['source']
+            newvector = (jsondata[i+1]['lat'], jsondata[i+1]['lng'])
+            newsource = jsondata[i+1]['source']
+            
+            if (newsource == oldsource) and (newvector != oldvector):
+              oldtime = jsondata[i]['epoch']
+              newtime = jsondata[i+1]['epoch']
+
+              deltatime = abs(newtime - oldtime)
+              
+              delta = vincenty(oldvector, newvector).miles
+              if deltatime == 0:
+                speed = float(0)
+              else:
+                speed = float((delta/(float(deltatime)))*60*60)
+
+              mytime = datetime.datetime.fromtimestamp(float(jsondata[i]['epoch'])).strftime('%Y-%m-%d %H:%M:%SZ')
+                
+              if SERIES_KEY2 == "":                
+                strvalue = strvalue + str(jsondata[i]['epoch'])+ ', ' + str(mytime) + ', ' + str(jsondata[i]['source']) + ', ' + str(jsondata[i]['lat']) + ', ' + str(jsondata[i]['lng']) + ', ' + str(delta)+ ', ' + str(speed)+ ', ' + str(deltatime) + ' \r\n'
+              else:
+                strvalue = strvalue + str(jsondata[i]['epoch'])+ ', ' + str(mytime) + ', ' + str(jsondata[i]['source']) + ', ' + str(jsondata[i]['lat']) + ', ' + str(jsondata[i]['lng']) + ', ' + str(delta)+ ', ' + str(speed)+ ', ' + str(deltatime) + ', ' + str(jsondata[i]['overlay'])+ ' \r\n'
+
+          response = make_response(strvalue)
+          response.headers['Content-Type'] = 'text/csv'
+          response.headers["Content-Disposition"] = "attachment; filename=HelmSmart.csv"
+          return response
+
+        
+        except:
+          #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
+          e = sys.exc_info()[0]
+          log.info('inFluxDB_GPS: Error in geting inFluxDB CSV data %s:  ' % e)
+      
+          return jsonify( message='Error in inFluxDB_GPS CSV parsing', status='error')
+
+      elif dataformat == 'gpx':
+        try:
+          #def generate():
+          # create header row
+          #strvalue ='TimeStamp, serieskey1: ' + SERIES_KEY1 + ', serieskey2: ' + SERIES_KEY2 +', start: ' + startepoch + ', end: ' + endepoch +  ', resolution: ' + resolution  + ' \r\n'
+          gpxpoints=[]
+          # create header row
+          #strvalue = strvalue + 'time, value1, value2, value3, value4 \r\n'
+          strvalue = ""
+          strvalue = '<?xml version="1.0" encoding="UTF-8"?>' + '\r\n'
+          strvalue = strvalue + '<gpx creator="HelmSmart Visualizer http://www.helmsmart.com/" '
+          strvalue = strvalue + 'version="1.1" xmlns="http://www.topografix.com/GPX/1/1" '
+          strvalue = strvalue + 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+          strvalue = strvalue + 'xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">' + '\r\n'
+          strvalue = strvalue + '<trk>' + '\r\n'
+          strvalue = strvalue + '<name>Track001</name>' + '\r\n'
+          strvalue = strvalue + '<trkseg>' + '\r\n'
+          #get all other rows
+          gpxpoints = jsondataarray
+
+
+          #Next go through array and calculate the distance and speed vectors.
+          list_length = len(gpxpoints)
+          for i in range(list_length-1):
+            
+              oldvector = (gpxpoints[i]['lat'], gpxpoints[i]['lng'])
+              newvector = (gpxpoints[i+1]['lat'], gpxpoints[i+1]['lng'])
+
+              if newvector != oldvector:
+
+                oldtime = gpxpoints[i]['epoch']
+                newtime = gpxpoints[i+1]['epoch']
+
+                deltatime = abs(newtime - oldtime)
+                
+                delta = vincenty(oldvector, newvector).miles
+
+                if deltatime == 0:
+                  speed = float(0)
+     
+                else:
+                  speed = float((delta/(float(deltatime)))*60*60)
+
+                # if speed vector less then threshold add to GPX file
+                if speed < float(maxthreshold)/100:
+                  mytime = datetime.datetime.fromtimestamp(float(gpxpoints[i]['epoch'])).strftime('%Y-%m-%dT%H:%M:%SZ')
+                  strvalue = strvalue + '<trkpt lat="' + str(gpxpoints[i]['lat']) + '" lon="' + str(gpxpoints[i]['lng']) + '"> \r\n'
+                  strvalue = strvalue + '<time>' + str(mytime) + '</time> \r\n'
+                  strvalue = strvalue + '</trkpt> \r\n'
+
+          #close out GPX file with footer
+          strvalue = strvalue + '</trkseg> \r\n'
+          strvalue = strvalue + '</trk> \r\n'
+          strvalue = strvalue + '<extensions> \r\n'
+          strvalue = strvalue + '</extensions> \r\n'
+          strvalue = strvalue + '</gpx> \r\n'
+          
+          response = make_response(strvalue)
+          response.headers['Content-Type'] = 'text/plain'
+          response.headers["Content-Disposition"] = "attachment; filename=HelmSmart.gpx"
+          return response
+        except:
+          #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
+          e = sys.exc_info()[0]
+          log.info('inFluxDB_GPS: Error in geting inFluxDB GPX data %s:  ' % e)
+      
+          return jsonify( message='Error in inFluxDB_GPS GPX parsing', status='error')
+
+      elif dataformat == 'jsonf':
+        try:
+          jsondata=[]
+          jsonkey=[]
+          strvaluekey = {'Series1': SERIES_KEY1, 'Series2': SERIES_KEY2,'start': startepoch,  'end': endepoch, 'resolution': resolution}
+          jsonkey.append(strvaluekey)
+
+          gpsdata=[]
+          jsondata=[]
+          #for jsondata in jsondataarray:
+
+
+          jsondata = jsondataarray
+
+
+          list_length = len(jsondata)
+          for i in range(list_length-1):
+            oldvector = (jsondata[i]['lat'], jsondata[i]['lng'])
+            oldsource = jsondata[i]['source']
+            newvector = (jsondata[i+1]['lat'], jsondata[i+1]['lng'])
+            newsource = jsondata[i+1]['source']
+            
+            if (newsource == oldsource) and (newvector != oldvector):
+              oldtime = jsondata[i]['epoch']
+              newtime = jsondata[i+1]['epoch']
+
+              deltatime = abs(newtime - oldtime)
+              
+              delta = vincenty(oldvector, newvector).miles
+              if deltatime == 0:
+                speed = float(0)
+              else:
+                speed = float((delta/(float(deltatime)))*60*60)
+
+              if SERIES_KEY2 == "":
+                gpsjson = {'epoch': jsondata[i]['epoch'], 'source':jsondata[i]['source'], 'lat':jsondata[i]['lat'], 'lng': jsondata[i]['lng'], 'distance':delta, 'speed':speed, 'interval':deltatime}
+              else:
+                gpsjson = {'epoch': jsondata[i]['epoch'],  'source':jsondata[i]['source'],'lat':jsondata[i]['lat'], 'lng': jsondata[i]['lng'], 'distance':delta, 'speed':speed, 'overlay': jsondata[i].get('overlay',"")}
+
+              #mininterval
+              if deltatime <  float(maxinterval) * 60:
+                if speed < float(maxthreshold)/100:
+                  gpsdata.append(gpsjson)
+          
+          print 'inFluxDB_GPS JSONF returning data points:'
+
+          #return jsonify(serieskey = jsonkey, results = jsondata)
+          response = make_response(json.dumps(gpsdata))
+          response.headers['Content-Type'] = "application/json"
+          response.headers["Content-Disposition"] = "attachment; filename=HelmSmart.json"
+          return response
+
+        
+        except:
+          #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
+          e = sys.exc_info()[0]
+          log.info('inFluxDB_GPS: Error in geting inFluxDB JSONF data %s:  ' % e)
+      
+          return jsonify( message='Error in inFluxDB_GPS JSONF parsing', status='error')
+        
+
+      
+      elif dataformat == 'json':
+        try:
+
+
+         
+          gpsdata=[]
+          jsondata=[]
+          #for jsondata in jsondataarray:
+
+
+          jsondata = jsondataarray
+          #log.info("freeboard  jsondata  %s:  %s",len(jsondata),  jsondata)
+          
+          list_length = len(jsondata)
+          for i in range(list_length-1):
+            oldvector = (jsondata[i]['lat'], jsondata[i]['lng'])
+            oldsource = jsondata[i]['source']
+            newvector = (jsondata[i+1]['lat'], jsondata[i+1]['lng'])
+            newsource = jsondata[i+1]['source']
+            
+            if (newsource == oldsource) and (newvector != oldvector):
+
+              oldtime = jsondata[i]['epoch']
+              newtime = jsondata[i+1]['epoch']
+
+              deltatime = abs(newtime - oldtime)
+              
+              delta = vincenty(oldvector, newvector).miles
+              #print 'GetGPSJSON processing dalta points:', delta
+
+              #speed = {'speed':float(delta/(float(deltatime)*60*60))} 
+              if deltatime == 0:
+                speed = float(0)
+   
+              else:
+                speed = float((delta/(float(deltatime)))*60*60)
+              #distance = {'distance':delta}
+
+              if SERIES_KEY2 == "":
+                gpsjson = {'epoch': jsondata[i]['epoch'], 'source':jsondata[i]['source'], 'lat':jsondata[i]['lat'], 'lng': jsondata[i]['lng'], 'distance':delta, 'speed':speed, 'interval':deltatime}
+              else:
+                gpsjson = {'epoch': jsondata[i]['epoch'], 'source':jsondata[i]['source'], 'lat':jsondata[i]['lat'], 'lng': jsondata[i]['lng'], 'distance':delta, 'speed':speed, 'overlay': jsondata[i].get('overlay',"")}
+              
+              #if delta < float(maxthreshold)/1000:
+              if deltatime <  float(maxinterval) * 60:
+                if speed < float(maxthreshold)/100:
+                  gpsdata.append(gpsjson)
+                
+          #except:
+          #  e = sys.exc_info()[0]
+          #  log.info('inFluxDB_GPS: Error in geting inFluxDB JSON data %s:  ' % e)
+
+          gpsdata = sorted(gpsdata,key=itemgetter('epoch'))
+          print 'GetGPSJSON returning data points:'
+          log.info('GetGPSJSON: returning JSON data:  ' )
+
+          
+          return jsonify(serieskey = jsonkey, results = gpsdata)
+        
+        except AttributeError as e:
+          #log.info('inFluxDB_GPS: AttributeError in convert_influxdb_gpsjson %s:  ', data)
+          #e = sys.exc_info()[0]
+
+          log.info('inFluxDB_GPS: AttributeError in parsing json output %s:  ' % str(e))
+          
+        except TypeError as e:
+          #log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ', data)
+          #e = sys.exc_info()[0]
+
+          log.info('inFluxDB_GPS: TypeError in  parsing json output  %s:  ' % str(e))
+
+        except KeyError as e:
+          #log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ', data)
+          #e = sys.exc_info()[0]
+
+          log.info('inFluxDB_GPS: KeyError in  parsing json output  %s:  ' % str(e))
+          
+        except ValueError as e:
+          #log.info('inFluxDB_GPS: ValueError in convert_influxdb_gpsjson %s:  ', data)
+          #e = sys.exc_info()[0]
+
+          log.info('inFluxDB_GPS: ValueError in  parsing json output  %s:  ' % str(e))            
+          
+        except NameError as e:
+          #log.info('inFluxDB_GPS: NameError in convert_influxdb_gpsjson %s:  ', data)
+          #e = sys.exc_info()[0]
+
+          log.info('Sync: NameError in  parsing json output  %s:  ' % str(e))          
+        except:
+          e = sys.exc_info()[0]
+          log.info('inFluxDB_GPS: Error in  parsing json output  %s:  ' % e)
+      
+          return jsonify( message='Error in inFluxDB_GPS JSON parsing', status='error')
+        
+      else:
+        result = json.dumps(data.data, cls=DateEncoder)
+  
+        response = make_response(result) 
+    
+        response.headers['content-type'] = "application/json"
+        return response
+  
+  except AttributeError as e:
+    log.info('inFluxDB_GPS: AttributeError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    #e = sys.exc_info()[0]
+
+    log.info('inFluxDB_GPS: AttributeError in convert_influxdb_gpsjson %s:  ' % str(e))
+    
+  except TypeError as e:
+    log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    #e = sys.exc_info()[0]
+
+    log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ' % str(e))
+    
+  except ValueError as e:
+    log.info('inFluxDB_GPS: ValueError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    #e = sys.exc_info()[0]
+
+    log.info('inFluxDB_GPS: ValueError in convert_influxdb_gpsjson %s:  ' % str(e))            
+    
+  except NameError as e:
+    log.info('inFluxDB_GPS: NameError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    #e = sys.exc_info()[0]
+
+  except IndexError as e:
+    log.info('inFluxDB_GPS: IndexError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    #e = sys.exc_info()[0]
+
+
+  except:
+    e = sys.exc_info()[0]
+    log.info('inFluxDB_GPS: Error read_data exception data.points %s:  ' % e)
+    return jsonify( message='gps_influxdb read_data exception data.points', status='error')
+  
+
+  finally:
+    db_pool.putconn(conn)
+
+
+
+
+
+    
 
 #@app.route('/devices/<device_id>/PushCache/<partition>', methods=['POST'])
 #@cross_origin()
