@@ -16742,7 +16742,10 @@ def getgpsseriesbydeviceid_dbc():
 
 
           
-        #return jsonify( message=jsondataarray, status='success')
+      except NameError as e:
+        log.info('inFluxDB_GPS: NameError in geting gps data parsing  %s:  ', jsondataarray)
+        log.info('inFluxDB_GPS: NameError in geting gps data parsing  %s:  ' % str(e))
+        
       except:
         #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
         e = sys.exc_info()[0]
