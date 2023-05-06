@@ -34,12 +34,12 @@
       
 var gPrefID="";
 		
-     head.js("https://helmsmart-flasktest.herokuapp.com/static/js/freeboard_plugins.js",
-		"https://helmsmart-flasktest.herokuapp.com/static/plugins/helmsmart.datasources.js",
-		"https://helmsmart-flasktest.herokuapp.com/static/plugins/helmsmart.widgets.js",
-		"https://helmsmart-flasktest.herokuapp.com/static/plugins/plugin_highcharts_historical.js",
-				"https://helmsmart-flasktest.herokuapp.com/static/plugins/thirdparty/highcharts.js",
-		"https://helmsmart-flasktest.herokuapp.com/static/plugins/thirdparty/exporting.js",
+     head.js("https://helmsmart-cloud.herokuapp.com/static/js/freeboard_plugins.js",
+		"https://helmsmart-cloud.herokuapp.com/static/plugins/helmsmart.datasources.js",
+		"https://helmsmart-cloud.herokuapp.com/static/plugins/helmsmart.widgets.js",
+		"https://helmsmart-cloud.herokuapp.com/static/plugins/plugin_highcharts_historical.js",
+				"https://helmsmart-cloud.herokuapp.com/static/plugins/thirdparty/highcharts.js",
+		"https://helmsmart-cloud.herokuapp.com/static/plugins/thirdparty/exporting.js",
 		//"js/freeboard_plugins.min.js",             // *** Load more plugins here ***
                 function(){
                     $(function()
@@ -93,7 +93,7 @@ function SaveDashboardToServer(blob)
 	 
 	var devicedataurl;
 	
-    devicedataurl = "https://helmsmart-flasktest.herokuapp.com/freeboard_savedashboardjson?prefuid=" + gPrefID;
+    devicedataurl = "https://helmsmart-cloud.herokuapp.com/freeboard_savedashboardjson?prefuid=" + gPrefID;
 	
 				return $.ajax({
 			//async: false,
@@ -163,7 +163,7 @@ function getDashboardJSON(prefuid)
 
 	var devicedataurl;
 	
-    devicedataurl = "https://helmsmart-flasktest.herokuapp.com/freeboard_getdashboardjson?prefuid=" + prefuid;
+    devicedataurl = "https://helmsmart-cloud.herokuapp.com/freeboard_getdashboardjson?prefuid=" + prefuid;
 
     return $.ajax({
     //async: false,
@@ -325,10 +325,10 @@ function getDashboardJSON(prefuid)
 <div>
   <center>
   {% if session['userid'] %}
-     <a href="https://helmsmart-flasktest.herokuapp.com/dashboards_list" id="login" class="persona-button">
+     <a href="https://helmsmart-cloud.herokuapp.com/dashboards_list" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="https://helmsmart-flasktest.herokuapp.com/dashboards_list" id="login" class="persona-button">
+    <a href="https://helmsmart-cloud.herokuapp.com/dashboards_list" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
@@ -344,7 +344,7 @@ function getDashboardJSON(prefuid)
 		  <img alt="" class="auto-style19" height="50" src="/static/img/helmsmart_logo_small.jpg" width="200"></a>
 		  </td>
 		   <td  align="center" >
-		  <a href="https://helmsmart-flasktest.herokuapp.com">
+		  <a href="https://helmsmart-cloud.herokuapp.com">
 		  <img alt="" class="auto-style19" height="50" src="/static/img/freeboard_logo_small.jpg" width="200"></a></td>
         </tr>
 		<tr><td colspan=2 align="center"> www.netgauges.net www.helmsmart.com www.seasmart.net www.chetcodigital.com </td></tr>

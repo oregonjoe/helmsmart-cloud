@@ -1,0 +1,2777 @@
+<!DOCTYPE html>
+<html ><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>netGauges - Live Data Dials</title>
+<style type="text/css">
+
+
+  a {
+  text-decoration: none;
+  color: #FFFFFF;
+  }
+
+
+  .auto-style2 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style3 {
+  color: #FFFFFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style5 {
+  color: #000000;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style9 {
+  color: #FFFFFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: x-small;
+  text-align: center;
+  }
+
+  .auto-style10 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: left;
+  color: #000000;
+  }
+</style>
+
+
+	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+	
+
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> 
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/>
+
+  	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+  
+  
+  
+  	<script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+   <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    
+   
+<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="uf2swfoumyb92vw"></script>
+
+
+	
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+
+<script type="text/javascript">
+    var myDeviceIDs = new Array();
+    var myDeviceID="";
+    var myuploadDeviceID="";
+	var myHSblob=null;
+	var uploadType = 0;
+		var url = "";
+		
+	var gtimezoneOffset = 0;
+	
+    var files;
+    zpad.zeros = new Array(5).join('0');
+    spad.spaces = new Array(7).join(' ');
+     var ShowHidePrefsflag=false;   
+    
+    
+    /* ******************  padding functions ************************************************ */
+
+    function zpad(num, len) {
+    var str = String(num),
+    diff = len - str.length;
+    if(diff <= 0) return str;
+  if(diff > zpad.zeros.length)
+  zpad.zeros = new Array(diff + 1).join('0');
+  return zpad.zeros.substr(0, diff) + str;
+  }
+
+  function spad(num, len) {
+  var str = String(num),
+  diff = len - str.length;
+  if(diff <= 0) return str;
+    if(diff > spad.spaces.length)
+    spad.spaces= new Array(diff + 1).join(' ');
+    return spad.spaces.substr(0, diff) + str;
+    }
+	
+	
+function pad(number, length) {
+
+        var str = '' + number;
+        while (str.length < length) {
+            str = '0' + str;
+        }
+
+        return str;
+
+    }	
+   
+function toHex(d) {
+    return  ("0"+(Number(d).toString(16))).slice(-2).toUpperCase()
+}	
+
+function zHexpad(num, len) {
+    var str = Number(num).toString(16).toUpperCase();
+    diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > zpad.zeros.length)
+        zpad.zeros = new Array(diff + 1).join('0');
+    return zpad.zeros.substr(0, diff) + str;
+}
+
+function zHex32pad(num, len) {
+    var str = Number(num).toString(32).toUpperCase();
+    diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > zpad.zeros.length)
+        zpad.zeros = new Array(diff + 1).join('0');
+    return zpad.zeros.substr(0, diff) + str;
+}
+
+	   
+   
+   
+Date.isLeapYear = function (year) { 
+    return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
+};
+
+Date.getDaysInMonth = function (year, month) {
+    return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+};
+
+Date.prototype.isLeapYear = function () { 
+    return Date.isLeapYear(this.getFullYear()); 
+};
+
+Date.prototype.getDaysInMonth = function () { 
+    return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+};
+
+Date.prototype.addMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() + value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	  
+	  
+Date.prototype.subMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() - value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	
+
+Date.prototype.subDays = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() - value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	
+
+Date.prototype.yyyymmdd = function() {         
+                                
+        var yyyy = this.getFullYear().toString();                                    
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+        var dd  = this.getDate().toString();             
+                            
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+   };
+   
+ Date.prototype.yyyymmddhhmm = function() {         
+                                
+        var yyyy = this.getFullYear().toString();                                    
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+        var dd  = this.getDate().toString();    
+        var hh  = this.getHours().toString(); 
+        var Min  = this.getMinutes().toString(); 		
+                            
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]) + ' ' + hh + ':' + Min;
+   };
+   
+   Date.prototype.yyyymmddhhmmss = function() {         
+                                
+        var yyyy = this.getFullYear().toString();
+        var MM = pad(this.getMonth() + 1,2);
+        var dd = pad(this.getDate(), 2);
+        var hh = pad(this.getHours(), 2);
+        var mm = pad(this.getMinutes(), 2)
+        var ss = pad(this.getSeconds(), 2)
+
+        return yyyy + '-' + MM + '-' + dd + ' ' +  hh + ':' + mm + ':' + ss;
+   };   
+	   
+
+
+  </script >
+
+
+  <script type="text/javascript">
+ 	// getElementById
+	function $id(id) {
+		return document.getElementById(id);
+	}
+
+	// Clear output information
+	function ClearOutput() {
+		var m = $id("messages");
+		m.innerHTML = "";
+	}
+
+	// output information
+	function Output(msg) {
+		var m = $id("messages");
+		m.innerHTML = msg + m.innerHTML;
+	}
+
+// file selection
+	function FileSelectHandler(e) {
+
+		// cancel event and hover styling
+		//FileDragHover(e);
+
+		// fetch FileList object
+		files = e.target.files || e.dataTransfer.files;
+		uploadType = 1;
+		
+		
+		/*
+
+		// process all File objects
+		for (var i = 0, f; f = files[i]; i++) {
+			ParseFile(f);
+	
+		}
+		
+		*/
+		f = files[0];
+		ParseFile(f);
+		
+		// reset Device Dropdown list
+		// to enable upload if deviceID matches file
+		SetDeviceOptionList();
+
+	}
+
+function ChangedSpan()
+{
+
+ var myRollup = document.getElementById("Span").options[document.getElementById("Span").selectedIndex].value;  
+
+	  
+	  if(myRollup!= "0")
+	  {
+
+		if(myRollup == "1m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(1);
+		}
+		else if(myRollup == "2m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(2);
+		}
+		else if(myRollup == "3m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(3);
+		}
+		else if(myRollup == "4m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(4);
+		}
+		else if(myRollup == "5m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(5);
+		}
+		else if(myRollup == "6m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(6);
+		}
+		else
+		{
+			var EndEpoch = new Date();
+		
+			var StartEpoch  = EndEpoch - (myRollup*60*1000);
+		}
+	
+
+	
+		//EndEpoch = Math.floor(EndEpoch.getTime()/1000);
+		//StartEpoch  = Math.floor(StartEpoch.getTime()/1000);
+	
+	
+	// var StartEpoch = new Date(StartEpochDB );
+ //var EndEpoch = new Date(EndEpochDB );
+ //var ResolutionSecs = new Date(ResSecsDB);
+
+    
+		$("#datepickerstart").datetimepicker('setDate', new Date(StartEpoch) );
+       
+		$("#datepickerend").datetimepicker('setDate', EndEpoch );
+	
+		GetSeriesAttributes(document.getElementById("DLDeviceID").options[document.getElementById("DLDeviceID").selectedIndex].value);
+	}
+
+   
+ }
+ 
+ function encodePCDINfromCSV(myFileName, source)	
+ {
+ 
+ var encodedData;
+ var PCDINData = new Array();
+ 
+ var EPOCHDATEparts = myFileName.split("_");
+ 
+ var EpochYear = EPOCHDATEparts[2].substring(0,4);
+ var EpochMonth = EPOCHDATEparts[2].substring(4,6);
+ var EpochDay = EPOCHDATEparts[2].substring(6,8);
+ 
+ var EpochHour;
+ var EpochMinute;
+ var EpochSecond ;
+ var myEpoch;
+ var myIndexCount=0
+//mySubStrings = source.split("\n");
+ mySubStrings = source.replace(/"[^"]+"/g, "").split("\n");
+ 
+ 			myArrayLength = mySubStrings.length;
+			
+					  // Get all the elements and parse into variables
+			  for (myIndex = 1; myIndex < myArrayLength; myIndex++) 
+			  {
+			      mySubString = mySubStrings[myIndex];
+				  
+				  myNMEADataString = mySubString.split(",");
+				  
+				  if(myNMEADataString[2] == "CANPACKET" || myNMEADataString[2] == "N2K")
+				  {
+				  
+					  csvTimeStamp = myNMEADataString[1].split(":");
+					  csvPGN = myNMEADataString[3];
+					  csvSource = myNMEADataString[5];
+					  csvSize = myNMEADataString[8];
+					  
+					  PCDINTimeStamp = "00000000"
+					  
+						EpochHour = csvTimeStamp[0];
+						EpochMinute = csvTimeStamp[1];
+						EpochSecond = csvTimeStamp[2].substring(0,2);
+					  
+					  myEpoch = new Date(EpochYear, EpochMonth-1, EpochDay, EpochHour, EpochMinute, EpochSecond);
+					  secondsSinceEpoch = Math.round(myEpoch.getTime() / 1000) ; 
+					  secondsSinceEpoch = secondsSinceEpoch -1262304000;
+					  
+					  PCDINTimeStamp = zHex32pad(secondsSinceEpoch,6) + zHex32pad(myIndexCount,2);
+					  
+					  csvData = ""
+					  for(i=0; i< csvSize; i++)
+					  {
+						csvData = csvData + zHexpad(myNMEADataString[9+i],2)
+					  }
+					  
+					  checksum = 0
+					  PCDINString = "$PCDIN," + zHexpad(myNMEADataString[3],6) + ","  + PCDINTimeStamp + "," + zHexpad(myNMEADataString[5],2) + "," + csvData ;
+					  
+					  for(j=1; j< PCDINString.length; j++)
+					  {
+						checksum = checksum ^ PCDINString.charCodeAt(j);
+					  
+					  }
+					  
+					  //PCDINString = PCDINString + "*" + zHexpad(checksum,2) + "\r\n"
+					  PCDINData.push(PCDINString + "*" + zHexpad(checksum,2))
+					  
+					  myIndexCount++;
+				  }
+				  
+				  
+			}
+ 
+			return PCDINData.join("\r\n");
+ }
+	 
+ 
+ 
+ 
+// output file information
+function ParseFile(file) {
+var uploadbutton = $id("uploadbutton");
+var myprogressvalue = $id("progressvalue");
+var myprogressbar = $id("ulprogressBar");
+var uploadbuttondiv = $id("uploadbuttondiv");
+var mytimestamp;
+
+        // clear message buffer
+		ClearOutput();
+
+		// display text
+		if (file.type.indexOf("text") == 0) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+
+			var mytext = e.target.result;
+			var mySubStrings = new Array();
+			var mySubString;
+			
+			myuploadDeviceID = "";
+
+			mySubStrings = mytext.split("\n");
+			myArrayLength = mySubStrings.length;
+
+
+			  // Get all the elements and parse into variables
+			  for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
+			  {
+			      mySubString = mySubStrings[myIndex];
+				  myPos = mySubString.indexOf("$PCDIN,01FF80,")
+				  if(myPos !=  -1)
+				  {
+						mytimestamp = mySubString.substr(myPos+14,6);
+						mySubString = mySubString.substr(myPos,43);
+						myPos = mySubString.indexOf(",99E1")
+						if(myPos !=  -1)
+						{
+							myuploadDeviceID = mySubString.substr(myPos+5,12);
+							
+							  
+							for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+							{
+									myDeviceID = document.getElementById("DeviceID").options[i].value;
+									//myuploadDeviceID = myDeviceID;
+												if(myDeviceID == myuploadDeviceID)
+												{
+													document.getElementById("DeviceID").selectedIndex = i;
+													break;
+												}
+							}
+							
+							/*
+							if(myuploadDeviceID != myDeviceID)
+							{
+									// remove upload button
+									uploadbuttondiv.style.display = "none";
+									uploadType = 1;
+									//uploadbuttondiv.style.display = "block";
+						
+							}
+							*/
+							if (myDeviceID != "000000000000")
+							{
+									// remove upload button
+									uploadbuttondiv.style.display = "block";
+									uploadType = 1;
+					
+							}
+
+							//mytimestamp = mySubString.substr(myPos+5,12);
+
+						}
+						else
+						{
+							// remove upload button
+							//uploadbuttondiv.style.display = "none";
+							//uploadType = 0;
+							uploadbuttondiv.style.display = "block";
+							uploadType = 1;
+						}
+				  }
+
+			  }  
+
+				Output(
+					"<p><strong>" + file.name + ":</strong></p>" +
+					"<p><strong> DeviceID: " + myuploadDeviceID + " </strong></p>" +
+					"<p>File information: <strong>" + file.name +
+					"</strong> type: <strong>" + file.type +
+					"</strong> size: <strong>" + file.size +
+					"</strong> bytes</p><pre class=\"auto-style5\">" +
+					e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+					"</pre>"
+				);
+			}
+			var blob = file.slice(0,4096*2);
+	
+			reader.readAsText(blob);
+			//reader.readAsText(file);
+		}
+}
+
+
+
+// upload PushSmart files
+function myuploadFile(e){
+
+// fetch FileList object
+		if(uploadType == 1)
+		{
+		for (var i = 0, f; f = files[i]; i++) {
+	
+			uploadFileInChunks(f, i);
+			}
+		}
+		else if(uploadType == 2)
+		{
+			PostHSFile()
+		}
+	}
+
+
+function uploadFileInChunks(file, i){
+    var myloaded = 0;
+	var chunkcount = 0;
+    //var step = 1024*1024;
+	var step = 1024*128;
+    var total = file.size;
+    var start = 0;
+	var numofchunks = 0;
+	
+	var mySubStrings = new Array();
+
+	var m_uploadmessages = $id("uploadmessages");
+
+	if(total >= step)
+		numofchunks = parseInt(total / step);
+	else
+		numofchunks = 1;
+
+
+
+	var myprogressbar = $id("ulprogressBar");
+	var myprogressvalue = $id("progressvalue");
+	myprogressvalue.innerHTML = " starting";
+
+	var reader = new FileReader();
+
+    reader.onprogress = function(e){
+            //myloaded += e.loaded;
+		};
+
+	reader.onerror = function(event) {
+    console.error("File could not be read! Code " + event.target.error.code);
+	};	
+		
+    reader.onload = function(e){
+        var xhr = new XMLHttpRequest();
+       // var upload = xhr.upload;
+	   
+			if(myDeviceID.length == 12)
+			{
+			    var myFileName = file.name;
+				
+				var myFileType = file.type;
+				var myFileNameParts = file.name.split(".");
+				var myFileNamePart =  myFileNameParts[0].split("_");
+
+
+				// Actisense CSV Log file format
+				if (file.type == "application/vnd.ms-excel")
+				{
+					//myFileName = "SSLOG00_000" + myFileNamePart[0].substring[0:3] + "_" + myFileNamePart[1] +  myFileNamePart[2].substring[0:3]  + zpad(chunkcount, 3);
+					
+					myFileName = "SSA300_000" + myFileNamePart[0].substring(0,3) + "_" + myFileNamePart[1] +  myFileNamePart[2].substring(0,3)  + zpad(chunkcount, 3);
+					
+					//"SSLOG00_000001_01150112000" + zpad(chunkcount, 3);
+					//SSA300_000031_01191013160307
+					// conver csv file format to PushSmart
+					var myencoderesult = encodePCDINfromCSV(myFileName, e.target.result);
+
+					
+					
+					var postfilename = "http://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName 
+					xhr.open("POST", postfilename, true);
+					xhr.setRequestHeader("X_FILENAME", file.name);
+					//xhr.send(e.target.result);
+					
+					xhr.onreadystatechange = function(){ 
+						if ( xhr.readyState == 4 ) { 
+						
+						  if ( xhr.status == 200 ) {
+								console.log("We got a response : " + xhr.response);
+							
+							
+							
+							
+							
+								if(myloaded < total)
+								{
+								   blob = file.slice(myloaded,myloaded+step+1);
+								   chunkcount = chunkcount + 1;
+								   myloaded = myloaded + step;
+								   
+								   reader.readAsText(blob);	
+								   m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
+
+								   myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
+
+								   //myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
+								   myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + i;
+
+							   }
+							   else
+							   {
+									myloaded = total;
+									myprogressvalue.innerHTML = " finished: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+									return;
+								}
+											
+							} else //if (!isValid(xhr.response) && xhr.status == 0) 
+							{
+								console.log("The computer appears to be offline.");
+								myprogressvalue.innerHTML = " Server error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+							}
+							
+							
+						} 
+					  }; 
+					  
+					  xhr.onerror = function () { 
+						console.log("We got a error : " + xhr.status);
+						
+						//myloaded = total;
+						myprogressvalue.innerHTML = " Post error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+						
+					  }; 					
+					
+					
+					
+					xhr.send(myencoderesult);
+					
+					
+				}
+				else // send PushSmart log file
+				{
+				
+
+					myFileName = myFileName.substr(0,(myFileName.length - 7));
+
+					var postfilename = "http://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
+					xhr.open("POST", postfilename, true);
+					xhr.setRequestHeader("X_FILENAME", file.name);
+				
+				
+					xhr.onreadystatechange = function(){ 
+						if ( xhr.readyState == 4 ) { 
+						
+						  if ( xhr.status == 200 ) {
+								console.log("We got a response : " + xhr.response);
+							
+							
+							
+							
+							
+								if(myloaded < total)
+								{
+								   blob = file.slice(myloaded,myloaded+step+1);
+								   chunkcount = chunkcount + 1;
+								   myloaded = myloaded + step;
+								   
+								   reader.readAsText(blob);	
+								   m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
+
+								   myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
+
+								   //myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
+								   myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + i;
+
+							   }
+							   else
+							   {
+									myloaded = total;
+									myprogressvalue.innerHTML = " finished: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+									return;
+								}
+											
+							} else //if (!isValid(xhr.response) && xhr.status == 0) 
+							{
+								console.log("The computer appears to be offline.");
+								myprogressvalue.innerHTML = " Server error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+							}
+							
+							
+						} 
+					  }; 
+					  
+					  xhr.onerror = function () { 
+						console.log("We got a error : " + xhr.status);
+						
+						//myloaded = total;
+						myprogressvalue.innerHTML = " Post error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+						
+					  }; 					
+				
+				
+					xhr.send(e.target.result);
+				}
+			}
+		// upload.addEventListener('load',function()
+		// {
+		
+		
+		/*
+             if(myloaded < total)
+			 {
+                   blob = file.slice(myloaded,myloaded+step+1);
+				   chunkcount = chunkcount + 1;
+				   myloaded = myloaded + step;
+				   
+                   reader.readAsText(blob);	
+		           m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
+
+				   myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
+
+				   //myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
+				   myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + i;
+
+               }
+			   else
+			   {
+                    myloaded = total;
+					myprogressvalue.innerHTML = " finished: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+					return;
+                }
+				
+				*/
+				
+         //  },false);
+
+			
+
+		
+	};
+
+	var blob = file.slice(start,start+step+1);
+	reader.readAsText(blob);
+
+}
+	
+ function ShowHidePrefs()
+ {
+
+    if(ShowHidePrefsflag == true)
+    {
+
+   // document.getElementById("MapParameters1").style.display = "none";
+   // document.getElementById("MapParameters2").style.display = "none";
+
+
+    document.getElementById("ShowPrefs").checked = false;
+    ShowHidePrefsflag = false;
+
+    }
+
+    else
+    {
+
+   // document.getElementById("MapParameters1").style.display = "block";
+  //  document.getElementById("MapParameters2").style.display = "block";
+
+    document.getElementById("ShowPrefs").checked = true;
+    ShowHidePrefsflag = true;
+
+    }
+ }  
+    
+	
+function uploadHSFileInChunks(file, myuploadDeviceID){
+    var myloaded = 0;
+	var chunkcount = 0;
+    //var step = 1024*1024;
+	var step = 1024*128;
+	//var step = 1024*64;
+    var total = file.size;
+    var start = 0;
+	var numofchunks = 0;
+	var loop = 0;
+
+	var m_uploadmessages = $id("uploadmessages");
+
+
+	numofchunks = parseInt(total / step);
+
+
+
+	var myprogressbar = $id("ulprogressBar");
+	var myprogressvalue = $id("progressvalue");
+	myprogressvalue.innerHTML = " starting";
+
+	var reader = new FileReader();
+
+    reader.onprogress = function(e){
+           // myloaded += e.loaded;
+			//loop++;
+			//document.getElementById("SearchStatus").innerHTML  = "loop = " + loop + " bytes = " + e.loaded;
+		};
+
+
+    reader.onload = function(e){
+        var xhr = new XMLHttpRequest();
+        var upload = xhr.upload;
+
+		 upload.addEventListener('load',function()
+		 {
+             if(myloaded < total)
+			 {
+                   blob = file.slice(myloaded,myloaded+step+1);
+				   chunkcount = chunkcount + 1;
+				   myloaded = myloaded + step;
+                   reader.readAsText(blob);	
+		           m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
+					//m_uploadmessages.innerHTML = m_uploadmessages.innerHTML + "Uploaded " + chunkcount + " of " +  myloaded + "<BR>";
+
+
+				   myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
+
+				  // myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
+				   myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " %";
+
+               }
+			   else
+			   {
+                   
+					myprogressvalue.innerHTML = " finished: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+					myloaded = total;
+					return;
+                }
+           },false);
+
+			if(myuploadDeviceID.length == 12)
+			{
+			    var myFileName = "SSLOG00_000001_01150112000" + zpad(chunkcount, 3);
+
+				//myFileName = myFileName.substr(0,(myFileName.length - 7));
+
+				//var postfilename = "http://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
+				var postfilename = "http://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+				xhr.open("POST", postfilename, true);
+				xhr.setRequestHeader("X_FILENAME", myFileName + ".txt");
+				xhr.send(e.target.result);
+			}
+
+		
+	};
+
+	var blob = file.slice(start,start+step+1);
+	reader.readAsText(blob);
+
+}	
+
+function ChangedTimeZone(sel)
+{
+ gtimezoneOffset = parseInt(document.getElementById("TimeZoneId").options[sel.selectedIndex].value) * 60;
+
+}
+
+
+function SetDLDeviceOptionList()
+{
+	GetSeriesAttributes(document.getElementById("DLDeviceID").options[document.getElementById("DLDeviceID").selectedIndex].value);
+}	
+	
+	
+function SetDeviceOptionList()
+{
+   //document.getElementById("AccountFolder").value = document.getElementById("DeviceID").value;
+   myDeviceID = document.getElementById("DeviceID").value;  
+   
+   myuploadDeviceID = myDeviceID;
+   
+   
+   if(myDeviceID == myuploadDeviceID && myDeviceID != "000000000000")
+   {
+      document.getElementById("uploadbuttondiv").style.display = "block";
+	  
+	  // AccountDataFolder =document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+	   
+	  // getDeviceParamList(myuserid);
+	   // GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+
+   }
+   else
+   {
+      document.getElementById("uploadbuttondiv").style.display = "none";
+	 //  document.getElementById("uploadbuttondiv").style.display = "block";
+
+   }
+} 
+
+
+ function handleGetSeriesAttributes(response)
+   {
+   var index=0;
+   var myGPSSource;
+   var i;
+
+   var index=0;
+ var i;
+ 
+   	$.unblockUI();
+    
+     var myseriesattributes 
+     var myserieskey 
+     var mydeviceid;
+     var index
+     index = 0;
+     
+     
+    if(response.status == "error")
+   {
+      document.getElementById("SearchStatus").value = "No data from search";
+      return;
+      
+     }
+            
+     
+
+     /*
+    var PGNTypeIDLength = 	document.getElementById("PGNTypeID").length;
+	
+	for(var i=0; i< PGNTypeIDLength; i++)
+	{
+		document.getElementById("PGNTypeID").options[i].disabled = true;
+		document.getElementById("PGNTypeID").options[i].style.color = '#C0C0C0';
+	}
+        
+		*/
+			var GeoSourceLength = 	document.getElementById("GPSSource").length;
+	
+	for(var i=0; i< GeoSourceLength; i++)
+	{
+	
+		
+					document.getElementById("WaterSpeedSource").options[i].disabled = true;
+		document.getElementById("WaterSpeedSource").options[i].style.color = '#CCCCCC';
+		
+		
+			document.getElementById("WindSource").options[i].disabled = true;
+		document.getElementById("WindSource").options[i].style.color = '#CCCCCC';
+		
+			document.getElementById("HeadingSource").options[i].disabled = true;
+		document.getElementById("HeadingSource").options[i].style.color = '#CCCCCC';
+		
+		document.getElementById("RudderSource").options[i].disabled = true;
+		document.getElementById("RudderSource").options[i].style.color = '#CCCCCC';
+		
+				document.getElementById("AttitudeSource").options[i].disabled = true;
+		document.getElementById("AttitudeSource").options[i].style.color = '#CCCCCC';
+		
+			document.getElementById("EnvironSource").options[i].disabled = true;
+		document.getElementById("EnvironSource").options[i].style.color = '#CCCCCC';
+		
+			document.getElementById("GPSSource").options[i].disabled = true;
+		document.getElementById("GPSSource").options[i].style.color = '#CCCCCC';
+	}
+		
+			var GPSSourceLength = 	document.getElementById("GPSSource").length;
+            
+     response.series.forEach(function(mydata){
+     /*
+      
+            myserieskey = "deviceid:" + mydata.deviceid;
+            myserieskey = myserieskey  + ".sensor:" + mydata.sensor;
+            myserieskey = myserieskey  + ".source:" + mydata.source;
+            myserieskey = myserieskey  + ".instance:" + mydata.instance;
+            myserieskey = myserieskey  + ".type:" + mydata.type;
+            myserieskey = myserieskey  + ".parameter:" + mydata.parameter;
+            myserieskey = myserieskey  + ".HelmSmart";                                     
+            
+            myPGNEvent = GetPGNTypeFromSeries(myserieskey);
+			 //var PGNTypeIDLength = 	document.getElementById("PGNTypeID").length;
+			for(var i=0; i< PGNTypeIDLength; i++)
+			{
+				if(document.getElementById("PGNTypeID").options[i].value == myPGNEvent)
+				{
+					document.getElementById("PGNTypeID").options[i].disabled = false;
+					//document.getElementById("PGNTypeID").options[i].style.backgroundColor = 'red';
+					document.getElementById("PGNTypeID").options[i].style.color = '#0D27C3';
+					
+					}
+
+			}
+			*/
+			
+			if(mydata.sensor == "position_rapid")
+			{
+				for(var i=0; i< GPSSourceLength; i++)
+				{
+					if(document.getElementById("GPSSource").options[i].value == mydata.source)
+					{
+						document.getElementById("GPSSource").options[i].disabled = false;
+						document.getElementById("GPSSource").options[i].style.color = '#0D27C3';
+						document.getElementById("GPSSource").selectedIndex = i;
+						}
+				}
+			}
+			
+			
+			if(mydata.sensor == "water_speed")
+			{
+				for(var i=0; i< GPSSourceLength; i++)
+				{
+					if(document.getElementById("WaterSpeedSource").options[i].value == mydata.source)
+					{
+						document.getElementById("WaterSpeedSource").options[i].disabled = false;
+						document.getElementById("WaterSpeedSource").options[i].style.color = '#0D27C3';
+						document.getElementById("WaterSpeedSource").selectedIndex = i;
+						}
+				}
+			}
+			
+			if(mydata.sensor == "wind_data")
+			{
+				for(var i=0; i< GPSSourceLength; i++)
+				{
+					if(document.getElementById("WindSource").options[i].value == mydata.source)
+					{
+						document.getElementById("WindSource").options[i].disabled = false;
+						document.getElementById("WindSource").options[i].style.color = '#0D27C3';
+						document.getElementById("WindSource").selectedIndex = i;
+						}
+				}
+			}
+			
+			
+			if(mydata.sensor == "heading")
+			{
+				for(var i=0; i< GPSSourceLength; i++)
+				{
+					if(document.getElementById("HeadingSource").options[i].value == mydata.source)
+					{
+						document.getElementById("HeadingSource").options[i].disabled = false;
+						document.getElementById("HeadingSource").options[i].style.color = '#0D27C3';
+						document.getElementById("HeadingSource").selectedIndex = i;
+						}
+				}
+			}
+			
+			
+			if(mydata.sensor == "rudder")
+			{
+				for(var i=0; i< GPSSourceLength; i++)
+				{
+					if(document.getElementById("RudderSource").options[i].value == mydata.source)
+					{
+						document.getElementById("RudderSource").options[i].disabled = false;
+						document.getElementById("RudderSource").options[i].style.color = '#0D27C3';
+						document.getElementById("RudderSource").selectedIndex = i;
+						}
+				}
+			}
+			
+				if(mydata.sensor == "attitude")
+			{
+				for(var i=0; i< GPSSourceLength; i++)
+				{
+					if(document.getElementById("AttitudeSource").options[i].value == mydata.source)
+					{
+						document.getElementById("AttitudeSource").options[i].disabled = false;
+						document.getElementById("AttitudeSource").options[i].style.color = '#0D27C3';
+						document.getElementById("AttitudeSource").selectedIndex = i;
+						}
+				}
+			}
+			
+			if(mydata.sensor == "environmental_data")
+			{
+				for(var i=0; i< GPSSourceLength; i++)
+				{
+					if(document.getElementById("EnvironSource").options[i].value == mydata.source)
+					{
+						document.getElementById("EnvironSource").options[i].disabled = false;
+						document.getElementById("EnvironSource").options[i].style.color = '#0D27C3';
+						document.getElementById("EnvironSource").selectedIndex = i;
+						}
+				}
+			}
+			
+
+			
+			index++;
+            
+         });
+              
+            
+         
+            
+          // reset Device ID list to match the preferences just loaded  
+         // for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    	//	{
+	    	//		myDeviceID = document.getElementById("DeviceID").options[i].value;
+		    //		if(myDeviceID == mydeviceid)
+		    //			document.getElementById("DeviceID").selectedIndex = i;
+		    //	}
+            
+      if(index == 0)
+          document.getElementById("SearchStatus").value = "Get Series Error";
+      else
+          document.getElementById("SearchStatus").value = "Series List update succcessful ";  	   		
+
+		//getDeviceParamDetails(myuserid);
+ 
+}
+            
+
+function GetSeriesAttributes(seriesdeviceid)
+{
+
+
+
+   var devicedataurl;
+
+   myStartTimeStr = document.getElementById("datepickerstart").value;
+   myEndTimeStr = document.getElementById("datepickerend").value;
+
+	// if local time is used then do not use GMT
+	if(document.getElementById("TimeZoneId").selectedIndex == 34)
+	{
+			var StartEpoch = new Date(myStartTimeStr  );
+			StartEpoch = StartEpoch .getTime();
+
+
+			var EndEpoch = new Date(myEndTimeStr);
+			EndEpoch = EndEpoch .getTime();
+	}
+	else
+	{
+			
+			var StartEpoch = new Date(myStartTimeStr + " GMT" );
+			StartEpoch = StartEpoch .getTime();
+
+			var EndEpoch = new Date(myEndTimeStr + " GMT" );
+			EndEpoch = EndEpoch .getTime();
+	}
+	
+ //gtimezoneOffset = parseInt(document.getElementById("TimeZoneId").options[document.getElementById("TimeZoneId").selectedIndex].value) * 60;
+
+
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+ // var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+  var mytimeZoneOffset = parseInt(document.getElementById("TimeZoneId").options[document.getElementById("TimeZoneId").selectedIndex].value) ;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  
+ // mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+
+  if(EndEpoch < StartEpoch)
+  {
+     document.getElementById("SearchStatus").value = "End date is before Start Date";
+     return;
+  }
+  
+    $.blockUI({ 
+     message: '<h1>Series Search in progress...</h1>',
+   css: {
+   border: 'none',
+   padding: '15px',
+   backgroundColor: '#000',
+
+   '-webkit-border-radius': '10px',
+   '-moz-border-radius': '10px',
+   opacity: .5,
+   color: '#fff'
+   } });
+
+   var DeviceID = document.getElementById("DeviceID").value;
+   devicedataurl = "http://pushsmartdata.herokuapp.com/get_influxdb_series?&deviceid=" + seriesdeviceid + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+
+
+   return $.ajax({
+   //async: false,
+   cache: false,
+   url: devicedataurl,
+   dataType: "json",
+   timeout: 10000,
+   statusCode: {
+   404: function() {      alert( "page not found" );    },
+   200: function() {      }
+   },
+   success: function(response) {
+   handleGetSeriesAttributes(response)
+   },
+   complete: function() {
+   // unblock when remote call returns
+   // document.getElementById("SearchStatus").value = "Search Complete";
+
+   //$.unblockUI();
+   },
+   error: function(request,status,errorThrown) {
+   document.getElementById("SearchStatus").value = "Data Series List Search Error";
+   $.unblockUI();
+   }
+   });
+
+
+ }
+
+
+// output file information
+function ParseHSFile(file, filename) {
+var uploadbutton = $id("uploadbutton");
+var myprogressvalue = $id("progressvalue");
+var myprogressbar = $id("ulprogressBar");
+var uploadbuttondiv = $id("uploadbuttondiv");
+var mytimestamp;
+
+        // clear message buffer
+		ClearOutput();
+
+		// display text"plain/text"
+		//if (file.type.indexOf("text") == 0) {
+		if (file.type == "plain/text") {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+
+			var mytext = e.target.result;
+			var mySubStrings = new Array();
+			var mySubString;
+			
+			myuploadDeviceID = "";
+
+			mySubStrings = mytext.split("\n");
+			myArrayLength = mySubStrings.length;
+
+
+			  // Get all the elements and parse into variables
+			  for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
+			  {
+			      mySubString = mySubStrings[myIndex];
+				  myPos = mySubString.indexOf("$PCDIN,01FF80,")
+				  if(myPos !=  -1)
+				  {
+						mytimestamp = mySubString.substr(myPos+14,6);
+						mySubString = mySubString.substr(myPos,43);
+						myPos = mySubString.indexOf(",99E1")
+						if(myPos !=  -1)
+						{
+							myuploadDeviceID = mySubString.substr(myPos+5,12);
+							if(myuploadDeviceID != myDeviceID)
+							{
+									// remove upload button
+									uploadbuttondiv.style.display = "none";
+									uploadType = 2;
+									//uploadbuttondiv.style.display = "block";
+						
+							}
+							else if (myDeviceID != "000000000000")
+							{
+									// remove upload button
+									uploadbuttondiv.style.display = "block";
+									uploadType = 2;
+					
+							}
+
+							//mytimestamp = mySubString.substr(myPos+5,12);
+
+						}
+						else
+						{
+							// remove upload button
+							uploadbuttondiv.style.display = "none";
+							uploadType = 0;
+							//uploadbuttondiv.style.display = "block";
+						}
+				  }
+
+			  }
+
+				Output(
+					"<p><strong>" + filename + ":</strong></p>" +
+					"<p><strong> DeviceID: " + myuploadDeviceID + " </strong></p>" +
+					"<p>File information: <strong>" + filename +
+					"</strong> type: <strong>" + file.type +
+					"</strong> size: <strong>" + file.size +
+					"</strong> bytes</p><pre class=\"auto-style5\">" +
+					e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+					"</pre>"
+				);
+			}
+			var blob = file.slice(0,4096*2);
+	
+			reader.readAsText(blob);
+			//reader.readAsText(file);
+		}
+}
+
+
+
+
+function handleGetDeviceData(response)
+{
+  var index=0;
+
+  $.unblockUI();
+
+  document.getElementById("DeviceID").options.length = 0;
+  document.getElementById("DLDeviceID").options.length = 0;
+
+  response.records.forEach(function(row){
+ 
+      myDeviceIDs[index]=row[0];
+	  document.getElementById("DLDeviceID").options[index] = new Option(row[0] + ":" + row[1], row[0]);
+      document.getElementById("DeviceID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+
+  });
+
+
+  document.getElementById("DeviceID").selectedIndex = 0;
+  myuploadDeviceID=document.getElementById("DeviceID").options[0].value;
+  /*
+  for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    		{
+	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
+					myuploadDeviceID = myDeviceID;
+		    		//if(myDeviceID == AccountDataFolder)
+		    		//	document.getElementById("DeviceID").selectedIndex = i;
+		    	}
+*/
+  			
+}
+
+function handleGetHSData(response)
+{
+  var index=0;
+    var myloaded = 0;
+	var chunkcount = 0;
+    //var step = 1024*1024;
+	var step = 1024*128;
+    var total = 0;
+    var start = 0;
+	var numofchunks = 0;
+	var m_uploadmessages = $id("uploadmessages");
+
+
+	numofchunks = parseInt(total / step);
+
+
+
+	var myprogressbar = $id("ulprogressBar");
+	var myprogressvalue = $id("progressvalue");
+	myprogressvalue.innerHTML = " starting";	
+	
+  $.unblockUI();
+
+total = response.length;
+myloaded = response;
+
+document.getElementById("SearchStatus").innerHTML = "Bytes recieved = " + total;
+
+
+
+
+  			
+}
+
+
+ $(function() { $( "#datepickerstart" ).datetimepicker({ 
+ minDate: new Date(2010, 1 - 1, 1), 
+ timeFormat: "HH:mm:ss", 
+ showTimezone: true, 
+ defaultTimezone: '-0800',
+ onChange: function(changestartdate){ alert('start date changed');},
+ onClose: function(startdate){
+ 
+  var testEndDate = datepickerend.datetimepicker('getDate');
+  var testStartDate = datepickerstart.datetimepicker('getDate');
+  
+  //if(testEndDate < testStartDate)
+ //     alert('End date can not be before Start date');
+ // else
+    //UpdateSeriesList();
+ 
+ },
+ defaultDate: new Date() - (24*60*60*1000), 
+    hour:9,
+  	minute:0,
+  	second:0,
+  	millisec:0
+    }); //  }).datetimepicker("setDate", new Date()); 
+
+ });  
+ 
+ datepickerend = $( "#datepickerend" );
+ datepickerstart = $( "#datepickerstart" );
+  
+  $(function() { $( "#datepickerend" ).datetimepicker({ 
+  minDate: new Date(2010, 1 - 1, 1), 
+  timeFormat: "HH:mm:ss",
+  showTimezone: true,  
+  defaultTimezone: '-0800',
+  onChange: function(changeenddate){ alert('end date changed');},
+  onClose: function(enddate){
+ 
+  var testEndDate = datepickerend.datetimepicker('getDate');
+  var testStartDate = datepickerstart.datetimepicker('getDate');
+  
+ // if(testEndDate < testStartDate)
+ //     alert('End date can not be before Start date');
+ // else
+   // UpdateSeriesList();
+ 
+  },
+  defaultDate: new Date(), 
+    hour:18,
+  	minute:0,
+  	second:0,
+  	millisec:0
+	 }); 
+   
+ });  
+  
+  
+  $(function() { $( "#timeresolution" ).timepicker({ 
+  	timeFormat: "HH:mm:ss",
+  	defaultValue: "00:01:00",
+  	hour:0,
+  	minute:1,
+  	second:0,
+  	millisec:0
+	 }); 
+   
+ });
+
+function getGPSSources()
+{
+	GetSeriesAttributes(document.getElementById("DLDeviceID").options[document.getElementById("DLDeviceID").selectedIndex].value);
+}
+
+
+
+
+function handleDownloadData(response)
+{
+ $.unblockUI();
+}
+
+
+function SearchDBbyURL(searchtype)
+{
+  
+ var myStartTimeStr;
+ var myEndTimeStr;
+ var myStartDays;
+ var myStartSecs;
+ var myEndDays;
+ var myEndSecs;
+ var mySubStrings = new Array();
+
+ var myResolutionStr;
+ 
+  var DeviceIDField;
+ var DeviceID;
+ var SourceID;
+
+
+	var myMapOptions=0;
+	var myDLType="";
+	
+	url = "";
+	
+	myDLType =document.getElementById("AppType").options[document.getElementById("AppType").selectedIndex].value;
+
+  
+  myStartTimeStr = document.getElementById("datepickerstart").value;
+  myEndTimeStr = document.getElementById("datepickerend").value;
+  //myResolutionSecStr = document.getElementById("timeresolution").value;
+  
+    //DeviceIDField= document.getElementById("DeviceID").value;
+	DeviceIDField=document.getElementById("DLDeviceID").options[document.getElementById("DLDeviceID").selectedIndex].value;
+	mySubStrings = DeviceIDField.split(":");
+	
+	if(mySubStrings.length == 2)
+	{
+		DeviceID = mySubStrings[0];
+		SourceID= mySubStrings[1];
+	}
+	else
+	{
+		DeviceID = DeviceIDField;
+		SourceID= "";
+
+	}
+
+	
+
+	// if local time is used then do not use GMT
+	if(document.getElementById("TimeZoneId").selectedIndex == 34)
+	{
+			var StartEpoch = new Date(myStartTimeStr  );
+			StartEpoch = StartEpoch .getTime();
+
+
+			var EndEpoch = new Date(myEndTimeStr);
+			EndEpoch = EndEpoch .getTime();
+	}
+	else
+	{
+			
+			var StartEpoch = new Date(myStartTimeStr + " GMT" );
+			StartEpoch = StartEpoch .getTime();
+
+			var EndEpoch = new Date(myEndTimeStr + " GMT" );
+			EndEpoch = EndEpoch .getTime();
+	}
+	
+ gtimezoneOffset = parseInt(document.getElementById("TimeZoneId").options[document.getElementById("TimeZoneId").selectedIndex].value) ;
+	
+//var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+        
+        
+	//ResolutionSecs = ResolutionSecs.getTime();
+	
+	//ResolutionSecs = ResolutionSecs / 1000;
+  //var ResolutionSecs = document.getElementById("SearchTick").value;	
+  var ResolutionSecs = document.getElementById("SearchTick").options[document.getElementById("SearchTick").selectedIndex].value;
+	if(	ResolutionSecs < 1)
+		ResolutionSecs = 1; 
+	
+ 
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  StartEpoch = StartEpoch - (gtimezoneOffset  * 60 );
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch - (gtimezoneOffset  * 60 );
+
+//var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  
+  //StartEpoch = StartEpoch - 1262304000;
+  
+  
+  //mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+
+  //EndEpoch = EndEpoch -  1262304000;	
+  	var GPSLimit =document.getElementById("GPSLimit").options[document.getElementById("GPSLimit").selectedIndex].value;
+    var minSpeed =document.getElementById("minSpeed").options[document.getElementById("minSpeed").selectedIndex].value;
+  
+  
+  
+  	var AttitudeSource =document.getElementById("AttitudeSource").options[document.getElementById("AttitudeSource").selectedIndex].value;
+	var RudderSource =document.getElementById("RudderSource").options[document.getElementById("RudderSource").selectedIndex].value;
+	var HeadingSource =document.getElementById("HeadingSource").options[document.getElementById("HeadingSource").selectedIndex].value;
+	var EnvironSource =document.getElementById("EnvironSource").options[document.getElementById("EnvironSource").selectedIndex].value;
+    var WindSource =document.getElementById("WindSource").options[document.getElementById("WindSource").selectedIndex].value;
+    var WaterSpeedSource =document.getElementById("WaterSpeedSource").options[document.getElementById("WaterSpeedSource").selectedIndex].value;
+  
+   
+   
+    GPSSource =document.getElementById("GPSSource").options[document.getElementById("GPSSource").selectedIndex].value;
+    
+    if(GPSSource == "none")
+    {
+    
+      document.getElementById("SearchStatus").value = "No GPS Device available";
+      url = "";
+      return;
+    }
+
+    
+    
+    SourceID= GPSSource.toString(16);
+  
+
+   // DialPGNNumber[0] = "deviceid:001EC0101CB4.sensor:position_rapid.source:02.instance:0.type:NULL.parameter:lat.HelmSmart";
+   // DialPGNNumber[1] = "deviceid:001EC0101CB4.sensor:position_rapid.source:02.instance:0.type:NULL.parameter:lng.HelmSmart";
+   // DialPGNNumber[2] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:speed_over_ground.HelmSmart";
+    //DialPGNNumber[3] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:course_over_ground.HelmSmart";
+
+
+		url = "http://pushsmartdata.herokuapp.com/downloadseriesbykey?";
+		url =  url + "deviceid=" + DeviceID ;
+		url =  url + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+		url =  url + "&gpssource=" + GPSSource ; 
+		url =  url + "&headingsource=" + HeadingSource ; 
+		url =  url + "&ruddersource=" + RudderSource ; 
+		url =  url + "&attitudesource=" + AttitudeSource ; 
+		url =  url + "&waterspeedsource=" + WaterSpeedSource ; 
+		url =  url + "&windsource=" + WindSource ; 
+		url =  url + "&environsource=" + EnvironSource ; 
+		url =  url + "&gpsmax=" + GPSLimit ; 
+		url =  url + "&gpsmin=" + minSpeed ; 
+		url =  url + "&type=" + "mean" ; 
+		url =  url + "&format=" + myDLType  ;
+
+	
+
+    document.getElementById("SearchStatus").value = "Starting Search";
+
+
+
+}
+
+function DownloadData()
+{
+
+// clear out the old data arrays
+  //  gn2ktime.length = 0;
+//glat.length = 0;
+//	glng.length = 0;
+	
+//	var url=""
+ // create the search URL  
+  SearchDBbyURL("json");
+  
+   
+  
+  
+    // check if we have anything to search fo
+    if(url == "")
+     return;
+	 
+   //    	$('.nav-tabs a[href="#tabMap"]').tab('show');     
+		
+             
+       //    $.blockUI({ message: "<h1>Search in progress...</h1>" }); 
+
+
+	   
+	   
+     $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	   window.location = url;
+    $.unblockUI();
+	   
+	 
+	 
+	 /*
+           
+              $.ajax({
+			   //async: false,
+			   cache: false,
+			   url: url,
+			   dataType: "json",
+			   timeout: 20000,
+			   statusCode: {    
+			   	404: function() {      alert( "page not found" );    }, 
+			   	200: function() {      } 
+
+			   	
+			   	 },
+			   success: function(response) {
+			   handleDownloadData(response)
+			   },
+			   complete: function() {  
+                      // unblock when remote call returns 
+                     //  document.getElementById("SearchStatus").value = "Search Complete";
+                      //  alert( "complete" );
+                $.unblockUI();   
+            	}, 
+            	error: function(request,status,errorThrown) {  
+                      // unblock when remote call returns 
+                       document.getElementById("SearchStatus").value = "Data Series Search Error";
+                       // alert( "error" );
+                        // alert( request.status );
+						
+						// alert( status );
+						
+						// alert(errorThrown );
+
+               $.unblockUI();   
+            	} 
+
+ 		  });
+
+         */  
+           
+}
+
+
+function getDeviceList(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+    devicedataurl = "http://pushsmartdata.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 10000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handleGetDeviceData(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+
+
+}
+function PostHSFile()
+{
+		if(myuploadDeviceID.length == 12)
+		uploadHSFileInChunks(myHSblob, myuploadDeviceID);
+}
+
+function GetHSFile()
+{
+
+        $.blockUI({ 
+     message: '<h1>downloading file from dropbox...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+    devicedataurl = document.getElementById('HSlink').href;
+	var filefields = new Array();
+	filefields =  devicedataurl.split('/');
+	var filename = filefields[filefields.length-1];
+/*
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    //dataType: "string",
+    timeout: 10000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handleGetHSData(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+     //document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+   // $.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+	*/
+	
+	myHSblob = null;
+	
+	var xhr = new XMLHttpRequest(); 
+	xhr.open("GET", devicedataurl); 
+	//xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+	xhr.responseType = "text";//force the HTTP response, response-type header to be blob
+	xhr.onload = function() 
+	{
+			$.unblockUI();
+			try{
+			//myHSblob = xhr.response;//xhr.response is now a blob object
+			myHSblob = new Blob([xhr.response], {type: "plain/text"});//xhr.response is now a blob object
+			
+			}
+		catch (e) {
+        window.BlobBuilder = window.BlobBuilder ||
+                window.WebKitBlobBuilder ||
+                window.MozBlobBuilder ||
+                window.MSBlobBuilder;
+
+        if (e.name == 'TypeError' && window.BlobBuilder) {
+            var bb = new BlobBuilder();
+            bb.append(xhr.response);
+            myHSblob = bb.getBlob( "plain/text");
+            //console.debug("case 2");
+        }
+        else if (e.name == "InvalidStateError") {
+            // InvalidStateError (tested on FF13 WinXP)
+            myHSblob = new Blob([xhr.response], {type:  "plain/text"});
+            //console.debug("case 3");
+        }
+        else {
+            // We're screwed, blob constructor unsupported entirely   
+           // console.debug("Errore");
+		   myHSblob = new Blob([xhr.response.buffer], {type: "plain/text"});//xhr.response is now a blob object
+		   //alert("can't do it");
+        }
+
+			}
+			
+			ParseHSFile(myHSblob, filename);
+			//document.getElementById("SearchStatus").innerHTML = "Search Error" = xhr.response.length;//xhr.response is now a blob object
+	}
+	xhr.send();
+
+
+
+}
+
+/* ******************  Done Setting up chart  variable ************************************************ */
+function InitializeDeviceOptionList()
+{
+    document.getElementById("DeviceID").options[0] = new Option("Demo Data", "000000000000");
+}
+    
+    
+function StartUpMyScript()
+{
+    var x
+    var i;
+    var tempXMLdata;
+    var XMLFile;
+    var DialIndex=0;
+    var CanvasIndex=0;
+	var myText;
+	var index=0;
+
+
+	var fileselect = $id("fileselect");
+var uploadbuttondiv = $id("uploadbuttondiv");
+var uploadbutton = $id("uploadbutton");
+
+	 var mynow = new Date();
+	// var mynowstr = mynow.toString("yyyy-MM-dd HH:mm:ss").replace(/GMT.*/g, "");
+	// var mynowstr = mynow.toISOString();
+	 var mynowstr = mynow.yyyymmddhhmmss();
+	 
+	 
+//	document.getElementById("GeoReportStart").value = mynowstr;
+//document.getElementById("GeoReportEnd").value = mynowstr;
+
+
+ var StartEpoch = new Date( );
+ var EndEpoch = new Date( );
+ //var ResolutionSecs = new Date(ResSecsDB);
+//StartEpoch = StartEpoch - 60*60*24;
+//StartEpoch  = StartEpoch.subMonths(1);
+StartEpoch.setDate(StartEpoch.getDate()-1);
+    
+     $("#datepickerstart").datetimepicker('setDate', StartEpoch );
+       
+     $("#datepickerend").datetimepicker('setDate', EndEpoch );
+
+	 index=0;
+
+	 document.getElementById("HeadingSource").length = 0;
+	document.getElementById("HeadingSource").options[index++] = new Option( "none", "none");
+	
+		for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+
+		document.getElementById("HeadingSource").options[index] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+		document.getElementById("HeadingSource").options[index].disabled = true;
+		document.getElementById("HeadingSource").options[index++].style.color = '#CCCCCC';
+		
+	}
+	
+	
+		 index=0;
+
+	 document.getElementById("RudderSource").length = 0;
+	document.getElementById("RudderSource").options[index++] = new Option( "none", "none");
+	
+		for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+
+		document.getElementById("RudderSource").options[index] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+		document.getElementById("RudderSource").options[index].disabled = true;
+		document.getElementById("RudderSource").options[index++].style.color = '#CCCCCC';
+		
+	}
+	
+	
+		 index=0;
+
+	 document.getElementById("AttitudeSource").length = 0;
+	document.getElementById("AttitudeSource").options[index++] = new Option( "none", "none");
+	
+		for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+
+		document.getElementById("AttitudeSource").options[index] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+		document.getElementById("AttitudeSource").options[index].disabled = true;
+		document.getElementById("AttitudeSource").options[index++].style.color = '#CCCCCC';
+		
+	}
+	
+	index=0;
+	
+	document.getElementById("EnvironSource").length = 0;
+	document.getElementById("EnvironSource").options[index++] = new Option( "none", "none");
+	
+		for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+
+		document.getElementById("EnvironSource").options[index] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+		document.getElementById("EnvironSource").options[index].disabled = true;
+		document.getElementById("EnvironSource").options[index++].style.color = '#CCCCCC';
+		
+	}
+	
+	index=0;
+	
+	document.getElementById("WaterSpeedSource").length = 0;
+	document.getElementById("WaterSpeedSource").options[index++] = new Option( "none", "none");
+	
+		for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+
+		document.getElementById("WaterSpeedSource").options[index] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+		document.getElementById("WaterSpeedSource").options[index].disabled = true;
+		document.getElementById("WaterSpeedSource").options[index++].style.color = '#CCCCCC';
+		
+	}
+	
+	index=0;
+	
+	document.getElementById("WindSource").length = 0;
+	document.getElementById("WindSource").options[index++] = new Option( "none", "none");
+	
+		for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+
+		document.getElementById("WindSource").options[index] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+		document.getElementById("WindSource").options[index].disabled = true;
+		document.getElementById("WindSource").options[index++].style.color = '#CCCCCC';
+		
+	}
+	 
+	 index=0;
+	 
+	document.getElementById("GPSSource").length = 0;
+	document.getElementById("GPSSource").options[index++] = new Option( "none", "none");
+	
+		for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+
+		document.getElementById("GPSSource").options[index] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+		document.getElementById("GPSSource").options[index].disabled = true;
+		document.getElementById("GPSSource").options[index++].style.color = '#CCCCCC';
+		
+	}
+	
+	
+	
+
+		uploadbuttondiv.style.display = "none";
+		//uploadbuttondiv.style.display = "block";
+
+		// file select
+		fileselect.addEventListener("change", FileSelectHandler, false);
+
+		// is XHR2 available?
+		var xhr = new XMLHttpRequest();
+		if (xhr.upload) {
+
+			// upload select
+			uploadbutton.addEventListener("click", myuploadFile, false);
+
+		}
+
+	
+
+    // Initialize Device ID droup down list
+    // InitializeDeviceOptionList();
+
+    myuserid = "0";
+    {% if session['userid'] %}
+    myuserid = "{{session['userid']}}";
+    {% else %}
+    myuserid = "0";
+    {% endif %}  
+    
+    
+     if (myuserid == null)
+    {
+    myuserid = "0";
+    }
+    else
+    {
+    getDeviceList(myuserid);
+    //getDeviceParamList(myuserid);
+    }
+    
+	
+	
+	
+	
+}
+  </script >
+  
+    </head>
+
+
+<body  onload ="StartUpMyScript();" >
+ 
+  <center>
+  {% if session['userid'] %}
+     <a href="http://pushsmartdata.herokuapp.com" id="login" class="persona-button">
+    <span>HelmSmart: {{session['username']}}</span></a>
+  {% else %}
+    <a href="http://pushsmartdata.herokuapp.com" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span></a>
+  {% endif %}
+  </center>
+  
+    	<div class="container body-content">
+		
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/support.js') }}" ></script>
+
+<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabEvents .form-control-static,
+	#tabEvents .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+
+<script>
+	$(function () {
+		$(document).ajaxComplete(function (event, xhr, settings) {
+			if (xhr.getResponseHeader('ReloadWholePage')) {
+				window.location.reload();	//Reload the whole datapane
+			}
+		});
+		
+		$('.nav-tabs a[href="#tabChooseLocal"]').tab('show');
+
+	});
+
+  
+</script>
+
+
+	
+	
+
+
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="tab" role="tablist">
+	<li><a href="#tabMarketing" role="tab" data-toggle="tab">Info</a></li>
+			<li><a href="#tabChooseLocal" role="tab" data-toggle="tab">Choose Local</a></li>
+	<li><a href="#tabChooseDropbox" role="tab" data-toggle="tab">Choose Dropbox</a></li>
+		<li><a href="#tabUpload" role="tab" data-toggle="tab">Upload</a></li>
+	
+	
+		<li><a href="#tabDownload" role="tab" data-toggle="tab">Export</a></li>
+
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+  <!-- tabBasicSettings Settings TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabMarketing">
+	<p id="introText">With this datapane you can view vessel position data from your SeaSmart device.</p>
+<div id="idMarketing">
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	
+	<p>
+		To get started  - select your registered device from the <B>PREF</B> tab and then enter the search dates on the <B> SEARCH </B>tab – select <B>MAP DATA</B>
+	</p>
+	
+	
+	<p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your HelmSmart site where you can search for vessel position and overlay sensor data on trails.</p>
+	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
+	<ul>
+		<li>Links to your existing NMEA 2000 network</li>
+		<li>Sends positions to your yacht site</li>
+		<li>Uses you existing internet service</li>
+		<li>No need for additional data plan charges</li>
+		<li>Automatically creates logbooks and trip segments for your journeys</li>
+		<li>Monitors the battery voltage</li>
+		<li>Monitors the temperature onboard</li>
+		<li>Monitors fuel and tanks onboard</li>
+		<li>Monitors weather and wind</li>
+		<li>Tracks the yacht in case of theft</li>
+	</ul>
+	<p>Built-in data logger to SD memory</p>
+	<ul>
+		<li>Records everything when vessel is out of range</li>
+		<li>Up to a full year of storage</li>
+		<li>Automatically syncs to Boatlogger site when internet service is found</li>
+		<li>Cloud base storage and access from the HelmSmart data server</li>
+		</ul>
+	<p>Add more vessel sensors</p>
+	<ul>		
+		<li>Install additional temperature sensors to monitor e.g. engine room temperature, sea temperature, outdoor temperature etc.</li>
+		<li>12 additional customized inputs (6 digital inputs, 2 tach, and 4 analog inputs)</li>
+	</ul>
+	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
+	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
+	<div style="margin: 15px;">
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+<!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+
+	</div>
+	<p>
+		If you already have a SeaSmart and want to connect it to HelmSmart, simply login with your username and password.
+	</p>
+
+
+
+
+</div>
+	</div> 
+    <!-- end tabMarketing TAB> ###################################################   -->
+	
+    	  <!-- tabChoose TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabChooseLocal">
+  
+  	<div class="form-horizontal">
+  
+  	<div class="form-group">	
+  <form id="upload" action="PushSmart.asp" method="POST" enctype="multipart/form-data">
+    <fieldset>
+      <legend >Local File Upload</legend>
+      <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="90000000" />
+      <div  ><label for="fileselect">Files to upload:</label>
+         <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" /> 
+       <!-- <input type="file" id="fileselect" name="fileselect[]"  /> -->
+        <!-- <div id="filedrag">or drop files here</div>-->
+      </div>
+    </fieldset>
+  </form>
+
+  </div>
+  
+    </div>
+	</div>
+  <!-- end tabChoose TAB> ###################################################   -->
+  
+        	  <!-- tabChoose TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabChooseDropbox">
+  
+  	<div class="form-horizontal">
+	
+  <div class="form-group">	
+  
+    <fieldset>
+      <legend >Dropbox File Upload</legend>
+<table>
+<tr>
+<td>
+    <div id="container">    </div>
+	</td>
+	<td>
+	
+  
+
+    <script>
+        var button = Dropbox.createChooseButton({
+            success: function(files) {
+                var linkTag = document.getElementById('HSlink');
+                linkTag.href = files[0].link;
+                linkTag.textContent = files[0].link;
+            },
+            linkType: 'direct'
+        });
+        document.getElementById('container').appendChild(button);
+    </script>
+	<div id="HScontainer">
+	<!-- <input  type="button"  id="GetHSFile" style=" height: 25px" onclick="GetHSFile();"  value="Get File" /> -->
+	<button id="GetHSFile" name="btnValue" value="Get" class="btn btn-primary" onclick="GetHSFile();">Get File from Dropbox</button>
+	<!-- <input  type="button"  id="PostHSFile" style=" height: 25px" onclick="PostHSFile();"  value="Post File" /> -->
+	</div>
+	</td>
+	</tr>
+	  </table>
+	<div>
+	  <a id="HSlink"></a>
+	 </div>
+	
+	
+   </fieldset>
+  
+  </div>
+  
+  </div>
+	</div>
+  <!-- end tabChoose TAB> ###################################################   -->
+  
+  
+  	  <!-- tabBasicSettings Settings TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabUpload">
+  
+  	<div class="form-horizontal">
+  
+    <div class="form-group">
+		<label  for="DeviceID">DeviceID</label>
+		<!-- <div class="col-sm-6"> -->
+		<select class="form-control" style="width:300px;" id="DeviceID" name="DeviceID" size ="1"   onchange="SetDeviceOptionList(this);">
+      <option value="000000000000">Demo Data</option>
+    </select>
+	<!-- </div> -->
+		</div>
+  
+
+
+
+
+  <div  id="progress"></div>
+
+  
+  <div  id="messages">
+   <!-- <p class="auto-style3" >Status Messages</p> -->
+  </div>
+
+  <div id="uploadbuttondiv">
+    <input id="uploadbutton" type="button" value="Upload File"  />
+    <progress id="ulprogressBar" value="0" max="100" style="width:400px;"></progress>
+    <label id="progressvalue"> 0% </label>
+    <p  id="uploadmessages">Upload Messages</p>
+  </div>
+
+
+
+   
+  		<div class="form-group">	
+			 <label  for="SearchStatus">Status</label> 
+			<!-- <div class="col-sm-6"> -->
+			<input style="width:300px;" type="text" class="form-control" id="SearchStatus" >	
+			<!-- </div> -->
+		</div>  
+
+
+
+  
+  	</div>
+
+</div>
+    <!-- end Upload TAB> ###################################################   -->
+	
+
+
+  
+<!-- tabDownload TAB> ###################################################   -->
+<div class="tab-pane" id="tabDownload">
+
+	<div class="form-horizontal">
+
+	<style>
+	th {
+	 background-color : #428bca;
+	 color:white;
+	}
+
+	</style>	
+	
+	
+	    <div class="form-group">
+		<label class="control-label col-sm-2" for="DLDeviceID">DeviceID</label>
+		<div class="col-sm-6">
+		<select class="form-control" style="width:300px;" id="DLDeviceID" name="DeviceID" size ="1"   onchange="SetDLDeviceOptionList(this);">
+        <option value="000000000000">Demo Data</option>
+        </select>
+		</div>
+		</div>
+		
+		
+		
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="datepickerstart">Start</label> 
+			<div class="col-sm-6"> 
+			<input type="text" style="width:300px;" class="form-control" name="datepickerstart" id="datepickerstart" value="01/2/2014 09:00:00" readonly="true" />
+			</div>
+			</div>
+			
+			
+		 	<div class="form-group">	
+			<label class="control-label col-sm-2" for="datepickerend">End</label> 
+			<div class="col-sm-6"> 
+			<input type="text" style="width:300px;" class="form-control" name="datepickerend" id="datepickerend" value="01/2/2014 09:00:00" readonly="true" />
+			</div>
+			</div>		
+		
+		
+				<div class="form-group">
+			<label class="control-label col-sm-2" for="TimeZoneId">Time zone</label>
+			<div  class="col-sm-6">			
+			<select style="width:300px;" class="form-control" id="TimeZoneId" name="TimeZoneId" style="" onchange="ChangedTimeZone(this);"><option value="-720">(UTC-12:00) International Date Line West</option>
+			<option value="-660">(UTC-11:00) Coordinated Universal Time-11</option>
+			<option value="-600">(UTC-10:00) Hawaii</option>
+			<option value="-540">(UTC-09:00) Alaska</option>
+			<option value="-480">(UTC-08:00) Baja California</option>
+			<option value="-480">(UTC-08:00) Pacific Time (US &amp; Canada)</option>
+			<option value="-420">(UTC-07:00) Arizona</option>
+			<option value="-420">(UTC-07:00) Chihuahua, La Paz, Mazatlan</option>
+			<option value="-420">(UTC-07:00) Mountain Time (US &amp; Canada)</option>
+			<option value="-360">(UTC-06:00) Central America</option>
+			<option value="-360">(UTC-06:00) Central Time (US &amp; Canada)</option>
+			<option value="-360">(UTC-06:00) Guadalajara, Mexico City, Monterrey</option>
+			<option value="-360">(UTC-06:00) Saskatchewan</option>
+			<option value="-300">(UTC-05:00) Bogota, Lima, Quito, Rio Branco</option>
+			<option value="-300">(UTC-05:00) Eastern Time (US &amp; Canada)</option>
+			<option value="-300">(UTC-05:00) Indiana (East)</option>
+			<option value="-270">(UTC-04:30) Caracas</option>
+			<option value="-240">(UTC-04:00) Asuncion</option>
+			<option value="-240">(UTC-04:00) Atlantic Time (Canada)</option>
+			<option value="-240">(UTC-04:00) Cuiaba</option>
+			<option value="-240">(UTC-04:00) Georgetown, La Paz, Manaus, San Juan</option>
+			<option value="-240">(UTC-04:00) Santiago</option>
+			<option value="-210">(UTC-03:30) Newfoundland</option>
+			<option value="-180">(UTC-03:00) Brasilia</option>
+			<option value="-180">(UTC-03:00) Buenos Aires</option>
+			<option value="-180">(UTC-03:00) Cayenne, Fortaleza</option>
+			<option value="-180">(UTC-03:00) Greenland</option>
+			<option value="-180">(UTC-03:00) Montevideo</option>
+			<option value="-180">(UTC-03:00) Salvador</option>
+			<option value="-120">(UTC-02:00) Coordinated Universal Time-02</option>
+			<option value="-120">(UTC-02:00) Mid-Atlantic - Old</option>
+			<option value="-60">(UTC-01:00) Azores</option>
+			<option value="-60">(UTC-01:00) Cape Verde Is.</option>
+			<option value="0">(UTC) Casablanca</option>
+			<option selected="selected" value="-0">(LOCAL) Local Time</option>
+			<option value="0">(UTC) Coordinated Universal Time</option>
+			<option value="0">(UTC) Dublin, Edinburgh, Lisbon, London</option>
+			<option value="0">(UTC) Monrovia, Reykjavik</option>
+			<option value="60">(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
+			<option value="60">(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
+			<option value="60">(UTC+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+			<option value="60">(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
+			<option value="60">(UTC+01:00) West Central Africa</option>
+			<option value="60">(UTC+01:00) Windhoek</option>
+			<option value="120">(UTC+02:00) Amman</option>
+			<option value="120">(UTC+02:00) Athens, Bucharest</option>
+			<option value="120">(UTC+02:00) Beirut</option>
+			<option value="120">(UTC+02:00) Cairo</option>
+			<option value="120">(UTC+02:00) Damascus</option>
+			<option value="120">(UTC+02:00) E. Europe</option>
+			<option value="120">(UTC+02:00) Harare, Pretoria</option>
+			<option value="120">(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
+			<option value="120">(UTC+02:00) Istanbul</option>
+			<option value="120">(UTC+02:00) Jerusalem</option>
+			<option value="120">(UTC+02:00) Tripoli</option>
+			<option value="180">(UTC+03:00) Baghdad</option>
+			<option value="180">(UTC+03:00) Kaliningrad, Minsk</option>
+			<option value="180">(UTC+03:00) Kuwait, Riyadh</option>
+			<option value="180">(UTC+03:00) Nairobi</option>
+			<option value="210">(UTC+03:30) Tehran</option>
+			<option value="240">(UTC+04:00) Abu Dhabi, Muscat</option>
+			<option value="240">(UTC+04:00) Baku</option>
+			<option value="240">(UTC+04:00) Moscow, St. Petersburg, Volgograd</option>
+			<option value="240">(UTC+04:00) Port Louis</option>
+			<option value="240">(UTC+04:00) Tbilisi</option>
+			<option value="240">(UTC+04:00) Yerevan</option>
+			<option value="240">(UTC+04:30) Kabul</option>
+			<option value="300">(UTC+05:00) Ashgabat, Tashkent</option>
+			<option value="300">(UTC+05:00) Islamabad, Karachi</option>
+			<option value="330">(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+			<option value="330">(UTC+05:30) Sri Jayawardenepura</option>
+			<option value="345">(UTC+05:45) Kathmandu</option>
+			<option value="360">(UTC+06:00) Astana</option>
+			<option value="360">(UTC+06:00) Dhaka</option>
+			<option value="360">(UTC+06:00) Ekaterinburg</option>
+			<option value="390">(UTC+06:30) Yangon (Rangoon)</option>
+			<option value="420">(UTC+07:00) Bangkok, Hanoi, Jakarta</option>
+			<option value="420">(UTC+07:00) Novosibirsk</option>
+			<option value="480">(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi</option>
+			<option value="480">(UTC+08:00) Krasnoyarsk</option>
+			<option value="480">(UTC+08:00) Kuala Lumpur, Singapore</option>
+			<option value="480">(UTC+08:00) Perth</option>
+			<option value="480">(UTC+08:00) Taipei</option>
+			<option value="480">(UTC+08:00) Ulaanbaatar</option>
+			<option value="540">(UTC+09:00) Irkutsk</option>
+			<option value="540">(UTC+09:00) Osaka, Sapporo, Tokyo</option>
+			<option value="540">(UTC+09:00) Seoul</option>
+			<option value="540">(UTC+09:30) Adelaide</option>
+			<option value="540">(UTC+09:30) Darwin</option>
+			<option value="600">(UTC+10:00) Brisbane</option>
+			<option value="600">(UTC+10:00) Canberra, Melbourne, Sydney</option>
+			<option value="600">(UTC+10:00) Guam, Port Moresby</option>
+			<option value="600">(UTC+10:00) Hobart</option>
+			<option value="600">(UTC+10:00) Yakutsk</option>
+			<option value="660">(UTC+11:00) Solomon Is., New Caledonia</option>
+			<option value="660">(UTC+11:00) Vladivostok</option>
+			<option value="720">(UTC+12:00) Auckland, Wellington</option>
+			<option value="720">(UTC+12:00) Coordinated Universal Time+12</option>
+			<option value="720">(UTC+12:00) Fiji</option>
+			<option value="720">(UTC+12:00) Magadan</option>
+			<option value="720">(UTC+12:00) Petropavlovsk-Kamchatsky - Old</option>
+			<option value="780">(UTC+13:00) Nuku&#39;alofa</option>
+			<option value="780">(UTC+13:00) Samoa</option>
+			<option value="840">(UTC+14:00) Kiritimati Island</option>
+			</select>
+			<span class="field-validation-valid" data-valmsg-for="TimeZoneId" data-valmsg-replace="true"></span>
+			</div>
+		</div>
+		
+		
+		
+					<div class="form-group">
+			<label class="control-label col-sm-2" for="Span">Search Span</label>
+			<div class="col-sm-6">
+			<select style="width:300px;" class="form-control "  id="Span" name="Span" onchange="ChangedSpan(this);">
+					  <option value="0">Custom</option>
+					  <option value="1">1min</option>
+					  <option value="2">2min</option>
+					  <option value="5">5min</option>
+					  <option value="10">10min</option>
+					  <option value="15">15min</option>
+					  <option value="30">30min</option>
+					  <option value="60">1hour</option>
+					  <option value="120">2hour</option>
+					  <option value="240">4hour</option>
+					  <option value="360">6hour</option>
+					  <option value="480">8hour</option>
+					  <option value="720">12hour</option>
+					  <option selected="selected" value="1440">1day</option>
+					  <option value="2880">2day</option>
+					  <option value="4320">3day</option>
+					  <option value="5760">4day</option>
+					  <option value="7200">5day</option>
+					  <option value="8640">6day</option>
+					  <option value="10080">1week</option>
+					  <option value="20160">2weeks</option>
+					  <option value="30240">3weeks</option>
+					  <option value="1m">1month</option>
+					  <option value="2m">2months</option>
+					  <option value="2m">3months</option>
+					  <option value="4m">4months</option>
+					  <option value="5m">5months</option>
+					  <option value="6m">6months</option>
+				</select>		
+			</div>
+			</div>	
+		
+		
+		
+		   			<div class="form-group">
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="SearchTick">Interval</label>
+			<div class="col-sm-6">
+			<select style="width:300px;" class="form-control"  id="SearchTick" onchange="ShowSearchTick(this);" >
+			  <option value="1">1 sec</option>
+			  <option value="2">2 sec</option>
+			  <option value="5">5 sec</option>
+			  <option value="10">10 sec</option>
+			  <option value="15">15 Sec</option>
+			  <option value="30">30 Sec</option>
+			  <option selected="selected" value="60">1 Min</option>
+			  <option value="120">2 Min</option>
+			  <option value="180">3 Min</option>
+			  <option value="240">4 Min</option>
+			  <option value="300">5 Min</option>
+			  <option value="600">10 Min</option>
+			  <option value="900">15 Min</option>
+			  <option value="1800">30 Min</option>
+			  <option value="2700">45 Min</option>
+			  <option value="3600">1 Hour</option>
+			  <option value="7200">2 Hour</option>
+			  <option value="10800">3 Hour</option>
+			  <option value="21600">6 Hour</option>
+			  <option value="28800">8 Hour</option>
+			  <option value="43200">12 Hour</option>
+			  <option value="86400">1 Day</option>
+			  <option value="432000">5 Day</option>
+			  <option value="864000">10 Day</option>
+			  <option value="1296000">15 Day</option>
+			  <option value="2592000">30 Day</option>
+			</select>
+			</div>
+			</div>
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="WaterSpeedSource">Water Speed Source</label> 
+			<div class="col-sm-6"> 
+			<select  style="width:300px;" class="form-control "  id="WaterSpeedSource" name="WaterSpeedSource" >
+			<option value="none">none</option>
+			</select>	
+			</div>
+			</div>
+			
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="WindSource">Wind Source</label> 
+			<div class="col-sm-6"> 
+			<select  style="width:300px;" class="form-control "  id="WindSource" name="WindSource" >
+			<option value="none">none</option>
+			</select>	
+			</div>
+			</div>
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="EnvironSource">Environmental Source</label> 
+			<div class="col-sm-6"> 
+			<select  style="width:300px;" class="form-control "  id="EnvironSource" name="EnvironSource" >
+			<option value="none">none</option>
+			</select>	
+			</div>
+			</div>
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="HeadingSource">Heading Source</label> 
+			<div class="col-sm-6"> 
+			<select  style="width:300px;" class="form-control "  id="HeadingSource" name="HeadingSource" >
+			<option value="none">none</option>
+			</select>	
+			</div>
+			</div>
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="RudderSource">Rudder Source</label> 
+			<div class="col-sm-6"> 
+			<select  style="width:300px;" class="form-control "  id="RudderSource" name="RudderSource" >
+			<option value="none">none</option>
+			</select>	
+			</div>
+			</div>
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="AttitudeSource">Attitude Source</label> 
+			<div class="col-sm-6"> 
+			<select  style="width:300px;" class="form-control "  id="AttitudeSource" name="AttitudeSource" >
+			<option value="none">none</option>
+			</select>	
+			</div>
+			</div>
+			
+				
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="GPSSource">GPS Source</label> 
+			<div class="col-sm-6"> 
+			<select  style="width:300px;" class="form-control "  id="GPSSource" name="GPSSource" >
+			<option value="none">none</option>
+			</select>	
+			</div>
+			</div>
+			
+				<div class="form-group">	
+			<label class="control-label col-sm-2" for="GPSLimit">GPS Speed Limit</label> 
+			<div class="col-sm-10"> 
+		  <select class="form-control "  style="width:300px;"  id="GPSLimit" name="GPSLimit"  onchange="SetGPSLimitOptionList(this);">
+				<option selected="selected"  value="10000000"> disabled</option>
+                <option value="100000">  1,000 mph</option>
+				<option value="20000">  200 mph</option>
+                <option value="10000">  100 mph</option>
+				<option value="5000">  50 mph</option>
+				<option value="2500">  25 mph</option>
+                <option value="1000">  10 mph</option>
+                <option value="100">  1.0 mph</option>				
+                <option value="10">  0.1 mph</option>
+                <option value="1">  0.01 mph</option>
+               
+          </select>
+     	  </div>
+		  </div>	
+			
+		<div class="form-group">	
+			<label class="control-label col-sm-2" for="minSpeed">GPS Min Speed</label> 
+			<div class="col-sm-10"> 
+		  <select class="form-control "  style="width:300px;"  id="minSpeed" name="minSpeed"  >
+                <option value="1000">  1.0 mph</option>	
+				 <option  value="500">  0.5 mph</option>	
+                <option  value="200">  0.2 mph</option>				
+                <option value="100">  0.1 mph</option>
+                <option value="10">  0.01 mph</option>
+                <option value="1">  0.001 mph</option>
+				<option selected="selected" value="0">  disabled</option>
+          </select>
+     	  </div>
+		  </div>
+	
+		   			<div class="form-group">
+			<label class="control-label col-sm-2" for="AppType">Export Type</label>
+			<div class="col-sm-6">
+			<select  style="width:300px;" class="form-control"  id="AppType" name="AppType" size ="1"   >
+			<option value="gpscsv">GPS CSV</option>
+            <option value="gpx">GPX</option>
+            <option value="exp">Expedition</option>
+            <option value="nsnr">Navionics Sonar Log</option>
+            <option value="lsnr">Lowrance Sonar Log</option>
+            <option value="xxx">app3</option>
+          </select>
+       		</div>
+			</div>
+	
+			<div class="form-group" style="margin-top:25px;">
+			<div class="col-sm-offset-4 col-sm-4">
+				<button id="btnDownload" name="btnValue" value="Save" class="btn btn-primary" onclick="DownloadData();">Download file</button>
+				<button id="btnScanGPS" name="btnValue" value="Save" class="btn btn-primary" onclick="getGPSSources();"> reScan GPS</button>
+			</div>
+		</div>
+  
+  	</div>
+	
+	
+	
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }} " ></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.css') }}"/> 	
+
+<script type="text/javascript">
+
+    $('.datepickerstart').datetimepicker({
+
+		initialDate: new Date().yyyymmddhhmmss(),
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 0
+    });
+	
+	 $('.datepickerend').datetimepicker({
+
+		initialDate: new Date().yyyymmddhhmmss(),
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 0
+    });
+	
+	
+	$("#datepickerstart").datetimepicker().on("change.dp", function(e) {
+    //alert('hey');
+		document.getElementById("Span").selectedIndex=0;
+		GetSeriesAttributes(document.getElementById("DLDeviceID").options[document.getElementById("DLDeviceID").selectedIndex].value);
+	});
+	
+	
+		$("#datepickerend").datetimepicker().on("change.dp", function(e) {
+    //alert('hey');
+		document.getElementById("Span").selectedIndex=0;
+		GetSeriesAttributes(document.getElementById("DLDeviceID").options[document.getElementById("DLDeviceID").selectedIndex].value);
+		});
+	
+//	$("#datepickerstart").datetimepicker().on("dp.change", function(e) {
+//    alert('hey');
+//});
+
+</script>
+	
+	
+	
+	
+</div>
+<!-- end tabLive TAB> ###################################################   -->
+  
+  
+  
+  
+  </div>
+  </div>
+  <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/filedrag.js') }} " ></script> -->
+
+</body></html>

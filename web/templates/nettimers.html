@@ -1,0 +1,4525 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>netTimers</title>  
+<style type="text/css">
+
+body {
+	background-color: #051382;
+}
+
+label {
+color: #000000; /* makes the text-black */
+}
+
+output {
+color: #000000; /* makes the text-black */
+}
+
+	
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+	
+		hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+	
+	
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 20px;
+		}
+
+		
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #0069d9;
+  border-color: #0062cc;
+}		
+		
+	.btn-primary:focus, .btn-primary.focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+
+  
+	.btn-primary.disabled, .btn-primary:disabled {
+  background-color: #CCB1E5;
+  border-color: #007bff;
+}
+	
+
+	.btn-primary:active, .btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: #B3981D;
+  background-image: none;
+  border-color: #0062cc;
+}	
+		
+
+.btn-info.disabled, .btn-info:disabled {
+  background-color: #AEB32C;
+  border-color: #007bff;
+}
+	
+
+	.btn-info:active, .btn-info.active,
+.show > .btn-info.dropdown-toggle {
+  background-color: #1489AF;
+  background-image: none;
+  border-color: #0062cc;
+}	
+	
+		
+
+  </style>
+  
+ 
+  	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ url_for('static', filename='css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" />
+	<!--<link href="{{ url_for('static', filename='css/bootstrap-year-calendar.css') }}" rel="stylesheet" type="text/css" />-->
+	<link href="{{ url_for('static', filename='css/js-year-calendar.min.css') }}" rel="stylesheet" type="text/css" />
+	
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/> 
+	
+	
+		   	<link href="{{ url_for('static', filename='css/bootstrap-slider.min.css') }}" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-slider.min.js') }}"></script>   
+	
+	<script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }}"></script>
+	
+	<!--<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-year-calendar.js') }}"></script>-->
+	<script type="text/javascript" src="{{ url_for('static', filename='js/js-year-calendar.min.js') }}"></script>
+	
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+  
+  
+  	   	<link href="{{ url_for('static', filename='css/bootstrap-slider.min.css') }}" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-slider.min.js') }}"></script>  
+  
+   <!--
+  
+  <link href="static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="static/js/modernizr-2.6.2.js"></script>
+	<script type="text/javascript" src="static/js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/jquery.unobtrusive-ajax.min.js"></script>
+   <script type="text/javascript" src="static/js/jquery_blockUI.js"></script>
+	<script type="text/javascript" src="static/js/jquery.validate.js"></script>
+	<script type="text/javascript" src="static/js/jquery.validate.unobtrusive.js"></script>
+	 <script type="text/javascript" src="static/js/PGNSelectFunctions.js" ></script>
+	<script type="text/javascript" src="static/js/ParseN2KDataJSON.js" type="text/javascript"></script>
+
+  <script type="text/javascript" src="static/js/ChangeDialStyleJSON.js" ></script>
+
+	<script type="text/javascript" src="static/js/tween-min.js"></script>
+<script type="text/javascript" src="static/js/SSsteelseries.js " ></script>
+
+	<script type="text/javascript" src="static/js/bootstrap-slider.min.js"></script>
+		<script type="text/javascript" src="static/js/bootstrap-year-calendar.js"></script>
+				<script type="text/javascript" src="static/js/bootstrap-datetimepicker.js"></script> 
+<script type="text/javascript" src="static/js/bootstrap-timepicker.js"></script>
+ -->
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script> -->
+	
+	<!--
+      <script type="text/javascript" src="static/js/jquery_blockUI.js"></script>
+    <script type="text/javascript" src="static/js/jscolor.js " ></script>
+	   -->
+	   
+	   
+	   <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }} " ></script> 
+	   
+	 <!--  
+	   
+	   	<link href="static/css/bootstrap-slider.min.css" rel="stylesheet" type="text/css" />
+		<link href="static/css/bootstrap-year-calendar.css" rel="stylesheet" type="text/css" />
+		 <link href="static/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css" /> 
+		<link href="static/css/timepicker.less" rel="stylesheet" type="text/css" />
+	   
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link href="staticstylesheets/fileuploadstyles.css"/>
+  <link href="staticstylesheets/persona-buttons.css"/>
+ <link href="staticstylesheets/helmsmart-buttons.css"/> 
+ 
+  -->
+ 
+	
+<!--
+	    <link rel="stylesheet" type="text/css" media="screen"
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="./css/prettify-1.0.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+	-->
+	
+	 
+	   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+	   
+
+
+<script  type="text/javascript" >
+
+var gDimmerTimmer;
+var gDimmerTimmerValue;
+var gDimmerLockout = 0;
+var gDimmerLockoutFlag = false;
+
+
+	var DialPGNNumber = new Array();
+	var myEventID = new Array();
+	var myEventTag = new Array();
+	var myEventUnits = new Array();
+	var myEventMax = new Array();
+	var myEventMin = new Array();
+	var myEventAlarmMode  = new Array();
+	var myEventAlarmModeType  = new Array();
+	var myEventInterval = new Array();
+	var myEventRemoteMode = new Array();
+	var myEventSource = new Array();
+	var myEventName = new Array();
+	var myEventAlertActionValue = new Array();
+	var myEventAlertActionPGN = new Array();
+	var myEventAlertLocation = new Array();	
+	var myEventAlertTimezone = new Array();	
+	var gColorPickerValue = 0;
+	
+	var 	myEventEnabled  = new Array();
+	var 	myEventAlertDuration  = new Array();
+	var 	myEventAlertOffset  = new Array();
+	
+	var sliderLookupValueIndex = [ "0%","5%","10%","25%","50%","75%","100%","Disabled"];
+
+    zpad.zeros = new Array(5).join('0');
+    spad.spaces = new Array(7).join(' ');
+	
+	
+    function zpad(num, len) {
+    var str = String(num),
+    diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > zpad.zeros.length)
+        zpad.zeros = new Array(diff + 1).join('0');
+    return zpad.zeros.substr(0, diff) + str;
+}
+
+function spad(num, len) {
+    var str = String(num),
+        diff = len - str.length;
+    if(diff <= 0) return str;
+      if(diff > spad.spaces.length)
+      spad.spaces= new Array(diff + 1).join(' ');
+      return spad.spaces.substr(0, diff) + str;
+      }
+
+
+function pad(number, length) {
+
+        var str = '' + number;
+        while (str.length < length) {
+            str = '0' + str;
+        }
+
+        return str;
+
+    }
+
+
+function padToHex2(value) {
+    return ("0"+(value).toString(16)).slice(-2);
+}
+	  
+function getDeviceList(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+    devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 10000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handleGetDeviceData(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+
+
+}
+
+function handleGetDeviceData(response)
+{
+  var index=0;
+
+  $.unblockUI();
+
+  document.getElementById("DeviceTypeID").options.length = 0;
+
+  response.records.forEach(function(row){
+ 
+     // myDeviceIDs[index]=row[0];
+      document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+
+  });
+
+
+  document.getElementById("DeviceTypeID").selectedIndex = 0;
+  gDeviceKey = document.getElementById("DeviceTypeID").options[0].value;
+					document.getElementById("DeviceKey").value = gDeviceKey;
+					
+
+    GetAlertEvents();	
+    
+}
+
+
+
+
+
+
+function myonload()
+{ 
+var i;
+var j;
+ var TimmerValueStr;
+ 
+ 
+ 	//	var ds = new Date();
+	//	var de = new Date();
+	//	ds.setHours(0, 0, 0);
+	//	de.setHours(23, 59, 59);
+		
+		//$('#alertstarttime').datetimepicker('setStartDate', '2012-01-01');
+	//	$('#alertstarttime').datetimepicker('setStartDate', ds);
+ 
+ 	//	$('#alertendtime').datetimepicker('setEndDate', de);
+		
+	//	document.getElementById("alertstarttime").value =  '00:00:00';
+	//	document.getElementById("alertendtime").value =  '23:59:59';
+		
+	
+	for(i=0; i<24; i++)
+	{
+		for (j=0;j<7;j++)
+		{
+			TimmerValueStr = "TimmerValue_" + i + "_" + j*10;
+			
+			//document.getElementById(TimmerValueStr).options.length = 0;
+			
+			index=0;
+			
+			for(k=0;k<101;k++)
+			{
+				//document.getElementById(TimmerValueStr).options[index++] = new Option(k, padToHex2(k));
+				
+			}
+			//document.getElementById(TimmerValueStr).options[index++] = new Option("---", "FF");
+			
+			//document.getElementById(TimmerValueStr).selectedIndex = 101;
+	  }
+  }
+  
+
+
+  
+  for(k=0; k<MaxDailyTimmers; k++)
+  {
+  
+    var TimmerArray = new Array();
+	  for(i=0; i<24; i++)
+		{  
+		var HoursArray = new Array();
+		
+			for (j=0;j<6;j++)
+			{
+				HoursArray.push(101)
+			}
+			TimmerArray.push(HoursArray)
+			
+		}
+	  
+	  TimmersArray.push(TimmerArray);
+  }
+  
+  
+  	
+	  gUserID = "0";
+    {% if session['userid'] %}
+    gUserID = "{{session['userid']}}";
+    {% else %}
+    gUserID = "0";
+    {% endif %}
+
+
+    if (gUserID == null)
+    {
+		gUserID = "0";
+    }
+    else
+    {
+		getDeviceList(gUserID);
+    
+    }
+  
+ }  
+</script>
+
+</head>
+<body onload="myonload();"  >
+
+
+
+<style type="text/css">
+
+	.btn-primary:active, .btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: #B3981D;
+  background-image: none;
+  border-color: #0062cc;
+}	
+		
+
+</style>
+  
+
+
+<div>
+  <center>
+  {% if session['userid'] %}
+     <a href="http://helmsmart-led-specialists.herokuapp.com" id="login" class="persona-button">
+    <span>HelmSmart: {{session['username']}}</span></a>
+  {% else %}
+    <a href="http://helmsmart-led-specialists.herokuapp.com" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span></a>
+  {% endif %}
+  </center>
+</div>
+
+
+<div style="width: 540px; height: 40px">
+<center>
+<a href="index.htm">
+<img alt="" height="38" src="static/img/netDimmerLogoSmall.jpg" width="200" />
+
+</a>
+</center>
+</div>
+
+
+
+
+
+<script>
+	$(function () {
+		$(document).ajaxComplete(function (event, xhr, settings) {
+			if (xhr.getResponseHeader('ReloadWholePage')) {
+				window.location.reload();	//Reload the whole datapane
+			}
+		});
+		
+		$('.nav-tabs a[href="#tabTimmerCalander"]').tab('show');
+
+	});
+</script>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="tab" role="tablist">
+
+
+	<li><a href="#tabPrefs" role="tab" data-toggle="tab">Prefs</a></li>
+	<li><a href="#tabTimmerDay" role="tab" data-toggle="tab">Accounts</a></li>
+	<li><a href="#tabTimmerCalander" role="tab" data-toggle="tab">TimerCalender</a></li>
+	<li><a href="#tabLive" role="tab" data-toggle="tab">Status</a></li>
+
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+
+	<!-- Tab pane -->
+<div class="tab-pane" id="tabLive">
+		
+<style>
+ th {
+	 background-color : #428bca;
+	 color:white;
+ }
+
+
+
+</style>		
+		
+		
+		
+			<div class="form-horizontal">
+				<div class="form-group text-center text-info" style="margin-top:10px;"  >
+<div class="alertdiv" id="alert_data" style="width:100%; height:10%; display: block">
+
+    <!--
+    <form name="AlertData">
+      <textarea id="AlertText" name="AlertText" rows="20" style="width: 100%; display: block"></textarea>
+    </form>
+    -->
+    <Table class="alerttable" id="AlertData" border="0" cellspacing="5" cellpadding="5" style="width:100%; display: block">
+
+      <thead class="alertthead">
+        <TR>
+          <th> Timestamp</th>
+          <th> Interval</th>    
+          <th> Title</th>
+          <th> Mode  </th>
+		  <th> Type  </th>
+          <th> Value </th>
+		  <th> Location </th>
+          <th> Low </th>
+          <th> High </th>
+		  <th>Status</th>
+		   <th>Action</th>
+			   </TR>
+      </thead>
+      <tbody class="alerttbody"></tbody>
+      
+    </Table>
+    
+  </div>
+				</div>
+			</div>
+			
+			  <div id="SearchStatus" class="auto-style6" style="width:100%;  padding: 5px 5px 5px 5px;" >
+    <span class="auto-style6">	</span>
+
+  </div>
+			
+</div>
+
+
+
+
+<!-- Tab Dimmer timmers -->
+<div class="tab-pane" id="tabTimmerDay">
+		
+<style>
+ th {
+	 background-color : #428bca;
+	 color:white;
+ }
+
+.form-inline .form-group{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+</style>	
+<script>
+
+
+
+
+$(function() {   $(' #timmer-save').click(function() {
+        saveTimmerLabel();
+    });
+ 
+  });
+  
+  
+  
+  
+function saveTimmerLabel() {
+    var label =  $('#timmer-label').val();
+	
+	var index =  $('#TimmerID').val();
+	
+	TimmersLabels[index] = label;
+	
+	//       name: $('#event-modal #event-name').val(),
+	//	label: $('#event-modal #event-name option:selected').text(),
+	//document.getElementById("datepickerstart").value;
+	
+	
+	//$('#myddl option[value=2]').text('Two');
+	
+	
+	$('#event-modal #event-name option[value=' + index + ']').text(label);
+
+}		
+  
+ function selectTimmerChannel(sel)
+{
+var value;
+var id;
+
+id =  sel.selectedIndex;
+
+var TimmerID = document.getElementById("TimmerID").selectedIndex;
+
+TimmersChannel[TimmerID] = id;
+
+//document.getElementById("SearchTick").options[index].value;
+
+}
+
+function selectTimmerID(sel)
+{
+var value;
+var id;
+
+id =  sel.selectedIndex;
+
+document.getElementById("timmer-label").value = TimmersLabels[id];
+
+
+document.getElementById("timmer-channel").selectedIndex = TimmersChannel[id];
+
+	for(i=0; i<24; i++)
+	{
+		for (j=0;j<6;j++)
+		{
+			TimmerValueStr = "TimmerValue_" + i + "_" + j*10;
+			
+			value = TimmersArray[id][i][j]
+			document.getElementById(TimmerValueStr).selectedIndex = value;
+			
+
+		}
+			TimmerValueStr = "TimmerValue_" + i + "_60" ;
+			document.getElementById(TimmerValueStr).selectedIndex = 101;
+	  
+  }
+
+}
+
+
+
+function selectTimmerValue(sel)
+{
+var value;
+var id;
+
+var TimmerID = document.getElementById("TimmerID").selectedIndex;
+
+
+id =  sel.id;
+var ids = id.split("_");
+
+var timmerHour = ids[1];
+var timmerMin = ids[2];
+
+
+value = sel.selectedIndex;
+
+TimmersArray[TimmerID][timmerHour][timmerMin/10] = value;
+
+
+}
+
+function selectTimmerValueHour(sel)
+{
+var value;
+var id;
+var i;
+
+var TimmerValueStr;
+var TimmerID = document.getElementById("TimmerID").selectedIndex;
+
+id =  sel.id;
+var ids = id.split("_");
+
+var timmerHour = ids[1];
+var timmerMin = ids[2];
+
+
+	value = sel.selectedIndex;
+
+	for(i=0;i<6; i++)
+	{
+		TimmersArray[TimmerID][timmerHour][i] = value;
+
+		TimmerValueStr = "TimmerValue_" + timmerHour + "_" + i*10;
+				
+		document.getElementById(TimmerValueStr).selectedIndex = value;
+	}
+
+
+
+
+} 
+  
+  
+  function isDST(t) { //t is the date object to check, returns true if daylight saving time is in effect.
+    var jan = new Date(t.getFullYear(),0,1);
+    var jul = new Date(t.getFullYear(),6,1);
+    return Math.min(jan.getTimezoneOffset(),jul.getTimezoneOffset()) == t.getTimezoneOffset();  
+}
+  
+ function ChangedLocationCity(sel)
+{
+
+	g_myCity = document.getElementById("LocationCity").options[sel.selectedIndex].value
+	
+	
+
+} 
+  
+</script>
+
+
+
+
+<table style="margin-top:5px; margin-left:10px;" cellspacing="10" cellpadding="5">
+<tr style="height:35px" id="DimmerID">
+
+
+<td style="width: 80px;height:35px">ID</td>
+<!-- <td style="width: 80px;height:35px">Channel</td> -->
+<!--
+<td style="width: 80px;height:35px">Time Zone</td>
+-->
+
+
+<td style="width: 220px;height:35px">Label</td>
+<td style="width: 120px;height:35px">&nbsp;</td>
+
+</tr>
+
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">0</td><td><input type="text"  id="timmer-label_00" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">1</td><td><input type="text"  id="timmer-label_01" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">2</td><td><input type="text"  id="timmer-label_02" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">3</td><td><input type="text"  id="timmer-label_03" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">4</td><td><input type="text"  id="timmer-label_04" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">5</td><td><input type="text"  id="timmer-label_05" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">6</td><td><input type="text"  id="timmer-label_06" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">7</td><td><input type="text"  id="timmer-label_07" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">8</td><td><input type="text"  id="timmer-label_08" value="" style="width: 220px;height:25px"></td></tr>
+<tr style="height:35px" id="DimmerID"><td style="width: 60px;height:35px">9</td><td><input type="text"  id="timmer-label_09" value="" style="width: 220px;height:25px"></td></tr>
+
+<tr>
+<td>
+<button type="button" id="save-labels" onclick="saveLabels();" class="btn btn-primary" style="width: 120px;height:30px">Save changes</button>
+</td>
+</tr>
+</table>	
+
+
+</div>
+<!-- GEOFENCE TAB> ###################################################   -->
+<div class="tab-pane" id="tabTimmerCalander">
+<script>
+
+
+		var ds = new Date();
+		var de = new Date();
+		//ds.setUTCHours(0, 0, 0);
+		//de.setUTCHours(23, 59, 59);
+		ds.setHours(0, 0, 0);
+		de.setHours(23, 59, 59);
+				
+
+			
+function saveLabels() {
+
+	TimmersLabels[0] = document.getElementById("timmer-label_00").value;
+	TimmersLabels[1] = document.getElementById("timmer-label_01").value;
+	TimmersLabels[2] = document.getElementById("timmer-label_02").value;
+	TimmersLabels[3] = document.getElementById("timmer-label_03").value;
+	TimmersLabels[4] = document.getElementById("timmer-label_04").value;
+	TimmersLabels[5] = document.getElementById("timmer-label_05").value;
+	TimmersLabels[6] = document.getElementById("timmer-label_06").value;
+	TimmersLabels[7] = document.getElementById("timmer-label_07").value;
+	TimmersLabels[8] = document.getElementById("timmer-label_08").value;
+	TimmersLabels[9] = document.getElementById("timmer-label_09").value;
+	
+	
+	
+	for(i=0; i< 9; i++)
+	{
+		$('#event-modal #event-name option[value=' + i + ']').text(TimmersLabels[i]);
+	}
+
+}
+
+function updateScheduleList(sel)
+{
+//var myDialID = 0 ;
+
+	
+	//	DialUnits[myDialID] = sel.options[sel.selectedIndex].value;
+		
+		//SetEventsOptions(sel.selectedIndex);
+		
+		
+		//document.getElementById("EventName").value = document.getElementById("EventsID").options[sel.selectedIndex].text; 
+		
+		
+}
+
+function setDimmelLevelButton(value)
+{
+
+	// dimmerzoneenabled = 0x00 - disabled bar and value is = DISABLED
+	// dimmerzoneenabled = 0x01 - enabled bar and value is = DISABLED
+	// dimmerzoneenabled = 0x02 - disabled bar and show current value
+	// dimmerzoneenabled = 0x03 - enabled bar and show current value 
+	
+	var myButtonID = 'dimmerLevel_0'
+	
+	gDimmerLevelValue = value;
+	gDimmerLevelIndex = parseInt(value/14);
+
+	if(value > 100)
+	{
+		$(myButtonID).removeClass('active').siblings('.btn').removeClass('active');
+	}
+	else
+	{
+
+		for(i=0; i<7; i++)
+		{
+			myButtonID = '#dimmerLevel_' + i;
+			if(gDimmerLevelIndex == i)
+				$(myButtonID).addClass('active').siblings('.btn').removeClass('active');
+		}
+	
+	}
+	
+
+
+}
+
+function dimmerLevelButtonClick(buttonid) {
+
+
+var buttonindex = parseInt(buttonid.split("_")[1]);
+var myButtonID
+
+
+
+
+
+	gDimmerLockout = 2;
+	gDimmerLevelIndex = buttonindex;
+	gDimmerColorValue= document.getElementById("DimmerRGBW").selectedIndex;
+	
+	//gDimmerValues[0]=((gDimmerLevelValues[0] & 0x0F) * 14) + (parseInt(value_high) & 0x0F);
+	gDimmerValue=((gDimmerLevelIndex & 0x0F) * 14) + ((gDimmerColorValue) & 0x0F);
+	
+		for(i=0; i<7; i++)
+		{
+			myButtonID = '#dimmerLevel_' + i;
+			if(buttonindex == i)
+				$(myButtonID).addClass('active').siblings('.btn').removeClass('active');
+		}
+
+		
+		$("#LEDdimmer").slider('setValue', gDimmerValue);
+		
+
+}
+
+function setRGBWColorDD(value) 
+{
+
+	if(value < 98)
+		gDimmerColorValue = value % 14;
+	else
+		gDimmerColorValue =14;
+		
+		
+	document.getElementById("DimmerRGBW").selectedIndex = gDimmerColorValue;
+	ChangedRGBWColor(gDimmerColorValue)
+ 
+}
+
+function ChangedRGBWColor(value) 
+{
+/*
+					<option value="8" style="background:  #02E31C; color: #000;">Green</option>
+					<option value="14" style="background: #E90540; color: #000;">Red</option>
+					<option value="20" style="background: #EDE00B; color: #000;">Yellow</option>
+					<option value="30" style="background: #163AEE; color: #000;">Blue</option>
+					<option value="36" style="background: #16EEE1; color: #000;">Cyan</option>
+					<option value="40" style="background: #E813E1; color: #000;">Megenta</option>
+					<option value="54" style="background: #c0c0c0; color: #000;">Warm White</option>
+					<option value="60" style="background: #9EF0A8; color: #000;">Lt Green</option>
+					<option value="68" style="background: #F6BCBC; color: #000;">Lt Red</option>
+					<option value="74" style="background: #EEECB2; color: #000;">Lt Yellow</option>
+					<option value="78" style="background: #C4CCF3; color: #000;">Lt Blue</option>
+					<option value="84" style="background: #A0EFEA; color: #000;">Lt Cyan</option>
+					<option value="90" style="background: #EFBFED; color: #000;">Lt Megenta</option>
+					<option value="98" style="background: #E9EDF3; color: #000;">Bright White</option>
+*/
+
+	gDimmerColorValue= document.getElementById("DimmerRGBW").selectedIndex;
+
+
+	if(parseInt(value) == 0)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#E9EDF3";
+	else if(parseInt(value) == 1)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#02E31C";
+	else if(parseInt(value) == 2)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#E90540";
+	else if(parseInt(value) == 3)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#EDE00B";
+	else if(parseInt(value) == 4)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#163AEE";
+	else if(parseInt(value) == 5)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#16EEE1";
+	else if(parseInt(value) == 6)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#E813E1";
+	else if(parseInt(value) == 7)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#F3EFDD";
+	else if(parseInt(value) == 8)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#9EF0A8";
+	else if(parseInt(value) == 9)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#F6BCBC";
+	else if(parseInt(value) == 10)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#EEECB2";
+	else if(parseInt(value) == 11)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#C4CCF3";		
+	else if(parseInt(value) == 12)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#A0EFEA";		
+	else if(parseInt(value) == 13)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#EFBFED";		
+	else if(parseInt(value) == 14)
+		document.getElementById("DimmerRGBW").style.backgroundColor = "#E9EDF3";		
+		
+		
+	gDimmerValue=((gDimmerLevelIndex & 0x0F) * 14) + ((gDimmerColorValue) & 0x0F);
+	$("#LEDdimmer").slider('setValue', gDimmerValue);
+		//$("#LEDdimmervalue").text(sliderLookupValueIndex[parseInt(event.value)]);
+		
+	if(parseInt(value) < 14)	
+		gEnableRGBWColors = true;
+	else
+		gEnableRGBWColors = false;
+
+
+	
+	if(gEnableRGBWColors == true)	
+			document.getElementById("dimmerLevelButtons").style.display = 'block';
+		else	
+			document.getElementById("dimmerLevelButtons").style.display = 'none';	
+				
+		
+
+}
+
+
+function deleteEvent(event) {
+   // var dataSource = calendar.getDataSource();
+	
+	var dataSource = $('.calendar').data('calendar').getDataSource();
+    
+    //calendar.setDataSource(dataSource.filter(item => item.id !== event.id));
+	var mydeleteID =event.id;
+	var mydeleteID =item.id;
+	
+	//$('.calendar').data('calendar').setDataSource(dataSource);
+}
+
+
+
+function saveEvent() {
+
+
+var enddate;
+var endsecs;
+var startdate;
+var startsecs;
+var timmerValues;
+var timerzoneOffset;
+var newEventID=0;
+
+//var timezone =  document.getElementById("TimeZoneId").options[document.getElementById("TimeZoneId").selectedIndex].value;
+var timezone =0;
+
+    var event = {
+        id: $('#event-modal #event-id').val(),
+        name: $('#event-modal #event-name').val(),
+		label: $('#event-modal #event-name option:selected').text(),
+        //location: $('#event-modal input[name="event-location"]').val(),
+        startDate: $('#event-modal #event-startdate').datetimepicker('getDate'),
+        endDate: $('#event-modal #event-enddate').datetimepicker('getDate'),
+		
+		 startTime: $('#event-modal #event-starttime').datetimepicker('getDate'),
+        endTime: $('#event-modal #event-endtime').datetimepicker('getDate'),
+		//dimmervalue: document.getElementById("LEDdimmer").value
+		
+		dimmervalue: ((gDimmerLevelIndex & 0x0F) * 14) + ((gDimmerColorValue) & 0x0F)
+    }
+	
+	//var dataSource = $('.calendar').data('calendar').getDataSource();
+	var dataSource = calendar.getDataSource();
+	
+	
+	
+    if(event.id) {
+	
+		newEventID = event.id;
+	
+        for(var i in dataSource) {
+            if(dataSource[i].id == event.id) {
+                dataSource[i].name = event.name;
+				dataSource[i].label = event.label;
+		
+				// JLB 031923
+                //dataSource[i].startDate = event.startDate;
+                //dataSource[i].endDate = event.endDate;
+				dataSource[i].startDate = event.startTime;
+                dataSource[i].endDate = event.endTime;
+				
+				dataSource[i].startTime = event.startTime;
+                dataSource[i].endTime = event.endTime;
+				dataSource[i].dimmervalue = event.dimmervalue;
+            }
+        }
+    }
+    else
+    {
+        var newId = 0;
+        for(var i in dataSource) {
+            if(dataSource[i].id > newId) {
+                newId = dataSource[i].id;
+            }
+        }
+        
+        newId++;
+        event.id = newId;
+    
+        dataSource.push(event);
+    }
+	
+	//$('.calendar').data('calendar').setDataSource(dataSource);
+	calendar.setDataSource(dataSource);
+	
+	
+	
+				 // startsecs in in local browser time
+			 // JLB 031823
+			 //startdate = new Date(event.startDate);
+			 startdate = new Date(event.startTime);
+			 
+			// get browsers timezone so we can remove from calander's local time to create a GMT time
+			 timerzoneOffset = startdate.getTimezoneOffset(); 
+			 
+			 // GMT time in seconds based on local time
+			 startsecs = startdate.getTime() / 1000; 
+			 // remove timezone so we have adjusted to GMT
+			 //startsecs = startsecs + (timerzoneOffset*60); 
+			 // now add in device location timezone
+			 //startsecs = startsecs - ((timerzoneOffset + parseInt(timezone)) * 60);
+
+			  // endsecs in in local browser time
+			  // JLB 031823
+			 //enddate = new Date(event.endDate);
+			 enddate = new Date(event.endTime);
+			 
+			 endsecs = enddate.getTime() / 1000; 
+			  // remove timezone so we have adjusted to GMT
+			 //endsecs = endsecs + (timerzoneOffset*60); 
+			  // now add in device location timezone
+			 //endsecs = endsecs - ((timerzoneOffset + parseInt(timezone)) * 60);
+			 // add a full days woth of seconds since date stops at 0:00:00 and not 23:59:59
+			 //endsecs = endsecs + (24*60*60) - 1;
+			 //endsecs = endsecs  - 1;
+
+			  // startsecs in in local browser time
+			 startdate = new Date(event.startTime);
+			 
+			// get browsers timezone so we can remove from calander's local time to create a GMT time
+			 timerzoneOffset = startdate.getTimezoneOffset(); 
+			 
+			 // GMT time in seconds based on local time
+			 starttimesecs = startdate.getTime() / 1000; 
+			 // remove timezone so we have adjusted to GMT
+			 //startsecs = startsecs + (timerzoneOffset*60); 
+			 // now add in device location timezone
+			 starttimesecs = starttimesecs - ((timerzoneOffset + parseInt(timezone)) * 60);
+
+			  // endsecs in in local browser time
+			 enddate = new Date(event.endTime);
+			 endtimesecs = enddate.getTime() / 1000; 
+			  // remove timezone so we have adjusted to GMT
+			 //endsecs = endsecs + (timerzoneOffset*60); 
+			  // now add in device location timezone
+			 endtimesecs = endtimesecs - ((timerzoneOffset + parseInt(timezone)) * 60);
+			 // add a full days woth of seconds since date stops at 0:00:00 and not 23:59:59
+			 //endtimesecs = endtimesecs + (24*60*60) - 1;
+			 //endtimesecs = endtimesecs  - 1;
+			 
+			 //dimmervalue=document.getElementById("LEDdimmer").value;
+			 if(gEnableRGBWColors == true)	
+				dimmervalue =((gDimmerLevelIndex & 0x0F) * 14) + ((gDimmerColorValue) & 0x0F)
+			 else
+				dimmervalue = gDimmerValue;
+				
+				
+			 //dimmervalue:
+			 
+			 //numOfdays = Math.ceil((endsecs - startsecs)/(3600 * 24));
+			 
+			 //for( day=0; day< numOfdays; day++) {
+			 
+				//deltaStart = (new Date(event.startTime ).getHours()* (60*60)) + (new Date(event.startTime).getMinutes() * (60));
+			 
+				//deltaStart = (new Date(starttimesecs).getHours() * (60*60)) + (new Date(starttimesecs).getMinutes() * (60));
+				//deltaEnd = (new Date(endtimesecs).getHours() * (60*60)) + (new Date(endtimesecs).getMinutes() * (60));
+				
+				//deltaEnd = (new Date(event.endTime ).getHours()* (60*60)) + (new Date(event.endTime).getMinutes() * (60));
+				//startEpoch = startsecs + (day * 24*3600) + deltaStart;
+				//endEpoch = startsecs + (day * 24*3600) + deltaEnd;
+				
+				//AddLogAlert(event.label, day, startEpoch,endEpoch );
+				// startsec, endsecs in GMT
+				// starttimesecs, endtimesecs in local time
+				
+		
+				AddLogAlert(newEventID ,event.label, startsecs, endsecs,  starttimesecs, endtimesecs, dimmervalue );
+							 
+			// }
+
+	
+	
+	
+	
+    $('#event-modal').modal('hide');
+}	
+
+function editEvent(event) {
+    //$('#event-modal #event-id').val(event ? event.id : '');
+	$('#event-modal #event-id').val(event ? event.id : '');
+    //$('#event-modal #event-name').val(event ? event.name : 0);
+	
+	//$('#event-modal #event-name option[value=0]').prop('selected', 'selected').change();
+    //$('#event-modal input[name="event-location"]').val(event ? event.location : '');
+	//$('#event-modal #event-name').val("something");
+    //$('#event-modal input[name="event-start-date"]').datepicker('update', event ? event.startDate : '');
+    //$('#event-modal input[name="event-end-date"]').datepicker('update', event ? event.endDate : '');
+	//$('event-startdate').datepicker('update', event ? event.startDate : '');
+	//$('event-startdate').datepicker('setDate', event ? event.startDate : '');
+	//$('#event-modal #event-startdate').datepicker('setDate', event ? event.startDate : '');
+	//$('#event-modal #event-enddate').datepicker('setDate', event ? event.endDate : '');
+	
+	$('#event-modal #event-startdate').datetimepicker('setDate', event ? event.startDate : '');
+	$('#event-modal #event-enddate').datetimepicker('setDate', event ? event.endDate : '');
+	
+	
+	// cant do this here because startTime and endTime are not known  yet
+	//$('#event-modal #event-starttime').datetimepicker('setDate', event ? event.startTime : '');
+	//$('#event-modal #event-endtime').datetimepicker('setDate', event ? event.endTime : '');
+	
+
+	
+	
+	
+	if(event.startTime) {
+	
+		var offset = event.startTime.getTimezoneOffset() / 60;
+		var hours = event.startTime.getHours();
+		
+		event.startTime.setHours(hours  + offset)
+		
+		$('#event-modal #event-starttime').datetimepicker('setDate', event ? event.startTime : '');
+	}
+	else{
+		event.startTime = event.startDate
+		$('#event-modal #event-starttime').datetimepicker('setDate', event ? event.startTime : '');
+	}
+	
+	
+	if(event.endTime) {
+	
+		var offset = event.endTime.getTimezoneOffset() / 60;
+		var hours = event.endTime.getHours();
+		
+		event.endTime.setHours(hours  + offset)
+		
+		$('#event-modal #event-endtime').datetimepicker('setDate', event ? event.endTime : '');
+	}
+	else{
+		event.endTime = event.endDate
+		$('#event-modal #event-endtime').datetimepicker('setDate', event ? event.endTime : '');
+	}
+	
+	
+	$('#event-modal #event-starttime').datetimepicker('update', event ? event.startTime : '');
+	$('#event-modal #event-endtime').datetimepicker('update', event ? event.endTime : '');
+	
+	
+	
+	if(event.dimmervalue) {
+	
+		gDimmerValue = event.dimmervalue;
+		setDimmelLevelButton(event.dimmervalue);
+		//setRGBWColorDD(event.dimmervalue);
+		
+		document.getElementById("LEDdimmer").value = event.dimmervalue;
+		
+		LEDdimmer.slider('setValue', Math.floor(gDimmerValue), true);
+		
+		
+
+		
+		if(gEnableRGBWColors == true)	
+		{
+			setRGBWColorDD(event.dimmervalue);
+			document.getElementById("dimmerLevelButtons").style.display = 'block';
+		}
+		else	
+		{
+			document.getElementById("dimmerLevelButtons").style.display = 'none';
+			document.getElementById("DimmerRGBW").selectedIndex=14;
+			document.getElementById("DimmerRGBW").style.backgroundColor = "#E9EDF3";			
+		}			
+			
+			
+		//document.getElementById("LEDdimmer").value = event.dimmervalue;
+		//document.getElementById('LEDdimmervalue').value = sliderLookupValueIndex[event.dimmervalue];
+	
+	
+		//dimmer.slider('setValue', Math.floor(event.dimmervalue), true);
+	}
+	else{
+	
+		gDimmerValue = 100;
+		setDimmelLevelButton(100);
+		//setRGBWColorDD(100);
+		document.getElementById("LEDdimmer").value = 100;
+		
+		LEDdimmer.slider('setValue', Math.floor(gDimmerValue), true);
+		
+		document.getElementById("dimmerLevelButtons").style.display = 'none';	
+		//document.getElementById("LEDdimmer").value = 8;
+		//document.getElementById('LEDdimmervalue').value = "Disabled";
+		if(gEnableRGBWColors == true)	
+		{
+			setRGBWColorDD(100);
+			document.getElementById("dimmerLevelButtons").style.display = 'block';
+		}
+		else	
+		{
+			document.getElementById("dimmerLevelButtons").style.display = 'none';	
+			document.getElementById("DimmerRGBW").selectedIndex=14;
+			document.getElementById("DimmerRGBW").style.backgroundColor = "#E9EDF3";	
+		}
+		//dimmer.slider('setValue', Math.floor(8), true);
+	}
+	
+	
+	
+	//   optionmenuindex = document.getElementById("ScheduleID").selectedIndex;
+   //prefkey = parseInt(document.getElementById("ScheduleID").options[optionmenuindex].value);
+   
+   
+   	document.getElementById("event-name").selectedIndex = 0;
+	 for(i=0; i< document.getElementById("event-name").options.length; i++)
+	 {
+	    myEvent = document.getElementById("event-name").options[i].text;
+		myEventNametag =$('#event-modal #event-name').val();
+		
+		 try{
+		  if(myEvent.trim() == event.name.trim())
+		  {
+		    	//document.getElementById("ScheduleID").selectedIndex = i;
+				//$('#event-modal #event-name option[value=0]').prop('selected', 'selected').change();
+				//$('#event-modal #event-name option[value=0]').prop('selected', 'selected').change();
+				$('#event-modal #event-name').prop('selectedIndex', i).change();
+				}
+		}
+		catch(err)
+		{
+		
+		}
+		
+	}  
+   
+   
+   
+	
+    $('#event-modal').modal();
+}
+
+function deleteEvent(event) {
+    
+	var devicedataurl;
+	var prefkey=0;
+
+	//var dataSource = $('.calendar').data('calendar').getDataSource();
+	var dataSource = calendar.getDataSource();
+
+
+    for(var i in dataSource) {
+        if(dataSource[i].id == event.id) {
+            dataSource.splice(i, 1);
+			prefkey = event.id;
+            break;
+        }
+    }
+    
+    //$('.calendar').data('calendar').setDataSource(dataSource);
+	calendar.setDataSource(dataSource);
+	
+	if (prefkey != 0)
+	{
+	
+	
+        $.blockUI({ 
+		 message: '<h1>Deleting Event...</h1>',    
+		 css: {             
+		 border: 'none',             
+		 padding: '15px',             
+		 backgroundColor: '#000', 
+			
+		 '-webkit-border-radius': '10px',             
+		 '-moz-border-radius': '10px',             
+		 opacity: .5,             
+		 color: '#fff'         
+		 } }); 
+
+   
+
+  
+		devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=delete_alert&prefkey=" + prefkey + "&userid=" + gUserID ;
+
+
+
+          return $.ajax({
+          //async: false,
+          cache: false,
+          url: devicedataurl,
+          dataType: "json",
+          timeout: 30000,
+          statusCode: {
+          404: function() {      alert( "page not found" );    },
+          200: function() {      }
+          },
+          success: function(response) {
+          handleDeleteAlert(response)
+          },
+          complete: function() {
+          // unblock when remote call returns
+          // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+          //   ShowGraphSmartChart(gindex);
+          //$.unblockUI();
+          },
+          error: function(request,status,errorThrown) {
+          document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+
+          $.unblockUI();
+          }
+          });
+	
+	}
+	
+	
+}
+
+
+
+
+			
+ $(function() { $('#event-modal #event-startdate' ).datetimepicker({
+    
+    format: 'mm/dd/yyyy',
+    showTimezone: true,
+    defaultTimezone: '-0000',
+
+    });
+
+ });
+ 
+  $(function() { $('#event-modal #event-enddate' ).datetimepicker({
+    
+    format: 'mm/dd/yyyy',
+    showTimezone: true,
+    defaultTimezone: '-0000',
+
+    });
+
+ });
+ 
+ 
+  $(function() { $('#event-modal #event-starttime' ).datetimepicker({
+    
+		//initialDate: de,
+		//format:'hh:ii:ss',
+		format:'hh:ii',
+		//startDate:ds,
+		//endDate:de,
+		pickDate: false,
+        weekStart: 1,
+        todayBtn:  0,
+		autoclose: 1,
+		todayHighlight: 0,
+		startView: 1,
+		maxView: 1,
+
+		//updateViewDate: 0,
+		forceParse: 0,
+        showMeridian: 0
+
+    });
+
+ });
+ 
+  $(function() { $('#event-modal #event-endtime' ).datetimepicker({
+    
+		//initialDate: de,
+		//format:'hh:ii:ss',
+		format:'hh:ii',
+		//startDate:ds,
+		//endDate:de,
+		pickDate: false,
+        weekStart: 1,
+        todayBtn:  0,
+		autoclose: 1,
+		todayHighlight: 0,
+
+		startView: 1,
+		maxView: 1,
+		forceParse: 0,
+        showMeridian: 0
+
+    });
+
+ });
+ 
+ 
+
+  
+ 
+$(function() {   $('#event-modal #save-event').click(function() {
+        saveEvent();
+    });
+ 
+  });
+ 
+
+$(function() {
+
+var currentYear = new Date().getFullYear();
+
+
+//$('.calendar').calendar({
+ calendar = new Calendar('#calendar', { 
+			enableContextMenu: true,
+			allowOverlap: true,
+			//style: 'border',
+			style: 'background',
+			enableRangeSelection: true,
+			contextMenuItems:[
+            {
+                text: 'Update',
+                click: editEvent
+            },
+            {
+                text: 'Delete',
+                click: deleteEvent
+            }
+        ],
+        selectRange: function(e) {
+            editEvent({ startDate: e.startDate, endDate: e.endDate , startTime: e.startTime , endTime: e.endTime, dimmervalue: e.dimmervalue});
+        },
+        mouseOnDay: function(e) {
+            if(e.events.length > 0) {
+                var content = '';
+                
+                for(var i in e.events) {
+				
+					//if (i === parseInt(i, 10))
+					if (i != "clone")
+					{
+					
+					 var timerzoneOffset = new Date().getTimezoneOffset()/60; 
+					//var starttime = e.events[i].startTime;
+					//var endtime = e.events[i].endTime;
+					// + (timerzoneOffset * 60 * 1000));
+					//	AlertPrefs['alertaction_value'] =    document.getElementById("LEDdimmer").value;
+					//var dimmervalue = document.getElementById("LEDdimmer").value;
+					var dimmervalue  = ((gDimmerLevelIndex & 0x0F) * 14) + ((gDimmerColorValue) & 0x0F);
+					
+					
+                    content += '<div class="event-tooltip-content">'
+                                    + '<div class="event-name" style="color:' + e.events[i].color + '">' + e.events[i].label 
+									+ ' ' + pad((e.events[i].startTime.getHours() + timerzoneOffset) ,2) + ":"
+									+ pad(e.events[i].startTime.getMinutes(),2) + " - "
+									+ pad((e.events[i].endTime.getHours() + timerzoneOffset),2) + ":"
+									+ pad(e.events[i].endTime.getMinutes(),2) + ":"
+									+ pad(e.events[i].dimmervalue,3) + "%"
+									+ '</div>'
+                                    //+ '<div class="event-location">' + e.events[i].location + '</div>'
+                                + '</div>';
+					}
+                }
+            
+                $(e.element).popover({ 
+                    trigger: 'manual',
+                    container: 'body',
+                    html:true,
+                    content: content
+                });
+                
+                $(e.element).popover('show');
+            }
+        },
+        mouseOutDay: function(e) {
+            if(e.events.length > 0) {
+                $(e.element).popover('hide');
+            }
+        },
+        dayContextMenu: function(e) {
+            $(e.element).popover('hide');
+        },
+
+		
+		/*
+		            if(dataSource[i].id == event.id) {
+                dataSource[i].name = event.name;
+				dataSource[i].label = event.label;
+                //dataSource[i].location = event.location;
+                dataSource[i].startDate = event.startDate;
+                dataSource[i].endDate = event.endDate;
+				dataSource[i].startTime = event.startTime;
+                dataSource[i].endTime = event.endTime;
+				*/
+		
+		dataSource: [
+
+			/*
+            {
+
+			    id: 0,
+				name: 'something',
+				label: 'somelable',
+                startDate: new Date(currentYear, 3, 5),
+                endDate: new Date(currentYear, 5, 15),
+				startTime: new Date(currentYear, 3, 5,3,10),
+                endTime: new Date(currentYear, 5, 15,5,15)
+				
+            }
+			
+			*/
+			
+        ]
+
+
+}
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+});
+
+
+
+</script>
+		 <!-- <div  style="width:100%"  data-provide="calendar"></div> -->
+		 
+		  <!--  <div  style="width:100%"  class="calendar"> </div> -->
+		  
+<!-- Modal HTML -->
+<div id="event-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+			<table>
+			
+				
+			<tr>
+			<td>Name: </td>
+			<!-- <td><input type="text"  id="event-name" placeholder="event name" style="width:200px; height:30px;"></td> -->
+			<td>
+			
+			
+				<select   id="event-name" style="width:350px; height:30px;" >
+				  <option selected="selected" value="0">Timmer 0</option>
+				  <option value="1">Timmer 1</option>
+				  <option value="2">Timmer 2</option>
+				  <option value="3">Timmer 3</option>
+				  <option value="4">Timmer 4</option>
+				  <option value="5">Timmer 5</option>
+				  <option value="6">Timmer 6</option>
+				  <option value="7">Timmer 7</option>
+				  <option value="8">Timmer 8</option>
+				</select>
+				
+				</td>
+			</tr>
+			
+			<tr>
+			<td>Start date: </td>
+			<td><input id="event-startdate"  data-provide="datetimepicker" style="width:350px; height:30px;"></td>
+			</tr>
+			
+			<tr>
+			<td>End date: </td>
+			<td><input id="event-enddate"  data-provide="datetimepicker" style="width:350px; height:30px;"></td>
+			</tr>
+			
+			<tr>
+			
+			<tr>
+			<td>Start time: </td>
+			<td><input id="event-starttime"  data-provide="datetimepicker" style="width:350px; height:30px;"></td>
+			</tr>
+			
+			<tr>
+			<td>End time: </td>
+			<td><input id="event-endtime"  data-provide="datetimepicker" style="width:350px; height:30px;"></td>
+			</tr>
+			
+				<tr>
+				<td>Level: </td>
+				<td>
+			
+		
+		
+			  <input  id="LEDdimmer"  type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0"   style="width: 350px; ">
+			<!-- <output for=LEDdimmer id=LEDdimmervalue>0</output> -->
+			 
+			<div class="col-sm-6" id="dimmerLevelButtons"> 
+				
+				<div class="btn-group" role="group" aria-label="DimmerLevel" > 
+				<button type="button" class="btn btn-primary" id="dimmerLevel_0" onclick="dimmerLevelButtonClick(this.id)"; >0% </button>
+				<button type="button" class="btn btn-primary" id="dimmerLevel_1" onclick="dimmerLevelButtonClick(this.id)"; >5% </button>
+				<button type="button" class="btn btn-primary" id="dimmerLevel_2" onclick="dimmerLevelButtonClick(this.id)"; >10% </button>
+				<button type="button" class="btn btn-primary" id="dimmerLevel_3" onclick="dimmerLevelButtonClick(this.id)"; >25% </button>
+				<button type="button" class="btn btn-primary" id="dimmerLevel_4" onclick="dimmerLevelButtonClick(this.id)"; >50% </button>
+				<button type="button" class="btn btn-primary" id="dimmerLevel_5" onclick="dimmerLevelButtonClick(this.id)"; >75% </button>
+				<button type="button" class="btn btn-primary" id="dimmerLevel_6" onclick="dimmerLevelButtonClick(this.id)"; >100% </button>
+		
+				</div>	
+			</div>			
+
+			</td>
+			</tr>
+			<tr>
+				<td>Color:</td>
+				<td>
+			
+		
+							<div class="form-group">
+			<!-- <label class="control-label col-sm-2" for="DimmerRGBW">Dimmer RGBW</label> -->
+			<div class="col-sm-6">
+				
+					<select class="form-control" id="DimmerRGBW" name="DimmerRGBW" style="width: 350px; " onchange="ChangedRGBWColor(this.value);">
+					
+					<option value=0  style="background: #E9EDF3; color: #000;"></option>
+					<option value=1  style="background: #02E31C; color: #FFF;"></option>
+					<option value=2  style="background: #E90540; color: #FFF;"></option>
+					<option value=3  style="background: #EDE00B; color: #FFF;"></option>
+					<option value=4  style="background: #163AEE; color: #FFF;"></option>
+					<option value=5  style="background: #16EEE1; color: #FFF;"></option>
+					<option value=6  style="background: #E813E1; color: #FFF;"></option>
+					<option value=7  style="background: #F3EFDD; color: #000;"></option>
+					<option value=8  style="background: #9EF0A8; color: #000;"></option>
+					<option value=9  style="background: #F6BCBC; color: #000;"></option>
+					<option value=10 style="background: #EEECB2; color: #000;"></option>
+					<option value=11 style="background: #C4CCF3; color: #000;"></option>
+					<option value=12 style="background: #A0EFEA; color: #000;"></option>
+					<option value=13 style="background: #EFBFED; color: #000;"></option>
+					<option value=14 style="background: #E9EDF3; color: #000;">MONO</option>
+					
+					
+					<!--
+					<option value="0"  style="background: #E9EDF3; color: #000;"></option>
+					<option value="8"  style="background: #02E31C; color: #FFF;"></option>
+					<option value="14" style="background: #E90540; color: #FFF;"></option>
+					<option value="20" style="background: #EDE00B; color: #FFF;"></option>
+					<option value="30" style="background: #163AEE; color: #FFF;"></option>
+					<option value="36" style="background: #16EEE1; color: #FFF;"></option>
+					<option value="40" style="background: #E813E1; color: #FFF;"></option>
+					<option value="54" style="background: #F3EFDD; color: #000;"></option>
+					<option value="60" style="background: #9EF0A8; color: #000;"></option>
+					<option value="68" style="background: #F6BCBC; color: #000;"></option>
+					<option value="74" style="background: #EEECB2; color: #000;"></option>
+					<option value="78" style="background: #C4CCF3; color: #000;"></option>
+					<option value="84" style="background: #A0EFEA; color: #000;"></option>
+					<option value="90" style="background: #EFBFED; color: #000;"></option>
+					<option value="98" style="background: #E9EDF3; color: #000;"></option>
+					-->
+					<!--
+					<option value="0"  style="background: #000000; color: #FFF;">OFF</option>
+					<option value="8"  style="background: #02E31C; color: #FFF;"></option>
+					<option value="14" style="background: #E90540; color: #FFF;"></option>
+					<option value="20" style="background: #EDE00B; color: #FFF;"></option>
+					<option value="30" style="background: #163AEE; color: #FFF;"></option>
+					<option value="36" style="background: #16EEE1; color: #FFF;"></option>
+					<option value="40" style="background: #E813E1; color: #FFF;"></option>
+					<option value="54" style="background: #F3EFDD; color: #000;"></option>
+					<option value="60" style="background: #9EF0A8; color: #000;"></option>
+					<option value="68" style="background: #F6BCBC; color: #000;"></option>
+					<option value="74" style="background: #EEECB2; color: #000;"></option>
+					<option value="78" style="background: #C4CCF3; color: #000;"></option>
+					<option value="84" style="background: #A0EFEA; color: #000;"></option>
+					<option value="90" style="background: #EFBFED; color: #000;"></option>
+					<option value="98" style="background: #E9EDF3; color: #000;"></option>
+					-->
+
+					<!--
+					<select class="form-control" id="DimmerRGBW" name="DimmerRGBW" style="" onchange="ChangedRGBWColor(this);">
+					<option value="0"  style="background: #000000; color: #FFF;">OFF</option>
+					<option value="8"  style="background: #02E31C; color: #FFF;">Green</option>
+					<option value="14" style="background: #E90540; color: #FFF;">Red</option>
+					<option value="20" style="background: #EDE00B; color: #FFF;">Yellow</option>
+					<option value="30" style="background: #163AEE; color: #FFF;">Blue</option>
+					<option value="36" style="background: #16EEE1; color: #FFF;">Cyan</option>
+					<option value="40" style="background: #E813E1; color: #FFF;">Megenta</option>
+					<option value="54" style="background: #F3EFDD; color: #000;">Warm White</option>
+					<option value="60" style="background: #9EF0A8; color: #000;">Lt Green</option>
+					<option value="68" style="background: #F6BCBC; color: #000;">Lt Red</option>
+					<option value="74" style="background: #EEECB2; color: #000;">Lt Yellow</option>
+					<option value="78" style="background: #C4CCF3; color: #000;">Lt Blue</option>
+					<option value="84" style="background: #A0EFEA; color: #000;">Lt Cyan</option>
+					<option value="90" style="background: #EFBFED; color: #000;">Lt Megenta</option>
+					<option value="98" style="background: #E9EDF3; color: #000;">Bright White</option>
+					-->
+					
+					</select>
+					<span class="field-validation-valid" data-valmsg-for="DimmerRGBW" data-valmsg-replace="true"></span>
+			</div>
+		</div>
+			
+				 	 
+
+			</td>
+			</tr>
+			
+			<tr >
+			<td></td>
+			<td>
+			<input type="hidden"   id="event-id" placeholder="event id" style="width:200px; height:30px;">
+			<!--
+				<select   id="event-id" style="width:200px; height:30px;" >
+				  <option selected="selected" value="0">Timmer 0</option>
+				  <option value="1">Timmer 1</option>
+				  <option value="2">Timmer 2</option>
+				  <option value="3">Timmer 3</option>
+				  <option value="4">Timmer 4</option>
+				  <option value="5">Timmer 5</option>
+				  <option value="6">Timmer 6</option>
+				  <option value="7">Timmer 7</option>
+				  <option value="8">Timmer 8</option>
+				</select>
+				-->
+				</td>
+				
+			</tr>
+			
+			</table>
+			
+			
+                <p>Do you want to save changes you made to document before closing?</p>
+                <p class="text-warning"><small>If you don't save, your changes will be lost.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="save-event" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+	<!-- <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-slider.min.js') }}"></script> -->
+  <script type="text/javascript">
+		
+
+		var LEDdimmer = $("#LEDdimmer").slider();
+	
+		$("#LEDdimmer").on("slideStop", function(slideEvt) {
+		$("#LEDdimmervalue").text(slideEvt.value[slideEvt.value]);
+			gDimmerValue = Math.floor((slideEvt.value));
+			
+			setDimmelLevelButton(gDimmerValue);
+			
+			if(gEnableRGBWColors == true)
+			{
+				//setDimmelLevelButton(gDimmerValue);
+				setRGBWColorDD(gDimmerValue);
+			}
+			
+	});
+	
+	
+	
+	
+</script>	
+
+
+</div>
+
+
+<!-- <div class="container" style="margin-top:5px;"> -->
+<!-- <h2 style="margin-bottom:10px; text-align:center">netDimmer Timmer Calander</h2> -->
+<div id="calendar"></div>
+<!-- </div>	-->
+
+
+
+</div>
+
+
+<div class="tab-pane" id="tabPrefs">
+
+<script>
+function escapeHTML(s) { 
+    return s.replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+}
+
+
+function ChangedDeviceTypeID(sel)
+{
+gDeviceKey = document.getElementById("DeviceTypeID").options[sel.selectedIndex].value;
+					document.getElementById("DeviceKey").value = gDeviceKey;
+					
+					
+						GetAlertEvents();		
+					
+					//getDeviceParamList(gUserID);
+					getDeviceParamDetails(gUserID);
+					
+}
+
+
+
+
+function getDeviceParamList(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=pageprefnames&userid=" + gUserID + "&pagetype=7";
+    
+    
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 10000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDevicePramNames(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                         // document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	
+
+
+function handleGetDevicePramNames(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+	
+   	   // initialize the user parameter list to zero         
+	document.getElementById("EventsID").options.length = 0;
+	document.getElementById("EventsID").options[index++] = new Option("Use Defaults", "0");
+  document.getElementById("EventsID").selectedIndex = 0;	
+  		
+	if(response.status != "error")
+	{
+		// get list of user parameters from the DB
+   	    response.records.forEach(function(row){
+   	      document.getElementById("EventsID").options[index] = new Option(row[2],  row[0] );
+				gprefkey = row[0];
+				document.getElementById("EventsID").selectedIndex = index++;
+	   		});
+	}
+	
+	if(index == 0)
+	{
+	 document.getElementById("EventsID").selectedIndex = 0;
+	 gprefkey = 0;
+	 }
+	 
+
+   //	 if(gDeviceKey !== "")
+	//	InitalizeFirebase();
+		
+    // load up user pameters from DB if there were any returned
+    if(index > 0)        
+	 	  getDeviceParamDetails(gUserID);
+    else
+    {
+		//InitalizePrefs();
+    }
+ 
+}
+
+
+
+
+
+
+	  
+  // Drop down menue is auto filled from DB with user preferences
+ function selectUserPref(sel)
+ {
+  // ConfigOptions = parseInt(sel.selectedIndex);
+   // save new CongigOptions to Cookie file
+  //  SetServerType( 1);
+
+  // go to DB and load new prefs
+  // getDeviceParamDetails(gUserID);
+   
+   //SetEventsOptions(sel.selectedIndex);
+		InitalizePrefs(sel.selectedIndex)
+		
+		//document.getElementById("TimmerPreferenceName").value = document.getElementById("EventsID").options[sel.selectedIndex].text; 
+   
+  
+   
+
+ }
+	  
+	
+
+
+
+
+
+
+	
+function getDeviceParamDetails(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex=0;
+	var prefkey;
+
+   //optionmenuindex = document.getElementById("EventsID").selectedIndex;
+   //prefkey = parseInt(document.getElementById("EventsID").options[optionmenuindex].value);
+   
+ 
+   //devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=pageprefs&userid=" + gUserID + "&pagetype=7&prefkey=" + gprefkey;
+   
+   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=scheduleprefs&userid=" + gUserID + "&deviceid=" +  gDeviceKey ;
+   
+         
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 10000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDevicePramDetails(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").innerHTML = "Search Error";
+		                           ParameterInit = true;
+
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 	  
+	  
+function handleGetDevicePramDetails(response)
+ {
+
+ 	var index=0;
+	var myTimmerSettingsSubStrings;
+	var myDimmerType;
+
+	var alertEventindex=0;
+    var myText;
+	var myAlertID=0;
+    var myMessage;
+	var myDeviceID;
+	var myalertText;
+	var PrefIndex=0;
+	
+   	$.unblockUI();
+   	myTimmerPreferences.length=0;
+	myTimmerPrefName.length=0;		
+	myTimmerPrefID.length=0;
+					
+	myTimmerPreferences.length=0;
+	//document.getElementById("EventsID").length =0;
+
+
+	//document.getElementById("EventsID").options.length = 0;
+	//document.getElementById("EventsID").options[PrefIndex++] = new Option("Use Defaults", "0");
+    //document.getElementById("EventsID").selectedIndex = 0;	
+  		
+	//document.getElementById("EventsID").selectedIndex = 0;	
+
+	//document.getElementById("TimmerPreferenceName").value = "";				
+	
+	
+	if(response.status == "error")
+		return;
+
+		
+		 response.records.forEach(function(row){
+	
+		try
+		{
+			myMessage = JSON.parse(row[1]);
+			myText = myMessage.posttype;
+		}
+		catch(err)
+		{
+			myText = "ParseError";
+			myAlertID = row[0];
+		}
+	
+	
+
+			// Get the body of the alexa prefs
+			if( myText == "SchedulePreferencePost")
+			{
+				//myText = myMessage.alexaprefname;
+				myAlertID = row[0];
+				/*
+				if(myMessage.email != null)
+					gEMail = myMessage.email;
+				else
+					gEMail = "";
+					
+				document.getElementById("EmailAddress").value = gEMail;
+				
+				if(myMessage.smsnumber != null)
+					gSMSNumber = myMessage.smsnumber;
+				else
+					gSMSNumber = "";
+					
+				document.getElementById("SMSNumber").value = gSMSNumber;
+				*/
+				myDeviceID = myMessage.deviceid;
+				if(myDeviceID == gDeviceKey)
+				{
+					
+					
+
+					if(myMessage.prefName != null)
+					{
+						myText = myMessage.prefName;
+					}
+			
+					else
+					{
+						myText = "no preference specified";
+					}
+					
+					myTimmerPrefName.push(myText);
+					
+					myTimmerPrefID.push(myAlertID);
+					
+					//myTimmerPreferences.push(myMessage);
+
+					//document.getElementById("EventsID").options[PrefIndex++] = new Option(myText, row[0]);
+					var myCurrentPreferences = JSON.parse( JSON.stringify( myMessage ) );
+					
+					//var timezone = myCurrentPreferences.LocationCityIndex;
+					document.getElementById("LocationCity").selectedIndex = myCurrentPreferences.LocationCityIndex; 
+					
+					TimmerArrayLabel =  myCurrentPreferences.TimmerArrayLabel; 
+					
+					for(i=0; i<5; i++)
+					{
+						TimmersLabels[i]=TimmerArrayLabel[i];
+					}
+					
+					document.getElementById("timmer-label_00").value = TimmersLabels[0];
+					document.getElementById("timmer-label_01").value = TimmersLabels[1];
+					document.getElementById("timmer-label_02").value = TimmersLabels[2];
+					document.getElementById("timmer-label_03").value = TimmersLabels[3];
+					document.getElementById("timmer-label_04").value = TimmersLabels[4];
+					document.getElementById("timmer-label_05").value = TimmersLabels[5];
+					document.getElementById("timmer-label_06").value = TimmersLabels[6];
+					document.getElementById("timmer-label_07").value = TimmersLabels[7];
+					document.getElementById("timmer-label_08").value = TimmersLabels[8];
+					document.getElementById("timmer-label_09").value = TimmersLabels[9];
+	
+	
+	
+					for(i=0; i< 9; i++)
+					{
+						$('#event-modal #event-name option[value=' + i + ']').text(TimmersLabels[i]);
+					}
+
+					//document.getElementById("EventsID").options[PrefIndex] = new Option(row[2],  row[0] );
+					//gprefkey = row[0];
+					//document.getElementById("EventsID").selectedIndex = PrefIndex++;
+
+				
+				}
+			}
+		
+		
+		
+   		   
+	   });
+			
+	
+	   if(PrefIndex == 0)
+		{
+			//document.getElementById("EventsID").selectedIndex = 0;
+			//InitalizePrefs(0);
+			//gprefkey = 0;
+		}
+		else{
+			//document.getElementById("EventsID").selectedIndex = PrefIndex-1;
+			//InitalizePrefs(PrefIndex-1);
+		
+		}
+	 
+
+
+	   	//	 ParameterInit = true;
+
+ 
+ 
+}	
+
+Array.prototype.clone = function() {
+	return this.slice(0);
+};
+
+function InitalizePrefs(myPrefIDIndex)
+{
+
+
+}
+
+function InitalizeFirebase()
+{
+	//var AccountDataFolder = "001EC0B415C2"
+	var AccountDataFolder = gDeviceID;
+	
+    var table = document.getElementById("AlertData");
+
+    var rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>0; x--)
+    table.deleteRow(x);
+
+
+    if(rootRef != null)
+    rootRef.off();
+
+    //FireBaseURL = "https://seasmart.firebaseio.com/events/" + AccountDataFolder + "/Alert/";
+//	FireBaseURL = "https://seasmart.firebaseio.com/events/" + gDeviceKey + "/Alert/";
+	
+	FireBaseURL = "events/" + gDeviceKey + "/Alert/";
+	
+	// device = new Firebase(FireBaseURL);
+  //	device.on('value', function(snapshot) 
+	rootRef = firebase.database().ref(FireBaseURL);
+	
+	
+    rootRef.on('value', function(snapshot) {
+	
+    ShowFirebaseData(snapshot.val());
+  }); 
+
+}
+
+function ShowFirebaseData(mydata)
+{
+
+  try{
+   var myvalues = mydata.pushsmart;
+    if(myvalues != null)
+    {
+
+
+
+    // check if we got an valid object
+    if(myvalues.subject == null )
+    return;
+
+		UpdateAlertValues( myvalues)
+          
+  
+   }
+   
+      }
+   catch(err)
+   {}
+   
+   
+ }
+
+
+function UpdateAlertValues(myNewAlertValues)
+{
+
+var currentState;
+var AlarmHigh;
+var AlarmLow;
+var myseries1;
+var myseries2;
+
+
+		//if( myNewAlertValues[DialIndex] == null || myNewAlertValues.length == 0)
+		//{
+
+		//	return;
+		//}
+		//else
+		
+		   	
+           //myNewAlertValues[DialIndex].alarmlow;
+           //document.forms['AlertData']['AlertText'].value += spad(DialIndex, 6)  + "|  " + myAlertTime + "|  "  +  spad(myAlertSubject,16) + "|  "  +  spad(myNewAlertValues[DialIndex].title,16) + "\r\n";
+    // Get System Time
+
+
+
+	{
+		myseries1 = myNewAlertValues.series_1;
+           
+		AlarmHigh = myseries1.alarmhigh;
+		AlarmLow = myseries1.alarmlow;
+
+		currentState = myseries1.value;
+           
+       var table = document.getElementById("AlertData");
+ 
+       var rowCount = table.rows.length;
+            
+        if(rowCount >= 50)
+            table.deleteRow(rowCount-1);
+           
+            var row = table.insertRow(1);
+			
+			row.style.verticalAlign="top"; 
+			
+           if( myseries1.alarmstatus == "active" )
+			{
+					row.style.color = "#C70C45"; 
+			}
+			/*
+           if( !isNaN(AlarmHigh) )
+				  {
+						if( currentState >= AlarmHigh )
+	              row.style.color = "#C70C45"; 
+                //row.style.backgroundColor = "yellow"; 
+				  }
+
+				  if( !isNaN(AlarmLow) )
+				  {
+						if( currentState < AlarmLow )
+                row.style.color = "#C70C45"; 
+          }
+*/
+
+//timezoneOffset
+//var date1 = "08-12-2014 10:38 PM"; //MM-DD-YYYY HH:MM
+//var new date = moment(date1, "MM-DD-YYYY hh:mm A").add(4, 'hours').format("MM-DD-YYYY hh:mm A"));
+
+	var myStartTime = myNewAlertValues.timestamp;
+	  var parts = myStartTime.match(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})/);
+	  
+	  if( parts != null )
+	  {
+	  //return Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]);
+	 // var utcTime = new Date(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]).getTime() / 1000;;
+	  parts[2] -= 1;// adjust months
+	  var utcTime = new Date(Date.UTC.apply(this, parts.slice(1))).getTime() / 1000;;
+	
+		//	var utcTime = new Date(myNewAlertValues.timestamp  + " GMT").getTime() / 1000;
+			
+			//if(document.getElementById("TimeZoneId").options[document.getElementById("TimeZoneId").selectedIndex].value == "-0")
+			{
+				
+				utcTime = utcTime + new Date().getTimezoneOffset();
+				var mydate = new Date(utcTime * 1000);
+ 
+
+               var cell0 = row.insertCell(0);
+          
+			    cell0.innerHTML = mydate.toString().replace(/GMT.*/g, "");
+				cell0.style.textAlign = 'left';
+			}
+			//else
+			//{
+			//	utcTime = utcTime + timezoneOffset;
+			//	var mydate = new Date(utcTime * 1000);
+ //
+//
+              //var cell0 = row.insertCell(0);
+			//	cell0.innerHTML = mydate.toUTCString().replace('GMT', '');
+			 //  cell0.style.textAlign = 'left';
+			//}
+					
+			//var cell0 = row.insertCell(0);
+			//cell0.innerHTML =myNewAlertValues.timestamp;
+			  
+              var cell1 = row.insertCell(1);
+              cell1.innerHTML = myNewAlertValues.interval;
+			  cell1.style.textAlign = 'left';
+
+              var cell2 = row.insertCell(2);
+              cell2.innerHTML = myNewAlertValues.subject;
+			  cell2.style.textAlign = 'left';
+
+
+              var cell3 = row.insertCell(3);
+              //cell3.innerHTML = myseries1.alarmmode;
+			  cell3.innerHTML = myNewAlertValues.alertmode;
+			  
+			  var cell4 = row.insertCell(4);
+              cell4.innerHTML = myNewAlertValues.alerttype;
+
+              var cell5 = row.insertCell(5);
+			  if(myseries1.value == "missing")
+				cell5.innerHTML = "missing";
+			  else if (myseries1.value == "error")
+				cell5.innerHTML = "error";
+			  else if (myNewAlertValues.series_1.title == "/Position")
+			  {
+					//cell4.innerHTML = "<P>" + spad(parseFloat(myseries1.value).toFixed(2),10)  + "/" + spad(parseFloat(myseries2.value).toFixed(2),10) + "</P>"
+					//cell4.innerHTML +="<P> Distance = " + spad(parseFloat(myseries1.distance).toFixed(2),10) + " meters </P>";
+					//cell4.innerHTML =  spad(parseFloat(myseries1.value).toFixed(2),10)  + "/" + spad(parseFloat(myseries2.value).toFixed(2),10) + ":" + parseInt(myseries1.distance);
+					//cell4.innerHTML += "<P> Distance = " + parseInt(myseries1.distance) + " meters </P>";
+					//if(myseries1.alarmlow != "off")
+					//	cell4.innerHTML = "Distance = " + parseInt(myseries1.distance) + " meters ";
+					//else if(myseries1.alarmhigh != "off")
+					//	cell4.innerHTML = "Distance = " + parseInt(myseries1.distance) + " meters ";
+					if(myseries1.distance == "missing" || myseries1.distance == "error")
+						cell5.innerHTML = myseries1.distance;
+					else
+						if( !isNaN(myseries1.distance) )
+							cell5.innerHTML = parseInt(myseries1.distance) + " meters ";
+						else
+							cell5.innerHTML = "error";
+		
+				}
+			  else
+			  {
+					if( !isNaN(myseries1.value) )
+					{
+						if(myNewAlertValues.alerttype == "count")
+							cell5.innerHTML = parseInt(myseries1.value) ;
+						else
+						{
+							if((parseFloat(myseries1.value) % 1) != 0)
+							{
+								cell5.innerHTML = spad(parseFloat(myseries1.value).toFixed(2),10);
+							}
+							else
+							{
+								cell5.innerHTML = spad(parseInt(myseries1.value), 8) ;
+							}
+							
+						}	
+					}
+					else
+					{
+						if(myseries1.value == "missing")
+							cell5.innerHTML = "missing";
+							
+						else
+						{
+						     var timestampparts = myseries1.value.match(/(\d{2}):(\d{2}):(\d{2})/);
+							 if(timestampparts != null)
+								cell5.innerHTML = myseries1.value;
+							 else
+								cell5.innerHTML = "error";
+						}
+					}
+			  }
+			  cell5.style.textAlign = 'left';
+			 //EventUnits
+			  
+              var cell6 = row.insertCell(6);
+			  
+			   try{
+					var city = myNewAlertValues.locationcity
+					cell6.innerHTML = city;
+					cell6.style.textAlign = 'left';	
+				}
+				catch(err)
+				{
+					cell6.innerHTML = "local";
+					cell6.style.textAlign = 'left';				
+				}
+
+			  
+
+			  
+              var cell7 = row.insertCell(7);
+              //cell5.innerHTML = myseries1.alarmlow;
+			  // if timmer event then alertlow is a datetime string
+			  //					<option value="sunriseexpires">Sun Rise->Expire Time</option>
+			//		<option value="sunsetexpires">Sun Set->Expire Time</option>
+			//		<option value="startsunrise">Start Time -> Sun Rise</option>
+			//		<option value="startsunset">Start Time -> Sun Set</option>
+			//					var tmLoc = new Date();
+			//myEndEpoch =  myEndEpoch + (tmLoc.getTimezoneOffset() * 60);
+					
+					
+
+			   
+			  //if(myseries1.alarmlow != "off")
+			  if( !isNaN(myseries1.alarmlow) )
+			  {
+			  	if (myNewAlertValues.series_1.title == "/Position")
+					cell7.innerHTML = parseInt(myseries1.alarmlow);
+				else if(myNewAlertValues.alerttype == 'timmer' || myNewAlertValues.alerttype == 'timmerday'  || myNewAlertValues.alerttype == 'startsunrise'  || myNewAlertValues.alerttype == 'startsunset' )
+				  {
+						//var utcTime = new Date(parseInt(myseries1.alarmlow))
+						var utcTime = parseInt(myseries1.alarmlow);
+						//utcTime = utcTime - ((new Date().getTimezoneOffset()) * 60);
+					if(myNewAlertValues.alerttype == 'startsunrise'  || myNewAlertValues.alerttype == 'startsunset' )
+					{
+						var startdate = new Date(utcTime * 1000);
+						//cell7.innerHTML = pad(startdate.getUTCHours(),2) + ":" + pad(startdate.getUTCMinutes(),2) + ":" + pad(startdate.getUTCSeconds(),2);
+						cell7.innerHTML = "ST:" + pad(startdate.getUTCHours(),2) + ":" + pad(startdate.getUTCMinutes(),2);
+						cell7.style.textAlign = 'left';				
+					}
+					else if( myNewAlertValues.alerttype == 'timmerday' )
+					{
+						var startdate = new Date(utcTime * 1000);
+						//cell6.innerHTML = pad(startdate.getHours(),2) + ":" + pad(startdate.getMinutes(),2) + ":" + pad(startdate.getSeconds(),2);
+						cell7.innerHTML = "ST:" + pad(startdate.getUTCHours(),2) + ":" + pad(startdate.getUTCMinutes(),2) ;
+						cell7.style.textAlign = 'left';				
+						
+					}	
+					else
+					{
+						var startdate = new Date(utcTime * 1000);
+						//cell6.innerHTML = pad(startdate.getHours(),2) + ":" + pad(startdate.getMinutes(),2) + ":" + pad(startdate.getSeconds(),2);
+						cell7.innerHTML = pad(startdate.getUTCMonth()+1,2) + "/" + pad(startdate.getUTCDate(),2) + "_" + pad(startdate.getUTCHours(),2) + ":" + pad(startdate.getUTCMinutes(),2) ;
+						cell7.style.textAlign = 'left';				
+						
+					}	
+						//cell6.innerHTML = startdate.toString().replace(/GMT.*/g, "");
+
+				  }
+				else
+					cell7.innerHTML = spad(parseFloat(myseries1.alarmlow).toFixed(2),10)
+			  }
+			  else
+			  {
+			  	if( myNewAlertValues.alerttype == 'sunriseexpires' )
+				{
+					var b = myNewAlertValues.alert_sunrise.split(/\D/);
+					cell7.innerHTML = "SR:"+b[3]+":"+b[4];
+					//cell7.innerHTML = "sunrise";
+				}
+				else if( myNewAlertValues.alerttype == 'sunsetexpires'  )
+				{
+					var b = myNewAlertValues.alert_sunset.split(/\D/);
+					//cell7.innerHTML = "sunset";
+					cell7.innerHTML = "SS:"+b[3]+":"+b[4];
+				}
+				else if( myNewAlertValues.alerttype == 'sunriseset'  )
+				{
+					var b = myNewAlertValues.alert_sunrise.split(/\D/);
+					//cell7.innerHTML = "sunrise";
+					cell7.innerHTML = "SR:"+b[3]+":"+b[4];
+				}
+				else if( myNewAlertValues.alerttype == 'sunsetrise'  )
+				{
+					var b = myNewAlertValues.alert_sunset.split(/\D/);
+					//cell7.innerHTML = "sunset";
+					cell7.innerHTML = "SS:"+b[3]+":"+b[4];
+				}
+				else if(myseries1.alarmlow == "missing" || myseries1.alarmlow == "error")
+					cell7.innerHTML = "---";
+				else
+					cell7.innerHTML = myseries1.alarmlow;
+			  }
+				
+              cell7.style.textAlign = 'right';
+              
+              var cell8 = row.insertCell(8);
+              //cell6.innerHTML = myseries1.alarmhigh;
+			  //if(myseries1.alarmhigh != "off")
+			   
+			  if(!isNaN(myseries1.alarmhigh))
+			  {
+				if (myNewAlertValues.series_1.title == "/Position")
+					cell8.innerHTML = parseInt(myseries1.alarmhigh);
+				else if(myNewAlertValues.alerttype == 'timmer' || myNewAlertValues.alerttype == 'timmerday'  || myNewAlertValues.alerttype == 'sunriseexpires'  || myNewAlertValues.alerttype == 'sunsetexpires')
+				  {
+						//var utcTime = new Date(parseInt(myseries1.alarmhigh))
+						var utcTime = parseInt(myseries1.alarmhigh)
+						//utcTime = utcTime - ((new Date().getTimezoneOffset()) * 60);
+						if( myNewAlertValues.alerttype == 'sunriseexpires'  || myNewAlertValues.alerttype == 'sunsetexpires')
+						{
+							var enddate = new Date(utcTime * 1000);
+							//cell8.innerHTML =  pad(enddate.getUTCHours(),2) + ":" + pad(enddate.getUTCMinutes(),2) + ":" + pad(enddate.getUTCSeconds(),2);
+							cell8.innerHTML = "EX:" + pad(enddate.getUTCHours(),2) + ":" + pad(enddate.getUTCMinutes(),2) ;
+							cell8.style.textAlign = 'left';
+						}
+						else if( myNewAlertValues.alerttype == 'timmerday' )
+						{
+							var enddate = new Date(utcTime * 1000);
+							//cell6.innerHTML = pad(startdate.getHours(),2) + ":" + pad(startdate.getMinutes(),2) + ":" + pad(startdate.getSeconds(),2);
+							cell8.innerHTML = "EX:" + pad(enddate.getUTCHours(),2) + ":" + pad(enddate.getUTCMinutes(),2) ;
+							cell8.style.textAlign = 'left';				
+							
+						}	
+						else
+						{
+							var enddate = new Date(utcTime * 1000);
+							//cell6.innerHTML = pad(startdate.getHours(),2) + ":" + pad(startdate.getMinutes(),2) + ":" + pad(startdate.getSeconds(),2);
+							cell8.innerHTML = pad(enddate.getUTCMonth()+1,2) + "/" + pad(enddate.getUTCDate(),2) + "_" + pad(enddate.getUTCHours(),2) + ":" + pad(enddate.getUTCMinutes(),2) ;
+							cell8.style.textAlign = 'left';				
+							
+					}
+						//cell7.innerHTML = enddate.toString().replace(/GMT.*/g, "");
+						
+				  }
+				else
+					cell8.innerHTML = spad(parseFloat(myseries1.alarmhigh).toFixed(2),10)
+				}
+			  else
+			  {
+			  	if( myNewAlertValues.alerttype == 'startsunrise' )
+				{
+					var b = myNewAlertValues.alert_sunrise.split(/\D/);
+					//cell8.innerHTML = "sunrise";
+					cell8.innerHTML = "SR:"+b[3]+":"+b[4];
+				}
+				else if( myNewAlertValues.alerttype == 'startsunset'  )
+				{
+					var b = myNewAlertValues.alert_sunset.split(/\D/);
+					//cell8.innerHTML = "sunset";
+					cell8.innerHTML = "SS:"+b[3]+":"+b[4];
+				}
+				else if( myNewAlertValues.alerttype == 'sunriseset'  )
+				{
+					var b = myNewAlertValues.alert_sunset.split(/\D/);
+					//cell8.innerHTML = "sunset";
+					cell8.innerHTML = "SS:"+b[3]+":"+b[4];
+				}
+				else if( myNewAlertValues.alerttype == 'sunsetrise'  )
+				{
+					var b = myNewAlertValues.alert_sunrise.split(/\D/);
+					//cell8.innerHTML = "sunrise";
+					cell8.innerHTML = "SR:"+b[3]+":"+b[4];
+				}
+				else if(myseries1.alarmhigh == "missing" || myseries1.alarmhigh == "error")
+					cell8.innerHTML = "---";
+				else
+					cell8.innerHTML = myseries1.alarmhigh;
+				}
+				
+              cell8.style.textAlign = 'right';
+			  
+			  var cell9 = row.insertCell(9);
+              cell9.innerHTML = myseries1.alarmstatus;
+			  cell9.style.textAlign = 'left';
+			  
+			  var cell10 = row.insertCell(10);
+              cell10.innerHTML = myNewAlertValues.alertaction_value;
+			  cell10.style.textAlign = 'left';
+			  
+
+
+              }// date parts not null
+			  }
+		
+}
+
+  
+	  
+function UpdateLogAlert()
+{
+	if(gprefkey == 0)
+	{
+		AddNewPref();
+	}
+	else
+	{
+		ModifyPref();
+	}
+}
+
+
+function AddNewPref()
+{
+ // Guests do not get to make changes
+ if(gUserID == 0)
+ return;
+ 
+ 
+        $.blockUI({ 
+     message: '<h1>Adding Preferences...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var nextConfigOption=0;
+	     
+    var optionmenuindex=0;
+ 	var nextConfigOption;
+	
+	var TimmerPrefs = {};  
+	
+
+	var TimmerArrayLabel = new Array();  
+
+	
+
+	
+
+		
+	for(i=0; i<10; i++)
+	{
+		TimmerArrayLabel[i]=TimmersLabels[i];
+
+	
+	}
+
+
+ 
+		TimmerPrefs['posttype'] = "SchedulePreferencePost";
+  
+		var myText = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].text;
+		var myTags = myText.split(":");
+	
+		gDeviceName = myTags[1];
+		gDeviceKey = myTags[0];
+	  
+		TimmerPrefs['devicename'] = gDeviceName;   
+		TimmerPrefs['deviceid'] = gDeviceKey;
+		
+
+		TimmerPrefs['LocationCity'] = document.getElementById("LocationCity").options[document.getElementById("LocationCity").selectedIndex].text;
+		TimmerPrefs['LocationCityIndex'] = parseInt(document.getElementById("LocationCity").selectedIndex);
+		//TimmerPrefs['prefName'] =  prefName ;
+		TimmerPrefs['prefName'] =  "netDimmer_Account_Labels" ;
+
+		TimmerPrefs['TimmerArrayLabel'] =  TimmerArrayLabel ;
+
+	  
+		devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=add_timmer_pref&userid=" + gUserID +  "&deviceid=" +  gDeviceKey +  "&options=" + JSON.stringify(TimmerPrefs);
+ 		//devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=add_timmer_pref&userid=" + gUserID +  "&deviceid=" +  gDeviceKey ;
+   
+	
+	
+	
+   return $.ajax({
+					   //async: false,
+					   type: "POST",
+					   contentType: 'application/json; charset=UTF-8', // This is the money shot
+					   	  //data: {timmerprefs:TimmerPrefs},
+					   data:JSON.stringify(TimmerPrefs),	 
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 10000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleAddNewPref(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                      //    document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+		                          
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+
+
+
+}
+
+function handleAddNewPref(response)
+ {
+ var index=0;
+       //document.getElementById("AddPreferenceName").value = "";
+   	$.unblockUI();
+	
+	//getDeviceParamList(gUserID);
+	//getDeviceParamDetails(gUserID);
+
+}
+
+function ModifyPref()
+{
+
+
+    var devicedataurl;
+    var optionmenuindex=0;
+    var prefkey;
+    var prefName = "";
+
+
+	// Guests do not get to make changes
+      if(gUserID == 0)
+      return;
+	  
+ 	
+	if( myTimmerPrefID.length !=0)
+	{
+		prefkey = parseInt(myTimmerPrefID[myTimmerPrefID.length - 1]);
+	}
+	
+	if(prefkey == 0)	
+	return;	  
+ 
+	var TimmerPrefs = {};  
+	
+
+	var TimmerArrayLabel = new Array();  
+
+	
+
+		 // Guests do not get to make changes
+	 if(gUserID == 0)
+	 return;
+
+		
+	for(i=0; i<10; i++)
+	{
+		TimmerArrayLabel[i]=TimmersLabels[i];
+
+	
+	}
+
+
+ 
+		TimmerPrefs['posttype'] = "SchedulePreferencePost";
+  
+		var myText = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].text;
+		var myTags = myText.split(":");
+	
+		gDeviceName = myTags[1];
+		gDeviceKey = myTags[0];
+	  
+		TimmerPrefs['devicename'] = gDeviceName;   
+		TimmerPrefs['deviceid'] = gDeviceKey;
+		
+
+		TimmerPrefs['LocationCity'] = document.getElementById("LocationCity").options[document.getElementById("LocationCity").selectedIndex].text;
+		TimmerPrefs['LocationCityIndex'] = parseInt(document.getElementById("LocationCity").selectedIndex);
+		//TimmerPrefs['prefName'] =  prefName ;
+		TimmerPrefs['prefName'] =  "netDimmer_Account_Labels" ;
+
+		TimmerPrefs['TimmerArrayLabel'] =  TimmerArrayLabel ;
+	  
+	  devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=update_timmer_pref&prefkey=" + prefkey + "&userid=" + gUserID +   "&deviceid=" +  gDeviceKey +  "&options=" + JSON.stringify(TimmerPrefs);	  
+	  //devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=update_timmer_pref&prefkey=" + prefkey + "&userid=" + gUserID +   "&deviceid=" +  gDeviceKey ;
+	  
+	  
+	  
+	  
+      return $.ajax({
+      //async: false,
+	  type: "POST",
+	  contentType: 'application/json; charset=UTF-8', // This is the money shot
+	  //data: {timmerprefs:TimmerPrefs},
+	  data:JSON.stringify(TimmerPrefs),	 
+      cache: false,
+      url: devicedataurl,
+      dataType: "json",
+      timeout: 10000,
+      statusCode: {
+      404: function() {      alert( "page not found" );    },
+      200: function() {      }
+      },
+      success: function(response) {
+      handleModifyPref(response)
+      },
+      complete: function() {
+      // unblock when remote call returns
+      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+      //   ShowGraphSmartChart(gindex);
+      //$.unblockUI();
+      },
+      error: function(request,status,errorThrown) {
+      //document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+
+      $.unblockUI();
+      }
+      });
+
+		
+}
+
+
+
+function handleModifyPref(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+	
+	//getDeviceParamList(gUserID);
+	//getDeviceParamDetails(gUserID);
+
+}
+
+function DeletePref()
+{
+    
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey=0;
+
+
+	// Guests do not get to make changes
+      if(gUserID == 0)
+      return;
+	  
+
+
+
+	
+	if( myTimmerPrefID.length !=0)
+	{
+		prefkey = parseInt(myTimmerPrefID[myTimmerPrefID.length - 1]);
+	}
+	
+	if(prefkey == 0)	
+	return;	  
+	  
+	  
+      $.blockUI({
+      message: '<h1>Adding Preferences...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+
+		
+		
+   devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=delete_timmer_pref&userid=" + gUserID + "&prefkey=" +  prefkey ;
+
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 10000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleDeletePref(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                      //    document.getElementById("SearchStatus").innerHTML = "Pref Delete Error";
+		                          
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+
+
+
+function handleDeletePref(response)
+ {
+ var index=0;
+ 
+ 
+   	$.unblockUI();
+	
+	//getDeviceParamList(gUserID);
+	getDeviceParamDetails(gUserID);
+
+}
+
+
+
+
+
+function handleGetAlertIDs(response)
+ {
+    var index=0;
+    var myText;
+	var myAlertID=0;
+    var myMessage;
+	var myDeviceID;
+	var myGPSValue;
+
+    $.unblockUI();
+	myEventName.length=0;
+	myEventTag.length = 0;
+	myEventUnits.length = 0;
+	myEventMax.length = 0;
+	myEventMin.length = 0;
+	myEventAlarmMode.length = 0;
+	myEventInterval.length = 0;
+	myEventSource.length = 0;
+	myEventID.length = 0;
+	myEventID.length = 0;
+	myEventAlarmModeType.length = 0;
+	myEventAlertActionValue.length = 0;
+	myEventAlertActionPGN.length = 0;
+		
+	myEventEnabled.length = 0;
+	myEventAlertDuration.length = 0;
+	myEventAlertOffset.length = 0;
+	myEventRemoteMode.length = 0;
+	
+	myEventAlertLocation.length = 0;
+	myEventAlertTimezone.length = 0;
+	
+	var myStartDate=0;
+	var myEndDate =0;
+	gCalanderDataSources.length=0;
+						
+	//var datasourceelement = {};		
+
+	//var table = document.getElementById("ReportData");
+ 
+    //var rowCount = table.rows.length;
+	   	
+	//while(table.rows.length > 1) {
+	//	table.deleteRow(1);
+	//}
+	
+    document.getElementById("ScheduleID").options.length = 0;
+    //document.getElementById("ReportsID").options.length = 0;
+
+    response.records.forEach(function(row){
+	
+	try
+	{
+		myMessage = JSON.parse(row[1]);
+		myText = myMessage.posttype;
+		myAlertID = row[0];
+	}
+	catch(err)
+	{
+		myText = "ParseError";
+		myAlertID = row[0];
+	}
+	
+	
+	
+    if( myText == "EmailAlertPost")
+    {
+        myText = myMessage.subject;
+
+		/*
+		if(myMessage.email != null)
+			gEMail = myMessage.email;
+		else
+			gEMail = "";
+			
+		document.getElementById("EmailAddress").value = gEMail;
+		
+		if(myMessage.smsnumber != null)
+			gSMSNumber = myMessage.smsnumber;
+		else
+			gSMSNumber = "";
+			
+		document.getElementById("SMSNumber").value = gSMSNumber;
+		*/
+		myDeviceID = myMessage.deviceid;
+		if(myDeviceID == gDeviceKey)
+		{
+			
+			
+			if(myMessage.subject != null)
+			{
+				myText = myMessage.subject;
+			}
+	
+			else
+			{
+				myText = "unknown";
+			}
+			
+			
+			myStartDate = row[2];
+			myEndDate = row[3];
+			
+			
+			myEventName.push(myText);
+			myEventID.push(myMessage.AlertId);
+			myEventInterval.push(myMessage.Interval);
+			
+			
+	
+			try
+			{
+				myEventEnabled.push(myMessage.alertenabled);
+			}
+			catch(err)
+			{
+				myEventEnabled.push("enabled");
+			}
+			
+			try
+			{
+				myEventAlertDuration.push(myMessage.alertduration);
+			}
+			catch(err)
+			{
+				myEventAlertDuration.push("default");
+			}
+			
+			try
+			{
+				myEventAlertOffset.push(myMessage.alertoffset);
+			}
+			catch(err)
+			{
+				myEventAlertOffset.push("default");
+			}
+			
+			try
+			{
+				myEventRemoteMode.push(myMessage.remotemode);
+			}
+			catch(err)
+			{
+				myEventRemoteMode.push("singleevent");
+			}
+			
+			
+			try{
+				myEventAlarmModeType.push(myMessage.alerttype);
+			}
+			catch(err)
+			{
+				myEventAlarmModeType.push("Mean");
+			}
+
+			try{
+				myEventAlertTimezone.push(myMessage.alerttimezone);
+			}
+			catch(err)
+			{
+				myEventAlertTimezone.push("(LOCAL) Local Time");
+			}
+			
+			try{
+				myEventAlertLocation.push(myMessage.locationcity);
+			}
+			catch(err)
+			{
+				myEventAlertLocation.push("Brookings");
+			}
+			
+			
+			
+			
+			myGPSValue = "0";
+
+			var myReportTag = "";	
+			 
+			var mySeries = myMessage.series_1;
+			//if(mySeries3 != null || mySeries3 != undefined)
+			try{
+				if( mySeries != null && typeof(mySeries) != "undefined")
+				{
+				 
+				  myReportTag = myMessage.EventTypeId;
+
+				  
+				  if(mySeries.alarmtype == 'dimmer_rgbw')
+					gEnableRGBWColors = true;
+				  else
+					gEnableRGBWColors = false;
+				  
+						  
+					if(myMessage.alertaction_value != null)
+					{
+						try{
+							gDimmerValue = parseInt(myMessage.alertaction_value);
+							myEventAlertActionValue.push(gDimmerValue);
+						}
+						catch(err){}
+					}
+				
+				
+					if(myMessage.alertaction_pgn != null)
+					{
+						try{
+							myEventAlertActionPGN.push(myMessage.alertaction_pgn);
+						}
+						catch(err){}
+					}
+				  
+				  
+				  myEventTag.push(myMessage.EventTypeId);
+				  myEventUnits.push(mySeries.units);
+				  myEventMin.push( mySeries.alarmlow);
+				  myEventMax.push(mySeries.alarmhigh);
+				  myEventAlarmMode.push(mySeries.alarmmode); 
+				  myEventAlarmType.push(mySeries.alarmtype); 
+				  
+				  try{
+					myEventKey  = mySeries.key.replace(/\"/g, "");
+					myPGNArray = myEventKey.split("."); 
+					myValue = myPGNArray[2];
+					myTextArray = myValue.split(":");
+					myValue = myTextArray[1]; 
+					myEventSource.push(myValue);
+					}
+					catch(err)
+					{
+						myEventSource.push(".*");
+					}
+			
+				}
+				else
+				{
+					myReportTag ="/Position";
+					myEventTag.push("/Position");
+					myEventUnits.push(mySeries.units);
+					myEventMin.push( mySeries.alarmlow);
+					myEventMax.push(mySeries.alarmhigh);
+					myEventAlarmMode.push(mySeries.alarmmode);
+					myEventAlarmType.push(mySeries.alarmtype); 
+					
+				  
+				  
+					myEventSource.push(myGPSValue);
+				}
+			}
+			catch(err)
+			{
+			}
+		
+
+								var datasourceelement = {};
+
+												
+								if( (myStartDate != 0) && (myEndDate !=0) )	
+								{								
+									//datasourceelement.id= index;
+									datasourceelement.id = myAlertID;
+									datasourceelement.name= mySeries.title;
+									datasourceelement.label= mySeries.title;
+									datasourceelement.EnableRGBWColors= gEnableRGBWColors;
+									//TimmersLabels[index] = mySeries.title;
+									
+									//document.getElementById("timmer-label_0" + index).value = TimmersLabels[index];
+									
+									//$('#event-modal #event-name option[value=' + index + ']').text(TimmersLabels[index]);
+									
+	
+												
+										/*		
+											
+										document.getElementById("LocationCity").selectedIndex = 0;
+										
+											 
+										for(i=0; i< document.getElementById("LocationCity").options.length; i++)
+										{
+												myLocation = document.getElementById("LocationCity").options[i].value;
+												
+												 try{
+												  if(myLocation.trim() ==  myMessage.locationcity.trim())
+														document.getElementById("LocationCity").selectedIndex = i;
+												}
+												catch(err)
+												{
+												
+												}
+												
+										} 
+									*/
+									
+									
+									// get browsers timezone so we can remove from calander's local time to create a GMT time		
+									timerzoneOffset = new Date().getTimezoneOffset(); 
+			 
+									 // GMT time in seconds based on local time
+									 //starttimesecs = startdate.getTime() / 1000; 
+									 // remove timezone so we have adjusted to GMT
+									 //startsecs = startsecs + (timerzoneOffset*60); 
+									 // now add in device location timezone
+									 //starttimesecs = starttimesecs - ((timerzoneOffset + parseInt(timezone)) * 60);
+									
+									
+									
+									//datasourceelement.startDate= new Date((myStartDate*1000) + (timerzoneOffset * 60 * 1000));
+									//datasourceelement.endDate= new Date((myEndDate*1000) + (timerzoneOffset * 60 * 1000));
+									datasourceelement.startDate= new Date((myStartDate*1000) );
+									datasourceelement.endDate= new Date((myEndDate*1000) );
+									
+									//datasourceelement.startTime= new Date((mySeries.alarmlow*1000) + (timerzoneOffset * 60 * 1000));
+									//datasourceelement.endTime= new Date((mySeries.alarmhigh*1000) + (timerzoneOffset * 60 * 1000));
+									
+									datasourceelement.startTime= new Date((mySeries.alarmlow*1000));
+									datasourceelement.endTime= new Date((mySeries.alarmhigh*1000) );
+									
+									datasourceelement.dimmervalue= myMessage.alertaction_value;
+									
+									gCalanderDataSources.push(datasourceelement);
+									
+									document.getElementById("ScheduleID").options[index++] = new Option(myText, myAlertID);		
+									
+									
+									
+									
+								}
+								
+												
+								
+		
+			}
+		   
+		}
+
+
+    });
+	
+	 //  document.getElementById("EventsID").options[index++] = new Option("-----------", 0);
+
+	///document.getElementById("ScheduleID").options[index] = new Option( "** Add New Event!! **", "0");
+	
+//	var currentYear = new Date().getFullYear();
+	// Initialize all the parameters
+	//SetEventsOptions(0);
+	        //	var datasource = $('.calendar').data('calendar').getDataSource();
+				
+				
+						
+
+				
+				//$('.calendar').data('calendar').setDataSource(gCalanderDataSources);
+				
+				calendar.setDataSource(gCalanderDataSources);
+     
+   //   GetEventTypes();  
+   InitalizeFirebase();
+   // get active series and enable them in the Event drop down list
+   //GetSeriesAttributes();
+ 
+}
+
+function SetEventsOptions(myindex){
+
+
+	var myEvent;
+	var myEindex = parseInt(myindex);
+
+	
+	}
+
+function GetAlertEvents()
+ {
+ // http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c&_=1427391221558
+ 
+ /*
+	if(gDeviceID == "")
+	{
+		alert('No Device ID entered');
+		return;
+	}
+ */
+ 
+ 
+     $.blockUI({
+    message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+	//var  myDeviceKey = document.getElementById("DeviceKey").value;
+	var  myDeviceKey = gDeviceKey;
+	
+  // devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + AccountDataFolder;
+  // devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
+ // devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
+  //devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
+  devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + gUserID;
+	
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetAlertIDs(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                       //   document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+ 
+ 
+ 
+ }
+ 
+
+
+
+function handleDeletePref(response)
+ {
+ var index=0;
+ 
+ 
+   	$.unblockUI();
+	
+	//getDeviceParamList(gUserID);
+	//getDeviceParamDetails(gUserID);
+
+}
+
+function handleDeleteAlert(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+    
+            // document.getElementById("AddPreferenceName").value = "";
+            GetAlertEvents();
+
+}
+
+
+function DeleteAlert()
+{
+
+
+    
+    //Can't update prefs if we don't have one
+    if(document.getElementById("ScheduleID").length == 0)
+       return;
+
+
+
+
+
+        $.blockUI({ 
+     message: '<h1>Deleting Event...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+	var prefName;
+  var AlertPrefs={};
+
+   optionmenuindex = document.getElementById("ScheduleID").selectedIndex;
+   prefkey = parseInt(document.getElementById("ScheduleID").options[optionmenuindex].value);
+   
+
+  
+  devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=delete_alert&prefkey=" + prefkey + "&userid=" + gUserID ;
+
+
+
+          return $.ajax({
+          //async: false,
+          cache: false,
+          url: devicedataurl,
+          dataType: "json",
+          timeout: 30000,
+          statusCode: {
+          404: function() {      alert( "page not found" );    },
+          200: function() {      }
+          },
+          success: function(response) {
+          handleDeleteAlert(response)
+          },
+          complete: function() {
+          // unblock when remote call returns
+          // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+          //   ShowGraphSmartChart(gindex);
+          //$.unblockUI();
+          },
+          error: function(request,status,errorThrown) {
+          document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+
+          $.unblockUI();
+          }
+          });
+
+
+}
+
+
+
+
+
+function ChangedTimeZone(sel)
+{
+  //timezoneOffset = parseInt(document.getElementById("TimeZoneId").options[sel.selectedIndex].value) * 60;
+
+}
+
+
+function handleAddLogAlert(response)
+{
+ var index=0;
+ 
+   	$.unblockUI();
+    
+            // document.getElementById("AddPreferenceName").value = "";
+         //   getAlertIDsList(myuserid);
+		 GetAlertEvents();
+
+}
+
+function AddLogAlert(myAlertID, myTimmerLabel, StartEpoch, EndEpoch, myStartTime, myEndTime, dimmervalue)
+{
+      var myStartTimeStr;
+      var myEndTimeStr;
+      var myStartDays;
+      var myStartSecs;
+      var myEndDays;
+      var myEndSecs;
+
+      var myInterval;
+	  var mytriggervalue;
+
+      //Can't update prefs if we don't have one
+      // if(AlertID == 0)
+      //  return;
+	  
+	  
+//	 if(gDeviceKey == "" || gDeviceKey =="000000000000")
+//	{
+//		alert('No Device selected');
+//		return;
+//	}
+	
+	
+	  
+	  
+	  
+	 var myCity = document.getElementById("LocationCity").options[document.getElementById("LocationCity").selectedIndex].value
+	 
+
+  // set these to zero so the events do not expire
+   // EndEpoch = (new Date).getTime();
+	//StartEpoch =(new Date).getTime();
+    //EndEpoch = 0;
+	//StartEpoch =0;
+	
+	var alertcolor;
+	var alertdimmer;
+
+      var devicedataurl;
+      var optionmenuindex;
+      var prefkey;
+      var prefName;
+      var AlertPrefs={};
+      var PrefsToAdd = {};
+      var AlertPrefs={};
+      var PrefsToAdd = {};
+      var series_prefs1 = {};
+      var series_prefs2 = {};
+      var series_prefs3 = {};
+
+
+      //DialID.length = 3;
+      //myNumOfSeries = DialID.length;
+
+      AlertPrefs['posttype'] = "EmailAlertPost";
+      // AlertPrefs['login'] = document.getElementById("BoardLogin").value;
+      // AlertPrefs['boardname'] = document.getElementById("BoardName").options[document.getElementById("BoardName").selectedIndex].text;
+      // AlertPrefs['boardid'] = document.getElementById("BoardName").options[document.getElementById("BoardName").selectedIndex].value;
+      // AlertPrefs['channelname'] = document.getElementById("ChannelName").options[document.getElementById("ChannelName").selectedIndex].text;
+      // AlertPrefs['channelid'] = document.getElementById("ChannelName").options[document.getElementById("ChannelName").selectedIndex].value;
+   
+ 	var myText = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].text;
+	var myTags = myText.split(":");
+	
+	  gDeviceName = myTags[1];
+	  gDeviceKey = myTags[0];
+
+	AlertPrefs['devicename'] = gDeviceName;
+      AlertPrefs['deviceid'] = gDeviceKey;
+	  //AlertPrefs['email'] = document.getElementById("EmailAddress").value;
+	  //AlertPrefs['smsnumber'] = document.getElementById("SMSNumber").value;
+  	  AlertPrefs['email'] = "";
+	  AlertPrefs['smsnumber'] = "";
+  
+     // if(document.getElementById("EventName").value == "")
+     // {
+     // alert('Need to enter a board name');
+     // return;
+     // }
+
+      //AlertPrefs['subject'] = "netDimmer Timer Event " + myTimmerLabel ;
+	  AlertPrefs['subject'] = myTimmerLabel ;
+      //AlertPrefs['Interval'] = document.getElementById("EventInterval").options[document.getElementById("EventInterval").selectedIndex].text;
+	  AlertPrefs['Interval'] = "5min";
+	  
+	  AlertPrefs['alertduration'] = "default";
+	  AlertPrefs['alertoffset'] = "default";
+	  AlertPrefs['alertenabled'] = "enabled";
+	  
+	  AlertPrefs['remotemode'] = "singleevent";
+	  
+	  AlertPrefs['locationcity'] = myCity;
+	  //AlertPrefs['alerttimezone'] = document.getElementById("TimeZoneId").options[document.getElementById("TimeZoneId").selectedIndex].text;
+	 AlertPrefs['alerttimezone'] ="(LOCAL) Local Time"
+
+	  AlertPrefs['alertendtime_utc'] = 	myEndTime;	
+		
+
+			
+		
+	  AlertPrefs['alertmode'] = "alarmdimmeroverride";
+	  AlertPrefs['alerttype'] = "timmerday";
+	 
+
+	 
+		AlertPrefs['alertaction_pgn'] =  "/M2M/LED Dimmer/Value 0 Zone 0";
+		//AlertPrefs['alertaction_value'] =   dimmervalue;
+		AlertPrefs['alertaction_value'] = ((gDimmerLevelIndex & 0x0F) * 14) + ((gDimmerColorValue) & 0x0F);
+	
+	  //myInterval = parseInt(document.getElementById("EventInterval").value);
+      //myInterval = parseInt(document.getElementById("EventInterval").selectedIndex);
+	  
+	  
+	 // myInterval = parseInt(document.getElementById("EventInterval").value);
+	 
+	 
+      AlertPrefs['AlertId'] = 0;
+
+      //AlertPrefs['prefname'] = document.getElementById("EventName").value + "Upload";
+      //AlertPrefs['Interval'] = document.getElementById("EventInterval").options[document.getElementById("EventInterval").selectedIndex].text;
+      //myInterval = parseInt(document.getElementById("EventInterval").selectedIndex);
+     // AlertPrefs['blwskey'] = gBLWSKey;
+      //AlertPrefs['EventTypeId'] = document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].value;
+	  
+	  AlertPrefs['EventTypeId'] = "/M2M/LED Dimmer/Value 0 Zone 0";
+    //  AlertPrefs['EventKey'] = 0;
+
+
+      AlertPrefs['url'] = "";
+
+
+
+		  //series_prefs3['title']=AlertPrefs['EventTypeId'];
+		  //series_prefs3['title']= "netDimmer Timer Event " + myTimmerLabel;
+		  series_prefs3['title']=  myTimmerLabel;
+		  
+		  gDimmerColorValue= document.getElementById("DimmerRGBW").selectedIndex;
+		  if(gDimmerColorValue == 14)
+		  {
+			series_prefs3['alarmtype']='dimmer_mono'; 
+			gEnableRGBWColors = false;
+		  }
+		  else
+		  {
+			series_prefs3['alarmtype']='dimmer_rgbw'; 
+			gEnableRGBWColors = true;
+		  }
+		  
+		  
+		  series_prefs3['units']=42 ;
+		  series_prefs3['alarmlow']=myStartTime;
+		  series_prefs3['alarmhigh']=myEndTime;
+		  
+		  
+		  //ConstructPGNTypeID(gDeviceKey,0);
+		  //series_prefs3['key']=DialPGNNumber[0];
+		  
+		  series_prefs3['key']= "deviceid:" + gDeviceKey + ".sensor:seasmartdimmer.source:.*.instance:0.type:LED 1 Channel.parameter:value0.HelmSmart"
+		  series_prefs3['alarmmode'] = "alarmdimmeroverride";
+		  //series_prefs3['alarmtype'] = document.getElementById("EventTriggerType").options[document.getElementById("EventTriggerType").selectedIndex].value;
+		  AlertPrefs['series_1']=series_prefs3;
+      
+
+
+      $.blockUI({
+      message: '<h1>Adding Alert Event ...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } });    
+     
+	 
+	 
+
+	var  myDeviceKey = gDeviceKey;
+	
+	// myInterval = parseInt(document.getElementById("EventInterval").value);
+	/*
+	<option selected="selected" value="0">default</option>
+					<option value="1">2min</option>
+					<option value="2">5min</option>
+					<option value="3">10min</option>
+					<option value="4">15min</option>
+					<option value="5">30min</option>
+					<option value="6">1hour</option>
+					<option value="7">2hour</option>
+					<option value="8">3hour</option>
+					<option value="9">4hour</option>
+					<option value="10">5hour</option>
+					<option value="11">6hour</option>
+					<option value="12">7hour</option>
+					<option value="13">8hour</option>
+	*/
+	myInterval = 2; // equals 2min
+
+	if(myAlertID == 0)
+	{
+		devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=add_alert&userid=" + gUserID + "&deviceid=" +  gUserID + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&repeat=0"  + "&options=" + JSON.stringify(AlertPrefs);
+	}
+	else
+	{
+		devicedataurl = "http://pushsmartdata.herokuapp.com/prefs?type=update_alert&prefkey=" + myAlertID + "&userid=" + gUserID + "&deviceid=" +  gUserID + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&repeat=0"  + "&options=" + JSON.stringify(AlertPrefs);
+	
+	
+	}
+
+
+          return $.ajax({
+          //async: false,
+          cache: false,
+          url: devicedataurl,
+          dataType: "json",
+          timeout: 30000,
+          statusCode: {
+          404: function() {      alert( "page not found" );    },
+          200: function() {      }
+          },
+          success: function(response) {
+          handleAddLogAlert(response)
+          },
+          complete: function() {
+          // unblock when remote call returns
+          // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+          //   ShowGraphSmartChart(gindex);
+          //$.unblockUI();
+          },
+          error: function(request,status,errorThrown) {
+          document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+
+          $.unblockUI();
+          }
+          });
+
+
+}
+
+
+
+
+
+
+
+
+</script>
+  
+	
+	
+	<div class="form-horizontal">
+	
+	
+	<div class="form-group">	
+	
+				<!--
+				<label class="control-label col-sm-2" for="TimmerPreferenceName">Preference Name</label> 
+				<div class="col-sm-6"> 
+				<input type="text" class="form-control" id="TimmerPreferenceName"  placeholder="" />
+				</div>
+				</div>
+				
+				<div class="form-group">
+				<label class="control-label col-sm-2" for="EventsID">Preferences</label>
+				<div class="col-sm-6">
+				<select class="form-control"  id="EventsID" onchange="selectUserPref(this);" >
+				<option value="0">Use defaults</option>
+				</select>
+				</div>
+				</div>
+				-->
+				
+
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="DeviceTypeID">Device Type</label>
+			<div class="col-sm-4">
+				<select class="form-control" data-val="true" data-val-number="The field Tracker Type must be a number." data-val-required="The Tracker Type field is required." id="DeviceTypeID" name="DeviceTypeID"   onchange="ChangedDeviceTypeID(this);"  >
+				<option value="000000000000">0000000000000:Demo</option>
+
+			</select>
+				<span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="DeviceKey">Device Key</label>
+			<div class="col-sm-4">
+				<input class="form-control text-box single-line" data-val="true" data-val-length="The Device Key must be a string with a length of 32 ." data-val-length-max="15" data-val-length-min="32" data-val-required="The Device Key field is required." id="DeviceKey" name="DeviceKey" placeholder="Key is 32 characters" type="text" value="" onchange="ChangedDeviceKey();" readonly />
+				<span class="field-validation-valid text-danger" data-valmsg-for="DeviceKey" data-valmsg-replace="true"></span>
+			</div>
+		</div>
+	
+	
+	
+		<div class="form-group" style="width:400px; height:40px;" >
+		<label class="control-label col-sm-2" for="ScheduleID">Schedule Lists</label>
+			<div class="col-sm-6">
+				<select class="form-control" data-val="true" data-val-number="The field Tracker Type must be a number." data-val-required="The Tracker Type field is required." id="ScheduleID" name="ScheduleTypesID" onchange="updateScheduleList(this);">
+				<option value="0"> ** Add New Event ** </option>
+	</select>
+				<!-- <span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span> -->	
+			</div>
+		</div>
+	
+	
+	
+				<div class="form-group" " id="locationcity_group">		
+			 <label class="control-label col-sm-2" for="LocationCity">Location City</label> 
+			 <div class="col-sm-6"> 
+					<select class="form-control "  id="LocationCity" name="LocationCity" onchange="ChangedLocationCity(this);">
+					<!-- <option value="latlng">Lat/Lng</option> -->
+					<option value="Aberdeen">Aberdeen</option>
+					<option value="Abu Dhabi">Abu Dhabi</option>
+					<option value="Abu Dhabi">Abu Dhabi</option>
+					<option value="Abuja">Abuja</option>
+					<option value="Accra">Accra</option>
+					<option value="Addis Ababa">Addis Ababa</option>
+					<option value="Adelaide">Adelaide</option>
+					<option value="Al Jubail">Al Jubail</option>
+					<option value="Albany">Albany</option>
+					<option value="Albuquerque">Albuquerque</option>
+					<option value="Algiers">Algiers</option>
+					<option value="Amman">Amman</option>
+					<option value="Amsterdam">Amsterdam</option>
+					<option value="Anchorage">Anchorage</option>
+					<option value="Andorra la Vella">Andorra la Vella</option>
+					<option value="Ankara">Ankara</option>
+					<option value="Annapolis">Annapolis</option>
+					<option value="Antananarivo">Antananarivo</option>
+					<option value="Apia">Apia</option>
+					<option value="Ashgabat">Ashgabat</option>
+					<option value="Asmara">Asmara</option>
+					<option value="Astana">Astana</option>
+					<option value="Asuncion">Asuncion</option>
+					<option value="Athens">Athens</option>
+					<option value="Atlanta">Atlanta</option>
+					<option value="Augusta">Augusta</option>
+					<option value="Austin">Austin</option>
+					<option value="Avarua">Avarua</option>
+					<option value="Baghdad">Baghdad</option>
+					<option value="Baku">Baku</option>
+					<option value="Baltimore">Baltimore</option>
+					<option value="Bamako">Bamako</option>
+					<option value="Bandar Seri Begawan">Bandar Seri Begawan</option>
+					<option value="Bangkok">Bangkok</option>
+					<option value="Bangui">Bangui</option>
+					<option value="Banjul">Banjul</option>
+					<option value="Barrow-In-Furness">Barrow-In-Furness</option>
+					<option value="Basse-Terre">Basse-Terre</option>
+					<option value="Basseterre">Basseterre</option>
+					<option value="Baton Rouge">Baton Rouge</option>
+					<option value="Beijing">Beijing</option>
+					<option value="Beirut">Beirut</option>
+					<option value="Belfast">Belfast</option>
+					<option value="Belgrade">Belgrade</option>
+					<option value="Belmopan">Belmopan</option>
+					<option value="Berlin">Berlin</option>
+					<option value="Bern">Bern</option>
+					<option value="Billings">Billings</option>
+					<option value="Birmingham">Birmingham</option>
+					<option value="Birmingham">Birmingham</option>
+					<option value="Bishkek">Bishkek</option>
+					<option value="Bismarck">Bismarck</option>
+					<option value="Bissau">Bissau</option>
+					<option value="Bloemfontein">Bloemfontein</option>
+					<option value="Bogota">Bogota</option>
+					<option value="Boise">Boise</option>
+					<option value="Bolton">Bolton</option>
+					<option value="Boston">Boston</option>
+					<option value="Bradford">Bradford</option>
+					<option value="Brasilia">Brasilia</option>
+					<option value="Bratislava">Bratislava</option>
+					<option value="Brazzaville">Brazzaville</option>
+					<option value="Bridgeport">Bridgeport</option>
+					<option value="Bridgetown">Bridgetown</option>
+					<option value="Brisbane">Brisbane</option>
+					<option value="Bristol">Bristol</option>
+					<option value="Brookings">Brookings, OR</option>
+					<option value="Brussels">Brussels</option>
+					<option value="Bucharest">Bucharest</option>
+					<option value="Bucuresti">Bucuresti</option>
+					<option value="Budapest">Budapest</option>
+					<option value="Buenos Aires">Buenos Aires</option>
+					<option value="Buffalo">Buffalo</option>
+					<option value="Bujumbura">Bujumbura</option>
+					<option value="Burlington">Burlington</option>
+					<option value="Cairo">Cairo</option>
+					<option value="Canberra">Canberra</option>
+					<option value="Cape Town">Cape Town</option>
+					<option value="Caracas">Caracas</option>
+					<option value="Cardiff">Cardiff</option>
+					<option value="Carson City">Carson City</option>
+					<option value="Castries">Castries</option>
+					<option value="Cayenne">Cayenne</option>
+					<option value="Charleston">Charleston</option>
+					<option value="Charlotte">Charlotte</option>
+					<option value="Charlotte Amalie">Charlotte Amalie</option>
+					<option value="Cheyenne">Cheyenne</option>
+					<option value="Chicago">Chicago</option>
+					<option value="Chisinau">Chisinau</option>
+					<option value="Cleveland">Cleveland</option>
+					<option value="Columbia">Columbia</option>
+					<option value="Columbus">Columbus</option>
+					<option value="Conakry">Conakry</option>
+					<option value="Concord">Concord</option>
+					<option value="Copenhagen">Copenhagen</option>
+					<option value="Cotonou">Cotonou</option>
+					<option value="Crawley">Crawley</option>
+					<option value="Dakar">Dakar</option>
+					<option value="Dallas">Dallas</option>
+					<option value="Damascus">Damascus</option>
+					<option value="Dammam">Dammam</option>
+					<option value="Denver">Denver</option>
+					<option value="Des Moines">Des Moines</option>
+					<option value="Detroit">Detroit</option>
+					<option value="Dhaka">Dhaka</option>
+					<option value="Dili">Dili</option>
+					<option value="Djibouti">Djibouti</option>
+					<option value="Dodoma">Dodoma</option>
+					<option value="Doha">Doha</option>
+					<option value="Douglas">Douglas</option>
+					<option value="Dover">Dover</option>
+					<option value="Dublin">Dublin</option>
+					<option value="Dushanbe">Dushanbe</option>
+					<option value="Edinburgh">Edinburgh</option>
+					<option value="El Aaiun">El Aaiun</option>
+					<option value="Fargo">Fargo</option>
+					<option value="Fort-de-France">Fort-de-France</option>
+					<option value="Frankfort">Frankfort</option>
+					<option value="Freetown">Freetown</option>
+					<option value="Funafuti">Funafuti</option>
+					<option value="Gaborone">Gaborone</option>
+					<option value="George Town">George Town</option>
+					<option value="Georgetown">Georgetown</option>
+					<option value="Gibraltar">Gibraltar</option>
+					<option value="Glasgow">Glasgow</option>
+					<option value="Greenwich">Greenwich</option>
+					<option value="Guatemala">Guatemala</option>
+					<option value="Hanoi">Hanoi</option>
+					<option value="Harare">Harare</option>
+					<option value="Harrisburg">Harrisburg</option>
+					<option value="Hartford">Hartford</option>
+					<option value="Havana">Havana</option>
+					<option value="Helena">Helena</option>
+					<option value="Helsinki">Helsinki</option>
+					<option value="Hobart">Hobart</option>
+					<option value="Hong Kong">Hong Kong</option>
+					<option value="Honiara">Honiara</option>
+					<option value="Honolulu">Honolulu</option>
+					<option value="Houston">Houston</option>
+					<option value="Indianapolis">Indianapolis</option>
+					<option value="Islamabad">Islamabad</option>
+					<option value="Jackson">Jackson</option>
+					<option value="Jacksonville">Jacksonville</option>
+					<option value="Jakarta">Jakarta</option>
+					<option value="Jefferson City">Jefferson City</option>
+					<option value="Jerusalem">Jerusalem</option>
+					<option value="Juba">Juba</option>
+					<option value="Jubail">Jubail</option>
+					<option value="Juneau">Juneau</option>
+					<option value="Kabul">Kabul</option>
+					<option value="Kampala">Kampala</option>
+					<option value="Kansas City">Kansas City</option>
+					<option value="Kathmandu">Kathmandu</option>
+					<option value="Khartoum">Khartoum</option>
+					<option value="Kiev">Kiev</option>
+					<option value="Kigali">Kigali</option>
+					<option value="Kingston">Kingston</option>
+					<option value="Kingston">Kingston</option>
+					<option value="Kingstown">Kingstown</option>
+					<option value="Kinshasa">Kinshasa</option>
+					<option value="Koror">Koror</option>
+					<option value="Kuala Lumpur">Kuala Lumpur</option>
+					<option value="Kuwait">Kuwait</option>
+					<option value="La Paz">La Paz</option>
+					<option value="Lansing">Lansing</option>
+					<option value="Las Vegas">Las Vegas</option>
+					<option value="Leeds">Leeds</option>
+					<option value="Leicester">Leicester</option>
+					<option value="Libreville">Libreville</option>
+					<option value="Lilongwe">Lilongwe</option>
+					<option value="Lima">Lima</option>
+					<option value="Lincoln">Lincoln</option>
+					<option value="Lisbon">Lisbon</option>
+					<option value="Little Rock">Little Rock</option>
+					<option value="Liverpool">Liverpool</option>
+					<option value="Ljubljana">Ljubljana</option>
+					<option value="Lome">Lome</option>
+					<option value="London">London</option>
+					<option value="Los Angeles">Los Angeles</option>
+					<option value="Louisville">Louisville</option>
+					<option value="Luanda">Luanda</option>
+					<option value="Lusaka">Lusaka</option>
+					<option value="Luxembourg">Luxembourg</option>
+					<option value="Macau">Macau</option>
+					<option value="Madinah">Madinah</option>
+					<option value="Madison">Madison</option>
+					<option value="Madrid">Madrid</option>
+					<option value="Majuro">Majuro</option>
+					<option value="Makkah">Makkah</option>
+					<option value="Malabo">Malabo</option>
+					<option value="Male">Male</option>
+					<option value="Mamoudzou">Mamoudzou</option>
+					<option value="Managua">Managua</option>
+					<option value="Manama">Manama</option>
+					<option value="Manchester">Manchester</option>
+					<option value="Manchester">Manchester</option>
+					<option value="Manila">Manila</option>
+					<option value="Maputo">Maputo</option>
+					<option value="Maseru">Maseru</option>
+					<option value="Masqat">Masqat</option>
+					<option value="Mbabane">Mbabane</option>
+					<option value="Mecca">Mecca</option>
+					<option value="Medina">Medina</option>
+					<option value="Memphis">Memphis</option>
+					<option value="Mexico">Mexico</option>
+					<option value="Miami">Miami</option>
+					<option value="Milwaukee">Milwaukee</option>
+					<option value="Minneapolis">Minneapolis</option>
+					<option value="Minsk">Minsk</option>
+					<option value="Mogadishu">Mogadishu</option>
+					<option value="Monaco">Monaco</option>
+					<option value="Monrovia">Monrovia</option>
+					<option value="Montevideo">Montevideo</option>
+					<option value="Montgomery">Montgomery</option>
+					<option value="Montpelier">Montpelier</option>
+					<option value="Moroni">Moroni</option>
+					<option value="Moscow">Moscow</option>
+					<option value="Moskva">Moskva</option>
+					<option value="Mumbai">Mumbai</option>
+					<option value="Muscat">Muscat</option>
+					<option value="N'Djamena">N'Djamena</option>
+					<option value="Nairobi">Nairobi</option>
+					<option value="Nashville">Nashville</option>
+					<option value="Nassau">Nassau</option>
+					<option value="Naypyidaw">Naypyidaw</option>
+					<option value="New Delhi">New Delhi</option>
+					<option value="New Orleans">New Orleans</option>
+					<option value="New York">New York</option>
+					<option value="Newark">Newark</option>
+					<option value="Newcastle">Newcastle</option>
+					<option value="Newcastle Upon Time">Newcastle Upon Time</option>
+					<option value="Ngerulmud">Ngerulmud</option>
+					<option value="Niamey">Niamey</option>
+					<option value="Nicosia">Nicosia</option>
+					<option value="Norwich">Norwich</option>
+					<option value="Nouakchott">Nouakchott</option>
+					<option value="Noumea">Noumea</option>
+					<option value="Nuku'alofa">Nuku'alofa</option>
+					<option value="Nuuk">Nuuk</option>
+					<option value="Oklahoma City">Oklahoma City</option>
+					<option value="Olympia">Olympia</option>
+					<option value="Omaha">Omaha</option>
+					<option value="Oranjestad">Oranjestad</option>
+					<option value="Orlando">Orlando</option>
+					<option value="Oslo">Oslo</option>
+					<option value="Ottawa">Ottawa</option>
+					<option value="Ouagadougou">Ouagadougou</option>
+					<option value="Oxford">Oxford</option>
+					<option value="P'yongyang">P'yongyang</option>
+					<option value="Pago Pago">Pago Pago</option>
+					<option value="Palikir">Palikir</option>
+					<option value="Panama">Panama</option>
+					<option value="Papeete">Papeete</option>
+					<option value="Paramaribo">Paramaribo</option>
+					<option value="Paris">Paris</option>
+					<option value="Perth">Perth</option>
+					<option value="Philadelphia">Philadelphia</option>
+					<option value="Phnom Penh">Phnom Penh</option>
+					<option value="Phoenix">Phoenix</option>
+					<option value="Pierre">Pierre</option>
+					<option value="Plymouth">Plymouth</option>
+					<option value="Podgorica">Podgorica</option>
+					<option value="Port Louis">Port Louis</option>
+					<option value="Port Moresby">Port Moresby</option>
+					<option value="Port of Spain">Port of Spain</option>
+					<option value="Port-Vila">Port-Vila</option>
+					<option value="Port-au-Prince">Port-au-Prince</option>
+					<option value="Portland">Portland</option>
+					<option value="Portland">Portland</option>
+					<option value="Porto-Novo">Porto-Novo</option>
+					<option value="Portsmouth">Portsmouth</option>
+					<option value="Prague">Prague</option>
+					<option value="Praia">Praia</option>
+					<option value="Pretoria">Pretoria</option>
+					<option value="Pristina">Pristina</option>
+					<option value="Providence">Providence</option>
+					<option value="Quito">Quito</option>
+					<option value="Rabat">Rabat</option>
+					<option value="Raleigh">Raleigh</option>
+					<option value="Reading">Reading</option>
+					<option value="Reykjavik">Reykjavik</option>
+					<option value="Richmond">Richmond</option>
+					<option value="Riga">Riga</option>
+					<option value="Riyadh">Riyadh</option>
+					<option value="Road Town">Road Town</option>
+					<option value="Rome">Rome</option>
+					<option value="Roseau">Roseau</option>
+					<option value="Sacramento">Sacramento</option>
+					<option value="Saint Helier">Saint Helier</option>
+					<option value="Saint Paul">Saint Paul</option>
+					<option value="Saint Pierre">Saint Pierre</option>
+					<option value="Saipan">Saipan</option>
+					<option value="Salem">Salem</option>
+					<option value="Salt Lake City">Salt Lake City</option>
+					<option value="San Diego">San Diego</option>
+					<option value="San Francisco">San Francisco</option>
+					<option value="San Jose">San Jose</option>
+					<option value="San Juan">San Juan</option>
+					<option value="San Marino">San Marino</option>
+					<option value="San Salvador">San Salvador</option>
+					<option value="Sana">Sana</option>
+					<option value="Sana'a">Sana'a</option>
+					<option value="Santa Fe">Santa Fe</option>
+					<option value="Santiago">Santiago</option>
+					<option value="Santo Domingo">Santo Domingo</option>
+					<option value="Sao Tome">Sao Tome</option>
+					<option value="Sarajevo">Sarajevo</option>
+					<option value="Seattle">Seattle</option>
+					<option value="Seoul">Seoul</option>
+					<option value="Sheffield">Sheffield</option>
+					<option value="Singapore">Singapore</option>
+					<option value="Sioux Falls">Sioux Falls</option>
+					<option value="Skopje">Skopje</option>
+					<option value="Sofia">Sofia</option>
+					<option value="Southampton">Southampton</option>
+					<option value="Springfield">Springfield</option>
+					<option value="Sri Jayawardenapura Kotte">Sri Jayawardenapura Kotte</option>
+					<option value="St. George's">St. George's</option>
+					<option value="St. John's">St. John's</option>
+					<option value="St. Peter Port">St. Peter Port</option>
+					<option value="Stanley">Stanley</option>
+					<option value="Stockholm">Stockholm</option>
+					<option value="Sucre">Sucre</option>
+					<option value="Suva">Suva</option>
+					<option value="Swansea">Swansea</option>
+					<option value="Swindon">Swindon</option>
+					<option value="Sydney">Sydney</option>
+					<option value="T'bilisi">T'bilisi</option>
+					<option value="Taipei">Taipei</option>
+					<option value="Tallahassee">Tallahassee</option>
+					<option value="Tallinn">Tallinn</option>
+					<option value="Tarawa">Tarawa</option>
+					<option value="Tashkent">Tashkent</option>
+					<option value="Tbilisi">Tbilisi</option>
+					<option value="Tegucigalpa">Tegucigalpa</option>
+					<option value="Tehran">Tehran</option>
+					<option value="Thimphu">Thimphu</option>
+					<option value="Tirana">Tirana</option>
+					<option value="Tirane">Tirane</option>
+					<option value="Tokyo">Tokyo</option>
+					<option value="Toledo">Toledo</option>
+					<option value="Topeka">Topeka</option>
+					<option value="Torshavn">Torshavn</option>
+					<option value="Trenton">Trenton</option>
+					<option value="Tripoli">Tripoli</option>
+					<option value="Tunis">Tunis</option>
+					<option value="Ulaanbataar">Ulaanbataar</option>
+					<option value="Ulan Bator">Ulan Bator</option>
+					<option value="Vaduz">Vaduz</option>
+					<option value="Valletta">Valletta</option>
+					<option value="Vienna">Vienna</option>
+					<option value="Vientiane">Vientiane</option>
+					<option value="Vilnius">Vilnius</option>
+					<option value="Virginia Beach">Virginia Beach</option>
+					<option value="W. Indies">W. Indies</option>
+					<option value="Warsaw">Warsaw</option>
+					<option value="Washington DC">Washington DC</option>
+					<option value="Wellington">Wellington</option>
+					<option value="Wichita">Wichita</option>
+					<option value="Willemstad">Willemstad</option>
+					<option value="Wilmington">Wilmington</option>
+					<option value="Windhoek">Windhoek</option>
+					<option value="Wolverhampton">Wolverhampton</option>
+					<option value="Yamoussoukro">Yamoussoukro</option>
+					<option value="Yangon">Yangon</option>
+					<option value="Yaounde">Yaounde</option>
+					<option value="Yaren">Yaren</option>
+					<option value="Yerevan">Yerevan</option>
+					<option value="Zagreb">Zagreb</option>
+
+	
+				</select>		
+			</div>
+		</div> 
+	
+	<!-- 
+
+				<div class="form-group">
+			<label class="control-label col-sm-2" for="TimeZoneId">Time zone</label>
+			<div class="col-sm-6">
+				
+					<select class="form-control" id="TimeZoneId" name="TimeZoneId" style="" onchange="ChangedTimeZone(this);"><option value="-720">(UTC-12:00) International Date Line West</option>
+					<option value="-660">(UTC-11:00) Coordinated Universal Time-11</option>
+					<option value="-600">(UTC-10:00) Hawaii</option>
+					<option value="-540">(UTC-09:00) Alaska</option>
+					<option value="-480">(UTC-08:00) Baja California</option>
+					<option value="-480">(UTC-08:00) Pacific Time (US &amp; Canada)</option>
+					<option value="-420">(UTC-07:00) Arizona</option>
+					<option value="-420">(UTC-07:00) Chihuahua, La Paz, Mazatlan</option>
+					<option value="-420">(UTC-07:00) Mountain Time (US &amp; Canada)</option>
+					<option value="-360">(UTC-06:00) Central America</option>
+					<option value="-360">(UTC-06:00) Central Time (US &amp; Canada)</option>
+					<option value="-360">(UTC-06:00) Guadalajara, Mexico City, Monterrey</option>
+					<option value="-360">(UTC-06:00) Saskatchewan</option>
+					<option value="-300">(UTC-05:00) Bogota, Lima, Quito, Rio Branco</option>
+					<option value="-300">(UTC-05:00) Eastern Time (US &amp; Canada)</option>
+					<option value="-300">(UTC-05:00) Indiana (East)</option>
+					<option value="-270">(UTC-04:30) Caracas</option>
+					<option value="-240">(UTC-04:00) Asuncion</option>
+					<option value="-240">(UTC-04:00) Atlantic Time (Canada)</option>
+					<option value="-240">(UTC-04:00) Cuiaba</option>
+					<option value="-240">(UTC-04:00) Georgetown, La Paz, Manaus, San Juan</option>
+					<option value="-240">(UTC-04:00) Santiago</option>
+					<option value="-210">(UTC-03:30) Newfoundland</option>
+					<option value="-180">(UTC-03:00) Brasilia</option>
+					<option value="-180">(UTC-03:00) Buenos Aires</option>
+					<option value="-180">(UTC-03:00) Cayenne, Fortaleza</option>
+					<option value="-180">(UTC-03:00) Greenland</option>
+					<option value="-180">(UTC-03:00) Montevideo</option>
+					<option value="-180">(UTC-03:00) Salvador</option>
+					<option value="-120">(UTC-02:00) Coordinated Universal Time-02</option>
+					<option value="-120">(UTC-02:00) Mid-Atlantic - Old</option>
+					<option value="-60">(UTC-01:00) Azores</option>
+					<option value="-60">(UTC-01:00) Cape Verde Is.</option>
+					<option value="0">(UTC) Casablanca</option>
+					<option selected="selected" value="-0">(LOCAL) Local Time</option>
+					<option value="0">(UTC) Coordinated Universal Time</option>
+					<option value="0">(UTC) Dublin, Edinburgh, Lisbon, London</option>
+					<option value="0">(UTC) Monrovia, Reykjavik</option>
+					<option value="60">(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
+					<option value="60">(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
+					<option value="60">(UTC+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+					<option value="60">(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
+					<option value="60">(UTC+01:00) West Central Africa</option>
+					<option value="60">(UTC+01:00) Windhoek</option>
+					<option value="120">(UTC+02:00) Amman</option>
+					<option value="120">(UTC+02:00) Athens, Bucharest</option>
+					<option value="120">(UTC+02:00) Beirut</option>
+					<option value="120">(UTC+02:00) Cairo</option>
+					<option value="120">(UTC+02:00) Damascus</option>
+					<option value="120">(UTC+02:00) E. Europe</option>
+					<option value="120">(UTC+02:00) Harare, Pretoria</option>
+					<option value="120">(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
+					<option value="120">(UTC+02:00) Istanbul</option>
+					<option value="120">(UTC+02:00) Jerusalem</option>
+					<option value="120">(UTC+02:00) Tripoli</option>
+					<option value="180">(UTC+03:00) Baghdad</option>
+					<option value="180">(UTC+03:00) Kaliningrad, Minsk</option>
+					<option value="180">(UTC+03:00) Kuwait, Riyadh</option>
+					<option value="180">(UTC+03:00) Nairobi</option>
+					<option value="210">(UTC+03:30) Tehran</option>
+					<option value="240">(UTC+04:00) Abu Dhabi, Muscat</option>
+					<option value="240">(UTC+04:00) Baku</option>
+					<option value="240">(UTC+04:00) Moscow, St. Petersburg, Volgograd</option>
+					<option value="240">(UTC+04:00) Port Louis</option>
+					<option value="240">(UTC+04:00) Tbilisi</option>
+					<option value="240">(UTC+04:00) Yerevan</option>
+					<option value="240">(UTC+04:30) Kabul</option>
+					<option value="300">(UTC+05:00) Ashgabat, Tashkent</option>
+					<option value="300">(UTC+05:00) Islamabad, Karachi</option>
+					<option value="330">(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+					<option value="330">(UTC+05:30) Sri Jayawardenepura</option>
+					<option value="345">(UTC+05:45) Kathmandu</option>
+					<option value="360">(UTC+06:00) Astana</option>
+					<option value="360">(UTC+06:00) Dhaka</option>
+					<option value="360">(UTC+06:00) Ekaterinburg</option>
+					<option value="390">(UTC+06:30) Yangon (Rangoon)</option>
+					<option value="420">(UTC+07:00) Bangkok, Hanoi, Jakarta</option>
+					<option value="420">(UTC+07:00) Novosibirsk</option>
+					<option value="480">(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi</option>
+					<option value="480">(UTC+08:00) Krasnoyarsk</option>
+					<option value="480">(UTC+08:00) Kuala Lumpur, Singapore</option>
+					<option value="480">(UTC+08:00) Perth</option>
+					<option value="480">(UTC+08:00) Taipei</option>
+					<option value="480">(UTC+08:00) Ulaanbaatar</option>
+					<option value="540">(UTC+09:00) Irkutsk</option>
+					<option value="540">(UTC+09:00) Osaka, Sapporo, Tokyo</option>
+					<option value="540">(UTC+09:00) Seoul</option>
+					<option value="540">(UTC+09:30) Adelaide</option>
+					<option value="540">(UTC+09:30) Darwin</option>
+					<option value="600">(UTC+10:00) Brisbane</option>
+					<option value="600">(UTC+10:00) Canberra, Melbourne, Sydney</option>
+					<option value="600">(UTC+10:00) Guam, Port Moresby</option>
+					<option value="600">(UTC+10:00) Hobart</option>
+					<option value="600">(UTC+10:00) Yakutsk</option>
+					<option value="660">(UTC+11:00) Solomon Is., New Caledonia</option>
+					<option value="660">(UTC+11:00) Vladivostok</option>
+					<option value="720">(UTC+12:00) Auckland, Wellington</option>
+					<option value="720">(UTC+12:00) Coordinated Universal Time+12</option>
+					<option value="720">(UTC+12:00) Fiji</option>
+					<option value="720">(UTC+12:00) Magadan</option>
+					<option value="720">(UTC+12:00) Petropavlovsk-Kamchatsky - Old</option>
+					<option value="780">(UTC+13:00) Nuku&#39;alofa</option>
+					<option value="780">(UTC+13:00) Samoa</option>
+					<option value="840">(UTC+14:00) Kiritimati Island</option>
+					</select>
+					<span class="field-validation-valid" data-valmsg-for="TimeZoneId" data-valmsg-replace="true"></span>
+			</div>
+		</div>
+		-->
+	
+					<div class="form-group">	
+				<label class="control-label col-sm-2" for="SearchStatus">Status</label> 
+				<div class="col-sm-6"> 
+				<input type="text" class="form-control" id="SearchStatus"  />
+				</div>
+				</div>
+		
+		
+			
+	
+							<div class="form-group" style="margin-top:25px;">
+				<label class="control-label col-sm-2" for="btnSettingsAlertSave"></label>
+			<div class="col-sm-6"> 
+				<button id="btnSettingsEventSave" name="btnValue" value="Save" class="btn btn-primary" onclick="UpdateLogAlert();">Save</button>
+				<button id="btnSettingsEventDelete" name="btnValue" value="Delete" class="btn btn-primary" onclick="DeleteAlert();">Delete</button>
+				<button id="btnTimmerDisable" name="btnValue" value="Disable" class="btn btn-primary" onclick="DisableTimmer();">Disable Timer</button>	
+				<button name="btnValue" value="Cancel" class="btn btn-default cancel">Cancel</button>
+			
+			</div>
+		</div>
+		
+		
+		
+						<div class="form-group" style="margin-top:25px;">
+				<label class="control-label col-sm-2" for="btnSettingsPrefSave"></label>
+				<!-- <div class="col-sm-offset-4 col-sm-4"> -->
+			 <div class="col-sm-6"> 
+				<button id="btnSettingsEventSave" name="btnValue" value="Save Pref" class="btn btn-primary" onclick="AddNewPref();">Add</button>
+				<button id="btnSettingsEventModify" name="btnValue" value="Modify Pref" class="btn btn-primary" onclick="ModifyPref();">Modify</button>
+				<button id="btnSettingsEventDelete" name="btnValue" value="Delete mPref" class="btn btn-primary" onclick="DeletePref();">Delete</button>
+			
+			
+			</div>
+		</div>
+		
+		
+		
+		
+	</div>
+  </div>
+  </div>
+<script>
+
+
+
+function SetPrefSource(sel)
+{
+
+}
+
+function SavePrefs() {
+
+
+}
+</script>
+ 
+ 
+<script language = "Javascript">
+
+
+
+
+
+
+
+
+	var TimmersArray = new Array()
+	//var TimmersLabels = new Array()
+	//var TimmersLabels = new Array("Undefined 0","Undefined 1","Undefined 3","Undefined 3","Undefined 4","Undefined 5","Undefined 6","Undefined 7","Undefined 8","Undefined 9","Undefined 10","Undefined 11","Undefined 12","Undefined 13","Undefined 14","Undefined 15");
+	var TimmersLabels = new Array("---","---","---","---","---","---","---","---","---","---","---","---","---","---","---","---");
+
+	var TimmersChannel = new Array(0,1,2,3,4,5,6,0,0,0,0,0,0,0,0,0); 	
+	
+	
+    var TimmerGroupID  = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    var TimmerGroupLabel = new Array("","","","","","","","","","","","","","","",""); 
+    var TimmerGroupStart = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0); 	
+    var TimmerGroupEnd = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
+    var TimmerGroupStartTime = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0); 	
+    var TimmerGroupEndTime = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+	
+    var TimmerArrayLabel = new Array("","","","","","","","","","","","","","","","");  	
+    var TimmerArrayChannel = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0); 	
+    var TimmerArrayValues = new Array(); 	
+	
+	var	myTimmerPrefName= new Array();
+	var myTimmerPrefID= new Array();
+	var myTimmerPreferences = new Array();
+
+	var gCalanderDataSources = new Array();
+
+	var timezoneOffset = 0;
+	
+	var index = 0;
+	var gUserID="000000000000";
+	//var gDeviceID="527805749392";
+	var gDeviceID="";
+	var gDeviceKey="";
+	//var gDeviceName="001EC0B415C2:SSENETG2_SeaDream";
+	var gDeviceName="";
+	var device;
+
+	
+	var pagetype=7;
+	var gprefkey=0;
+	var dimmer0;
+	var MaxTimmerSchedules=8;
+	var MaxDailyTimmers=9;
+	var gDimmerType=0;
+	
+	var gDimmerValue=0;
+	var gDimmerLevelValue=0;
+	var gDimmerLevelIndex=0;
+	var gDimmerColorValue=0;
+	
+	var gEnableRGBWColors=false;
+
+	var g_myCity = "Brookings";
+  var firebase;
+    var rootRef;;
+ 
+	  var config = {
+    apiKey: "AIzaSyC7lm1ubR9m9i7KRomA3l3NHBOf_wsOeGE",
+    authDomain: "helmsmart-device-message.firebaseapp.com",
+    databaseURL: "https://helmsmart-device-message.firebaseio.com",
+    storageBucket: "helmsmart-device-message.appspot.com",
+    messagingSenderId: "824876491410"
+  };
+  
+  firebase.initializeApp(config);
+
+
+	//document.getElementById("EventsID").length = 0;	
+	//document.getElementById("EventsID").options[index] = new Option( "** no preferences available **", "0");
+	
+	
+
+	document.getElementById("timmer-label_00").value = TimmersLabels[0];
+	document.getElementById("timmer-label_01").value = TimmersLabels[1];
+	document.getElementById("timmer-label_02").value = TimmersLabels[2];
+	document.getElementById("timmer-label_03").value = TimmersLabels[3];
+	document.getElementById("timmer-label_04").value = TimmersLabels[4];
+	document.getElementById("timmer-label_05").value = TimmersLabels[5];
+	document.getElementById("timmer-label_06").value = TimmersLabels[6];
+	document.getElementById("timmer-label_07").value = TimmersLabels[7];
+	document.getElementById("timmer-label_08").value = TimmersLabels[8];
+	document.getElementById("timmer-label_09").value = TimmersLabels[9];
+	
+	
+	
+	for(i=0; i< 9; i++)
+	{
+		$('#event-modal #event-name option[value=' + i + ']').text(TimmersLabels[i]);
+	}
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,5073 @@
+﻿<!DOCTYPE html>
+<html>  
+  <head>    
+    <meta content="PushSmart data overlay on Google Maps" name="description">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />   
+    <!DOCTYPE html>  
+<style type="text/css">
+  html { height: 100% }      body { height: 100%; margin: 0; padding: 0 }      #map_canvas { height: 100% }
+
+  a {
+  text-decoration: none;
+  color: #FFFFFF;
+  } 
+
+
+  .auto-style1 {
+  text-align: center;
+  font-size: larger;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .auto-style2 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style3 {
+  font-size: medium;
+  }
+  .auto-style4 {
+  color: #FFFFFF;
+  font-size: xx-large;
+  text-decoration:none;
+  }
+  .auto-style5 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: center;
+  }
+  .auto-style6 {
+  color: #FFFFFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: x-small;
+  text-align: left;
+  border-top-style: solid;
+  border-top-color: #000080;
+  border-bottom-style: solid;
+  border-bottom-color: #000080;
+  }
+  .auto-style7 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: left;
+  border-top-style: solid;
+  border-top-color: #000080;
+  border-bottom-style: solid;
+  border-bottom-color: #000080;
+  }
+  .auto-style15 {
+  color: #000000;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style13 {
+  color: #FFFFFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+
+</style>  
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/>
+<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">  
+
+ <!--  
+<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y&sensor=false">    </script> 
+
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeXri6d7JRE5ejPf3QYSf_Ye4xt2iLnzY&callback=initMap"
+    async defer></script>
+-->	
+ <!--  	
+ <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCeXri6d7JRE5ejPf3QYSf_Ye4xt2iLnzY&sensor=false">    </script> 
+-->
+
+ <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBFKMCUyvYx1PR4RAyhIF7sc-O2f7uJQVs">    </script> 
+
+<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/geolocationmarker/src/geolocationmarker-compiled.js"></script> -->
+<script type="text/javascript" src="http://webviewer-api.navionics.com/js/proj4js/lib/proj4js-compressed.js"></script>
+<script type="text/javascript" src="http://webviewer-api.navionics.com/js/OpenLayers/OpenLayers.js"></script>
+<script type="text/javascript" src="http://webviewer-api.navionics.com/js/navionics/apimaps.js"></script>
+
+	
+<script src="{{ url_for('static', filename='js/MapSmartGlobals.js') }}" type="text/javascript"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/ChangeChartStyleJSON.js') }}" ></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
+	 
+	 
+
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+
+    
+           
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+
+ 	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 10px;
+		}
+	</style>	
+ 
+<script type="text/javascript">
+  var newpoly = new Array();
+  var myPolyDataValues = {};
+  var myPolyDataLabels = {};
+  var myCount;
+  var ShowHideDetailsflag=false;
+  var ShowHideNavionicsflag = false;
+  var ShowHidePrefsflag  = false;
+  var ShowHideSensorsflag  = false;
+  var MapOptions=0;
+  var MapType=0;
+  var GPSSource = 0;
+
+  var  myuserid;
+
+  var url;
+
+  var    myNavKey = 'Navionics_webapi_00313'
+
+
+  var myoverlay = new Array();
+  var mycog = new Array();
+  var mysource = new Array();
+    var glat  = new Array();
+    var glng  = new Array();
+    var gspeed  = new Array();
+	var gdistance  = new Array();
+
+  var DDListPGNNumber = new Array();
+  var DDListPGNSource = new Array();
+  var DDListPGNInstance = new Array();
+  var DDListPGNType = new Array();
+  var DDListPGNParameters = new Array();
+
+  var gn2ktime = new Array();
+  var gn2kepoch = new Array();
+  
+  var gsegmentenabled= new Array();
+
+  var vGLinkTime;
+  var vGN2KTime;
+  var myDataValues = new Array( "- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - ","- - " );
+  var myDataLabels = new Array( "Lat","Lng", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed", "UnUsed" );
+
+  zpad.zeros = new Array(5).join('0');
+  spad.spaces = new Array(7).join(' ');
+
+
+  //  var infowindow;
+  var map;
+  var myLatlng="";
+  var gLatLng="";
+  var myOldLatlng="";
+  var maps = new Array();
+  
+  
+  var path;
+  var markers = new Array();
+  var marker;
+  var poly;
+  var myinfoWindow = new google.maps.InfoWindow;
+
+  var polyOptions ;
+
+  var gradientArray;
+  
+    var myPins = new Array();
+	
+	var mySegmentColors = ['#13FAF7', '#FF0000','#FFFF00','#00FF00','#0000FF','#00FFFF', '#FF00FF','#E6E6E6','#595959','#009F3C',
+	  '#00A8EC', '#3D107B','#E3007B','#C8E19D','#F49E9C','#006A25', '#9C410F','#004E49','#9681B6','#9C087B',
+	  '#A7067B', '#B3047B','#BE047B','#C7027B','#D1017B','#D9007B', '#DF007A','#E20078','#E20076','#E20075',
+	  '#E20072', '#E20070','#E2006D','#E2006B','#E20068','#E20064', '#E20061','#E2005E','#E2005A','#E20057',
+	  '#E20053', '#E2004F','#E2004C','#E20049','#E20045','#E20042', '#E2003F','#E1003B','#E00238','#E00436',
+	  '#DF0733', '#DF0B31','#DF0E2E','#DF122C','#E0182A','#E11F28', '#E22726','#E42F25','#E63922','#E84320',
+	  '#EB4F1F', '#EE5A1D','#F1661C','#F3721A','#F37D19','#F38A19', '#F39618','#F3A216','#F3AD16','#F3B815',
+	  '#F3C315', '#F3CC15','#F3D515','#F3DE15','#F3E415','#F3E915', '#F3EE15','#EFEF15','#E7EF16','#DEEF17',
+	  '#D3EF18', '#C8ED19','#BAE91A','#ADE31C','#9EDD1D','#8FD71F', '#7ED021','#6FC924','#5FC127','#51BA29',
+	  '#42B32C', '#34AC30','#27A633','#1BA137','#109D3C','#089A41', '#009847','#00984C','#009852','#009859',
+	  '#009961', '#009C69','#009E72','#00A07A','#00A384','#00A68D', '#00AA97','#00ADA1','#00B1A9','#00B4B3',
+	  '#00B8BC', '#00BCC5','#00BECD','#00C2D5','#01C5DC','#02C7E3', '#04CAE9','#04CBED','#04CCF0','#04CCF0',
+	  '#04CCF0', '#04CCF0','#04CCF0','#04CCF0','#04CCF0','#04CCF0', '#04CCF0','#04CCF0','#04CCF0','#04CCF0'];
+  
+     var myPinColors = ['3E147B', '3E147B','3E147B','3E147B','3E147B','3E147B', '3E147B','3E147B','3E147B','3E147B',
+     '41137B', '47137B','4F127B','58107B','630F7B','6D0E7B', '780C7B','840A7B','90097B','9C087B',
+     'A7067B', 'B3047B','BE047B','C7027B','D1017B','D9007B', 'DF007A','E20078','E20076','E20075',
+     'E20072', 'E20070','E2006D','E2006B','E20068','E20064', 'E20061','E2005E','E2005A','E20057',
+     'E20053', 'E2004F','E2004C','E20049','E20045','E20042', 'E2003F','E1003B','E00238','E00436',
+     'DF0733', 'DF0B31','DF0E2E','DF122C','E0182A','E11F28', 'E22726','E42F25','E63922','E84320',
+     'EB4F1F', 'EE5A1D','F1661C','F3721A','F37D19','F38A19', 'F39618','F3A216','F3AD16','F3B815',
+     'F3C315', 'F3CC15','F3D515','F3DE15','F3E415','F3E915', 'F3EE15','EFEF15','E7EF16','DEEF17',
+     'D3EF18', 'C8ED19','BAE91A','ADE31C','9EDD1D','8FD71F', '7ED021','6FC924','5FC127','51BA29',
+     '42B32C', '34AC30','27A633','1BA137','109D3C','089A41', '009847','00984C','009852','009859',
+     '009961', '009C69','009E72','00A07A','00A384','00A68D', '00AA97','00ADA1','00B1A9','00B4B3',
+     '00B8BC', '00BCC5','00BECD','00C2D5','01C5DC','02C7E3', '04CAE9','04CBED','04CCF0','04CCF0',
+     '04CCF0', '04CCF0','04CCF0','04CCF0','04CCF0','04CCF0', '04CCF0','04CCF0','04CCF0','04CCF0'];
+
+
+  var myStrokeColors = ['#3E147B', '#3E147B','#3E147B','#3E147B','#3E147B','#3E147B', '#3E147B','#3E147B','#3E147B','#3E147B',
+  '#41137B', '#47137B','#4F127B','#58107B','#630F7B','#6D0E7B', '#780C7B','#840A7B','#90097B','#9C087B',
+  '#A7067B', '#B3047B','#BE047B','#C7027B','#D1017B','#D9007B', '#DF007A','#E20078','#E20076','#E20075',
+  '#E20072', '#E20070','#E2006D','#E2006B','#E20068','#E20064', '#E20061','#E2005E','#E2005A','#E20057',
+  '#E20053', '#E2004F','#E2004C','#E20049','#E20045','#E20042', '#E2003F','#E1003B','#E00238','#E00436',
+  '#DF0733', '#DF0B31','#DF0E2E','#DF122C','#E0182A','#E11F28', '#E22726','#E42F25','#E63922','#E84320',
+  '#EB4F1F', '#EE5A1D','#F1661C','#F3721A','#F37D19','#F38A19', '#F39618','#F3A216','#F3AD16','#F3B815',
+  '#F3C315', '#F3CC15','#F3D515','#F3DE15','#F3E415','#F3E915', '#F3EE15','#EFEF15','#E7EF16','#DEEF17',
+  '#D3EF18', '#C8ED19','#BAE91A','#ADE31C','#9EDD1D','#8FD71F', '#7ED021','#6FC924','#5FC127','#51BA29',
+  '#42B32C', '#34AC30','#27A633','#1BA137','#109D3C','#089A41', '#009847','#00984C','#009852','#009859',
+  '#009961', '#009C69','#009E72','#00A07A','#00A384','#00A68D', '#00AA97','#00ADA1','#00B1A9','#00B4B3',
+  '#00B8BC', '#00BCC5','#00BECD','#00C2D5','#01C5DC','#02C7E3', '#04CAE9','#04CBED','#04CCF0','#04CCF0',
+  '#04CCF0', '#04CCF0','#04CCF0','#04CCF0','#04CCF0','#04CCF0', '#04CCF0','#04CCF0','#04CCF0','#04CCF0'];
+
+
+  /* ******************  padding functions ************************************************ */
+
+ 
+ 
+ function ConvertValueUnits(value, type)  
+ {
+  
+  var overlayScale = 1;
+    var myHours;
+  var myMins;
+  //overlayScale = DialAlarm[type] * 0.01;
+   overlayScale = 1.0;
+   //  overlayScale = SystemClockPGNID/100;
+  
+   switch (parseInt(type)) {
+            
+            case 0: //="0">Fahrenheit</option>
+            		return ((value * 1.8) - 459) * overlayScale;
+            break;
+            
+            case 1: //="1">Celsius</option>
+                    return ((value * 1.0) - 273) * overlayScale;
+            break;
+
+            case 2: //e="2">Kelvin</option>
+            		return value * overlayScale;
+            break;
+
+          //  case 3: //="3">- - -</option> 
+      
+      
+            case 4: //="4">Knots</option>
+                return (value * 1.94384449) * overlayScale;
+            break;
+
+            case 5: //="5">MPH</option>
+                return (value * 2.23694) * overlayScale;
+            break;
+            
+            case 6: //e="6">KPH</option>
+                return (value * 1.0) * overlayScale;
+            break;
+      
+      
+      // case 7: //="7">- - -</option>
+            case 8: //="8">PSI</option>
+                    return (value * 0.145037738007) * overlayScale;
+            break;
+            
+
+            case 9: //e="9">KPASCAL</option>
+                    return value * overlayScale;
+            break;
+   
+            
+            case 10: //="10">INHG</option>
+                     return (value * 0.295229) * overlayScale;
+            break;
+
+          //  case 11: //="11">- - -</option>
+          //  case 12: //="12">TRUE</option>
+         //   case 13: //="13">MAGNETIC</option>
+         //   case 14: //="14">- - -</option>
+         //   case 15: //="15">- - -</option>
+         //   case 16: //="16">DEGREES</option>
+         //   case 17: //="17">Radians</option>
+            case 18: //="18">Gallons/hs</option>
+            	return (value * 0.264172052) * overlayScale;
+            break;
+
+            case 19: //="19">Liters/hr</option>
+            	return (value * 0.1) * overlayScale;
+            break;
+
+         //   case 20: //="20">Liters</option>
+         //   case 21: //="21">Gallons</option>
+         //   case 22: //="22">CubicMeter</option>
+         //   case 23: //="23">- - -</option>
+        //    case 24: //="24">RPM</option>
+        //    case 25: //="25">RPS</option>   
+        //    case 26: //="26">%</option>
+            case 27: //="27">Volts</option>
+               return (value *0.10) * overlayScale;
+      //   case 28: //="28">Amps</option> 
+         //   case 26: //="29">- - -</option>
+          case 30: //="31">kWatthrs</option>
+              return (value * 1000.0) * overlayScale;
+            break;
+			
+            case 31: //="31">kWatthrs</option>
+              return (value * 1.0) * overlayScale;
+            break;
+			
+			case 32: //="32">Feet</option>
+              return (value * 3.28084) * overlayScale;
+            break;
+            
+			case 33: //="33">meters</option>
+              return (value * 1.0) * overlayScale;
+            break;
+			
+			case 45: //=inches
+              return (value * 39.3) * overlayScale;
+            break;
+            
+			case 44: //=millimeters
+              return (value * 1000.0) * overlayScale;
+            break;			
+						
+			
+            case 34: //="34">mile</option>
+              return (value * 0.000621371) * overlayScale;
+            break;
+            
+            case 35: //="35">nautical mile</option>
+              return (value * 0.000539957) * overlayScale;
+            break;
+            
+            case 36: //="36">Fathoms</option>
+              return (value * 0.546806649) * overlayScale;
+            break;       
+			
+			case 37: //="37">HH:MM</option>
+				myHours = Math.floor(value / (60*60));
+				myMins = Math.floor((value % (60*60)) / 60);
+				value = parseFloat(myHours + (myMins * 0.01));
+			
+              return (value ) ;
+            break;
+			
+			case 39: //="39">Hours = sec/60*60</option>
+              return (value * 0.000277777) ;
+            break;  			
+
+      //  case 33: //="33">- - -</option>
+        //    case 34: //="34">Indicator</option>
+        //    case 35: //="35">Switch</option>
+         //   case 36: //="36">- - -</option>         
+         //   case 37: //="37">Undefined</option>
+
+      default:
+        return value * overlayScale;
+      break;
+
+      }
+
+ }
+ 
+ 
+ function handleGetDeviceData(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+	document.getElementById("DeviceID").options.length = 0;
+
+   	response.records.forEach(function(row){
+   	
+   	document.getElementById("DeviceID").options[index++] = new Option(row[1], row[0]);
+
+   
+	   		});
+			
+			
+	if(response.records.length == 0)
+          document.getElementById("SearchStatus").value = "Get Data Error";
+      else
+          document.getElementById("SearchStatus").value = "Get Data succcessful ";  	  
+
+
+  		document.getElementById("DeviceID").selectedIndex = 0;
+	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    		{
+	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
+		    		if(myDeviceID == AccountDataFolder)
+		    			document.getElementById("DeviceID").selectedIndex = i;
+		    	}
+          
+            
+            GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+ 
+}
+    
+ /* ******************  Done Setting up chart  variable ************************************************ */
+ function InitializeDeviceOptionList()
+{
+
+			document.getElementById("DeviceID").options[0] = new Option("Demo Data", "000000000000");
+	
+ }
+ 
+function SetDeviceOptionList()
+{
+ //  document.getElementById("AccountFolder").value = document.getElementById("DeviceID").value;
+ //  AccountDataFolder = document.getElementById("DeviceID").value;
+     AccountDataFolder =document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+ //  SetServerType('1'); 
+   
+ // getDeviceParamList(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+ //getDeviceParamList(AccountDataFolder);
+  getDeviceParamList(myuserid);
+ //GetSeriesAttributes(AccountDataFolder);
+
+}           
+function SetGPSLimitOptionList()
+{
+}
+
+function ChangedGPSFix()
+{
+}
+
+function SetGPSSourceOptionList()
+{
+	GPSSource =document.getElementById("GPSSource").options[document.getElementById("GPSSource").selectedIndex].value;
+         	 
+            
+}
+function SetSearchTypeOptionList()
+{
+
+        // 	PageLayout = document.getElementById("SearchType").selectedIndex;   
+            
+}
+
+function SetOverlayScaleOptionList(sel)
+{
+
+         	SystemClockPGNID = document.getElementById("OverlayScale").options[sel.selectedIndex].value;   
+            
+}
+
+
+function EnableSegment(sel)
+{
+var index = sel.value;
+
+  // alert('you clicked segment' + index);
+   
+   gsegmentenabled[index] =sel.checked;
+   /*
+   if(sel.checked == true)
+   {
+		gsegmentenabled[index] = false;
+   }
+   else
+   gsegmentenabled[index] = true;
+   */
+}
+
+function ChangedPGNSource(sel)
+{
+	var myDeviceID = document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+	ConstructPGNTypeID(myDeviceID,0);
+}
+function ChangedPGNTypeID(sel)
+{
+	var myDeviceID = document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+
+	ConstructPGNTypeID(myDeviceID,0);
+	
+	//document.getElementById("EventsID").selectedIndex=document.getElementById("EventsID").length-1;
+
+	//document.getElementById("EventName").value = document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].text; 
+}
+
+function zpad(num, len) {
+    var str = String(num),
+        diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > zpad.zeros.length)
+        zpad.zeros = new Array(diff + 1).join('0');
+    return zpad.zeros.substr(0, diff) + str;
+}
+
+function spad(num, len) {
+    var str = String(num),
+        diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > spad.spaces.length)
+        spad.spaces= new Array(diff + 1).join(' ');
+    return spad.spaces.substr(0, diff) + str;
+}
+
+function ChangedMapOptions()
+{
+
+
+var myMapOption = document.getElementById("MapOptions").selectedIndex;
+
+PageLayout = PageLayout & 0xF0;
+PageLayout = PageLayout | (myMapOption & 0x0F);
+
+}
+
+function ChangedMapTypes()
+{
+var myMapType = document.getElementById("MapTypes").selectedIndex;
+
+PageLayout = PageLayout & 0x0F;
+PageLayout = PageLayout | ((myMapType & 0x0F)<< 4);
+
+
+}
+
+function ChangedSpan()
+{
+
+ var myRollup = document.getElementById("Span").options[document.getElementById("Span").selectedIndex].value;  
+
+	  
+	  if(myRollup!= "0")
+	  {
+
+		if(myRollup == "1m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(1);
+		}
+		else if(myRollup == "2m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(2);
+		}
+		else if(myRollup == "3m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(3);
+		}
+		else if(myRollup == "4m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(4);
+		}
+		else if(myRollup == "5m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(5);
+		}
+		else if(myRollup == "6m")
+		{
+			var EndEpoch = new Date();
+			var StartEpoch = new Date();
+			var StartEpoch  = StartEpoch.subMonths(6);
+		}
+		else
+		{
+			var EndEpoch = new Date();
+		
+			var StartEpoch  = EndEpoch - (myRollup*60*1000);
+		}
+	
+
+	
+		//EndEpoch = Math.floor(EndEpoch.getTime()/1000);
+		//StartEpoch  = Math.floor(StartEpoch.getTime()/1000);
+	
+	
+	// var StartEpoch = new Date(StartEpochDB );
+ //var EndEpoch = new Date(EndEpochDB );
+ //var ResolutionSecs = new Date(ResSecsDB);
+
+    
+		$("#datepickerstart").datetimepicker('setDate', new Date(StartEpoch) );
+       
+		$("#datepickerend").datetimepicker('setDate', EndEpoch );
+	
+	GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+	}
+
+   
+ }
+function ShowHideNavionics()
+ {
+    /*
+    	if(ShowHideNavionicsflag == true)
+    	{
+    		ShowHideNavionicsflag = false;
+    		document.getElementById("ShowNavionics").checked = false;
+		}
+		else
+		{
+			ShowHideNavionicsflag = true;
+			document.getElementById("ShowNavionics").checked = true;
+		}
+		*/
+}
+
+function ShowHideSensors()
+{
+    /*
+    	if(ShowHideSensorsflag == true)
+    	{
+    	
+    		document.getElementById("SensorParameters").style.display = "none";
+ 
+        	document.getElementById("ShowSensors").checked = false;
+        	ShowHideSensorsflag = false; 
+	
+ }
+    	
+    	else
+    	{
+    	
+    		document.getElementById("SensorParameters").style.display = "block";
+  
+
+    	    document.getElementById("ShowSensors").checked = true;
+    	    ShowHideSensorsflag = true;
+
+    	}
+		*/
+}  
+function ShowHideDetails()
+ {
+    /*
+    	if(ShowHideDetailsflag == true)
+    	{
+    	
+    		document.getElementById("map_data").style.display = "none";  
+        	document.getElementById("N2KText").style.display = "none"; 
+        	        	document.getElementById("N2KText").style.visibility = "hidden"; 
+
+        	document.getElementById("ShowDetails").checked = false;
+        	ShowHideDetailsflag = false; 
+	
+ }
+    	
+    	else
+    	{
+    	
+    		document.getElementById("map_data").style.display = "block";
+    	    document.getElementById("N2KText").style.display = "block";  
+    	    	document.getElementById("N2KText").style.visibility = "visible"; 
+    	    document.getElementById("ShowDetails").checked = true;
+    	    ShowHideDetailsflag = true;
+
+    	}
+		
+		*/
+    }
+    
+  function ShowHidePrefs()
+ {
+    /*
+    	if(ShowHidePrefsflag == true)
+    	{
+    	
+    		document.getElementById("MapParameters1").style.display = "none";
+    		document.getElementById("MapParameters2").style.display = "none";    
+        document.getElementById("MapParameters3").style.display = "none";  
+        //document.getElementById("SensorParameters").style.display = "none";
+
+        	document.getElementById("ShowPrefs").checked = false;
+        	ShowHidePrefsflag = false; 
+	        //document.getElementById("ShowSensors").checked = false;
+        	//ShowHideSensorsflag = false;
+ }
+    	
+    	else
+    	{
+    	
+    		document.getElementById("MapParameters1").style.display = "block";
+    		document.getElementById("MapParameters2").style.display = "block";
+        document.getElementById("MapParameters3").style.display = "block";
+
+    	    document.getElementById("ShowPrefs").checked = true;
+    	    ShowHidePrefsflag = true;
+
+    	}
+		
+		*/
+}
+
+function HidePolyLine(myindex){
+//   alert('you clicked polyline' + this.get('myIndex'));
+//   alert('array length = ' + myPolyDataLabels.length);
+var dindex = parseInt(myindex, 10);
+
+ var mypolyOptions = {
+
+   visible:false
+   
+   
+   
+   }
+
+// newpoly[myindex] = new google.maps.Polyline(mypolyOptions);
+         newpoly[myindex].set('Show', false); 
+		  newpoly[myindex].set('myIndex', myindex); 
+		 
+		  newpoly[myindex].setMap(null)
+		  
+		//  newpoly[myindex-1] = new google.maps.Polyline(mypolyOptions);
+         newpoly[myindex-1].set('myIndex', myindex-1); 
+		  newpoly[myindex-1].set('Show', false); 
+		 
+		  newpoly[myindex-1].setMap(null)
+		  
+		  
+		 initializeMaps();
+
+}  
+    
+function ShowPolyLineData (myindex){
+//   alert('you clicked polyline' + this.get('myIndex'));
+//   alert('array length = ' + myPolyDataLabels.length);
+var dindex = parseInt(myindex, 10);
+
+// alert('you clicked polyline' + index);
+
+// dindex = 9;
+document.getElementById("map_status").style.display = "block";
+
+var StatusString;
+
+     StatusString = '<font size="2"> <p>' + 'TIME: ' + myPolyDataValues[dindex][16]   + '</p><Table> <tr><td>' +
+                                   myPolyDataLabels[dindex][0] + '</td><td><b>' + myPolyDataValues[dindex][0] + '</b></td><td>' + 
+                                   myPolyDataLabels[dindex][1] + '</td><td><b>' + myPolyDataValues[dindex][1] + '</b></td><td>' + 
+                                   myPolyDataLabels[dindex][2] + '</td><td><b>' + myPolyDataValues[dindex][2] + '</b></td><td>' + 
+								   myPolyDataLabels[dindex][3] + '</td><td><b>' + myPolyDataValues[dindex][3] + '</b></td><td>' + 
+                                   myPolyDataLabels[dindex][4] + '</td><td><b>' + myPolyDataValues[dindex][4] + '</b></td></tr><tr><td>' +
+                                   myPolyDataLabels[dindex][5] + '</td><td><b>' + myPolyDataValues[dindex][5] + '</b></td><td>' + 
+								   myPolyDataLabels[dindex][6] + '</td><td><b>' + myPolyDataValues[dindex][6] + '</b></td></tr>' + 								   
+								   '<tr><td colspan="8">' +
+								   myPolyDataLabels[dindex][7] + '<b>' + myPolyDataValues[dindex][7] + '</b></td>' +
+                               
+                              
+                                  '</tr></Table></font>';
+
+
+      try
+      {
+
+      document.getElementById("map_status").innerHTML = StatusString;
+      }
+      catch(err)
+      {
+      }
+
+
+      }
+    </script>
+    
+ <script type="text/javascript">
+   function handleGetSeriesAttributes(response)
+   {
+   var index=0;
+   var myGPSSource;
+   var i;
+
+   var index=0;
+ var i;
+ 
+   	$.unblockUI();
+    
+     var myseriesattributes 
+     var myserieskey 
+     var mydeviceid;
+     var index
+     index = 0;
+     
+   //document.getElementById("PGNNumber").options.length = 0;
+   //document.getElementById("PGNSource").options.length = 0;
+   //document.getElementById("PGNInstance").options.length = 0;
+   //document.getElementById("PGNType").options.length = 0;
+   //document.getElementById("PGNParameter").options.length = 0;
+ 
+     
+    if(response.status == "error")
+   {
+      document.getElementById("SearchStatus").value = "No data from search";
+      return;
+      
+     }
+            
+     
+
+     
+    var PGNTypeIDLength = 	document.getElementById("PGNTypeID").length;
+	
+	for(var i=0; i< PGNTypeIDLength; i++)
+	{
+		document.getElementById("PGNTypeID").options[i].disabled = true;
+		document.getElementById("PGNTypeID").options[i].style.color = '#C0C0C0';
+	}
+        
+		
+			var GeoSourceLength = 	document.getElementById("GPSSource").length;
+	
+	for(var i=0; i< GeoSourceLength; i++)
+	{
+		document.getElementById("GPSSource").options[i].disabled = true;
+		document.getElementById("GPSSource").options[i].style.color = '#CCCCCC';
+	}
+		
+			var GPSSourceLength = 	document.getElementById("GPSSource").length;
+            
+     response.series.forEach(function(mydata){
+     
+      
+            myserieskey = "deviceid:" + mydata.deviceid;
+            myserieskey = myserieskey  + ".sensor:" + mydata.sensor;
+            myserieskey = myserieskey  + ".source:" + mydata.source;
+            myserieskey = myserieskey  + ".instance:" + mydata.instance;
+            myserieskey = myserieskey  + ".type:" + mydata.type;
+            myserieskey = myserieskey  + ".parameter:" + mydata.parameter;
+            myserieskey = myserieskey  + ".HelmSmart";                                     
+            
+            myPGNEvent = GetPGNTypeFromSeries(myserieskey);
+			 //var PGNTypeIDLength = 	document.getElementById("PGNTypeID").length;
+			for(var i=0; i< PGNTypeIDLength; i++)
+			{
+				if(document.getElementById("PGNTypeID").options[i].value == myPGNEvent)
+				{
+					document.getElementById("PGNTypeID").options[i].disabled = false;
+					//document.getElementById("PGNTypeID").options[i].style.backgroundColor = 'red';
+					document.getElementById("PGNTypeID").options[i].style.color = '#0D27C3';
+					
+					}
+
+			}
+			
+			
+			if(mydata.sensor == "position_rapid")
+			{
+				for(var i=0; i< GPSSourceLength; i++)
+				{
+				
+					if(document.getElementById("GPSSource").options[i].value == mydata.source)
+					{
+						document.getElementById("GPSSource").options[i].disabled = false;
+						document.getElementById("GPSSource").options[i].style.color = '#0D27C3';
+						
+						}
+
+				}
+			}
+			
+			document.getElementById("GPSSource").options[0].disabled = false;
+			document.getElementById("GPSSource").options[0].style.color = '#0D27C3';
+			
+			
+			
+			
+			index++;
+            
+         });
+              
+            
+         
+            
+          // reset Device ID list to match the preferences just loaded  
+         // for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    	//	{
+	    	//		myDeviceID = document.getElementById("DeviceID").options[i].value;
+		    //		if(myDeviceID == mydeviceid)
+		    //			document.getElementById("DeviceID").selectedIndex = i;
+		    //	}
+            
+      if(index == 0)
+          document.getElementById("SearchStatus").value = "Get Series Error";
+      else
+          document.getElementById("SearchStatus").value = "Series List update succcessful ";  	   		
+
+		//getDeviceParamDetails(myuserid);
+ 
+}
+            
+            
+function handleGetDevicePramNames(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+   // initialize the user parameter list to zero         
+	document.getElementById("XMLFilesSelect").options.length = 0;
+	document.getElementById("XMLFilesSelect").options[index++] = new Option("Use Defaults", "0");
+	document.getElementById("XMLFilesSelect").selectedIndex = 0;
+    
+    if(response.records.length == 0)
+          document.getElementById("SearchStatus").value = "Get Device Param Name Error";
+      else
+          document.getElementById("SearchStatus").value = "Get Device Pram Names succcessful ";  	  
+	
+  // get list of user parameters from the DB
+   	    response.records.forEach(function(row){
+   	      document.getElementById("XMLFilesSelect").options[index++] = new Option(row[2],  row[0] );
+	   		});
+			
+	
+	 if(response.records.length > 0)
+	{
+	
+   // set current user parameter to the indedx stored in the cookie
+   if(document.getElementById("XMLFilesSelect").options.length >= ConfigOptions)
+	    document.getElementById("XMLFilesSelect").selectedIndex = ConfigOptions;
+   else 
+	    document.getElementById("XMLFilesSelect").selectedIndex = 0;
+   
+    // load up user pameters from DB if there were any returned
+    if(index > 1)        
+	 	  getDeviceParamDetails(myuserid);
+    else
+    {
+     // initialize the check box
+        if(ClockLCDColor == 1)
+            document.getElementById("ShowNavionics").checked = true;       
+        else
+            document.getElementById("ShowNavionics").checked = false;       
+        
+        // initialize the OverlayScale droup down menu
+        for(index=0; index < document.getElementById("OverlayScale").options.length; index++)
+        {
+       	    myOverlayScale = document.getElementById("OverlayScale").options[index].value;
+		    		if(myOverlayScale == SystemClockPGNID)
+		    			document.getElementById("OverlayScale").selectedIndex = index; 
+         }
+    }
+	 }
+	GetSeriesAttributes(AccountDataFolder);
+}
+
+function handleGetDevicePramDetails(response)
+ {
+ var index=0;
+ var rindex = 0;
+ var myStartTimeStr;
+ var myEndTimeStr;
+ var myStartDays;
+ var myStartSecs;
+ var myEndDays;
+ var myEndSecs;
+ var mySearchTick; 
+ var myResolutionStr;
+ 
+ var StartEpochDB;
+ var EndEpochDB;
+ var ResSecsDB;
+ var myOverlayScale;
+ var myprefdeviceid;
+
+  StartEpochDB = 126378000;
+  EndEpochDB = 126406800;
+ 
+           StartEpochDB = (new Date).getTime() - 60*60*24*1000;
+        EndEpochDB = (new Date).getTime();
+
+            StartEpochDB = (StartEpochDB/1000)-1262304000;
+        EndEpochDB = (EndEpochDB/1000)-1262304000;
+
+    //var StartEpoch = new Date(StartEpochms);
+    //   var EndEpoch = new Date(EndEpochms);
+
+ 
+  ResSecsDB = 60;
+ 
+ 
+   	$.unblockUI();
+   	
+		if(response.records.length == 0)
+          document.getElementById("SearchStatus").value = "Get Device Param details Error";
+      else
+          document.getElementById("SearchStatus").value = "Get Device Pram details succcessful ";  	
+		  
+	if(response.records.length > 0)
+	{
+    // sort through the returned records and parse data
+   	response.records.forEach(function(row){
+   		   
+        PageLayout = row[5];
+				ClockLCDColor   = row[9];
+				SystemClockPGNID   = row[10];
+				GPSSourceNumber = parseInt(row[6]);
+				
+				if(GPSSourceNumber >= 255)
+					document.getElementById("GPSSource").selectedIndex = 0;
+				else
+					document.getElementById("GPSSource").selectedIndex = GPSSourceNumber+1;
+			
+  
+				GPSSource =document.getElementById("GPSSource").options[document.getElementById("GPSSource").selectedIndex].value;
+  
+		// tempory skip stored date time preference
+			  StartEpochDB =  parseInt(row[26]);	
+			  EndEpochDB =  parseInt(row[27]);
+			  
+			  
+	   		ResSecsDB =  parseInt(row[28]);
+     myprefdeviceid = row[30];
+	   	//	});
+        
+       
+
+
+/* *************************************************************************************** */
+
+
+		var myDialSettingsSubStrings = new Array();
+
+		// parse the cookie string
+		
+		myDialSettingsSubStrings= row[13].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		//myDialSettingsSubStrings= row[14].split(",");
+		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+		//		DialPGNInstance[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		myDialSettingsSubStrings= row[14].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPGNNumber[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
+
+	//	myDialSettingsSubStrings= row[16].split(",");
+	//	for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+	//			DialPGNParameter[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[15].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialUnits[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[16].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialMin[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[17].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialMax[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[18].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialAlarm[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[19].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialAlarmState[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		myDialSettingsSubStrings= row[20].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
+
+
+		myDialSettingsSubStrings= row[21].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialFrameType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[22].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialBackground[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[23].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialLCDColor[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[24].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPointerColor[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[25].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPonterType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+			
+        
+                        rindex++;
+   
+	   		});
+	   		
+	   		 ParameterInit = true;
+
+ }
+
+/* ******************************************************************************** */
+
+		document.getElementById("MapTypes").selectedIndex = (PageLayout & 0xF0) >> 4; 
+		document.getElementById("MapOptions").selectedIndex = PageLayout & 0x0F; 
+
+ // initalize the searchType drop down menu
+       // document.getElementById("SearchType").selectedIndex = PageLayout;
+        
+        
+        // initialize the check box
+        //if(ClockLCDColor == 1)
+         //   document.getElementById("ShowNavionics").checked = true;       
+        //else
+         //   document.getElementById("ShowNavionics").checked = false;       
+        
+        // initialize the OverlayScale droup down menu
+        for(index=0; index < document.getElementById("OverlayScale").options.length; index++)
+        {
+       	    myOverlayScale = document.getElementById("OverlayScale").options[index].value;
+		    		if(myOverlayScale == SystemClockPGNID)
+		    			document.getElementById("OverlayScale").selectedIndex = index; 
+         }
+
+		if(DialPGNNumber[0] != '0')
+		{
+			//document.getElementById("ShowSensors").checked = true;
+			//ShowHideSensorsflag = true;
+		 }
+		else
+		{
+			//document.getElementById("ShowSensors").checked = false;
+			//ShowHideSensorsflag = false;
+		}
+	   	
+
+ 			StartEpochDB = StartEpochDB + 1262304000;	
+ 
+
+  //StartEpochDB = StartEpochDB - (mytimeZoneOffset  * 60 );
+			
+		
+ 			StartEpochDB = StartEpochDB * 1000; 
+ 
+			EndEpochDB = EndEpochDB + 1262304000;	
+
+			
+			
+ 			EndEpochDB = EndEpochDB * 1000; 
+ 			
+ 			
+ //var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+ // ResSecsDB = ResSecsDB - (mytimeZoneOffset  * 60 );
+		
+	//		ResSecsDB = ResSecsDB * 1000;
+ 
+ //var PGNTypeIDLength = 	document.getElementById("PGNTypeID").length;
+
+			var myPGNEvent = GetPGNTypeFromSeries(DialPGNNumber[0]);
+			for(var i=0; i< document.getElementById("PGNTypeID").length; i++)
+			{
+				if(document.getElementById("PGNTypeID").options[i].value == myPGNEvent)
+				{
+					document.getElementById("PGNTypeID").options[i].disabled = false;
+					document.getElementById("PGNTypeID").options[i].style.color = '#0D27C3';
+					document.getElementById("PGNTypeID").selectedIndex = i;
+					
+					}
+			}
+ 
+			document.getElementById("DialMin").value = DialMin[0];
+			document.getElementById("DialMax").value = DialMax[0];
+			document.getElementById("DialUnits").selectedIndex = DialUnits[0] ;
+			
+			
+				try{
+					//var myEventKey  = DialPGNNumber[0].replace(/\"/g, "");
+					var myEventKey  = DialPGNNumber[0].replace(".*.","*.");
+					var myPGNArray = myEventKey.split("."); 
+					var myValue = myPGNArray[2];
+					var myTextArray = myValue.split(":");
+					var myEventSource = myTextArray[1]; 
+					
+				}
+				catch(err)
+				{
+					var myEventSource="*";
+				}
+					
+				if(myEventSource == "*")
+				{
+					document.getElementById("GPSSource").options[0].disabled = false;
+					document.getElementById("GPSSource").options[0].style.color = '#0D27C3';
+					document.getElementById("PGNTypeSource").selectedIndex = 0;
+				}
+				else
+				{
+					document.getElementById("GPSSource").options[parseInt(myEventSource,16) + 1].disabled = false;
+					document.getElementById("GPSSource").options[parseInt(myEventSource,16) + 1].style.color = '#0D27C3';
+					document.getElementById("PGNTypeSource").selectedIndex = parseInt(myEventSource,16) + 1;
+				}					
+			
+			
+			// initializes the drop down menu
+			document.getElementById("SearchTick").selectedIndex = 5;
+	    		for(i=0; i< document.getElementById("SearchTick").options.length; i++)
+	    		{
+	    			mySearchTick = document.getElementById("SearchTick").options[i].value;
+		    		if(mySearchTick == ResSecsDB)
+		    			document.getElementById("SearchTick").selectedIndex = i;
+		    	}
+			
+  
+ var StartEpoch = new Date(StartEpochDB );
+ var EndEpoch = new Date(EndEpochDB );
+ //var ResolutionSecs = new Date(ResSecsDB);
+
+    
+     $("#datepickerstart").datetimepicker('setDate', StartEpoch );
+       
+     $("#datepickerend").datetimepicker('setDate', EndEpoch );
+	 
+	 document.getElementById("Span").selectedIndex=0;
+	 
+	// ResetFilterPGNList();
+
+ UpdateSeriesList();
+ 
+  //GetSeriesAttributes(myprefdeviceid);
+       
+  //   $("#timeresolution").timepicker('setDate', ResolutionSecs );
+
+
+}
+
+ function handleAddNewPref(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+    
+    document.getElementById("AddPreferenceName").value = "";   
+
+}
+
+function handleModifyPref(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+
+}
+
+
+function handleDeletePref(response)
+ {
+ var index=0;
+ 
+ 	//nextConfigOption = document.getElementById("XMLFilesSelect").options.length -2;
+
+ 
+ 
+   	$.unblockUI();
+   	
+   	//InitalizePageDials();
+   	
+	ConfigOptions = 0;
+	getDeviceParamList(myuserid);
+
+}
+
+ function handleDownload(response)
+ {
+ 	$.unblockUI();
+ }
+
+ function handleData(response)
+ {
+   // var mylat = new Array();
+   // var mylng = new Array();
+   var index=0;
+   var mysqlstring = new Array();
+   var mytime;
+    var myNGTDate = new Date(0);
+    var myJSONdata;
+	
+	var myMapOptions=0;
+	var myMapType=0;
+	
+	var myUnits=255;
+	
+	myMapOptions = PageLayout & 0x0F;
+	myMapType = (PageLayout & 0xF0) >> 4;
+
+	gn2ktime.length = 0;
+	glat.length = 0;
+	glng.length = 0;
+	
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+	
+	$.unblockUI();
+	
+	//if(ShowHideSensorsflag == true)
+    //{
+	//	document.forms['N2KData']['N2KText'].value = "Index | Time Stamp                    | Latitude    | Longitude    | Speed      | Distance      | Overlay  \r\n"
+	//}
+	//else{
+	//	document.forms['N2KData']['N2KText'].value = "Index | Time Stamp                    | Latitude    | Longitude    | Speed      | Distance      \r\n"
+	//}
+  
+   if(response.status == "error")
+   {
+      document.getElementById("SearchStatus").value = "No data from search";
+      return;
+      
+     }
+            
+	// delete all the rows		
+	var table = document.getElementById("ReportData");
+ 
+    var rowCount = table.rows.length;
+	   
+	while(table.rows.length > 1) {
+		table.deleteRow(1);
+	}	
+
+		
+	
+	var TotalDistance=0.0
+	
+	document.getElementById("TableOverlayLabel").innerHTML = document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].text
+	
+   // alert(response);
+   //  console.log(response);
+   response.results.forEach(function(myJSONdata){
+   
+			TotalDistance = TotalDistance + parseFloat(myJSONdata.distance);
+   
+             var row = table.insertRow(1);
+		   //   myPolyDataValues[index][16] =  parseFloat(row[3])
+		    if((myJSONdata.lat != null) && (myJSONdata.lng != null))
+            {
+            //mytime = ((parseInt(row[1]) * 86400) + parseInt(row[2]))  +  1262304000;
+            mytime = parseInt(myJSONdata.epoch);
+
+
+            //mytime = mytime + (mytimeZoneOffset * 60);
+
+            mytime = mytime * 1000;
+
+            myNGTDate.setTime(mytime );
+			
+			gn2kepoch[index] = parseInt(myJSONdata.epoch);
+
+            gn2ktime[index] = myNGTDate.toUTCString();
+			//gn2ktime[index] = myNGTDate.toString();
+			
+			gspeed[index] = parseFloat(myJSONdata.speed).toFixed(2);
+			gdistance[index] = parseFloat(myJSONdata.distance).toFixed(4);
+
+			if(myMapOptions == 3)
+			{
+				glat[index] = parseFloat(myJSONdata.lat).toFixed(8);
+				glng[index] = parseFloat(myJSONdata.lng).toFixed(8);
+				try{
+					//myoverlay[index] = parseFloat(myJSONdata.overlay).toFixed(2);
+					myUnits = document.getElementById("DialUnits").selectedIndex;
+					myoverlay[index] = ConvertValueUnits(parseFloat(myJSONdata.overlay), myUnits).toFixed(2);
+				}
+				catch(err)
+				{
+					myoverlay[index] ="";
+				}
+				myPolyDataValues[index][7] =  myoverlay[index];
+				//mycog[index] = parseFloat(myJSONdata.value4).toFixed(2);
+				mysource[index] = 0;
+/*
+				document.forms['N2KData']['N2KText'].value += spad(index, 6)  + "|  " 
+					+ myNGTDate.toUTCString() + "|  " 
+					+ spad(parseFloat(myJSONdata.lat).toFixed(8),10)  + "|  " 
+					+ spad(parseFloat(myJSONdata.lng).toFixed(8),10) +  "|  " 
+					+ spad(parseFloat(myJSONdata.speed).toFixed(4),10)  + "|  " 
+					+ spad(parseFloat(myJSONdata.distance).toFixed(2),10) +  "|  "
+					+ spad(parseFloat(myJSONdata.overlay).toFixed(2),10) 
+					+ "\r\n";
+					*/
+					
+				row.style.color = "#053B72";
+				var cell0 = row.insertCell(0);
+				//cell0.innerHTML = mydate.toString().replace(/GMT.*/g, "");
+				cell0.innerHTML = myNGTDate.toUTCString();
+				
+				 var cell1 = row.insertCell(1);
+				  cell1.innerHTML = myJSONdata.source;
+				  cell1.style.textAlign = 'left';
+				  
+				  var cell2 = row.insertCell(2);
+				  cell2.innerHTML = parseFloat(myJSONdata.lat).toFixed(7);
+				  cell2.style.textAlign = 'left';
+				  
+				  var cell3 = row.insertCell(3);
+				  cell3.innerHTML = parseFloat(myJSONdata.lng).toFixed(7);
+				  cell3.style.textAlign = 'left';
+				  
+				  var cell4 = row.insertCell(4);
+				  cell4.innerHTML = parseFloat(myJSONdata.speed).toFixed(2);
+				  cell4.style.textAlign = 'left';
+				  
+				  var cell5 = row.insertCell(5);
+				  cell5.innerHTML = parseFloat(myJSONdata.distance).toFixed(2);
+				  cell5.style.textAlign = 'left';
+				  
+				  var cell6 = row.insertCell(6);
+				  cell6.innerHTML = parseFloat(TotalDistance).toFixed(2);
+				  cell6.style.textAlign = 'left';
+				  
+						  
+				  var cell7 = row.insertCell(7);
+				  cell7.innerHTML = myoverlay[index];
+				  cell7.style.textAlign = 'left';
+				  
+				  index++;
+			}
+			else
+			{
+				glat[index] = parseFloat(myJSONdata.lat).toFixed(8);
+				glng[index] = parseFloat(myJSONdata.lng).toFixed(8);
+				myoverlay[index] = "";
+				//mycog[index] = parseFloat(myJSONdata.value4).toFixed(2);
+				mysource[index++] = 0;
+/*
+				document.forms['N2KData']['N2KText'].value += spad(index, 6)  + "|  " 
+					+ myNGTDate.toUTCString() + "|  " 
+					+ spad(parseFloat(myJSONdata.lat).toFixed(8),10)  + "|  " 
+					+ spad(parseFloat(myJSONdata.lng).toFixed(8),10)  + "|  " 
+					+ spad(parseFloat(myJSONdata.speed).toFixed(4),10)  + "|  " 
+					+ spad(parseFloat(myJSONdata.distance).toFixed(2),10)  
+					+   "\r\n";
+					
+					*/
+					
+				row.style.color = "#053B72";
+				var cell0 = row.insertCell(0);
+				//cell0.innerHTML = mydate.toString().replace(/GMT.*/g, "");
+				cell0.innerHTML = myNGTDate.toUTCString();
+				
+				 var cell1 = row.insertCell(1);
+				  cell1.innerHTML = myJSONdata.source;
+				  cell1.style.textAlign = 'left';
+				  
+				  var cell2 = row.insertCell(2);
+				  cell2.innerHTML = parseFloat(myJSONdata.lat).toFixed(7);
+				  cell2.style.textAlign = 'left';
+				  
+				  var cell3 = row.insertCell(3);
+				  cell3.innerHTML = parseFloat(myJSONdata.lng).toFixed(7);
+				  cell3.style.textAlign = 'left';
+				  
+				  var cell4 = row.insertCell(4);
+				  cell4.innerHTML = parseFloat(myJSONdata.speed).toFixed(2);
+				  cell4.style.textAlign = 'left';
+				  
+				  var cell5 = row.insertCell(5);
+				  cell5.innerHTML = parseFloat(myJSONdata.distance).toFixed(2);
+				  cell5.style.textAlign = 'left';
+				  
+				  var cell6 = row.insertCell(6);
+				  cell6.innerHTML = parseFloat(TotalDistance).toFixed(2);
+				  cell6.style.textAlign = 'left';	
+	
+				
+				
+			}     
+
+        }
+
+
+    });
+
+
+    document.getElementById("SearchStatus").value = "Results = " + index;
+
+    DrawMapData();
+
+}
+
+
+function DrawMapData() {
+
+            // var mylat = new Array();
+            //  var mylng = new Array();
+	var numOfpoints=0;
+	   var name;
+   var lat;
+   var lon;
+   var locations;
+   var myIndex;
+   var scaledData=0;
+   var labelString;
+   var i;
+   
+   var showhide;
+	var path;
+	
+	var myMapOptions=0;
+	var myMapType=0;
+	
+	myMapOptions = PageLayout & 0x0F;
+	myMapType = (PageLayout & 0xF0) >> 4;
+	
+	var myMin = document.getElementById("DialMin").value;  
+	var myMax = document.getElementById("DialMax").value;  
+	var myOverlayscale = 1.0;
+	var SegmentIndex = 0;
+	var oldn2kepoch = 0;
+	var newn2kepoch=0;
+	var oldspeed = 0;
+	var newspeed=0;
+	var segmentTotal=0;
+	var segmentPoints=0;
+	
+	var  myStartTimeStr = document.getElementById("datepickerstart").value;
+
+    
+	var StartEpoch = new Date(myStartTimeStr + " GMT" );
+	StartEpoch = StartEpoch .getTime();
+	
+	StartEpoch = StartEpoch/1000;
+	var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+	StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+	
+	//var segmentStartTime =   gn2ktime[0];
+	var segmentStartTime =   gn2ktime[0];
+	var segmentEndTime = "";
+	
+	//var segmentStartEpoch =   gn2kepoch[0];
+	var segmentStartEpoch =   gn2kepoch[0];
+	var segmentEndEpoch = 0;
+	var tripEpoch=0;
+	
+	var GPSIdle = parseInt(document.getElementById("GPSIdle").options[document.getElementById("GPSIdle").selectedIndex].value);
+	//var GPSMinSpeed = (parseInt(document.getElementById("minSpeed").options[document.getElementById("minSpeed").selectedIndex].value))/1000;
+	var GPSMaxInterval = parseInt(document.getElementById("MaxInterval").options[document.getElementById("MaxInterval").selectedIndex].value);
+	var GPSMinDistance = parseInt(document.getElementById("minDistance").options[document.getElementById("minDistance").selectedIndex].value)/100000;
+	
+	
+	var segtable = document.getElementById("SegmentData");
+		// delete all the rows		
+ 
+	//gsegmentenabled=[];
+   // var segrowCount = segtable.rows.length;
+	   
+	while(segtable.rows.length > 1) {
+		segtable.deleteRow(1);
+	}
+	
+            var NGTDate = new Date(0);
+            vGN2KTime = NGTDate.toUTCString();
+
+			var myMarker = document.getElementById("MapOptions").selectedIndex;
+			//var GeoMarker = new GeolocationMarker(map);
+
+            if(myMapType == 4)
+            {
+            map.overlayMapTypes.push(SLPLayer);
+            }
+
+
+            var contentString = '<font size="1"> ' +
+                      '<p>TIME: ' + vGN2KTime + '</p>' +
+                      '<p>' + myDataLabels[0] + myDataValues[0] + '</p>'+
+                      '<p>' + myDataLabels[1] + myDataValues[1] + '</p>'+
+                      '<p>' + myDataLabels[2] + myDataValues[2] + '</p>'+
+                      '<p>' + myDataLabels[3] + myDataValues[3] + '</p>'+
+
+                    '</font>';
+
+ 
+
+   myinfoWindow.setContent(contentString);
+
+   marker = new google.maps.Marker({    position: gLatLng,   map: map,  title:"SeaSmart"});
+
+   polyOptions = {
+   strokeColor: '#000000',
+   strokeOpacity: 1.0,
+   strokeWeight: 3,
+   visible:true
+   }
+   poly = new google.maps.Polyline(polyOptions);
+   poly.setMap(map);
+
+
+   google.maps.event.addListener(marker, 'click', function() { myinfoWindow.open(map,marker); });
+
+   // To add the marker to the map, call setMap();
+	//myLatlng = GeoMarker.getPosition();
+
+   myLatlng = new google.maps.LatLng(glat[0], glng[0]);
+   myOldLatlng = myLatlng;
+
+   map.setCenter(myLatlng);
+
+   marker.setPosition(myLatlng);
+
+   var mypolyOptions = {
+   strokeColor: '#000000',
+   strokeOpacity: 1.0,
+   strokeWeight: 5,
+   visible:true
+   }
+
+ document.getElementById("SearchStatus").value = "Loading results";
+
+ 	var TotalDistance=0.0
+	
+	for (var i = 0; i < markers.length; i++ ) {
+    markers[i].setMap(null);
+	}
+ 	 markers.length = 0;
+	markers = [];
+		
+	//setAllMap(null);
+	numOfpoints = glat.length-1;	  
+		  
+   for(i=0; i < glat.length-1; i++)
+    {
+	
+		
+    	//if( (gn2kepoch[i] - gn2kepoch[i-1]) < GPSMaxInterval*60);
+		//if((typeof newpoly[i] === 'undefined') || newpoly[i].visible == true)
+		if((typeof newpoly[i] === 'undefined') || newpoly[i].Show != false)
+		{
+    
+        myLatlng = new google.maps.LatLng(glat[i], glng[i]);
+        
+		TotalDistance = TotalDistance + parseFloat(gdistance[i]);
+		labelString = gn2ktime[i] + "\n" + "speed: " + parseFloat(gspeed[i]).toFixed(2) + "\n" + "segment distance: " + parseFloat(gdistance[i]).toFixed(2) + "\n" + "total distance: " + parseFloat(TotalDistance).toFixed(2);
+
+	
+		
+		if(myMapOptions == 1 || myMapOptions == 2)
+		{
+		
+			myIcon = Math.floor(i * (128/numOfpoints))
+			if(myMapOptions == 2)
+				myIcon = Math.floor(gspeed[i] * 4)
+		
+			 marker = new google.maps.Marker({
+				position: myLatlng,
+				labelContent:contentString,
+				//labelContent: gn2ktime[i] + "/r/n" + "speed: " + gspeed[i] + "/r/n" + "distance: " + gdistance[i],
+				title: labelString,
+				//title: "point: " + i + " " + gn2ktime[i],
+				icon: myPins[myIcon],
+				map: map
+			  });
+			  
+			//   google.maps.event.addListener(marker, 'click', function() { myinfoWindow.open(map,marker); });
+			   
+			  markers.push(marker);
+			  marker.setPosition(myLatlng);
+		}
+		
+		
+       
+        myPolyDataValues[i] = new Array(17);
+        
+
+              myPolyDataValues[i][0] = glat[i] ;
+              myPolyDataValues[i][1] = glng[i] ;
+			  myPolyDataValues[i][2] = parseFloat(gspeed[i]).toFixed(2) ;
+              myPolyDataValues[i][3] = parseFloat(gdistance[i]).toFixed(2) ;
+			  myPolyDataValues[i][4] = parseFloat(TotalDistance).toFixed(2);
+			  myPolyDataValues[i][5] = "";
+			  myPolyDataValues[i][6] = "";
+              myPolyDataValues[i][7] = parseFloat(myoverlay[i]).toFixed(2) ;
+             // myPolyDataValues[i][3] =mycog[i] ;
+
+
+           for( myIndex = 8; myIndex < 16; myIndex++)
+	         {
+                myPolyDataValues[i][myIndex] = "---" ;
+           }
+   
+      myPolyDataLabels[i] = new Array(17);
+      
+           myPolyDataLabels[i][0] ="Lat = " ;
+           myPolyDataLabels[i][1] ="Lng = " ;
+		   myPolyDataLabels[i][2] ="Speed = " ;
+           myPolyDataLabels[i][3] ="Delta = " ;
+		   myPolyDataLabels[i][4] ="Total = " ;
+		   myPolyDataLabels[i][5] ="Segment = " ;
+		   myPolyDataLabels[i][6] ="Trip = " ;
+           myPolyDataLabels[i][7] = "  " + document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].text + " = ";
+             
+
+             
+             
+
+           for( myIndex = 8; myIndex < 16; myIndex++)
+	         {
+                myPolyDataLabels[i][myIndex] ="---" ;
+           }
+       
+      
+          myPolyDataValues[i][16] = gn2ktime[i] + '  Record: ' + i;
+         myPolyDataLabels[i][16] = "TIME: " ;
+         
+             // create plot color based on value
+           if(myMapOptions == 3)
+		   {
+		   
+				if( isNaN(parseFloat(myMin)) || isNaN(parseFloat(myMax)))
+				{
+					scaledData = parseInt(((parseFloat(myoverlay[i])/100)*SystemClockPGNID));
+				}
+				else
+				{
+					try{
+						myMin = parseFloat(myMin);
+						myMax = parseFloat(myMax);
+						myOverlayscale = parseFloat(128/(myMax-myMin));
+						scaledData = parseFloat(myoverlay[i]) - myMin;
+						scaledData = scaledData * myOverlayscale;
+						scaledData = parseInt(((parseFloat(scaledData))));
+						
+					}
+					catch(err)
+					{
+						//myOverlayscale = 1.0;
+						scaledData = parseInt(((parseFloat(myoverlay[i])/100)*SystemClockPGNID));
+						
+					}
+				}
+		   
+               
+				
+			}
+			 // create plot color based segment index
+           else if(myMapOptions == 4 || myMapOptions == 5 || myMapOptions == 6)
+		   {
+		     // newspeed =  myPolyDataValues[i][2];
+			   newspeed =  parseFloat(gspeed[i]) ;
+			  
+			  
+			  //if(newspeed < 5.5)
+			  //if(newspeed < parseFloat(GPSMinSpeed).toFixed(3) )
+			  //if(newspeed > parseFloat(GPSMinSpeed) )
+			  {
+					newn2kepoch = gn2kepoch[i];
+					//
+					/*
+					if((newn2kepoch - oldn2kepoch) < GPSIdle*60)
+					{
+						if(i>0)
+						tripEpoch = tripEpoch + (gn2kepoch[i] - gn2kepoch[i-1]);
+					}
+					*/
+					//if(((newn2kepoch - oldn2kepoch) > GPSIdle*60) && (newspeed > parseFloat(GPSMinSpeed)))
+					//if(((newn2kepoch - StartEpoch) > GPSIdle*60) && (newspeed > parseFloat(GPSMinSpeed)))
+					//if(((newn2kepoch - StartEpoch) > GPSIdle*60) && (parseFloat(gdistance[i]) > parseFloat(GPSMinDistance)))
+					//if(((newn2kepoch - StartEpoch) > GPSIdle*60) )
+					if((myMapOptions == 4 &&((newn2kepoch - StartEpoch) > GPSIdle*60))   || (myMapOptions == 5 &&((newn2kepoch - StartEpoch) > GPSIdle*60) && (parseFloat(gdistance[i]) > parseFloat(GPSMinDistance))))
+					
+					//if((gn2kepoch[i] - gn2kepoch[i-1]) > GPSIdle*60)
+					{
+					//if(((newn2kepoch - oldn2kepoch) > GPSIdle*60) && tripEpoch !=0)
+					if( tripEpoch !=0)
+					{
+							var row = segtable.insertRow(1);
+							
+							//row.style.color = mySegmentColors[SegmentIndex];
+							
+							var cell0 = row.insertCell(0);
+							cell0.innerHTML = SegmentIndex;
+							cell0.style.textAlign = 'left';
+							cell0.style.color = mySegmentColors[SegmentIndex];
+							cell0.style.backgroundColor = mySegmentColors[SegmentIndex];
+							
+							var cell1 = row.insertCell(1);
+							cell1.innerHTML = SegmentIndex;
+							cell1.style.textAlign = 'left';
+							
+							
+							var cell2 = row.insertCell(2);
+							cell2.innerHTML = segmentStartTime;
+							cell2.style.textAlign = 'left';
+							
+							var cell3 = row.insertCell(3);
+							if(myMapOptions == 4)
+							{
+								NGTDate = new Date((StartEpoch+(GPSIdle*60))*1000);
+								cell3.innerHTML = NGTDate.toUTCString();
+							}
+							else							
+								cell3.innerHTML = gn2ktime[i-1];
+								
+							cell3.style.textAlign = 'left';
+					
+							//tripEpoch = gn2kepoch[i] - segmentStartEpoch;
+					        var date = new Date(tripEpoch*1000);
+							
+							var str = '';
+							str += zpad((date.getUTCDate()-1),2) + ":";
+							str += zpad((date.getUTCHours()),2) + ":";
+							str += zpad((date.getUTCMinutes()),2);
+					
+							var cell4 = row.insertCell(4);
+							cell4.innerHTML = str;
+							cell4.style.textAlign = 'left';
+							
+							var cell5 = row.insertCell(5);
+							cell5.innerHTML = parseFloat(segmentTotal).toFixed(2) ;;
+							cell5.style.textAlign = 'left';
+							
+							var cell6 = row.insertCell(6);
+							cell6.innerHTML = parseInt(segmentPoints);;
+							cell6.style.textAlign = 'left';
+							
+							var cell7 = row.insertCell(7);
+							
+							if(typeof gsegmentenabled[SegmentIndex] === 'undefined')
+							{
+							
+								cell7.innerHTML = '<input type="checkbox" name="SegmentEnable[]" value=' + SegmentIndex + ' checked="checked" onchange="EnableSegment(this)">';
+								gsegmentenabled[SegmentIndex] = true;
+							}
+							
+							else
+							{
+								if(gsegmentenabled[SegmentIndex] == true)
+								cell7.innerHTML = '<input type="checkbox" name="SegmentEnable[]" value=' + SegmentIndex + ' checked="checked" onchange="EnableSegment(this)">';
+								else
+								cell7.innerHTML = '<input type="checkbox" name="SegmentEnable[]" value=' + SegmentIndex + ' onchange="EnableSegment(this)">';
+							}
+							cell7.style.textAlign = 'left';
+					
+							SegmentIndex++;
+							scaledData = SegmentIndex;
+							segmentTotal = 0;
+							segmentPoints = 0;
+							tripEpoch=0;
+							segmentStartTime = gn2ktime[i] ;
+							segmentStartEpoch = 0;
+							
+							oldn2kepoch = gn2kepoch[i];
+							//oldn2kepoch =oldn2kepoch + GPSIdle*60;
+							//myMapOptions == 4
+							StartEpoch = StartEpoch+ GPSIdle*60;
+							if(myMapOptions == 5)
+							{
+								
+								    while(StartEpoch < oldn2kepoch)
+									StartEpoch = StartEpoch+ GPSIdle*60;
+									
+									
+							}
+							
+					}
+					}
+			  }
+			  //else
+			
+					if(tripEpoch == 0)
+					{
+						if(myMapOptions == 4)
+						{
+							//segmentStartTime =StartEpoch ;
+							    NGTDate = new Date(StartEpoch*1000);
+								 //  NGTDate.setTime(StartEpoch*1000 );
+							segmentStartTime = NGTDate.toUTCString();
+			
+			
+							}
+						else
+							segmentStartTime = gn2ktime[i] ;
+							
+							
+						tripEpoch =1;
+					}
+					else
+					{
+						if(i>0)
+						{
+							//if(parseFloat(gdistance[i]) >parseFloat(GPSMinDistance))
+							if(myMapOptions == 4)
+							{
+								if(parseFloat(gdistance[i]) > parseFloat(GPSMinDistance))
+									tripEpoch = tripEpoch + (gn2kepoch[i+1] - gn2kepoch[i]);
+							}
+							else
+							{
+							if(parseFloat(gdistance[i]) > 0.0075)
+							tripEpoch = tripEpoch + (gn2kepoch[i+1] - gn2kepoch[i]);
+							}
+						}
+						
+						newn2kepoch = gn2kepoch[i];
+						//oldn2kepoch = gn2kepoch[i];
+						//if(parseFloat(gdistance[i]) > parseFloat(GPSMinDistance))
+						if(myMapOptions == 4)
+						{
+							if(parseFloat(gdistance[i]) >  parseFloat(GPSMinDistance))
+								segmentTotal = parseFloat(segmentTotal) + parseFloat(gdistance[i]) ;
+						}
+						else
+						{
+							if(parseFloat(gdistance[i]) > 0.005)
+								segmentTotal = parseFloat(segmentTotal) + parseFloat(gdistance[i]) ;
+						}
+				  
+						myPolyDataValues[i][5] = SegmentIndex;
+						myPolyDataValues[i][6] = segmentTotal.toFixed(2); 
+						segmentPoints++;					
+					}
+			}
+           else
+                scaledData = 128;
+           
+             
+          if(scaledData >= 128)
+          scaledData = 127;
+          
+		 if(myMapOptions == 4 || myMapOptions == 5 || myMapOptions == 6)
+		 {
+			mypolyOptions.strokeColor =  mySegmentColors[scaledData];
+			mypolyOptions.visible =  gsegmentenabled[SegmentIndex];
+		  }
+		  else
+		  {
+		  mypolyOptions.strokeColor =  myStrokeColors[scaledData];
+		  }
+		  
+     
+         newpoly[i] = new google.maps.Polyline(mypolyOptions);
+         newpoly[i].set('myIndex', i); 
+       
+       
+        google.maps.event.addListener(newpoly[i], 'click', function(e) { 
+                      var dindex = this.get('myIndex'); 
+                                  //  alert('you clicked polyline' + dindex);  
+                                    ShowPolyLineData(dindex);
+                                   });
+								   
+		google.maps.event.addListener(newpoly[i], 'dblclick', function(e) { 
+                      var dindex = this.get('myIndex'); 
+                                  //  alert('you clicked polyline' + dindex);  
+                                    HidePolyLine(dindex);
+                                   });
+                                   
+                      newspeed =  parseFloat(gspeed[i]).toFixed(3) ;
+			  
+			  
+			  //if(newspeed < 5.5)
+		//if(parseFloat(gspeed[i]) >= parseFloat(GPSMinSpeed) )  
+		{		
+		
+		if(i == 0)
+		{
+				//myLatlng = new google.maps.LatLng(glat[i], glng[i]);
+				path = newpoly[i].setPath(myLatlng)
+		}
+		else
+		{
+				path = newpoly[i].getPath();
+		 }
+
+         // Because path is an MVCArray, we can simply append a new coordinate
+        // and it will automatically appear
+	            // if((myOldLatlng !== null) && (typeof(myOldLatlng) !== undefined))	
+			 if((path !== null) && (path !== undefined) && (typeof(path) !== undefined))
+			 {
+					polyLineCount = path.push(myOldLatlng);
+             
+					if((myLatlng !== null)  && (typeof(myLatlng) !== undefined))
+					{
+						polyLineCount = path.push(myLatlng);
+						newpoly[i].setMap(map); 
+                                 
+						marker.setPosition(myLatlng);
+                                  
+						myOldLatlng = myLatlng;
+					}
+			 }
+       }
+	   
+     } //If polyline undefined create one //if((typeof newpoly[i] === 'undefined') || newpoly[i].Show != false)
+	 
+	 else
+	 {
+		
+		showhide  = newpoly[i].visible;
+		if(showhide == false)
+		 showhide=false;
+		 
+
+	 }
+	 
+      
+     } //end of loop -> for(i=0; i < glat.length-1; i++)
+	 
+		if(myMapOptions == 4 || myMapOptions == 5 || myMapOptions == 6)
+		{
+	 
+	 							var row = segtable.insertRow(1);
+							
+							//row.style.color = mySegmentColors[SegmentIndex];
+							
+							var cell0 = row.insertCell(0);
+							cell0.innerHTML = SegmentIndex;
+							cell0.style.textAlign = 'left';
+							cell0.style.color = mySegmentColors[SegmentIndex];
+							cell0.style.backgroundColor = mySegmentColors[SegmentIndex];
+							
+							var cell1 = row.insertCell(1);
+							cell1.innerHTML = SegmentIndex;
+							cell1.style.textAlign = 'left';
+							
+							
+							var cell2 = row.insertCell(2);
+							cell2.innerHTML = segmentStartTime;
+							cell2.style.textAlign = 'left';
+							
+							var cell3 = row.insertCell(3);
+							if(myMapOptions == 4)
+							{
+								NGTDate = new Date((StartEpoch+(GPSIdle*60))*1000);
+								cell3.innerHTML = NGTDate.toUTCString();
+							}
+							else							
+								cell3.innerHTML = gn2ktime[i-1];
+								
+							cell3.style.textAlign = 'left';
+					
+							//tripEpoch = gn2kepoch[i] - segmentStartEpoch;
+					        var date = new Date(tripEpoch*1000);
+							
+							var str = '';
+							str += zpad((date.getUTCDate()-1),2) + ":";
+							str += zpad((date.getUTCHours()),2) + ":";
+							str += zpad((date.getUTCMinutes()),2);
+					
+							var cell4 = row.insertCell(4);
+							cell4.innerHTML = str;
+							cell4.style.textAlign = 'left';
+							
+							var cell5 = row.insertCell(5);
+							cell5.innerHTML = parseFloat(segmentTotal).toFixed(2) ;;
+							cell5.style.textAlign = 'left';
+							
+							var cell6 = row.insertCell(6);
+							cell6.innerHTML = parseInt(segmentPoints);;
+							cell6.style.textAlign = 'left';
+							
+							var cell7 = row.insertCell(7);
+							if(typeof gsegmentenabled[SegmentIndex] === 'undefined')
+							{
+							
+								cell7.innerHTML = '<input type="checkbox" name="SegmentEnable[]" value=' + SegmentIndex + ' checked="checked" onchange="EnableSegment(this)">';
+								gsegmentenabled[SegmentIndex] = true;
+							}
+							
+							else
+							{
+								if(gsegmentenabled[SegmentIndex] == true)
+								cell7.innerHTML = '<input type="checkbox" name="SegmentEnable[]" value=' + SegmentIndex + ' checked="checked" onchange="EnableSegment(this)">';
+								else
+								cell7.innerHTML = '<input type="checkbox" name="SegmentEnable[]" value=' + SegmentIndex + ' onchange="EnableSegment(this)">';
+							}
+							cell7.style.textAlign = 'left';
+							
+		}
+	 
+	 for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(map)
+	 }
+
+	document.getElementById("SearchStatus").value = "Results = " + glat.length;
+
+
+ }
+     
+function SearchDBbyURL(searchtype)
+{
+  
+ var myStartTimeStr;
+ var myEndTimeStr;
+ var myStartDays;
+ var myStartSecs;
+ var myEndDays;
+ var myEndSecs;
+ var mySubStrings = new Array();
+
+ var myResolutionStr;
+ 
+  var DeviceIDField;
+ var DeviceID;
+ var SourceID;
+var DialPGNNumber = new Array();
+
+	var myMapOptions=0;
+	var myMapType=0;
+	
+	myMapOptions = PageLayout & 0x0F;
+	myMapType = (PageLayout & 0xF0) >> 4;
+	
+	gsegmentenabled=[];
+		newpoly=[];
+
+  
+  myStartTimeStr = document.getElementById("datepickerstart").value;
+  myEndTimeStr = document.getElementById("datepickerend").value;
+  //myResolutionSecStr = document.getElementById("timeresolution").value;
+  
+    DeviceIDField= document.getElementById("DeviceID").value;
+	mySubStrings = DeviceIDField.split(":");
+	
+	if(mySubStrings.length == 2)
+	{
+		DeviceID = mySubStrings[0];
+		SourceID= mySubStrings[1];
+	}
+	else
+	{
+		DeviceID = DeviceIDField;
+		SourceID= "";
+
+	}
+
+    
+var StartEpoch = new Date(myStartTimeStr + " GMT" );
+	StartEpoch = StartEpoch .getTime();
+
+var EndEpoch = new Date(myEndTimeStr + " GMT" );
+	EndEpoch = EndEpoch .getTime();
+
+//var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+        
+        
+	//ResolutionSecs = ResolutionSecs.getTime();
+	
+	//ResolutionSecs = ResolutionSecs / 1000;
+  var ResolutionSecs = document.getElementById("SearchTick").value;	
+	if(	ResolutionSecs < 1)
+		ResolutionSecs = 1; 
+	
+
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  //StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+  //EndEpoch = EndEpoch -  1262304000;	
+
+    GPSSource =document.getElementById("GPSSource").options[document.getElementById("GPSSource").selectedIndex].value;
+    
+    if(GPSSource == "none")
+    {
+    
+      document.getElementById("SearchStatus").value = "No GPS Device available";
+      url = "";
+      return;
+    }
+
+    
+    
+    SourceID= GPSSource.toString(16);
+  
+
+   // DialPGNNumber[0] = "deviceid:001EC0101CB4.sensor:position_rapid.source:02.instance:0.type:NULL.parameter:lat.HelmSmart";
+   // DialPGNNumber[1] = "deviceid:001EC0101CB4.sensor:position_rapid.source:02.instance:0.type:NULL.parameter:lng.HelmSmart";
+   // DialPGNNumber[2] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:speed_over_ground.HelmSmart";
+    //DialPGNNumber[3] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:course_over_ground.HelmSmart";
+    if(myMapOptions == 3)
+	{
+		//	 var myEventIndex = document.getElementById("ReportsID").selectedIndex;
+		// var myEventType = myEventTag[0];
+		 
+		 var myEventIndex = document.getElementById("PGNTypeID").selectedIndex;
+		 var myEventType = document.getElementById("PGNTypeID").options[myEventIndex].value;
+		 
+		 if(myEventIndex == 0)
+		 {
+			 alert('No Event selected');
+			 return;
+		 
+		 }
+	
+		var mysource = document.getElementById("PGNTypeSource").options[document.getElementById("PGNTypeSource").selectedIndex].value;
+	
+		var mySeriesKey =  makePGNfromEvent(myEventType, mysource);
+	
+
+		url = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
+		url =  url + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+		url =  url + "&serieskey1=" + "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
+		url =  url + "&serieskey2=" + "deviceid:" + DeviceID + "." + mySeriesKey; 
+		url =  url + "&format=json"  ;
+		url =  url + "&max=" + document.getElementById("GPSLimit").options[document.getElementById("GPSLimit").selectedIndex].value; 
+		url =  url + "&fix=" + document.getElementById("GPSFix").selectedIndex; 
+
+	}
+	else
+	{
+		url = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
+		url =  url + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+		url =  url + "&serieskey1=" + "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
+		url =  url + "&format=json"  ;
+		url =  url + "&max=" + document.getElementById("GPSLimit").options[document.getElementById("GPSLimit").selectedIndex].value; 
+		url =  url + "&maxinterval=" + document.getElementById("MaxInterval").options[document.getElementById("MaxInterval").selectedIndex].value; 
+		url =  url + "&fix=" + document.getElementById("GPSFix").selectedIndex; 
+	}
+
+    document.getElementById("SearchStatus").value = "Starting Search";
+
+
+
+}
+</script>  
+
+ <script> 
+ 
+ $(function() { $( "#datepickerstart" ).datetimepicker({ 
+ minDate: new Date(2010, 1 - 1, 1), 
+ timeFormat: "HH:mm:ss", 
+ showTimezone: true, 
+ defaultTimezone: '-0800',
+ onClose: function(startdate){
+ 
+  var testEndDate = datepickerend.datetimepicker('getDate');
+  var testStartDate = datepickerstart.datetimepicker('getDate');
+  
+  if(testEndDate < testStartDate)
+      alert('End date can not be before Start date');
+  else
+    UpdateSeriesList();
+ 
+ },
+ defaultDate: new Date() - (24*60*60*1000), 
+    hour:9,
+  	minute:0,
+  	second:0,
+  	millisec:0
+    }); //  }).datetimepicker("setDate", new Date()); 
+
+ });  
+ 
+ datepickerend = $( "#datepickerend" );
+ datepickerstart = $( "#datepickerstart" );
+  
+  $(function() { $( "#datepickerend" ).datetimepicker({ 
+  minDate: new Date(2010, 1 - 1, 1), 
+  timeFormat: "HH:mm:ss",
+  showTimezone: true,  
+  defaultTimezone: '-0800',
+  onClose: function(enddate){
+ 
+  var testEndDate = datepickerend.datetimepicker('getDate');
+  var testStartDate = datepickerstart.datetimepicker('getDate');
+  
+  if(testEndDate < testStartDate)
+      alert('End date can not be before Start date');
+  else
+    UpdateSeriesList();
+ 
+  },
+  defaultDate: new Date(), 
+    hour:18,
+  	minute:0,
+  	second:0,
+  	millisec:0
+	 }); 
+   
+ });  
+  
+  
+  $(function() { $( "#timeresolution" ).timepicker({ 
+  	timeFormat: "HH:mm:ss",
+  	defaultValue: "00:01:00",
+  	hour:0,
+  	minute:1,
+  	second:0,
+  	millisec:0
+	 }); 
+   
+ });
+ 
+ 
+ 	$("#datepickerstart").datetimepicker().on("change.dp", function(e) {
+    //alert('hey');
+		document.getElementById("Span").selectedIndex=0;
+		GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+	});
+	
+	
+		$("#datepickerend").datetimepicker().on("change.dp", function(e) {
+    //alert('hey');
+		document.getElementById("Span").selectedIndex=0;
+		GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+		});
+ 
+ 
+	 
+function MapData()
+{
+
+// clear out the old data arrays
+    gn2ktime.length = 0;
+	glat.length = 0;
+	glng.length = 0;
+	
+	
+ // create the search URL  
+  SearchDBbyURL("json");
+  
+    // check if we have anything to search fo
+    if(url == "")
+     return;
+	 
+       	$('.nav-tabs a[href="#tabMap"]').tab('show');     
+		
+             
+       //    $.blockUI({ message: "<h1>Search in progress...</h1>" }); 
+
+     $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+           
+              $.ajax({
+			   //async: false,
+			   cache: false,
+			   url: url,
+			   dataType: "json",
+			   timeout: 20000,
+			   statusCode: {    
+			   	404: function() {      alert( "page not found" );    }, 
+			   	200: function() {      } 
+
+			   	
+			   	 },
+			   success: function(response) {
+			   handleData(response)
+			   },
+			   complete: function() {  
+                      // unblock when remote call returns 
+                     //  document.getElementById("SearchStatus").value = "Search Complete";
+                      //  alert( "complete" );
+                $.unblockUI();   
+            	}, 
+            	error: function(request,status,errorThrown) {  
+                      // unblock when remote call returns 
+                       document.getElementById("SearchStatus").value = "Data Series Search Error";
+                       // alert( "error" );
+                        // alert( request.status );
+						
+						// alert( status );
+						
+						// alert(errorThrown );
+
+               $.unblockUI();   
+            	} 
+
+ 		  });
+
+           
+           
+}
+  
+function DownloadDB(sel) 
+{
+    
+            var myStartTimeStr;
+ var myEndTimeStr;
+ var myStartDays;
+ var myStartSecs;
+ var myEndDays;
+ var myEndSecs;
+ var mySubStrings = new Array();
+
+ var myResolutionStr;
+ 
+  var DeviceIDField;
+ var DeviceID;
+ var SourceID;
+var DialPGNNumber = new Array();
+var url;
+  
+
+             
+       //    $.blockUI({ message: "<h1>Search in progress...</h1>" }); 
+
+     $.blockUI({ 
+     message: '<h1>Download in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+
+
+  
+  myStartTimeStr = document.getElementById("datepickerstart").value;
+  myEndTimeStr = document.getElementById("datepickerend").value;
+  //myResolutionSecStr = document.getElementById("timeresolution").value;
+  
+    DeviceIDField= document.getElementById("DeviceID").value;
+	mySubStrings = DeviceIDField.split(":");
+	
+	if(mySubStrings.length == 2)
+	{
+		DeviceID = mySubStrings[0];
+		SourceID= mySubStrings[1];
+	}
+	else
+	{
+		DeviceID = DeviceIDField;
+		SourceID= "";
+
+	}
+
+    
+var StartEpoch = new Date(myStartTimeStr + " GMT" );
+	StartEpoch = StartEpoch .getTime();
+
+var EndEpoch = new Date(myEndTimeStr + " GMT" );
+	EndEpoch = EndEpoch .getTime();
+
+//var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+        
+        
+	//ResolutionSecs = ResolutionSecs.getTime();
+	
+	//ResolutionSecs = ResolutionSecs / 1000;
+  var ResolutionSecs = document.getElementById("SearchTick").value;	
+	if(	ResolutionSecs < 1)
+		ResolutionSecs = 1; 
+	
+
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  //StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+  //EndEpoch = EndEpoch -  1262304000;	
+
+    //GPSSource =document.getElementById("GPSSource").options[document.getElementById("GPSSource").selectedIndex].value;
+    GPSSource = document.getElementById("GPSSource").value;
+    if(GPSSource == "none")
+    {
+    
+      document.getElementById("SearchStatus").value = "No GPS Device available";
+      url = "";
+      return;
+    }
+
+    
+    
+    SourceID= GPSSource.toString(16);
+  
+
+   // DialPGNNumber[0] = "deviceid:001EC0101CB4.sensor:position_rapid.source:02.instance:0.type:NULL.parameter:lat.HelmSmart";
+   // DialPGNNumber[1] = "deviceid:001EC0101CB4.sensor:position_rapid.source:02.instance:0.type:NULL.parameter:lng.HelmSmart";
+   // DialPGNNumber[2] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:speed_over_ground.HelmSmart";
+    //DialPGNNumber[3] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:course_over_ground.HelmSmart";
+    
+    url = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
+    url =  url + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+    url =  url + "&serieskey1=" + "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; ;
+ // url =  url + "&serieskey2=" +  "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:lng.HelmSmart"; ;
+    if(ShowHideSensorsflag == true)
+    {
+        url =  url + "&serieskey2=" + document.getElementById("PGNNumber").options[document.getElementById("PGNNumber").selectedIndex].value ;
+    }
+    //url =  url + "&serieskey4=" + DialPGNNumber[3] ;
+    //url =  url + "&format=json"  ;
+	
+	if(sel == 1)
+	{
+		url =  url + "&format=gpx"  ;
+		window.location = url;
+		$.unblockUI();
+	}
+	else if(sel == 2)
+    	{
+		url =  url + "&format=csv"  ;
+		window.location = url;
+		$.unblockUI();
+	}
+	else if(sel == 3)
+	{
+		url =  url + "&format=jsonf"  ;
+		window.location = url;
+		$.unblockUI();
+	}	
+	
+//	document.getElementById("DownloadDB").selectedIndex = 0;
+           
+ }
+
+  
+ function getDeviceList(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',
+   css: {
+   border: 'none',
+   padding: '15px',
+   backgroundColor: '#000',
+
+   '-webkit-border-radius': '10px',
+   '-moz-border-radius': '10px',
+   opacity: .5,
+   color: '#fff'
+   } });
+
+   var devicedataurl;
+   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+
+   return $.ajax({
+   //async: false,
+   cache: false,
+   url: devicedataurl,
+   dataType: "json",
+   timeout: 20000,
+   statusCode: {
+   404: function() {      alert( "page not found" );    },
+   200: function() {      }
+   },
+   success: function(response) {
+   handleGetDeviceData(response)
+   },
+   complete: function() {
+   // unblock when remote call returns
+   // document.getElementById("SearchStatus").value = "Search Complete";
+   //   ShowGraphSmartChart(gindex);
+   //$.unblockUI();
+   },
+   error: function(request,status,errorThrown) {
+   document.getElementById("SearchStatus").value = "Device Search Error";
+   $.unblockUI();
+   }
+   });
+
+
+   }
+
+function UpdateSeriesList()
+{
+    GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+}
+
+function GetSeriesAttributes(userid)
+{
+
+
+
+   var devicedataurl;
+
+   myStartTimeStr = document.getElementById("datepickerstart").value;
+   myEndTimeStr = document.getElementById("datepickerend").value;
+
+   var StartEpoch = new Date(myStartTimeStr + " GMT" );
+   StartEpoch = StartEpoch .getTime();
+
+   var EndEpoch = new Date(myEndTimeStr + " GMT" );
+   EndEpoch = EndEpoch .getTime();
+
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+  var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+
+  if(EndEpoch < StartEpoch)
+  {
+     document.getElementById("SearchStatus").value = "End date is before Start Date";
+     return;
+  }
+  
+    $.blockUI({ 
+     message: '<h1>Series Search in progress...</h1>',
+   css: {
+   border: 'none',
+   padding: '15px',
+   backgroundColor: '#000',
+
+   '-webkit-border-radius': '10px',
+   '-moz-border-radius': '10px',
+   opacity: .5,
+   color: '#fff'
+   } });
+
+   var DeviceID = document.getElementById("DeviceID").value;
+   devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + userid + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+
+
+   return $.ajax({
+   //async: false,
+   cache: false,
+   url: devicedataurl,
+   dataType: "json",
+   timeout: 10000,
+   statusCode: {
+   404: function() {      alert( "page not found" );    },
+   200: function() {      }
+   },
+   success: function(response) {
+   handleGetSeriesAttributes(response)
+   },
+   complete: function() {
+   // unblock when remote call returns
+   // document.getElementById("SearchStatus").value = "Search Complete";
+
+   //$.unblockUI();
+   },
+   error: function(request,status,errorThrown) {
+   document.getElementById("SearchStatus").value = "Data Series List Search Error";
+   $.unblockUI();
+   }
+   });
+
+
+ }
+
+
+ function getDeviceParamList(userid)
+ {
+
+   $.blockUI({
+   message: '<h1>Search in progress...</h1>',
+   css: {
+   border: 'none',
+   padding: '15px',
+   backgroundColor: '#000',
+
+   '-webkit-border-radius': '10px',
+   '-moz-border-radius': '10px',
+   opacity: .5,
+   color: '#fff'
+   } });
+
+   var devicedataurl;
+
+
+   //endepoch =  int(time.time())
+
+        //   var StartEpoch = new Date(StartEpochDB );
+        //var EndEpoch = new Date(EndEpochDB );
+           var StartEpochms = (new Date).getTime() - 60*60*24*1000;
+        var EndEpochms = (new Date).getTime();
+
+    var StartEpoch = new Date(StartEpochms);
+       var EndEpoch = new Date(EndEpochms);
+   
+        $("#datepickerstart").datetimepicker('setDate', StartEpoch );
+       
+        $("#datepickerend").datetimepicker('setDate', EndEpoch );
+   
+// var deviceid = document.getElementById("DeviceID").value;
+  var deviceid = AccountDataFolder;
+  
+   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=3";
+   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&deviceid="+ deviceid + "&pagetype=3";
+
+   
+   
+   return $.ajax({
+   //async: false,
+   cache: false,
+   url: devicedataurl,
+   dataType: "json",
+   timeout: 10000,
+   statusCode: {
+   404: function() {      alert( "page not found" );    },
+   200: function() {      }
+   },
+   success: function(response) {
+   handleGetDevicePramNames(response)
+   },
+   complete: function() {
+   // unblock when remote call returns
+   // document.getElementById("SearchStatus").value = "Search Complete";
+   //   ShowGraphSmartChart(gindex);
+   //$.unblockUI();
+   },
+   error: function(request,status,errorThrown) {
+   document.getElementById("SearchStatus").value = "Search Error";
+   $.unblockUI();
+   }
+   });
+
+
+   }
+
+function ShowSearchTick()
+{
+
+}
+
+// Drop down menue is auto filled from DB with user preferences
+ function selectUserPref(sel)
+ {
+   ConfigOptions = parseInt(sel.selectedIndex);
+
+   getDeviceParamDetails(myuserid);
+
+ }
+
+
+// AJAX call to query DB and get selected user preferences
+ function getDeviceParamDetails(userid)
+ {
+
+   $.blockUI({
+   message: '<h1>Getting Preferences...</h1>',
+   css: {
+   border: 'none',
+   padding: '15px',
+   backgroundColor: '#000',
+
+   '-webkit-border-radius': '10px',
+   '-moz-border-radius': '10px',
+   opacity: .5,
+   color: '#fff'
+   } });
+
+   var devicedataurl;
+   var optionmenuindex;
+   var prefkey;
+   
+   //document.getElementById("ShowSensors").checked = false;
+   ShowHideSensorsflag = false;
+
+   optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   if( optionmenuindex < 0)
+   {
+		optionmenuindex = 0;
+		document.getElementById("XMLFilesSelect").selectedIndex = 0;
+	}
+   prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+
+    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefs&userid=" + userid + "&pagetype=3&prefkey=" + prefkey;
+
+   // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=3&prefkey=" + prefkey;
+
+   return $.ajax({
+   //async: false,
+   cache: false,
+   url: devicedataurl,
+   dataType: "json",
+   timeout: 10000,
+   statusCode: {
+   404: function() {      alert( "page not found" );    },
+   200: function() {      }
+   },
+   success: function(response) {
+   handleGetDevicePramDetails(response)
+   },
+   complete: function() {
+   // unblock when remote call returns
+   // document.getElementById("SearchStatus").value = "Search Complete";
+   //   ShowGraphSmartChart(gindex);
+   //$.unblockUI();
+   },
+   error: function(request,status,errorThrown) {
+   document.getElementById("SearchStatus").value = "Search Error";
+   ParameterInit = true;
+
+   $.unblockUI();
+   }
+   });
+
+
+   }
+
+
+
+function AddNewPref()
+{
+
+   var myStartTimeStr;
+   var myEndTimeStr;
+   var myStartDays;
+   var myStartSecs;
+   var myEndDays;
+   var myEndSecs;
+
+   var myResolutionStr;
+
+   // Guests do not get to make changes
+ //  if(myuserid == 0)
+ //  return;
+
+   myStartTimeStr = document.getElementById("datepickerstart").value;
+   myEndTimeStr = document.getElementById("datepickerend").value;
+  // myResolutionSecStr = document.getElementById("timeresolution").value;
+
+
+   var StartEpoch = new Date(myStartTimeStr + " GMT" );
+   StartEpoch = StartEpoch .getTime();
+
+   var EndEpoch = new Date(myEndTimeStr + " GMT" );
+   EndEpoch = EndEpoch .getTime();
+
+ //  var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+
+
+  // ResolutionSecs = ResolutionSecs.getTime();
+
+   //ResolutionSecs = ResolutionSecs / 1000;
+  var ResolutionSecs = document.getElementById("SearchTick").value;
+   if(	ResolutionSecs < 1)
+		ResolutionSecs = 1;
+	
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+
+
+// Store time at GMT time
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+  EndEpoch = EndEpoch -  1262304000;	
+
+
+
+        $.blockUI({ 
+     message: '<h1>Adding Preferences...</h1>',
+     css: {
+     border: 'none',
+     padding: '15px',
+     backgroundColor: '#000',
+
+     '-webkit-border-radius': '10px',
+     '-moz-border-radius': '10px',
+     opacity: .5,
+     color: '#fff'
+     } });
+
+     var devicedataurl;
+     var optionmenuindex;
+     var nextConfigOption;
+
+     nextConfigOption = document.getElementById("XMLFilesSelect").options.length -2;
+     //PageLayout = document.getElementById("SearchType").selectedIndex;
+     //PageLayout = 0;
+     
+     
+     //if(document.getElementById("ShowNavionics").checked == true)
+     //ClockLCDColor = 1;
+     //else
+     //ClockLCDColor = 0;
+
+    /*
+     devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add&userid=" + myuserid + "&pagetype=3&prefkey=" +  nextConfigOption + "&options="
+
+     devicedataurl =  devicedataurl  + "'" + document.getElementById("AddPreferenceName").value + "'";
+     devicedataurl =  devicedataurl + "," + PageLayout;
+     devicedataurl =  devicedataurl + ",0"  ;
+     devicedataurl =  devicedataurl + ",'000000'";
+     devicedataurl =  devicedataurl + ",'000000'";
+     devicedataurl =  devicedataurl + "," + ClockLCDColor ;
+     devicedataurl =  devicedataurl + "," + SystemClockPGNID ;
+     devicedataurl =  devicedataurl + ",0"  ;
+     devicedataurl =  devicedataurl + ",0" ;
+     devicedataurl =  devicedataurl + ",'0'";
+   
+    if(ShowHideSensorsflag == true)
+      devicedataurl =  devicedataurl + ",'" + document.getElementById("PGNNumber").options[document.getElementById("PGNNumber").selectedIndex].value + "'";
+    else
+        devicedataurl =  devicedataurl + ",'0'";
+   
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'0'";
+     devicedataurl =  devicedataurl + ",'" + StartEpoch + "'";
+     devicedataurl =  devicedataurl + ",'" + EndEpoch + "'";
+     devicedataurl =  devicedataurl + ",'" + ResolutionSecs + "'";
+     devicedataurl =  devicedataurl + ",0";
+
+*/
+
+	//PageLayout=0;
+    //if(ShowHideSensorsflag == true)
+	//	PageLayout = PageLayout + 1;
+		
+	 //if(ShowHideNavionicsflag == true)
+	//	PageLayout = PageLayout + 2;
+	
+	// set the Page layout parameter
+	ChangedMapOptions();
+	ChangedMapTypes();
+	
+	DialMin[0] = document.getElementById("DialMin").value;
+	DialMax[0] = document.getElementById("DialMax").value;
+	DialUnits[0] = document.getElementById("DialUnits").selectedIndex;
+		
+	GPSSource =document.getElementById("GPSSource").options[document.getElementById("GPSSource").selectedIndex].value;
+    
+    if(GPSSource == ".*")
+    {
+    
+      GPSSource = "FF"
+    }
+	if(GPSSource == "*")
+    {
+    
+      GPSSource = "FF"
+    }
+    
+    
+    //var  GPSSourceID= GPSSource.toString(16);
+	var  GPSSourceID= parseInt(GPSSource, 16);
+
+    devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add_tempodb&userid=" + myuserid + "&pagetype=3&prefkey=" +  nextConfigOption + "&options="
+
+    devicedataurl =  devicedataurl  + "'" + document.getElementById("AddPreferenceName").value + "'";
+    devicedataurl =  devicedataurl + ", '" + document.getElementById("DeviceID").value + "'";
+    devicedataurl =  devicedataurl + "," + PageLayout;
+    devicedataurl =  devicedataurl + "," + GPSSourceID ;
+    devicedataurl =  devicedataurl + ",'" + PageBackGroundColor.replace("#", "") + "'";
+    devicedataurl =  devicedataurl + ",'" + PageForeGroundColor.replace("#", "") + "'";
+    devicedataurl =  devicedataurl + "," + ClockLCDColor ;
+    devicedataurl =  devicedataurl + "," + SystemClockPGNID ;
+    devicedataurl =  devicedataurl + "," + UpdateInterval ;
+    devicedataurl =  devicedataurl + "," + DialTimeout ;
+    devicedataurl =  devicedataurl + ",'" + DialType + "'";
+	
+	// if(document.getElementById("ShowSensors").checked == true)
+	devicedataurl =  devicedataurl + ",'" + DialPGNNumber + "'"; 
+     //else
+	//	devicedataurl =  devicedataurl + ",'0,0,0,0,0,0,0,0'";
+
+    devicedataurl =  devicedataurl + ",'" + DialUnits + "'";
+    devicedataurl =  devicedataurl + ",'" + DialMin + "'";
+    devicedataurl =  devicedataurl + ",'" + DialMax + "'";
+    devicedataurl =  devicedataurl + ",'" + DialAlarm + "'";
+    devicedataurl =  devicedataurl + ",'" + DialAlarmState + "'";
+    devicedataurl =  devicedataurl + ",'" + DialText + "'";
+    devicedataurl =  devicedataurl + ",'" + DialFrameType + "'";
+    devicedataurl =  devicedataurl + ",'" + DialBackground + "'";
+    devicedataurl =  devicedataurl + ",'" + DialLCDColor + "'";
+    devicedataurl =  devicedataurl + ",'" + DialPointerColor + "'";
+    devicedataurl =  devicedataurl + ",'" + DialPonterType + "'";
+    devicedataurl =  devicedataurl + ",'" + StartEpoch + "'";
+    devicedataurl =  devicedataurl + ",'" + EndEpoch + "'";
+    devicedataurl =  devicedataurl + ",'" + ResolutionSecs + "'";
+    devicedataurl =  devicedataurl + ",0";
+
+
+     return $.ajax({
+     //async: false,
+     cache: false,
+     url: devicedataurl,
+     dataType: "json",
+     timeout: 10000,
+     statusCode: {
+     404: function() {      alert( "page not found" );    },
+     200: function() {      }
+     },
+     success: function(response) {
+     handleAddNewPref(response)
+     },
+     complete: function() {
+     // unblock when remote call returns
+     // document.getElementById("SearchStatus").value = "Search Complete";
+     //   ShowGraphSmartChart(gindex);
+     //$.unblockUI();
+     },
+     error: function(request,status,errorThrown) {
+     document.getElementById("SearchStatus").value = "Pref Add Error";
+
+     $.unblockUI();
+     }
+     });
+
+
+     }
+
+function ModifyPref()
+{
+  var myStartTimeStr;
+  var myEndTimeStr;
+  var myStartDays;
+  var myStartSecs;
+  var myEndDays;
+  var myEndSecs;
+
+  var myResolutionStr;
+
+     // Guests do not get to make changes
+   //  if(myuserid == 0)
+   //  return;
+
+     myStartTimeStr = document.getElementById("datepickerstart").value;
+     myEndTimeStr = document.getElementById("datepickerend").value;
+//     myResolutionSecStr = document.getElementById("timeresolution").value;
+
+     var StartEpoch = new Date(myStartTimeStr + " GMT" );
+     StartEpoch = StartEpoch .getTime();
+
+     var EndEpoch = new Date(myEndTimeStr + " GMT" );
+     EndEpoch = EndEpoch .getTime();
+
+  //   var ResolutionSecs = new Date("January 1, 1970 " + myResolutionSecStr + " GMT");
+
+
+   //  ResolutionSecs = ResolutionSecs.getTime();
+
+  //   ResolutionSecs = ResolutionSecs / 1000;
+  
+  var ResolutionSecs = document.getElementById("SearchTick").value;
+  
+     if(	ResolutionSecs < 1)
+		ResolutionSecs = 1;
+	
+  StartEpoch = StartEpoch / 1000; // Convert to Seconds
+  EndEpoch = EndEpoch / 1000; // Convert to Seconds
+
+ 
+// Store time at GMT time
+var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepicker.timezone;
+
+  StartEpoch = StartEpoch - (mytimeZoneOffset  * 60 );
+  StartEpoch = StartEpoch - 1262304000;
+  
+  
+  mytimeZoneOffset = $('#datepickerend').data('datepicker').settings.timepicker.timezone;
+
+  EndEpoch = EndEpoch - (mytimeZoneOffset  * 60 );
+  EndEpoch = EndEpoch -  1262304000;	
+
+
+
+        $.blockUI({ 
+     message: '<h1>Adding Preferences...</h1>',
+       css: {
+       border: 'none',
+       padding: '15px',
+       backgroundColor: '#000',
+
+       '-webkit-border-radius': '10px',
+       '-moz-border-radius': '10px',
+       opacity: .5,
+       color: '#fff'
+       } });
+
+       var devicedataurl;
+       var optionmenuindex;
+       var prefkey;
+       var prefName;
+
+       optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+	   if( optionmenuindex < 0)
+   {
+		optionmenuindex = 0;
+		document.getElementById("XMLFilesSelect").selectedIndex = 0;
+	}
+	
+	
+       prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+       prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
+      // PageLayout = document.getElementById("SearchType").selectedIndex;
+       //PageLayout =0;
+       
+      // if(document.getElementById("ShowNavionics").checked == true)
+      // ClockLCDColor = 1;
+      // else
+      // ClockLCDColor = 0;
+
+       optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+       prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+
+  /*
+       devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+
+
+
+       devicedataurl =  devicedataurl  + optionmenuindex;
+       devicedataurl =  devicedataurl + ",'" + prefName + "'";
+       devicedataurl =  devicedataurl + "," + PageLayout;
+       devicedataurl =  devicedataurl + ",0"  ;
+       devicedataurl =  devicedataurl + ",'000000'";
+       devicedataurl =  devicedataurl + ",'000000'";
+       devicedataurl =  devicedataurl + "," + ClockLCDColor ;
+       devicedataurl =  devicedataurl + "," + SystemClockPGNID ;
+       devicedataurl =  devicedataurl + ",0"  ;
+       devicedataurl =  devicedataurl + ",0" ;
+       devicedataurl =  devicedataurl + ",'0'";
+  
+    if(ShowHideSensorsflag == true)
+      devicedataurl =  devicedataurl + ",'" + document.getElementById("PGNNumber").options[document.getElementById("PGNNumber").selectedIndex].value + "'";
+    else
+        devicedataurl =  devicedataurl + ",'0'";
+  
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'0'";
+       devicedataurl =  devicedataurl + ",'" + StartEpoch + "'";
+       devicedataurl =  devicedataurl + ",'" + EndEpoch + "'";
+       devicedataurl =  devicedataurl + ",'" + ResolutionSecs + "'";
+       devicedataurl =  devicedataurl + ",0";
+*/
+
+	//PageLayout=0;
+    //if(ShowHideSensorsflag == true)
+	//	PageLayout = PageLayout + 1;
+		
+	 //if(ShowHideNavionicsflag == true)
+	//	PageLayout = PageLayout + 2;
+	
+		// set the Page layout parameter
+	ChangedMapOptions();
+	ChangedMapTypes();
+	
+	DialMin[0] = document.getElementById("DialMin").value;
+	DialMax[0] = document.getElementById("DialMax").value;
+	DialUnits[0] = document.getElementById("DialUnits").selectedIndex;
+		
+	GPSSource =document.getElementById("GPSSource").options[document.getElementById("GPSSource").selectedIndex].value;
+    
+   if(GPSSource == ".*")
+    {
+    
+      GPSSource = "FF"
+    }
+	if(GPSSource == "*")
+    {
+    
+      GPSSource = "FF"
+    }
+
+    
+    
+     //var  GPSSourceID= GPSSource.toString(16);
+	var  GPSSourceID= parseInt(GPSSource, 16);
+
+
+       devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+
+      devicedataurl =  devicedataurl  + optionmenuindex;
+      devicedataurl =  devicedataurl + ",'" + prefName + "'";
+      devicedataurl =  devicedataurl + ", '" + document.getElementById("DeviceID").value + "'";
+      devicedataurl =  devicedataurl + "," + PageLayout;
+      devicedataurl =  devicedataurl + "," + GPSSourceID ;
+      devicedataurl =  devicedataurl + ",'" + PageBackGroundColor.replace("#", "") + "'";
+      devicedataurl =  devicedataurl + ",'" + PageForeGroundColor.replace("#", "") + "'";
+      devicedataurl =  devicedataurl + "," + ClockLCDColor ;
+      devicedataurl =  devicedataurl + "," + SystemClockPGNID ;
+      devicedataurl =  devicedataurl + "," + UpdateInterval ;
+      devicedataurl =  devicedataurl + "," + DialTimeout ;
+      devicedataurl =  devicedataurl + ",'" + DialType + "'";
+	  
+    //  if(document.getElementById("ShowSensors").checked == true)
+	  devicedataurl =  devicedataurl + ",'" + DialPGNNumber + "'";
+	// else
+	//	devicedataurl =  devicedataurl + ",'0,0,0,0,0,0,0,0'";
+
+      devicedataurl =  devicedataurl + ",'" + DialUnits + "'";
+      devicedataurl =  devicedataurl + ",'" + DialMin + "'";
+      devicedataurl =  devicedataurl + ",'" + DialMax + "'";
+      devicedataurl =  devicedataurl + ",'" + DialAlarm + "'";
+      devicedataurl =  devicedataurl + ",'" + DialAlarmState + "'";
+      devicedataurl =  devicedataurl + ",'" + DialText + "'";
+      devicedataurl =  devicedataurl + ",'" + DialFrameType + "'";
+      devicedataurl =  devicedataurl + ",'" + DialBackground + "'";
+      devicedataurl =  devicedataurl + ",'" + DialLCDColor + "'";
+      devicedataurl =  devicedataurl + ",'" + DialPointerColor + "'";
+      devicedataurl =  devicedataurl + ",'" + DialPonterType + "'";
+      devicedataurl =  devicedataurl + ",'" + StartEpoch + "'";
+      devicedataurl =  devicedataurl + ",'" + EndEpoch + "'";
+      devicedataurl =  devicedataurl + ",'" + ResolutionSecs + "'";
+      devicedataurl =  devicedataurl + ",0";
+
+       return $.ajax({
+       //async: false,
+       cache: false,
+       url: devicedataurl,
+       dataType: "json",
+       timeout: 10000,
+       statusCode: {
+       404: function() {      alert( "page not found" );    },
+       200: function() {      }
+       },
+       success: function(response) {
+       handleModifyPref(response)
+       },
+       complete: function() {
+       // unblock when remote call returns
+       // document.getElementById("SearchStatus").value = "Search Complete";
+       //   ShowGraphSmartChart(gindex);
+       //$.unblockUI();
+       },
+       error: function(request,status,errorThrown) {
+       document.getElementById("SearchStatus").value = "Pref Update Error";
+
+       $.unblockUI();
+       }
+       });
+
+
+       }
+
+function DeletePref()
+{
+       // Guests do not get to make changes
+     //  if(myuserid == 0)
+     //  return;
+
+       $.blockUI({
+       message: '<h1>Deleting Preferences...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+
+   optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+
+
+  devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=delete&userid=" + myuserid + "&prefkey=" +  prefkey ;
+
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 10000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleDeletePref(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").value = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").value = "Pref Delete Error";
+		                          
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+  
+  
+ function myonload()
+ { 
+
+	//	initialize();
+
+// ***************************************************************
+// get all cookie variables 
+// **************************************************************
+
+    AccountDataFolder = GetCookie(CookiePrefix + 'Account');
+   // alert('AccountDataFolder  ' + AccountDataFolder );
+
+    if (AccountDataFolder == null) {
+        AccountDataFolder = "000000000000"; 
+		    AccountType = 1;
+		    ConfigOptions = 0;
+	      document.getElementById("XMLFilesSelect").selectedIndex = 0;    
+    }
+    else
+    {
+    var myStringArray
+    myStringArray = AccountDataFolder.split(":");
+	    if(myStringArray.length != 0)
+	    {
+		    AccountDataFolder = myStringArray[0];
+		    AccountType = myStringArray[1];
+		    ConfigOptions = myStringArray[2];
+		    document.getElementById("XMLFilesSelect").selectedIndex =0;
+	    }
+	    else
+	    {
+		    AccountDataFolder = "000000000000";
+		    AccountType = 1;
+		    ConfigOptions = 0;
+	      document.getElementById("XMLFilesSelect").selectedIndex = 0;
+	
+	    }
+    }
+ 
+     // initializes the drop down menu
+    document.getElementById("SearchTick").selectedIndex = 5;
+ 
+     // Initialize the User ID from the Session variable
+      myuserid = "0";
+  {% if session['userid'] %}
+     myuserid = "{{session['userid']}}";  
+   {% else %}
+     myuserid = "0"; 
+   {% endif %}
+
+      if (myuserid == null)
+      {
+         myuserid = "0";
+      }
+     else
+     {
+ 	    getDeviceList(myuserid);
+ 	    getDeviceParamList(myuserid);
+     }
+ 
+ //document.getElementById("DownloadDB").selectedIndex = 0;
+		//document.getElementById("ShowDetails").checked = false;
+   // document.getElementById("ShowPrefs").checked = false;
+    ShowHidePrefsflag = false;
+        	
+    //document.getElementById("SensorParameters").style.display = "none";
+   // document.getElementById("ShowSensors").checked = false;
+    ShowHideSensorsflag = false;     
+
+	var index = 0;
+	document.getElementById("PGNTypeSource").length = 0;
+	document.getElementById("GPSSource").length = 0;
+
+	document.getElementById("PGNTypeSource").options[index] = new Option( "ANY", ".*");
+	document.getElementById("GPSSource").options[index++] = new Option( "ANY", ".*");
+ 	
+		for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+		document.getElementById("PGNTypeSource").options[index] = new Option( myText.toUpperCase(), myText.toUpperCase());
+		document.getElementById("GPSSource").options[index++] = new Option( myText.toUpperCase(), myText.toUpperCase());
+		
+	}
+	
+	
+		//setAllMap(null);
+
+		markers = [];
+	
+	
+
+}
+
+
+ </script>
+	<title>MapSmart - Vessel Map Data</title>
+</head>  
+ <!-- <body onload="initialize()"> -->
+    <body onload="myonload();"  >
+      <center>
+        {% if session['userid'] %}
+        <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+          <span>HelmSmart: {{session['username']}}</span>
+        </a>
+        {% else %}
+        <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+          <span>HelmSmart: Guest</span>
+        </a>
+        {% endif %}
+      </center>
+  
+  	<div class="container body-content">
+  
+  <script type="text/javascript" src="{{ url_for('static', filename='js/support.js') }}" ></script>
+
+<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabEvents .form-control-static,
+	#tabEvents .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+
+<script>
+	$(function () {
+		$(document).ajaxComplete(function (event, xhr, settings) {
+			if (xhr.getResponseHeader('ReloadWholePage')) {
+				window.location.reload();	//Reload the whole datapane
+			}
+		});
+		
+		$('.nav-tabs a[href="#tabSearch"]').tab('show');
+
+	});
+
+function initializeMaps()
+{
+
+            var NGTDate = new Date(0);
+            vGN2KTime = NGTDate.toUTCString();
+
+			if(gLatLng == "")
+				gLatLng = new google.maps.LatLng(42.05038, -124.26833);
+
+				
+			/*
+            var WGS84_google_mercator = new OpenLayers.Projection("EPSG:900913");
+            //Define custom WMS tiled layer
+            var SLPLayer =
+            new google.maps.ImageMapType (
+            {
+            getTileUrl:
+            function (coord, zoom) {
+            // Compose URL for overlay tile
+
+            var s = Math.pow(2, zoom);
+            var twidth = 256;
+            var theight = 256;
+
+            //latlng bounds of the 4 corners of the google tile
+            //Note the coord passed in represents the top left hand (NW) corner of the tile.
+            var gBl = map.getProjection().fromPointToLatLng(
+            new google.maps.Point(coord.x * twidth / s, (coord.y + 1) * theight / s)); // bottom left / SW
+            var gTr = map.getProjection().fromPointToLatLng(
+            new google.maps.Point((coord.x + 1) * twidth / s, coord.y * theight / s)); // top right / NE
+
+            gB = new OpenLayers.LonLat(gBl.lng(), gBl.lat()).transform(DEG_PROJECTION, WGS84_google_mercator).transform(WGS84_google_mercator, NAVIONICS_PROJECTION);
+            gT = new OpenLayers.LonLat(gTr.lng(), gTr.lat()).transform(DEG_PROJECTION, WGS84_google_mercator).transform(WGS84_google_mercator, NAVIONICS_PROJECTION);
+
+
+            var navMapOptions =
+            {
+            center:
+            {
+            lon: -124.26833,
+            lat: 42.05038
+            },
+            zoom: 8
+            }
+            var navionicsMap = new NavionicsMap("navMap", myNavKey, navMapOptions);
+            var NavionicsOptions =
+            {
+            base :"http://webviewer-api.navionics.com/getmap",
+            transparence : true, // optional, default false
+            depth_level : 0, // optional 0-4 , default 0
+            depth_unit : "mt", // optional // "fa","ft","mt" default mt
+            ugd: true, // boolean optional default false
+            srs: WGS84_google_mercator
+            }
+
+            var url = navionicsMap.getMapRaster( gB.lon, gB.lat, gT.lon, gT.lat, myNavKey, NavionicsOptions);
+
+            return url;
+            }, //getTileURL
+
+			
+			
+            tileSize: new google.maps.Size(256, 256),
+            opacity: 1,
+            isPng: true
+            });
+*/
+
+			for (i = 0; i < myPinColors.length; i++) {
+			
+				var pinurl = "http://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
+				myPins[i] = new google.maps.MarkerImage(pinurl);
+			 
+			}
+
+
+
+
+            var mapOptions = {
+            center: gLatLng,
+            zoom: 12,
+            mapTypeId: google.maps.MapTypeId.HYBRID };
+
+			// create new map object
+            map = new google.maps.Map(document.getElementById("map_canvas"),  mapOptions);
+			
+			// redraw trails if already exist
+			if(glat.length != 0 &&  glng.length != 0)
+				DrawMapData();
+
+
+
+}
+  
+</script>
+
+
+	
+	
+
+
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="tab" role="tablist">
+	<li><a href="#tabInfo" role="tab" data-toggle="tab">Info</a></li>
+		<li><a href="#tabSearch" role="tab" data-toggle="tab">Search</a></li>
+		<li><a href="#tabMap" role="tab" data-toggle="tab">Map</a></li>
+		
+		<li><a href="#tabPrefs" role="tab" data-toggle="tab">Prefs</a></li>
+		<!-- <li><a href="#tabDesign" role="tab" data-toggle="tab">Design</a></li> -->
+		<li><a href="#tabEvents" role="tab" data-toggle="tab">Events</a></li>
+		<!-- <li><a href="#tabLayout" role="tab" data-toggle="tab">Layout</a></li> -->
+		<li><a href="#tabData" role="tab" data-toggle="tab">Data</a></li>
+		<li><a href="#tabSegment" role="tab" data-toggle="tab">Segment</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+  <!-- tabInfo TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabInfo">
+		<p id="introText">With this datapane you can view vessel position data from your SeaSmart device.</p>
+<div id="idMarketing">
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	
+	<p>
+		To get started  - select your registered device from the <B>PREF</B> tab and then enter the search dates on the <B> SEARCH </B>tab – select <B>MAP DATA</B>
+	</p>
+	
+	
+	<p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your HelmSmart site where you can search for vessel position and overlay sensor data on trails.</p>
+	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
+	<ul>
+		<li>Links to your existing NMEA 2000 network</li>
+		<li>Sends positions to your yacht site</li>
+		<li>Uses you existing internet service</li>
+		<li>No need for additional data plan charges</li>
+		<li>Automatically creates logbooks and trip segments for your journeys</li>
+		<li>Monitors the battery voltage</li>
+		<li>Monitors the temperature onboard</li>
+		<li>Monitors fuel and tanks onboard</li>
+		<li>Monitors weather and wind</li>
+		<li>Tracks the yacht in case of theft</li>
+	</ul>
+	<p>Built-in data logger to SD memory</p>
+	<ul>
+		<li>Records everything when vessel is out of range</li>
+		<li>Up to a full year of storage</li>
+		<li>Automatically syncs to Boatlogger site when internet service is found</li>
+		<li>Cloud base storage and access from the HelmSmart data server</li>
+		</ul>
+	<p>Add more vessel sensors</p>
+	<ul>		
+		<li>Install additional temperature sensors to monitor e.g. engine room temperature, sea temperature, outdoor temperature etc.</li>
+		<li>12 additional customized inputs (6 digital inputs, 2 tach, and 4 analog inputs)</li>
+	</ul>
+	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
+	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
+	<div style="margin: 15px;">
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+<!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+
+	</div>
+	<p>
+		If you already have a SeaSmart and want to connect it to HelmSmart, simply login with your username and password.
+	</p>
+
+
+
+
+</div>
+
+	</div>
+    <!-- end tabInfo TAB> ###################################################   -->
+  
+      <!-- tabPrefs TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabSearch">
+  
+
+ 	<div class="form-horizontal">
+
+
+	
+	 		<div class="form-group">	
+			<label class="control-label col-sm-2" for="datepickerstart">Start</label> 
+			<div class="col-sm-6"> 
+			<input type="text" style="width:300px;" class="form-control" name="datepickerstart" id="datepickerstart" value="01/2/2014 09:00:00" readonly="true" />
+			</div>
+			</div>
+			
+			
+		 	<div class="form-group">	
+			<label class="control-label col-sm-2" for="datepickerend">End</label> 
+			<div class="col-sm-6"> 
+			<input type="text" style="width:300px;" class="form-control" name="datepickerend" id="datepickerend" value="01/2/2014 09:00:00" readonly="true" />
+			</div>
+			</div>		
+			
+			
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="Span">Search Span</label>
+			<div class="col-sm-6">
+			<select style="width:300px;" class="form-control "  id="Span" name="Span" onchange="ChangedSpan(this);">
+					  <option value="0">Custom</option>
+					  <option value="1">1min</option>
+					  <option value="2">2min</option>
+					  <option value="5">5min</option>
+					  <option value="10">10min</option>
+					  <option value="15">15min</option>
+					  <option value="30">30min</option>
+					  <option value="60">1hour</option>
+					  <option value="120">2hour</option>
+					  <option value="240">4hour</option>
+					  <option value="360">6hour</option>
+					  <option value="480">8hour</option>
+					  <option value="720">12hour</option>
+					  <option value="1440">1day</option>
+					  <option value="2880">2day</option>
+					  <option value="4320">3day</option>
+					  <option value="5760">4day</option>
+					  <option value="7200">5day</option>
+					  <option value="8640">6day</option>
+					  <option value="10080">1week</option>
+					  <option value="20160">2weeks</option>
+					  <option value="30240">3weeks</option>
+					  <option value="1m">1month</option>
+					  <option value="2m">2months</option>
+					  <option value="2m">3months</option>
+					  <option value="4m">4months</option>
+					  <option value="5m">5months</option>
+					  <option value="6m">6months</option>
+				</select>		
+			</div>
+			</div>	
+				
+			<div class="form-group">
+			<label class="control-label col-sm-2" for="SearchTick">Interval</label>
+			<div class="col-sm-6">
+			<select style="width:300px;" class="form-control"  id="SearchTick" onchange="ShowSearchTick(this);" >
+			  <option value="1">1 sec</option>
+			  <option value="2">2 sec</option>
+			  <option value="5">5 sec</option>
+			  <option value="10">10 sec</option>
+			  <option value="15">15 Sec</option>
+			  <option value="30">30 Sec</option>
+			  <option value="60">1 Min</option>
+			  <option value="120">2 Min</option>
+			  <option value="180">3 Min</option>
+			  <option value="240">4 Min</option>
+			  <option value="300">5 Min</option>
+			  <option value="600">10 Min</option>
+			  <option value="900">15 Min</option>
+			  <option value="1800">30 Min</option>
+			  <option value="2700">45 Min</option>
+			  <option value="3600">1 Hour</option>
+			  <option value="7200">2 Hour</option>
+			  <option value="10800">3 Hour</option>
+			  <option value="21600">6 Hour</option>
+			  <option value="28800">8 Hour</option>
+			  <option value="43200">12 Hour</option>
+			  <option value="86400">1 Day</option>
+			  <option value="432000">5 Day</option>
+			  <option value="864000">10 Day</option>
+			  <option value="1296000">15 Day</option>
+			  <option value="2592000">30 Day</option>
+			</select>
+			</div>
+			</div>
+			
+	
+			
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="SearchStatus">Status</label> 
+			 <div class="col-sm-6"> 
+			<input type="text" style="width:300px;" class="form-control" id="SearchStatus" >	
+			</div>
+			</div>  
+
+	   		<div class="form-group" style="margin-top:25px;">
+			<div class="col-sm-offset-4 col-sm-4">
+			<button id="btnSearchDB" class="btn btn-primary" name="btnValue" id="SearchDB"  value="Graph data" onclick="MapData(this);" >Map Data</button>
+			<button id="btnGetData" class="btn btn-primary" name="btnValue" id="DownloadDB"  value="Get data" onclick="DownloadDB(1);" >Get GPX Data</button>
+			<button id="btnGetData" class="btn btn-primary" name="btnValue" id="DownloadDB"  value="Get data" onclick="DownloadDB(2);" >Get CSV Data</button>
+			<button id="btnGetData" class="btn btn-primary" name="btnValue" id="DownloadDB"  value="Get data" onclick="DownloadDB(3);" >Get JSON Data</button>
+			</div>
+			</div>
+
+	</div>
+
+  </div>
+    <!-- end tabSearch TAB> ###################################################   -->
+  
+ 
+
+
+
+<!-- tabEvents TAB> ###################################################   -->
+<div class="tab-pane" id="tabEvents">
+  
+		<div class="form-horizontal">
+
+      	<div class="form-group">
+			<label class="control-label col-sm-2" for="PGNTypeID">Event Type</label>
+			<div class="col-sm-10">
+				<select class="form-control" style="width:300px;"  id="PGNTypeID" name="PGNTypeID" onchange="ChangedPGNTypeID(this);">
+				<option value="None"> -------- </option>
+				<option value="/Position">GPS - Position lat/lng</option>
+				<option value="/Position/lat">GPS - Position lat</option>
+				<option value="/Position/lng">GPS - Position lng</option>
+				
+				<option value="/Environmental/Wind Speed">Environmental - Wind Speed True</option>
+				<option value="/Environmental/Wind Direction">Environmental - Wind Direction True</option>
+				<option value="/Environmental/Air Pressure">Environmental - Air Pressure</option>
+				<option value="/Environmental/Air Temperature">Environmental - Air Temperature Outside</option>
+				<option value="/Environmental/Relative Humidity (%)">Environmental - Outside Humidity (%)</option>				
+				<option value="/Environmental/Air Pressure Inside">Environmental - Air Pressure Inside</option>
+				<option value="/Environmental/Air Temperature Inside">Environmental - Air Temperature Inside</option>
+				<option value="/Environmental/Humidity Inside">Environmental - Inside Humidity (%)</option>					
+				
+				<option value="/Environmental/Water Temperature">Environmental - Water Temperature</option>
+
+				
+				<option value="/Environmental/Temperature Inside 0">Environmental - Temperature Inside Zone 0</option>
+				<option value="/Environmental/Humidity Inside 0">Environmental - Humidity Inside Zone 0</option>
+				<option value="/Environmental/Temperature Inside 1">Environmental - Temperature Inside Zone 1</option>
+				<option value="/Environmental/Humidity Inside 1">Environmental - Humidity Inside Zone 1</option>				
+				<option value="/Environmental/Temperature Inside 2">Environmental - Temperature Inside Zone 2</option>
+				<option value="/Environmental/Humidity Inside 2">Environmental - Humidity Inside Zone 2</option>				
+				<option value="/Environmental/Temperature Inside 3">Environmental - Temperature Inside Zone 3</option>
+				<option value="/Environmental/Humidity Inside 3">Environmental - Humidity Inside Zone 3</option>
+				<option value="/Environmental/Temperature Inside 4">Environmental - Temperature Inside Zone 4</option>
+				<option value="/Environmental/Humidity Inside 4">Environmental - Humidity Inside Zone 4</option>
+				<option value="/Environmental/Temperature Inside 5">Environmental - Temperature Inside Zone 5</option>
+				<option value="/Environmental/Humidity Inside 5">Environmental - Humidity Inside Zone 5</option>
+				<option value="/Environmental/Temperature Inside 6">Environmental - Temperature Inside Zone 6</option>
+				<option value="/Environmental/Humidity Inside 6">Environmental - Humidity Inside Zone 6</option>
+				<option value="/Environmental/Temperature Inside 7">Environmental - Temperature Inside Zone 7</option>
+				<option value="/Environmental/Humidity Inside 7">Environmental - Humidity Inside Zone 7</option>
+				
+				<option value="/Environmental/Temperature Outside 0">Environmental - Temperature Outside Zone 0</option>
+				<option value="/Environmental/Humidity Outside 0">Environmental - Humidity Outside Zone 0</option>
+				<option value="/Environmental/Temperature Outside 1">Environmental - Temperature Outside Zone 1</option>
+				<option value="/Environmental/Humidity Outside 1">Environmental - Humidity Outside Zone 1</option>				
+				<option value="/Environmental/Temperature Outside 2">Environmental - Temperature Outside Zone 2</option>
+				<option value="/Environmental/Humidity Outside 2">Environmental - Humidity Outside Zone 2</option>				
+				<option value="/Environmental/Temperature Outside 3">Environmental - Temperature Outside Zone 3</option>
+				<option value="/Environmental/Humidity Outside 3">Environmental - Humidity Outside Zone 3</option>
+				<option value="/Environmental/Temperature Outside 4">Environmental - Temperature Outside Zone 4</option>
+				<option value="/Environmental/Humidity Outside 4">Environmental - Humidity Outside Zone 4</option>
+				<option value="/Environmental/Temperature Outside 5">Environmental - Temperature Outside Zone 5</option>
+				<option value="/Environmental/Humidity Outside 5">Environmental - Humidity Outside Zone 5</option>
+				<option value="/Environmental/Temperature Outside 6">Environmental - Temperature Outside Zone 6</option>
+				<option value="/Environmental/Humidity Outside 6">Environmental - Humidity Outside Zone 6</option>
+				<option value="/Environmental/Temperature Outside 7">Environmental - Temperature Outside Zone 7</option>
+				<option value="/Environmental/Humidity Outside 7">Environmental - Humidity Outside Zone 7</option>
+
+				
+				<option value="/M2M/Navigation/Speed Over Ground">Navigation - Speed Over Ground </option>
+				<option value="/M2M/Navigation/Course Over Ground">Navigation - Course over Ground </option>
+				<option value="/M2M/Navigation/Speed Over Ground Mag">Navigation - Speed Over Ground Magnetic</option>
+				<option value="/M2M/Navigation/Course Over Ground Mag">Navigation - Course over Ground Magnetic</option>
+				<option value="/M2M/Navigation/Heading True">Navigation - Heading True</option>
+				<option value="/M2M/Navigation/Heading Magnetic">Navigation - Heading Magnetic</option>
+				<option value="/M2M/Navigation/Rudder">Navigation - Rudder </option>
+				<option value="/M2M/Attitude/Pitch">Attitude - Pitch </option>
+				<option value="/M2M/Attitude/Roll">Attitude - Roll </option>
+				<option value="/M2M/Navigation/Rate Of Turn">Navigation - Rate Of Turn </option>
+				
+				<option value="/M2M/Navigation/Depth">Water - Depth</option>
+				<option value="/M2M/Navigation/Water Speed">Water - Speed</option>
+				<option value="/M2M/Environment/Water Temperature">Water - Temperature </option>
+				
+				<option value="/M2M/Engine/Engine RPM Port">Engine - Port - RPM</option>
+				<option value="/M2M/Engine/Engine Boost Port">Engine - Port - Boost</option>	
+				<option value="/M2M/Engine/Engine Trim Port">Engine - Port - Trim</option>
+				<option value="/M2M/Engine/Engine Temperature Port">Engine - Port - Temperature</option>			
+				<option value="/M2M/Engine/Engine OIL Pressure Port">Engine - Port - OIL Pressure</option>	
+				<option value="/M2M/Engine/Engine OIL Temperature Port">Engine - Port - OIL Temperature</option>
+				<option value="/M2M/Engine/Engine Alternator Volts Port">Engine - Port - Alternator Volts</option>
+				<option value="/M2M/Engine/Engine Fuel Rate Port">Engine - Port - Fuel Rate</option>	
+
+				
+				<option value="/M2M/Engine/Engine Trip Fuel Used Port">Engine - Port - Trip Fuel Used</option>				
+				<option value="/M2M/Engine/Engine Fuel Rate Average Port">Engine - Port - Fuel Rate Average </option>
+				<option value="/M2M/Engine/Engine Fuel Rate Economy Port">Engine - Port - Fuel Rate Economy</option>				
+				<option value="/M2M/Engine/Engine Instantaneous Fuel Economy Port">Engine - Port - Instantaneous Fuel Economy</option>
+
+				
+				<option value="/M2M/Engine/Engine Fuel Pressure Port">Engine - Port - Fuel Pressure</option>		
+				<option value="/M2M/Engine/Engine Coolant Pressure Port">Engine - Port - Coolant Pressure</option>	
+				<option value="/M2M/Engine/Engine Coolant Temperature Port">Engine - Port - Coolant Temperature</option>	
+				<option value="/M2M/Engine/EGT 0 Port">Engine - Port - EGT</option>				
+				<option value="/M2M/Engine/Engine Hours Port">Engine - Port - Hours</option>					
+			
+				<option value="/M2M/Engine/Engine RPM Starboard">Engine - Starboard - RPM</option>
+				<option value="/M2M/Engine/Engine Boost Starboard">Engine - Starboard - Boost</option>				
+				<option value="/M2M/Engine/Engine Trim Starboard">Engine - Starboard - Trim</option>	
+				<option value="/M2M/Engine/Engine Temperature Starboard">Engine - Starboard - Temperature</option>
+				<option value="/M2M/Engine/Engine OIL Pressure Starboard">Engine - Starboard - OIL Pressure</option>
+				<option value="/M2M/Engine/Engine OIL Temperature Starboard">Engine - Starboard - OIL Temperature</option>
+				<option value="/M2M/Engine/Engine Alternator Volts Starboard">Engine - Starboard - Alternator Volts</option>	
+				<option value="/M2M/Engine/Engine Fuel Rate Starboard">Engine - Starboard - Fuel Rate</option>
+				
+								
+				<option value="/M2M/Engine/Engine Trip Fuel Used Starboard">Engine - Starboard - Trip Fuel Used</option>				
+				<option value="/M2M/Engine/Engine Fuel Rate Average Starboard">Engine - Starboard - Fuel Rate Average </option>
+				<option value="/M2M/Engine/Engine Fuel Rate Economy Starboard">Engine - Starboard - Fuel Rate Economy</option>				
+				<option value="/M2M/Engine/Engine Instantaneous Fuel Economy Starboard">Engine - Starboard - Instantaneous Fuel Economy</option>
+
+				<option value="/M2M/Engine/Engine Fuel Pressure Starboard">Engine - Starboard - Fuel Pressure</option>
+				<option value="/M2M/Engine/Engine Coolant Pressure Starboard">Engine - Starboard - Coolant Pressure</option>
+				<option value="/M2M/Engine/Engine Coolant Temperature Starboard">Engine - Starboard - Coolant Temperature</option>	
+				<option value="/M2M/Engine/EGT 0 Starboard">Engine - Starboard - EGT</option>
+				<option value="/M2M/Engine/Engine Hours Starboard">Engine - Starboard - Hours</option>				
+					
+				<option value="/M2M/Engine/Engine RPM Center">Engine - Center - RPM</option>
+				<option value="/M2M/Engine/Engine Boost Center">Engine - Center - Boost</option>				
+				<option value="/M2M/Engine/Engine Trim Center">Engine - Center - Trim</option>
+				<option value="/M2M/Engine/Engine Temperature Center">Engine - Center - Temperature</option>
+				<option value="/M2M/Engine/Engine OIL Pressure Center">Engine - Center - OIL Pressure</option>
+				<option value="/M2M/Engine/Engine OIL Temperature Center">Engine - Center - OIL Temperature</option>
+				<option value="/M2M/Engine/Engine Alternator Volts Center">Engine - Center - Alternator Volts</option>
+				<option value="/M2M/Engine/Engine Fuel Rate Center">Engine - Center - Fuel Rate</option>
+				
+				<option value="/M2M/Engine/Engine Trip Fuel Used Center">Engine - Center - Trip Fuel Used</option>				
+				<option value="/M2M/Engine/Engine Fuel Rate Average Center">Engine - Center - Fuel Rate Average </option>
+				<option value="/M2M/Engine/Engine Fuel Rate Economy Center">Engine - Center - Fuel Rate Economy</option>				
+				<option value="/M2M/Engine/Engine Instantaneous Fuel Economy Center">Engine - Center - Instantaneous Fuel Economy</option>
+												
+				<option value="/M2M/Engine/Engine Fuel Pressure Center">Engine - Center - Fuel Pressure</option>
+				<option value="/M2M/Engine/Engine Coolant Pressure Center">Engine - Center - Coolant Pressure</option>
+				<option value="/M2M/Engine/Engine Coolant Temperature Center">Engine - Center - Coolant Temperature</option>	
+				<option value="/M2M/Engine/EGT 0 Center">Engine - Center - EGT Center </option>				
+				<option value="/M2M/Engine/Engine Hours Center">Engine - Center - Hours</option>				
+
+
+		
+				<option value="/M2M/Engine/Generator RPM J1939">Generator - J1939 - RPM</option>
+				<option value="/M2M/Engine/Generator Boost J1939">Generator - J1939 - Boost</option>				
+				<option value="/M2M/Engine/Generator Trim J1939">Generator - J1939 - Trim</option>
+				<option value="/M2M/Engine/Generator Temperature J1939">Generator - J1939 - Temperature</option>
+				<option value="/M2M/Engine/Generator OIL Pressure J1939">Generator - J1939 - OIL Pressure</option>
+				<option value="/M2M/Engine/Generator OIL Temperature J1939">Generator - J1939 - OIL Temperature</option>
+				<option value="/M2M/Engine/Generator Alternator Volts J1939">Generator - J1939 - Alternator Volts</option>
+				<option value="/M2M/Engine/Generator Alternator Current J1939">Generator - J1939 - Alternator Current</option>		
+				<option value="/M2M/Engine/Generator Fuel Rate J1939">Generator - J1939 - Fuel Rate</option>
+				
+				<option value="/M2M/Engine/Generator Fuel Level J1939">Generator - J1939 - Fuel Level</option>	
+				<option value="/M2M/Engine/Generator Trip Fuel Used J1939">Generator - J1939 - Trip Fuel Used</option>				
+				<option value="/M2M/Engine/Generator Fuel Rate Average J1939">Generator - J1939 - Fuel Rate Average </option>
+				<option value="/M2M/Engine/Generator Fuel Rate Economy J1939">Generator - J1939 - Fuel Rate Economy</option>				
+				<option value="/M2M/Engine/Generator Instantaneous Fuel Economy J1939">Generator - J1939 - Instantaneous Fuel Economy</option>
+												
+				<option value="/M2M/Engine/Generator Fuel Pressure J1939">Generator - J1939 - Fuel Pressure</option>
+				<option value="/M2M/Engine/Generator Coolant Pressure J1939">Generator - J1939 - Coolant Pressure</option>
+				<option value="/M2M/Engine/Generator Coolant Temperature J1939">Generator - J1939 - Coolant Temperature</option>	
+				<option value="/M2M/Engine/Generator EGT J1939">Generator - J1939 - EGT </option>				
+				<option value="/M2M/Engine/Generator Hours J1939">Generator - J1939 - Hours</option>		
+				
+				
+				
+				<option value="/M2M/Engine/Transmission OIL Pressure Port">Transmission - Port - OIL Pressure</option>
+				<option value="/M2M/Engine/Transmission OIL Temperature Port">Transmission - Port - OIL Temperature</option>
+
+				<option value="/M2M/Engine/Transmission OIL Pressure Starboard">Transmission - Starboard - OIL Pressure</option>
+				<option value="/M2M/Engine/Transmission OIL Temperature Starboard">Transmission - Starboard - OIL Temperature</option>
+
+				<option value="/M2M/Engine/Transmission OIL Pressure Center">Transmission - Center - OIL Pressure</option>	
+				<option value="/M2M/Engine/Transmission OIL Temperature Center">Transmission - Center - OIL Temperature</option>
+
+				<option value="/M2M/Battery/Battery Volts Port">Battery - Port - Volts</option>
+				<option value="/M2M/Battery/Battery Current Port">Battery - Port - Current</option>
+				<option value="/M2M/Battery/Battery Temperature Port">Battery - Port - Temperature</option>
+				<option value="/M2M/Battery/Battery StateOfCharge Port">Battery - Port - StateOfCharge</option>				
+				<option value="/M2M/Battery/Battery TimeRemaining Port">Battery - Port - TimeRemaining</option>	
+	
+				<option value="/M2M/Battery/Battery Volts Starboard">Battery - Starboard - Volts</option>				
+				<option value="/M2M/Battery/Battery Current Starboard">Battery - Starboard - Current</option>
+				<option value="/M2M/Battery/Battery Temperature Starboard">Battery - Starboard - Temperature</option>	
+				<option value="/M2M/Battery/Battery StateOfCharge Starboard">Battery - Starboard - StateOfCharge</option>				
+				<option value="/M2M/Battery/Battery TimeRemaining Starboard">Battery - Starboard - TimeRemaining</option>					
+
+				<option value="/M2M/Battery/Battery Volts Center">Battery - Center - Volts</option>
+				<option value="/M2M/Battery/Battery Current Center">Battery - Center - Current</option>
+				<option value="/M2M/Battery/Battery Temperature Center">Battery - Center - Temperature</option>	
+				<option value="/M2M/Battery/Battery StateOfCharge Center">Battery - Center - StateOfCharge</option>				
+				<option value="/M2M/Battery/Battery TimeRemaining Center">Battery - Center - TimeRemaining</option>	
+				
+				<option value="/M2M/Battery/Battery Volts J1939">Battery - J1939 - Volts</option>
+				<option value="/M2M/Battery/Battery Current J1939">Battery - J1939 - Current</option>					
+				
+				
+				<option value="/M2M/AC/UTIL/Volts_Phase_A">AC UTIL - Phase A - Volts L-N</option>
+				<option value="/M2M/AC/UTIL/Volts_Line_Phase_A">AC UTIL - Phase A - Volts L-L</option>
+				<option value="/M2M/AC/UTIL/Amps_Phase_A">AC UTIL - Phase A - Amps</option>	
+				<option value="/M2M/AC/UTIL/Frequency_Phase_A">AC UTIL - Phase A - Frequency</option>		
+				<option value="/M2M/AC/UTIL/Power_Phase_A">AC UTIL - Phase A - kWatts</option>				
+				<option value="/M2M/AC/UTIL/Energy_Phase_A">AC UTIL - Phase A - kWatts/hr</option>	
+
+				<option value="/M2M/AC/UTIL/Volts_Phase_B">AC UTIL - Phase B - Volts L-N</option>
+				<option value="/M2M/AC/UTIL/Volts_Line_Phase_B">AC UTIL - Phase B - Volts L-L</option>
+				<option value="/M2M/AC/UTIL/Amps_Phase_B">AC UTIL - Phase B - Amps</option>	
+				<option value="/M2M/AC/UTIL/Frequency_Phase_B">AC UTIL - Phase B - Frequency</option>		
+				<option value="/M2M/AC/UTIL/Power_Phase_B">AC UTIL - Phase B - kWatts</option>				
+				<option value="/M2M/AC/UTIL/Energy_Phase_B">AC UTIL - Phase B - kWatts/hr</option>	
+
+				<option value="/M2M/AC/UTIL/Volts_Phase_C">AC UTIL - Phase C - Volts L-N</option>
+				<option value="/M2M/AC/UTIL/Volts_Line_Phase_C">AC UTIL - Phase C - Volts L-L</option>
+				<option value="/M2M/AC/UTIL/Amps_Phase_C">AC UTIL - Phase C - Amps</option>	
+				<option value="/M2M/AC/UTIL/Frequency_Phase_C">AC UTIL - Phase C - Frequency</option>		
+				<option value="/M2M/AC/UTIL/Power_Phase_C">AC UTIL - Phase C - kWatts</option>				
+				<option value="/M2M/AC/UTIL/Energy_Phase_C">AC UTIL - Phase C - kWatts/hr</option>	
+
+				<option value="/M2M/AC/UTIL/Volts_Avg">AC UTIL- Avg - Volts L-N</option>
+				<option value="/M2M/AC/UTIL/Volts_Line_Avg">AC UTIL - Avg - Volts L-L</option>
+				<option value="/M2M/AC/UTIL/Amps_Avg">AC UTIL - Avg - Amps</option>	
+				<option value="/M2M/AC/UTIL/Frequency_Avg">AC UTIL - Avg - Frequency</option>		
+				<option value="/M2M/AC/UTIL/Power_Avg">AC UTIL - Avg - kWatts</option>	
+				<option value="/M2M/AC/UTIL/Energy_Avg">AC UTIL - Avg - kWatts/hr</option>	
+							
+				<option value="/M2M/AC/UTIL/TotalEnergy_Import">AC UTIL- Total Energy Import - kWatts/hr</option>					
+				<option value="/M2M/AC/UTIL/TotalEnergy_Export">AC UTIL- Total Energy Export - kWatts/hr</option>		
+				
+				<option value="/M2M/AC/GEN/Volts_Phase_A">AC GEN - Phase A - Volts L-N</option>
+				<option value="/M2M/AC/GEN/Volts_Line_Phase_A">AC GEN - Phase A - Volts L-L</option>
+				<option value="/M2M/AC/GEN/Amps_Phase_A">AC GEN - Phase A - Amps</option>	
+				<option value="/M2M/AC/GEN/Frequency_Phase_A">AC GEN - Phase A - Frequency</option>		
+				<option value="/M2M/AC/GEN/Power_Phase_A">AC GEN - Phase A - kWatts</option>				
+				<option value="/M2M/AC/GEN/Energy_Phase_A">AC GEN - Phase A - kWatts/hr</option>	
+
+				<option value="/M2M/AC/GEN/Volts_Phase_B">AC GEN - Phase B - Volts L-N</option>
+				<option value="/M2M/AC/GEN/Volts_Line_Phase_B">AC GEN - Phase B - Volts L-L</option>
+				<option value="/M2M/AC/GEN/Amps_Phase_B">AC GEN - Phase B - Amps</option>	
+				<option value="/M2M/AC/GEN/Frequency_Phase_B">AC GEN - Phase B - Frequency</option>		
+				<option value="/M2M/AC/GEN/Power_GPhase_B">AC GEN - Phase B - kWatts</option>				
+				<option value="/M2M/AC/GEN/Energy_Phase_B">AC GEN - Phase B - kWatts/hr</option>	
+
+				<option value="/M2M/AC/GEN/Volts_Phase_C">AC GEN - Phase C - Volts L-N</option>
+				<option value="/M2M/AC/GEN/Volts_Line_Phase_C">AC GEN - Phase C - Volts L-L</option>
+				<option value="/M2M/AC/GEN/Amps_Phase_C">AC GEN - Phase C - Amps</option>	
+				<option value="/M2M/AC/GEN/Frequency_Phase_C">AC GEN - Phase C - Frequency</option>		
+				<option value="/M2M/AC/GEN/Power_Phase_C">AC GEN - Phase C - kWatts</option>				
+				<option value="/M2M/AC/GEN/Energy_Phase_C">AC GEN - Phase C - kWatts/hr</option>	
+
+				<option value="/M2M/AC/GEN/Volts_Avg">AC GEN - Avg - Volts L-N</option>
+				<option value="/M2M/AC/GEN/Volts_Line_Avg">AC GEN - Avg - Volts L-L</option>
+				<option value="/M2M/AC/GEN/Amps_Avg">AC GEN - Avg - Amps</option>	
+				<option value="/M2M/AC/GEN/Frequency_Avg">AC GEN - Avg - Frequency</option>		
+				<option value="/M2M/AC/GEN/Power_Avg">AC GEN - Avg - kWatts</option>
+				<option value="/M2M/AC/GEN/Energy_Avg">AC GEN - Avg - kWatts/hr</option>	
+				
+				<option value="/M2M/AC/GEN/TotalEnergy_Import">AC GEN- Total Energy Import - kWatts/hr</option>					
+				<option value="/M2M/AC/GEN/TotalEnergy_Export">AC GEN- Total Energy Export - kWatts/hr</option>			
+
+	
+
+				<option value="/M2M/AC/LIGHTS/Volts_Line_Phase_A">AC LIGHTS - Circuit 0 - Volts L-L</option>
+				<option value="/M2M/AC/LIGHTS/Amps_Phase_A">AC LIGHTS - Circuit 0 - Amps</option>	
+				<option value="/M2M/AC/LIGHTS/Power_Phase_A">AC LIGHTS - Circuit 0 - kWatts</option>				
+
+				<option value="/M2M/AC/LIGHTS/Volts_Line_Phase_B">AC LIGHTS - Circuit 2 - Volts L-L</option>
+				<option value="/M2M/AC/LIGHTS/Amps_Phase_B">AC LIGHTS - Circuit 2 - Amps</option>	
+				<option value="/M2M/AC/LIGHTS/Power_Phase_B">AC LIGHTS - Circuit 2 - kWatts</option>				
+
+				<option value="/M2M/AC/LIGHTS/Volts_Line_Phase_C">AC LIGHTS - Circuit 2 - Volts L-L</option>
+				<option value="/M2M/AC/LIGHTS/Amps_Phase_C">AC LIGHTS - Circuit 2 - Amps</option>	
+				<option value="/M2M/AC/LIGHTS/Power_Phase_C">AC LIGHTS - Circuit 2 - kWatts</option>				
+
+				<option value="/M2M/AC/LIGHTS/Volts_Line_Avg">AC LIGHTS - Circuit 3 - Volts L-L</option>
+				<option value="/M2M/AC/LIGHTS/Amps_Avg">AC LIGHTS - Circuit 3 - Amps</option>	
+				<option value="/M2M/AC/LIGHTS/Power_Avg">AC LIGHTS - Circuit 3 - kWatts</option>				
+				
+				<option value="/M2M/AC/HEAT/Volts_Line_Phase_A">AC HEAT - Circuit 0 - Volts L-L</option>
+				<option value="/M2M/AC/HEAT/Amps_Phase_A">AC HEAT - Circuit 0 - Amps</option>	
+				<option value="/M2M/AC/HEAT/Power_Phase_A">AC HEAT - Circuit 0 - kWatts</option>				
+
+				<option value="/M2M/AC/HEAT/Volts_Line_Phase_B">AC HEAT - Circuit 2 - Volts L-L</option>
+				<option value="/M2M/AC/HEAT/Amps_Phase_B">AC HEAT - Circuit 2 - Amps</option>	
+				<option value="/M2M/AC/HEAT/Power_Phase_B">AC HEAT - Circuit 2 - kWatts</option>				
+
+				<option value="/M2M/AC/HEAT/Volts_Line_Phase_C">AC HEAT - Circuit 2 - Volts L-L</option>
+				<option value="/M2M/AC/HEAT/Amps_Phase_C">AC HEAT - Circuit 2 - Amps</option>	
+				<option value="/M2M/AC/HEAT/Power_Phase_C">AC HEAT - Circuit 2 - kWatts</option>				
+
+				<option value="/M2M/AC/HEAT/Volts_Line_Avg">AC HEAT - Circuit 3 - Volts L-L</option>
+				<option value="/M2M/AC/HEAT/Amps_Avg">AC HEAT - Circuit 3 - Amps</option>	
+				<option value="/M2M/AC/HEAT/Power_Avg">AC HEAT - Circuit 3 - kWatts</option>
+				
+
+
+
+				<option value="/M2M/Tank/Fuel Level Port">Tanks - Port - Fuel Level</option>
+				<option value="/M2M/Tank/Water Level Port">Tanks - Port - Water Level</option>	
+				<option value="/M2M/Tank/Waste Level Port">Tanks - Port - Waste Level</option>	
+				<option value="/M2M/Tank/Live Well Port">Tanks - Port - Live Well</option>	
+				<option value="/M2M/Tank/Oil Level Port">Tanks - Port - Oil Level</option>						
+				<option value="/M2M/Tank/Black Water Level Port">Tanks - Port - Black Water Level</option>				
+				<option value="/M2M/Tank/Bilge Level Port">Tanks - Port - Bilge Level</option>	
+								
+				<option value="/M2M/Tank/Fuel Level Starboard">Tanks - Starboard - Fuel Level</option>
+				<option value="/M2M/Tank/Water Level Starboard">Tanks - Starboard - Water Level</option>	
+				<option value="/M2M/Tank/Waste Level Starboard">Tanks - Starboard - Waste Level</option>	
+				<option value="/M2M/Tank/Live Well Starboard">Tanks - Starboard - Live Well</option>	
+				<option value="/M2M/Tank/Oil Level Starboard">Tanks - Starboard - Oil Level</option>						
+				<option value="/M2M/Tank/Black Water Level Starboard">Tanks - Starboard - Black Water Level</option>	
+			   <option value="/M2M/Tank/Bilge Level Starboard">Tanks - Starboard - Bilge Level</option>	
+
+				
+				<option value="/M2M/Tank/Fuel Level Center">Tanks - Center - Fuel Level</option>
+				<option value="/M2M/Tank/Water Level Center">Tanks - Center - Water Level</option>
+				<option value="/M2M/Tank/Waste Level Center">Tanks - Center - Waste Level</option>	
+				<option value="/M2M/Tank/Live Well Center">Tanks - Center - Live Well</option>	
+				<option value="/M2M/Tank/Oil Level Center">Tanks - Center - Oil Level</option>		
+				<option value="/M2M/Tank/Black Water Level Center">Tanks - Center - Black Water Level</option>
+				<option value="/M2M/Tank/Bilge Level Center">Tanks - Center - Bilge Level</option>
+				
+				<option value="/M2M/Tank/Fuel Level Fwd">Tanks - Fwd - Fuel Level</option>
+				<option value="/M2M/Tank/Fuel Level Aft">Tanks - Aft - Fuel Level</option> 
+				<option value="/M2M/Tank/Fuel Level Day1">Tanks - Day1 - Fuel Level</option>
+				<option value="/M2M/Tank/Fuel Level Day2">Tanks - Day2 - Fuel Level</option>
+				<option value="/M2M/Tank/Fuel Level Day3">Tanks - Day3 - Fuel Level</option>				
+				
+				
+				<option value="/M2M/Domestic/Water Temperature">Temperature - Water Temperature </option>				
+				<option value="/M2M/Domestic/Outside Temperature">Temperature - Outside Temperature </option>				
+				<option value="/M2M/Domestic/Inside Temperature">Temperature - Inside Temperature </option>				
+	
+
+				<option value="/M2M/Domestic/Engine Room Temperature">Temperature - Engine Room </option>
+				<option value="/M2M/Domestic/Main Cabin Temperature">Temperature - Main Cabin </option>
+				<option value="/M2M/Domestic/Live Well Temperature">Temperature - Live Well </option>
+				<option value="/M2M/Domestic/Bait Well Temperature">Temperature - Bait Well </option>
+				<option value="/M2M/Domestic/Refrigeration 1 Temperature">Temperature - Refrigeration 1 </option>
+				<option value="/M2M/Domestic/Refrigeration 2 Temperature">Temperature - Refrigeration 2 </option>
+				<option value="/M2M/Domestic/Heating Temperature">Temperature - Heating </option>
+				<option value="/M2M/Domestic/Freezer Temperature">Temperature - Freezer </option>
+
+				<option value="/M2M/Domestic/Freezer 2 Temperature">Temperature - Freezer 2</option>
+				<option value="/M2M/Domestic/Freezer 3 Temperature">Temperature - Freezer 3</option>
+								
+				<option value="/M2M/Domestic/Wind Chill A Temperature">Temperature - Wind Chill A </option>
+				<option value="/M2M/Domestic/Wind Chill T Temperature">Temperature - Wind Chill T </option>
+				<option value="/M2M/Domestic/Heat Index">Temperature - Heat Index </option>			
+
+
+				<option value="/M2M/Environment/Wind Direction True">Wind - Direction True</option>
+				<option value="/M2M/Environment/Wind Direction Magnetic">Wind - Direction Magnetic</option>
+				<option value="/M2M/Environment/Wind Direction Apparent">Wind - Direction Apparent</option>
+				<option value="/M2M/Environment/Wind Direction Ground">Wind - Direction Ground Ref</option>
+					<option value="/M2M/Environment/Wind Direction Water">Wind - Direction Water Ref</option>					
+				
+				<option value="/M2M/Environment/Wind Speed True">Wind - Speed True</option>
+				<option value="/M2M/Environment/Wind Speed Magnetic">Wind - Speed Magnetic</option>
+				<option value="/M2M/Environment/Wind Speed Apparent">Wind - Speed Apparent</option>
+				<option value="/M2M/Environment/Wind Speed Ground">Wind - Speed Ground Ref</option>
+				<option value="/M2M/Environment/Wind Speed Water">Wind - Speed Water Ref</option>
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 0">LED Dimmer - Mesh Zone0 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 0">LED Dimmer - Mesh Zone0 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 0">LED Dimmer - Mesh Zone0 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 0">LED Dimmer - Mesh Zone0 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 1">LED Dimmer - Mesh Zone1 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 1">LED Dimmer - Mesh Zone1 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 1">LED Dimmer - Mesh Zone1 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 1">LED Dimmer - Mesh Zone1 - Status</option>
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 2">LED Dimmer - Mesh Zone2 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 2">LED Dimmer - Mesh Zone2 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 2">LED Dimmer - Mesh Zone2 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 2">LED Dimmer - Mesh Zone2 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 3">LED Dimmer - Mesh Zone3 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 3">LED Dimmer - Mesh Zone3 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 3">LED Dimmer - Mesh Zone3 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 3">LED Dimmer - Mesh Zone3 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 4">LED Dimmer - Mesh Zone4 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 4">LED Dimmer - Mesh Zone4 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 4">LED Dimmer - Mesh Zone4 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 4">LED Dimmer - Mesh Zone4 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 5">LED Dimmer - Mesh Zone5 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 5">LED Dimmer - Mesh Zone5 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 5">LED Dimmer - Mesh Zone5 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 5">LED Dimmer - Mesh Zone5 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 6">LED Dimmer - Mesh Zone6 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 6">LED Dimmer - Mesh Zone6 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 6">LED Dimmer - Mesh Zone6 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 6">LED Dimmer - Mesh Zone6 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 7">LED Dimmer - Mesh Zone7 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 7">LED Dimmer - Mesh Zone7 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 7">LED Dimmer - Mesh Zone7 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 7">LED Dimmer - Mesh Zone7 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 8">LED Dimmer - Mesh Zone8 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 8">LED Dimmer - Mesh Zone8 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 8">LED Dimmer - Mesh Zone8 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 8">LED Dimmer - Mesh Zone8 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 9">LED Dimmer - Mesh Zone9 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 9">LED Dimmer - Mesh Zone9 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 9">LED Dimmer - Mesh Zone9 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 9">LED Dimmer - Mesh Zone9 - Status</option>
+
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 10">LED Dimmer - Mesh Zone10 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 10">LED Dimmer - Mesh Zone10 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 10">LED Dimmer - Mesh Zone10 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 10">LED Dimmer - Mesh Zone10 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 11">LED Dimmer - Mesh Zone11 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 11">LED Dimmer - Mesh Zone11 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 11">LED Dimmer - Mesh Zone11 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 11">LED Dimmer - Mesh Zone11 - Status</option>
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 12">LED Dimmer - Mesh Zone12 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 12">LED Dimmer - Mesh Zone12 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 12">LED Dimmer - Mesh Zone12 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 12">LED Dimmer - Mesh Zone12 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 13">LED Dimmer - Mesh Zone13 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 13">LED Dimmer - Mesh Zone13 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 13">LED Dimmer - Mesh Zone13 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 13">LED Dimmer - Mesh Zone13 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 14">LED Dimmer - Mesh Zone14 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 14">LED Dimmer - Mesh Zone14 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 14">LED Dimmer - Mesh Zone14 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 14">LED Dimmer - Mesh Zone14 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 15">LED Dimmer - Mesh Zone15 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 15">LED Dimmer - Mesh Zone15 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 15">LED Dimmer - Mesh Zone15 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 15">LED Dimmer - Mesh Zone15 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 16">LED Dimmer - Mesh Zone16 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 16">LED Dimmer - Mesh Zone16 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 16">LED Dimmer - Mesh Zone16 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 16">LED Dimmer - Mesh Zone16 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 17">LED Dimmer - Mesh Zone17 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 17">LED Dimmer - Mesh Zone17 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 17">LED Dimmer - Mesh Zone17 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 17">LED Dimmer - Mesh Zone17 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 18">LED Dimmer - Mesh Zone18 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 18">LED Dimmer - Mesh Zone18 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 18">LED Dimmer - Mesh Zone18 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 18">LED Dimmer - Mesh Zone18 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 19">LED Dimmer - Mesh Zone19 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 19">LED Dimmer - Mesh Zone19 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 19">LED Dimmer - Mesh Zone19 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 19">LED Dimmer - Mesh Zone19 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 20">LED Dimmer - Mesh Zone20 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 20">LED Dimmer - Mesh Zone20 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 20">LED Dimmer - Mesh Zone20 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 20">LED Dimmer - Mesh Zone20 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 21">LED Dimmer - Mesh Zone21 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 21">LED Dimmer - Mesh Zone21 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 21">LED Dimmer - Mesh Zone21 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 21">LED Dimmer - Mesh Zone21 - Status</option>
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 22">LED Dimmer - Mesh Zone22 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 22">LED Dimmer - Mesh Zone22 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 22">LED Dimmer - Mesh Zone22 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 22">LED Dimmer - Mesh Zone22 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 23">LED Dimmer - Mesh Zone23 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 23">LED Dimmer - Mesh Zone23 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 23">LED Dimmer - Mesh Zone23 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 23">LED Dimmer - Mesh Zone23 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 24">LED Dimmer - Mesh Zone24 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 24">LED Dimmer - Mesh Zone24 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 24">LED Dimmer - Mesh Zone24 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 24">LED Dimmer - Mesh Zone24 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 25">LED Dimmer - Mesh Zone25 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 25">LED Dimmer - Mesh Zone25 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 25">LED Dimmer - Mesh Zone25 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 25">LED Dimmer - Mesh Zone25 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 26">LED Dimmer - Mesh Zone26 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 26">LED Dimmer - Mesh Zone26 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 26">LED Dimmer - Mesh Zone26 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 26">LED Dimmer - Mesh Zone26 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 27">LED Dimmer - Mesh Zone27 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 27">LED Dimmer - Mesh Zone27 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 27">LED Dimmer - Mesh Zone27 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 27">LED Dimmer - Mesh Zone27 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 28">LED Dimmer - Mesh Zone28 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 28">LED Dimmer - Mesh Zone28 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 28">LED Dimmer - Mesh Zone28 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 28">LED Dimmer - Mesh Zone28 - Status</option>
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 29">LED Dimmer - Mesh Zone29 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 29">LED Dimmer - Mesh Zone29 - Relay</option>				
+				<option value="/M2M/LED Dimmer/Value 3 Zone 29">LED Dimmer - Mesh Zone29 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 29">LED Dimmer - Mesh Zone29 - Status</option>
+
+			
+				<option value="/M2M/LED Dimmer/Value 0 Zone 30">LED Dimmer - Mesh Zone30 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 30">LED Dimmer - Mesh Zone30 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 30">LED Dimmer - Mesh Zone30 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 30">LED Dimmer - Mesh Zone30 - Status</option>
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 31">LED Dimmer - Mesh Zone31 - Value</option>
+				<option value="/M2M/LED Dimmer/Value 2 Zone 31">LED Dimmer - Mesh Zone31 - Relay</option>
+				<option value="/M2M/LED Dimmer/Value 3 Zone 31">LED Dimmer - Mesh Zone31 - Amps</option>
+				<option value="/M2M/LED Dimmer/Value 4 Zone 31">LED Dimmer - Mesh Zone31 - Status</option>
+
+
+			
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 0">RGB Dimmer - Zone0 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 0">RGB Dimmer - Zone0 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 0">RGB Dimmer - Zone0 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 0">RGB Dimmer - Zone0 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 0">RGB Dimmer - Zone0 - Control</option> 
+				
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 1">RGB Dimmer - Zone1 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 1">RGB Dimmer - Zone1 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 1">RGB Dimmer - Zone1 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 1">RGB Dimmer - Zone1 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 1">RGB Dimmer - Zone1 - Control</option>
+				
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 2">RGB Dimmer - Zone2 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 2">RGB Dimmer - Zone2 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 2">RGB Dimmer - Zone2 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 2">RGB Dimmer - Zone2 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 2">RGB Dimmer - Zone2 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 3">RGB Dimmer - Zone3 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 3">RGB Dimmer - Zone3 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 4">RGB Dimmer - Zone4 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 4">RGB Dimmer - Zone4 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 5">RGB Dimmer - Zone5 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 5">RGB Dimmer - Zone5 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 6">RGB Dimmer - Zone6 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 6">RGB Dimmer - Zone6 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 7">RGB Dimmer - Zone7 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 7">RGB Dimmer - Zone7 - Control</option>
+				
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 0">LED Dimmer 4 Channel - Zone0 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 0">LED Dimmer 4 Channel - Zone0 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 0">LED Dimmer 4 Channel - Zone0 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 0">LED Dimmer 4 Channel - Zone0 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 0">LED Dimmer 4 Channel - Zone0 - Control</option>
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 1">LED Dimmer 4 Channel - Zone1 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 1">LED Dimmer 4 Channel - Zone1 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 1">LED Dimmer 4 Channel - Zone1 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 1">LED Dimmer 4 Channel - Zone1 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 1">LED Dimmer 4 Channel - Zone1 - Control</option>
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 2">LED Dimmer - 4 Channel Zone2 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 2">LED Dimmer - 4 Channel Zone2 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 2">LED Dimmer - 4 Channel Zone2 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 2">LED Dimmer - 4 Channel Zone2 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 2">LED Dimmer - 4 Channel Zone2 - Control</option>
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 3">LED Dimmer - 4 Channel Zone2 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 3">LED Dimmer - 4 Channel Zone2 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 3">LED Dimmer - 4 Channel Zone2 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 3">LED Dimmer - 4 Channel Zone2 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 3">LED Dimmer - 4 Channel Zone2 - Control</option>
+				
+			
+				<option value="/M2M/Switch/Value 0 Port">Indicator - Port - Value0</option>
+				<option value="/M2M/Switch/Runtime 0 Port">Indicator - Port - Runtime 0</option>	
+				<option value="/M2M/Switch/Cycles 0 Port">Indicator - Port - Cycles 0</option>
+				
+				<option value="/M2M/Switch/Value 1 Port">Indicator - Port - Value1</option>
+				<option value="/M2M/Switch/Runtime 1 Port">Indicator - Port - Runtime 1</option>	
+				<option value="/M2M/Switch/Cycles 1 Port">Indicator - Port - Cycles 1</option>	
+				
+				<option value="/M2M/Switch/Value 2 Port">Indicator - Port - Value2</option>
+				<option value="/M2M/Switch/Runtime 2 Port">Indicator - Port - Runtime 2</option>	
+				<option value="/M2M/Switch/Cycles 2 Port">Indicator - Port - Cycles 2</option>	
+				
+				<option value="/M2M/Switch/Value 3 Port">Indicator - Port - Value3</option>
+				<option value="/M2M/Switch/Runtime 3 Port">Indicator - Port - Runtime 3</option>	
+				<option value="/M2M/Switch/Cycles 3 Port">Indicator - Port - Cycles 3</option>	
+				
+				<option value="/M2M/Switch/Value 4 Port">Indicator - Port - Value4</option>
+				<option value="/M2M/Switch/Runtime 4 Port">Indicator - Port - Runtime 4</option>	
+				<option value="/M2M/Switch/Cycles 4 Port">Indicator - Port - Cycles 4</option>	
+				
+				<option value="/M2M/Switch/Value 5 Port">Indicator - Port - Value5</option>
+				<option value="/M2M/Switch/Runtime 5 Port">Indicator - Port - Runtime 5</option>	
+				<option value="/M2M/Switch/Cycles 5 Port">Indicator - Port - Cycles 5</option>	
+				
+				<option value="/M2M/Switch/Value 6 Port">Indicator - Port - Value6</option>
+				<option value="/M2M/Switch/Runtime 6 Port">Indicator - Port - Runtime 6</option>	
+				<option value="/M2M/Switch/Cycles 6 Port">Indicator - Port - Cycles 6</option>	
+				
+				<option value="/M2M/Switch/Value 7 Port">Indicator - Port - Value7</option>
+				<option value="/M2M/Switch/Runtime 7 Port">Indicator - Port - Runtime 7</option>	
+				<option value="/M2M/Switch/Cycles 7 Port">Indicator - Port - Cycles 7</option>	
+				<option value="/M2M/Switch/Value 8 Port">Indicator - Port - Value8</option>
+				<option value="/M2M/Switch/Value 9 Port">Indicator - Port - Value9</option>
+				<option value="/M2M/Switch/Bank 0 Port">Indicator - Port - Bank0</option>	
+				<option value="/M2M/Switch/Bank 1 Port">Indicator - Port - Bank1</option>
+				<option value="/M2M/Switch/Bank 2 Port">Indicator - Port - Bank2</option>
+				
+			<option value="/M2M/Switch/Value 0 Starboard">Indicator - Starboard - Value0</option>
+				<option value="/M2M/Switch/Runtime 0 Starboard">Indicator - Starboard - Runtime 0</option>	
+				<option value="/M2M/Switch/Cycles 0 Starboard">Indicator - Starboard - Cycles 0</option>
+				
+				<option value="/M2M/Switch/Value 1 Starboard">Indicator - Starboard - Value1</option>
+				<option value="/M2M/Switch/Runtime 1 Starboard">Indicator - Starboard - Runtime 1</option>	
+				<option value="/M2M/Switch/Cycles 1 Starboard">Indicator - Starboard - Cycles 1</option>	
+				
+				<option value="/M2M/Switch/Value 2 Starboard">Indicator - Starboard - Value2</option>
+				<option value="/M2M/Switch/Runtime 2 Starboard">Indicator - Starboard - Runtime 2</option>	
+				<option value="/M2M/Switch/Cycles 2 Starboard">Indicator - Starboard - Cycles 2</option>	
+				
+				<option value="/M2M/Switch/Value 3 Starboard">Indicator - Starboard - Value3</option>
+				<option value="/M2M/Switch/Runtime 3 Starboard">Indicator - Starboard - Runtime 3</option>	
+				<option value="/M2M/Switch/Cycles 3 Starboard">Indicator - Starboard - Cycles 3</option>	
+				
+				<option value="/M2M/Switch/Value 4 Starboard">Indicator - Starboard - Value4</option>
+				<option value="/M2M/Switch/Runtime 4 Starboard">Indicator - Starboard - Runtime 4</option>	
+				<option value="/M2M/Switch/Cycles 4 Starboard">Indicator - Starboard - Cycles 4</option>	
+				
+				<option value="/M2M/Switch/Value 5 Starboard">Indicator - Starboard - Value5</option>
+				<option value="/M2M/Switch/Runtime 5 Starboard">Indicator - Starboard - Runtime 5</option>	
+				<option value="/M2M/Switch/Cycles 5 Starboard">Indicator - Starboard - Cycles 5</option>	
+				
+				<option value="/M2M/Switch/Value 6 Starboard">Indicator - Starboard - Value6</option>
+				<option value="/M2M/Switch/Runtime 6 Starboard">Indicator - Starboard - Runtime 6</option>	
+				<option value="/M2M/Switch/Cycles 6 Starboard">Indicator - Starboard - Cycles 6</option>	
+				
+				<option value="/M2M/Switch/Value 7 Starboard">Indicator - Starboard - Value7</option>
+				<option value="/M2M/Switch/Runtime 7 Starboard">Indicator - Starboard - Runtime 7</option>	
+				<option value="/M2M/Switch/Cycles 7 Starboard">Indicator - Starboard - Cycles 7</option>
+				<option value="/M2M/Switch/Value 8 Starboard">Indicator - Starboard - Value8</option>
+				<option value="/M2M/Switch/Value 9 Starboard">Indicator - Starboard - Value9</option>				
+				<option value="/M2M/Switch/Bank 0 Starboard">Indicator - Starboard - Bank0</option>	
+				<option value="/M2M/Switch/Bank 1 Starboard">Indicator - Starboard - Bank1</option>
+				<option value="/M2M/Switch/Bank 2 Starboard">Indicator - Starboard - Bank2</option>
+				
+				<option value="/M2M/Switch/Value 0 Center">Indicator - Center - Value0</option>
+				<option value="/M2M/Switch/Runtime 0 Center">Indicator - Center - Runtime 0</option>	
+				<option value="/M2M/Switch/Cycles 0 Center">Indicator - Center - Cycles 0</option>
+				
+				<option value="/M2M/Switch/Value 1 Center">Indicator - Center - Value1</option>
+				<option value="/M2M/Switch/Runtime 1 Center">Indicator - Center - Runtime 1</option>	
+				<option value="/M2M/Switch/Cycles 1 Center">Indicator - Center - Cycles 1</option>	
+				
+				<option value="/M2M/Switch/Value 2 Center">Indicator - Center - Value2</option>
+				<option value="/M2M/Switch/Runtime 2 Center">Indicator - Center - Runtime 2</option>	
+				<option value="/M2M/Switch/Cycles 2 Center">Indicator - Center - Cycles 2</option>	
+				
+				<option value="/M2M/Switch/Value 3 Center">Indicator - Center - Value3</option>
+				<option value="/M2M/Switch/Runtime 3 Center">Indicator - Center - Runtime 3</option>	
+				<option value="/M2M/Switch/Cycles 3 Center">Indicator - Center - Cycles 3</option>	
+				
+				<option value="/M2M/Switch/Value 4 Center">Indicator - Center - Value4</option>
+				<option value="/M2M/Switch/Runtime 4 Center">Indicator - Center - Runtime 4</option>	
+				<option value="/M2M/Switch/Cycles 4 Center">Indicator - Starboard - Cycles 4</option>	
+				
+				<option value="/M2M/Switch/Value 5 Center">Indicator - Center - Value5</option>
+				<option value="/M2M/Switch/Runtime 5 Center">Indicator - Center - Runtime 5</option>	
+				<option value="/M2M/Switch/Cycles 5 Center">Indicator - Center - Cycles 5</option>	
+				
+				<option value="/M2M/Switch/Value 6 Center">Indicator - Center - Value6</option>
+				<option value="/M2M/Switch/Runtime 6 Center">Indicator - Center - Runtime 6</option>	
+				<option value="/M2M/Switch/Cycles 6 Center">Indicator - Center - Cycles 6</option>	
+				
+				<option value="/M2M/Switch/Value 7 Center">Indicator - Center - Value7</option>
+				<option value="/M2M/Switch/Runtime 7 Center">Indicator - Center - Runtime 7</option>	
+				<option value="/M2M/Switch/Cycles 7 Center">Indicator - Center - Cycles 7</option>	
+				<option value="/M2M/Switch/Value 8 Center">Indicator - Center - Value8</option>
+				<option value="/M2M/Switch/Value 9 Center">Indicator - Center - Value9</option>	
+				<option value="/M2M/Switch/Bank 0 Center">Indicator - Center - Bank0</option>	
+				<option value="/M2M/Switch/Bank 1 Center">Indicator - Center - Bank1</option>
+				<option value="/M2M/Switch/Bank 2 Center">Indicator - Center - Bank2</option>				
+			
+			
+				<option value="/General/Engine Started">Status - Engine Started</option>
+				<option value="/General/Engine Stopped">Status - Engine Stopped</option>
+				<option value="/General/Diesel Tank Level">Status - Diesel Tank Level %</option>
+				<option value="/General/Water Tank1">Status - Water Tank1 Level%</option>
+				<option value="/General/Water Tank2">Status - Water Tank2 Level%</option>
+				<option value="/M2M/Instruments/Tracker Battery Voltage">Status - Tracker Battery Voltage</option>			
+				<option value="/General/Heartbeat">Status - SeaSmart Heartbeat</option>
+				
+				
+				<option value="/General/Sessions">Status - SeaSmart Session</option>
+				<option value="/General/Status">Status - SeaSmart records posted</option>
+				
+				<option value="/Cellular/DB_Strength">Status - Cellular Strength</option>
+				<option value="/Cellular/Connect_Status">Status - Cellular Connect Status</option>		
+				
+				
+				
+				
+				<option value="/Weather/Sunrise">Status - Sunrise</option>
+				<option value="/Weather/Sunrise">Status - Sunset</option>				
+				
+				
+				
+				</select>
+				<!-- <span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span> -->
+			</div>
+			</div>
+			
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="PGNTypeSource">Source</label> 
+			<div class="col-sm-10"> 
+				<select class="form-control "  style="width:300px;" id="PGNTypeSource" name="PGNTypeSource" onchange="ChangedPGNSource(this)";>
+				<option value="0">Any</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+			</select>		
+			</div>
+			</div>  
+			
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="DialUnits">Units</label> 
+			 <div class="col-sm-6"> 
+				<select class="form-control " style="width:300px;"  id="DialUnits" name="DialUnits">
+				
+			<!-- <select class="auto-style5" id="DialUnits" style="width: 100px; height: 25px" onchange="updateDialUnits(this);"> -->
+
+            <option value="0">Fahrenheit</option>
+            <option value="1">Celsius</option>
+            <option value="2">Kelvin</option>
+            <option value="3">- - -</option>
+            <option value="4">Knots</option>
+            <option value="5">MPH</option>
+            <option value="6">KPH</option>
+            <option value="7">Meters/sec</option>
+            <option value="8">PSI</option>
+            <option value="9">KPASCAL</option>
+            <option value="10">INHG</option>
+            <option value="11">- - -</option>
+            <option value="12">TRUE</option>
+            <option value="13">MAGNETIC</option>
+            <option value="14">- - -</option>
+            <option value="15">- - -</option>
+            <option value="16">DEGREES</option>
+            <option value="17">Radians</option>
+            <option value="18">Gallons/hr</option>
+            <option value="19">Liters/hr</option>
+            <option value="20">Liters</option>
+            <option value="21">Gallons</option>
+            <option value="22">CubicMeter</option>
+            <option value="23">- - -</option>
+            <option value="24">RPM</option>
+            <option value="25">RPS</option>
+            <option value="26">%</option>
+            <option value="27">Volts</option>
+			<option value="28">Amps</option> 
+			<option value="29">Watts</option>
+			<option value="30">Watts/hr</option>
+			<option value="31">kWatts/hr</option>
+			<option value="32">Feet</option>				
+			<option value="33">Meters</option>		
+			<option value="34">Mile</option>
+			<option value="35">Nautical Mile</option>
+			<option value="36">Fathoms</option>
+			<option value="37">Time H:M:S</option>
+			<option value="38">Date M.D.Y H:M:S</option>
+			<option value="39">Hours</option>
+			<option value="40">Indicator</option>
+			<option value="41">Switch</option>
+			<option value="42">Dimmer Value</option>
+			<option value="43">Dimmer Status</option>
+			<option value="44">Volts 10X</option>
+			<option value="45">millimeters</option>
+			<option value="46">inches</option>
+			<option value="47">Undefined</option>
+            </select>
+				
+				
+				
+			</div>
+		</div>
+		
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="DialMin">Low</label> 
+			 <div class="col-sm-6"> 
+			<input type="text" class="form-control" style="width:300px;"  id="DialMin" placeholder="off">	
+			</div>
+		</div>  
+		
+		
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="DialMax">High</label> 
+			 <div class="col-sm-6"> 
+			<input type="text" class="form-control" style="width:300px;"  id="DialMax" placeholder="off">
+	
+			</div>
+		</div>  
+			
+
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="OverlayScale">Overlay Scale</label> 
+			<div class="col-sm-10"> 
+
+              <select class="form-control "  style="width:300px;" id="OverlayScale" name="OverlayScale" size ="1"   onchange="SetOverlayScaleOptionList(this);">
+                <option value="1">  0.01</option>
+                <option value="5">  0.05</option>
+                <option value="10">  0.10</option>
+                <option value="25">  0.25</option>
+                <option value="50">  0.50</option>
+                <option value="75">  0.75</option>
+                <option selected="selected" value="100">  1.00</option>
+                <option value="200">  2.00</option>
+                <option value="300">  3.00</option>
+                <option value="400">  4.00</option>
+                <option value="500">  5.00</option>
+                <option value="600">  6.00</option>
+                <option value="700">  7.00</option>
+                <option value="800">  8.00</option>
+                <option value="900">  9.00</option>
+                <option value="1000"> 10.00</option>
+                <option value="1500"> 15.00</option>
+                <option value="2000"> 20.00</option>
+                <option value="2500"> 25.00</option>
+                <option value="3000"> 30.00</option>
+                <option value="4000"> 40.00</option>
+                <option value="5000"> 50.00</option>
+                <option value="7500"> 75.00</option>
+                <option value="10000">100.00</option>
+                <option value="15000">150.00</option>
+                <option value="20000">200.00</option>
+              </select>
+
+			</div>
+			</div> 
+			
+      
+
+ 
+
+
+		  
+        
+
+	</div>
+</div>
+
+   <!-- tabPrefs TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabPrefs">
+	
+		<div class="form-horizontal">
+	  
+	
+
+         	<div class="form-group">	
+			<label class="control-label col-sm-2" for="XMLFilesSelect">Preference</label> 
+			<div class="col-sm-10"> 
+				<select class="form-control "  style="width:300px;" id="XMLFilesSelect" onchange="selectUserPref(this);" class="auto-style2">
+            <option value="0">Use defaults</option>
+          </select>
+		  </div>
+		  </div>
+
+			 <div class="form-group">	
+			 <label class="control-label col-sm-2" for="AddPreferenceName">Pref Name</label> 
+			 <div class="col-sm-6"> 
+			<input type="text" class="form-control" style="width:300px;"  id="AddPreferenceName" >	
+			</div>
+			</div>  		
+
+        	<div class="form-group">	
+			<label class="control-label col-sm-2" for="DeviceID">Device</label> 
+			<div class="col-sm-10"> 
+		  
+		  <select class="form-control "  style="width:300px;" id="DeviceID" name="DeviceID"  onchange="SetDeviceOptionList(this);">
+            <option value="000000000000">Demo Data</option>
+          </select>
+		  	</div>
+			</div> 
+		
+		  <div class="form-group">	
+			<label class="control-label col-sm-2" for="GPSSource">GPS Source</label> 
+			<div class="col-sm-10"> 
+		  
+		  <select class="form-control "  style="width:300px;"  id="GPSSource" name="Source" onchange="SetGPSSourceOptionList(this);">
+            <option value="256">none</option>
+          </select>
+		  </div>
+		  </div>
+		  
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="GPSFix">GPS Fix</label> 
+			<div class="col-sm-10"> 
+				<select class="form-control "  style="width:300px;" id="GPSFix" onchange="ChangedGPSFix(this);" class="auto-style2">
+            <option value="0">None</option>
+			<option value="1">GNSS fix</option>
+			<option value="2">DGNSS fix</option>
+			<option value="3">Precise GNSS</option>
+			<option value="4">RTK Fixed Integer</option>
+			<option value="5">RTK Float</option>
+			<option value="6">Estimated mode</option>
+			<option value="7">Manual Input'</option>
+			<option value="8">Simulate mode</option>
+			<option value="9">Reserved</option>
+			<option value="10">Reserved</option>
+			<option value="11">Reserved</option>
+			<option value="12">Reserved</option>
+			<option value="13">Reserved</option>
+			<option value="14">Reserved</option>
+			<option selected="selected" value="15">Rapid</option>
+			<!--<option value="6">Segment Overlay > speed</option> -->
+          </select>
+		  </div>
+		  </div>
+		  
+		  
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="GPSLimit">GPS Limit</label> 
+			<div class="col-sm-10"> 
+		  <select class="form-control "  style="width:300px;"  id="GPSLimit" name="GPSLimit"  onchange="SetGPSLimitOptionList(this);">
+				<option value="1000000"> 10,000 mph</option>
+                <option value="100000">  1,000 mph</option>
+				<option value="20000">  200 mph</option>
+                <option value="10000">  100 mph</option>
+				<option value="5000">  50 mph</option>
+				<option value="2500">  25 mph</option>
+                <option value="1000">  10 mph</option>
+                <option value="100">  1.0 mph</option>				
+                <option value="10">  0.1 mph</option>
+                <option value="1">  0.01 mph</option>
+                <option value=".1">  0.001 mph</option>
+          </select>
+     	  </div>
+		  </div>	
+		
+		
+			<div class="form-group">	
+			<label class="control-label col-sm-2" for="MapOptions">Map Options</label> 
+			<div class="col-sm-10"> 
+				<select class="form-control "  style="width:300px;" id="MapOptions" onchange="ChangedMapOptions(this);" class="auto-style2">
+            <option value="0">None</option>
+			<option value="1">Markers</option>
+			<option value="2">Speed Markers</option>
+			<option value="3">Sensor Overlay</option>
+			<option value="4">Segment Overlay - time</option>
+			<option value="5">Segment Overlay - time/distance</option>
+			<!--<option value="6">Segment Overlay > speed</option> -->
+          </select>
+		  </div>
+		  </div>
+		  
+		  <div class="form-group">	
+			<label class="control-label col-sm-2" for="MapOptions">Markers</label> 
+			<div class="col-sm-10"> 
+				<select class="form-control "  style="width:300px;" id="MapOptions" onchange="ChangedMapOptions(this);" class="auto-style2">
+            <option selected="selected" value="0">None</option>
+			<option value="1">Points</option>
+			<option value="2">Segment End</option>
+			<option value="3">Sensor Overlay</option>
+			<option value="4">Segment Overlay</option>
+          </select>
+		  </div>
+		  </div>
+		  
+		    <div class="form-group">	
+			<label class="control-label col-sm-2" for="MaxInterval">Max Interval</label> 
+			<div class="col-sm-10"> 
+		  <select class="form-control "  style="width:300px;"  id="MaxInterval" name="MaxInterval"  >
+					  <option value="1">1min</option>
+					  <option value="2">2min</option>
+					  <option selected="selected" value="5">5min</option>
+					  <option value="10">10min</option>
+					  <option value="15">15min</option>
+					  <option value="30">30min</option>
+					  <option value="60">1hour</option>
+					  <option value="120">2hour</option>
+					  <option value="240">4hour</option>
+					  <option value="360">6hour</option>
+					  <option value="480">8hour</option>
+					  <option value="720">12hour</option>
+					  <option   value="1440">1day</option>
+					  <option value="2880">2day</option>
+					  <option value="4320">3day</option>
+					  <option value="5760">4day</option>
+					  <option value="7200">5day</option>
+					  <option value="8640">6day</option>
+					  <option value="10080">1week</option>
+          </select>
+     	  </div>
+		  </div>
+		  
+		  <div class="form-group">	
+			<label class="control-label col-sm-2" for="GPSIdle">Segment Interval</label> 
+			<div class="col-sm-10"> 
+		  <select class="form-control "  style="width:300px;"  id="GPSIdle" name="GPSIdle"  >
+					  <option value="1">1min</option>
+					  <option value="2">2min</option>
+					  <option value="5">5min</option>
+					  <option value="10">10min</option>
+					  <option value="15">15min</option>
+					  <option value="30">30min</option>
+					  <option   value="60">1hour</option>
+					  <option value="120">2hour</option>
+					  <option value="240">4hour</option>
+					  <option value="360">6hour</option>
+					  <option value="480">8hour</option>
+					  <option value="720">12hour</option>
+					  <option selected="selected" value="1440">1day</option>
+					  <option value="2880">2day</option>
+					  <option value="4320">3day</option>
+					  <option value="5760">4day</option>
+					  <option value="7200">5day</option>
+					  <option value="8640">6day</option>
+					  <option value="10080">1week</option>
+          </select>
+     	  </div>
+		  </div>	
+		  
+		  		<!--
+		  
+		  		  <div class="form-group">	
+			<label class="control-label col-sm-2" for="minSpeed">Min Speed</label> 
+			<div class="col-sm-10"> 
+		  <select class="form-control "  style="width:300px;"  id="minSpeed" name="minSpeed"  >
+		  				<option value="1000000"> 10,000 mph</option>
+                <option value="1000000">  1,000 mph</option>
+				<option value="200000">  200 mph</option>
+                <option value="100000">  100 mph</option>
+				<option value="50000">  50 mph</option>
+				<option value="25000">  25 mph</option>
+                <option value="10000">  10 mph</option>
+	            <option value="5000">  5 mph</option>
+                <option value="2000">  2 mph</option>					
+                <option value="1000">  1.0 mph</option>	
+                <option  value="200">  0.2 mph</option>				
+                <option selected="selected" value="100">  0.1 mph</option>
+                <option value="10">  0.01 mph</option>
+                <option value="1">  0.001 mph</option>
+          </select>
+     	  </div>
+		  </div>
+		  -->
+		  
+		  		  		  <div class="form-group">	
+			<label class="control-label col-sm-2" for="minDistance">Min distance</label> 
+			<div class="col-sm-10"> 
+		  <select class="form-control "  style="width:300px;"  id="minDistance" name="minDistance"  >
+				<option value="100000">  1,609 m/1.0 mi</option>
+                <option value="62137">  1,000 m/0.62 mi</option>
+				<option value="12427">  200 m/0.12 mi</option>
+                <option value="6214">  100 m/0.06 mi</option>
+				<option value="3106">  50 m/164 ft</option>
+				<option value="1553">  25 m/82 ft</option>
+                <option value="621">  10 m/32 ft</option>
+	            <option value="310">  5 m/16 ft</option>
+                <option value="124">  2 m/6.5 ft</option>					
+                <option value="62">  1.0 m/3.2 ft</option>	
+                <option  value="31">  0.6 m</option>				
+                <option selected="selected" value="6">  0.1 m</option>
+
+          </select>
+     	  </div>
+		  </div>
+		  
+		  <div class="form-group">	
+			<label class="control-label col-sm-2" for="MapTypes">Map Type</label> 
+			<div class="col-sm-10"> 
+				<select class="form-control "  style="width:300px;" id="MapTypes" onchange="ChangedMapTypes(this);" class="auto-style2">
+            <option value="0">Google Default</option>
+			<option value="1">Google Sat</option>
+			<option value="2">Google Road</option>
+			<option value="3">Google Terrain</option>
+			<option value="4">Navionics</option>
+          </select>
+		  </div>
+		  </div>
+		
+          
+           		<div class="form-group" style="margin-top:25px;">
+				<div class="col-sm-offset-4 col-sm-4">
+				<button id="btnSavePGN" class="btn btn-primary" name="btnValue" id="AddNewPref"  value="AddNewPref" onclick="AddNewPref(this);" >Add</button>
+				<button id="btnSavePGN" class="btn btn-primary" name="btnValue" id="ModifyPref"  value="ModifyPref" onclick="ModifyPref(this);" >Modify</button>
+				<button id="btnResetPGN" class="btn btn-primary" name="btnValue" id="DeletePref"  value="DeletePref"  onclick="DeletePref()" >Delete</button>
+				</div>
+				</div>
+				
+           
+</div>
+</div>
+
+     
+			
+		
+			
+			    <!-- tabMap TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabMap">
+	    
+   <div id="map_canvas" style="width:800px; height:600px; padding: 10px 10px 10px 10px;"  >
+		<span class="auto-style4"><br>MapSmart</span><br><span class="auto-style3">
+		data overlay on Google Maps<br>enter search criteria and select "search"</span>
+		<br>
+	</div>
+    <div class="auto-style7" id="map_status" style="width:100%; height:6%; padding: 10px 10px 10px 10px; display: none"></div>
+  	<div id="linkbar" style="width:100%; height:2%; padding: 10px 10px 10px 10px;" class="auto-style5" >
+		www.chetcodigital.com www.seasmart.net www.netgauges.net www.digitalmarinegauges.com
+	</div>
+  
+  
+  
+<script>
+	$(function () {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabMap')
+				setTimeout(initializeMaps, 10);	//Workaround for Bootstrap tabs and google maps center bug.
+		});
+	});
+</script>
+  
+    </div>
+    <!-- end tabGraphs TAB> ###################################################   -->
+	
+	    <!-- tabData TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabData">
+	<div class="form-horizontal">
+	
+		<div class="form-group text-center text-info" style="margin-top:10px;"  >
+			<div class="alertdiv" id="report_data" style="width:100%; height:10%; display: block">
+
+
+			<Table class="alerttable" id="ReportData" border="0" cellspacing="5" cellpadding="5" style="width:100%; display: block">
+
+			  <thead class="alertthead">
+				<TR>
+				  <th>Timestamp</th>
+				  <th>Source </th>
+				  <th>Lat</th>    
+				  <th>Lng</th>
+				  <th>Speed </th>
+				  <th>Delta</th>
+				  <th>Distance</th>
+				  <th id="TableOverlayLabel" >Overlay</th>
+				</TR>
+			  </thead>
+			  <tbody class="alerttbody"></tbody>
+			  
+			</Table>
+    
+			</div>
+		</div>
+		
+
+
+
+	</div><!-- Form Horzinal> ###################################################   -->	
+	</div>
+	
+		    <!-- tabSegments TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabSegment">
+	<div class="form-horizontal">
+	
+		<div class="form-group text-center text-info" style="margin-top:10px;"  >
+			<div class="alertdiv" id="segment_data" style="width:100%; height:10%; display: block">
+
+
+			<Table class="alerttable" id="SegmentData" border="0" cellspacing="5" cellpadding="5" style="width:100%; display: block">
+
+			  <thead class="alertthead">
+				<TR>
+				 <th>Trip</th>
+				  <th>Index</th>
+				  <th>Start </th>
+				  <th>End</th>   
+				  <th>Duration</th>
+				  <th>Distance</th>
+				  <th>Points </th>
+				
+				</TR>
+			  </thead>
+			  <tbody class="alerttbody"></tbody>
+			  
+			</Table>
+    
+			</div>
+		</div>
+		
+
+
+
+	</div><!-- Form Horzinal> ###################################################   -->	
+	</div>
+	
+	</div>
+  </div>
+	
+  </body>
+</html>

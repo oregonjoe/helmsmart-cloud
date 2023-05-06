@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>    
+    <head>
       <meta content="HelmSmart Live Vessel Monitoring" name="description" />
       <meta name="google-site-verification" content="mZ0MHsuiy1Z1gHdPB9bnX3TKMhPG-ASKcB0gRVQBxoM" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -11,7 +11,7 @@
           .auto-style4 {
           font-size: xx-large;
           }
-          .auto-style5 { 
+          .auto-style5 {
           font-family: Verdana, Geneva, Tahoma, sans-serif;
           font-size: small;
           text-align: center;
@@ -29,47 +29,170 @@
           }
 
           .auto-style12 {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	font-size: small;
-	text-align: left;
-}
-.auto-style14 {
-	color: #C626C6;
-}
-.auto-style15 {
-	color: #FAC4FA;
-}
-.auto-style17 {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	font-size: small;
-	text-align: center;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-}
-.auto-style18 {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-	font-size: small;
-	text-align: left;
-	border-top-style: solid;
-	border-top-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-}
-.auto-style19 {
-	border-width: 0px;
-}
+          font-size: x-small;
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          }
+          .auto-style13 {
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-size: small;
+          }
+
+          .auto-style14 {
+          border-width: 0px;
+          }
 
         </style>
-        <title>HelmSmart Freeboard</title>
+        <title>HelmSmart</title>
 
       <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
-      <script src="https://login.persona.org/include.js"></script>
+    <!--  <script src="https://login.persona.org/include.js"></script> -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    
+          <script src="https://code.jquery.com/jquery-3.1.0.min.js" type="text/javascript"></script>
+        <script src="https://cdn.auth0.com/js/auth0/8.6.0/auth0.min.js"></script>
+       <!-- <script src="/public/app.js"> </script> -->
+        <!-- <link href="/public/app.css" rel="stylesheet"> -->
+		 <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/auth0app.js') }}" ></script> -->
+		 <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/auth0app.css') }}"/> -->
+        <script>
+        var AUTH0_CLIENT_ID = '{{env.AUTH0_CLIENT_ID}}';
+        var AUTH0_DOMAIN = '{{env.AUTH0_DOMAIN}}';
+        var AUTH0_CALLBACK_URL = '{{env.AUTH0_CALLBACK_URL if env.AUTH0_CALLBACK_URL else "http://localhost:3000/callback" }}';
+        var API_AUDIENCE = '{{env.API_ID}}';
+        </script>  
 
 <script language = "Javascript">
           
-  
+var currentUser = null;
+
+$(window).bind("load", function() {
+var myusername
+
+ var auth = new auth0.WebAuth({
+    domain: AUTH0_DOMAIN,
+    clientID: AUTH0_CLIENT_ID
+   });
+
+
+ {% if session['username'] %}
+     myusername = "{{session['username']}}";  
+	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out</span>  </a>';
+
+ $("#logout").click(function(e) {
+            e.preventDefault();
+			window.location.href = '/auth0logout';
+			 });
+
+	 {% else %}
+     myusername = ""; 
+	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="login" class="persona-button"><span>Sign in with your Email</span>  </a>';
+ 
+  $("#login").click(function(e) {
+            e.preventDefault();
+			/*
+		auth.authorize({
+				audience: 'https://'+AUTH0_DOMAIN+'/userinfo', // you can also set this on the .env file and put API_AUDIENCE instead
+				scope: 'openid profile',
+				responseType: 'code',
+				redirectUri: AUTH0_CALLBACK_URL
+			  }); 
+			*/
+			window.location.href = '/login';
+          });
+ {% endif %}
+
+
+
+
+
+
+});
+
+/*
+
+$(function() {
+
+          $("#login").click(function(e) {
+            e.preventDefault();
+
+			window.location.href = 'http://www.helmsmart.net/login';
+			
+			
+          });
+
+
+          $("#logout").click(function(e) {
+            e.preventDefault();
+
+			
+			
+			 $.get("/logout", function onSuccess(resp) {
+              // maybe you return a json response including the email
+               //removeUser(resp.email);
+			   
+			    $.post("/signout", {  }, function onSuccess(resp) {
+              // maybe you return a json response including the email
+               removeUser(resp.email);
+             // window.location.reload();
+            });
+             
+            });
+		   
+		   
+          });
+
+
+       });
+
+          function verifyAssertion(assertion) {
+          if (sessionStorage['currentUser'] != undefined) 
+            return;
+
+
+			       // post to url with parameters assertion
+            $.get("/login",  function onSuccess(resp) {
+              // maybe you return a json response including the email
+               updateUser(resp.email);
+             
+            });
+			
+			
+          };
+
+          function loguserout() {
+		  
+
+			
+			
+			 $.get("/logout", function onSuccess(resp) {
+              // maybe you return a json response including the email
+               removeUser(resp.email);
+             
+            });
+			
+			
+          };
+
+function updateUser(resp)
+{
+
+        sessionStorage['currentUser'] =  resp;
+        window.location.reload();
+}
+
+function removeUser(resp)
+{
+        sessionStorage.removeItem('currentUser');
+        window.location.reload();
+
+
+}
+*/
+function setLogin()
+{
+var myusername;
+
+}
+
 
         </script>
 
@@ -77,10 +200,11 @@
       </head>
 
     <!-- <body onload="initialize()"> -->
-    <body  style="color: #FFFFFF; width: 933px; height: 600px; background-color: #336699" >
-      <table cellpadding="2" style="width: 100%">
+  <!--  <body  onload="setLogin()" style="color: #FFFFFF; width: 800px; height: 600px; background-color: #336699" > -->
+	  <body  onload="setLogin()" style="color: #FFFFFF; width: 800px; height: 600px; background-color: #336699" >
+      <table cellpadding="2" style="width: 600px">
         <tr>
-          <td>
+          <td colspan="3">
 
             <!-- <img alt="" height="50" src="images/ShipSymbol50W.png" style="float: left" width="50" class="auto-style12"><span class="auto-style13">&nbsp; 
 				login</span></td>
@@ -89,8 +213,23 @@
             <!--  <button class="btn btn-primary" name="login" id="login">Login</button> -->
 
             <!--  <button class="btn btn-primary" name="logout" id="logout">Logout</button> -->
-
-
+	<div id = 'loginbutton'>
+	<!--
+            <center>
+              {% if session['username'] %}
+              <a href="#" id="logout" class="persona-button">
+                <span>{{session['username']}}: Sign Out</span>
+              </a>
+              {% else %}
+              <a href="#" id="login" class="persona-button">
+                <span>Sign in with your Email</span>
+              </a>
+              {% endif %}
+			  
+            </center>
+		-->	
+	</div>		
+			
           </td>
 		  			  <!-- 
 		   <td colspan="3">
@@ -106,222 +245,60 @@
 -->
         </tr>
         <tr>
-          <td class="auto-style8">
+          <td class="auto-style8" colspan="3">
             <span class="auto-style4">
-              <span class="auto-style9">HelmSmart-Freeboard</span>
+              <span class="auto-style9">HelmSmart</span>
             </span>
             <br>
-              <span class="auto-style11">Cloud-base Vessel Monitoring using Freeboard.io dashboards</span>
+              <span class="auto-style11">Lighting Controls Center</span>
           </td>
         </tr>
-
         <tr>
-          <td class="auto-style5">
-		  <a href="http://www.helmsmart.com/freeboard/index.html">
-		  <img alt="" class="auto-style19" height="200" src="{{ url_for('static', filename='img/SeaDreamBoard200W.jpg' ) }}" width="200"></a>
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/dashboards_list">
-		  <img alt="" class="auto-style19" height="200" src="{{ url_for('static', filename='img/freeboard_logo_200HW.jpg' ) }}" width="200"></a></td>
+          <td>
+      
+			 <a href="http://helmsmart-cloud.herokuapp.com/dashboards_list"> 
+              
+              <img alt="Dashboards" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_DashBoards_150W.jpg' ) }}">
+            </a>
+          </td>
+          <td>  
+   
+			   <a href="http://helmsmart-cloud.herokuapp.com/nettimers">
+              <img alt="Scheduler" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_Scheduler_150W.jpg' ) }}">
+            </a>
+          </td>
+          <td>
+            
+			<a href="http://helmsmart-cloud.herokuapp.com/alertsmart"> 
+              <img alt="Events" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_Events_150W.jpg' ) }}">
+          </a>
+              </td>
         </tr>
-
         <tr>
-          <td class="auto-style5">RESTful API for accessing sensor data provided 
-		  by SeaSmart and netGauges gateways</td>
+          <td>
+         
+			<a href="http://helmsmart-cloud.herokuapp.com/meshdimmer">
+            <img alt="netDimmer" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_netDimmer_150W.jpg' ) }}">
+            </a>
+          </td>
+          <td>
+         
+			  <a href="http://helmsmart-cloud.herokuapp.com/netview">
+              <img alt="netView" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_netView_150W.jpg' ) }}">
+            </a>
+          </td>
+          <td>
+          
+			<a href="http://helmsmart-cloud.herokuapp.com/netview">
+              <img alt="Accounts" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_Accounts_150W.jpg' ) }}">
+          </a>
+          </td>
         </tr>
-
         <tr>
-          <td class="auto-style18">Sensor data is posted by gateways to the 
-		  HelmSmart temporal database where it is parsed and stored. The 
-		  HelmSmart-Freeboard API allows retreival of sensor data by using a set 
-		  of HTTP GET URLs with specified device API keys and parameters. The 
-		  selected sensor data is returned in JSON format where it can used by 
-		  any requestor including the Freeboard.io dashboard.</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style18">To use the API with the Freeboard.io 
-		  dashboards simply enter the URL with parameters as described below in 
-		  the JSON Datasource. Be sure to enter a update interval and select the 
-		  THINGPROXY option to enable cross-domain access.<span class="auto-style18"> <a href="{{ url_for('static', filename='img/FreeboardDataSourceExample.jpg' ) }}">
-		  EXAMPLE</a></span></td>
-        </tr>
-
-        <tr>
-          <td class="auto-style18">Most APIs take a device key and resolution 
-		  parameter. <br><br>The device key is issued by HelmSmart to link a 
-		  device to a user account. <br>
-		  
-		  <br>Interval is a optional numerical 
-		  time value for which a group of values 
-		  is returned. Interval starts from current time API is called going backwards. 
-		  If no Interval parameter is used, the default is 5 
-		  minutes from the current time. Options are 
-		  [1min,2min,5min,10min,15min,30min,1hour,4hour,6hour,8hour,1hour,1day,2day,7day,1month]<br>
-		  
-		  <br>Resolution is a optional numerical time
-		  value in seconds for which a average is calculated and a single value 
-		  is returned. If a Interval of 10min with a resolution of 60 (sec) is used, 10 data points will be returned.
-		  If no Resolution parameter is used, the default is a single data point based on the interval.<br>
-		  
-		  <br>Some APIs take additional 
-		  optional parameters<br>
-		  
-		  <br>INSTANCE is used to identify multiple 
-		  sensors belonging to the same class - For example Fuel Level or engine 
-		  speed. It is a numerical value from&nbsp; 0 to 255 with 0 common for 
-		  single devices or PORT and 1 for STARBOARD. Not all APIs will have a 
-		  INSTANCE parameter<br>
-		  
-		  <br>UNITS can be used to convert to Metric [IM] 
-		  or US Customary [US] units of measure. If IM is used temperature will 
-		  be in degrees celsius while US will be fahrenheit. The default is US 
-		  if no parameter is specified. Not all APIs will have a UNITS 
-		  parameter. Options are [US, Metric, Scientific, Nautical]<br>
-		  
-		  <br>TIMEZONE converts from GMT (universial) to local time. Options are [UTC, Eastern, Central, Mountain, Pacific, Hawaii]<br>
-		  
-		 <br>Mode can be used to group data point within a span (interval). Default is to average data based on resolution.
-		 If a interval of 1 hour is choosed with resolution of 10 minutes - the average (mean) value for every 10 minutes is trurned.
-		 Options are [Mean, Median, Max, Min]<br> 
-		 
-		  <br>TYPE is used for some APIs to select subsets of data. True Wind Direction vs Apparent Wind Direction for example. Options are dependent on the API type. Not all APIs use a TYPE <br>
-		  
-		  
-		  
-		  </td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style17">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style18"><strong>GPS Location - Lat/Lng in degrees</strong><br>
-		  <br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_location?apikey=[deviceAPIkey]&amp;Interval=[seconds]<br>
-		  <br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_location?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_location?apikey=a5069b96637473d7701fa11eb9baad3d</span></a><br class="auto-style14"> 				</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style18"><strong>Wind Data - Speed and direction both 
-		  True North and Apparent</strong><br><br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata?apikey=[deviceAPIkey]&amp;Interval=[seconds]&amp;Resolution=[seconds]&amp;Type=[apparent or true]&amp;Units=[IM 
-		  or US]<br><br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_winddata?apikey=a5069b96637473d7701fa11eb9baad3d</span></a></td>
-        </tr>
-
-        <tr>
-          <td class="auto-style18"><strong>Environmential - Air temperature, 
-		  Barometric pressure, and Humidity<br></strong><br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_environmential?apikey=[deviceAPIkey]&amp;Interval=[seconds]&amp;Resolution=[seconds]&amp;Type=[sea or inside or outside]&amp;Units=[IM 
-		  or US]<br><br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_environmental?apikey=a5069b96637473d7701fa11eb9baad3d</span></a></td>
-        </tr>
-
-        <tr>
-          <td class="auto-style18"><strong>Navigation - Speed over Ground, 
-		  Course over Ground, and Heading<br></strong><br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_nav?apikey=[deviceAPIkey]&amp;Interval=[seconds]&amp;Resolution=[seconds]&amp;;Type=[magnetic or true]&amp;Units=[IM  or US]<br><br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_nav?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_nav?apikey=a5069b96637473d7701fa11eb9baad3d</span></a></td>
-        </tr>
-		        <tr>
-          <td class="auto-style18"><strong>Battery - Volts, 
-		  Amps, and Temperature<br></strong><br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_battery?apikey=[deviceAPIkey]&amp;Interval=[seconds]&amp;Resolution=[seconds]&amp;Units=[IM 
-		  or US]<br><br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_battery?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_battery?apikey=a5069b96637473d7701fa11eb9baad3d</span></a></td>
-        </tr>
-		
-		  <tr>
-          <td class="auto-style18"><strong>Engine - RPM, Water Temperature, 
-		  Oil Pressure, Fuel Rate, Alt Volts, Fuel Level, Boost, Hours<br></strong><br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_engine?apikey=[deviceAPIkey]&amp;Interval=[seconds]&amp;Resolution=[seconds]&amp;Instance=[Number]&amp;Units=[IM 
-		  or US]<br><br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_engine?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_engine?apikey=a5069b96637473d7701fa11eb9baad3d</span></a></td>
-        </tr>
-		
-		
-			<tr>
-          <td class="auto-style18"><strong>Engine Aux- boost_pressure,coolant_pressure,fuel_pressure,oil_temp,egt_temperature,fuel_rate_average,instantaneous_fuel_economy,tilt_or_trim=<br></strong><br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_engine_aux?apikey=[deviceAPIkey]&amp;Interval=[seconds]&amp;Resolution=[seconds]&amp;Instance=[Number]&amp;Units=[IM 
-		  or US]<br><br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_engine_aux?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_engine_aux?apikey=a5069b96637473d7701fa11eb9baad3d</span></a></td>
-        </tr>
-		
-		        <tr>
-          <td class="auto-style18"><strong>AC Status - AC Volts, Amps, Watts, 
-		  Energy<br></strong><br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_ac_status?apikey=[deviceAPIkey]&amp;Interval=[seconds]&amp;Resolution=[seconds]&amp;Type=[UTIL 
-		  or GEN]<br><br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_status?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_ac_status?apikey=a5069b96637473d7701fa11eb9baad3d</span></a></td>
-        </tr>
-
-        <tr>
-          <td class="auto-style12"><strong>Switch Status - Open or closed - 16 switches<br></strong><br>FORMAT: 
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_status?apikey=[deviceAPIkey]&amp;Interval=[seconds]&amp;Resolution=[seconds]&amp;Units=[IM 
-		  or US]<br><br>EXAMPLE:
-		  <a href="https://helmsmart-weatherstation.herokuapp.com/freeboard_status?apikey=a5069b96637473d7701fa11eb9baad3d">
-		  <span class="auto-style15">
-		  https://helmsmart-weatherstation.herokuapp.com/freeboard_status?apikey=a5069b96637473d7701fa11eb9baad3d</span></a></td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td class="auto-style5">www.chetcodigital.com&nbsp; www.seasmart.net www.netgauges.net www.digitalmarinegauges.com 				</td>
+          <td class="auto-style5" colspan="3">www.chetcodigital.com&nbsp; www.seasmart.net www.netgauges.net www.digitalmarinegauges.com 				</td>
         </tr>
 		 <tr>
-          <td class="auto-style5"><center> copyright 2019</center>			</td>
+          <td class="auto-style5" colspan="3"><center> copyright 2023</center>			</td>
         </tr>
 		
 
