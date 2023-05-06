@@ -352,6 +352,30 @@ def meshdimmer():
     features = [],
   )
 
+@app.route('/netgauges')
+def netgauges():
+
+  return render_template(
+    'netgauges.html',
+    features = [],
+  )
+
+@app.route('/netgauges_public')
+def netgauges_public():
+
+  deviceapikey = request.args.get('deviceapikey', '')
+  prefkey = request.args.get('prefkey', 0)
+  userid = request.args.get('userid', 'a91140300971bfb9244989a9bffde53c')
+  
+  deviceid, userid = getdevicekeys(deviceapikey)
+
+  return render_template(
+    'netgauges_public.html',
+    deviceid=deviceid,
+    userid=userid,
+    pagetype=0,
+    prefkey=prefkey
+  )
 
 
 @app.route('/dashboards_list')
