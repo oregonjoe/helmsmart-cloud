@@ -30,7 +30,9 @@ from zoneinfo import ZoneInfo
 #import pytz
 #from pytz import timezone
 
-from geopy.distance import vincenty
+#from geopy.distance import vincenty
+from geopy.distance import geodesic
+
 
 from influxdb.influxdb08 import InfluxDBClient
 
@@ -16970,7 +16972,9 @@ def getgpsseriesbydeviceid_dbc():
 
               deltatime = abs(newtime - oldtime)
               
-              delta = vincenty(oldvector, newvector).miles
+              #delta = vincenty(oldvector, newvector).miles
+              delta = geodesic(oldvector, newvector).miles
+              
               #print 'GetGPSJSON processing dalta points:', delta
 
               #speed = {'speed':float(delta/(float(deltatime)*60*60))} 
