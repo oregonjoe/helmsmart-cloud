@@ -15451,7 +15451,7 @@ def get_dbstats_html():
     jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
-    print('inFluxDB start processing data points:')
+    #print('inFluxDB start processing data points:')
     #log.info("freeboard Get InfluxDB response %s", response)
 
     keys = response.raw.get('series',[])
@@ -16203,7 +16203,7 @@ def getgpsseriesbydeviceid():
                 if speed < float(maxthreshold)/100:
                   gpsdata.append(gpsjson)
           
-          print('inFluxDB_GPS JSONF returning data points:')
+          #print('inFluxDB_GPS JSONF returning data points:')
 
           #return jsonify(serieskey = jsonkey, results = jsondata)
           response = make_response(json.dumps(gpsdata))
@@ -16274,7 +16274,7 @@ def getgpsseriesbydeviceid():
           #  log.info('inFluxDB_GPS: Error in geting inFluxDB JSON data %s:  ' % e)
 
           gpsdata = sorted(gpsdata,key=itemgetter('epoch'))
-          print('GetGPSJSON returning data points:')
+          #print('GetGPSJSON returning data points:')
           log.info('GetGPSJSON: returning JSON data:  ' )
 
           
