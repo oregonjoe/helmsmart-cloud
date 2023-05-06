@@ -1411,7 +1411,7 @@ def get_influxdbcloud_data():
     try:
       response= db.query(query)
 
-    except InfluxDBClientError, e:
+    except InfluxDBClientError as e:
       log.info('get_influxdbcloud_data: Exception Error in InfluxDB  %s:  ' % str(e))
       
     except:
