@@ -1505,7 +1505,7 @@ def get_influxdbcloud_data():
 
 
       jsondata = sorted(jsondata,key=itemgetter('epoch'))
-      print 'inFluxDB returning data points:'
+      #print 'inFluxDB returning data points:'
       #return jsonify( results = jsondata)      
       return jsonify(serieskey = jsonkey, results = jsondata)
       #result = json.dumps(data.data, cls=DateEncoder)
