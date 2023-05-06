@@ -21,3 +21,5 @@ authlib>=1.0
 #authlib==0.14.3
 requests>=2.0
 git+https://github.com/influxdb/influxdb-python.git
+#geopy==1.9.1
+geopy==2.3.0
