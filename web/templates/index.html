@@ -199,50 +199,19 @@ var myusername;
 
       </head>
 
-    <!-- <body onload="initialize()"> -->
-  <!--  <body  onload="setLogin()" style="color: #FFFFFF; width: 800px; height: 600px; background-color: #336699" > -->
+
 	  <body  onload="setLogin()" style="color: #FFFFFF; width: 800px; height: 600px; background-color: #336699" >
       <table cellpadding="2" style="width: 600px">
         <tr>
           <td colspan="3">
 
-            <!-- <img alt="" height="50" src="images/ShipSymbol50W.png" style="float: left" width="50" class="auto-style12"><span class="auto-style13">&nbsp; 
-				login</span></td>
-				<td>-->
 
-            <!--  <button class="btn btn-primary" name="login" id="login">Login</button> -->
-
-            <!--  <button class="btn btn-primary" name="logout" id="logout">Logout</button> -->
 	<div id = 'loginbutton'>
-	<!--
-            <center>
-              {% if session['username'] %}
-              <a href="#" id="logout" class="persona-button">
-                <span>{{session['username']}}: Sign Out</span>
-              </a>
-              {% else %}
-              <a href="#" id="login" class="persona-button">
-                <span>Sign in with your Email</span>
-              </a>
-              {% endif %}
-			  
-            </center>
-		-->	
+	
 	</div>		
 			
           </td>
-		  			  <!-- 
-		   <td colspan="3">
-		   <center>
-              {% if session['adminid'] %}
 
-              <a href="#" id="admin" class="persona-button">
-                <span>{{session['adminid']}}: Sign Out</span>
-              </a> 
-			   {% endif %}
-			  </center>
-		   </td>
--->
         </tr>
         <tr>
           <td class="auto-style8" colspan="3">
@@ -250,26 +219,25 @@ var myusername;
               <span class="auto-style9">HelmSmart</span>
             </span>
             <br>
-              <span class="auto-style11">Lighting Controls Center</span>
+              <span class="auto-style11">Sensor Data Cloud Services</span>
           </td>
         </tr>
         <tr>
           <td>
-            <!-- <a href="{{ url_for('mapsmart') }}"> -->
+    
 			 <a href="http://heroku-cloud.herokuapp.com/mapsmart"> 
-              <!-- <a href="http://www.mapsmart.net/static/MapSmart/MapSmart.htm?userid=1">  -->
+    
               <img alt="MapSmart.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_MapSmart_150W.jpg' ) }}">
             </a>
           </td>
           <td>  
-            <!-- <a href="GraphSmart.htm?userid=1"> -->
-             <!-- <a href="{{ url_for('graphsmart') }}"> -->
+  
 			   <a href="http://heroku-cloud.herokuapp.com/graphsmart">
               <img alt="GraphSmart.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_GraphSmart_150W.jpg' ) }}">
             </a>
           </td>
           <td>
-            <!--  <a href="{{ url_for('alertsmart') }}"> -->
+   
 			<a href="http://heroku-cloud.herokuapp.com/alertsmart"> 
               <img alt="AlertSmart.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_AlertSmart_150W.jpg' ) }}">
           </a>
@@ -277,21 +245,19 @@ var myusername;
         </tr>
         <tr>
           <td>
-            <!-- <a href="GraphSmart.htm?userid=1"> -->
-            <!-- <a href="{{ url_for('netgauges') }}"> -->
+
 			<a href="http://heroku-cloud.herokuapp.com/netgauges">
             <img alt="netGauges.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_netGauges_150W.jpg' ) }}">
             </a>
           </td>
           <td>
-            <!-- <a href="netGraphs.htm?userid=1"> -->
-             <!--  <a href="{{ url_for('netgraphs') }}"> -->
+    
 			  <a href="http://heroku-cloud.herokuapp.com/dashboards_list">
               <img alt="netGraphs.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_DashBoards_150W.jpg' ) }}">
             </a>
           </td>
           <td>
-            <!-- <a href="{{ url_for('nethelm') }}"> -->
+        
 			<a href="http://heroku-cloud.herokuapp.com/nethelm">
               <img alt="netHelm.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_netHelm_150W.jpg' ) }}">
           </a>
