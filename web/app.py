@@ -326,6 +326,23 @@ def alertsmart():
     features = [],
   )
 
+@app.route('/mapsmart')
+def mapsmart():
+
+  return render_template(
+    'mapsmart.html',
+    features = [],
+  )
+
+@app.route('/graphsmart')
+def graphsmart():
+
+  return render_template(
+    'graphsmart.html',
+    features = [],
+  )
+
+
 
 @app.route('/meshdimmer')
 def meshdimmer():
