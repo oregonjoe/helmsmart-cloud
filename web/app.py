@@ -9,7 +9,7 @@ import json
 import hashlib
 import base64
 from operator import itemgetter
-
+from itertools import groupby
 
 import requests
 from requests.exceptions import HTTPError
