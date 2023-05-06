@@ -16022,7 +16022,9 @@ def getgpsseriesbydeviceid():
             #log.info("freeboard  jsondata group   %s",strvalues)
 
 
-          
+      except NameError as e:
+        log.info('inFluxDB_GPS: NameError in geting gps data parsing  %s:  ', strvalues)
+        log.info('inFluxDB_GPS: NameError in geting gps data parsing  %s:  ' % str(e))          
         #return jsonify( message=jsondataarray, status='success')
       except:
         #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
@@ -16211,7 +16213,10 @@ def getgpsseriesbydeviceid():
           response.headers["Content-Disposition"] = "attachment; filename=HelmSmart.json"
           return response
 
-        
+        except NameError as e:
+          log.info('inFluxDB_GPS: NameError in convert_influxdb_gpsjson %s:  ', gpsdata)
+          log.info('inFluxDB_GPS: NameError in convert_influxdb_gpsjson %s:  ' % str(e))
+          
         except:
           #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
           e = sys.exc_info()[0]
