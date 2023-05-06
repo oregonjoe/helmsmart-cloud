@@ -1439,12 +1439,12 @@ def get_influxdbcloud_data():
       #  #print 'inFluxDB Exception2:', response.response.successful, response.response.reason 
       #  return jsonify( message='No data to return 2', status='error')
 
-      print 'inFluxDB processing data headers:'
+      #print 'inFluxDB processing data headers:'
       jsondata=[]
       jsonkey=[]
       #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
       #jsonkey.append(strvaluekey)
-      print 'inFluxDB start processing data points:'
+      #print 'inFluxDB start processing data points:'
       #log.info("freeboard Get InfluxDB response %s", response)
 
       keys = response.raw.get('series',[])
