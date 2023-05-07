@@ -1,9 +1,8 @@
-from __main__ import app
-
+from flask import render_template
 from flask_cors import CORS, cross_origin
 
-@app.route('/dashboard')
-@cross_origin()
+#@app.route('/dashboard')
+#@cross_origin()
 def dashboard():
 
     log.info("dashboard.html: START ****" )
