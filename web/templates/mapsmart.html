@@ -1664,8 +1664,36 @@ function DrawMapData() {
         myLatlng = new google.maps.LatLng(glat[i], glng[i]);
         
 		TotalDistance = TotalDistance + parseFloat(gdistance[i]);
-		labelString = gn2ktime[i] + "\n" + "speed: " + parseFloat(gspeed[i]).toFixed(2) + "\n" + "segment distance: " + parseFloat(gdistance[i]).toFixed(2) + "\n" + "total distance: " + parseFloat(TotalDistance).toFixed(2);
+		/*
+		labelString = gn2ktime[i] + "\n" + "speed: " + parseFloat(gspeed[i]).toFixed(2) +
+		"\n" + "segment distance: " + parseFloat(gdistance[i]).toFixed(2) + "\n" + "total distance: " +
+		parseFloat(TotalDistance).toFixed(2);
+		*/
+	
+			  if(myoverlay[i] == "")
+			  {
+					labelString = gn2ktime[i] + "\n" + "speed: " + parseFloat(gspeed[i]).toFixed(2) + "\n" +
+					"segment distance: " + parseFloat(gdistance[i]).toFixed(2) + "\n" + "total distance: " + parseFloat(TotalDistance).toFixed(2);
 
+			  }
+			  else
+			  {
+				try{
+					labelString = gn2ktime[i] + "\n" + "speed: " + parseFloat(gspeed[i]).toFixed(2) + "\n" +
+					"segment distance: " + parseFloat(gdistance[i]).toFixed(2) + "\n" + "total distance: " + parseFloat(TotalDistance).toFixed(2) + "\n" +
+					document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].text + ": " +
+					parseFloat(myoverlay[i]).toFixed(2) ;
+				
+				}
+				catch(err)
+				{
+					labelString = gn2ktime[i] + "\n" + "speed: " + parseFloat(gspeed[i]).toFixed(2) + "\n" +
+					"segment distance: " + parseFloat(gdistance[i]).toFixed(2) + "\n" + "total distance: " + parseFloat(TotalDistance).toFixed(2);
+				}
+			  }
+	
+	
+	
 	
 		
 		if(myMapOptions == 1 || myMapOptions == 2)
