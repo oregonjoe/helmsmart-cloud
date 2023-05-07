@@ -897,6 +897,182 @@ def getuser_endpoint():
     db_pool.putconn(conn)    
 
 
+    
+
+@app.route('/prefs' , methods=['GET','POST'])
+def prefs_endpoint():
+  conn = db_pool.getconn()
+
+  gettype = request.args.get('type', 'update')
+  userid = request.args.get('userid', '')
+  alexaemail = request.args.get('email', '')
+  pagetype = request.args.get('pagetype', 0)
+  prefkey = request.args.get('prefkey', 0)
+  options = request.args.get('options', 0)
+  deviceid = request.args.get('deviceid', '000000000000')
+  start = request.args.get('start', 0)
+  end = request.args.get('end', 0)
+  interval = request.args.get('interval', 0)
+  repeat = request.args.get('repeat', 0)
+  instance = request.args.get('instance', '0')
+  systemclock = request.args.get('systemclock', '0')
+  labels = request.args.get('labels', '')
+
+
+  
+
+  if userid == "":
+    try:
+      session['userid']
+    except:
+      return jsonify( message='No Session exists', status='error')
+
+    if session['userid'] != userid:
+      return jsonify( message='No one is signed in', status='error')
+    
+  else:
+    if userid == '0':
+       return jsonify( message='Guest cannot modify prefs', status='error')
+  
+  
+  query = "select devicename from user_devices where userid = %s"
+  
+  try:
+    ## first check db to see if user id is matched to device id
+    cursor = conn.cursor()
+    #cursor.execute(query, (userid,))
+    #i = cursor.fetchone()
+    ## if not then just exit
+    #if cursor.rowcount == 0:
+    #    return jsonify( message='No Userid  match', status='error')
+
+    if gettype == 'update':
+        sqlstr = 'select * from updateuserpageprefs(%s, %s,'+ options + ');'   
+        cursor.execute(sqlstr, (prefkey, userid))
+    elif gettype == 'add':
+        sqlstr = 'select * from setuserpageprefs(%s,%s,%s,'+ options + ');' 
+        cursor.execute(sqlstr, (userid, pagetype, prefkey))
+    elif gettype == 'delete':
+        sqlstr = 'select * from deleteuserpageprefs(%s,%s);' 
+        cursor.execute(sqlstr, (userid, prefkey))
+    elif gettype == 'update_tempodb':
+        sqlstr = 'select * from updatetempodbuserpageprefs(%s, %s,'+ options + ');'   
+        cursor.execute(sqlstr, (prefkey, userid))
+    elif gettype == 'add_tempodb':
+        sqlstr = 'select * from settempodbuserpageprefs(%s,%s,%s,'+ options + ');' 
+        cursor.execute(sqlstr, (userid, pagetype, prefkey))
+    elif gettype == 'delete_tempodb':
+        sqlstr = 'select * from deletetempodbuserpageprefs(%s,%s);' 
+        cursor.execute(sqlstr, (userid, prefkey))
+
+
+
+    elif gettype == 'add_alert':
+        log.info("prefs add_alert%s : %s", deviceid, request.data)       
+        sqlstr = 'select * from setalertprefs(%s,%s,%s,%s,%s,%s);' 
+        cursor.execute(sqlstr, (deviceid, start, end, interval, repeat, options))
+
+
+    elif gettype == 'update_alert':
+        log.info("prefs update_alert %s : %s", deviceid, request.data)  
+        sqlstr = 'select * from updatealertprefs(%s,%s,%s,%s,%s,%s,%s);'
+        log.info("prefs update_alert deviveid %s : %s %s %s %s %s %s %s ", deviceid, prefkey, deviceid, start, end, interval, repeat, options)  
+        cursor.execute(sqlstr, (prefkey, deviceid, start, end, interval, repeat, options))
+
+
+    elif gettype == 'delete_alert':
+        sqlstr = 'delete from post_messages where messagekey = %s;' 
+        cursor.execute(sqlstr, (prefkey, ))
+
+        
+    elif gettype == 'add_alexa_pref':
+        sqlstr = 'select * from setalexaprefs(%s,%s,%s,%s);' 
+        cursor.execute(sqlstr, (userid, alexaemail, deviceid, options))
+    elif gettype == 'update_alexa_pref':
+        sqlstr = 'select * from updatealexaprefs(%s,%s,%s,%s,%s);' 
+        cursor.execute(sqlstr, (prefkey, userid, alexaemail, deviceid,  options))
+    elif gettype == 'delete_alexa_pref':
+        sqlstr = 'delete from alexa_prefs where messagekey = %s;' 
+        cursor.execute(sqlstr, (prefkey, ))
+
+    elif gettype == 'add_meshdimmer_pref':
+        sqlstr = 'select * from setmeshdimmerprefs(%s,%s,%s,%s,%s,%s,%s);' 
+        cursor.execute(sqlstr, (userid, prefname, deviceid, instance, systemclock,labels,options))
+    elif gettype == 'update_meshdimmer_pref':
+        sqlstr = 'select * from updatemeshdimmerprefs(%s,%s,%s,%s,%s,%s,%s,%s);' 
+        cursor.execute(sqlstr, (prefkey, userid, prefname, deviceid, instance, systemclock,labels,options))
+    elif gettype == 'delete_meshdimmer_pref':
+        sqlstr = 'delete from user_meshdimmer_prefs where messagekey = %s;' 
+        cursor.execute(sqlstr, (prefkey, ))         
+
+    elif gettype == 'add_timmer_pref':
+
+      
+      log.info("prefs add timmer_prefs data %s : %s", deviceid, request.mimetype)
+      log.info("prefs add timmer_prefs data %s : %s", deviceid, request.form.to_dict(flat=False))
+
+
+      log.info("prefs add timmer_prefs data %s : %s", deviceid, request.data)
+      #log.info("prefs add timmer_prefs form %s : %s", deviceid, request.form) 
+      #myTimmerPrefs = json.loads(request.form)
+      # myTimmerPrefs = request.form['timmerprefs']
+      #myTimmerPrefs = request.form        
+      #log.info("prefs add timmer_prefs myTimmerPrefs %s : %s", deviceid, myTimmerPrefs) 
+      #options = json.loads(request.data)
+      #log.info("prefs add timmer_prefs options %s : %s", deviceid, options)
+      #log.info("prefs add timmer_prefs %s : %s", deviceid, json.dumps(options))
+
+
+
+      
+      sqlstr = 'select * from settimmerprefs(%s,%s,%s);' 
+      #cursor.execute(sqlstr, (userid, deviceid, options))
+      cursor.execute(sqlstr, (userid, deviceid, request.data))
+      
+    elif gettype == 'update_timmer_pref':
+      log.info("prefs update timmer_prefs %s : %s", deviceid, request.data)      
+      #myTimmerPrefs = json.loads(request.form)
+      #options = myTimmerPrefs['timmerprefs']
+      #log.info("prefs update timmer_prefs %s : %s", deviceid, json.dumps(options))
+      
+      sqlstr = 'select * from updatetimmerprefs(%s,%s,%s,%s);' 
+      #cursor.execute(sqlstr, (prefkey, userid, deviceid,  options))
+      #cursor.execute(sqlstr, (prefkey, userid, deviceid,  json.dumps(options)))
+      cursor.execute(sqlstr, (prefkey, userid, deviceid,  request.data))
+      
+    elif gettype == 'delete_timmer_pref':
+        sqlstr = 'delete from timmer_prefs where messagekey = %s;' 
+        cursor.execute(sqlstr, (prefkey, ))         
+        
+
+        
+    else:
+        return jsonify( message='error updating pref - no type', status='error')
+
+    conn.commit()
+    #i = cursor.fetchone()
+    # if not then just exit
+    #if cursor.rowcount == 0:
+    #    return jsonify( message='error updating pref', status='error')
+
+  #try:
+    #cursor = conn.cursor()
+    #cursor.execute(request.args['i'])
+    #conn.commit()
+
+    #return jsonify( message=sqlstr, status='error')
+    return jsonify(result="OK")
+  #except:
+  #  conn.rollback()
+  finally:
+    db_pool.putconn(conn)
+
+
+
+
+
+
+
 @app.route('/help')
 @cross_origin()
 def help():
