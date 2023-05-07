@@ -16643,7 +16643,8 @@ def getgpsseriesbydeviceid_dbc():
       
       #return jsonify(results=data)
       log.info('getgpsseriesbydeviceid: data %s:  ', data)  
-
+      log.info('***************************************************************************************************  ')
+      
       if not data:
         return jsonify( message='No data object to return 1', status='error')
 
@@ -16713,6 +16714,8 @@ def getgpsseriesbydeviceid_dbc():
         # We need to reorder this into joined lat and lng based on same epoch times
 
         #jsondata = sorted(jsondata,key=itemgetter('epoch'))
+      log.info('--------------------------------------------------------------------------------------------------  ')
+        
         # sort based on epoch times
         jsondata = sorted(jsondata, key=lambda latlng: latlng[0])
         log.info("getgpsseriesbydeviceid_dbc  jsondata   %s",jsondata)
