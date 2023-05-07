@@ -18452,7 +18452,7 @@ def getgpsseriesbydeviceid_dbc():
               if SERIES_KEY2 == "":                
                 strvalue = strvalue + str(jsondata[i]['epoch'])+ ', ' + str(mytime) + ', ' + str(jsondata[i]['source']) + ', ' + str(jsondata[i]['lat']) + ', ' + str(jsondata[i]['lng']) + ', ' + str(delta)+ ', ' + str(speed)+ ', ' + str(deltatime) + ' \r\n'
               else:
-                strvalue = strvalue + str(jsondata[i]['epoch'])+ ', ' + str(mytime) + ', ' + str(jsondata[i]['source']) + ', ' + str(jsondata[i]['lat']) + ', ' + str(jsondata[i]['lng']) + ', ' + str(delta)+ ', ' + str(speed)+ ', ' + str(deltatime) + ', ' + str(jsondata[i].get('overlay',"")})+ ' \r\n'
+                strvalue = strvalue + str(jsondata[i]['epoch'])+ ', ' + str(mytime) + ', ' + str(jsondata[i]['source']) + ', ' + str(jsondata[i]['lat']) + ', ' + str(jsondata[i]['lng']) + ', ' + str(delta)+ ', ' + str(speed)+ ', ' + str(deltatime) + ', ' + str(jsondata[i].get('overlay',""))+ ' \r\n'
 
           response = make_response(strvalue)
           response.headers['Content-Type'] = 'text/csv'
