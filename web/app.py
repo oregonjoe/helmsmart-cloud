@@ -2626,7 +2626,7 @@ def getinfluxseriesmultibydeviceid():
     points = list(dbcresult.get_points())
     points = sorted(points,key=itemgetter('time'))
 
-    log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud points%s:', points)
+    #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud points%s:', points)
     # get returned values and epoch times and add to a list
     #Sorting and grouping only works on lists and not json key pairs
     for point in points:
@@ -2734,7 +2734,7 @@ def getinfluxseriesmultibydeviceid():
         #go through the groups and find elements that match the key pairs labels and assign to values
         for csv_values in valuesgroup:       
           #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[1])
-          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[2])
+          log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[2])
 
           if csv_values[1] == "value1":
             value1 = csv_values[2]
@@ -3674,9 +3674,12 @@ def convertunits(value, units):
   #//   case 14: //="14">- - -</option>
   #//   case 15: //="15">- - -</option>
   elif units == 16:            #//   case 16: //="16">DEGREES</option>
-    return float("{0:.2f}".format(value * 1.0 ) )
-
-  #//   case 17: //="17">Radians</option>
+    return float("{0:.6f}".format(value * 1.0 ) )
+  
+  elif units == 17:            #//   case 17: //="17">Radians</option>
+    return float("{0:.6f}".format(value * 0.0174533 ) )
+  
+  
   elif units == 18: #//="18">Gallons/hs</option>
       return float("{0:.2f}".format(value * 0.264172052 ) )
 
