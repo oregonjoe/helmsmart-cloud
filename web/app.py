@@ -16714,7 +16714,7 @@ def getgpsseriesbydeviceid_dbc():
         # We need to reorder this into joined lat and lng based on same epoch times
 
         #jsondata = sorted(jsondata,key=itemgetter('epoch'))
-      log.info('--------------------------------------------------------------------------------------------------  ')
+        log.info('--------------------------------------------------------------------------------------------------  ')
         
         # sort based on epoch times
         jsondata = sorted(jsondata, key=lambda latlng: latlng[0])
