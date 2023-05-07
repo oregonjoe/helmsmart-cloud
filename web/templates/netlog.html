@@ -616,7 +616,7 @@ function uploadFileInChunks(file, i){
 
 					
 					
-					var postfilename = "http://helmsmart-cloud.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName 
+					var postfilename = "http://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName 
 					xhr.open("POST", postfilename, true);
 					xhr.setRequestHeader("X_FILENAME", file.name);
 					//xhr.send(e.target.result);
@@ -683,7 +683,7 @@ function uploadFileInChunks(file, i){
 
 					myFileName = myFileName.substr(0,(myFileName.length - 7));
 
-					var postfilename = "http://helmsmart-cloud.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
+					var postfilename = "http://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
 					xhr.open("POST", postfilename, true);
 					xhr.setRequestHeader("X_FILENAME", file.name);
 				
@@ -880,7 +880,7 @@ function uploadHSFileInChunks(file, myuploadDeviceID){
 				//myFileName = myFileName.substr(0,(myFileName.length - 7));
 
 				//var postfilename = "http://helmsmart-cloud.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
-				var postfilename = "http://helmsmart-cloud.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+				var postfilename = "http://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
 				xhr.open("POST", postfilename, true);
 				xhr.setRequestHeader("X_FILENAME", myFileName + ".txt");
 				xhr.send(e.target.result);
