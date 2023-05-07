@@ -640,14 +640,14 @@ def dashboards():
     response.headers['Expires'] = '-1'
     return response
   
-
+"""
 @app.route('/dashboard')
 #@login_required
 @cross_origin()
-dashboard()
+
 
 #@requires_auth
-"""
+
 def dashboard():
 
     log.info("dashboard.html: START ****" )

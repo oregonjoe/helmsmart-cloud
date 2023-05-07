@@ -1,3 +1,8 @@
+from __main__ import app
+
+@app.route('/dashboard')
+#@login_required
+@cross_origin()
 def dashboard():
 
     log.info("dashboard.html: START ****" )
