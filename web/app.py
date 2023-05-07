@@ -16348,6 +16348,7 @@ def getgpsseriesbydeviceid():
 
   except IndexError as e:
     log.info('inFluxDB_GPS: IndexError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    log.info('inFluxDB_GPS: IndexError in convert_influxdb_gpsjson %s:  ' % str(e)) 
     #e = sys.exc_info()[0]
 
 
@@ -16998,14 +16999,15 @@ def getgpsseriesbydeviceid_dbc():
               if deltatime <  float(maxinterval) * 60:
                 if speed < float(maxthreshold)/100:
                   gpsdata.append(gpsjson)
-                
+
+          log.info('getgpsseriesbydeviceid_dbc: gpsdata  %s:  ', gpsdata)      
           #except:
           #  e = sys.exc_info()[0]
           #  log.info('inFluxDB_GPS: Error in geting inFluxDB JSON data %s:  ' % e)
 
           gpsdata = sorted(gpsdata,key=itemgetter('epoch'))
           #print 'GetGPSJSON returning data points:'
-          log.info('GetGPSJSON: returning JSON data:  ' )
+          log.info('getgpsseriesbydeviceid_dbc: returning JSON data:  ' )
 
           
           return jsonify(serieskey = jsonkey, results = gpsdata)
@@ -17014,13 +17016,13 @@ def getgpsseriesbydeviceid_dbc():
           #log.info('inFluxDB_GPS: AttributeError in convert_influxdb_gpsjson %s:  ', data)
           #e = sys.exc_info()[0]
 
-          log.info('inFluxDB_GPS: AttributeError in parsing json output %s:  ' % str(e))
+          log.info('getgpsseriesbydeviceid_dbc: AttributeError in parsing json output %s:  ' % str(e))
           
         except TypeError as e:
           #log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ', data)
           #e = sys.exc_info()[0]
 
-          log.info('inFluxDB_GPS: TypeError in  parsing json output  %s:  ' % str(e))
+          log.info('getgpsseriesbydeviceid_dbc: TypeError in  parsing json output  %s:  ' % str(e))
 
         except KeyError as e:
           #log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ', data)
@@ -17041,7 +17043,7 @@ def getgpsseriesbydeviceid_dbc():
           log.info('Sync: NameError in  parsing json output  %s:  ' % str(e))          
         except:
           e = sys.exc_info()[0]
-          log.info('inFluxDB_GPS: Error in  parsing json output  %s:  ' % e)
+          log.info('getgpsseriesbydeviceid_dbc: Error in  parsing json output  %s:  ' % e)
       
           return jsonify( message='Error in inFluxDB_GPS JSON parsing', status='error')
         
@@ -17054,35 +17056,36 @@ def getgpsseriesbydeviceid_dbc():
         return response
   
   except AttributeError as e:
-    log.info('inFluxDB_GPS: AttributeError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    log.info('getgpsseriesbydeviceid_dbc: AttributeError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
     #e = sys.exc_info()[0]
 
-    log.info('inFluxDB_GPS: AttributeError in convert_influxdb_gpsjson %s:  ' % str(e))
+    log.info('getgpsseriesbydeviceid_dbc: AttributeError in convert_influxdb_gpsjson %s:  ' % str(e))
     
   except TypeError as e:
-    log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    log.info('getgpsseriesbydeviceid_dbc: TypeError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
     #e = sys.exc_info()[0]
 
-    log.info('inFluxDB_GPS: TypeError in convert_influxdb_gpsjson %s:  ' % str(e))
+    log.info('getgpsseriesbydeviceid_dbc: TypeError in convert_influxdb_gpsjson %s:  ' % str(e))
     
   except ValueError as e:
-    log.info('inFluxDB_GPS: ValueError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    log.info('getgpsseriesbydeviceid_dbc: ValueError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
     #e = sys.exc_info()[0]
 
-    log.info('inFluxDB_GPS: ValueError in convert_influxdb_gpsjson %s:  ' % str(e))            
+    log.info('getgpsseriesbydeviceid_dbc: ValueError in convert_influxdb_gpsjson %s:  ' % str(e))            
     
   except NameError as e:
-    log.info('inFluxDB_GPS: NameError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    log.info('getgpsseriesbydeviceid_dbc: NameError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
     #e = sys.exc_info()[0]
 
   except IndexError as e:
-    log.info('inFluxDB_GPS: IndexError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    log.info('getgpsseriesbydeviceid_dbc: IndexError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
+    log.info('getgpsseriesbydeviceid_dbc: ValueError in convert_influxdb_gpsjson %s:  ' % str(e))     
     #e = sys.exc_info()[0]
 
 
   except:
     e = sys.exc_info()[0]
-    log.info('inFluxDB_GPS: Error read_data exception data.points %s:  ' % e)
+    log.info('getgpsseriesbydeviceid_dbc: Error read_data exception data.points %s:  ' % e)
     return jsonify( message='gps_influxdb read_data exception data.points', status='error')
   
 
