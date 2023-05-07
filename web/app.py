@@ -16743,7 +16743,9 @@ def getgpsseriesbydeviceid_dbc():
             
             #log.info("freeboard  jsondata group   %s",strvalues)
 
-
+      except KeyError as e:
+        log.info('getgpsseriesbydeviceid_dbc: KeyError in geting gps data parsing  %s:  ', jsondataarray)
+        log.info('getgpsseriesbydeviceid_dbc: KeyError in geting gps data parsing  %s:  ' % str(e))
           
       except NameError as e:
         log.info('getgpsseriesbydeviceid_dbc: NameError in geting gps data parsing  %s:  ', jsondataarray)
@@ -16807,7 +16809,10 @@ def getgpsseriesbydeviceid_dbc():
           response.headers['Content-Type'] = 'text/csv'
           response.headers["Content-Disposition"] = "attachment; filename=HelmSmart.csv"
           return response
-
+        
+        except KeyError as e:
+          log.info('inFluxDB_GPS: KeyError in parsing  CSV data  %s:  ', strvalue)
+          log.info('inFluxDB_GPS: KeyError in  parsing  CSV data  %s:  ' % str(e))  
 
         except NameError as e:
           log.info('inFluxDB_GPS: NameError in parsing  CSV data  %s:  ', strvalue)
@@ -17079,7 +17084,7 @@ def getgpsseriesbydeviceid_dbc():
 
   except IndexError as e:
     log.info('getgpsseriesbydeviceid_dbc: IndexError in convert_influxdb_gpsjson %s:  ', SERIES_KEY1)
-    log.info('getgpsseriesbydeviceid_dbc: ValueError in convert_influxdb_gpsjson %s:  ' % str(e))     
+    log.info('getgpsseriesbydeviceid_dbc: IndexError in convert_influxdb_gpsjson %s:  ' % str(e))     
     #e = sys.exc_info()[0]
 
 
