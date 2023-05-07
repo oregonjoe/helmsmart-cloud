@@ -2529,7 +2529,9 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
  // url =  url + "&serieskey2=" +  "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:lng.HelmSmart"; ;
     //if(ShowHideSensorsflag == true)
     {
-        url =  url + "&serieskey2=" + document.getElementById("PGNNumber").options[document.getElementById("PGNNumber").selectedIndex].value ;
+        //url =  url + "&serieskey2=" + document.getElementById("PGNNumber").options[document.getElementById("PGNNumber").selectedIndex].value ;
+		url =  url + "&serieskey2=" + document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].value ;
+		
     }
     //url =  url + "&serieskey4=" + DialPGNNumber[3] ;
     //url =  url + "&format=json"  ;
