@@ -16581,22 +16581,22 @@ def getgpsseriesbydeviceid_dbc():
         serieskeys   =    serieskeys  + " OR " +   overlaykey
         log.info("inFlux-cloud gps: serieskeys Query %s", serieskeys)
 
-        """      
+  
         query = ('select median(lat) as lat, median(lng) as lng, mean({}) as {}, last(source) as source from {} '
                         'where {} AND time > {}s and time < {}s '
                        'group by *, time({}s)') \
                   .format( overlayparameter[1], overlayparameter[1], measurement, serieskeys,
                           startepoch, endepoch,
                           resolution)
-        """
 
+        """
         query = ('select median(lat) as lat, median(lng) as lng, mean({}) as overlay, last(source) as source from {} '
                         'where {} AND time > {}s and time < {}s '
                        'group by *, time({}s)') \
                   .format( overlayparameter[1], measurement, serieskeys,
                           startepoch, endepoch,
                           resolution)
-
+        """    
 
    
         log.info("inFlux gps: Overlay Query %s", query)
@@ -16676,7 +16676,7 @@ def getgpsseriesbydeviceid_dbc():
           #source= seriesname['source']
           source='FF'
           parameter = seriesname['parameter']
-          log.info("inFluxDB_GPS_JSON values %s", series['values'] )
+          #log.info("inFluxDB_GPS_JSON values %s", series['values'] )
           
           for point in  series['values']:
             fields = {}
