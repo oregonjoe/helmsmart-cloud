@@ -1703,7 +1703,22 @@ function DrawMapData() {
 			  myPolyDataValues[i][4] = parseFloat(TotalDistance).toFixed(2);
 			  myPolyDataValues[i][5] = "";
 			  myPolyDataValues[i][6] = "";
-              myPolyDataValues[i][7] = parseFloat(myoverlay[i]).toFixed(2) ;
+			  
+			  if(myoverlay[i] == "")
+			  {
+				myPolyDataValues[i][7] = "---";
+			  }
+			  else
+			  {
+				try{
+					myPolyDataValues[i][7] = parseFloat(myoverlay[i]).toFixed(2) ;
+				}
+				catch(err)
+				{
+					myPolyDataValues[i][7] = "---";
+				}
+			  }
+				
              // myPolyDataValues[i][3] =mycog[i] ;
 
 
