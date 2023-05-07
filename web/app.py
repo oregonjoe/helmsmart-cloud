@@ -1565,7 +1565,1094 @@ def get_influxdbcloud_data():
   finally:
     db_pool.putconn(conn)
 
+ 
+  
+@app.route('/getinfluxseriesmultibydeviceid')
+def getinfluxseriesmultibydeviceid():
 
+  deviceid = request.args.get('deviceid', '')
+  startepoch = request.args.get('startepoch', 0)
+  endepoch = request.args.get('endepoch', 0)
+  resolution = request.args.get('resolution', 60)
+
+  alerttype = request.args.get('rollup', 'mean')
+  
+  #SERIES_KEY1 = request.args.get('serieskey1', '')
+  #UNITS_KEY1 = request.args.get('unitskey1', 255)
+  #SERIES_KEY2 = request.args.get('serieskey2', '')
+  #UNITS_KEY2 = request.args.get('unitskey2', 255)
+  #SERIES_KEY3 = request.args.get('serieskey3', '')
+  #UNITS_KEY3 = request.args.get('unitskey3', 255)
+  #SERIES_KEY4 = request.args.get('serieskey4', '')
+  #UNITS_KEY4 = request.args.get('unitskey4', 255)
+  #SERIES_KEY5 = request.args.get('serieskey5', '')
+  #UNITS_KEY5 = request.args.get('unitskey5', 255)
+  #SERIES_KEY6 = request.args.get('serieskey6', '')
+  #UNITS_KEY6 = request.args.get('unitskey6', 255)
+  #SERIES_KEY7 = request.args.get('serieskey7', '')
+  #UNITS_KEY7 = request.args.get('unitskey7', 255)
+  #SERIES_KEY8 = request.args.get('serieskey8', '')
+  #UNITS_KEY8 = request.args.get('unitskey8', 255)
+
+  #alerttype=parameters.get('alerttype', "mean")
+
+    
+  influxdb_keys=[]
+  influxdb_cloud_keys=[]
+  influxdb_gpskeys=[]
+
+
+  SERIES_KEYS=[]
+  SERIES_KEY1 = ""
+  SERIES_KEY2 = ""
+  SERIES_KEY3 = ""
+  SERIES_KEY4 = ""
+  SERIES_KEY5 = ""
+  SERIES_KEY6 = ""
+  SERIES_KEY7 = ""  
+  SERIES_KEY8 = ""
+  SERIES_KEY9 = ""
+  SERIES_KEY10 = ""
+  SERIES_KEY11 = ""  
+  SERIES_KEY12 = ""
+  SERIES_KEY13 = ""
+  SERIES_KEY14 = ""
+  SERIES_KEY15 = ""  
+  SERIES_KEY16 = ""
+  series_elements = 0
+  
+  IDBC_KEYS=[]
+  IDBC_SERIES_KEY1 = ""
+  IDBC_SERIES_KEY2 = ""
+  IDBC_SERIES_KEY3 = ""
+  IDBC_SERIES_KEY4 = ""
+  IDBC_SERIES_KEY5 = ""
+  IDBC_SERIES_KEY6 = ""
+  IDBC_SERIES_KEY7 = ""  
+  IDBC_SERIES_KEY8 = ""
+
+
+  IDBC_PARAMETERS=[]
+  IDBC_SERIES_PARAMETERS1 = ""
+  IDBC_SERIES_PARAMETERS2 = ""
+  IDBC_SERIES_PARAMETERS3 = ""
+  IDBC_SERIES_PARAMETERS4 = ""
+  IDBC_SERIES_PARAMETERS5 = ""
+  IDBC_SERIES_PARAMETERS6 = ""
+  IDBC_SERIES_PARAMETERS7 = ""  
+  IDBC_SERIES_PARAMETERS8 = ""
+
+  UNITS_KEY1 = 255
+  UNITS_KEY2 = 255
+  UNITS_KEY3 = 255
+  UNITS_KEY4 = 255
+  UNITS_KEY5 = 255
+  UNITS_KEY6 = 255
+  UNITS_KEY7 = 255
+  UNITS_KEY8 = 255
+  
+  series_elements = 0
+        
+  dataformat = request.args.get('format', 'json')
+  #dataformat = request.args.get('format', 'csv')
+  
+  host = 'hilldale-670d9ee3.influxcloud.net' 
+  port = 8086
+  username = 'helmsmart'
+  password = 'Salm0n16'
+  database = 'pushsmart-cloud'
+
+
+  measurement = "HelmSmart"
+  measurement = "HS_" + str(deviceid)
+
+
+  #db = influxdb.InfluxDBClient(host, port, username, password, database)
+  dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
+  
+  """
+  startepoch = 1413569242
+  endepoch = 1413742048
+  resolution = 60
+  startepoch = datetime.datetime.now() - datetime.timedelta(minutes=2)
+  endepoch =  datetime.datetime.now()
+  startepoch = int(time.time()) - (600)
+  endepoch =  int(time.time())
+  """
+
+  names =[]
+
+  keys = []
+  units = {}
+  serieskeys = ""
+
+  Device_ID_Key = []
+  Sensor_Key = []
+  Source_Key = []
+  Instance_Key = []
+  Type_Key = []
+  Parameter_Key = []
+  Rollup_Key = []
+
+  #initialize arry to empty strings
+  for x in range(0, 9):
+  
+    Device_ID_Key.append("---")
+    Sensor_Key.append("---")
+    Source_Key.append("---")
+    Instance_Key.append("---")
+    Type_Key.append("---")
+    Parameter_Key.append("---")
+    Rollup_Key.append("---")
+
+  series_elements = 0
+
+  try:
+
+    try:
+        SERIES_KEY1= request.args.get('serieskey1', '')
+
+        if SERIES_KEY1 != str(0):
+
+          SERIES_KEYS.append(SERIES_KEY1)
+          
+          if SERIES_KEY1 != "":
+            if SERIES_KEY1.find(".*.") > 0:  
+              seriesname = SERIES_KEY1.replace(".*.","*.")
+            else:
+              seriesname = SERIES_KEY1
+              
+            seriestags = seriesname.split(".")
+
+            serieslable = seriestags[0].split(":")
+            Device_ID_Key[1] = serieslable[1]
+            
+            serieslable = seriestags[1].split(":")
+            Sensor_Key[1]= serieslable[1]
+            
+            serieslable = seriestags[2].split(":")
+            Source_Key[1]= serieslable[1]
+            
+            serieslable = seriestags[3].split(":")
+            Instance_Key[1]= serieslable[1]
+            
+            serieslable = seriestags[4].split(":")
+            Type_Key[1]= serieslable[1]
+
+            serieslable = seriestags[5].split(":")
+            Parameter_Key[1]= serieslable[1]        
+            
+            UNITS_KEY1 = request.args.get('unitskey1', 255)
+            Rollup_Key[1] = alerttype
+
+          
+          IDBC_SERIES_KEY1 = convertInfluxDBCloudKeys(SERIES_KEY1)
+          IDBC_KEYS.append(IDBC_SERIES_KEY1)
+          
+          IDBC_SERIES_PARAMETERS1 = convertInfluxDBCloudParameters(SERIES_KEY1, "value1", alerttype)
+          IDBC_PARAMETERS.append(IDBC_SERIES_PARAMETERS1)
+
+          
+          if SERIES_KEY1.find("parameter:latlng.") > 0:
+              influxdb_gpskeys.append(SERIES_KEY1)
+          else:
+              influxdb_keys.append(SERIES_KEY1)
+              influxdb_cloud_keys.append(SERIES_KEY1)
+
+              
+          series_elements = series_elements + 1
+
+
+    except TypeError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting series_1 parameters %s:  ', SERIES_KEY1)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting series_1 parameters %s:  ' % str(e))
+
+        
+    except KeyError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting series_1 parameters %s:  ', SERIES_KEY1)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting series_1 parameters %s:  ' % str(e))
+        
+    except ValueError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: ValueError in in geting series_1 parameters %s:  ', SERIES_KEY1)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: ValueError in in geting series_1 parameters %s:  ' % str(e))
+    
+    except NameError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting series_1 parameters %s:  ', SERIES_KEY1)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting series_1 parameters %s:  ' % str(e))
+
+    except IndexError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting series_1 parameters %s:  ', SERIES_KEY1)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting series_1 parameters %s:  ' % str(e))                
+   
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: Error in geting series_1 parameters %s:  ' % e)
+        pass
+            
+    try:
+        SERIES_KEY2= request.args.get('serieskey2', '')
+        
+
+
+        if SERIES_KEY2 != str(0):
+
+          SERIES_KEYS.append(SERIES_KEY2)
+          
+          if SERIES_KEY2 != "":
+            if SERIES_KEY2.find(".*.") > 0:  
+              seriesname = SERIES_KEY2.replace(".*.","*.")
+            else:
+              seriesname = SERIES_KEY2
+              
+            seriestags = seriesname.split(".")
+
+            serieslable = seriestags[0].split(":")
+            Device_ID_Key[2] = serieslable[1]
+            
+            serieslable = seriestags[1].split(":")
+            Sensor_Key[2]= serieslable[1]
+            
+            serieslable = seriestags[2].split(":")
+            Source_Key[2]= serieslable[1]
+            
+            serieslable = seriestags[3].split(":")
+            Instance_Key[2]= serieslable[1]
+            
+            serieslable = seriestags[4].split(":")
+            Type_Key[2]= serieslable[1]
+
+            serieslable = seriestags[5].split(":")
+            Parameter_Key[2]= serieslable[1]        
+            
+            UNITS_KEY2 = request.args.get('unitskey2', 255)         
+            Rollup_Key[2] = alerttype
+
+
+          
+          IDBC_SERIES_KEY2 = convertInfluxDBCloudKeys(SERIES_KEY2)
+          IDBC_KEYS.append(IDBC_SERIES_KEY2)            
+
+          IDBC_SERIES_PARAMETERS2 = convertInfluxDBCloudParameters(SERIES_KEY2,  "value2", alerttype)
+          IDBC_PARAMETERS.append(IDBC_SERIES_PARAMETERS2)
+
+          
+
+
+          if SERIES_KEY2.find("parameter:latlng.") > 0:
+              influxdb_gpskeys.append(SERIES_KEY2)
+          else:
+              influxdb_keys.append(SERIES_KEY2)
+              influxdb_cloud_keys.append(SERIES_KEY2)
+
+              
+          series_elements = series_elements + 1
+
+
+    except TypeError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting series_2 parameters %s:  ', SERIES_KEY2)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting series_2 parameters %s:  ' % str(e))
+
+        
+    except KeyError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting series_2 parameters %s:  ', SERIES_KEY2)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting series_2 parameters %s:  ' % str(e))
+
+    
+    except NameError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting series_2 parameters %s:  ', SERIES_KEY2)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting series_2 parameters %s:  ' % str(e))
+
+    except IndexError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting series_2 parameters %s:  ', SERIES_KEY2)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting series_2 parameters %s:  ' % str(e))                
+   
+        
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info('Telemetrypost: Error in geting series_2 parameters %s:  ' % e)
+        pass
+    
+    try:
+        SERIES_KEY3= request.args.get('serieskey3', '')
+        
+
+        if SERIES_KEY3 != str(0):
+
+          SERIES_KEYS.append(SERIES_KEY3)
+          
+          if SERIES_KEY3 != "":
+            if SERIES_KEY3.find(".*.") > 0:  
+              seriesname = SERIES_KEY3.replace(".*.","*.")
+            else:
+              seriesname = SERIES_KEY3
+              
+            seriestags = seriesname.split(".")
+
+            serieslable = seriestags[0].split(":")
+            Device_ID_Key[3] = serieslable[1]
+            
+            serieslable = seriestags[1].split(":")
+            Sensor_Key[3]= serieslable[1]
+            
+            serieslable = seriestags[2].split(":")
+            Source_Key[3]= serieslable[1]
+            
+            serieslable = seriestags[3].split(":")
+            Instance_Key[3]= serieslable[1]
+            
+            serieslable = seriestags[4].split(":")
+            Type_Key[3]= serieslable[1]
+
+            serieslable = seriestags[5].split(":")
+            Parameter_Key[3]= serieslable[1]        
+            
+            UNITS_KEY3 = request.args.get('unitskey3', 255)        
+            Rollup_Key[3] = alerttype
+
+
+         
+          IDBC_SERIES_KEY3 = convertInfluxDBCloudKeys(SERIES_KEY3)
+          IDBC_KEYS.append(IDBC_SERIES_KEY3)            
+
+          IDBC_SERIES_PARAMETERS3 = convertInfluxDBCloudParameters(SERIES_KEY3, "value3", alerttype)
+          IDBC_PARAMETERS.append(IDBC_SERIES_PARAMETERS3)
+
+          
+
+
+          if SERIES_KEY3.find("parameter:latlng.") > 0:
+              influxdb_gpskeys.append(SERIES_KEY3)
+          else:
+              influxdb_keys.append(SERIES_KEY3)
+              influxdb_cloud_keys.append(SERIES_KEY3)
+
+            
+        series_elements = series_elements + 1
+    except TypeError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting series_3 parameters %s:  ', SERIES_KEY3)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting series_3 parameters %s:  ' % str(e))
+
+        
+    except KeyError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting series_3 parameters %s:  ', SERIES_KEY3)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting series_3 parameters %s:  ' % str(e))
+
+    
+    except NameError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting series_3 parameters %s:  ', SERIES_KEY3)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting series_3 parameters %s:  ' % str(e))
+
+    except IndexError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting series_3 parameters %s:  ', SERIES_KEY3)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting series_3 parameters %s:  ' % str(e))                
+   
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: Error in geting series_3 parameters %s:  ' % e)
+        pass
+        
+    
+    try:
+        SERIES_KEY4= request.args.get('serieskey4', '')
+         
+
+        if SERIES_KEY4 != str(0):
+
+       
+          SERIES_KEYS.append(SERIES_KEY4)
+
+
+          if SERIES_KEY4 != "":
+            if SERIES_KEY4.find(".*.") > 0:  
+              seriesname = SERIES_KEY4.replace(".*.","*.")
+            else:
+              seriesname = SERIES_KEY4
+              
+            seriestags = seriesname.split(".")
+
+            serieslable = seriestags[0].split(":")
+            Device_ID_Key[4] = serieslable[1]
+            
+            serieslable = seriestags[1].split(":")
+            Sensor_Key[4]= serieslable[1]
+            
+            serieslable = seriestags[2].split(":")
+            Source_Key[4]= serieslable[1]
+            
+            serieslable = seriestags[3].split(":")
+            Instance_Key[4]= serieslable[1]
+            
+            serieslable = seriestags[4].split(":")
+            Type_Key[4]= serieslable[1]
+
+            serieslable = seriestags[5].split(":")
+            Parameter_Key[4]= serieslable[1]        
+            
+            UNITS_KEY4 = request.args.get('unitskey4', 255)
+            Rollup_Key[4] = alerttype
+
+
+            
+          IDBC_SERIES_KEY4 = convertInfluxDBCloudKeys(SERIES_KEY4)
+          IDBC_KEYS.append(IDBC_SERIES_KEY4)            
+
+
+          IDBC_SERIES_PARAMETERS4 = convertInfluxDBCloudParameters(SERIES_KEY4, "value4", alerttype)
+          IDBC_PARAMETERS.append(IDBC_SERIES_PARAMETERS4)
+
+          
+          
+          if SERIES_KEY4.find("parameter:latlng.") > 0:
+              influxdb_gpskeys.append(SERIES_KEY4)
+          else:
+              influxdb_keys.append(SERIES_KEY4)
+              influxdb_cloud_keys.append(SERIES_KEY4)
+
+              
+          series_elements = series_elements + 1
+          
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: Error in geting series_4 parameters %s:  ' % e)
+        pass
+    
+    try:
+        SERIES_KEY5= request.args.get('serieskey5', '')
+        
+
+        if SERIES_KEY5 != str(0):
+
+        
+          SERIES_KEYS.append(SERIES_KEY5)
+
+          if SERIES_KEY5 != "":
+            if SERIES_KEY5.find(".*.") > 0:  
+              seriesname = SERIES_KEY5.replace(".*.","*.")
+            else:
+              seriesname = SERIES_KEY5
+              
+            seriestags = seriesname.split(".")
+
+            serieslable = seriestags[0].split(":")
+            Device_ID_Key[5] = serieslable[1]
+            
+            serieslable = seriestags[1].split(":")
+            Sensor_Key[5]= serieslable[1]
+            
+            serieslable = seriestags[2].split(":")
+            Source_Key[5]= serieslable[1]
+            
+            serieslable = seriestags[3].split(":")
+            Instance_Key[5]= serieslable[1]
+            
+            serieslable = seriestags[4].split(":")
+            Type_Key[5]= serieslable[1]
+
+            serieslable = seriestags[5].split(":")
+            Parameter_Key[5]= serieslable[1]        
+            
+            UNITS_KEY5 = request.args.get('unitskey5', 255)
+            Rollup_Key[5] = alerttype
+
+
+            
+          IDBC_SERIES_KEY5 = convertInfluxDBCloudKeys(SERIES_KEY5)
+          IDBC_KEYS.append(IDBC_SERIES_KEY5)            
+
+          IDBC_SERIES_PARAMETERS5 = convertInfluxDBCloudParameters(SERIES_KEY5, "value5", alerttype)
+          IDBC_PARAMETERS.append(IDBC_SERIES_PARAMETERS5)
+
+          
+
+          
+          if SERIES_KEY5.find("parameter:latlng.") > 0:
+              influxdb_gpskeys.append(SERIES_KEY5)
+          else:
+              influxdb_keys.append(SERIES_KEY5)
+              influxdb_cloud_keys.append(SERIES_KEY5)
+
+              
+          series_elements = series_elements + 1
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: Error in geting series_5 parameters %s:  ' % e)
+        pass
+    
+    try:
+        SERIES_KEY6= request.args.get('serieskey6', '')
+         
+
+        if SERIES_KEY6 != str(0):
+
+       
+          SERIES_KEYS.append(SERIES_KEY6)
+
+
+          if SERIES_KEY6 != "":
+            if SERIES_KEY6.find(".*.") > 0:  
+              seriesname = SERIES_KEY6.replace(".*.","*.")
+            else:
+              seriesname = SERIES_KEY6
+              
+            seriestags = seriesname.split(".")
+
+            serieslable = seriestags[0].split(":")
+            Device_ID_Key[6] = serieslable[1]
+            
+            serieslable = seriestags[1].split(":")
+            Sensor_Key[6]= serieslable[1]
+            
+            serieslable = seriestags[2].split(":")
+            Source_Key[6]= serieslable[1]
+            
+            serieslable = seriestags[3].split(":")
+            Instance_Key[6]= serieslable[1]
+            
+            serieslable = seriestags[4].split(":")
+            Type_Key[6]= serieslable[1]
+
+            serieslable = seriestags[5].split(":")
+            Parameter_Key[6]= serieslable[1]        
+            
+            UNITS_KEY6 = request.args.get('unitskey6', 255)          
+            Rollup_Key[6] = alerttype
+
+        
+          IDBC_SERIES_KEY6 = convertInfluxDBCloudKeys(SERIES_KEY6)
+          IDBC_KEYS.append(IDBC_SERIES_KEY6)            
+
+          IDBC_SERIES_PARAMETERS6 = convertInfluxDBCloudParameters(SERIES_KEY6, "value6", alerttype)
+          IDBC_PARAMETERS.append(IDBC_SERIES_PARAMETERS6)
+
+          
+
+          
+          if SERIES_KEY6.find("parameter:latlng.") > 0:
+              influxdb_gpskeys.append(SERIES_KEY6)
+          else:
+              influxdb_keys.append(SERIES_KEY6)
+              influxdb_cloud_keys.append(SERIES_KEY6)
+
+              
+
+          series_elements = series_elements + 1
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: Error in geting series_6 parameters %s:  ' % e)
+        pass
+
+    
+    try:
+        SERIES_KEY7= request.args.get('serieskey7', '')
+        
+
+        if SERIES_KEY7 != str(0):
+
+        
+          SERIES_KEYS.append(SERIES_KEY7)
+
+
+          if SERIES_KEY7 != "":
+            if SERIES_KEY7.find(".*.") > 0:  
+              seriesname = SERIES_KEY7.replace(".*.","*.")
+            else:
+              seriesname = SERIES_KEY7
+              
+            seriestags = seriesname.split(".")
+
+            serieslable = seriestags[0].split(":")
+            Device_ID_Key[7] = serieslable[1]
+            
+            serieslable = seriestags[1].split(":")
+            Sensor_Key[7]= serieslable[1]
+            
+            serieslable = seriestags[2].split(":")
+            Source_Key[7]= serieslable[1]
+            
+            serieslable = seriestags[3].split(":")
+            Instance_Key[7]= serieslable[1]
+            
+            serieslable = seriestags[4].split(":")
+            Type_Key[7]= serieslable[1]
+
+            serieslable = seriestags[5].split(":")
+            Parameter_Key[7]= serieslable[1]        
+            
+            UNITS_KEY7 = request.args.get('unitskey7', 255)
+            Rollup_Key[7] = alerttype
+
+
+            
+          IDBC_SERIES_KEY7 = convertInfluxDBCloudKeys(SERIES_KEY7)
+          IDBC_KEYS.append(IDBC_SERIES_KEY7)            
+
+
+          IDBC_SERIES_PARAMETERS7 = convertInfluxDBCloudParameters(SERIES_KEY7, "value7", alerttype)
+          IDBC_PARAMETERS.append(IDBC_SERIES_PARAMETERS7)
+
+          
+          
+          if SERIES_KEY7.find("parameter:latlng.") > 0:
+              influxdb_gpskeys.append(SERIES_KEY7)
+          else:
+              influxdb_keys.append(SERIES_KEY7)
+              influxdb_cloud_keys.append(SERIES_KEY7)
+
+              
+
+          series_elements = series_elements + 1
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: Error in geting series_7 parameters %s:  ' % e)
+        pass
+
+    
+    try:
+        SERIES_KEY8= request.args.get('serieskey8', '')
+        
+
+        if SERIES_KEY8 != str(0):
+
+        
+          SERIES_KEYS.append(SERIES_KEY8)
+
+          if SERIES_KEY8 != "":
+            if SERIES_KEY8.find(".*.") > 0:  
+              seriesname = SERIES_KEY8.replace(".*.","*.")
+            else:
+              seriesname = SERIES_KEY8
+              
+            seriestags = seriesname.split(".")
+
+            serieslable = seriestags[0].split(":")
+            Device_ID_Key[8] = serieslable[1]
+            
+            serieslable = seriestags[1].split(":")
+            Sensor_Key[8]= serieslable[1]
+            
+            serieslable = seriestags[2].split(":")
+            Source_Key[8]= serieslable[1]
+            
+            serieslable = seriestags[3].split(":")
+            Instance_Key[8]= serieslable[1]
+            
+            serieslable = seriestags[4].split(":")
+            Type_Key[8]= serieslable[1]
+
+            serieslable = seriestags[5].split(":")
+            Parameter_Key[8]= serieslable[1]        
+            
+            UNITS_KEY8 = request.args.get('unitskey8', 255)
+            Rollup_Key[8] = alerttype
+
+
+            
+          IDBC_SERIES_KEY8 = convertInfluxDBCloudKeys(SERIES_KEY8)
+          IDBC_KEYS.append(IDBC_SERIES_KEY8)            
+
+
+          IDBC_SERIES_PARAMETERS8 = convertInfluxDBCloudParameters(SERIES_KEY8, "value8", alerttype)
+          IDBC_PARAMETERS.append(IDBC_SERIES_PARAMETERS8)
+
+          
+          
+          if SERIES_KEY8.find("parameter:latlng.") > 0:
+              influxdb_gpskeys.append(SERIES_KEY8)
+          else:
+              influxdb_keys.append(SERIES_KEY8)
+              influxdb_cloud_keys.append(SERIES_KEY8)
+
+              
+
+          series_elements = series_elements + 1
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: Error in geting series_8 parameters %s:  ' % e)
+        pass
+
+    
+    
+    #print 'Series elements:', series_elements
+    #if debug_all: log.info('Telemetrypost: influxdb_keys %s:  ', influxdb_keys)
+
+  except:
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: Error in geting series parameters %s:  ', posttype)
+      e = sys.exc_info()[0]
+
+      if debug_all: log.info("Error: %s" % e)
+
+      return jsonify( message='Error in geting series parameters', status='error')
+
+  if debug_all: log.info('getinfluxseriesmultibydeviceid: Processed series parameters %s:  ', series_elements)
+
+
+  if debug_all: log.info('getinfluxseriesmultibydeviceid: influxdb_GPSkeys %s:  ', influxdb_gpskeys)
+  if debug_all: log.info('getinfluxseriesmultibydeviceid: influxdb_keys %s:  ', influxdb_keys)
+  if debug_all: log.info('getinfluxseriesmultibydeviceid: influxdb_cloud_keys %s:  ', IDBC_KEYS)
+  if debug_all: log.info('getinfluxseriesmultibydeviceid: influxdb_cloud_parameters %s:  ', IDBC_PARAMETERS)
+
+  
+  if IDBC_KEYS != []:
+        
+        if SERIES_KEY1 != "":
+            seriesname = SERIES_KEY1
+            seriestags = seriesname.split(".")
+
+            seriesdeviceidtag = seriestags[0]
+            seriesdeviceid = seriesdeviceidtag.split(":")
+            measurement = "HS_" + seriesdeviceid[1]
+        else:
+            measurement = "HelmSmart"
+            
+        log.info('getinfluxseriesmultibydeviceid:: Influx Cloud measurement String %s:  ', measurement)
+        
+        idbcserieskeys = ' OR '.join(IDBC_KEYS)
+        if debug_all: log.info('Telemetrypost: idbcserieskeys string %s:  ', idbcserieskeys)
+        
+        idbcseriesparameters = ' , '.join(IDBC_PARAMETERS)
+        if debug_all: log.info('Telemetrypost: idbcseriesparameters string %s:  ', idbcseriesparameters)
+
+        dbcquery = ('select {} FROM {} '
+                         'where {} AND time > {}s and time < {}s '
+                         'group by *, time({}s)') \
+                    .format( idbcseriesparameters,  measurement, idbcserieskeys,
+                            startepoch, endepoch,
+                            resolution)
+            
+        log.info('getinfluxseriesmultibydeviceid:: Influx Cloud Query String %s:  ', dbcquery)
+
+  else:
+    return jsonify( message='getinfluxseriesmultibydeviceid: Empty keys', status='error')
+  
+  try:
+    jsondata=[]
+    jsonkey=[]
+    dbcresult = None
+    #"""                
+    dbcresult = dbc.query(dbcquery)
+    #dbresults.append(dbresult)
+    #if debug_all: log.info('getinfluxseriesmultibydeviceid: InfluxDB-Cloud query result %s:  ', dbcresult)
+    #log.info('getinfluxseriesmultibydeviceid: InfluxDB-Cloud query result %s:  ', dbcresult)
+
+    keys = dbcresult.raw.get('series',[])
+    #log.info("getinfluxseriesmultibydeviceid Get InfluxDB series keys %s", keys)
+
+  except InfluxDBClientError as e:
+    log.info('getinfluxseriesmultibydeviceid: inFlux error in InfluxDB query %s:  ' % str(e))
+
+  except TypeError as e:
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting inFluxDB data %s:  ', dbcquery)
+      #e = sys.exc_info()[0]
+
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting inFluxDB data %s:  ' % str(e))
+
+      
+  except KeyError as e:
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting inFluxDB data %s:  ', dbcquery)
+      #e = sys.exc_info()[0]
+
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting inFluxDB data %s:  ' % str(e))
+      
+  except ValueError as e:
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: ValueError in in geting inFluxDB data %s:  ', dbcquery)
+      #e = sys.exc_info()[0]
+
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: ValueError in in geting inFluxDB data %s:  ' % str(e))
+  
+  except NameError as e:
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting inFluxDB data %s:  ', dbcquery)
+      #e = sys.exc_info()[0]
+
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting inFluxDB data %s:  ' % str(e))
+
+  except IndexError as e:
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting inFluxDB data %s:  ', dbcquery)
+      #e = sys.exc_info()[0]
+
+      if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting inFluxDB data %s:  ' % str(e))                
+ 
+    
+  except:
+    #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
+    e = sys.exc_info()[0]
+    log.info('inFluxDB: Error in geting inFluxDB data %s:  ' % e)
+    
+    return jsonify( message='Error in inFluxDB query 2', status='error')
+
+  if not dbcresult:
+    #print 'inFluxDB Exception1:', response.response.successful, response.response.reason 
+    return jsonify( message='No response to return 1' , status='error')
+
+  #return jsonify(result=dbcresult)
+
+  # return csv formated data
+  if dataformat == 'csv' or dataformat == 'json':
+    #def generate():
+    # create header row
+
+    # create header row
+    #yield strvalue + 'time, value1, value2, value3, value4 \r\n'
+    #strvalue = strvalue + 'time, value1, value2, value3, value4 \r\n'
+    
+    #strnames = 'timestamp, ' + serieskeys +  ' \r\n'
+
+    points = list(dbcresult.get_points())
+    points = sorted(points,key=itemgetter('time'))
+
+    log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud points%s:', points)
+    # get returned values and epoch times and add to a list
+    #Sorting and grouping only works on lists and not json key pairs
+    for point in points:
+      #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud point%s:', point)
+      
+      value1 = '---'
+      value2 = '---'
+      value3 = '---'
+      value4 = '---'
+      value5 = '---'
+      value6 = '---'
+      value7 = '---'
+      value8 = '---'
+
+      try:
+        
+        if point['time'] is not None:
+          mydatetimestr = str(point['time'])
+          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
+          dtt = mydatetime.timetuple()
+          ts = int(mktime(dtt)*1000)
+
+        if point['value1'] is not None:
+          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud point value1_1 %s units %s:', point['value1'], UNITS_KEY1)
+          value1 = convertunits( point['value1'], UNITS_KEY1)
+          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud point value1_2 %s:', value1)
+          # add to list if we mave a match to the key pair
+          jsondata.append((ts, 'value1',value1 ))
+
+        if point['value2'] is not None:
+          value2 = convertunits( point['value2'], UNITS_KEY2)
+          # add to list if we mave a match to the key pair
+          jsondata.append((ts, 'value2',value2 ))
+
+           
+        if point['value3'] is not None:
+          value3 = convertunits( point['value3'], UNITS_KEY3)
+          # add to list if we mave a match to the key pair
+          jsondata.append((ts, 'value3',value3 ))
+           
+        if point['value4'] is not None:
+          value4 = convertunits( point['value4'], UNITS_KEY4)
+          # add to list if we mave a match to the key pair
+          jsondata.append((ts, 'value4',value4 ))
+
+           
+        if point['value5'] is not None:
+          value5 = convertunits( point['value5'], UNITS_KEY5)
+          # add to list if we mave a match to the key pair
+          jsondata.append((ts, 'value5',value5 ))
+
+           
+        if point['value6'] is not None:
+          value6 = convertunits( point['value6'], UNITS_KEY6)
+          # add to list if we mave a match to the key pair
+          jsondata.append((ts, 'value6',value6 ))
+
+           
+        if point['value7'] is not None:
+          value7 = convertunits( point['value7'], UNITS_KEY7)
+          # add to list if we mave a match to the key pair
+          jsondata.append((ts, 'value7',value7 ))
+
+           
+        if point['value8'] is not None:
+          value8 = convertunits( point['value8'], UNITS_KEY8)
+          # add to list if we mave a match to the key pair
+          jsondata.append((ts, 'value8',value8 ))
+
+
+      except:
+        #if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting inFluxDB point %s:  ', point)
+        #log.info('inFluxDB: Error in geting inFluxDB data points%s:  ' % e)
+        e = sys.exc_info()[0]
+        pass
+        #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud point:')
+
+
+    #jsondata = sorted(jsondata,key=itemgetter('epoch'))
+    # sort list based on epoch time integer x[0] which is first element in list
+    jsondata = sorted(jsondata, key=lambda x: x[0])
+    #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud point%s:', jsondata)
+    jsondataarray = []
+    groups = []
+    strvalues = ""
+    strnames = ""
+    
+    try:          
+      # group  values based on epoch times and get rid of repeated epoch times
+      for key, valuesgroup in groupby(jsondata, lambda x: x[0]):
+
+        value1 = '---'
+        value2 = '---'
+        value3 = '---'
+        value4 = '---'
+        value5 = '---'
+        value6 = '---'
+        value7 = '---'
+        value8 = '---'
+
+        #groups.append(list(valuesgroup))
+        #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', list(valuesgroup))
+        #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud key %s:', key)
+
+        #go through the groups and find elements that match the key pairs labels and assign to values
+        for csv_values in valuesgroup:       
+          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[1])
+          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[2])
+
+          if csv_values[1] == "value1":
+            value1 = csv_values[2]
+
+          if csv_values[1] == "value2":
+            value2 = csv_values[2]
+
+          if csv_values[1] == "value3":
+            value3 = csv_values[2]
+
+
+          if csv_values[1] == "value4":
+            value4 = csv_values[2]
+
+
+          if csv_values[1] == "value5":
+            value5 = csv_values[2]
+
+
+          if csv_values[1] == "value6":
+            value6 = csv_values[2]
+
+
+          if csv_values[1] == "value7":
+            value7 = csv_values[2]
+
+
+          if csv_values[1] == "value8":
+            value8 = csv_values[2]
+
+
+          
+          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[3])
+          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[4])
+         
+
+        #  log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud csv_values%s:', csv_values[0])
+        #  #jsondataarray.append({'epoch':mydatetimestr, 'value1':value1,'value2':value2,'value3':value3,'value4':value4,'value5':value5,'value6':value6,'value7':value7,'value8':value8})
+        
+        # convert epoch time integer to date/time string
+        mytime = datetime.datetime.fromtimestamp(float(key/1000)).strftime('%Y-%m-%d %H:%M:%SZ')
+
+        #creeat a CSV row string
+        strvalues=  strvalues + str(key) + ", " + str(mytime) + ", " + str(value1)+ ", " +str(value2)+ ", " +str(value3)+ ", " +str(value4)+ ", " +str(value5)+ ", " +str(value6)+ ", " +str(value7)+ ", " +str(value8) +   '\r\n'
+
+        #create ajson row too
+        jsondataarray.append({'epoch':key, 'value1':value1,'value2':value2,'value3':value3,'value4':value4,'value5':value5,'value6':value6,'value7':value7,'value8':value8})          
+      
+      #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud jsondataarray%s:', jsondataarray)          
+
+
+    except TypeError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting inFluxDB data %s:  ', jsondata)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: TypeError in in geting inFluxDB data %s:  ' % str(e))
+
+        
+    except KeyError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting inFluxDB data %s:  ', jsondata)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: KeyError in in geting inFluxDB data %s:  ' % str(e))
+        
+    except ValueError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: ValueError in in geting inFluxDB data %s:  ', jsondata)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: ValueError in in geting inFluxDB data %s:  ' % str(e))
+    
+    except NameError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting inFluxDB data %s:  ', jsondata)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: NameError in in geting inFluxDB data %s:  ' % str(e))
+
+    except IndexError as e:
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting inFluxDB data %s:  ', jsondata)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getinfluxseriesmultibydeviceid: IndexError in in geting inFluxDB data %s:  ' % str(e))                
+   
+      
+    except:
+      #log.info('Telemetrypost: Error in geting Telemetry parameters %s:  ', posttype)
+      e = sys.exc_info()[0]
+      log.info('inFluxDB: Error in geting inFluxDB data %s:  ' % e)
+
+
+
+
+  # return csv formated data
+  if dataformat == 'csv':
+    strnames = strnames + " Device_ID,," + str(Device_ID_Key[1]) + ","  + str(Device_ID_Key[2]) + "," + str(Device_ID_Key[3]) + "," + str(Device_ID_Key[4]) + "," + str(Device_ID_Key[5]) + "," + str(Device_ID_Key[6]) + "," + str(Device_ID_Key[7]) + "," + str(Device_ID_Key[8]) +  '\r\n'
+    strnames = strnames + " Sensor,," + str(Sensor_Key[1]) + ","  + str(Sensor_Key[2]) + "," + str(Sensor_Key[3]) + "," + str(Sensor_Key[4]) + "," + str(Sensor_Key[5]) + "," + str(Sensor_Key[6]) + "," + str(Sensor_Key[7]) + "," + str(Sensor_Key[8]) +  '\r\n'
+    strnames = strnames + " Source,," + str(Source_Key[1]) + ","  + str(Source_Key[2]) + "," + str(Source_Key[3]) + "," + str(Source_Key[4]) + "," + str(Source_Key[5]) + "," + str(Source_Key[6]) + "," + str(Source_Key[7]) + "," + str(Source_Key[8]) +  '\r\n'
+    strnames = strnames + " Instance,," + str(Instance_Key[1]) + ","  + str(Instance_Key[2]) + "," + str(Instance_Key[3]) + "," + str(Instance_Key[4]) + "," + str(Instance_Key[5]) + "," + str(Instance_Key[6]) + "," + str(Instance_Key[7]) + "," + str(Instance_Key[8]) +  '\r\n'
+    strnames = strnames + " Type,," + str(Type_Key[1]) + ","  + str(Type_Key[2]) + "," + str(Type_Key[3]) + "," + str(Type_Key[4]) + "," + str(Type_Key[5]) + "," + str(Type_Key[6]) + "," + str(Type_Key[7]) + "," + str(Type_Key[8]) +  '\r\n'
+    strnames = strnames + " Parameter,," + str(Parameter_Key[1]) + ","  + str(Parameter_Key[2]) + "," + str(Parameter_Key[3]) + "," + str(Parameter_Key[4]) + "," + str(Parameter_Key[5]) + "," + str(Parameter_Key[6]) + "," + str(Parameter_Key[7]) + "," + str(Parameter_Key[8]) +  '\r\n'
+    strnames = strnames + " Rollup,," + str(Rollup_Key[1]) + ","  + str(Rollup_Key[2]) + "," + str(Rollup_Key[3]) + "," + str(Rollup_Key[4]) + "," + str(Rollup_Key[5]) + "," + str(Rollup_Key[6]) + "," + str(Rollup_Key[7]) + "," + str(Rollup_Key[8]) +  '\r\n'
+
+    strnames = strnames + " Epoch, Date ," + str(get_unit_label(UNITS_KEY1)) + ","  + str(get_unit_label(UNITS_KEY2)) + "," + str(get_unit_label(UNITS_KEY3)) + "," + str(get_unit_label(UNITS_KEY4)) + "," + str(get_unit_label(UNITS_KEY5))+ "," + str(get_unit_label(UNITS_KEY6)) + "," + str(get_unit_label(UNITS_KEY7)) + "," + str(get_unit_label(UNITS_KEY8)) +  '\r\n'
+
+    #strnames = strnames + "Epoch, Date ,Series_1 ,Series_2 ,Series_3 ,Series_4 ,Series_5 ,Series_6 ,Series_7 ,Series_8 " +   '\r\n'
+  
+
+    response = make_response(strnames + strvalues)
+    #response = make_response(json.dumps(outputcsv))
+    #response = make_response(json.dumps(outputjson))
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers["Content-Disposition"] = "attachment; filename=HelmSmart.csv"
+    return response
+
+  # return json formated data
+  if dataformat == 'json':
+    return jsonify( data=jsondataarray , status="OK")
+
+  else:
+    return jsonify( data="format specification error" , status="ERROR")
   
   
 ### dashboard functions ####
