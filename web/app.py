@@ -41,7 +41,7 @@ from influxdb.influxdb08 import InfluxDBClient
 from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 
-import dashboard_routes
+#import dashboard_routes
 
 
 import logging
@@ -643,12 +643,10 @@ def dashboards():
     response.headers['Expires'] = '-1'
     return response
   
-"""
+
 @app.route('/dashboard')
 #@login_required
 @cross_origin()
-
-
 #@requires_auth
 
 def dashboard():
@@ -721,7 +719,7 @@ def dashboard():
 
 
     return render_template('dashboards_list.html', user=session['profile'], env=env) 
-"""
+
 
 
 @app.route('/freeboard_getdashboardjson')
