@@ -4000,6 +4000,155 @@ def getendepochtimes(starttime, Interval):
 
     return(epochtimes)
 
+def get_unit_label(units):
+  
+            units = int(units)
+
+            if units == 0: #//="0">Fahrenheit</option>
+                return str("Fahrenheit") 
+            
+            
+            elif units ==  1: #//="1">Celsius</option>
+                return str("Celsius" )
+            
+
+            elif units == 2: #//e="2">Kelvin</option>
+                return str("Kelvin" )
+            
+
+            elif units == 3: # //="3">- - -</option> 
+               return str("---" )
+              
+      
+            elif units == 4: #//="4">Knots</option>
+                return str("Knots" )
+           
+
+            elif units == 5: #//="5">MPH</option>
+                return str("MPH" )
+            
+            
+            elif units == 6: #//e="6">KPH</option>
+                return str("KPH" )
+           
+      
+            elif units ==  7: #//="7">- - -</option>
+                 return str("Meters/sec" )             
+              
+            elif units == 8: #//="8">PSI</option>
+                return str("PSI" )
+          
+            
+
+            elif units == 9: #//e="9">KPASCAL</option>
+                return str("KPASCAL" )
+
+   
+            
+            elif units == 10: #//="10">INHG</option>
+                return str("INHG" )
+    
+
+            elif units ==  11: #//="11">- - -</option>
+               return str("---" )
+              
+            elif units == 12: #//="12">TRUE</option>
+               return str("TRUE" )
+              
+            elif units ==  13: #//="13">MAGNETIC</option>
+               return str("MAGNETIC" )
+              
+            elif units ==  14: #//="14">- - -</option>
+               return str("---" )
+              
+            elif units ==  15: #//="15">- - -</option>
+               return str("---" )
+              
+            elif units == 16:            #//   case 16: //="16">DEGREES</option>
+              return str("DEGREES" )
+            
+            elif units ==  17: #//="17">#Radians</option>
+              return str("Radians" )
+            
+            elif units == 18: #//="18">Gallons/hs</option>
+                return str("Gallons/hr" )
+
+            elif units == 19: #//="19">Liters/hr</option>
+               return str("Gallons/hs" )
+
+            elif units == 20: #//="20">Liters</option>
+                return str("Liters/hr" )              
+            elif units ==  21: #//="21">Gallons</option>
+                return str("Gallons" )
+              
+            elif units ==  22: #//="22">CubicMeter</option>
+                return str("CubicMeter" )
+              
+            elif units ==  23: #//="23">- - -</option>
+                return str("Hertz" )
+              
+            elif units ==  24: #//="24">RPM</option>
+                return str("RPM" )
+              
+            elif units ==  25: #//="25">RPS</option>
+                return str("RPS" )
+              
+            elif units ==  26: #//="26">%</option>
+                return str("%" )
+              
+            elif units == 27: #//="27">Volts</option>
+                return str("Volts" )
+              
+            elif units == 28: #//="27">Volts</option>
+                return str("Amps" )
+              
+            elif units == 29: #//="27">Volts</option>
+                return str("Watts" )
+              
+            elif units == 30: #//="27">Volts</option>
+                return str("Watts/hr" )
+
+            elif units == 31: #//="31">kWhrs</option>
+                return str("kWhrs" )  
+            
+            elif units == 32: #//="32">Feet</option>
+                return str("Feet" )
+      
+            elif units == 33: #//="33">Meters</option>
+                return str("Meters" )
+
+            elif units == 45: #//="32">Feet</option>
+                return str("Inches" )
+      
+            elif units == 44: #//="33">Meters</option>
+                return str("millimeters" )
+              
+
+            elif units == 34: #//="34">Miles</option>
+                return str("Miles" )            
+  
+            elif units == 35: #//="35">Nautical Mile</option>
+                return str("Nautical Mile" )             
+            
+            elif units == 36: #//="36">Fathoms</option>
+              return str("Fathoms" )
+
+            elif units == 37: #//="37">Time</option>
+                return str("Time" )
+
+            elif units == 38: #//="38">Date/time</option>
+                return str("Date/time" )
+              
+            elif units == 39: #//="39">Hours</option>
+                return str("Hours" )
+
+            elif units ==43: #//="27">Volts 10X</option>
+                return str("Volts 10X" )
+              
+            
+            else:
+                return str("---" )
+
 
 ### INFLUX API CALLS #####
 
