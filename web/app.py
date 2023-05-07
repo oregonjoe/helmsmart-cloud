@@ -16642,7 +16642,7 @@ def getgpsseriesbydeviceid_dbc():
         #raise
       
       #return jsonify(results=data)
-      #log.info('getgpsseriesbydeviceid: datad %s:  ', data)  
+      log.info('getgpsseriesbydeviceid: data %s:  ', data)  
 
       if not data:
         return jsonify( message='No data object to return 1', status='error')
@@ -16661,7 +16661,7 @@ def getgpsseriesbydeviceid_dbc():
         keys = data.raw.get('series',[])
         jsondata=[]
         for series in keys:
-          #log.info("influxdb results..%s", series )
+          log.info("influxdb results..%s", series )
           #log.info("influxdb results..%s", series )
           strvalue ={}
 
@@ -16676,7 +16676,7 @@ def getgpsseriesbydeviceid_dbc():
           #source= seriesname['source']
           source='FF'
           parameter = seriesname['parameter']
-          #log.info("inFluxDB_GPS_JSON values %s", series['values'] )
+          log.info("inFluxDB_GPS_JSON values %s", series['values'] )
           
           for point in  series['values']:
             fields = {}
@@ -16685,7 +16685,7 @@ def getgpsseriesbydeviceid_dbc():
               fields[key] = val
             source = fields.get('source', '.*') 
             #strvalue = {'epoch': fields['time'], 'tag':seriesname, 'lat': fields['lat'], 'lng': fields['lng']}
-            #log.info("freeboard Get InfluxDB series points %s , %s", fields['time'], fields[parameter])
+            log.info("freeboard Get InfluxDB series points %s , %s", fields['time'], fields[parameter])
 
             mydatetimestr = str(fields['time'])
 
