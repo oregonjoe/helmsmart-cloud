@@ -1389,7 +1389,11 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 				try{
 					//myoverlay[index] = parseFloat(myJSONdata.overlay).toFixed(2);
 					myUnits = document.getElementById("DialUnits").selectedIndex;
-					myoverlay[index] = ConvertValueUnits(parseFloat(myJSONdata.overlay), myUnits).toFixed(2);
+					
+					if(myJSONdata.overlay == "")
+						myoverlay[index] ="";
+					else
+						myoverlay[index] = ConvertValueUnits(parseFloat(myJSONdata.overlay), myUnits).toFixed(2);
 				}
 				catch(err)
 				{
