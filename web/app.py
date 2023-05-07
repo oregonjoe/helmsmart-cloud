@@ -333,6 +333,15 @@ def nethelm():
     features = [],
   )
 
+@app.route('/netlog')
+def netlog():
+
+  return render_template(
+    'netlog.html',
+    features = [],
+  )
+
+
 
 @app.route('/alertsmart')
 def alertsmart():
