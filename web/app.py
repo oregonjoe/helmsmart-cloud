@@ -16,7 +16,7 @@ from itertools import groupby
 import requests
 from requests.exceptions import HTTPError
 
-import urllib
+import urllib 
 #from urlparse import urlparse
 from urllib.parse import urlparse,urlencode, quote_plus
 import psycopg
@@ -41,7 +41,7 @@ from influxdb.influxdb08 import InfluxDBClient
 from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 
-from helmsmartdashboards import dashboard
+import dashboard_routes
 
 
 import logging
