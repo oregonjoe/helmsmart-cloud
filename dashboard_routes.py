@@ -41,10 +41,38 @@ from influxdb.influxdb08 import InfluxDBClient
 from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 
-from flask import render_template
+#from flask import render_template
+from flask import (
+  Flask,
+  session,
+  render_template,
+  url_for,
+  make_response,
+  Response,
+  stream_with_context,
+  redirect,
+  request,  
+  jsonify
+)
+
+
+
 from flask_cors import CORS, cross_origin
 
 import logging
+requests_log = logging.getLogger("requests")
+#requests_log.setLevel(logging.WARNING)
+#requests_log.setLevel(logging.INFO)
+requests_log.setLevel(logging.DEBUG)
+#logging.disable(logging.DEBUG)
+
+#logging.basicConfig(level=logging.INFO)  
+logging.basicConfig(level=logging.DEBUG)
+log = logging
+
+
+
+
  
 #@app.route('/dashboard')
 #@cross_origin()
