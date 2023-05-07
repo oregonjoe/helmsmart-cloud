@@ -1565,6 +1565,207 @@ def get_influxdbcloud_data():
   finally:
     db_pool.putconn(conn)
 
+
+#converts old InfluxDB Series Keys to InfluxDB_Cloud Keys
+#returns string Set of tags
+def convertInfluxDBCloudParameters(SERIES_KEY, name, rollup):
+
+    if SERIES_KEY.find(".*.") > 0:  
+        SERIES_KEY = SERIES_KEY.replace(".*.","*.")
+
+    try:    
+
+        seriesname = SERIES_KEY
+        seriestags = seriesname.split(".")
+
+        seriesdeviceidtag = seriestags[0]
+        seriesdeviceid = seriesdeviceidtag.split(":")
+
+        seriessensortag = seriestags[1]
+        seriessensor = seriessensortag.split(":")
+        
+        seriessourcetag = seriestags[2]
+        seriessource = seriessourcetag.split(":")
+
+        seriesinstancetag = seriestags[3]
+        seriesinstance = seriesinstancetag.split(":")
+
+        seriestypetag = seriestags[4]
+        seriestype = seriestypetag.split(":")
+
+        seriesparametertag = seriestags[5]
+        seriesparameter = seriesparametertag.split(":")    
+        parameter = seriesparameter[1]
+
+        if debug_all: log.info('convertInfluxDBCloudParameters: STATUS %s:  ', parameter)
+
+        if rollup == 'timmer':
+            rollup = 'median'
+            
+        if rollup == 'timmerday':
+            rollup = 'median'
+
+        if rollup == 'sunriseset':
+            rollup = 'median'
+            
+        if rollup == 'sunsetrise':
+            rollup = 'median'
+
+
+        if rollup == 'sunriseexpires':
+            rollup = 'median'
+            
+        if rollup == 'sunsetexpires':
+            rollup = 'median'
+
+
+        if rollup == 'startsunrise':
+            rollup = 'median'
+            
+        if rollup == 'startsunset':
+            rollup = 'median'
+
+
+        if parameter == 'latlng':
+            return  "median(lat)  AS lat, median(lng) AS lng  "
+        else:
+            return rollup + "(" + parameter + ")  AS " + name + " "
+
+    except TypeError as e:
+        if debug_all: log.info('convertInfluxDBCloudParameters: TypeError in convertInfluxDBCloudParameters %s:  ', SERIES_KEY)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudParameters: TypeError in convertInfluxDBCloudParameters %s:  ' % str(e))
+        
+    except KeyError as e:
+        if debug_all: log.info('convertInfluxDBCloudParameters: KeyError in convertInfluxDBCloudParameters %s:  ', SERIES_KEY)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudParameters: KeyError in convertInfluxDBCloudParameters %s:  ' % str(e))
+
+    except NameError as e:
+        if debug_all: log.info('convertInfluxDBCloudParameters: NameError in convertInfluxDBCloudParameters %s:  ', SERIES_KEY)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudParameters: NameError in convertInfluxDBCloudParameters %s:  ' % str(e))
+
+    except IndexError as e:
+        if debug_all: log.info('convertInfluxDBCloudParameters: IndexError in convertInfluxDBCloudParameters %s:  ', SERIES_KEY)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudParameters: IndexError in convertInfluxDBCloudParameters %s:  ' % str(e))          
+
+    except:
+        if debug_all: log.info('convertInfluxDBCloudParameters: Error in convertInfluxDBCloudParameters %s:  ', SERIES_KEY)
+        e = sys.exc_info()[0]
+
+
+        
+#converts old InfluxDB Series Keys to InfluxDB_Cloud Keys
+#returns string Set of tags
+def convertInfluxDBCloudKeys(SERIES_KEY):
+
+    if SERIES_KEY.find(".*.") > 0:  
+        SERIES_KEY = SERIES_KEY.replace(".*.","*.")
+        #SERIES_KEY.replace("*.","??")
+        #SERIES_KEY.replace(".",".")
+        if debug_all: log.info('convertInfluxDBCloudKeys: convertInfluxDBCloudKeys replace source %s:  ', SERIES_KEY)
+                
+    try:
+        if debug_all: log.info('convertInfluxDBCloudKeys: SERIES_KEY %s:  ', SERIES_KEY)
+        seriesname = SERIES_KEY
+        seriestags = seriesname.split(".")
+
+        if debug_all: log.info('convertInfluxDBCloudKeys: seriestags %s:  ', seriestags)
+
+        seriesdeviceidtag = seriestags[0]
+        seriesdeviceid = seriesdeviceidtag.split(":")
+
+        seriessensortag = seriestags[1]
+        seriessensor = seriessensortag.split(":")
+
+        seriessourcetag = seriestags[2]
+        seriessource = seriessourcetag.split(":")
+
+        seriesinstancetag = seriestags[3]
+        seriesinstance = seriesinstancetag.split(":")
+
+        seriestypetag = seriestags[4]
+        seriestype = seriestypetag.split(":")
+
+        seriesparametertag = seriestags[5]
+        seriesparameter = seriesparametertag.split(":")    
+        parameter = seriesparameter[1]
+
+        
+        if parameter == 'latlng':
+            serieskeys="( deviceid='"
+            serieskeys= serieskeys + seriesdeviceid[1] 
+            serieskeys= serieskeys +  "' AND sensor='" +  seriessensor[1]
+            if seriessource[1] != "*":
+                serieskeys= serieskeys +  "' AND source='" +  seriessource[1] 
+            serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1] 
+            serieskeys= serieskeys +  "' AND type='" +  seriestype[1] 
+            serieskeys= serieskeys +  "' AND parameter='lat') OR " 
+
+            serieskeys=serieskeys + "( deviceid='"
+            serieskeys= serieskeys + seriesdeviceid[1] 
+            serieskeys= serieskeys +  "' AND sensor='" +  seriessensor[1]
+            if seriessource[1] != "*":
+                serieskeys= serieskeys +  "' AND source='" +  seriessource[1] 
+            serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1] 
+            serieskeys= serieskeys +  "' AND type='" +  seriestype[1] 
+            serieskeys= serieskeys +  "' AND parameter='lng') "  
+
+                
+        else:
+            serieskeys="( deviceid='"
+            serieskeys= serieskeys + seriesdeviceid[1] 
+            serieskeys= serieskeys +  "' AND sensor='" +  seriessensor[1]
+            if seriessource[1] != "*":
+                serieskeys= serieskeys +  "' AND source='" +  seriessource[1] 
+            serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1] 
+            serieskeys= serieskeys +  "' AND type='" +  seriestype[1] 
+            serieskeys= serieskeys +  "' AND parameter='" +  seriesparameter[1] + "'   )"
+
+
+        return serieskeys
+
+
+    except TypeError as e:
+        if debug_all: log.info('convertInfluxDBCloudKeys: TypeError in convertInfluxDBCloudKeys %s:  ', SERIES_KEY)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudKeys: TypeError in convertInfluxDBCloudKeys %s:  ' % str(e))
+        
+    except KeyError as e:
+        if debug_all: log.info('convertInfluxDBCloudKeys: KeyError in convertInfluxDBCloudKeys %s:  ', SERIES_KEY)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudKeys: KeyError in convertInfluxDBCloudKeys %s:  ' % str(e))
+
+    except NameError as e:
+        if debug_all: log.info('convertInfluxDBCloudKeys: NameError in convertInfluxDBCloudKeys %s:  ', SERIES_KEY)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudKeys: NameError in convertInfluxDBCloudKeys %s:  ' % str(e))
+
+    except IndexError as e:
+        if debug_all: log.info('convertInfluxDBCloudKeys: IndexError in convertInfluxDBCloudKeys %s:  ', SERIES_KEY)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudKeys: IndexError in convertInfluxDBCloudKeys %s:  ' % str(e))          
+
+    except:
+        if debug_all: log.info('convertInfluxDBCloudKeys: Error in convertInfluxDBCloudKeys %s:  ', SERIES_KEY)
+        e = sys.exc_info()[0]
+
+        if debug_all: log.info('convertInfluxDBCloudKeys: IndexError in convertInfluxDBCloudKeys %s:  ' % str(e))   
+
+
+  
+
+
  
   
 @app.route('/getinfluxseriesmultibydeviceid')
