@@ -2,7 +2,9 @@ import os
 from os import environ
 from os import environ as env, path
 import pylibmc  
-import sys 
+import sys
+
+
 import json
 
 #import md5
@@ -38,6 +40,9 @@ from influxdb.influxdb08 import InfluxDBClient
 
 from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
+
+from helmsmartdashboards import dashboard
+
 
 import logging
 # *******************************************************************
@@ -639,7 +644,10 @@ def dashboards():
 @app.route('/dashboard')
 #@login_required
 @cross_origin()
+dashboard()
+
 #@requires_auth
+"""
 def dashboard():
 
     log.info("dashboard.html: START ****" )
@@ -710,6 +718,8 @@ def dashboard():
 
 
     return render_template('dashboards_list.html', user=session['profile'], env=env) 
+"""
+
 
 @app.route('/freeboard_getdashboardjson')
 @cross_origin()
@@ -2910,7 +2920,7 @@ def getinfluxseriesmultibydeviceid():
         #go through the groups and find elements that match the key pairs labels and assign to values
         for csv_values in valuesgroup:       
           #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[1])
-          log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[2])
+          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[2])
 
           if csv_values[1] == "value1":
             value1 = csv_values[2]
