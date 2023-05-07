@@ -124,7 +124,7 @@ app.secret_key = 'J0Zr27j/3yX L~SMP!jmN]CDI/,?RB'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 
-app.add_url_rule('/dashboard', view_func=dashboard_routes.dashboard)
+#app.add_url_rule('/dashboard', view_func=dashboard_routes.dashboard)
 
 #sess.init_app(app)
 #Adding auth0
