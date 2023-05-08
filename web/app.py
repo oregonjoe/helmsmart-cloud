@@ -679,62 +679,30 @@ def dashboard():
         
           if mydata is not None:
             user_email = mydata['name']
+            session['useremail']= mydata['name']
             log.info("dashboard.html: user exists:%s", user_email)
+            
+          else:
+            user_email ="guest@helmsmart.com
            
         except:
           e = sys.exc_info()[0]
           log.info('dashboard.html: Error in geting user.custom_data  %s:  ' % str(e))
           return render_template('dashboards_list.html', user=session['profile'], env=env) 
 
-        try:
-          if user_email is not None:
+      session['userid'] = user_db_functions.getuserid(user_email)
 
-            conn = db_pool.getconn()
-            session['username'] = user_email
-            
-            log.info("dashboard.html: email:%s", user_email )
+      log.info("dashboard.html: userid:%s", session['userid'])
 
-            query = "select userid from user_devices where useremail = %s group by userid"
-            
-            cursor = conn.cursor()
-            cursor.execute(query, [user_email])
-            i = cursor.fetchone()       
-            if cursor.rowcount > 0:
-
-                session['userid'] = str(i[0])
-                #session['adminid'] = verificationdata['email']
-            else:
-                session['userid'] = hash_string('helmsmart@mockmyid.com')
-
-            # cursor.close
-            db_pool.putconn(conn)
-
-            log.info("dashboard.html: userid:%s", session['userid'])
-
-            response = make_response(render_template('dashboard.html', features = []))
-            response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0, max-age=0'
-            response.headers['Pragma'] = 'no-cache'
-            response.headers['Expires'] = '-1'
-            return response
+      response = make_response(render_template('dashboard.html', features = []))
+      response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0, max-age=0'
+      response.headers['Pragma'] = 'no-cache'
+      response.headers['Expires'] = '-1'
+      return response
   
-        except:
-          e = sys.exc_info()[0]
-          log.info('dashboard.html: Error in geting user_email  %s:  ' % str(e))
-          pass
 
-
-    except KeyError as e:
-        log.info('freeboard_addnewdashboard: KeyError in  update pref  %s:  ', session['profile'])
-        log.info('freeboard_addnewdashboard: KeyError in  update pref  %s:  ' % str(e))
-    
-    except:
-      e = sys.exc_info()[0]
-      log.info('dashboard.html: Error in geting user  %s:  ' % str(e))
-      pass
-
-
-    return render_template('dashboards_list.html', user=session['profile'], env=env) 
-
+    #return render_template('dashboards_list.html', user=session['profile'], env=env) 
+    return render_template('dashboards_list.html',  env=env)
 
 
 @app.route('/freeboard_getdashboardjson')

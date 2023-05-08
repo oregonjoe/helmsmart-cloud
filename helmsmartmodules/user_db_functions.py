@@ -136,3 +136,50 @@ def getdashboardjson(prefuid):
     db_pool.putconn(conn)                       
 
     return ""  
+
+
+def getuserid(user_email):
+
+    log.info("getuserid: email:%s", user_email )
+    
+    try:
+      
+        conn = db_pool.getconn()
+
+
+        query = "select userid from user_devices where useremail = %s group by userid"
+        
+        cursor = conn.cursor()
+        cursor.execute(query, [user_email])
+        i = cursor.fetchone()       
+        if cursor.rowcount > 0:
+
+            userid = str(i[0])
+            
+        else:
+            #session['userid'] = hash_string('helmsmart@mockmyid.com')
+            userid = "0"
+            
+        # cursor.close
+        db_pool.putconn(conn)
+
+        log.info("getuserid: userid:%s", userid)
+
+        return userid
+  
+
+
+    except KeyError as e:
+        log.info('getuserid: KeyError in  getuserid   %s:  ', user_email)
+        log.info('getuserid: KeyError in  getuserid   %s:  ' % str(e))
+    
+    except:
+      e = sys.exc_info()[0]
+      log.info('getuserid.html: Error in geting user  %s:  ' % str(e))
+      pass
+
+
+    return "0"
+
+
+
