@@ -703,10 +703,10 @@ def dashboard():
   except:
     e = sys.exc_info()[0]
     log.info('dashboard.html error: Error in adding device %s:  ' % e)
-
-
-  finally:
     return render_template('dashboards_list.html',  env=env)
+
+#  finally:
+#    return render_template('dashboards_list.html',  env=env)
 
 
 @app.route('/freeboard_getdashboardjson')
