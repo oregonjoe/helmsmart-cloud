@@ -666,42 +666,46 @@ def dashboards():
 
 def dashboard():
 
-    log.info("dashboard.html: START ****" )
+  log.info("dashboard.html: START ****" )
+
+  try:
     
-    try:
+    if session['profile'] is not None:
       
-      if session['profile'] is not None:
+      try:
+        mydata = session['profile']
+        log.info("dashboard: customdata:%s", mydata)
         
-        try:
-          mydata = session['profile']
-          log.info("dashboard: customdata:%s", mydata)
+      
+        if mydata is not None:
+          user_email = mydata['name']
+          session['useremail']= mydata['name']
+          log.info("dashboard.html: user exists:%s", user_email)
           
-        
-          if mydata is not None:
-            user_email = mydata['name']
-            session['useremail']= mydata['name']
-            log.info("dashboard.html: user exists:%s", user_email)
-            
-          else:
-            user_email ="guest@helmsmart.com"
-           
-        except:
-          e = sys.exc_info()[0]
-          log.info('dashboard.html: Error in geting user.custom_data  %s:  ' % str(e))
-          return render_template('dashboards_list.html', user=session['profile'], env=env) 
+        else:
+          user_email ="guest@helmsmart.com"
+         
+      except:
+        e = sys.exc_info()[0]
+        log.info('dashboard.html: Error in geting user.custom_data  %s:  ' % str(e))
+        return render_template('dashboards_list.html', user=session['profile'], env=env) 
 
-      session['userid'] = user_db_functions.getuserid(user_email)
+    session['userid'] = user_db_functions.getuserid(user_email)
 
-      log.info("dashboard.html: userid:%s", session['userid'])
+    log.info("dashboard.html: userid:%s", session['userid'])
 
-      response = make_response(render_template('dashboard.html', features = []))
-      response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0, max-age=0'
-      response.headers['Pragma'] = 'no-cache'
-      response.headers['Expires'] = '-1'
-      return response
+    response = make_response(render_template('dashboard.html', features = []))
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+    return response
   
+  except:
+    e = sys.exc_info()[0]
+    log.info('dashboard.html error: Error in adding device %s:  ' % e)
 
-    #return render_template('dashboards_list.html', user=session['profile'], env=env) 
+
+  finally:
     return render_template('dashboards_list.html',  env=env)
 
 
