@@ -683,7 +683,7 @@ def dashboard():
             log.info("dashboard.html: user exists:%s", user_email)
             
           else:
-            user_email ="guest@helmsmart.com
+            user_email ="guest@helmsmart.com"
            
         except:
           e = sys.exc_info()[0]
