@@ -54,7 +54,7 @@ debug_all = True
 
 
 #from helmsmartmodules.user_db_functions import getdashboardlists
-import helmsmartmodules.user_db_functions
+import helmsmartmodules.user_db_functions as user_db_functions
 
 #from helmsmartmodules import user_db_functions
 
@@ -744,7 +744,9 @@ def freeboard_getdashboardjson():
   prefuid = request.args.get('prefuid',1)
 
 
-  dashboardjson = getdashboardjson(prefuid)
+  #dashboardjson = getdashboardjson(prefuid)
+  dashboardjson = user_db_functions.getdashboardjson(prefuid)
+
   
   log.info("freeboard_GetDashboardJSON prefuid %s -> %s", prefuid, dashboardjson)
 
@@ -766,8 +768,8 @@ def freeboard_getdashboardlist():
     userid = request.args.get('userid',1)
 
 
-    dashboardlists = helmsmartmodules.user_db_functions.getdashboardlists(userid)
-
+    #dashboardlists = helmsmartmodules.user_db_functions.getdashboardlists(userid)
+    dashboardlists = user_db_functions.getdashboardlists(userid)
     
     log.info("freeboard_GetDashboardJSON prefuid %s ", userid)
     log.info("freeboard_GetDashboardJSON dashboardlists %s ",  jsonify(dashboardlists))
@@ -3324,7 +3326,7 @@ def freeboard_addnewdashboard():
   finally:
     db_pool.putconn(conn)
 
-
+"""
 
 def getdashboardjson(prefuid):
 
@@ -3383,7 +3385,7 @@ def getdashboardjson(prefuid):
     db_pool.putconn(conn)                       
 
     return ""  
-
+"""
 
 """
 
