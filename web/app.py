@@ -18050,9 +18050,11 @@ def getgpsseriesbydeviceid_dbc():
       
       gpskey =SERIES_KEY1
 
+      log.info("inFlux-cloud gpskey %s", gpskey)
+
       overlaykey =SERIES_KEY2
 
-
+      log.info("inFlux-cloud overlaykey %s", overlaykey)
 
 
       seriesname = SERIES_KEY1
@@ -18077,7 +18079,8 @@ def getgpsseriesbydeviceid_dbc():
       seriesparameter = seriesparametertag.split(":")    
       parameter = seriesparameter[1]
 
-
+      log.info("inFlux-cloud parameter %s", parameter)
+      
       if int(gpsmethod) == 0:
         fixtype = 'no GPS'
       elif int(gpsmethod) == 1:        
@@ -18097,8 +18100,10 @@ def getgpsseriesbydeviceid_dbc():
       elif int(gpsmethod) == 8:            
         fixtype = 'Simulate mode'
       else:            
-        fixtype = 'NULL'      
-
+        fixtype = 'NULL'
+        
+      log.info("inFlux-cloud fixtype %s", fixtype)
+      
       sourcekey = ""
 
       if parameter == 'latlng':
@@ -18260,7 +18265,7 @@ def getgpsseriesbydeviceid_dbc():
       
       #return jsonify(results=data)
       #log.info('getgpsseriesbydeviceid: data %s:  ', data)  
-      log.info('***************************************************************************************************  ')
+      log.info('1***************************************************************************************************  ')
       
       if not data:
         return jsonify( message='No data object to return 1', status='error')
@@ -18331,7 +18336,7 @@ def getgpsseriesbydeviceid_dbc():
         # We need to reorder this into joined lat and lng based on same epoch times
 
         #jsondata = sorted(jsondata,key=itemgetter('epoch'))
-        log.info('--------------------------------------------------------------------------------------------------  ')
+        log.info('2--------------------------------------------------------------------------------------------------  ')
         
         # sort based on epoch times
         jsondata = sorted(jsondata, key=lambda latlng: latlng[0])
