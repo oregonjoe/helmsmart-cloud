@@ -2951,7 +2951,8 @@ def getinfluxseriesmultibydeviceid():
         #  #jsondataarray.append({'epoch':mydatetimestr, 'value1':value1,'value2':value2,'value3':value3,'value4':value4,'value5':value5,'value6':value6,'value7':value7,'value8':value8})
         
         # convert epoch time integer to date/time string
-        mytime = datetime.datetime.fromtimestamp(float(key/1000)).strftime('%Y-%m-%d %H:%M:%SZ')
+        #mytime = datetime.datetime.fromtimestamp(float(key/1000)).strftime('%Y-%m-%d %H:%M:%SZ')
+        mytime = datetime.datetime.fromtimestamp(float(key/1000)).strftime('%Y-%m-%d, %H:%M:%SZ')
 
         #creeat a CSV row string
         strvalues=  strvalues + str(key) + ", " + str(mytime) + ", " + str(value1)+ ", " +str(value2)+ ", " +str(value3)+ ", " +str(value4)+ ", " +str(value5)+ ", " +str(value6)+ ", " +str(value7)+ ", " +str(value8) +   '\r\n'
@@ -3004,15 +3005,16 @@ def getinfluxseriesmultibydeviceid():
 
   # return csv formated data
   if dataformat == 'csv':
-    strnames = strnames + " Device_ID,," + str(Device_ID_Key[1]) + ","  + str(Device_ID_Key[2]) + "," + str(Device_ID_Key[3]) + "," + str(Device_ID_Key[4]) + "," + str(Device_ID_Key[5]) + "," + str(Device_ID_Key[6]) + "," + str(Device_ID_Key[7]) + "," + str(Device_ID_Key[8]) +  '\r\n'
-    strnames = strnames + " Sensor,," + str(Sensor_Key[1]) + ","  + str(Sensor_Key[2]) + "," + str(Sensor_Key[3]) + "," + str(Sensor_Key[4]) + "," + str(Sensor_Key[5]) + "," + str(Sensor_Key[6]) + "," + str(Sensor_Key[7]) + "," + str(Sensor_Key[8]) +  '\r\n'
-    strnames = strnames + " Source,," + str(Source_Key[1]) + ","  + str(Source_Key[2]) + "," + str(Source_Key[3]) + "," + str(Source_Key[4]) + "," + str(Source_Key[5]) + "," + str(Source_Key[6]) + "," + str(Source_Key[7]) + "," + str(Source_Key[8]) +  '\r\n'
-    strnames = strnames + " Instance,," + str(Instance_Key[1]) + ","  + str(Instance_Key[2]) + "," + str(Instance_Key[3]) + "," + str(Instance_Key[4]) + "," + str(Instance_Key[5]) + "," + str(Instance_Key[6]) + "," + str(Instance_Key[7]) + "," + str(Instance_Key[8]) +  '\r\n'
-    strnames = strnames + " Type,," + str(Type_Key[1]) + ","  + str(Type_Key[2]) + "," + str(Type_Key[3]) + "," + str(Type_Key[4]) + "," + str(Type_Key[5]) + "," + str(Type_Key[6]) + "," + str(Type_Key[7]) + "," + str(Type_Key[8]) +  '\r\n'
-    strnames = strnames + " Parameter,," + str(Parameter_Key[1]) + ","  + str(Parameter_Key[2]) + "," + str(Parameter_Key[3]) + "," + str(Parameter_Key[4]) + "," + str(Parameter_Key[5]) + "," + str(Parameter_Key[6]) + "," + str(Parameter_Key[7]) + "," + str(Parameter_Key[8]) +  '\r\n'
-    strnames = strnames + " Rollup,," + str(Rollup_Key[1]) + ","  + str(Rollup_Key[2]) + "," + str(Rollup_Key[3]) + "," + str(Rollup_Key[4]) + "," + str(Rollup_Key[5]) + "," + str(Rollup_Key[6]) + "," + str(Rollup_Key[7]) + "," + str(Rollup_Key[8]) +  '\r\n'
+    strnames = strnames + " Device_ID,,," + str(Device_ID_Key[1]) + ","  + str(Device_ID_Key[2]) + "," + str(Device_ID_Key[3]) + "," + str(Device_ID_Key[4]) + "," + str(Device_ID_Key[5]) + "," + str(Device_ID_Key[6]) + "," + str(Device_ID_Key[7]) + "," + str(Device_ID_Key[8]) +  '\r\n'
+    strnames = strnames + " Sensor,,," + str(Sensor_Key[1]) + ","  + str(Sensor_Key[2]) + "," + str(Sensor_Key[3]) + "," + str(Sensor_Key[4]) + "," + str(Sensor_Key[5]) + "," + str(Sensor_Key[6]) + "," + str(Sensor_Key[7]) + "," + str(Sensor_Key[8]) +  '\r\n'
+    strnames = strnames + " Source,,," + str(Source_Key[1]) + ","  + str(Source_Key[2]) + "," + str(Source_Key[3]) + "," + str(Source_Key[4]) + "," + str(Source_Key[5]) + "," + str(Source_Key[6]) + "," + str(Source_Key[7]) + "," + str(Source_Key[8]) +  '\r\n'
+    strnames = strnames + " Instance,,," + str(Instance_Key[1]) + ","  + str(Instance_Key[2]) + "," + str(Instance_Key[3]) + "," + str(Instance_Key[4]) + "," + str(Instance_Key[5]) + "," + str(Instance_Key[6]) + "," + str(Instance_Key[7]) + "," + str(Instance_Key[8]) +  '\r\n'
+    strnames = strnames + " Type,,," + str(Type_Key[1]) + ","  + str(Type_Key[2]) + "," + str(Type_Key[3]) + "," + str(Type_Key[4]) + "," + str(Type_Key[5]) + "," + str(Type_Key[6]) + "," + str(Type_Key[7]) + "," + str(Type_Key[8]) +  '\r\n'
+    strnames = strnames + " Parameter,,," + str(Parameter_Key[1]) + ","  + str(Parameter_Key[2]) + "," + str(Parameter_Key[3]) + "," + str(Parameter_Key[4]) + "," + str(Parameter_Key[5]) + "," + str(Parameter_Key[6]) + "," + str(Parameter_Key[7]) + "," + str(Parameter_Key[8]) +  '\r\n'
+    strnames = strnames + " Rollup,,," + str(Rollup_Key[1]) + ","  + str(Rollup_Key[2]) + "," + str(Rollup_Key[3]) + "," + str(Rollup_Key[4]) + "," + str(Rollup_Key[5]) + "," + str(Rollup_Key[6]) + "," + str(Rollup_Key[7]) + "," + str(Rollup_Key[8]) +  '\r\n'
 
-    strnames = strnames + " Epoch, Date ," + str(get_unit_label(UNITS_KEY1)) + ","  + str(get_unit_label(UNITS_KEY2)) + "," + str(get_unit_label(UNITS_KEY3)) + "," + str(get_unit_label(UNITS_KEY4)) + "," + str(get_unit_label(UNITS_KEY5))+ "," + str(get_unit_label(UNITS_KEY6)) + "," + str(get_unit_label(UNITS_KEY7)) + "," + str(get_unit_label(UNITS_KEY8)) +  '\r\n'
+    #strnames = strnames + " Epoch, Date ," + str(get_unit_label(UNITS_KEY1)) + ","  + str(get_unit_label(UNITS_KEY2)) + "," + str(get_unit_label(UNITS_KEY3)) + "," + str(get_unit_label(UNITS_KEY4)) + "," + str(get_unit_label(UNITS_KEY5))+ "," + str(get_unit_label(UNITS_KEY6)) + "," + str(get_unit_label(UNITS_KEY7)) + "," + str(get_unit_label(UNITS_KEY8)) +  '\r\n'
+    strnames = strnames + " Epoch, Date, Time ," + str(get_unit_label(UNITS_KEY1)) + ","  + str(get_unit_label(UNITS_KEY2)) + "," + str(get_unit_label(UNITS_KEY3)) + "," + str(get_unit_label(UNITS_KEY4)) + "," + str(get_unit_label(UNITS_KEY5))+ "," + str(get_unit_label(UNITS_KEY6)) + "," + str(get_unit_label(UNITS_KEY7)) + "," + str(get_unit_label(UNITS_KEY8)) +  '\r\n'
 
     #strnames = strnames + "Epoch, Date ,Series_1 ,Series_2 ,Series_3 ,Series_4 ,Series_5 ,Series_6 ,Series_7 ,Series_8 " +   '\r\n'
   
@@ -18049,12 +18051,11 @@ def getgpsseriesbydeviceid_dbc():
         SERIES_KEY2 = SERIES_KEY2.replace(".*.","*.")        
       
       gpskey =SERIES_KEY1
-
-      log.info("inFlux-cloud gpskey %s", gpskey)
-
+      log.info("inFlux-cloud serieskeys %s", gpskey)
+      
       overlaykey =SERIES_KEY2
+      log.info("inFlux-cloud serieskeys %s", overlaykey)
 
-      log.info("inFlux-cloud overlaykey %s", overlaykey)
 
 
       seriesname = SERIES_KEY1
@@ -18078,9 +18079,8 @@ def getgpsseriesbydeviceid_dbc():
       seriesparametertag = seriestags[5]
       seriesparameter = seriesparametertag.split(":")    
       parameter = seriesparameter[1]
-
       log.info("inFlux-cloud parameter %s", parameter)
-      
+
       if int(gpsmethod) == 0:
         fixtype = 'no GPS'
       elif int(gpsmethod) == 1:        
@@ -18100,10 +18100,10 @@ def getgpsseriesbydeviceid_dbc():
       elif int(gpsmethod) == 8:            
         fixtype = 'Simulate mode'
       else:            
-        fixtype = 'NULL'
-        
+        fixtype = 'NULL'      
+
       log.info("inFlux-cloud fixtype %s", fixtype)
-      
+
       sourcekey = ""
 
       if parameter == 'latlng':
@@ -18265,7 +18265,7 @@ def getgpsseriesbydeviceid_dbc():
       
       #return jsonify(results=data)
       #log.info('getgpsseriesbydeviceid: data %s:  ', data)  
-      log.info('1***************************************************************************************************  ')
+      log.info('***************************************************************************************************  ')
       
       if not data:
         return jsonify( message='No data object to return 1', status='error')
@@ -18336,7 +18336,7 @@ def getgpsseriesbydeviceid_dbc():
         # We need to reorder this into joined lat and lng based on same epoch times
 
         #jsondata = sorted(jsondata,key=itemgetter('epoch'))
-        log.info('2--------------------------------------------------------------------------------------------------  ')
+        log.info('--------------------------------------------------------------------------------------------------  ')
         
         # sort based on epoch times
         jsondata = sorted(jsondata, key=lambda latlng: latlng[0])
