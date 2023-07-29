@@ -2579,14 +2579,23 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 	
 		var myEventIndex = document.getElementById("PGNTypeID").selectedIndex;
 		var myEventType = document.getElementById("PGNTypeID").options[myEventIndex].value;
-	
-		var mysource = document.getElementById("PGNTypeSource").options[document.getElementById("PGNTypeSource").selectedIndex].value;
-	
-		var mySeriesKey =  makePGNfromEvent(myEventType, mysource);
-        //url =  url + "&serieskey2=" + document.getElementById("PGNNumber").options[document.getElementById("PGNNumber").selectedIndex].value ;
-		//url =  url + "&serieskey2=" + document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].value ;
 		
-		url =  url + "&serieskey2=" + "deviceid:" + DeviceID + "." + mySeriesKey; 
+		
+
+		 
+		 if(myEventIndex != 0)
+		 {
+
+	
+			var mysource = document.getElementById("PGNTypeSource").options[document.getElementById("PGNTypeSource").selectedIndex].value;
+		
+			var mySeriesKey =  makePGNfromEvent(myEventType, mysource);
+			//url =  url + "&serieskey2=" + document.getElementById("PGNNumber").options[document.getElementById("PGNNumber").selectedIndex].value ;
+			//url =  url + "&serieskey2=" + document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].value ;
+			
+			url =  url + "&serieskey2=" + "deviceid:" + DeviceID + "." + mySeriesKey; 
+		
+		}
 		
     }
     //url =  url + "&serieskey4=" + DialPGNNumber[3] ;
