@@ -1,0 +1,47 @@
+<?xml version="1.0" standalone="yes"?>
+<configrecord version="22.10.29">
+<configgroup name = "device" >
+<configitem name="Device Name"><value>SeaSmart_WIFI_G3</value></configitem>
+<configitem name="Mesh_Channel"><value>13</value></configitem>
+<configitem name="Mesh_ID"><value>4A98</value></configitem>
+<configitem name="MESH_Master"><value>0013A20041D2CA98</value></configitem>
+<configitem name="CAN_Mode"><value>0</value></configitem>
+<configitem name="Uart0_Mode"><value>1</value></configitem>
+<configitem name="Uart1_Mode"><value>0</value></configitem>
+<configitem name="Uart2_Mode"><value>4</value></configitem>
+</configgroup>
+<configgroup name = "Pulse">
+<configitem name="PulseMode"><value>0</value></configitem>
+<configitem name="Pulse0Scale"><value>10</value></configitem>
+<configitem name="Pulse1Scale"><value>10</value></configitem>
+<configitem name="PulseInterval"><value>1000</value></configitem>
+</configgroup>
+<configgroup name = "Network">
+<configitem name="DHCP"><value>0</value></configitem>
+<configitem name="IPAddress"><value>192.168.254.110</value></configitem>
+<configitem name="SubNet"><value>255.255.255.0</value></configitem>
+<configitem name="Gateway"><value>192.168.254.254</value></configitem>
+<configitem name="DNS1"><value>8.8.8.8</value></configitem>
+<configitem name="DNS2"><value>192.168.254.254</value></configitem>
+</configgroup>
+<configgroup name = "WiFi">
+<configitem name="Factory"><value>2</value></configitem>
+<configitem name="WiFiType"><value>2</value></configitem>
+<configitem name="STASSID"><value>SeaSmartG3</value></configitem>
+<configitem name="STASECTYPE"><value>3</value></configitem>
+<configitem name="STASECKEY"><value>seasmart</value></configitem>
+<configitem name="SAPSSID"><value></value></configitem>
+<configitem name="SAPSECTYPE"><value>0</value></configitem>
+<configitem name="SAPSECKEY"><value></value></configitem>
+</configgroup>
+<configgroup name = "HTTPPOST">
+<configitem name="PostType"><value>0</value></configitem>
+<configitem name="PostInterval"><value>60</value></configitem>
+<configgroup name = "UDP">
+<configitem name="UDPEnable"><value>0</value></configitem>
+<configitem name="UDPPort"><value>10010</value></configitem>
+</configgroup>
+<configgroup name = "SD  Logging">
+<configitem name="Log_Enable"><value>0</value></configitem>
+<configitem name="Log_Interval"><value>60</value></configitem>
+</configgroup>
