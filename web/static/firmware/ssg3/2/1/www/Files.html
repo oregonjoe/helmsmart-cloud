@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html >
+<head>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta http-equiv="Cache-control:max-age=2592000"  />
+<title>SeaSmart Files Page</title>
+<link href="style/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="scripts/main_conf.min.js"></script>
+<script type="text/javascript" src="scripts/mchp.js"></script>
+
+   <script type='text/javascript' src='scripts/jquery.min.js'></script>
+  <script type="text/javascript" src="scripts/jqblockUI.min.js"></script>
+
+<style type="text/css">
+.auto-style2 {
+	text-align: center;
+}
+.auto-style3 {
+	border-bottom-style: solid;
+	border-bottom-color: #000080;
+}
+.auto-style4 {
+	border-top-style: solid;
+	border-top-color: #000080;
+}
+.auto-style6 {
+	font-size: medium;
+	color: #12126C;
+}
+</style>
+<style  type="text/css">
+ <!--
+ A{text-decoration:none}
+ -->
+ </style>
+
+
+</head>
+
+<body>
+ 
+<table style="width: 800px">
+	<tr>
+		<td>
+		<table style="width: 800px">
+			<tr>
+				<td style="width: 100px" colspan="2"><img alt="" height="80" src="images/CDI_Logo.jpg" width="80" /></td>
+				<td style="width: 450px" colspan="2"><img alt="" height="77" src="images/SeaSmartBanner.jpg" width="400" /></td>
+				<td style="width: 100px" colspan="2"><img alt="ENET" height="90" longdesc="SeaSmart G3 Gateway" src="images/SeaSmartG3Logo.jpg" width="150" /></td>
+			</tr>	
+		</table>
+		<table style="width: 800px">
+				<tr>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+			<tr>
+				<td style="width: 200px" class="auto-style6"><strong><a href="index.html">Home</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="conf.html">Config</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="StatusN2K.html">Status CAN</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="Status0183.html">Status 0183</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong>Files</strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="PGNfilters.html">PGN Filters</a></strong></td>
+			</tr>
+			<tr>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+			</tr>
+		
+		</td>
+	</tr>
+	</table>
+	<table style="width: 800px">
+	<tr>
+
+		<td><strong>LIST SD Files:</strong></td>
+		<td><strong>SD CONFIG Files:</strong></td>		
+		<td><strong>SD SPIFFS Files:</strong></td>
+		<td><strong>SD FIRMWARE Files:</strong></td>
+		<td><strong>SD WEB Files</strong></td>
+
+			</tr>
+			<tr>
+	<td><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="SDListPushSmart"  name="SDListPushSmart" value="List Files"  onclick=" window.open('download/', '_self');" class="auto-style10" />		</td>	
+				
+
+	<td><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;"  id="SDdownloadXML"  value="Download"  name="files[]"  multiple class="auto-style10" ></td>
+	<td><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;"  id="SDdownloadSPIFFS"  value="Download"  name="files[]"  multiple class="auto-style10" ></td>
+			
+			
+	<td><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;"  id="SDdownloadFW"  value="Download"  name="files[]"  multiple class="auto-style10" ></td>
+	<td><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;"  id="SDdownloadWEB"  value="Choose File" name="files[]"   multiple class="auto-style10" /></td>
+
+</tr>	
+</table>	
+<br>
+			<div style=" width:704px; height:13px; background-color:#92b7d3;">
+				<div id ="ProgressBar" style="width:90px; height:13px; background-color:#12365e; border-right:1px white solid;"></div>
+				<div style="margin-top:-15px; color:white; padding-left:4px;"><b><span id="ProgressValue" style="font-weight:normal">0%</span></b></div>
+			</div></p>
+			
+<table>
+	<tr>
+		<td class="auto-style2"><a href="http://www.chetcodigital.com">
+		www.chetcodigital.com</a> - <a href="http://www.seasmart.net">
+		www.seasmart.net</a> - <a href="http://www.netgauges.net">
+		www.netgauges.net</a> - <a href="http://www.digitalmarinegauges.com">
+		www.digitalmarinegauges.com</a>&nbsp;&nbsp; copyright 2022</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+ <input type="hidden" id="SDChunkCount" name="SDChunkCount" value=~SDUPLOAD~  />
+<script type="text/javascript" >
+var reader = new FileReader();
+	var currentChunk=0;
+	var chunkcount = 0;
+    var myloaded = 0;
+    var myFile;
+	var total=0;
+	var getNextBlob=false;
+	var step = 150;
+	
+function handleXMLFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+	if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    // files is a FileList of File objects. List some properties.
+    myFile = files[0];
+	var myFileSize = myFile.size;
+	var myFileName =  myFile.name;
+	var myFilePath =  "config/"
+	upload(myFilePath, myFile);
+
+}	
+
+function handleSPIFFSFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+	if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    // files is a FileList of File objects. List some properties.
+    myFile = files[0];
+	var myFileSize = myFile.size;
+	var myFileName =  myFile.name;
+	var myFilePath =  "spiffs/"
+	upload(myFilePath, myFile);
+
+}		
+
+function handleFWFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+	if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    // files is a FileList of File objects. List some properties.
+    myFile = files[0];
+	var myFileSize = myFile.size;
+	var myFileName =  myFile.name;
+	var myFilePath =  "firmware/"
+	upload(myFilePath, myFile);
+
+}	
+
+function handleHTMLFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+	if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    // files is a FileList of File objects. List some properties.
+    myFile = files[0];
+	var myFileSize = myFile.size;
+	//var myFileName = "/www/" + myFile.name;
+	var myFileName = myFile.name;
+
+   	var myFilePath =  "www/"
+	upload(myFilePath, myFile);
+
+   
+}
+  
+
+  
+  
+  function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
+function updateStatus(xmlData) {
+
+
+	if(xmlData != null && (typeof(xmlData) != "undefined"))
+	{
+		if(xmlData.search("wait") == -1)
+		{
+			if(myloaded < total)
+			{
+					blob = myFile.slice(myloaded,myloaded+step+1);
+					document.getElementById('SDChunkCount').value=xmlData;
+					
+					//document.getElementById('ProgressValue').innerHTML = parseInt(xmlData);
+					document.getElementById('ProgressValue').innerHTML = Math.floor((parseFloat(myloaded/total)* 100)) + ' % ';
+
+
+						var wd=0;
+						wd= myloaded/total;
+						wd= parseFloat(wd);
+						wd= 90 + parseInt(wd*600);
+						document.getElementById('ProgressBar').style.width=wd+"px";
+					
+					if(parseInt(xmlData) == chunkcount)
+					{
+						chunkcount = chunkcount + 1;
+						reader.readAsText(blob);
+					}
+					else 
+					{
+						alert("Error in file upload " + xmlData);	
+						$.unblockUI(); 
+					}			
+			}
+			else if(myloaded == total)
+			{
+				//document.getElementById('ProgressValue').innerHTML = parseInt(xmlData);
+						document.getElementById('ProgressValue').innerHTML = 'upload completed';
+						$.unblockUI(); 
+			}
+		}
+	}
+	
+	else
+	{
+		alert("Error in file upload xmlData invalid");	
+		$.unblockUI(); 
+		}
+				   
+}
+
+
+  
+ function uploadFileInChunks(file){
+    myloaded = 0;
+	chunkcount = 0;
+    //var step = 1024*1024;
+	//var step = 150;
+    total = file.size;
+    var start = 0;
+	var numofchunks = 0;
+	var sleeptime = 500;
+	var myulFileName;
+	var HTMLText;
+	var HTMLlength;
+	var HTMLstep;
+	var HTMLchunkStr;
+
+	
+	currentChunk=0;
+ 
+	//var m_uploadmessages = $id("uploadmessages");
+	document.getElementById('SDChunkCount').value='0';
+
+	numofchunks = parseInt(total / step);
+
+	        $.blockUI({ 
+     message: '<h1>Uploading file...</h1>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+	//var myprogressbar = $id("ulprogressBar");
+	//var myprogressvalue = $id("progressvalue");
+	//myprogressvalue.innerHTML = " starting";
+
+	//var reader = new FileReader();
+
+    reader.onprogress = function(e){
+            myloaded += e.loaded;
+			if(myloaded == total)
+			{
+				//document.getElementById('ProgressValue').innerHTML = parseInt(xmlData);
+						document.getElementById('ProgressValue').innerHTML = 'upload completed';
+						$.unblockUI(); 
+			}
+		};
+
+
+    reader.onload = function(e){
+
+			
+             if(myloaded < total)
+			 {
+                  
+				   
+				   myulFileName = file.name;
+
+					
+					HTMLText = e.target.result;
+					HTMLText =  encodeURIComponent(HTMLText);
+					HTMLlength = HTMLText.length;
+					HTMLstep = 0;
+					
+					while(HTMLstep < HTMLlength)
+					{
+						
+						if((HTMLstep + 300) < HTMLlength)
+						{
+							/*
+							HTMLchunkStr = HTMLText.substr(HTMLstep, (HTMLstep + 300));
+							//uploadurl = "SDUPLOAD.cgi?file=" + myulFileName + "&mode="+ chunkcount + "&data=" + HTMLchunkStr;
+							uploadurl = "SDUPLOAD.cgi?file=" + myulFileName + "&mode=wait&data=" + HTMLchunkStr;
+							HTMLstep = HTMLstep + 300;
+							newAJAXCommand(uploadurl, updateStatus, false);
+							*/
+							alert("error: url too long -> " + uploadurl);
+							$.unblockUI(); 
+						}
+						else{
+							HTMLchunkStr = HTMLText.substr(HTMLstep, (HTMLlength - HTMLstep));
+							uploadurl = "SDUPLOAD.cgi?file=" + myulFileName + "&mode="+ chunkcount + "&data=" + HTMLchunkStr;
+							HTMLstep = HTMLlength;
+							newAJAXCommand(uploadurl, updateStatus, false);
+						}
+						/*
+						if(uploadurl.length > 396)
+						{
+							alert("error: url too long -> " + uploadurl);
+							$.unblockUI(); 
+						}
+						*/
+				
+						
+					}
+		
+
+               }
+			   else
+			   {
+					blob = file.slice(myloaded,total);
+				   
+				   myulFileName = file.name;
+
+					
+	
+					HTMLText = e.target.result;
+					
+
+					uploadurl = "SDUPLOAD.cgi?file=" + myulFileName + "&mode=9999&data=" + encodeURIComponent(HTMLText);
+	               
+					myloaded = total;				
+					newAJAXCommand(uploadurl);
+			
+					return;
+                }
+   
+
+		
+			    
+				
+			
+
+		
+	};
+
+	var blob = file.slice(start,start+step+1);
+	reader.readAsText(blob);
+
+}
+
+function setpath() {
+    var default_path = document.getElementById("newfile").files[0].name;
+    document.getElementById("filepath").value = default_path;
+}
+function upload(filePath, fileName) {
+    //var filePath = document.getElementById("filepath").value;
+   // var upload_path = "/upload" + filePath;
+	var upload_path = "/upload/" + filePath + fileName.name;
+   // var fileInput = document.getElementById("newfile").files;
+	// var fileInput = filePath;
+	  var fileInput = fileName.name;
+
+    /* Max size of an individual file. Make sure this
+     * value is same as that set in file_server.c */
+    var MAX_FILE_SIZE = 200*1024;
+    var MAX_FILE_SIZE_STR = "200KB";
+
+    if (fileInput.length == 0) {
+        alert("No file selected!");
+    } 
+	else if (fileName.length == 0) 
+	{
+        alert("File path on server is not set!");
+	}
+	//else if (filePath.indexOf(' ') >= 0) {
+   //     alert("File path on server cannot have spaces!");
+   // } else if (filePath[filePath.length-1] == '/') {
+   //     alert("File name not specified after path!");
+   // } else if (fileInput[0].size > 200*1024) {
+    //    alert("File size must be less than 200KB!");
+   // } 
+	
+	else 
+	{
+       // document.getElementById("newfile").disabled = true;
+       // document.getElementById("filepath").disabled = true;
+       // document.getElementById("upload").disabled = true;
+		$.blockUI({ 
+		 message: '<h1>Downloading file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+		   
+	   
+       // var file = fileInput[0];
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+            }
+        };
+        xhttp.open("POST", upload_path, true);
+        xhttp.send(fileName);
+    }
+}
+
+function esp32upload(filePath) {
+
+
+    var upload_path = "/upload/" + filePath.name;
+   // var fileInput = document.getElementById("newfile").files;
+	 var fileInput = filePath.name;
+
+}
+
+
+  document.getElementById('SDdownloadXML').addEventListener('change', handleXMLFileSelect, false);
+  document.getElementById('SDdownloadSPIFFS').addEventListener('change', handleSPIFFSFileSelect, false);
+  document.getElementById('SDdownloadFW').addEventListener('change', handleFWFileSelect, false);
+  document.getElementById('SDdownloadWEB').addEventListener('change', handleHTMLFileSelect, false);
+
+ 
+</script>
+ 
+</body>
+</html>
