@@ -18770,6 +18770,10 @@ def events_endpoint(device_id, partition):
   except NameError as e:
     log.info("Que SQS:NameError device_id %s: %s ", device_id, request.data)
     log.info('Que SQS:NameError  Error in que SQS %s:  ' % e)
+
+  except TypeError as e:
+    log.info("Que SQS:TypeError device_id %s: %s ", device_id, request.data)
+    log.info('Que SQS:TypeError  Error in que SQS %s:  ' % e)
     
   except UnicodeDecodeError as e:
     log.info("Que SQS:UnicodeDecodeError device_id %s: %s ", device_id, request.data)
