@@ -43,6 +43,9 @@ from influxdb.client import InfluxDBClientError
 
 #import dashboard_routes
 
+import boto3
+#queue = boto3.connect_sqs().lookup(os.environ['SQS_QUEUE'])
+queue = boto3.connect_sqs().lookup('SeaSmart')
 
 import logging
 # *******************************************************************
