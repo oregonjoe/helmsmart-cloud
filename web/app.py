@@ -18737,11 +18737,55 @@ def getgpsseriesbydeviceid_dbc():
 
 
 
-    
+# **********************************************************************
+#
+# MAin SeaSmart/SeaGauge HTTP POST
+# takes data from POST and adds to SQS que for workers to process
+#
+# **********************************************************************
 
-#@app.route('/devices/<device_id>/PushCache/<partition>', methods=['POST'])
-#@cross_origin()
-#def events_endpoint(device_id, partition):
+@app.route('/devices/<device_id>/PushCache/<partition>', methods=['POST'])
+@cross_origin()
+def events_endpoint(device_id, partition):
+
+
+  try:
+    
+    device_json = json.dumps(
+            dict(
+              device_id = device_id,
+              partition = partition,
+              payload =  request.data,
+              content_type = request.content_type,
+              dyno_id = os.environ['DYNO']
+            )
+
+    log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
+
+
+  except SystemExit as e:
+    log.info("Que SQS:SystemExitError device_id %s: partition: %s data: %s ", device_id, partition, request.data)
+    log.info('Que SQS:SystemExitError  Error in que SQS %s:  ' % e)
+
+  except NameError as e:
+    log.info("Que SQS:NameError device_id %s: %s ", device_id, request.data)
+    log.info('Que SQS:NameError  Error in que SQS %s:  ' % e)
+    
+  except UnicodeDecodeError as e:
+    log.info("Que SQS:UnicodeDecodeError device_id %s: %s ", device_id, request.data)
+    log.info('Que SQS:UnicodeDecodeError  Error in que SQS %s:  ' % e)
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info("Que SQS:device_id %s: partition: %s data: %s ", device_id, partition, request.data)
+    log.info('Que SQS: Error in que SQS %s:  ' % e)
+
+
+  epochtime =  int(time.time())
+  return jsonify(result="OK", epochtime=epochtime)   
+
+# End of main POST routine
+
 
 @app.route('/freeboard_tcp/<apikey>', methods=['GET','POST'])
 @cross_origin()
