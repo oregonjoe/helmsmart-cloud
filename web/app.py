@@ -18752,13 +18752,12 @@ def events_endpoint(device_id, partition):
   try:
     
     device_json = json.dumps(
-            dict(
               device_id = device_id,
               partition = partition,
               payload =  request.data,
               content_type = request.content_type,
               dyno_id = os.environ['DYNO']
-            ))
+            )
 
     log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
 
