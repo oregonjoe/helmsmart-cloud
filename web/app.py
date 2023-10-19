@@ -19858,4 +19858,4 @@ def setdimmerapi():
 
   
   return jsonify(result="OK", dimmer=newdimmeritem)
-
+  
