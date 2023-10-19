@@ -18756,6 +18756,8 @@ def events_endpoint(device_id, partition):
               device_id = device_id,
               partition = partition,
               payload =  request.data
+              content_type = request.content_type,
+              dyno_id = os.environ['DYNO']
             ),
       cls=DateEncoder)
 
