@@ -18756,7 +18756,8 @@ def events_endpoint(device_id, partition):
               device_id = device_id,
               partition = partition,
               payload =  request.data
-            ))
+            ),
+      cls=DateEncoder)
 
     log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
 
