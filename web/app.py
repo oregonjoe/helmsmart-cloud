@@ -18814,10 +18814,10 @@ def events_endpoint(device_id, partition):
 
     log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
-except:
-    e = sys.exc_info()[0]
-    log.info("Send SQS:device_id %s:  ", device_id)
-    log.info('Send SQS: Error in que SQS %s:  ' % e)
+  except:
+      e = sys.exc_info()[0]
+      log.info("Send SQS:device_id %s:  ", device_id)
+      log.info('Send SQS: Error in que SQS %s:  ' % e)
     
 
   epochtime =  int(time.time())
