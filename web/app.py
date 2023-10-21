@@ -18806,7 +18806,7 @@ def events_endpoint(device_id, partition):
     response = sqs_queue.send_message(
         QueueUrl=queue_url,
         DelaySeconds=10,
-        MessageAttributes={ 'Device': {  'deviceid':device_id} },
+        #MessageAttributes={ 'Device': {  'deviceid':device_id} },
         MessageBody=(device_json)
     )
 
