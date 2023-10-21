@@ -43,9 +43,18 @@ from influxdb.client import InfluxDBClientError
 
 #import dashboard_routes
 
-#import boto3
+import boto3
 # Get the service resource
 #sqs = boto3.resource('sqs')
+#s3 = boto3.resource(service_name='sqs', region_name='REGION_NAME')
+
+sqs_queue = boto3.client('sqs')
+
+#queue_url = 'SQS_QUEUE_URL'
+queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
+
+
+
 #queue = boto3.connect_sqs().lookup(os.environ['SQS_QUEUE'])
 #queue = boto3.connect_sqs().lookup('SeaSmart')
 
@@ -18790,6 +18799,26 @@ def events_endpoint(device_id, partition):
     log.info("Que SQS:device_id %s: partition: %s data: %s ", device_id, partition, request.data)
     log.info('Que SQS: Error in que SQS %s:  ' % e)
 
+
+  try:
+    
+    # Send message to SQS queue
+    response = sqs.send_message(
+        QueueUrl=queue_url,
+        DelaySeconds=10,
+        MessageAttributes={ 'Device': {  'deviceid':device_id} },
+        MessageBody=(device_json)
+    )
+
+    print(response['MessageId'])
+
+    log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+
+except:
+    e = sys.exc_info()[0]
+    log.info("Send SQS:device_id %s:  ", device_id)
+    log.info('Send SQS: Error in que SQS %s:  ' % e)
+    
 
   epochtime =  int(time.time())
   return jsonify(result="OK", epochtime=epochtime)   
