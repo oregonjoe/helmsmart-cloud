@@ -67,17 +67,17 @@ def proc(message):
     log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
 
 
-  except TypeError, e:
+  except TypeError as e:
     if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
 
     if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ' % str(e))
       
-  except KeyError, e:
+  except KeyError as e:
     if debug_all: log.info('sqs_poller:: KeyError in proc %s:  ', partition)
 
     if debug_all: log.info('sqs_poller:: KeyError in proc  %s:  ' % str(e))
 
-  except NameError, e:
+  except NameError as e:
     if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ', partition)
 
     if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ' % str(e))
@@ -216,7 +216,7 @@ def transaction(func, sqs_message):
     func(sqs_message.get_body())
     sqs_message.delete()
                
-  except Exception, e:
+  except Exception as e:
     if debug_all: log.info('sqs_poller: transaction errror' % e)
 
 # tries to get pushsmart messages
@@ -227,7 +227,7 @@ def best_effort(func, pushsmart_message):
   message = json.loads(pushsmart_message)
   try:
     func(message)
-  except  Exception, e:
+  except  Exception as e:
     if debug_all: log.info('sqs_poller:best_effort error ' % e)
     
     retry_count = message.get('retries', 0) + 1
