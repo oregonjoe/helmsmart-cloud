@@ -210,7 +210,8 @@ def transaction(func, sqs_message):
   """Delete message if no errors."""
   #if debug_all: log.info('s3_poller: transaction %s', sqs_message.get_body())
   try:
-
+    
+    if debug_all: log.info('sqs_poller:transaction message %s', sqs_message)
     queue_url = environ.get('SQS_QUEUE_URL')
     #func(sqs_message.get_body())
     func(sqs_message)
@@ -227,8 +228,15 @@ def transaction(func, sqs_message):
         ReceiptHandle=receipt_handle
     )
     print('Received and deleted message: %s' % sqs_message)
-               
+
+  """
   except Exception as e:
+    e = sys.exc_info()[0]
+    if debug_all: log.info('sqs_poller: transaction errror  %s' % str(e))
+  """
+  
+  except:
+    e = sys.exc_info()[0]
     if debug_all: log.info('sqs_poller: transaction errror  %s' % str(e))
 
 # tries to get pushsmart messages
@@ -237,6 +245,11 @@ def transaction(func, sqs_message):
 def best_effort(func, pushsmart_message):
   #if debug_all: log.info('s3_poller:best_effort starting')
   message = json.loads(pushsmart_message)
+
+  if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message)
+  if debug_all: log.info('sqs_poller:best_effort message %s', message)
+
+  
   try:
     func(message)
   except  Exception as e:
