@@ -109,7 +109,7 @@ def get_messages(queue_url, num_receive):
 
     #print(response['Messages'][0])
 
-    log.info("Read SQS:  response %s: ", rs['Messages'][0])
+    #log.info("Read SQS:  response %s: ", rs['Messages'][0])
 
     if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
 
@@ -118,15 +118,15 @@ def get_messages(queue_url, num_receive):
 
   except botocore.exceptions.ClientError as e:
     #log.info("Read SQS:ClientError device_id %s:  ", device_id)
-    log.info('Read SQS:ClientError  Error in que SQS %s:  ' % e)
+    log.info('Read SQS:ClientError  Error in que SQS %s:  ' % str(e))
 
   except botocore.exceptions.ParamValidationError as e:
    # log.info("Read SQS:ParamValidationError device_id %s:  ", device_id)
-    log.info('Read SQS:ParamValidationError  Error in que SQS %s:  ' % e)
+    log.info('Read SQS:ParamValidationError  Error in que SQS %s:  ' % str(e))
 
   except NameError as e:
     #log.info("Read SQS:NameError device_id %s:  ", device_id)
-    log.info('Read SQS:NameError  Error in que SQS %s:  ' % e)    
+    log.info('Read SQS:NameError  Error in que SQS %s:  ' % str(e))
     
   except:
     e = sys.exc_info()[0]
@@ -162,7 +162,7 @@ def process_queue(config):
       #get messages from SQS queue and try to process them with the PROC function
       for message in get_messages(queue_url, num_receive):
 
-        if debug_all: log.info('sqs_poller process_queue %s: ', num_receive)
+        if debug_all: log.info('sqs_poller process_queue %s: ', count)
         #try to get messages from the SQS queue and parse them
         transaction(handle,  message)
         count += 1
@@ -174,11 +174,11 @@ def process_queue(config):
 
     except NameError as e:
       #log.info("Read SQS:NameError device_id %s:  ", device_id)
-      log.info('process_queue SQS:NameError  Error in que SQS %s:  ' % e)
+      log.info('process_queue SQS:NameError  Error in que SQS %s:  ' % str(e))
       
     except TypeError as e:
       #log.info("Read SQS:NameError device_id %s:  ", device_id)
-      log.info('process_queue SQS:TypeError  Error in que SQS %s:  ' % e)
+      log.info('process_queue SQS:TypeError  Error in que SQS %s:  ' % str(e))
       
     except:
       e = sys.exc_info()[0]
