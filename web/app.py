@@ -48,7 +48,7 @@ import boto3
 #sqs = boto3.resource('sqs')
 #s3 = boto3.resource(service_name='sqs', region_name='REGION_NAME')
 
-sqs_queue = boto3.client('sqs', region_name='us-east-1')
+sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
 
 #queue_url = 'SQS_QUEUE_URL'
 queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
