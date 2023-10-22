@@ -96,22 +96,23 @@ if __name__ == "__main__":
   #num_requests = int(os.environ.get('NUM_REQUESTS',1))
   num_requests =1
   
-  """
+
   db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
   
+  """
   conn = db_pool.getconn()
   fact_info = ensure_database(conn, SCHEMA)
   db_pool.putconn(conn, close=True)  
-
+  """
   config = dict(
     device_group = os.environ['DEVICE_GROUP'],
     db_pool = db_pool ,
-    s3_bucket = bucket(),
-    fact_info = fact_info,
+    #s3_bucket = bucket(),
+    #fact_info = fact_info,
     max_retries = os.environ.get('MAX_RETRIES',3)
   )
 
-  """
+
 
   
   group = Group()
