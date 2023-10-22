@@ -229,12 +229,6 @@ def transaction(func, sqs_message):
     )
     print('Received and deleted message: %s' % sqs_message)
 
-  """
-  except Exception as e:
-    e = sys.exc_info()[0]
-    if debug_all: log.info('sqs_poller: transaction errror  %s' % str(e))
-  """
-  
   except:
     e = sys.exc_info()[0]
     if debug_all: log.info('sqs_poller: transaction errror  %s' % str(e))
