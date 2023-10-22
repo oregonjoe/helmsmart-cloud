@@ -51,8 +51,8 @@ import boto3
 sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
 
 #queue_url = 'SQS_QUEUE_URL'
-#queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
-queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
+queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
+#queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 
 #queue = boto3.connect_sqs().lookup(os.environ['SQS_QUEUE'])
 #queue = boto3.connect_sqs().lookup('SeaSmart')
@@ -18774,8 +18774,8 @@ def events_endpoint(device_id, partition):
             ),
       cls=DateEncoder)
 
-    log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
-
+    #log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
+    log.info("Que SQS:Parse JSON device_id %s:  ", device_id)
 
   except SystemExit as e:
     log.info("Que SQS:SystemExitError device_id %s: partition: %s data: %s ", device_id, partition, request.data)
