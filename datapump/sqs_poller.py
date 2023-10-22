@@ -103,11 +103,13 @@ def get_messages(queue_url, num_receive):
         WaitTimeSeconds=0
     )
 
-    
+    if "Messages" not in rs:
+      if debug_all: log.info('sqs_poller:no messages left')
+      return []
 
     #print(response['Messages'][0])
 
-    log.info("Read SQS:  response %s: ", response['Messages'][0])
+    log.info("Read SQS:  response %s: ", rs['Messages'][0])
 
     if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
 
@@ -159,6 +161,7 @@ def process_queue(config):
 
       #get messages from SQS queue and try to process them with the PROC function
       for message in get_messages(queue_url, num_receive):
+
         if debug_all: log.info('sqs_poller process_queue %s: ', num_receive)
         #try to get messages from the SQS queue and parse them
         transaction(handle,  message)
@@ -169,7 +172,8 @@ def process_queue(config):
         if debug_all: log.info('sqs_poller process_queue sleeping: ')
         sleep(1)
         
-    except Exception as e:
+    except:
+      e = sys.exc_info()[0]
       #if debug_all: log.info('s3_poller: process_queue errror' % e)
       log.info('sqs_poller: process_queue errror' % e)
 
