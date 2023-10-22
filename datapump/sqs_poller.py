@@ -4,6 +4,7 @@ from os import environ as env, path
 import pylibmc  
 import sys
 
+from psycopg_pool import ConnectionPool
 
 import json
 
@@ -94,12 +95,9 @@ if __name__ == "__main__":
   #num_requests = int(os.environ.get('NUM_REQUESTS',1))
   num_requests =1
   
-  db_pool = ThreadedConnectionPool(
-    1, # min connections,
-    int(os.environ.get('MAX_DB_CONNECTIONS',3)),
-    **connection_from(DATABASE_URL)
-  )
 
+  db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
+  
   conn = db_pool.getconn()
   fact_info = ensure_database(conn, SCHEMA)
   db_pool.putconn(conn, close=True)  
