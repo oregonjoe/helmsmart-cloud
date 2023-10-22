@@ -107,7 +107,7 @@ def get_messages(queue_url, num_receive):
 
     #print(response['Messages'][0])
 
-    log.info("Read SQS:device_id %s:  response %s: ", device_id,response['Messages'][0])
+    log.info("Read SQS:  response %s: ", response['Messages'][0])
 
     if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
 
@@ -115,20 +115,20 @@ def get_messages(queue_url, num_receive):
   
 
   except botocore.exceptions.ClientError as e:
-    log.info("Read SQS:ClientError device_id %s:  ", device_id)
+    #log.info("Read SQS:ClientError device_id %s:  ", device_id)
     log.info('Read SQS:ClientError  Error in que SQS %s:  ' % e)
 
   except botocore.exceptions.ParamValidationError as e:
-    log.info("Read SQS:ParamValidationError device_id %s:  ", device_id)
+   # log.info("Read SQS:ParamValidationError device_id %s:  ", device_id)
     log.info('Read SQS:ParamValidationError  Error in que SQS %s:  ' % e)
 
   except NameError as e:
-    log.info("Read SQS:NameError device_id %s:  ", device_id)
+    #log.info("Read SQS:NameError device_id %s:  ", device_id)
     log.info('Read SQS:NameError  Error in que SQS %s:  ' % e)    
     
   except:
     e = sys.exc_info()[0]
-    log.info("Send SQS:device_id %s:  ", device_id)
+    #log.info("Send SQS:device_id %s:  ", device_id)
     log.info('Send SQS: Error in que SQS %s:  ' % e)
 
     log.warn(e)
