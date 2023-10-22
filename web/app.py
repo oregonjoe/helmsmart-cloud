@@ -42,7 +42,7 @@ from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 
 #import dashboard_routes
-
+import botocore
 import boto3
 # Get the service resource
 #sqs = boto3.resource('sqs')
@@ -18814,8 +18814,11 @@ def events_endpoint(device_id, partition):
 
     log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
+  except botocore.exceptions.ClientError as e:
+    log.info("Send SQS:ClientError device_id %s:  ", device_id)
+    log.info('Send SQS:ClientError  Error in que SQS %s:  ' % e)
 
-  except ParamValidationError as e:
+  except botocore.exceptions.ParamValidationError as e:
     log.info("Send SQS:ParamValidationError device_id %s:  ", device_id)
     log.info('Send SQS:ParamValidationError  Error in que SQS %s:  ' % e)
 
