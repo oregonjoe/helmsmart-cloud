@@ -149,31 +149,31 @@ def process_queue(config):
   # and if it can't  - returns them to the SQS queue or deletes them if we tried
   # too many times
   handle = partial(best_effort, proc)
-  with env(**dict(queue=queue_url, **config)):
+  #with env(**dict(queue=queue_url, **config)):
 
-    #infinate loop
-    while True:
-      count = 0
+  #infinate loop
+  while True:
+    count = 0
 
-      try:
+    try:
 
-        #get messages from SQS queue and try to process them with the PROC function
-        for message in get_messages(queue_url, num_receive):
-          if debug_all: log.info('sqs_poller process_queue %s: ', num_receive)
-          #try to get messages from the SQS queue and parse them
-          transaction(handle,  message)
-          count += 1
+      #get messages from SQS queue and try to process them with the PROC function
+      for message in get_messages(queue_url, num_receive):
+        if debug_all: log.info('sqs_poller process_queue %s: ', num_receive)
+        #try to get messages from the SQS queue and parse them
+        transaction(handle,  message)
+        count += 1
 
-        if count == 0:
-          # if we had messages process right away, else
-          if debug_all: log.info('sqs_poller process_queue sleeping: ')
-          sleep(1)
-          
-      except Exception as e:
-        #if debug_all: log.info('s3_poller: process_queue errror' % e)
-        log.info('sqs_poller: process_queue errror' % e)
+      if count == 0:
+        # if we had messages process right away, else
+        if debug_all: log.info('sqs_poller process_queue sleeping: ')
+        sleep(1)
+        
+    except Exception as e:
+      #if debug_all: log.info('s3_poller: process_queue errror' % e)
+      log.info('sqs_poller: process_queue errror' % e)
 
-      #end of while loop
+    #end of while loop
         
   if debug_all: log.info('sqs_poller: exiting process_queue')
 
