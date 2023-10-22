@@ -37,6 +37,11 @@ import logging
 #debug_all = False
 debug_all = True
 
+logging.basicConfig(level=logging.DEBUG)
+log = logging
+
+
+
 from gevent.pool import Pool, Group
 
 import botocore
