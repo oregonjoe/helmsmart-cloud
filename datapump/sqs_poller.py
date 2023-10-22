@@ -131,7 +131,7 @@ def get_messages(queue_url, num_receive):
   except:
     e = sys.exc_info()[0]
     #log.info("Send SQS:device_id %s:  ", device_id)
-    log.info('Send SQS: Error in que SQS %s:  ' % e)
+    log.info('Send SQS: Error in que SQS %s:  ' % str(e))
 
     log.warn(e)
     return []
@@ -171,11 +171,19 @@ def process_queue(config):
         # if we had messages process right away, else
         if debug_all: log.info('sqs_poller process_queue sleeping: ')
         sleep(1)
-        
+
+    except NameError as e:
+      #log.info("Read SQS:NameError device_id %s:  ", device_id)
+      log.info('process_queue SQS:NameError  Error in que SQS %s:  ' % e)
+      
+    except TypeError as e:
+      #log.info("Read SQS:NameError device_id %s:  ", device_id)
+      log.info('process_queue SQS:TypeError  Error in que SQS %s:  ' % e)
+      
     except:
       e = sys.exc_info()[0]
       #if debug_all: log.info('s3_poller: process_queue errror' % e)
-      log.info('sqs_poller: process_queue errror  %s' % e)
+      log.info('sqs_poller: process_queue errror  %s' % str(e))
 
     #end of while loop
         
