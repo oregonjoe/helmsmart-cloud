@@ -68,22 +68,22 @@ def proc(message):
 
 
   except TypeError as e:
-    if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
+    #if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
 
     if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ' % str(e))
       
   except KeyError as e:
-    if debug_all: log.info('sqs_poller:: KeyError in proc %s:  ', partition)
+    #if debug_all: log.info('sqs_poller:: KeyError in proc %s:  ', partition)
 
     if debug_all: log.info('sqs_poller:: KeyError in proc  %s:  ' % str(e))
 
   except NameError as e:
-    if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ', partition)
+    #if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ', partition)
 
     if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ' % str(e))
       
   except:
-    if debug_all: log.info('sqs_poller:: Error in proc  %s:', partition)
+    #if debug_all: log.info('sqs_poller:: Error in proc  %s:', partition)
 
     e = sys.exc_info()[0]
     if debug_all: log.info("sqs_poller::  in proc Error: %s" % e)
@@ -210,8 +210,23 @@ def transaction(func, sqs_message):
   """Delete message if no errors."""
   #if debug_all: log.info('s3_poller: transaction %s', sqs_message.get_body())
   try:
-    func(sqs_message.get_body())
-    sqs_message.delete()
+
+    queue_url = environ.get('SQS_QUEUE_URL')
+    #func(sqs_message.get_body())
+    func(sqs_message)
+
+    
+    #sqs_message.delete()
+
+    receipt_handle = sqs_message['ReceiptHandle']
+    if debug_all: log.info('sqs_poller: transaction ReceiptHandle  %s', receipt_handle)
+
+    # Delete received message from queue
+    sqs_queue.delete_message(
+        QueueUrl=queue_url,
+        ReceiptHandle=receipt_handle
+    )
+    print('Received and deleted message: %s' % sqs_message)
                
   except Exception as e:
     if debug_all: log.info('sqs_poller: transaction errror  %s' % str(e))
