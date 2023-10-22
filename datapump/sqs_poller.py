@@ -140,7 +140,7 @@ def get_messages(queue_url, num_receive):
 
 def process_queue(config):  
   #queue = boto.connect_sqs().lookup(os.environ['SQS_QUEUE'])
-  queue_url = environ.get('SQS_QUEUE_URL'),
+  queue_url = environ.get('SQS_QUEUE_URL')
   num_receive = int(os.environ.get('NUM_MESSAGES', 10))
   
   if debug_all: log.info('sqs_poller start process_queue %s: ', num_receive)
@@ -175,7 +175,7 @@ def process_queue(config):
     except:
       e = sys.exc_info()[0]
       #if debug_all: log.info('s3_poller: process_queue errror' % e)
-      log.info('sqs_poller: process_queue errror' % e)
+      log.info('sqs_poller: process_queue errror  %s' % e)
 
     #end of while loop
         
