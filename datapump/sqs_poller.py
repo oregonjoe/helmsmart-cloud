@@ -231,6 +231,18 @@ def transaction(func, sqs_message):
     )
     print('Received and deleted message: %s' % sqs_message)
 
+  except AttributeError as e:
+    #log.info("Read SQS:NameError device_id %s:  ", device_id)
+    log.info('transaction SQS:AttributeError  Error in que SQS %s:  ' % str(e))
+    
+  except NameError as e:
+    #log.info("Read SQS:NameError device_id %s:  ", device_id)
+    log.info('transaction SQS:NameError  Error in que SQS %s:  ' % str(e))
+    
+  except TypeError as e:
+    #log.info("Read SQS:NameError device_id %s:  ", device_id)
+    log.info('transaction SQS:TypeError  Error in que SQS %s:  ' % str(e))
+
   except:
     e = sys.exc_info()[0]
     if debug_all: log.info('sqs_poller: transaction errror  %s' % str(e))
