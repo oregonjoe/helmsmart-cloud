@@ -212,15 +212,16 @@ def transaction(func, sqs_message):
   #if debug_all: log.info('s3_poller: transaction %s', sqs_message.get_body())
   try:
     
-    if debug_all: log.info('sqs_poller:transaction message %s', sqs_message)
+    if debug_all: log.info('sqs_poller:transaction message %s', sqs_message.body)
     queue_url = environ.get('SQS_QUEUE_URL')
     #func(sqs_message.get_body())
-    func(sqs_message)
+    func(sqs_message.body)
 
     
     #sqs_message.delete()
 
-    receipt_handle = sqs_message['ReceiptHandle']
+    #receipt_handle = sqs_message['ReceiptHandle']
+    receipt_handle = sqs_message.receipt_handle
     if debug_all: log.info('sqs_poller: transaction ReceiptHandle  %s', receipt_handle)
 
     # Delete received message from queue
@@ -239,9 +240,9 @@ def transaction(func, sqs_message):
 # times before deleting them from the queue
 def best_effort(func, pushsmart_message):
   #if debug_all: log.info('s3_poller:best_effort starting')
-  message = json.loads(pushsmart_message)
+  message = json.loads(pushsmart_message.body)
 
-  if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message)
+  if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message.body)
   if debug_all: log.info('sqs_poller:best_effort message %s', message)
 
   
