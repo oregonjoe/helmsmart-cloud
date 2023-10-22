@@ -94,9 +94,6 @@ def get_messages(queue_url, num_receive):
   if debug_all: log.info('sqs_poller:get_messages %s', num_receive)
   try:
     
-    if debug_all: log.info('sqs_poller:get_messages count %s', queue.count())
-    #rs = queue.get_messages(num_receive)
-    
     # read message from SQS queue
     rs = sqs_queue.receive_message(
         QueueUrl=queue_url,
@@ -111,6 +108,11 @@ def get_messages(queue_url, num_receive):
     #print(response['Messages'][0])
 
     log.info("Read SQS:device_id %s:  response %s: ", device_id,response['Messages'][0])
+
+    if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
+
+    return rs
+  
 
   except botocore.exceptions.ClientError as e:
     log.info("Read SQS:ClientError device_id %s:  ", device_id)
@@ -129,27 +131,10 @@ def get_messages(queue_url, num_receive):
     log.info("Send SQS:device_id %s:  ", device_id)
     log.info('Send SQS: Error in que SQS %s:  ' % e)
 
-
-
-    
-    if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
-    #for r in rs:
-    #  if debug_all: log.info('s3_poller:get_messages mesSAGE %s', r)
-    #return queue.get_messages(num_receive)
-    return rs
-  
-  #except Exception, e:
-  except:
-    if debug_all: log.info('sqs_poller: get_messages error ', partition)
-    e = sys.exc_info()[0]
-
-    if debug_all: log.info("Error: %s" % e)
-    
-    # amazon, occasionaly has hickups, log them
-    # but should be safe to try again later
-    #if debug_all: log.info('s3_poller:get_messages error' % e)
     log.warn(e)
     return []
+
+
 
 def process_queue(config):  
   #queue = boto.connect_sqs().lookup(os.environ['SQS_QUEUE'])
