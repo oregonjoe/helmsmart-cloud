@@ -214,7 +214,7 @@ def transaction(func, sqs_message):
     sqs_message.delete()
                
   except Exception as e:
-    if debug_all: log.info('sqs_poller: transaction errror' % e)
+    if debug_all: log.info('sqs_poller: transaction errror  %s' % str(e))
 
 # tries to get pushsmart messages
 # and if there is a problem will retry several times (3)?
@@ -225,7 +225,7 @@ def best_effort(func, pushsmart_message):
   try:
     func(message)
   except  Exception as e:
-    if debug_all: log.info('sqs_poller:best_effort error ' % e)
+    if debug_all: log.info('sqs_poller:best_effort error %s' % str(e))
     
     retry_count = message.get('retries', 0) + 1
     if retry_count > env.max_retries:
