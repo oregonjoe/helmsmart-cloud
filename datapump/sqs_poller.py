@@ -184,7 +184,7 @@ def process_queue(config):
           if debug_all: log.info('sqs_poller process_queue sleeping: ')
           sleep(1)
           
-      except Exception, e:
+      except Exception as e:
         #if debug_all: log.info('s3_poller: process_queue errror' % e)
         log.info('sqs_poller: process_queue errror' % e)
 
