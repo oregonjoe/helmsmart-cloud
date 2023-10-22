@@ -95,7 +95,7 @@ if __name__ == "__main__":
   #num_requests = int(os.environ.get('NUM_REQUESTS',1))
   num_requests =1
   
-
+  """
   db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
   
   conn = db_pool.getconn()
@@ -110,7 +110,9 @@ if __name__ == "__main__":
     max_retries = os.environ.get('MAX_RETRIES',3)
   )
 
+  """
 
+  
   group = Group()
   for x in range(num_requests):
     group.add(gevent.spawn(process_queue, config))
