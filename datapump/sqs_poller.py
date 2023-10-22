@@ -113,7 +113,8 @@ def get_messages(queue_url, num_receive):
 
     if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
 
-    return rs
+    #return rs
+    return rs['Messages'][0]
   
 
   except botocore.exceptions.ClientError as e:
