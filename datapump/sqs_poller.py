@@ -23,7 +23,7 @@ import hashlib
 import base64
 from operator import itemgetter
 from itertools import groupby
-
+from functools import partial
 
 import gevent, gevent.monkey
 import requests
@@ -57,14 +57,48 @@ queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 
 
+def proc(message):
+
+  #062914 JLB
+  # test to read custom message from SQS que
+  try:
+    partition = message['partition'][:-4]
+    #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
+    log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
 
 
-def process_queue(config):
+  except TypeError, e:
+    if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
 
+    if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ' % str(e))
+      
+  except KeyError, e:
+    if debug_all: log.info('sqs_poller:: KeyError in proc %s:  ', partition)
+
+    if debug_all: log.info('sqs_poller:: KeyError in proc  %s:  ' % str(e))
+
+  except NameError, e:
+    if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ', partition)
+
+    if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ' % str(e))
+      
+  except:
+    if debug_all: log.info('sqs_poller:: Error in proc  %s:', partition)
+
+    e = sys.exc_info()[0]
+    if debug_all: log.info("sqs_poller::  in proc Error: %s" % e)
+    pass     
+
+#reads num_receive messeges from SQS que
+def get_messages(queue_url, num_receive):
+  if debug_all: log.info('sqs_poller:get_messages %s', num_receive)
   try:
     
+    if debug_all: log.info('sqs_poller:get_messages count %s', queue.count())
+    #rs = queue.get_messages(num_receive)
+    
     # read message from SQS queue
-    response = sqs_queue.receive_message(
+    rs = sqs_queue.receive_message(
         QueueUrl=queue_url,
         MaxNumberOfMessages=1,
         MessageAttributeNames=[  'All'  ],
@@ -95,6 +129,125 @@ def process_queue(config):
     log.info("Send SQS:device_id %s:  ", device_id)
     log.info('Send SQS: Error in que SQS %s:  ' % e)
 
+
+
+    
+    if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
+    #for r in rs:
+    #  if debug_all: log.info('s3_poller:get_messages mesSAGE %s', r)
+    #return queue.get_messages(num_receive)
+    return rs
+  
+  #except Exception, e:
+  except:
+    if debug_all: log.info('sqs_poller: get_messages error ', partition)
+    e = sys.exc_info()[0]
+
+    if debug_all: log.info("Error: %s" % e)
+    
+    # amazon, occasionaly has hickups, log them
+    # but should be safe to try again later
+    #if debug_all: log.info('s3_poller:get_messages error' % e)
+    log.warn(e)
+    return []
+
+def process_queue(config):  
+  #queue = boto.connect_sqs().lookup(os.environ['SQS_QUEUE'])
+  queue_url = environ.get('SQS_QUEUE_URL'),
+  num_receive = int(os.environ.get('NUM_MESSAGES', 10))
+  
+  if debug_all: log.info('sqs_poller start process_queue %s: ', num_receive)
+  # get redis que info
+  #if debug_all: log.info('s3_poller jobs in queue %s: ', len(q))
+
+  # create the partial that parses messages using proc function
+  # and if it can't  - returns them to the SQS queue or deletes them if we tried
+  # too many times
+  handle = partial(best_effort, proc)
+  with env(**dict(queue=queue_url, **config)):
+
+    #infinate loop
+    while True:
+      count = 0
+
+      try:
+
+        #get messages from SQS queue and try to process them with the PROC function
+        for message in get_messages(queue_url, num_receive):
+          if debug_all: log.info('sqs_poller process_queue %s: ', num_receive)
+          #try to get messages from the SQS queue and parse them
+          transaction(handle,  message)
+          count += 1
+
+        if count == 0:
+          # if we had messages process right away, else
+          if debug_all: log.info('sqs_poller process_queue sleeping: ')
+          sleep(1)
+          
+      except Exception, e:
+        #if debug_all: log.info('s3_poller: process_queue errror' % e)
+        log.info('sqs_poller: process_queue errror' % e)
+
+      #end of while loop
+        
+  if debug_all: log.info('sqs_poller: exiting process_queue')
+
+
+def interval(delay, method, *args, **kw):
+  """
+  Repeatedly call the same function.
+  """
+
+  while True:
+    try:
+      method(*args, **kw)
+    except:
+      log.exception("Error invoking %s", method)
+      if debug_all: log.info('sqs_poller: Error invoking method%s', method)
+      
+    gevent.sleep(delay)
+
+
+# trys to get a pushsmart message from the SQS que
+def transaction(func, sqs_message):
+  """Delete message if no errors."""
+  #if debug_all: log.info('s3_poller: transaction %s', sqs_message.get_body())
+  try:
+    func(sqs_message.get_body())
+    sqs_message.delete()
+               
+  except Exception, e:
+    if debug_all: log.info('sqs_poller: transaction errror' % e)
+
+# tries to get pushsmart messages
+# and if there is a problem will retry several times (3)?
+# times before deleting them from the queue
+def best_effort(func, pushsmart_message):
+  #if debug_all: log.info('s3_poller:best_effort starting')
+  message = json.loads(pushsmart_message)
+  try:
+    func(message)
+  except  Exception, e:
+    if debug_all: log.info('sqs_poller:best_effort error ' % e)
+    
+    retry_count = message.get('retries', 0) + 1
+    if retry_count > env.max_retries:
+      log.exception('Discarding due to errors: %s', pushsmart_message)
+      if debug_all: log.info('sqs_poller:best_effort Discarding')
+      
+    else:
+      log.exception('Retrying')
+      if debug_all: log.info('sqs_poller:best_effort retrying')
+      
+      retry = message.copy()
+      retry['retries'] = retry_count
+      
+      retry['errors'] = retry.get('errors', [])
+      retry['errors'].append(str(e))
+
+      env.queue.write(
+        env.queue.new_message(json.dumps(retry))
+      )
   
 
 if __name__ == "__main__":
