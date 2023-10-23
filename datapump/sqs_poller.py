@@ -127,11 +127,15 @@ def proc(message):
         #records = nmea.loads((json.dumps(message_payload).decode("utf-8")))
         #records = nmea.loads(message_payload.decode("utf-8"))
         #records = nmea.loads(json.loads(message_payload))
-        records = nmea.loads(str(message_payload))
+        records = nmea.loads(message_payload)
         log.info('s3_poller Got SQS records %s: ', records)
 
         mysortedrecords = sorted(records, key=lambda t:t[1])
         log.info('s3_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
+
+       except TypeError as e:
+        if debug_all: log.info('sqs_poller:proc: TypeError in proc  %s:  ', partition)
+        if debug_all: log.info('sqs_poller:proc: TypeError in proc  %s:  ' % str(e))
         
       except AttributeError as e:
         if debug_all: log.info('sqs_poller:proc: AttributeError in proc  %s:  ', partition)
