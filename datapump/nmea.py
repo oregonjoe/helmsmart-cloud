@@ -63,6 +63,14 @@ def events(stream):
 #
 #Then we can just pick the columns we are interested in.
 
+  nmea_lines = csv.reader(stream)
+
+  for lines in nmea_lines:
+    log.info("NMEA events line %s ", line)
+
+  return nmea_lines
+
+"""
   return csv.reader(
     (
       #remove the first 7 and last 3 characters from the line
@@ -80,7 +88,7 @@ def events(stream):
       #if valid(line)
     )
   )
-
+"""
 
 def interpeted(records):
   """
