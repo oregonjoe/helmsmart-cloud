@@ -289,6 +289,7 @@ def valid(sentence):
     return False
 
   data, checksum_str = parts
+  log.info("NMEA checksum - data %s:checksum_str %s ", data, checksum_str)
   
   # 031114 JLB
   # Added check for when checksum_str is not hexidecimal
@@ -297,11 +298,15 @@ def valid(sentence):
     checksum = reduce(lambda checksum,c: checksum^ord(c), data[1:], 0)
 
     nema_checksum = int(checksum_str[:2], 16)
+    log.info("NMEA valid cs error - checksum %s:nema_checksum %s ", checksum, nema_checksum)
 
   # if error then return false as its not a good checksum
   #except ValueError:
   except:
     log.info("NMEA valid cs error - sentence %s:checksum_str %s ", sentence, checksum_str)
+    e = sys.exc_info()[0]
+    if debug_all: log.info("NMEA valid cs error ::  Error: %s" % str(e))
+
     return False
 
   if checksum != nema_checksum:
