@@ -2130,7 +2130,7 @@ def heartbeat(data):
         mysessionstr = mysessionstr + chr(int(myvarch, 16))     
 
         
-      #log.info("NMEA Heartbeat Data start - PGN 130944  mysessionstr %s", str(mysessionstr))
+      log.info("NMEA Heartbeat Data start - PGN 130944  mysessionstr %s", str(mysessionstr))
 
       
 
