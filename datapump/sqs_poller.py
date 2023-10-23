@@ -232,7 +232,7 @@ def transaction(func, sqs_message):
     if debug_all: log.info('sqs_poller:transaction message %s', sqs_message["Body"])
     queue_url = environ.get('SQS_QUEUE_URL')
     #func(sqs_message.get_body())
-    func(sqs_message["Body"])
+    #func(sqs_message["Body"])
 
     
     #sqs_message.delete()
