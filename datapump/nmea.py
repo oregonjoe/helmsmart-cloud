@@ -72,7 +72,7 @@ def events(stream):
 
     return nmea_lines
 
- except AttributeError as e:
+  except AttributeError as e:
     if debug_all: log.info('NMEA : AttributeError in events %s:  ' % str(e))
 
   except TypeError as e:
