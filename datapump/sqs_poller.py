@@ -66,12 +66,14 @@ def proc(message):
     message_body = message['Body']
     #partition = message_body['partition'][:-4]
     partition = message_body['partition']
+
+    log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
     log.info('s3_poller Got SQS message %s: device %s ', partition, message_body['device_id'])
     #partition = message['partition'][:-4]
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
     #log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
-    #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
+    
     #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
   except TypeError as e:
@@ -237,7 +239,7 @@ def transaction(func, sqs_message):
   #if debug_all: log.info('s3_poller: transaction %s', sqs_message.get_body())
   try:
     
-    if debug_all: log.info('sqs_poller:transaction message %s', sqs_message["Body"])
+    if debug_all: log.info('sqs_poller:transaction message %s', sqs_message['Body'])
     queue_url = environ.get('SQS_QUEUE_URL')
     #func(sqs_message.get_body())
     #func(sqs_message["Body"])
