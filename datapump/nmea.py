@@ -142,23 +142,23 @@ def interpeted(records):
         log.info("NMEA interpeted - invalid timestamp %s ", record[TIMESTAMP])
 
 
-    except TypeError, e:
+    except TypeError as e:
       if debug_all: log.info('NMEA : TypeError in proc  interpeted %s:  ' % str(e))
       if debug_all: log.info('NMEA : TypeError message device %s:', record)
 
-    except KeyError, e:
+    except KeyError as e:
       if debug_all: log.info('NMEA :: KeyError in proc  interpeted %s:  ' % str(e))
       if debug_all: log.info('NMEA :: KeyError in proc  interpeted %s:  ', record)
       
-    except NameError, e:
+    except NameError as e:
       if debug_all: log.info('NMEA :: NameError in proc  interpeted %s:  ' % str(e))
       if debug_all: log.info('NMEA :: NameError in proc  interpeted %s:  ', record)
 
-    except ValueError, e:
+    except ValueError as e:
       if debug_all: log.info('NMEA :: ValueError in proc  interpeted %s:  ' % str(e))
       if debug_all: log.info('NMEA :: ValueError in proc  interpeted %s:  ', record)
 
-    except IndexError, e:
+    except IndexError as e:
       if debug_all: log.info('NMEA:: IndexError in proc  interpeted %s:  ' % str(e))
       if debug_all: log.info('NMEA:: IndexError in proc  interpeted %s:  ', record)
 
@@ -730,22 +730,22 @@ def engine_parameters_dynamic(data):
     )
 
 
-  except ValueError, e:
+  except ValueError as e:
     #if debug_all: log.info('NMEA interpeted - engine_parameters_dynamic %s:  ', data)
 
     log.info('NMEA interpeted - engine_parameters_dynamic ValueError %s:  ' % str(e))
 
-  except NameError, e:
+  except NameError as e:
     #if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK NameError in data %s:  ', data)
 
     log.info('NMEA interpeted - engine_parameters_dynamic NameError %s:  ' % str(e))
     
-  except TypeError, e:
+  except TypeError as e:
     #if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK TypeError in data %s:  ', data)
 
     log.info('NMEA interpeted - engine_parameters_dynamic:  TypeError %s' % str(e))
 
-  except AttributeError, e:
+  except AttributeError as e:
     #if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK AttributeError in data %s:  ', data)
 
     log.info('NMEA interpeted - engine_parameters_dynamic AttributeError %s:  ' % str(e))
@@ -1942,11 +1942,11 @@ def AIS_Class_B_Position_Report(data):
     
     return dict(raw=raw )
   
-  except TypeError, e:
+  except TypeError as e:
     log.info('AIS_Class_B_Position_Report - PGN 0x1F80F: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('AIS_Class_B_Position_Report - PGN 0x1F80F: ValueError  %s:  ' % str(e))
     pass
   
@@ -1974,11 +1974,11 @@ def AIS_Class_B_ExtendedPosition_Report(data):
     
     return dict(raw=raw )
   
-  except TypeError, e:
+  except TypeError as e:
     log.info('AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F: ValueError  %s:  ' % str(e))
     pass
   
@@ -2096,11 +2096,11 @@ def heartbeat(data):
 
   # if error then return nulled (none) 0x7F or 0x7FFF 0r 0x7FFFFFF
   #except ValueError:
-  except TypeError, e:
+  except TypeError as e:
     log.info('NMEA Heartbeat Data start - PGN 130944: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('NMEA Heartbeat Data start - PGN 130944: ValueError  %s:  ' % str(e))
     pass
   
@@ -2202,11 +2202,11 @@ def seasmart_cellular_status(data):
 
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('MEA Cellular Connection Status - PGN 130942: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('NMEA Cellular Connection Status - PGN 130942: ValueError  %s:  ' % str(e))
     pass
   
@@ -2383,11 +2383,11 @@ def ac_utility_basic_phase_a(data):
       )  
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('ac_utility_basic_phase_a: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('ac_utility_basic_phase_a: ValueError  %s:  ' % str(e))
     pass
   
@@ -2423,11 +2423,11 @@ def ac_utility_basic_phase_b(data):
       )  
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('ac_utility_basic_phase_b: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('ac_utility_basic_phase_b: ValueError  %s:  ' % str(e))
     pass
   
@@ -2464,11 +2464,11 @@ def ac_utility_basic_phase_c(data):
       )  
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('ac_utility_basic_phase_c: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('ac_utility_basic_phase_c: ValueError  %s:  ' % str(e))
     pass
   
@@ -2508,11 +2508,11 @@ def ac_utility_basic_average(data):
       )  
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('ac_utility_basic_average: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('ac_utility_basic_average: ValueError  %s:  ' % str(e))
     pass
   
@@ -2550,11 +2550,11 @@ def ac_generator_basic_phase_a(data):
       )  
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('ac_generator_basic_phase_a: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('ac_generator_basic_phase_a: ValueError  %s:  ' % str(e))
     pass
   
@@ -2589,11 +2589,11 @@ def ac_generator_basic_phase_b(data):
       )  
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('ac_generator_basic_phase_b: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('ac_generator_basic_phase_b: ValueError  %s:  ' % str(e))
     pass
   
@@ -2629,11 +2629,11 @@ def ac_generator_basic_phase_c(data):
       )  
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('ac_generator_basic_phase_c: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('ac_generator_basic_phase_c: ValueError  %s:  ' % str(e))
     pass
   
@@ -2671,11 +2671,11 @@ def ac_generator_basic_average(data):
       )  
 
 
-  except TypeError, e:
+  except TypeError as e:
     log.info('ac_generator_basic_average: TypeError  %s:  ' % str(e))
     pass
 
-  except ValueError, e:
+  except ValueError as e:
     log.info('ac_generator_basic_average: ValueError  %s:  ' % str(e))
     pass
   
