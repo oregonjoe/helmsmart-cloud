@@ -79,7 +79,7 @@ def proc(message):
     #partition = message_body['partition'][:-4]
 
 
-    log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
+    #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
     mpartition = message_body.get('partition')
     device_id = message_body.get('device_id')
@@ -112,7 +112,19 @@ def proc(message):
     elif "SSA300" in partition:  
       try:
         #if debug_all: log.info('s3_poller Got PushSmart SQS message %s: ', partition)
-        log.info('s3_poller Got PushSmart SQS message %s: %s ', partition, device_id) 
+        log.info('s3_poller Got PushSmart SQS message %s: %s ', partition, device_id)
+
+        schema = SCHEMA
+        #device = message['device_id']
+        #partition = message['partition'][:-4]
+
+        
+        records = nmea.loads(message_body.get('payload'))
+        log.info('s3_poller Got SQS records %s: ', records)
+
+        mysortedrecords = sorted(records, key=lambda t:t[1])
+        log.info('s3_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
+        
 
       except:
         if debug_all: log.info('s3_poller:: Error in proc SSA300 %s:', partition)
