@@ -63,10 +63,14 @@ def proc(message):
   #062914 JLB
   # test to read custom message from SQS que
   try:
+    message_body = message["Body"]
+    partition = message_body['partition'][:-4]
+    #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
+    log.info('s3_poller Got SQS message %s: device %s ', partition, message_body['device_id'])
     #partition = message['partition'][:-4]
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
     #log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
-    log.info('sqs_poller proc Got SQS message %s:  ', message)
+    #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
   except TypeError as e:
     #if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
