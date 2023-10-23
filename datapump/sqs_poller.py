@@ -121,18 +121,24 @@ def proc(message):
         message_payload = message_body.get('payload')
         log.info('s3_poller Got SQS message_payload %s: ', message_payload)
         
-        records = nmea.loads(json.dumps(message_payload))
+        #records = nmea.loads(json.dumps(message_payload))
+        records = nmea.loads((message_payload))
         log.info('s3_poller Got SQS records %s: ', records)
 
         mysortedrecords = sorted(records, key=lambda t:t[1])
         log.info('s3_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
         
 
+      except NameError as e:
+        if debug_all: log.info('sqs_poller:proc: NameError in proc  %s:  ', partition)
+
+        if debug_all: log.info('sqs_poller:proc: NameError in proc  %s:  ' % str(e))
+
       except:
-        if debug_all: log.info('s3_poller:: Error in proc SSA300 %s:', partition)
+        if debug_all: log.info('s3_poller:proc: Error in proc SSA300 %s:', partition)
 
         e = sys.exc_info()[0]
-        if debug_all: log.info("s3_poller::  in proc SSA300 Error: %s" % str(e))
+        if debug_all: log.info("s3_poller:proc:  in proc SSA300 Error: %s" % str(e))
         pass
 
     elif "SSLOG00" in partition:
