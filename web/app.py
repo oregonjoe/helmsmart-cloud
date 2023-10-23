@@ -18770,7 +18770,7 @@ def events_endpoint(device_id, partition):
       dict(
               device_id = device_id,
               partition = partition,
-              payload =  str(request.data),
+              payload =  json.loads(request.data),
               content_type = request.content_type,
               dyno_id = os.environ['DYNO']
             ),
