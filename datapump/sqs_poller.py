@@ -79,7 +79,12 @@ def proc(message):
     #log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
     
     #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
+    
+  except AttributeError as e:
+    #if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
 
+    if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ' % str(e))
+    
   except TypeError as e:
     #if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
 
