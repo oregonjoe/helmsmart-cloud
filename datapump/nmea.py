@@ -52,7 +52,8 @@ def nmea_string(string):
   return nmea_stream(StringIO(string))
 
 def loads(string):
-  return list(interpeted(events(StringIO(string))))
+  return list(interpeted(events(string)))
+  #return list(interpeted(events(StringIO(string))))
 
 def events(stream):
 
