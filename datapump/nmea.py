@@ -67,7 +67,9 @@ def events(stream):
   try:
     
     #nmea_lines = csv.reader(stream)
-    nmea_lines = stream.splitlines()
+    #nmea_lines = stream.splitlines()
+    nmea_lines = stream.split("\\n")
+    
     for line in nmea_lines:
       log.info("NMEA events line %s ", line)
 
