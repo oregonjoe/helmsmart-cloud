@@ -173,16 +173,17 @@ def process_queue(config):
     try:
 
       #get messages from SQS queue and try to process them with the PROC function
-      for message in get_messages(queue_url, num_receive):
+      #for message in get_messages(queue_url, num_receive):
+      message=get_messages(queue_url, num_receive):
 
-        if debug_all: log.info('sqs_poller process_queue %s: ', count)
+      if debug_all: log.info('sqs_poller process_queue %s: ', count)
 
-        log.info("process_queue:  message %s: ", message)
-        #log.info("process_queue:  message_MessageId %s: ", message["MessageId"])
-        
-        #try to get messages from the SQS queue and parse them
-        transaction(handle,  message)
-        count += 1
+      log.info("process_queue:  message %s: ", message)
+      #log.info("process_queue:  message_MessageId %s: ", message["MessageId"])
+      
+      #try to get messages from the SQS queue and parse them
+      transaction(handle,  message)
+      count += 1
 
       if count == 0:
         # if we had messages process right away, else
