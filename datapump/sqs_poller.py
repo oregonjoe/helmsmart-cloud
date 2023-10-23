@@ -65,11 +65,15 @@ def proc(message):
   try:
     message_body = message['Body']
     #partition = message_body['partition'][:-4]
-    #partition = message_body.get('partition')
+
 
     log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
+
+    partition = message_body.get('partition')
+    device_id = message_body.get('device_id')
+    
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
-    #log.info('s3_poller Got SQS message %s: device %s ', partition, message_body['device_id'])
+    log.info('s3_poller Got SQS message %s: device %s ', partition,device_id)
     #partition = message['partition'][:-4]
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
     #log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
