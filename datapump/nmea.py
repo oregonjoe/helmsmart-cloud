@@ -150,9 +150,11 @@ def interpeted(records):
   # create a list of [None, ..., None]
   blank = [None] * len(DECODER_MAP)
 
-  for record in records:
-
+  for nmea_record in records:
+    
     try:
+      
+      record  = nmea_record.split(',')
       
       pgn = record[PGN]
 
