@@ -52,7 +52,17 @@ def nmea_string(string):
   return nmea_stream(StringIO(string))
 
 def loads(string):
-  return list(interpeted(events(string)))
+
+
+  nmea_lines = events(string)
+  if debug_all: log.info('NMEA : loads nmea_lines %s:  ' , nmea_lines)
+  
+  nmea_list = interpeted(nmea_lines)
+  #return list(interpeted(events(string)))
+  return list(nmea_list)
+
+
+  #return list(interpeted(events(string)))
   #return list(interpeted(events(StringIO(string))))
 
 def events(stream):
@@ -65,15 +75,19 @@ def events(stream):
 #Then we can just pick the columns we are interested in.
 
   try:
-    
+
+    nmea_list = []
     #nmea_lines = csv.reader(stream)
     #nmea_lines = stream.splitlines()
     nmea_lines = stream.split("\\n")
     
     for line in nmea_lines:
       log.info("NMEA events line %s ", line)
+      
+      if valid(line):
+        nmea_list.append(line.strip()[7:-2])
 
-    return nmea_lines
+    return nmea_list
 
   except AttributeError as e:
     if debug_all: log.info('NMEA : AttributeError in events %s:  ' % str(e))
