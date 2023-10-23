@@ -18763,6 +18763,8 @@ def events_endpoint(device_id, partition):
 
 
   try:
+
+    log.info("Que SQS:Parse JSON request.data %s:  ", request.data)
     
     device_json = json.dumps(
       dict(
@@ -18776,6 +18778,7 @@ def events_endpoint(device_id, partition):
 
     #log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
     log.info("Que SQS:Parse JSON device_id %s:  ", device_id)
+    log.info("Que SQS:Parse JSON device_id %s:  ", device_json)
 
   except SystemExit as e:
     log.info("Que SQS:SystemExitError device_id %s: partition: %s data: %s ", device_id, partition, request.data)
