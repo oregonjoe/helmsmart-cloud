@@ -124,7 +124,8 @@ def proc(message):
         #records = nmea.loads(json.dumps(message_payload))
         #records = nmea.loads((message_payload))
         #records = nmea.loads((json.dumps(message_payload)))
-        records = nmea.loads((json.dumps(message_payload).decode("utf-8")))
+        #records = nmea.loads((json.dumps(message_payload).decode("utf-8")))
+        records = nmea.loads(message_payload.decode("utf-8"))
         log.info('s3_poller Got SQS records %s: ', records)
 
         mysortedrecords = sorted(records, key=lambda t:t[1])
