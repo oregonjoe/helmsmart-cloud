@@ -69,10 +69,14 @@ def events(stream):
       #$PCDIN,01F205,6DOB845V,A7,007F803CD0150000*3F ->
       #01F205,6DOB845V,A7,007F803CD0150000
       #line.strip()[7:-3]
+
+      #log.info("NMEA events - line %s ", line)      
       line.strip()[7:-2]
       
-      for line in stream
+      for line in stream:
+         log.info("NMEA events line %s ", line)
       # Check that the line is formatted correctly and has a good checksum
+      
       if valid(line)
     )
   )
