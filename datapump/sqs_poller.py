@@ -121,7 +121,7 @@ def proc(message):
         message_payload = message_body.get('payload')
         log.info('s3_poller Got SQS message_payload %s: ', message_payload)
         
-        records = nmea.loads(dumps(message_payload))
+        records = nmea.loads(json.dumps(message_payload))
         log.info('s3_poller Got SQS records %s: ', records)
 
         mysortedrecords = sorted(records, key=lambda t:t[1])
