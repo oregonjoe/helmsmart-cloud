@@ -177,7 +177,7 @@ def process_queue(config):
 
         if debug_all: log.info('sqs_poller process_queue %s: ', count)
 
-        log.info("process_queue:  message_body %s: ", message)
+        log.info("process_queue:  message_MessageId %s: ", message["MessageId"])
         
         #try to get messages from the SQS queue and parse them
         transaction(handle,  message)
