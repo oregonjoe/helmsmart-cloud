@@ -95,7 +95,7 @@ def get_messages(queue_url, num_receive):
   try:
     
     # read message from SQS queue
-    rs = sqs_queue.receive_message(
+    response = sqs_queue.receive_message(
         QueueUrl=queue_url,
         MaxNumberOfMessages=1,
         MessageAttributeNames=[  'All'  ],
@@ -103,18 +103,24 @@ def get_messages(queue_url, num_receive):
         WaitTimeSeconds=0
     )
 
-    if "Messages" not in rs:
+    if "Messages" not in response:
       if debug_all: log.info('sqs_poller:no messages left')
       return []
 
     #print(response['Messages'][0])
+    print(f"Number of messages received: {len(response.get('Messages', []))}")
+
+    message = response.get("Messages", [])[0]
+    # print(message)
+    message_body = message["Body"]
+    receipt_handle = message['ReceiptHandle']
 
     #log.info("Read SQS:  response %s: ", rs['Messages'][0])
 
-    if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
+    #if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
 
     #return rs
-    return rs['Messages'][0]
+    return message
   
 
   except botocore.exceptions.ClientError as e:
