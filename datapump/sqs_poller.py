@@ -133,7 +133,7 @@ def proc(message):
         mysortedrecords = sorted(records, key=lambda t:t[1])
         log.info('s3_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
 
-       except TypeError as e:
+      except TypeError as e:
         if debug_all: log.info('sqs_poller:proc: TypeError in proc  %s:  ', partition)
         if debug_all: log.info('sqs_poller:proc: TypeError in proc  %s:  ' % str(e))
         
