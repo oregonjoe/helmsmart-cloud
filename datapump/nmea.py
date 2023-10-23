@@ -15,6 +15,8 @@ import splicer
 from splicer import Schema, Relation, Field
 from splicer.codecs import decodes
 
+import functools
+
 import logging
 requests_log = logging.getLogger("requests")
 requests_log.setLevel(logging.WARNING)
