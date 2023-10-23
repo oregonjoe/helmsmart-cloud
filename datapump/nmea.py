@@ -7,7 +7,7 @@ import time
 from time import mktime
 #import binascii
 import calendar
-from StringIO import StringIO
+from io import StringIO
 import csv
 
 import splicer
