@@ -58,6 +58,17 @@ queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 
 
+import nmea
+from splicer import Schema
+SCHEMA=Schema([
+  dict(name="device",type='STRING'),
+  dict(name="partition",type='STRING'),
+  dict(name="url",type='STRING'),
+]+nmea.SCHEMA.fields)
+
+
+
+
 def proc(message):
 
   #062914 JLB
@@ -70,17 +81,61 @@ def proc(message):
 
     log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
-    partition = message_body.get('partition')
+    mpartition = message_body.get('partition')
     device_id = message_body.get('device_id')
-    
+
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
-    log.info('s3_poller Got SQS message %s: device %s ', partition,device_id)
+    log.info('s3_poller Got SQS message %s: device %s ', mpartition,device_id)
     #partition = message['partition'][:-4]
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
     #log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
     
     #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
+
+    partition = mpartition[:-4]
+    if debug_all: log.info('s3_poller Got SQS message partition %s: ', partition)
     
+
+      
+    if "SSEA00" in partition:
+      try:
+        if debug_all: log.info('Got Alert message %s: %s ', device_id, partition)
+        
+      except:
+        if debug_all: log.info('s3_poller:: Error in proc SSEA00 %s:', partition)
+
+        e = sys.exc_info()[0]
+        if debug_all: log.info("s3_poller::  in proc SSEA00 Error: %s" % str(e))
+        pass
+
+      
+    elif "SSA300" in partition:  
+      try:
+        #if debug_all: log.info('s3_poller Got PushSmart SQS message %s: ', partition)
+        log.info('s3_poller Got PushSmart SQS message %s: %s ', partition, device_id) 
+
+      except:
+        if debug_all: log.info('s3_poller:: Error in proc SSA300 %s:', partition)
+
+        e = sys.exc_info()[0]
+        if debug_all: log.info("s3_poller::  in proc SSA300 Error: %s" % str(e))
+        pass
+
+    elif "SSLOG00" in partition:
+      try:
+        # JLB 063014 - test of not posting to S3
+        #dump_s3(message)
+        if debug_all: log.info('s3_poller Got Log file message  %s: %s ', partition, device_id) 
+
+        
+      except:
+        if debug_all: log.info('s3_poller:: Error in proc SSLOG00 %s:', partition)
+
+        e = sys.exc_info()[0]
+        if debug_all: log.info("s3_poller::  in proc SSLOG00 Error: %s" % str(e))
+        pass 
+      
+
   except AttributeError as e:
     #if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
 
