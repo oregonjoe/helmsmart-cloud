@@ -63,7 +63,7 @@ def proc(message):
   #062914 JLB
   # test to read custom message from SQS que
   try:
-    message_body = json.lods(message['Body'])
+    message_body = json.loads(message['Body'])
     #partition = message_body['partition'][:-4]
 
 
