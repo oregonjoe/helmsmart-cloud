@@ -182,8 +182,9 @@ def process_queue(config):
       #log.info("process_queue:  message_MessageId %s: ", message["MessageId"])
       
       #try to get messages from the SQS queue and parse them
-      transaction(handle,  message)
-      count += 1
+      if message != []:
+        transaction(handle,  message)
+        count += 1
 
       if count == 0:
         # if we had messages process right away, else
@@ -234,7 +235,7 @@ def transaction(func, sqs_message):
     #func(sqs_message.get_body())
     #func(sqs_message["Body"])
 
-    
+    proc(sqs_message)
     #sqs_message.delete()
 
     #receipt_handle = sqs_message['ReceiptHandle']
