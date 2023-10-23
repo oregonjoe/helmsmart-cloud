@@ -63,12 +63,35 @@ def events(stream):
 #
 #Then we can just pick the columns we are interested in.
 
-  nmea_lines = csv.reader(stream)
+  try:
+    
+    nmea_lines = csv.reader(stream)
 
-  for lines in nmea_lines:
-    log.info("NMEA events line %s ", line)
+    for line in nmea_lines:
+      log.info("NMEA events line %s ", line)
 
-  return nmea_lines
+    return nmea_lines
+
+
+  except TypeError as e:
+    if debug_all: log.info('NMEA : TypeError in events %s:  ' % str(e))
+    
+  except KeyError as e:
+    if debug_all: log.info('NMEA :: KeyError in events %s:  ' % str(e))
+    
+  except NameError as e:
+    if debug_all: log.info('NMEA :: NameError in events %s:  ' % str(e))
+
+  except ValueError as e:
+    if debug_all: log.info('NMEA :: ValueError in events %s:  ' % str(e))
+
+  except IndexError as e:
+    if debug_all: log.info('NMEA:: IndexError in events %s:  ' % str(e))
+
+  except:
+    e = sys.exc_info()[0]
+    if debug_all: log.info("NMEA ::  Error: %s" % e)
+
 
 """
   return csv.reader(
