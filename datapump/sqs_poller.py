@@ -112,10 +112,16 @@ def get_messages(queue_url, num_receive):
 
     message = response.get("Messages", [])[0]
     # print(message)
+    log.info("Read SQS:  message %s: ", message)
+    
     message_body = message["Body"]
     receipt_handle = message['ReceiptHandle']
 
-    #log.info("Read SQS:  response %s: ", rs['Messages'][0])
+    log.info("Read SQS:  message_body %s: ", message_body)
+
+    log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
+
+    #log.info("get_messages:  response %s: ", rs['Messages'][0])
 
     #if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
 
