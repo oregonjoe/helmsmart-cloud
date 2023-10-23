@@ -65,13 +65,13 @@ def proc(message):
   try:
     message_body = message['Body']
     #partition = message_body['partition'][:-4]
-    
+    partition = message_body['partition']
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
-    #log.info('s3_poller Got SQS message %s: device %s ', partition, message_body['device_id'])
+    log.info('s3_poller Got SQS message %s: device %s ', partition, message_body['device_id'])
     #partition = message['partition'][:-4]
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
     #log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
-    log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
+    #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
     #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
   except TypeError as e:
@@ -121,7 +121,7 @@ def get_messages(queue_url, num_receive):
     # print(message)
     #log.info("Read SQS:  message %s: ", message)
     
-    message_body = message["Body"]
+    message_body = message['Body']
     receipt_handle = message['ReceiptHandle']
 
     #log.info("Read SQS:  message_body %s: ", message_body)
@@ -186,7 +186,7 @@ def process_queue(config):
       if debug_all: log.info('sqs_poller process_queue %s: ', count)
 
       log.info("process_queue:  message %s: ", message)
-      #log.info("process_queue:  message_MessageId %s: ", message["MessageId"])
+      #log.info("process_queue:  message_MessageId %s: ", message['MessageId'])
       
       #try to get messages from the SQS queue and parse them
       if message != []:
