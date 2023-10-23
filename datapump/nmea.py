@@ -298,7 +298,7 @@ def valid(sentence):
   # Added check for when checksum_str is not hexidecimal
   # return false if not
   try:
-    checksum = reduce(lambda checksum,c: checksum^ord(c), data[1:], 0)
+    checksum = functools.reduce(lambda checksum,c: checksum^ord(c), data[1:], 0)
 
     nema_checksum = int(checksum_str[:2], 16)
     log.info("NMEA valid cs error - checksum %s:nema_checksum %s ", checksum, nema_checksum)
