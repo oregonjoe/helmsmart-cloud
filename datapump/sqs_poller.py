@@ -112,7 +112,7 @@ def get_messages(queue_url, num_receive):
 
     message = response.get("Messages", [])[0]
     # print(message)
-    log.info("Read SQS:  message %s: ", message)
+    #log.info("Read SQS:  message %s: ", message)
     
     message_body = message["Body"]
     receipt_handle = message['ReceiptHandle']
@@ -177,7 +177,8 @@ def process_queue(config):
 
         if debug_all: log.info('sqs_poller process_queue %s: ', count)
 
-        log.info("process_queue:  message_MessageId %s: ", message["MessageId"])
+        log.info("process_queue:  message %s: ", message)
+        #log.info("process_queue:  message_MessageId %s: ", message["MessageId"])
         
         #try to get messages from the SQS queue and parse them
         transaction(handle,  message)
