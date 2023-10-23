@@ -63,7 +63,8 @@ def proc(message):
   #062914 JLB
   # test to read custom message from SQS que
   try:
-    message_body = json.loads(message['Body'])
+    #message_body = json.loads(message['Body'])
+    message_body =message
     #partition = message_body['partition'][:-4]
 
 
@@ -291,7 +292,7 @@ def best_effort(func, pushsmart_message):
   #if debug_all: log.info('s3_poller:best_effort starting')
   message = json.loads(pushsmart_message['Body'])
 
-  if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message["Body"])
+  #if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message['Body'])
   if debug_all: log.info('sqs_poller:best_effort message %s', message)
 
   
