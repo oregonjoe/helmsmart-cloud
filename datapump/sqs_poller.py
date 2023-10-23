@@ -174,7 +174,7 @@ def process_queue(config):
 
       #get messages from SQS queue and try to process them with the PROC function
       #for message in get_messages(queue_url, num_receive):
-      message=get_messages(queue_url, num_receive):
+      message=get_messages(queue_url, num_receive)
 
       if debug_all: log.info('sqs_poller process_queue %s: ', count)
 
