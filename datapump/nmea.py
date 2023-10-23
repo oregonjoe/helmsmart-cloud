@@ -73,8 +73,8 @@ def events(stream):
       #log.info("NMEA events - line %s ", line)      
       #line.strip()[7:-2]
       
-      for line in stream
-      log.info("NMEA events line %s ", line)
+      for line in stream:
+        log.info("NMEA events line %s ", line)
       # Check that the line is formatted correctly and has a good checksum
       
       #if valid(line)
