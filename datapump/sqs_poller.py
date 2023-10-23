@@ -316,9 +316,22 @@ def best_effort(func, pushsmart_message):
       retry['errors'] = retry.get('errors', [])
       retry['errors'].append(str(e))
 
-      env.queue.write(
-        env.queue.new_message(json.dumps(retry))
-      )
+      #env.queue.write( env.queue.new_message(json.dumps(retry)) )
+
+
+       # Send message to SQS queue
+        response = sqs_queue.send_message(
+            QueueUrl=queue_url,
+            DelaySeconds=10,
+            #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+            MessageBody=(json.dumps(retry))
+        )
+
+        #print(response['MessageId'])
+
+        log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+
+      
   
 
 if __name__ == "__main__":
