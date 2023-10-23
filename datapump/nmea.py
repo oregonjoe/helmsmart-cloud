@@ -235,6 +235,7 @@ def valid(sentence):
 
   """
   nema_checksum = ""
+  checksum=255
   
   if not sentence.startswith('$'):
     log.info("NMEA valid error - wrong start $ %s ", sentence)
@@ -301,7 +302,9 @@ def valid(sentence):
     log.info("NMEA valid cs error - checksum %s:nema_checksum %s ", checksum, nema_checksum)
 
   # if error then return false as its not a good checksum
-  #except ValueError:
+  except NameError as e:
+    if debug_all: log.info('NMEA :: NameError in NMEA valid cs %s:  ' % str(e))
+
   except:
     log.info("NMEA valid cs error - sentence %s:checksum_str %s ", sentence, checksum_str)
     e = sys.exc_info()[0]
