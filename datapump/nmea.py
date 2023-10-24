@@ -155,13 +155,14 @@ def interpeted(records):
     try:
       
       record  = nmea_record.split(',')
+      log.info("NMEA interpeted - record %s ", pgn)
       
       pgn = record[PGN]
 
       
 
-      if pgn == '00FF06':
-        log.info("NMEA interpeted - PGN %s ", pgn)
+      #if pgn == '00FF06':
+      log.info("NMEA interpeted - PGN %s ", pgn)
 
       ps_ts =  seasmart_timestamp(record[TIMESTAMP])
       
@@ -174,7 +175,7 @@ def interpeted(records):
         pos, decode = DECODER_MAP.get(pgn, (None, None))
 
         if decode:
-          #log.info("NMEA interpeted - decode %s ", pgn)
+          log.info("NMEA interpeted - decode %s ", pgn)
 
           #initialize c to size of blank array
           c = blank[:]
@@ -184,13 +185,13 @@ def interpeted(records):
           #$PCDIN,01F205,6DOB8460,A7,[payload]*2D
           payload = record.pop()
 
-          #log.info("NMEA interpeted - payload %s ", payload)
+          log.info("NMEA interpeted - payload %s ", payload)
 
           # decode payload
           #payload F201013D6EFAFFFF  
           c[pos] = decode(payload)
 
-          #log.info("NMEA interpeted - decoded payload %s:%s ", pos, c[pos])
+          log.info("NMEA interpeted - decoded payload %s:%s ", pos, c[pos])
           #and add to pgn record map
           #payload 13:{'wind_speed': 257, 'wind_reference': 'Apparent Wind', 'sid': 242, 'wind_direction': 160.8597, 'reserved2': None, 'reserved1': 15}  
           record.extend(c)
@@ -294,7 +295,7 @@ def valid(sentence):
     return False
 
   data, checksum_str = parts
-  log.info("NMEA checksum - data %s:checksum_str %s ", data, checksum_str)
+  #log.info("NMEA checksum - data %s:checksum_str %s ", data, checksum_str)
   
   # 031114 JLB
   # Added check for when checksum_str is not hexidecimal
@@ -303,7 +304,7 @@ def valid(sentence):
     checksum = functools.reduce(lambda checksum,c: checksum^ord(c), data[1:], 0)
 
     nema_checksum = int(checksum_str[:2], 16)
-    log.info("NMEA valid cs error - checksum %s:nema_checksum %s ", checksum, nema_checksum)
+    #log.info("NMEA valid cs error - checksum %s:nema_checksum %s ", checksum, nema_checksum)
 
   # if error then return false as its not a good checksum
   except NameError as e:
