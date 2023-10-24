@@ -175,7 +175,7 @@ def interpeted(records):
         pos, decode = DECODER_MAP.get(pgn, (None, None))
 
         if decode:
-          log.info("NMEA interpeted - decode %s ", pgn)
+          log.info("NMEA interpeted - decode %s pos %s ", decode, pos)
 
           #initialize c to size of blank array
           c = blank[:]
@@ -188,7 +188,7 @@ def interpeted(records):
           log.info("NMEA interpeted - payload %s ", payload)
 
           # decode payload
-          #payload F201013D6EFAFFFF  
+          #payload F201013D6EFAFFFF
           c[pos] = decode(payload)
 
           log.info("NMEA interpeted - decoded payload %s:%s ", pos, c[pos])
@@ -673,21 +673,52 @@ def j1939_dash_display(data):
 @pgn(127488, returns=['engine_id', 'speed', 'boost_presure', 'tilt_or_trim', 'reserved_bits','raw'])
 def engine_parameters_rapid_update(data):
 
-  raw=getrawvalue(data)
+  try:
 
-  if raw[16] != '*':
-    return None
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' data)
+    
+    raw=getrawvalue(data)
 
-  return dict(
-    engine_id = uint8(data),
-    speed = uint16(data),
-    boost_presure = uint16(data),
-    tilt_or_trim = int8(data),
-    reserved_bits = uint16(data),
+    if raw[16] != '*':
+      return None
+
+    engine_id = uint8(data)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' engine_id)
+    speed = uint16(data)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' speed)
+    boost_presure = uint16(data)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' boost_presure)
+    tilt_or_trim = int8(data)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' tilt_or_trim)
+    reserved_bits = uint16(data)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' reserved_bits)
     raw=raw
-  )
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' raw)
+      
+    return dict(
+      engine_id = engine_id,
+      speed = speed,
+      boost_presure = boost_presure,
+      tilt_or_trim = tilt_or_trim,
+      reserved_bits = reserved_bits,
+      raw=raw
+    )
 
+  except ValueError as e:
+    log.info('NMEA interpeted - engine_parameters_rapid_update ValueError %s:  ' % str(e))
 
+  except NameError as e:
+    log.info('NMEA interpeted - engine_parameters_rapid_update NameError %s:  ' % str(e))
+    
+  except TypeError as e:
+    log.info('NMEA interpeted - engine_parameters_rapid_update:  TypeError %s' % str(e))
+
+  except AttributeError as e:
+    log.info('NMEA interpeted - engine_parameters_rapid_update AttributeError %s:  ' % str(e))
+
+  except:
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update %s:%s', partition, device)
+    e = sys.exc_info()[0]
 
 
 @pgn(127489, returns=['engine_id','oil_pressure', 'oil_temp', 
@@ -706,6 +737,7 @@ def engine_parameters_dynamic(data):
     #log.info("NMEA interpeted - engine_parameters_dynamic %s ", raw)
     #log.info("NMEA interpeted - engine_parameters_dynamic length %s ", len(raw))
 
+    """
     #improper length
     if not((len(raw) == 53) or (len(raw) ==55)):
       return None
@@ -718,7 +750,7 @@ def engine_parameters_dynamic(data):
     if len(raw) == 55 and raw[54] != '*':
       return None
 
-
+    """
 
     engine_id = uint8(data)
     oil_pressure = uint16(data)
