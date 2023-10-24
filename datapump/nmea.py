@@ -2983,7 +2983,7 @@ def readint(data, bits):
 
 
   try:
-     log.info("NMEA - readbytes error data {0}:  ".format(data))
+    log.info("NMEA - readbytes error data {0}:  ".format(data))
     #val = nulled(readbytes(data, bits/8), bits-1)
     val = readbytes(data, bits/8)
     if val is not None:
