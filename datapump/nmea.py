@@ -2991,7 +2991,8 @@ def readbytes(data, count):
 # integer length is based on num of bits
 def readint(data, bits):
   # reads Hexadecial pair and checkes if = nulled (0XFF)
-  val = nulled(readbytes(data, bits/8), bits-1)
+  #val = nulled(readbytes(data, bits/8), bits-1)
+  val = readbytes(data, bits/8)
   if val is not None:
     return twoscomplement(val,bits)
   else:
