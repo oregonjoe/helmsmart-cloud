@@ -677,23 +677,24 @@ def engine_parameters_rapid_update(data):
 
     log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', data)
     
-    raw=getrawvalue(data)
+    #raw=getrawvalue(data)
+    raw="00100E000A7FFFFF*56"
 
     if raw[16] != '*':
       return None
 
     engine_id = uint8(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', engine_id)
+    log.info('NMEA interpeted - engine_parameters_rapid_update engine_id {0}:  '.format(engine_id))
     speed = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', speed)
+    log.info('NMEA interpeted - engine_parameters_rapid_update speed {0}:  '.format(speed))
     boost_presure = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ',boost_presure)
+    log.info('NMEA interpeted - engine_parameters_rapid_update boost_presure {0}:  '.format(boost_presure))
     tilt_or_trim = int8(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' ,tilt_or_trim)
+    log.info('NMEA interpeted - engine_parameters_rapid_update tilt_or_trim {0}:  '.format(tilt_or_trim))
     reserved_bits = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', reserved_bits)
+    log.info('NMEA interpeted - engine_parameters_rapid_update reserved_bits {0}:  '.format(reserved_bits))
     raw=raw
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' ,raw)
+    log.info('NMEA interpeted - engine_parameters_rapid_update raw {0}:  '.format(raw))
       
     return dict(
       engine_id = engine_id,
