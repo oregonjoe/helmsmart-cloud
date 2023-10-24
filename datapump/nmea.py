@@ -689,6 +689,7 @@ def engine_parameters_rapid_update(data):
     log.info('NMEA interpeted - engine_parameters_rapid_update speed {0}:  '.format(speed))
     boost_presure = uint16(data)
     log.info('NMEA interpeted - engine_parameters_rapid_update boost_presure {0}:  '.format(boost_presure))
+    
     tilt_or_trim = int8(data)
     
     log.info('NMEA interpeted - engine_parameters_rapid_update tilt_or_trim {0}:  '.format(tilt_or_trim))
@@ -2946,23 +2947,7 @@ def readBEbytes(data, count):
     return ( 2**((count*8)-1))
 
   
-#Bytes are in little endian order [LSB, MSB]
-def readbytes(data, count):
-  val = 0
-  # 030614 JLB
-  # added check for when data.read is not a hexadecial character pair
-  try:
-    for i in range(count):
-      val += int(data.read(2), 16) << (8*i)
-    #log.info("NMEA - readbytes val %s ", val)
-    return val
-  
-  # if error then return nulled (none) 0x7F or 0x7FFF 0r 0x7FFFFFF
-  #except ValueError:
-  except:
-    e = sys.exc_info()[0]
-    log.info("NMEA - readbytes error data " % e)
-    return ( 2**((count*8)-1))
+
 
   
 
@@ -2975,7 +2960,7 @@ def readbytes(data, count):
   try:
     for i in range(count):
       val += int(data.read(2), 16) << (8*i)
-    #log.info("NMEA - readbytes val %s ", val)
+    log.info("NMEA - readbytes val %s ", val)
     return val
   
   # if error then return nulled (none) 0x7F or 0x7FFF 0r 0x7FFFFFF
