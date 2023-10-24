@@ -675,7 +675,7 @@ def engine_parameters_rapid_update(data):
 
   try:
 
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', data)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data {0}:  '.format(data))
     
     #raw=getrawvalue(data)
     raw="00100E000A7FFFFF*56"
@@ -690,6 +690,7 @@ def engine_parameters_rapid_update(data):
     boost_presure = uint16(data)
     log.info('NMEA interpeted - engine_parameters_rapid_update boost_presure {0}:  '.format(boost_presure))
     tilt_or_trim = int8(data)
+    
     log.info('NMEA interpeted - engine_parameters_rapid_update tilt_or_trim {0}:  '.format(tilt_or_trim))
     reserved_bits = uint16(data)
     log.info('NMEA interpeted - engine_parameters_rapid_update reserved_bits {0}:  '.format(reserved_bits))
@@ -706,19 +707,19 @@ def engine_parameters_rapid_update(data):
     )
 
   except ValueError as e:
-    log.info('NMEA interpeted - engine_parameters_rapid_update ValueError %s:  ' % str(e))
+    log.info('NMEA interpeted - engine_parameters_rapid_update ValueError {0}:  '.format(e))
 
   except NameError as e:
-    log.info('NMEA interpeted - engine_parameters_rapid_update NameError %s:  ' % str(e))
+    log.info('NMEA interpeted - engine_parameters_rapid_update NameError {0}:  '.format(e))
     
   except TypeError as e:
-    log.info('NMEA interpeted - engine_parameters_rapid_update:  TypeError %s' % str(e))
+    log.info('NMEA interpeted - engine_parameters_rapid_update:  TypeError {0}:  '.format(e))
 
   except AttributeError as e:
-    log.info('NMEA interpeted - engine_parameters_rapid_update AttributeError %s:  ' % str(e))
+    log.info('NMEA interpeted - engine_parameters_rapid_update AttributeError{0}:  '.format(e))
 
   except:
-    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update %s:%s', partition, device)
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update {0}:{1}'.format( partition, device))
     e = sys.exc_info()[0]
 
 
@@ -2993,6 +2994,8 @@ def readint(data, bits):
   val = nulled(readbytes(data, bits/8), bits-1)
   if val is not None:
     return twoscomplement(val,bits)
+  else:
+    return 32767
 
 def twoscomplement(num,bits):
   val =  sum(2**x & num for x in range(bits-1))
