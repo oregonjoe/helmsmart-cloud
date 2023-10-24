@@ -2984,12 +2984,16 @@ def readint(data, bits):
 
   try:
     log.info("NMEA - readbytes error data {0}:  ".format(data))
-    #val = nulled(readbytes(data, bits/8), bits-1)
-    val = readbytes(data, bits/8)
+
+    # really stupid error her in python3
+    # bits/8 results in a flot in python 3 which creates error
+    # TypeError 'float' object cannot be interpreted as an integer:
+    # so we need to be sure this is an integer result which it should have already been
+    val = nulled(readbytes(data, int(bits/8)), bits-1)
+    #val = readbytes(data, int(bits/8))
     if val is not None:
       return twoscomplement(val,bits)
-    else:
-      return 32767
+
     
   except TypeError as e:
     log.info('NMEA readint:  TypeError {0}:  '.format(e))
@@ -3077,7 +3081,7 @@ def getswitch(data):
 def bitmap(data, labels):
   # skip for now
 
-  bytes = len(labels) / 8
+  bytes = int(len(labels) / 8)
   readbytes(data, bytes)
   return ''
 
