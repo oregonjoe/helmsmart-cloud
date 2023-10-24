@@ -675,7 +675,7 @@ def engine_parameters_rapid_update(data):
 
   try:
 
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' data)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', data)
     
     raw=getrawvalue(data)
 
@@ -683,17 +683,17 @@ def engine_parameters_rapid_update(data):
       return None
 
     engine_id = uint8(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' engine_id)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', engine_id)
     speed = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' speed)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', speed)
     boost_presure = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' boost_presure)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ',boost_presure)
     tilt_or_trim = int8(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' tilt_or_trim)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' ,tilt_or_trim)
     reserved_bits = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' reserved_bits)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ', reserved_bits)
     raw=raw
-    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' raw)
+    log.info('NMEA interpeted - engine_parameters_rapid_update data %s:  ' ,raw)
       
     return dict(
       engine_id = engine_id,
