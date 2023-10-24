@@ -2960,14 +2960,18 @@ def readbytes(data, count):
   try:
     for i in range(count):
       val += int(data.read(2), 16) << (8*i)
-    log.info("NMEA - readbytes val %s ", val)
+    log.info("NMEA - readbytes val {0}:  ".format(val))
     return val
   
   # if error then return nulled (none) 0x7F or 0x7FFF 0r 0x7FFFFFF
   #except ValueError:
+  except TypeError as e:
+    log.info('NMEA readbytes:  TypeError {0}:  '.format(e))
+
+
   except:
     e = sys.exc_info()[0]
-    log.info("NMEA - readbytes error data " % e)
+    log.info("NMEA - readbytes error data {0}: ".format(e))
     return ( 2**((count*8)-1))
 
   
@@ -2976,12 +2980,24 @@ def readbytes(data, count):
 # integer length is based on num of bits
 def readint(data, bits):
   # reads Hexadecial pair and checkes if = nulled (0XFF)
-  #val = nulled(readbytes(data, bits/8), bits-1)
-  val = readbytes(data, bits/8)
-  if val is not None:
-    return twoscomplement(val,bits)
-  else:
-    return 32767
+
+
+  try:
+     log.info("NMEA - readbytes error data {0}:  ".format(data))
+    #val = nulled(readbytes(data, bits/8), bits-1)
+    val = readbytes(data, bits/8)
+    if val is not None:
+      return twoscomplement(val,bits)
+    else:
+      return 32767
+    
+  except TypeError as e:
+    log.info('NMEA readint:  TypeError {0}:  '.format(e))
+  except:
+    e = sys.exc_info()[0]
+    log.info("NMEA - readbytes error data {0}:  ".format(e))
+    return ( 2**((count*8)-1))
+  
 
 def twoscomplement(num,bits):
   val =  sum(2**x & num for x in range(bits-1))
