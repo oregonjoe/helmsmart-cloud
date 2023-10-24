@@ -155,7 +155,7 @@ def interpeted(records):
     try:
       
       record  = nmea_record.split(',')
-      log.info("NMEA interpeted - record %s ", pgn)
+      log.info("NMEA interpeted - record %s ", record)
       
       pgn = record[PGN]
 
