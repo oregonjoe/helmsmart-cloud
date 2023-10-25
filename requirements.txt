@@ -24,6 +24,7 @@ git+https://github.com/influxdb/influxdb-python.git
 git+https://github.com/googlearchive/firebase-token-generator-python.git
 #git+https://github.com/firebase/firebase-admin-python.git@150a8551359f818ce5c2edf6acbc02d48ba98747#egg=firebase_admin-2.18.0-py2.7
 git+https://github.com/firebase/firebase-admin-python.git
+git+https://github.com/influxdata/influxdb-python.git
 #geopy==1.9.1
 geopy==2.3.0
 boto3==1.28.67
