@@ -67,7 +67,7 @@ SCHEMA=Schema([
 ]+nmea.SCHEMA.fields)
 
 from sync import (
-  dump_pcdinfirebase, dump_json,  PARTITION, URL
+  dump_pcdinfirebase, dump_json, insert_influxdb_cloud, PARTITION, URL
 )
 
 
@@ -145,6 +145,12 @@ def proc(message):
         dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
         dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
+
+
+        if debug_all: log.info('s3_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
+        #log.info('s3_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
+        #081316 JLB - added influxdb-cloud update
+        dump_influxdb_cloud(device_id, partition, records)
 
       except TypeError as e:
         if debug_all: log.info('sqs_poller:proc: TypeError in proc  %s:  ', partition)
