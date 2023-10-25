@@ -70,7 +70,7 @@ credential=credentials.Certificate({
   })
  
 fbapp = firebase_admin.initialize_app(credential, { 'databaseURL': 'https://helmsmart-ios-pcdin.firebaseio.com'})
-
+ 
 
 #fbapp = firebase_admin.initialize_app()
 
