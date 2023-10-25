@@ -33,8 +33,8 @@ from firebase_admin import _utils
 
 from firebase_token_generator import create_token
 
-print dir(firebase_admin)
-print dir(fbdb)
+print (dir(firebase_admin))
+print (dir(fbdb))
 #if debug_all: log.info('sync: urllib3.__version__ %s', urllib3.__version__)
 
 
