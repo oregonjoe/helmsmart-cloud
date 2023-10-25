@@ -5,7 +5,7 @@ import pylibmc
 import sys
 
 from psycopg_pool import ConnectionPool
-
+from xlocal import xlocal
 import json
 
 
