@@ -142,7 +142,7 @@ def proc(message):
         print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
 
         
-        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload))
+        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
 
       except TypeError as e:
