@@ -2960,7 +2960,7 @@ def readbytes(data, count):
   try:
     for i in range(count):
       val += int(data.read(2), 16) << (8*i)
-    log.info("NMEA - readbytes val {0}:  ".format(val))
+    #log.info("NMEA - readbytes val {0}:  ".format(val))
     return val
   
   # if error then return nulled (none) 0x7F or 0x7FFF 0r 0x7FFFFFF
@@ -2983,7 +2983,7 @@ def readint(data, bits):
 
 
   try:
-    log.info("NMEA - readbytes error data {0}:  ".format(data))
+    #log.info("NMEA - readbytes error data {0}:  ".format(data))
 
     # really stupid error her in python3
     # bits/8 results in a flot in python 3 which creates error
