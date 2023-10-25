@@ -462,7 +462,7 @@ if __name__ == "__main__":
   
   conn = db_pool.getconn()
   fact_info = ensure_database(conn, SCHEMA)
-  db_pool.putconn(conn, close=True)  
+  #db_pool.putconn(conn, close=True)  
   
   config = dict(
     device_group = os.environ['DEVICE_GROUP'],
