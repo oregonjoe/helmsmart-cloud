@@ -84,6 +84,12 @@ PGN = 3
 TIMESTAMP=4
 SOURCE=5
 
+class DateEncoder(json.JSONEncoder):
+  def default(self, obj):
+    if hasattr(obj, 'isoformat'):
+      return obj.isoformat()
+    else:
+      return str(obj)
 
 def dump_json(schema, records):
   field_pos = list(enumerate(schema.fields[3:]))
