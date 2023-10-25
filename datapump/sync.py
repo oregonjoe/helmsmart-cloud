@@ -85,6 +85,31 @@ TIMESTAMP=4
 SOURCE=5
 
 
+def dump_json(schema, records):
+  field_pos = list(enumerate(schema.fields[3:]))
+  
+  def to_dict(record):
+ 
+    data =  {
+      f.name:record[i]
+      for i,f in field_pos[:3]
+    }
+
+    for i,f in field_pos[3:]:
+      v = record[i]
+      if v:
+        data['payload'] = v
+        data['description'] = f.name
+        return data
+
+
+
+  data = [to_dict(r) for r in records]
+  #if debug_all: log.info('data =  %s ', data)
+  return json.dumps(data, cls=DateEncoder)
+
+
+
 # JLB - 071019 - added pcdin event type to firebase store
 def dump_pcdinfirebase(device, eventtype, partition, data):
 
