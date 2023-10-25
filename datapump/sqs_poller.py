@@ -67,7 +67,7 @@ SCHEMA=Schema([
 ]+nmea.SCHEMA.fields)
 
 from sync import (
-  dump_pcdinfirebase, dump_json, insert_influxdb_cloud, PARTITION, URL
+  dump_pcdinfirebase, dump_json, insert_influxdb_cloud, ensure_database,PARTITION, URL
 )
 
 
@@ -459,11 +459,11 @@ if __name__ == "__main__":
 
   db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
   
-  """
+  
   conn = db_pool.getconn()
   fact_info = ensure_database(conn, SCHEMA)
   db_pool.putconn(conn, close=True)  
-  """
+  
   config = dict(
     device_group = os.environ['DEVICE_GROUP'],
     db_pool = db_pool ,

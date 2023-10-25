@@ -101,6 +101,42 @@ class DateEncoder(json.JSONEncoder):
     else:
       return str(obj)
 
+def ensure_database(conn, schema):
+ 
+  fact_info = [
+    (i,fact_schema(f))
+    for i,f in enumerate(schema.fields)
+    if f.type == "RECORD"
+  ]
+
+  #cursor = conn.cursor()
+
+  #execute_stmts(cursor, ensure_tables(fact_info))
+  #conn.commit()
+  #execute_stmts(cursor, ensure_data(conn))
+  #conn.commit()
+
+  return fact_info
+
+
+def fact_schema(fact_field):
+  """
+  Given a pgn field creates the schema appropriate for
+  housing it in the warehouse.
+  """
+  #020614 JLB added datetime_id field
+  header = [
+    Field(name='partition', type='STRING'),
+    Field(name="date_id", type="INTEGER"),
+    Field(name="time_id", type="INTEGER"),
+    Field(name="datetime_id", type="INTEGER"), 
+    Field(name="device", type="VARCHAR"),    
+    Field(name="source", type="VARCHAR"),
+    Field(name="event_timestamp", type="DATETIME")
+  ]
+  return Schema(header + fact_field.fields, name=fact_field.name)
+    
+
 def dump_json(schema, records):
   field_pos = list(enumerate(schema.fields[3:]))
   
@@ -231,7 +267,8 @@ def insert_influxdb_cloud(fact_info, device, records):
   try:
     mydata = []
     mydataIDBC = []
-    
+
+
     ts = int(time.time())
     #log.info('insert_influxdb_cloud: convert_influxdbcloud_json ts %s:  ', ts)
   
