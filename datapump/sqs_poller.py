@@ -71,6 +71,20 @@ from sync import (
 )
 
 
+# JLB 081316  - added seperate influxdb-cloud record insert
+#@instrument
+def dump_influxdb_cloud(device, partition, records):
+  
+  insert_influxdb_cloud(
+        env.fact_info, 
+        device,
+        [
+          [device, partition, "url"] + record
+          for record in records
+        ] 
+      )
+
+
 def proc(message):
 
   #062914 JLB
