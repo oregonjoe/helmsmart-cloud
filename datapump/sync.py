@@ -85,4 +85,98 @@ TIMESTAMP=4
 SOURCE=5
 
 
+# JLB - 071019 - added pcdin event type to firebase store
+def dump_pcdinfirebase(device, eventtype, partition, data):
 
+  if debug_all: log.info('sync: dump_pcdinfirebase start %s:%s', partition, device)
+  #if debug_all: log.info('sync: dump_pcdinfirebase %s:%s', device, data)
+  
+  #var gDeviceKey="001EC010AD69"; // WinChuckWiFI
+  #var gDeviceKey="D8803920A828"; //netDimmer Winchuck
+  #var gDeviceKey="001EC024647E"; // SeaDreram 4G
+  #var gDeviceKey = "001EC04CF47B"; // netDimmer Hub
+  #var gDeviceKey = "001EC0359C27"; // WIHELMSK
+  
+
+  #if device == '001EC010AD69' or device == '001EC024647E'  or device == 'D8803920A828' or device == '001EC04CF47B' or device == '001EC0359C27' :
+  if device != None:
+
+    
+    if eventtype == 'SIGNALK':
+      try:
+        # **************************************************
+        # For Signal K
+        # **************************************************
+
+
+
+        
+        ref= firebase_admin.db.reference('/DEVICE/' + device + '/' + eventtype)
+
+ 
+      except ValueError, e:
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK ValueError in data %s:  ', data)
+
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK ValueError in data %s:  ' % str(e))
+
+        pass
+
+      except NameError, e:
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK NameError in data %s:  ', data)
+
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK NameError in data %s:  ' % str(e))
+        
+      except TypeError, e:
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK TypeError in data %s:  ', data)
+
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK TypeError in data %s:  ' % str(e))
+
+      except AttributeError, e:
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK AttributeError in data %s:  ', data)
+
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK AttributeError in data %s:  ' % str(e))
+
+      except:
+        if debug_all: log.info('sync: dump_pcdinfirebase1 SignalK error %s:%s', partition, device)
+        e = sys.exc_info()[0]
+
+        if debug_all: log.info("Error: %s" % e)
+        pass
+      
+    else:
+      try:
+        # **************************************************
+        # For JSON and PCDIN 
+        # **************************************************
+        
+        ref= firebase_admin.db.reference('/DEVICE/' + device + '/' + eventtype)
+        #myDeviceData = {eventtype:data}
+        myjson={eventtype:data}
+
+        if debug_all: log.info('sync: dump_pcdinfirebase json %s:%s', eventtype, device)
+        if debug_all: log.info('sync: dump_pcdinfirebase json %s:%s', device, data)
+
+        
+        ref.set(json.loads(data))
+
+      except AttributeError, e:
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 AttributeError in data %s:  ', data)
+
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 AttributeError in data %s:  ' % str(e))
+
+
+      except NameError, e:
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 NameError in data %s:  ', data)
+
+        if debug_all: log.info('Sync: dump_pcdinfirebase1 NameError in data %s:  ' % str(e))
+
+        
+
+      except:
+        if debug_all: log.info('sync: dump_pcdinfirebase1 error %s:%s', partition, device)
+        e = sys.exc_info()[0]
+
+        if debug_all: log.info("Error: %s" % e)
+
+
+  

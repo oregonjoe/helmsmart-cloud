@@ -66,7 +66,9 @@ SCHEMA=Schema([
   dict(name="url",type='STRING'),
 ]+nmea.SCHEMA.fields)
 
-
+from sync import (
+  dump_pcdinfirebase, PARTITION, URL
+)
 
 
 def proc(message):
@@ -132,6 +134,8 @@ def proc(message):
 
         mysortedrecords = sorted(records, key=lambda t:t[1])
         log.info('s3_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
+
+        dump_pcdinfirebase(device, "PCDIN", partition, json.dumps(message['payload']))
 
       except TypeError as e:
         if debug_all: log.info('sqs_poller:proc: TypeError in proc  %s:  ', partition)
