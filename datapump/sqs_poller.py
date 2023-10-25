@@ -137,7 +137,7 @@ def proc(message):
 
 
         if debug_all: log.info('s3_poller dump_pcdinfirebase %s: ', partition) 
-        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message['payload'].str.decode('utf-8')))
+        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.decode('utf-8')))
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
 
       except TypeError as e:
