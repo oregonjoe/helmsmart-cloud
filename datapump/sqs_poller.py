@@ -144,7 +144,7 @@ def proc(message):
         
         dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
-        dump_pcdinfirebase(device, "JSON", partition, dump_json(schema, mysortedrecords))
+        dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
 
       except TypeError as e:
         if debug_all: log.info('sqs_poller:proc: TypeError in proc  %s:  ', partition)
