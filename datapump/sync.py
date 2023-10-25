@@ -114,24 +114,24 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
         ref= firebase_admin.db.reference('/DEVICE/' + device + '/' + eventtype)
 
  
-      except ValueError, e:
+      except ValueError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK ValueError in data %s:  ', data)
 
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK ValueError in data %s:  ' % str(e))
 
         pass
 
-      except NameError, e:
+      except NameError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK NameError in data %s:  ', data)
 
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK NameError in data %s:  ' % str(e))
         
-      except TypeError, e:
+      except TypeError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK TypeError in data %s:  ', data)
 
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK TypeError in data %s:  ' % str(e))
 
-      except AttributeError, e:
+      except AttributeError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK AttributeError in data %s:  ', data)
 
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK AttributeError in data %s:  ' % str(e))
@@ -140,7 +140,7 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
         if debug_all: log.info('sync: dump_pcdinfirebase1 SignalK error %s:%s', partition, device)
         e = sys.exc_info()[0]
 
-        if debug_all: log.info("Error: %s" % e)
+        if debug_all: log.info("Error: %s" % str(e))
         pass
       
     else:
@@ -159,13 +159,13 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
         
         ref.set(json.loads(data))
 
-      except AttributeError, e:
+      except AttributeError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 AttributeError in data %s:  ', data)
 
         if debug_all: log.info('Sync: dump_pcdinfirebase1 AttributeError in data %s:  ' % str(e))
 
 
-      except NameError, e:
+      except NameError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 NameError in data %s:  ', data)
 
         if debug_all: log.info('Sync: dump_pcdinfirebase1 NameError in data %s:  ' % str(e))
@@ -176,7 +176,7 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
         if debug_all: log.info('sync: dump_pcdinfirebase1 error %s:%s', partition, device)
         e = sys.exc_info()[0]
 
-        if debug_all: log.info("Error: %s" % e)
+        if debug_all: log.info("Error: %s" % str(e))
 
 
   
