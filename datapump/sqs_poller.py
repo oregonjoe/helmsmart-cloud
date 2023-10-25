@@ -136,8 +136,13 @@ def proc(message):
         if debug_all: log.info('s3_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
 
 
-        if debug_all: log.info('s3_poller dump_pcdinfirebase %s: ', partition) 
-        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.decode('utf-8')))
+        if debug_all: log.info('s3_poller dump_pcdinfirebase message_payload %s: ', partition)
+        print(message_payload)
+        if debug_all: log.info('s3_poller dump_pcdinfirebase %s: ', partition)
+        print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
+
+        
+        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload))
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
 
       except TypeError as e:
