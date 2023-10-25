@@ -70,6 +70,7 @@ from sync import (
   dump_pcdinfirebase, dump_json, insert_influxdb_cloud, ensure_database,PARTITION, URL
 )
 
+env = xlocal()
 
 # JLB 081316  - added seperate influxdb-cloud record insert
 #@instrument
