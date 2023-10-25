@@ -121,7 +121,7 @@ def proc(message):
         #partition = message['partition'][:-4]
 
         message_payload = message_body.get('payload')
-        log.info('s3_poller Got SQS message_payload %s: ', message_payload)
+        #log.info('s3_poller Got SQS message_payload %s: ', message_payload)
         
         #records = nmea.loads(json.dumps(message_payload))
         #records = nmea.loads((message_payload))
@@ -130,11 +130,13 @@ def proc(message):
         #records = nmea.loads(message_payload.decode("utf-8"))
         #records = nmea.loads(json.loads(message_payload))
         #records = nmea.loads(message_payload)
-        log.info('s3_poller Got SQS records %s: ', records) 
+        #if debug_all: log.info('s3_poller Got SQS records %s: ', records) 
 
         mysortedrecords = sorted(records, key=lambda t:t[1])
-        log.info('s3_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
+        if debug_all: log.info('s3_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
 
+
+        if debug_all: log.info('s3_poller dump_pcdinfirebase %s: ', partition) 
         dump_pcdinfirebase(device, "PCDIN", partition, json.dumps(message['payload']))
 
       except TypeError as e:

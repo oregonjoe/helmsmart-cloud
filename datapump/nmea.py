@@ -31,8 +31,8 @@ log = logging
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
-debug_all = True
-#debug_all = False
+#debug_all = True
+debug_all = False
 
 
 import sys
@@ -84,7 +84,7 @@ def events(stream):
     nmea_lines = stream.split("\\n")
     
     for line in nmea_lines:
-      log.info("NMEA events line %s ", line)
+      if debug_all: log.info("NMEA events line %s ", line)
       
       if valid(line):
         nmea_list.append(line.strip()[7:-2])
@@ -155,14 +155,14 @@ def interpeted(records):
     try:
       
       record  = nmea_record.split(',')
-      log.info("NMEA interpeted - record %s ", record)
+      if debug_all: log.info("NMEA interpeted - record %s ", record)
       
       pgn = record[PGN]
 
       
 
       #if pgn == '00FF06':
-      log.info("NMEA interpeted - PGN %s ", pgn)
+      #log.info("NMEA interpeted - PGN %s ", pgn)
 
       ps_ts =  seasmart_timestamp(record[TIMESTAMP])
       
@@ -175,7 +175,7 @@ def interpeted(records):
         pos, decode = DECODER_MAP.get(pgn, (None, None))
 
         if decode:
-          log.info("NMEA interpeted - decode %s pos %s ", decode, pos)
+          if debug_all: log.info("NMEA interpeted - decode %s pos %s ", decode, pos)
 
           #initialize c to size of blank array
           c = blank[:]
@@ -185,20 +185,20 @@ def interpeted(records):
           #$PCDIN,01F205,6DOB8460,A7,[payload]*2D
           payload = record.pop()
 
-          log.info("NMEA interpeted - payload %s ", payload)
+          if debug_all: log.info("NMEA interpeted - payload %s ", payload)
 
           # decode payload
           #payload F201013D6EFAFFFF
           c[pos] = decode(payload)
 
-          log.info("NMEA interpeted - decoded payload %s:%s ", pos, c[pos])
+          if debug_all: log.info("NMEA interpeted - decoded payload %s:%s ", pos, c[pos])
           #and add to pgn record map
           #payload 13:{'wind_speed': 257, 'wind_reference': 'Apparent Wind', 'sid': 242, 'wind_direction': 160.8597, 'reserved2': None, 'reserved1': 15}  
           record.extend(c)
           yield record
           
       else:
-        log.info("NMEA interpeted - invalid timestamp %s ", record[TIMESTAMP])
+        if debug_all: log.info("NMEA interpeted - invalid timestamp %s ", record[TIMESTAMP])
 
 
     except TypeError as e:
@@ -675,7 +675,7 @@ def engine_parameters_rapid_update(data):
 
   try:
 
-    log.info('NMEA interpeted - engine_parameters_rapid_update data {0}:  '.format(data))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update data {0}:  '.format(data))
     
     #raw=getrawvalue(data)
     raw="00100E000A7FFFFF*56"
@@ -684,17 +684,17 @@ def engine_parameters_rapid_update(data):
       return None
 
     engine_id = uint8(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update engine_id {0}:  '.format(engine_id))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update engine_id {0}:  '.format(engine_id))
     speed = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update speed {0}:  '.format(speed))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update speed {0}:  '.format(speed))
     boost_presure = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update boost_presure {0}:  '.format(boost_presure))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update boost_presure {0}:  '.format(boost_presure))
     
     tilt_or_trim = int8(data)
     
-    log.info('NMEA interpeted - engine_parameters_rapid_update tilt_or_trim {0}:  '.format(tilt_or_trim))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update tilt_or_trim {0}:  '.format(tilt_or_trim))
     reserved_bits = uint16(data)
-    log.info('NMEA interpeted - engine_parameters_rapid_update reserved_bits {0}:  '.format(reserved_bits))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update reserved_bits {0}:  '.format(reserved_bits))
     raw=raw
     log.info('NMEA interpeted - engine_parameters_rapid_update raw {0}:  '.format(raw))
       
