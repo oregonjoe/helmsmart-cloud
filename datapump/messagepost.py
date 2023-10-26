@@ -12,7 +12,7 @@ from time import mktime
 from operator import itemgetter
 from itertools import groupby
 #from m2x.client import M2XClient
-from geopy.distance import vincenty
+#from geopy.distance import vincenty
 from array import *
 from astral import *
 
