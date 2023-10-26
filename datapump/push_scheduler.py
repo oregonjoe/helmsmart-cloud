@@ -84,7 +84,7 @@ from worker import conn
 
 q = Queue(connection=conn)
 
-#from telemetrypost import post_message
+from messagepost import process_message
 
 #from apscheduler.scheduler import Scheduler
 from apscheduler.schedulers.background import BackgroundScheduler
