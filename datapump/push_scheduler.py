@@ -85,7 +85,9 @@ q = Queue(connection=conn)
 
 #from telemetrypost import post_message
 
-from apscheduler.scheduler import Scheduler
+#from apscheduler.scheduler import Scheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
 #this is called from the CRON scheduler every 30 seconds
 #Interval is passed into SQL query to find tasks that meet the schedule
@@ -311,7 +313,8 @@ def get_HS_Message(interval):
 
 
 
-sched = Scheduler()
+#sched = Scheduler()
+sched = BackgroundScheduler()
 
 #@sched.cron_schedule(second='30')
 #def timed_job_30s():
