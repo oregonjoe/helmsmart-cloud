@@ -1,7 +1,7 @@
 web: gunicorn wsgi:app
 
 #poller: python datapump/sqs_poller.py
-worker: python datapump/sqs_poller.py
-#worker: python datapump/worker.py
+poller: python datapump/sqs_poller.py
+worker: python datapump/worker.py
 push: python datapump/push_scheduler.py
 

@@ -178,7 +178,7 @@ def get_HS_Message(interval):
                         alert_message['endtime'] = endtime
                         alert_message['parameters'] = json.loads(row[4])
     
-                        #myresult = q.enqueue(post_message, alert_message, ttl=10000)  
+                        myresult = q.enqueue(process_message, alert_message, ttl=10000)  
                        
                         log.info('Push_Scheduler inserted logged messages %s:%s -- %s', starttime, endtime, alert_message)
 
@@ -262,7 +262,7 @@ def get_HS_Message(interval):
                     
                     #071214 JLB added message to que for the worker (post) to process
                     
-                    #myresult = q.enqueue(post_message, alert_message, ttl=10000)  
+                    myresult = q.enqueue(process_message, alert_message, ttl=10000)  
                     if debug_all: log.info('Push_Scheduler inserted realtime messages %s', alert_message)
                     
             except NameError as e:
