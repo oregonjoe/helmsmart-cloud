@@ -81,7 +81,8 @@ def dump_influxdb_cloud(device, partition, records):
     if debug_all: log.info('sqs_poller: fact_info in dump_influxdb_cloud  %s:  ', fact_info)
     
     insert_influxdb_cloud(
-          env.fact_info, 
+          #env.fact_info,
+          fact_info,
           device,
           [
             [device, partition, "url"] + record
