@@ -2391,11 +2391,12 @@ def insert_influxdb_cloud(fact_info, device, records):
 
   try:
 
-    IFDBhost = 'hilldale-670d9ee3.influxcloud.net' 
-    IFDBport = 8086
-    IFDBusername = 'helmsmart'
-    IFDBpassword = 'Salm0n16'
-    IFDBdatabase = 'pushsmart-cloud'
+    IFDBhost = os.environ.get('IFDBhost')
+    IFDBport = os.environ.get('IFDBport')
+    IFDBusername = os.environ.get('IFDBusername')
+    IFDBpassword = os.environ.get('IFDBpassword')
+    IFDBdatabase = os.environ.get('IFDBdatabase')
+    
     
     #shim = Shim(host, port, username, password, database)
     #db = influxdb.InfluxDBClient(host, port, username, password, database)
