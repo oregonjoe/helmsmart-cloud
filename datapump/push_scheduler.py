@@ -386,7 +386,7 @@ def timed_job_15m():
     print("I was fired every 15 minutes")
     get_HS_Message(MINUTE15)
     
-@sched.cron_schedule(minute='0,30')
+#@sched.cron_schedule(minute='0,30')
 def timed_job_30m():
     print("I was fired every 30 minutes")
     get_HS_Message(MINUTE30)
