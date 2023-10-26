@@ -317,7 +317,19 @@ def insert_influxdb_cloud(fact_info, device, records):
               value = fact.get('tilt_or_trim', 'NULL')
               if isinstance(value, (int, long, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value),  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:tilt_or_trim' +  '.HelmSmart' ) )
-              #if debug_all: log.info(mydata) 
+              #if debug_all: log.info(mydata)
+
+            except AttributeError as e:
+                if debug_all: log.info('Sync: AttributeError in InfluxDBC.append mydataIDBC append PGN 01F200: %s:  ', fact)
+                if debug_all: log.info('Sync: AttributeError in InfluxDBC.append mydataIDBC append PGN 01F200:%s:  ' % str(e))
+
+
+            except NameError as e:
+                if debug_all: log.info('Sync: NameError in InfluxDBC.append mydataIDBC append PGN 01F200: %s:  ', fact)
+                if debug_all: log.info('Sync: NameError in InfluxDBC.append mydataIDBC append PGN 01F200: %s:  ' % str(e))
+
+
+                
             except:
               e = sys.exc_info()[0] 
               if debug_all: log.info('Sync: Error in InfluxDBC.append mydataIDBC append PGN 01F200: %s',fact)
