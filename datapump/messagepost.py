@@ -104,7 +104,7 @@ def process_message(alert_message):
 
         if posttypecloud == "EmailAlertPost-Cloud":
             #if debug_all: log.info('Posting to AlertPosts :')
-            log.info('Posting to EmailAlertPost-Cloud %s:', jsondata)
+            log.info('Posting to EmailAlertPost-Cloud %s:', parameters)
 
             email_body = ""
             timmer_array = ""
@@ -113,35 +113,42 @@ def process_message(alert_message):
 
             
     except KeyError as e:
-        #if debug_all: log.info('Telemetrypost: KeyError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
+        #if debug_all: log.info('process_message: KeyError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
 
-        if debug_all: log.info('Telemetrypost: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
+        if debug_all: log.info('process_message: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
         mymessage='KeyError in EmailAlertPost-Cloud'
         return mymessage
 
     except ValueError as e:
-        #if debug_all: log.info('Telemetrypost: Value Error in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
+        #if debug_all: log.info('process_message: Value Error in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
 
-        if debug_all: log.info('Telemetrypost: ValueError in EmailAlertPost-Cloud %s:  ' % str(e))
+        if debug_all: log.info('process_message: ValueError in EmailAlertPost-Cloud %s:  ' % str(e))
         mymessage='ValueError in EmailAlertPost-Cloud'
         return mymessage
 
     except TypeError as e:
-        #if debug_all: log.info('Telemetrypost: TypeError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
+        #if debug_all: log.info('process_message: TypeError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
 
-        if debug_all: log.info('Telemetrypost: TypeError in EmailAlertPost-Cloud %s:  ' % str(e))
+        if debug_all: log.info('process_message: TypeError in EmailAlertPost-Cloud %s:  ' % str(e))
         mymessage='TypeError in EmailAlertPost-Cloud'
         return mymessage
     
-    except UnboundLocalError as e:
-        #if debug_all: log.info('Telemetrypost: UnboundLocalError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
+     except NameError as e:
+        #if debug_all: log.info('process_message: TypeError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
 
-        if debug_all: log.info('Telemetrypost: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
+        if debug_all: log.info('process_message: NameError in EmailAlertPost-Cloud %s:  ' % str(e))
+        mymessage='NameError in EmailAlertPost-Cloud'
+        return mymessage
+    
+    except UnboundLocalError as e:
+        #if debug_all: log.info('process_message: UnboundLocalError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
+
+        if debug_all: log.info('process_message: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
         mymessage='UnboundLocalError in EmailAlertPost-Cloud'
         return mymessage
 
     except:
-        #if debug_all: log.info('Telemetrypost: Error in geting EmailAlertPost-Cloud parameters %s:  ', posttype)
+        #if debug_all: log.info('process_message: Error in geting EmailAlertPost-Cloud parameters %s:  ', posttype)
         e = sys.exc_info()[0]
 
         if debug_all: log.info("Error: %s" % e)
