@@ -447,7 +447,13 @@ if __name__ == '__main__':
     sched.add_job(timed_job_15m, 'cron', minute='0,15,30,45')
     sched.add_job(timed_job_30m, 'cron', minute='0,30')
     sched.add_job(timed_job_1h, 'cron', hour='*')
-    
+    sched.add_job(timed_job_4h, 'cron', hour='0,4,8,12,16,20')
+    sched.add_job(timed_job_6h, 'cron', hour='0,6,12,18')
+    sched.add_job(timed_job_8h, 'cron', hour='0,8,16')
+    sched.add_job(timed_job_12h, 'cron', hour='0,12')
+    sched.add_job(timed_job_1d, 'cron', day='*')
+    sched.add_job(timed_job_1w, 'cron', week='*')
+    sched.add_job(timed_job_1M, 'cron', month='*')                          
         
     sched.start()
 
