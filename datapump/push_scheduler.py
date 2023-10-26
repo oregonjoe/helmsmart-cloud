@@ -9,8 +9,8 @@ import time
 import pytz
 from time import mktime
 from array import *
-from astral import *
-from astral import GoogleGeocoder
+#from astral import *
+#from astral import GoogleGeocoder
 
 # *******************************************************************
 # Debug Output defines
