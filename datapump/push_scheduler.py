@@ -253,13 +253,13 @@ def get_HS_Message(interval):
                     #myresult = q.enqueue(post_message, alert_message, ttl=10000)  
                     if debug_all: log.info('Push_Scheduler inserted realtime messages %s', alert_message)
                     
-            except NameError, as e:
+            except NameError as e:
                 if debug_all: log.info('Push_Scheduler: queing message NameError  %s:  ' % str(e))
                 
-            except KeyError, as e:
+            except KeyError as e:
                 if debug_all: log.info('Push_Scheduler: queing message KeyError  %s:  ' % str(e))
                 
-            except TypeError, as e:
+            except TypeError as e:
                 if debug_all: log.info('Push_Scheduler: queing message TypeError  %s:  ' % str(e))
                 
             except:
@@ -286,7 +286,7 @@ def get_HS_Message(interval):
         if debug_all: log.info('Push_Scheduler completed pass ')
         db_pool.putconn(conn)
 
-    except NameError, as e:
+    except NameError as e:
         if debug_all: log.info('Push_Scheduler: NameError  %s:  ' % str(e))
         pass
     
