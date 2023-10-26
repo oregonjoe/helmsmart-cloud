@@ -133,7 +133,7 @@ def process_message(alert_message):
         mymessage='TypeError in EmailAlertPost-Cloud'
         return mymessage
     
-     except NameError as e:
+    except NameError as e:
         #if debug_all: log.info('process_message: TypeError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
 
         if debug_all: log.info('process_message: NameError in EmailAlertPost-Cloud %s:  ' % str(e))
