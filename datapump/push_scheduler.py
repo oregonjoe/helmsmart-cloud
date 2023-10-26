@@ -314,26 +314,26 @@ sched = Scheduler()
 def timed_job_1m():
     r = requests.get('http://pushsmart-tcpserver.herokuapp.com/')
 
-    print 'This job is run every 1 minutes.'
+    print('This job is run every 1 minutes.')
     get_HS_Message(MINUTE1)
 
 @sched.cron_schedule(minute='2,4,6,7,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58')
 def timed_job_2m():
     r = requests.get('http://pushsmart-tcpserver.herokuapp.com/')
 
-    print 'This job is run every 2 minutes.'
+    print('This job is run every 2 minutes.')
     get_HS_Message(MINUTE2)
     
 @sched.cron_schedule(minute='0,5,10,15,20,25,30,35,40,45,50,55')
 def timed_job_5m():
     r = requests.get('http://pushsmart-nodejs-test.herokuapp.com/')
     
-    print "I was fired every 5 minutes"
+    print("I was fired every 5 minutes")
     get_HS_Message(MINUTE5)
 
 @sched.cron_schedule(minute='0,10,20,30,40,50')
 def timed_job_10m():
-    print "I was fired every 10 minutes"
+    print("I was fired every 10 minutes")
     if debug_all: log.info('Push_Scheduler: fired every 10 minutes')
 #$ curl -n -X DELETE https://api.heroku.com/apps/$APP_ID_OR_NAME/dynos/$DYNO_ID_OR_NAME \
 #-H "Accept: application/vnd.heroku+json; version=3"
@@ -371,52 +371,52 @@ def timed_job_10m():
 
 @sched.cron_schedule(minute='0,15,30,45')
 def timed_job_15m():
-    print "I was fired every 15 minutes"
+    print("I was fired every 15 minutes")
     get_HS_Message(MINUTE15)
     
 @sched.cron_schedule(minute='0,30')
 def timed_job_30m():
-    print "I was fired every 30 minutes"
+    print("I was fired every 30 minutes")
     get_HS_Message(MINUTE30)
     
 @sched.cron_schedule(hour='*')
 def timed_job_1h():
-    print "I was fired every 1 hour"
+    print("I was fired every 1 hour")
     get_HS_Message(HOUR1)
     
 @sched.cron_schedule(hour='0,4,8,12,16,20')
 def timed_job_4h():
-    print "I was fired every 4 hour"
+    print("I was fired every 4 hour")
     get_HS_Message(HOUR4)
     
 @sched.cron_schedule(hour='0,6,12,18')
 def timed_job_6h():
-    print "I was fired every 6 hour"
+    print("I was fired every 6 hour")
     get_HS_Message(HOUR6)
     
 @sched.cron_schedule(hour='0,8,16')
 def timed_job_8h():
-    print "I was fired every 8 hour"
+    print("I was fired every 8 hour")
     get_HS_Message(HOUR8)
 
 @sched.cron_schedule(hour='0,12')
 def timed_job_12h():
-    print "I was fired every 12 hour"
+    print("I was fired every 12 hour")
     get_HS_Message(HOUR12)
     
 @sched.cron_schedule(day='*')
 def timed_job_1d():
-    print "I was fired every 1 day"
+    print("I was fired every 1 day")
     get_HS_Message(DAY1)
     
 @sched.cron_schedule(week='*')
 def timed_job_1w():
-    print "I was fired every week"
+    print("I was fired every week")
     get_HS_Message(WEEK1)
                      
 @sched.cron_schedule(month='*')
 def timed_job_1M():
-    print "I was fired every month"
+    print("I was fired every month")
     get_HS_Message(MONTH1)
                      
 
