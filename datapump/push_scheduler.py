@@ -66,6 +66,7 @@ KEY = "cc7a7004-5c8b-46a5-b53a-fdd683aa10f2"
 PROCESS = "web"
 DYNO = "poller.1"
 
+"""
 # Generate Base64 encoded API Key
 BASEKEY = base64.b64encode(":" + KEY)
 # Create headers for API call
@@ -74,7 +75,7 @@ HEADERS = {
     "Authorization": BASEKEY
 }
 
-
+"""
 
 
 from rq import Queue
