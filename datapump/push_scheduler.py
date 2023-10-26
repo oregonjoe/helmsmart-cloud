@@ -27,6 +27,7 @@ requests_log.setLevel(logging.WARNING)
 logging.basicConfig(level=logging.INFO)
 log = logging
 
+"""
 from warehouse import connection_from
 
 from psycopg2.pool import ThreadedConnectionPool
@@ -35,6 +36,13 @@ db_pool = ThreadedConnectionPool(
   int(os.environ.get('MAX_DB_CONNECTIONS',13)),
   **connection_from(os.environ['DATABASE_URL'])
 )
+"""
+
+from psycopg_pool import ConnectionPool
+#db_pool = ThreadedConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
+#db_pool = ConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
+db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
+
 
 SECOND30 = 255
 MINUTE1 = 0
