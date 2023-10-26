@@ -469,7 +469,7 @@ if __name__ == "__main__":
     device_group = os.environ['DEVICE_GROUP'],
     db_pool = db_pool ,
     #s3_bucket = bucket(),
-    #fact_info = fact_info,
+    fact_info = fact_info,
     max_retries = os.environ.get('MAX_RETRIES',3)
   )
 
