@@ -75,16 +75,32 @@ env = xlocal()
 # JLB 081316  - added seperate influxdb-cloud record insert
 #@instrument
 def dump_influxdb_cloud(device, partition, records):
-  
-  insert_influxdb_cloud(
-        env.fact_info, 
-        device,
-        [
-          [device, partition, "url"] + record
-          for record in records
-        ] 
-      )
 
+  try:
+    
+    if debug_all: log.info('sqs_poller: fact_info in dump_influxdb_cloud  %s:  ', fact_info)
+    
+    insert_influxdb_cloud(
+          env.fact_info, 
+          device,
+          [
+            [device, partition, "url"] + record
+            for record in records
+          ] 
+        )
+    
+  except TypeError as e:
+    if debug_all: log.info('sqs_poller TypeError in dump_influxdb_cloud  %s:  ' % str(e))
+    
+  except AttributeError as e:
+    if debug_all: log.info('sqs_poller AttributeError in dump_influxdb_cloud  %s:  ' % str(e))
+    
+  except NameError as e:
+    if debug_all: log.info('sqs_poller: NameError in dump_influxdb_cloud  %s:  ' % str(e))
+
+  except:
+    e = sys.exc_info()[0]
+    if debug_all: log.info("s3_poller: in dump_influxdb_cloud SSA300 Error: %s" % str(e))
 
 def proc(message):
 
@@ -464,6 +480,7 @@ if __name__ == "__main__":
   conn = db_pool.getconn()
   fact_info = ensure_database(conn, SCHEMA)
   #db_pool.putconn(conn, close=True)  
+  if debug_all: log.info('sqs_poller: fact_info in main  %s:  ', fact_info)
   
   config = dict(
     device_group = os.environ['DEVICE_GROUP'],
