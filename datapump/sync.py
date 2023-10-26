@@ -309,13 +309,13 @@ def insert_influxdb_cloud(fact_info, device, records):
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('speed', 'NULL')
-              if isinstance(value, (int, long, float, complex)):          
+              if isinstance(value, (int, float, complex)):          
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.25,   'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:speed' +  '.HelmSmart' ) )
               value = fact.get('boost_presure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.1 ,   'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:boost_pressure' +  '.HelmSmart'))
               value = fact.get('tilt_or_trim', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value),  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:tilt_or_trim' +  '.HelmSmart' ) )
               #if debug_all: log.info(mydata)
 
@@ -351,33 +351,33 @@ def insert_influxdb_cloud(fact_info, device, records):
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('oil_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.1 ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_pressure' +  '.HelmSmart'  ) )         
               value = fact.get('oil_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],float(value) * 0.1,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_temp' +  '.HelmSmart'    ) )         
               value = fact.get('engine_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.01,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:engine_temp' +  '.HelmSmart'    ) )         
 
               value = fact.get('total_engine_hours', 'NULL')  
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.1 ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:total_engine_hours' +  '.HelmSmart'   ) )         
 
               value = fact.get('alternator_potential', 'NULL')  
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 # changed voltage scale from 0.1 to 0.01 because NMEA 2000 volts resolution is 0.01
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.01 ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:alternator_potential' +  '.HelmSmart'   ) )         
 
               #fuel rate is in liters/hour       
               value = fact.get('fuel_rate', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 0.1 ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_rate' +  '.HelmSmart' ) )         
               value = fact.get('coolant_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.1 ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:coolant_pressure' +  '.HelmSmart'   ) )         
               value = fact.get('fuel_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_pressure' +  '.HelmSmart'    ) )         
    
             except:
@@ -400,10 +400,10 @@ def insert_influxdb_cloud(fact_info, device, records):
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('oil_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.1 ,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_pressure' +  '.HelmSmart' ) )         
               value = fact.get('oil_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.1,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_temp' +  '.HelmSmart'   ) )         
 
  
@@ -423,19 +423,19 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'NULL')
                           
               value = fact.get('trip_fuel_used', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:trip_parameters_engine'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:trip_fuel_used' +  '.HelmSmart'   ) )         
 
               value = fact.get('fuel_rate_average', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.1 ,  'deviceid:' + record[DEVICE] + '.sensor:trip_parameters_engine' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_rate_average' +  '.HelmSmart'  ) )         
 
               value = fact.get('fuel_rate_economy', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 0.1,  'deviceid:' + record[DEVICE] + '.sensor:trip_parameters_engine' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_rate_economy' +  '.HelmSmart'  ) )         
                 
               value = fact.get('instantaneous_fuel_economy', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 0.1,  'deviceid:' + record[DEVICE] + '.sensor:trip_parameters_engine' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:instantaneous_fuel_economy' +  '.HelmSmart'  ) )         
               
  
@@ -459,10 +459,10 @@ def insert_influxdb_cloud(fact_info, device, records):
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('level', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.004,  'deviceid:' + record[DEVICE] + '.sensor:fluid_level' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:level' +  '.HelmSmart'  ) )         
               value = fact.get('tank_capacity', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.1,  'deviceid:' + record[DEVICE] + '.sensor:fluid_level' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:tank_capacity' +  '.HelmSmart'   ) )         
 
             except:
@@ -483,31 +483,31 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'NULL')
               value = fact.get('voltage', 'NULL')
               
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 # JLB 080914 changed voltage scale from .01 to .1  = don't know why I had to?
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.01,  'deviceid:' + record[DEVICE] + '.sensor:battery_status'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:voltage' +  '.HelmSmart'   ) )         
               value = fact.get('current', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.1 ,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:current' +  '.HelmSmart'  ) )         
               value = fact.get('temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 0.01,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:temperature' +  '.HelmSmart'  ) )         
 
               value = fact.get('stateofcharge', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:stateofcharge' +  '.HelmSmart'  ) )         
  
               value = fact.get('stateofhealth', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:stateofhealth' +  '.HelmSmart'  ) )         
  
               value = fact.get('timeremaining', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:timeremaining' +  '.HelmSmart'  ) )         
  
 
               value = fact.get('ripplevoltage', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ripplevoltage' +  '.HelmSmart'  ) )         
  
 
@@ -535,14 +535,14 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'NULL')
               value = fact.get('voltage', 'NULL')
               
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 # JLB 080914 changed voltage scale from .01 to .1  = don't know why I had to?
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.01,  'deviceid:' + record[DEVICE] + '.sensor:battery_status'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:voltage' +  '.HelmSmart'   ) )         
               value = fact.get('current', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.1 ,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:current' +  '.HelmSmart'  ) )         
               value = fact.get('temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],   float(value) * 0.01,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:temperature' +  '.HelmSmart'  ) )         
  
             except:
@@ -562,7 +562,7 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('wind_reference', 'NULL')
               value = fact.get('wind_speed', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
 
                 if valuetype == "Gust":
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.01,  'deviceid:' + record[DEVICE] + '.sensor:wind_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:wind_gusts' +  '.HelmSmart'  ) )
@@ -573,7 +573,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
                  
               value = fact.get('wind_direction', 'NULL')
-              if isinstance(value, (int, long, float, complex)):   
+              if isinstance(value, (int, float, complex)):   
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:wind_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:wind_direction' +  '.HelmSmart'  ) )
  
             except:
@@ -592,7 +592,7 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('wind_reference', 'NULL')
               value = fact.get('wind_gusts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.01,  'deviceid:' + record[DEVICE] + '.sensor:wind_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:wind_gusts' +  '.HelmSmart'  ) )
  
             except:
@@ -612,16 +612,16 @@ def insert_influxdb_cloud(fact_info, device, records):
               value = fact.get('heading', 'NULL')
               #if debug_all: log.info('Heading = ' + str(value))
       
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:heading' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:heading' +  '.HelmSmart'   ) )
    
                 
               value = fact.get('deviation', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:heading' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:deviation' +  '.HelmSmart'   ) )
                 
               value = fact.get('variation', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:heading' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:variation' +  '.HelmSmart'   ) )
                  
             except:
@@ -642,13 +642,13 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('type', 'NULL')
               value = fact.get('yaw', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:attitude'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:yaw' +  '.HelmSmart'   ) )         
               value = fact.get('pitch', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] +  '.sensor:attitude'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:pitch' +  '.HelmSmart'   ) )         
               value = fact.get('roll', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] +  '.sensor:attitude'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:roll' +  '.HelmSmart'  ) )         
 
  
@@ -667,10 +667,10 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('direction_order', 'NULL')
               value = fact.get('angle_order', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:rudder' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:angle_order' +  '.HelmSmart'   ) )         
               value = fact.get('position', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:rudder' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:position' +  '.HelmSmart'   ) )         
                 #if debug_all: log.info(value)
                 #if debug_all: log.info( 'deviceid:' + record[DEVICE] + '.sensor:rudder' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:position' +  '.HelmSmart'  )
@@ -691,7 +691,7 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('type', 'NULL')
               value = fact.get('rate_of_turn', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:rot' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:rateofturn' +  '.HelmSmart'   ) )         
      
             except:
@@ -711,17 +711,17 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('type', 'NULL')
               value = fact.get('water_temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] +  '.sensor:temperature_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:water_temperature' +  '.HelmSmart'   ) )
 
                 
               value = fact.get('air_temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] +  '.sensor:temperature_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:air_temperature' +  '.HelmSmart'   ) )
    
                 
               value = fact.get('baro_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] +  '.sensor:temperature_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:baro_pressure' +  '.HelmSmart'   ) )         
  
             except:
@@ -743,15 +743,15 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('temperature_instance', 'NULL')
               humtype = fact.get('humidity_instance', 'NULL')
               value = fact.get('temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0, 'deviceid:' + record[DEVICE] + '.sensor:environmental_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:temperature' +  '.HelmSmart'   ) )         
 
               value = fact.get('humidity', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:environmental_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(humtype) + '.parameter:humidity' +  '.HelmSmart'   ) )
                 
               value = fact.get('atmospheric_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:environmental_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:atmospheric_pressure' +  '.HelmSmart'   ) )         
  
             except:
@@ -770,11 +770,11 @@ def insert_influxdb_cloud(fact_info, device, records):
                 
               valuetype = fact.get('temperature_source', 'NULL')
               value = fact.get('actual_temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:temperature' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:actual_temperature' +  '.HelmSmart'   ) )
                 
               value = fact.get('set_temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:temperature' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:set_temperature' +  '.HelmSmart'   ) )         
 
             except:
@@ -793,17 +793,17 @@ def insert_influxdb_cloud(fact_info, device, records):
                 
               valuetype = fact.get('temperature_source', 'NULL')
               value = fact.get('actual_temperature', 'NULL') 
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:temperature' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:actual_temperature' +  '.HelmSmart'   ) )
 
 
               if valuetype == 'EGT':
-                if isinstance(value, (int, long, float, complex)): 
+                if isinstance(value, (int, float, complex)): 
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:NULL' + '.parameter:egt_temp' +  '.HelmSmart'    ) ) 
 
                 
               value = fact.get('set_temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:temperature' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:set_temperature' +  '.HelmSmart'   ) )         
 
             except: 
@@ -825,11 +825,11 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('cog_reference', 'NULL')
               value = fact.get('course_over_ground', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:cogsog'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:course_over_ground' +  '.HelmSmart'   ) )
                 
               value = fact.get('speed_over_ground', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:cogsog'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:speed_over_ground' +  '.HelmSmart'   ) )         
 
  
@@ -849,15 +849,15 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('type', 'NULL')
               valuelat = fact.get('lat', 'NULL')
-              if isinstance(valuelat, (int, long, float, complex)):             
+              if isinstance(valuelat, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(valuelat) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:lat' +  '.HelmSmart'   ) )
    
                 
               valuelng = fact.get('lng', 'NULL')
-              if isinstance(valuelng, (int, long, float, complex)):             
+              if isinstance(valuelng, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(valuelng) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:lng' +  '.HelmSmart'   ) )
                 
-              if isinstance(valuelng, (int, long, float, complex)) and isinstance(valuelat, (int, long, float, complex)):  
+              if isinstance(valuelng, (int, float, complex)) and isinstance(valuelat, (int, float, complex)):  
                 mydataIDBC.append(convert_influxdbcloud_gpsjson(record[TIMESTAMP], float(valuelat) * 1.0,  float(valuelng) * 1.0, 'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:latlng' +  '.HelmSmart'   ) )         
 
  
@@ -880,31 +880,31 @@ def insert_influxdb_cloud(fact_info, device, records):
 
               
               valuelat = fact.get('lat', 'NULL')
-              if isinstance(valuelat, (int, long, float, complex)):             
+              if isinstance(valuelat, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(valuelat) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:lat' +  '.HelmSmart'   ) )
    
                 
               valuelng = fact.get('lng', 'NULL')
-              if isinstance(valuelng, (int, long, float, complex)):             
+              if isinstance(valuelng, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(valuelng) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:lng' +  '.HelmSmart'   ) )
 
               valuealt = fact.get('altitude', 'NULL')
-              if isinstance(valuealt, (int, long, float, complex)):             
+              if isinstance(valuealt, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(valuealt) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:altitude' +  '.HelmSmart'   ) )
 
 
               valuealt = fact.get('altitude', 'NULL')
-              if isinstance(valuealt, (int, long, float, complex)):             
+              if isinstance(valuealt, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(valuealt) * 1.0,  'deviceid:' + record[DEVICE] + '.sensor:environmental_data' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  'Outside Temperature'  + '.parameter:altitude' +  '.HelmSmart'   ) )         
 
               
               valuesiv = fact.get('siv', 'NULL')
-              if isinstance(valuesiv, (int, long, float, complex)):             
+              if isinstance(valuesiv, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(valuesiv) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:siv' +  '.HelmSmart'   ) )
                           
 
                 
-              if isinstance(valuelng, (int, long, float, complex)) and isinstance(valuelat, (int, long, float, complex)):  
+              if isinstance(valuelng, (int, float, complex)) and isinstance(valuelat, (int, float, complex)):  
                 mydataIDBC.append(convert_influxdbcloud_gpsjson(record[TIMESTAMP], float(valuelat) * 1.0,  float(valuelng) * 1.0, 'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:latlng' +  '.HelmSmart'   ) )         
 
  
@@ -928,10 +928,10 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('type', 'NULL')
               value = fact.get('depth', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:water_depth'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:depth' +  '.HelmSmart'   ) )         
               value = fact.get('transducer_offset', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:water_depth' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:transducer_offset' +  '.HelmSmart'   ) )         
  
             except:
@@ -951,10 +951,10 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('type_reference', 'NULL')
               value = fact.get('waterspeed', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:water_speed' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:waterspeed' +  '.HelmSmart'   ) )         
               value = fact.get('groundspeed', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:water_speed' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:groundspeed' +  '.HelmSmart'   ) )         
  
             except:
@@ -973,12 +973,12 @@ def insert_influxdb_cloud(fact_info, device, records):
               instance = fact.get('instance', 0)
               valuetype = fact.get('time_source', 'NULL')
               value = fact.get('days', 'NULL')
-              if isinstance(value, (int, long, float, complex)):            
+              if isinstance(value, (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:sytem_time' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:days' +  '.HelmSmart'   ) )
 
                 
               value = fact.get('ms', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:sytem_time' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ms' +  '.HelmSmart'   ) )         
  
             except:
@@ -1002,11 +1002,11 @@ def insert_influxdb_cloud(fact_info, device, records):
               #if debug_all: log.info('sync:heartbeat =  %s : %s : %s ', record[DEVICE], dtvalue, record[TIMESTAMP] )
               #log.info('sync:heartbeat =  %s : %s : %s ', record[DEVICE], dtvalue, record[TIMESTAMP] )
 
-              if isinstance(int(mvalue), (int, long, float, complex)):            
+              if isinstance(int(mvalue), (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(mvalue) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:heartbeat' + '.source:' + record[SOURCE] + '.instance:0'  + '.type:NULL'  + '.parameter:timestamp' +  '.HelmSmart'   ) )         
 
               value = fact.get('session_id', 'NULL')
-              if isinstance(int(mvalue), (int, long, float, complex)):            
+              if isinstance(int(mvalue), (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:heartbeat' + '.source:' + record[SOURCE] + '.instance:0'  + '.type:NULL'  + '.parameter:sessionid' +  '.HelmSmart'   ) )         
 
 
@@ -1029,10 +1029,10 @@ def insert_influxdb_cloud(fact_info, device, records):
               #instance = fact.get('instance', 0)
               #valuetype = fact.get('type', 'NULL')
               value = fact.get('ai_status', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:cellular_status'  + '.source:' + record[SOURCE] + '.instance:0'  + '.type:NULL' + '.parameter:ai_status' +  '.HelmSmart'   ) )         
               value = fact.get('db_status', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:cellular_status' + '.source:' + record[SOURCE] + '.instance:0'  + '.type:NULL'+ '.parameter:db_status' +  '.HelmSmart'   ) )         
  
             except:
@@ -1052,22 +1052,22 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'NULL')
               
               value = fact.get('rainaccum', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 #convert 0.01 mm to meters to standardize 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.00001,   'deviceid:' + record[DEVICE] + '.sensor:rain_gauge' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:accumulation' +  '.HelmSmart'   ) )         
 
               value = fact.get('rainduration', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 #convert minutes to hours
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0166,   'deviceid:' + record[DEVICE] + '.sensor:rain_gauge' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:rainduration' +  '.HelmSmart'   ) )         
 
               value = fact.get('rainrate', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 # convert tenths of 0.01 mm/hr to meters/hr
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.00001,   'deviceid:' + record[DEVICE] + '.sensor:rain_gauge' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:rate' +  '.HelmSmart'   ) )         
 
               value = fact.get('rainpeak', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 # convert tenths of 0.01 mm/hr to meters/hr
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.00001,   'deviceid:' + record[DEVICE] + '.sensor:rain_gauge' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:peak' +  '.HelmSmart'   ) )         
 
@@ -1105,19 +1105,19 @@ def insert_influxdb_cloud(fact_info, device, records):
 
                 value = fact.get('dimmer0', 'NULL')
                 if debug_all: log.info("Dimmer insert value0 %s ", value)
-                if isinstance(value, (int, long, float, complex)):             
+                if isinstance(value, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartdimmer' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value0' +  '.HelmSmart'   ) )         
 
                 value = fact.get('dimmer1', 'NULL')
-                if isinstance(value, (int, long, float, complex)):             
+                if isinstance(value, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartdimmer' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value1' +  '.HelmSmart'   ) )         
 
                 value = fact.get('dimmer2', 'NULL')
-                if isinstance(value, (int, long, float, complex)):             
+                if isinstance(value, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartdimmer' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value2' +  '.HelmSmart'   ) )         
 
                 value = fact.get('dimmer3', 'NULL')
-                if isinstance(value, (int, long, float, complex)):
+                if isinstance(value, (int, float, complex)):
                   #netDimmer Modules return amps * 10
                   if valuetype.find('LED 1 Channel') != -1:
                     mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.1,   'deviceid:' + record[DEVICE] + '.sensor:seasmartdimmer' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value3' +  '.HelmSmart'   ) )         
@@ -1126,7 +1126,7 @@ def insert_influxdb_cloud(fact_info, device, records):
                     mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartdimmer' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value3' +  '.HelmSmart'   ) )         
 
                 value = fact.get('control', 'NULL')
-                if isinstance(value, (int, long, float, complex)):             
+                if isinstance(value, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartdimmer' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value4' +  '.HelmSmart'   ) )         
                 if debug_all: log.info("Dimmer data %s ", mydataIDBC)
 
@@ -1159,11 +1159,11 @@ def insert_influxdb_cloud(fact_info, device, records):
 
                 value = fact.get('runtime_sec', 'NULL')
                 if debug_all: log.info("Indicator Runtime insert value0 %s ", value)
-                if isinstance(value, (int, long, float, complex)):             
+                if isinstance(value, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:runtime_sec' +  '.HelmSmart'   ) )         
 
                 value = fact.get('cycles', 'NULL')
-                if isinstance(value, (int, long, float, complex)):             
+                if isinstance(value, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:cycles' +  '.HelmSmart'   ) )         
 
  
@@ -1191,86 +1191,86 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'NULL')
 
               value = fact.get('indic01', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value0' +  '.HelmSmart'   ) )         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:0' + '.parameter:value' +  '.HelmSmart'   ) )         
 
 
 
               value = fact.get('indic02', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value1' +  '.HelmSmart'   ) )
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:1' + '.parameter:value' +  '.HelmSmart'   ) )                    
 
               value = fact.get('indic03', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value2' +  '.HelmSmart'   ) )         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:2' + '.parameter:value' +  '.HelmSmart'   ) )                    
 
 
               value = fact.get('indic04', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value3' +  '.HelmSmart'   ) )         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:3' + '.parameter:value' +  '.HelmSmart'   ) )                    
 
 
               value = fact.get('indic05', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value4' +  '.HelmSmart'   ) )         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:4' + '.parameter:value' +  '.HelmSmart'   ) )                    
 
 
               value = fact.get('indic06', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value5' +  '.HelmSmart'   ) )         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:5' + '.parameter:value' +  '.HelmSmart'   ) )                    
 
 
               value = fact.get('indic07', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value6' +  '.HelmSmart'   ) )         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:6' + '.parameter:value' +  '.HelmSmart'   ) )                    
 
 
               value = fact.get('indic08', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value7' +  '.HelmSmart'   ) )         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartindicator' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:7' + '.parameter:value' +  '.HelmSmart'   ) )                    
 
 
               value = fact.get('indic09', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value8' +  '.HelmSmart'   ) )         
 
               value = fact.get('indic10', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value9' +  '.HelmSmart'   ) )         
 
               value = fact.get('indic11', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value10' +  '.HelmSmart'   ) )         
 
 
               value = fact.get('indic12', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value11' +  '.HelmSmart'   ) )         
 
 
               value = fact.get('indic13', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value12' +  '.HelmSmart'   ) )         
 
               value = fact.get('indic14', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value13' +  '.HelmSmart'   ) )         
 
               value = fact.get('indic15', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value14' +  '.HelmSmart'   ) )         
 
 
               value = fact.get('indic16', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:value15' +  '.HelmSmart'   ) )         
 
 
@@ -1281,17 +1281,17 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
               value = fact.get('bank0', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:bank0' +  '.HelmSmart'   ) )         
 
 
               value = fact.get('bank1', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:bank1' +  '.HelmSmart'   ) )         
 
 
               value = fact.get('bank2', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:seasmartswitch' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:bank2' +  '.HelmSmart'   ) )         
 
 
@@ -1316,20 +1316,20 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'HALTECH')
 
               value = fact.get('engine_speed', 'NULL')
-              if isinstance(value, (int, long, float, complex)):          
+              if isinstance(value, (int, float, complex)):          
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:speed' +  '.HelmSmart' ) )
 
               value = fact.get('manifold_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP] ,(float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:boost_pressure' +  '.HelmSmart'    ) )
 
               value = fact.get('throttle_position', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:throttle_position' +  '.HelmSmart'    ) )         
 
 
               value = fact.get('coolant_pressure', 'NULL')  
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:coolant_pressure' +  '.HelmSmart'   ) )         
 
 
@@ -1361,19 +1361,19 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'HALTECH')
               
               value = fact.get('engine_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:engine_temp' +  '.HelmSmart'  ) )         
 
               value = fact.get('fuel_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],(float(value)  * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_temp' +  '.HelmSmart'    ) )         
 
               value = fact.get('oil_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_temp' +  '.HelmSmart'    ) )         
 
               value = fact.get('intake_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:intake_temp' +  '.HelmSmart'    ) )         
 
  
@@ -1396,19 +1396,19 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'HALTECH')
               
               value = fact.get('fuel_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_pressure' +  '.HelmSmart'  ) )         
 
               value = fact.get('wastegate_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],(float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:wastegate_pressure' +  '.HelmSmart'    ) )         
 
               value = fact.get('oil_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP] ,(float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_pressure' +  '.HelmSmart'    ) )
 
               value = fact.get('engine_demand', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP] ,(float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:engine_demand' +  '.HelmSmart'    ) )
 
  
@@ -1433,16 +1433,16 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'HALTECH')
               
               value = fact.get('battery_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:alternator_potential' +  '.HelmSmart'  ) )         
 
   
               value = fact.get('target_boost', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:target_boost' +  '.HelmSmart'    ) )
 
               value = fact.get('baro_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.1 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:baro_pressure' +  '.HelmSmart'    ) )
 
  
@@ -1467,12 +1467,12 @@ def insert_influxdb_cloud(fact_info, device, records):
 
               # convert cc/min to liters/hr = 1/16.6666 =   0.06            
               value = fact.get('fuel_flow', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.06 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_rate' +  '.HelmSmart'  ) )         
 
               # convert cc/min to liters/hr = 1/16.6666 =   0.06        
               value = fact.get('fuel_return', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.06 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_return' +  '.HelmSmart'    ) )
 
 
@@ -1496,7 +1496,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
               # value in 0.1 %         
               value = fact.get('fuel_level', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.1,  'deviceid:' + record[DEVICE] + '.sensor:fluid_level' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:level' +  '.HelmSmart'  ) )          
 
 
@@ -1521,7 +1521,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
      
               value = fact.get('gearbox_temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.1,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_temp' +  '.HelmSmart'   ) )         
 
 
@@ -1550,19 +1550,19 @@ def insert_influxdb_cloud(fact_info, device, records):
                 
               valuetype = fact.get('type', 'J1939')
               value = fact.get('speed', 'NULL')
-              if isinstance(value, (int, long, float, complex)):          
+              if isinstance(value, (int, float, complex)):          
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.125,   'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:speed' +  '.HelmSmart' ) )
               value = fact.get('torque_demand', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0 - 125 ,   'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:torque_demand' +  '.HelmSmart'))
               value = fact.get('torque_actual', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) - 125,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:torque_actual' +  '.HelmSmart' ) )
               value = fact.get('torque_request', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) - 125 ,   'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:torque_request' +  '.HelmSmart'))
               value = fact.get('torque_mode', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value),  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update'  + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:torque_mode' +  '.HelmSmart' ) )
  
             except:
@@ -1587,24 +1587,24 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'J1939')
               
               value = fact.get('engine_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) + 233.15 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:engine_temp' +  '.HelmSmart'  ) )         
               value = fact.get('fuel_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],(float(value) + 233.15 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_temp' +  '.HelmSmart'    ) )         
               value = fact.get('oil_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.03125 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_temp' +  '.HelmSmart'    ) )         
 
               value = fact.get('turbo_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP] (float(value) * 0.03125 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:turbo_temp' +  '.HelmSmart'    ) )         
               value = fact.get('intercool_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) + 233.15 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:intercool_temp' +  '.HelmSmart'    ) )         
 
               value = fact.get('intercool_open', 'NULL')  
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.4 ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:intercool_open' +  '.HelmSmart'   ) )         
 
  
@@ -1627,30 +1627,30 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'J1939')
               
               value = fact.get('fuel_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 4.0 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_pressure' +  '.HelmSmart'  ) )         
               value = fact.get('blowby_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],(float(value) * 0.05 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:blowby_pressure' +  '.HelmSmart'    ) )         
               value = fact.get('oil_level', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.4 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_level' +  '.HelmSmart'    ) )         
 
               value = fact.get('oil_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP] ,(float(value) * 4.0 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_pressure' +  '.HelmSmart'    ) )
 
                 
               value = fact.get('crankcase_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], ((float(value) * 0.0078) - 250 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:crankcase_pressure' +  '.HelmSmart'    ) )         
 
               value = fact.get('coolant_pressure', 'NULL')  
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 2.0) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:coolant_pressure' +  '.HelmSmart'   ) )         
 
               value = fact.get('coolant_level', 'NULL')  
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.4 ),  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:coolant_level' +  '.HelmSmart'   ) )         
 
 
@@ -1678,29 +1678,29 @@ def insert_influxdb_cloud(fact_info, device, records):
 
               
               value = fact.get('tran_oil_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 16.0 ,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_pressure' +  '.HelmSmart' ) )         
               value = fact.get('tran_oil_temp', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.03125,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_temp' +  '.HelmSmart'   ) )         
               
               value = fact.get('clutch_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 16.0 ,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:clutch_pressure' +  '.HelmSmart' ) )         
               value = fact.get('tran_oil_level', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.4,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:tran_oil_level' +  '.HelmSmart'   ) )         
               value = fact.get('tran_diff_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 2.0,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:tran_diff_pressure' +  '.HelmSmart'   ) )         
 
 
               
               value = fact.get('tran_oil_warn', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],  float(value) * 0.5 ,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:tran_oil_warn' +  '.HelmSmart' ) )         
               value = fact.get('tran_oil_status', 'NULL')
-              if isinstance(value, (int, long, float, complex)):         
+              if isinstance(value, (int, float, complex)):         
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) ,  'deviceid:' + record[DEVICE] + '.sensor:transmission_parameters_dynamic'   + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:tran_oil_status' +  '.HelmSmart'   ) )         
 
  
@@ -1723,20 +1723,20 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'J1939')
               
               value = fact.get('charging_voltage', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.05 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:alternator_potential' +  '.HelmSmart'  ) )         
               value = fact.get('alternator_current', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],(float(value) *1.0 - 125 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:alternator_current' +  '.HelmSmart'    ) )         
               value = fact.get('battery_voltage', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.05 ) ,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:voltage' +  '.HelmSmart'    ) )         
 
               value = fact.get('battery_current', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP] (float(value) * 1.0 - 125) ,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:current' +  '.HelmSmart'    ) )         
               value = fact.get('keyswitch_voltage', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], ((float(value) * 0.05) ) ,  'deviceid:' + record[DEVICE] + '.sensor:battery_status' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:keyswitch_voltage' +  '.HelmSmart'    ) )         
 
  
@@ -1759,26 +1759,26 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'J1939')
               
               value = fact.get('fuel_rate', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.05 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_rate' +  '.HelmSmart'  ) )         
               value = fact.get('instantaneous_fuel_economy', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],(float(value) * 0.001953125 ) ,  'deviceid:' + record[DEVICE] + '.sensor:trip_parameters_engine' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:instantaneous_fuel_economy' +  '.HelmSmart'    ) )         
               value = fact.get('fuel_rate', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.05 ) ,  'deviceid:' + record[DEVICE] + '.sensor:trip_parameters_engine' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_rate_economy' +  '.HelmSmart'    ) )         
 
               value = fact.get('average_fuel_economy', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.001953125 ) ,  'deviceid:' + record[DEVICE] + '.sensor:trip_parameters_engine' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_rate_average' +  '.HelmSmart'    ) )         
  
 
               value = fact.get('throttle_position', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP] (float(value) * 0.4) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:throttle_position' +  '.HelmSmart'    ) )         
 
               value = fact.get('demand_torque', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], ((float(value) * 0.4) ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_rapid_update' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:demand_torque' +  '.HelmSmart'    ) )         
 
 
@@ -1804,25 +1804,25 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type', 'J1939')
               
               value = fact.get('fuel1_level', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.4 ) ,  'deviceid:' + record[DEVICE] + '.sensor:fluid_level' + '.source:' + record[SOURCE] + '.instance:' +  str(0) + '.type:' +  str(8) + '.parameter:level' +  '.HelmSmart'  ) )         
               value = fact.get('fuel2_level', 'NULL')
-              if isinstance(value, (int, long, float, complex)):
+              if isinstance(value, (int, float, complex)):
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP],(float(value) * 0.4 ) ,  'deviceid:' + record[DEVICE] + '.sensor:fluid_level' + '.source:' + record[SOURCE] + '.instance:' +  str(0) + '.type:' +  str(9) + '.parameter:level' +  '.HelmSmart'    ) )         
               value = fact.get('washer_level', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.4 ) ,  'deviceid:' + record[DEVICE] + '.sensor:fluid_level' + '.source:' + record[SOURCE] + '.instance:' +  str(0) + '.type:' +  str(10) + '.parameter:level' +  '.HelmSmart'    ) )         
 
               value = fact.get('fuel_filter_differential_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 2.0 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:fuel_filter_differential_pressure' +  '.HelmSmart'    ) )         
 
               value = fact.get('oil_filter_differential_pressure', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.5 ) ,  'deviceid:' + record[DEVICE] + '.sensor:engine_parameters_dynamic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:oil_filter_differential_pressure' +  '.HelmSmart'    ) )         
 
               value = fact.get('cargo_temperature', 'NULL')
-              if isinstance(value, (int, long, float, complex)): 
+              if isinstance(value, (int, float, complex)): 
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], (float(value) * 0.03125 ) ,  'deviceid:' + record[DEVICE] + '.sensor:trip_parameters_engine' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  'Main Cabin Temperature' + '.parameter:fuel_rate_average' +  '.HelmSmart'    ) )         
 
 
@@ -1850,7 +1850,7 @@ def insert_influxdb_cloud(fact_info, device, records):
                 valuetype = fact.get('ac_type', 'NULL')
               
                 value = fact.get('ac_kwatt_hours', 'NULL')
-                if isinstance(value, (int, long, float, complex)):             
+                if isinstance(value, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_watthours' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_kwatthours' +  '.HelmSmart'   ) )         
 
  
@@ -1876,22 +1876,22 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
                 volts = fact.get('ac_volts_detail', 'NULL')
-                if isinstance(volts, (int, long, float, complex)):             
+                if isinstance(volts, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(volts) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                     
    
                 amps = fact.get('ac_amps_detail', 'NULL')
-                if isinstance(amps, (int, long, float, complex)):             
+                if isinstance(amps, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(amps) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
 
                 if amps != 'NULL' and volts != 'NULL' :
                   watts = volts * amps
-                  if isinstance(watts, (int, long, float, complex)):             
+                  if isinstance(watts, (int, float, complex)):             
                     mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(watts) * 0.001,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
    
                 status = fact.get('status', 'NULL')
-                if isinstance(amps, (int, long, float, complex)):             
+                if isinstance(amps, (int, float, complex)):             
                   mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(status) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:status' +  '.HelmSmart'   ) )         
                   
  
@@ -1915,11 +1915,11 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'UTIL')
 
               value = fact.get('export_kwatt_hours', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_total_energy' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:export_kwatt_hours' +  '.HelmSmart'   ) )         
 
               value = fact.get('import_kwatt_hours', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_total_energy' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:import_kwatt_hours' +  '.HelmSmart'   ) )         
 
  
@@ -1938,23 +1938,23 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'UTIL')
 
               value = fact.get('ac_line_line_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_line_volts' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_line_neutral_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_frequency', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0078125,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_frequency' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_amps', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_watts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
               #log.info('PGN65014:  j1939_engine_temps %s', mydataIDBC)
@@ -1978,23 +1978,23 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'UTIL')
 
               value = fact.get('ac_line_line_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_line_volts' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_line_neutral_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_frequency', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0078125,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_frequency' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_amps', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
                    
               value = fact.get('ac_watts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
                  
@@ -2016,24 +2016,24 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'UTIL')
 
               value = fact.get('ac_line_line_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_line_volts' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_line_neutral_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_frequency', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0078125,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_frequency' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_amps', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
                   
                   
               value = fact.get('ac_watts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
  
             except:
@@ -2054,24 +2054,24 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'UTIL')
 
               value = fact.get('ac_line_line_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_line_volts' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_line_neutral_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_frequency', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0078125,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_frequency' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_amps', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
                   
                   
               value = fact.get('ac_watts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
  
             except:
@@ -2092,11 +2092,11 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'GEN')
 
               value = fact.get('export_kwatt_hours', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_total_energy' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:export_kwatt_hours' +  '.HelmSmart'   ) )         
 
               value = fact.get('import_kwatt_hours', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_total_energy' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:import_kwatt_hours' +  '.HelmSmart'   ) )         
 
  
@@ -2116,23 +2116,23 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'GEN')
 
               value = fact.get('ac_line_line_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_line_volts' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_line_neutral_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_frequency', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0078125,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_frequency' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_amps', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_watts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
               #log.info('PGN65014:  j1939_engine_temps %s', mydataIDBC)
@@ -2155,23 +2155,23 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'GEN')
 
               value = fact.get('ac_line_line_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_line_volts' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_line_neutral_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_frequency', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0078125,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_frequency' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_amps', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
                    
               value = fact.get('ac_watts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
                  
@@ -2193,24 +2193,24 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'GEN')
 
               value = fact.get('ac_line_line_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_line_volts' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_line_neutral_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_frequency', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0078125,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_frequency' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_amps', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
                   
                   
               value = fact.get('ac_watts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
  
@@ -2231,24 +2231,24 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'GEN')
 
               value = fact.get('ac_line_line_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_line_volts' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_line_neutral_volts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_line_neutral_volts' +  '.HelmSmart'   ) )         
                   
               value = fact.get('ac_frequency', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 0.0078125,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_frequency' +  '.HelmSmart'   ) )         
 
               value = fact.get('ac_amps', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_amps' +  '.HelmSmart'   ) )         
                   
                   
               value = fact.get('ac_watts', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
  
@@ -2271,11 +2271,11 @@ def insert_influxdb_cloud(fact_info, device, records):
               valuetype = fact.get('type_reference', 'GEN')
 
               value = fact.get('export_kwatt_hours', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_total_energy' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:export_kwatt_hours' +  '.HelmSmart'   ) )         
 
               value = fact.get('import_kwatt_hours', 'NULL')
-              if isinstance(value, (int, long, float, complex)):             
+              if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_total_energy' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:import_kwatt_hours' +  '.HelmSmart'   ) )         
 
  

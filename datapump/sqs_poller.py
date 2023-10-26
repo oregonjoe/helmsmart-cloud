@@ -78,7 +78,7 @@ def dump_influxdb_cloud(device, partition, records):
 
   try:
     
-    if debug_all: log.info('sqs_poller: fact_info in dump_influxdb_cloud  %s:  ', fact_info)
+    #if debug_all: log.info('sqs_poller: fact_info in dump_influxdb_cloud  %s:  ', fact_info)
     
     insert_influxdb_cloud(
           #env.fact_info,
@@ -481,7 +481,7 @@ if __name__ == "__main__":
   conn = db_pool.getconn()
   fact_info = ensure_database(conn, SCHEMA)
   #db_pool.putconn(conn, close=True)  
-  if debug_all: log.info('sqs_poller: fact_info in main  %s:  ', fact_info)
+  #if debug_all: log.info('sqs_poller: fact_info in main  %s:  ', fact_info)
   
   config = dict(
     device_group = os.environ['DEVICE_GROUP'],
