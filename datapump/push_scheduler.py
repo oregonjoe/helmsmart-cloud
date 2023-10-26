@@ -74,7 +74,7 @@ from worker import conn
 
 q = Queue(connection=conn)
 
-from telemetrypost import post_message
+#from telemetrypost import post_message
 
 from apscheduler.scheduler import Scheduler
 
@@ -165,11 +165,9 @@ def get_HS_Message(interval):
                         alert_message['starttime'] = starttime
                         alert_message['endtime'] = endtime
                         alert_message['parameters'] = json.loads(row[4])
-                        #starttime = starttime + interval_increment
-                        #loopcount = loopcount + 1
-                        #myresult = q.enqueue(post_message, alert_message)
-                        myresult = q.enqueue(post_message, alert_message, ttl=10000)  
-                        #if debug_all: log.info('Push_Scheduler inserted logged messages %s:%s', starttime, endtime)
+    
+                        #myresult = q.enqueue(post_message, alert_message, ttl=10000)  
+                       
                         log.info('Push_Scheduler inserted logged messages %s:%s -- %s', starttime, endtime, alert_message)
 
                         
@@ -251,17 +249,17 @@ def get_HS_Message(interval):
                             #messagekeys.append(int(row[0]))
                     
                     #071214 JLB added message to que for the worker (post) to process
-                    #myresult = q.enqueue(post_message, alert_message)
-                    myresult = q.enqueue(post_message, alert_message, ttl=10000)  
+                    
+                    #myresult = q.enqueue(post_message, alert_message, ttl=10000)  
                     if debug_all: log.info('Push_Scheduler inserted realtime messages %s', alert_message)
                     
-            except NameError, e:
+            except NameError, as e:
                 if debug_all: log.info('Push_Scheduler: queing message NameError  %s:  ' % str(e))
                 
-            except KeyError, e:
+            except KeyError, as e:
                 if debug_all: log.info('Push_Scheduler: queing message KeyError  %s:  ' % str(e))
                 
-            except TypeError, e:
+            except TypeError, as e:
                 if debug_all: log.info('Push_Scheduler: queing message TypeError  %s:  ' % str(e))
                 
             except:
@@ -288,7 +286,7 @@ def get_HS_Message(interval):
         if debug_all: log.info('Push_Scheduler completed pass ')
         db_pool.putconn(conn)
 
-    except NameError, e:
+    except NameError, as e:
         if debug_all: log.info('Push_Scheduler: NameError  %s:  ' % str(e))
         pass
     
