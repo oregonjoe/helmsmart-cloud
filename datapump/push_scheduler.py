@@ -314,14 +314,14 @@ def get_HS_Message(interval):
 
 
 #sched = Scheduler()
-sched = BackgroundScheduler()
+#sched = BackgroundScheduler()
 
 #@sched.cron_schedule(second='30')
 #def timed_job_30s():
 #    print 'This job is run every 30 seconds.'
 #    get_HS_Message(SECOND30)
     
-@sched.cron_schedule(minute='*')
+#@sched.cron_schedule(minute='*')
 #@sched.cron_schedule(minute='1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24,26,27,28,29,31,32,33,34,36,37,38,39,41,42,43,44,46,47,48,49,51,52,53,54,56,57,58,59')
 def timed_job_1m():
     r = requests.get('http://pushsmart-tcpserver.herokuapp.com/')
@@ -329,21 +329,21 @@ def timed_job_1m():
     print('This job is run every 1 minutes.')
     get_HS_Message(MINUTE1)
 
-@sched.cron_schedule(minute='2,4,6,7,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58')
+#@sched.cron_schedule(minute='2,4,6,7,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58')
 def timed_job_2m():
     r = requests.get('http://pushsmart-tcpserver.herokuapp.com/')
 
     print('This job is run every 2 minutes.')
     get_HS_Message(MINUTE2)
     
-@sched.cron_schedule(minute='0,5,10,15,20,25,30,35,40,45,50,55')
+#@sched.cron_schedule(minute='0,5,10,15,20,25,30,35,40,45,50,55')
 def timed_job_5m():
     r = requests.get('http://pushsmart-nodejs-test.herokuapp.com/')
     
     print("I was fired every 5 minutes")
     get_HS_Message(MINUTE5)
 
-@sched.cron_schedule(minute='0,10,20,30,40,50')
+#@sched.cron_schedule(minute='0,10,20,30,40,50')
 def timed_job_10m():
     print("I was fired every 10 minutes")
     if debug_all: log.info('Push_Scheduler: fired every 10 minutes')
@@ -381,7 +381,7 @@ def timed_job_10m():
     
     get_HS_Message(MINUTE10)
 
-@sched.cron_schedule(minute='0,15,30,45')
+#@sched.cron_schedule(minute='0,15,30,45')
 def timed_job_15m():
     print("I was fired every 15 minutes")
     get_HS_Message(MINUTE15)
@@ -391,49 +391,66 @@ def timed_job_30m():
     print("I was fired every 30 minutes")
     get_HS_Message(MINUTE30)
     
-@sched.cron_schedule(hour='*')
+#@sched.cron_schedule(hour='*')
 def timed_job_1h():
     print("I was fired every 1 hour")
     get_HS_Message(HOUR1)
     
-@sched.cron_schedule(hour='0,4,8,12,16,20')
+#@sched.cron_schedule(hour='0,4,8,12,16,20')
 def timed_job_4h():
     print("I was fired every 4 hour")
     get_HS_Message(HOUR4)
     
-@sched.cron_schedule(hour='0,6,12,18')
+#@sched.cron_schedule(hour='0,6,12,18')
 def timed_job_6h():
     print("I was fired every 6 hour")
     get_HS_Message(HOUR6)
     
-@sched.cron_schedule(hour='0,8,16')
+#@sched.cron_schedule(hour='0,8,16')
 def timed_job_8h():
     print("I was fired every 8 hour")
     get_HS_Message(HOUR8)
 
-@sched.cron_schedule(hour='0,12')
+#@sched.cron_schedule(hour='0,12')
 def timed_job_12h():
     print("I was fired every 12 hour")
     get_HS_Message(HOUR12)
     
-@sched.cron_schedule(day='*')
+#@sched.cron_schedule(day='*')
 def timed_job_1d():
     print("I was fired every 1 day")
     get_HS_Message(DAY1)
     
-@sched.cron_schedule(week='*')
+#@sched.cron_schedule(week='*')
 def timed_job_1w():
     print("I was fired every week")
     get_HS_Message(WEEK1)
                      
-@sched.cron_schedule(month='*')
+#@sched.cron_schedule(month='*')
 def timed_job_1M():
     print("I was fired every month")
     get_HS_Message(MONTH1)
                      
 
 
-sched.start()
+if __name__ == '__main__':
+    
+    sched = BackgroundScheduler()
+    sched.configure(timezone=utc)
+    
+    if debug_all: log.info('START: Push_Scheduler adding jobs ')
+    sched.add_job(timed_job_1m, 'cron', minute='*')
+    sched.add_job(timed_job_2m, 'cron', minute='2,4,6,7,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58')
+    sched.add_job(timed_job_5m, 'cron', minute='0,5,10,15,20,25,30,35,40,45,50,55')
+    sched.add_job(timed_job_10m, 'cron', minute='0,10,20,30,40,50')
+    sched.add_job(timed_job_15m, 'cron', minute='0,15,30,45')
+    sched.add_job(timed_job_30m, 'cron', minute='0,30')
+    sched.add_job(timed_job_1h, 'cron', hour='*')
+    
+        
+    sched.start()
 
-while True:
-    pass
+    # This is here to simulate application activity (which keeps the main thread alive).
+    while True:
+        time.sleep(5)
+    
