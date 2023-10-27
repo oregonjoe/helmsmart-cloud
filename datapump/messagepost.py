@@ -537,7 +537,7 @@ def getSensorValues(alertParameters):
         idbcserieskeys = createInfluxDBCloudKeys(sensorKey)
 
         # setup query
-        #dbc = InfluxDBCloud(dchost, dcport, dcusername, dcpassword, dcdatabase,  ssl=True)
+        dbc = InfluxDBCloud(dchost, dcport, dcusername, dcpassword, dcdatabase,  ssl=True)
 
 
         dbcquery = ('select {} FROM {} '
@@ -549,7 +549,11 @@ def getSensorValues(alertParameters):
             
         log.info('getSensorValues: Influx Cloud Query String %s:  ', dbcquery)
 
+        response= dbc.query(dbcquery)
+        
+        if debug_all: log.info('getSensorValues:  InfluxDB-Cloud response  %s:', response)
 
+        
     except KeyError as e:
         if debug_all: log.info('getSensorValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
 
@@ -565,6 +569,9 @@ def getSensorValues(alertParameters):
     except UnboundLocalError as e:
         if debug_all: log.info('getSensorValues: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
 
+    except InfluxDBClientError as e:
+      log.info('getSensorValues: Exception Error in InfluxDB  %s:  ' % str(e))
+      
     except:
         e = sys.exc_info()[0]
         if debug_all: log.info("getSensorValues: Error: %s" % e)
