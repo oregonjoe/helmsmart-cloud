@@ -542,7 +542,7 @@ def getSensorValues(alertParameters):
 
         dbcquery = ('select {} FROM {} '
                          'where {} AND time > {}s and time < {}s '
-                         'group by *, time({}s)') \
+                         'group by *, time({}s) LIMIT 1') \
                     .format( idbcseriesparameters,  measurement, idbcserieskeys,
                             startepoch, endepoch,
                             resolution)
@@ -552,7 +552,9 @@ def getSensorValues(alertParameters):
         response= dbc.query(dbcquery)
         
         if debug_all: log.info('getSensorValues:  InfluxDB-Cloud response  %s:', response)
-
+        #InfluxDB-Cloud response  ResultSet({'('HS_68271933E950',
+        #{'deviceid': '68271933E950', 'instance': '0', 'parameter': 'engine_temp', 'sensor': 'engine_parameters_dynamic', 'type': 'NULL'})':
+        #[{'time': '2023-10-27T19:30:00Z', 'engine_temp': 350.4}, {'time': '2023-10-27T19:35:00Z', 'engine_temp': 336.64}]}):
         
     except KeyError as e:
         if debug_all: log.info('getSensorValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
