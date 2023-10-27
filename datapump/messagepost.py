@@ -319,8 +319,13 @@ def getepochtimes(Interval):
 def getSensorParameter(sensorKey):
 
     #select  median(temperature) AS temperature
-    
+
+        
     try:
+        
+        if sensorKey.find(".*.") > 0:  
+        sensorKey = sensorKey.replace(".*.","*.")
+        
         seriesname = sensorKey
         seriestags = seriesname.split(".")
         if debug_all: log.info('getSensorParameter: seriestags %s:  ', seriestags)
