@@ -318,14 +318,54 @@ def getepochtimes(Interval):
 # *************************************************************************
 def getSensorParameter(sensorKey):
 
+    #select  median(temperature) AS temperature
+    
+    try:
         seriesname = sensorKey
         seriestags = seriesname.split(".")
+        if debug_all: log.info('getSensorParameter: seriestags %s:  ', seriestags)
 
         seriesparametertag = seriestags[5]
+        if debug_all: log.info('getSensorParameter: seriesparametertag %s:  ', seriesparametertag)
+        
         seriesparameter = seriesparametertag.split(":")    
         parameter = seriesparameter[1]
+        if debug_all: log.info('getSensorParameter: parameter %s:  ', parameter)
+        
+        parameterKey = ('median {} AS {} '.format( parameter,  parameter)
+    
+        return parameterKey
 
-        return parameter
+    except TypeError as e:
+        if debug_all: log.info('getSensorParameter: TypeError in convertInfluxDBCloudKeys %s:  ', sensorKey)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getSensorParameter: TypeError in convertInfluxDBCloudKeys %s:  ' % str(e))
+        
+    except KeyError as e:
+        if debug_all: log.info('getSensorParameter: KeyError in convertInfluxDBCloudKeys %s:  ', sensorKey)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getSensorParameter: KeyError in convertInfluxDBCloudKeys %s:  ' % str(e))
+
+    except NameError as e:
+        if debug_all: log.info('getSensorParameter: NameError in convertInfluxDBCloudKeys %s:  ', sensorKey)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getSensorParameter: NameError in convertInfluxDBCloudKeys %s:  ' % str(e))
+
+    except IndexError as e:
+        if debug_all: log.info('getSensorParameter: IndexError in convertInfluxDBCloudKeys %s:  ', sensorKey)
+        #e = sys.exc_info()[0]
+
+        if debug_all: log.info('getSensorParameter: IndexError in convertInfluxDBCloudKeys %s:  ' % str(e))          
+
+    except:
+        if debug_all: log.info('getSensorParameter: Error in convertInfluxDBCloudKeys %s:  ', sensorKey)
+        e = sys.exc_info()[0]
+        if debug_all: log.info("getSensorParameter: Error: %s" % e)
+
+
 
 # ****************************************************************
 # InfluxDB Sensor key
@@ -456,7 +496,7 @@ def getSensorValues(alertParameters):
     sensorUnits = sensorSeries['units']
     sensorInterval = alertParameters['Interval']
 
-    if debug_all: log.info('getSensorValues: sensor key %s: interval %s: units%s', sensorKey,sensorInterval , sensorUnits)
+    if debug_all: log.info('getSensorValues: sensor key %s: interval %s: units %s', sensorKey,sensorInterval , sensorUnits)
 
 
     try:
