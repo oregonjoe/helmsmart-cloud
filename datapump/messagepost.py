@@ -324,7 +324,7 @@ def getSensorParameter(sensorKey):
     try:
         
         if sensorKey.find(".*.") > 0:  
-        sensorKey = sensorKey.replace(".*.","*.")
+            sensorKey = sensorKey.replace(".*.","*.")
         
         seriesname = sensorKey
         seriestags = seriesname.split(".")
