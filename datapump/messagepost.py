@@ -555,6 +555,23 @@ def getSensorValues(alertParameters):
         #InfluxDB-Cloud response  ResultSet({'('HS_68271933E950',
         #{'deviceid': '68271933E950', 'instance': '0', 'parameter': 'engine_temp', 'sensor': 'engine_parameters_dynamic', 'type': 'NULL'})':
         #[{'time': '2023-10-27T19:30:00Z', 'engine_temp': 350.4}, {'time': '2023-10-27T19:35:00Z', 'engine_temp': 336.64}]}):
+
+        if response is None:
+            log.info('getSensorValues: InfluxDB Query has no data ')
+            return None
+
+        if not response:
+            log.info('getSensorValues: InfluxDB Query has no data ')
+            return None
+
+        keys = response.raw.get('series',[])
+        log.info("getSensorValues Get InfluxDB series keys %s", keys)
+
+        for series in keys:
+            log.info("getSensorValues Get InfluxDB series key %s", series)
+            log.info("getSensorValues Get InfluxDB series tags %s ", series['tags'])
+            log.info("getSensorValues Get InfluxDB series columns %s ", series['columns'])
+            log.info("getSensorValues Get InfluxDB series values %s ", series['values'])
         
     except KeyError as e:
         if debug_all: log.info('getSensorValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
