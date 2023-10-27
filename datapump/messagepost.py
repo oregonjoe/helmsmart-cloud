@@ -337,7 +337,7 @@ def getSensorParameter(sensorKey):
         parameter = seriesparameter[1]
         if debug_all: log.info('getSensorParameter: parameter %s:  ', parameter)
         
-        parameterKey = ('median ({}) AS {}').format( parameter,  parameter)
+        parameterKey = ('median({}) AS {}').format( parameter,  parameter)
     
         return parameterKey
 
