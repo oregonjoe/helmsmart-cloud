@@ -489,7 +489,7 @@ def getSensorValues(alertParameters):
         idbcseriesparameters = getSensorParameter(sensorKey)
 
         # get select from key
-        idbcserieskeys = createInfluxDBCloudKeys(sensorKey])
+        idbcserieskeys = createInfluxDBCloudKeys(sensorKey)
 
         # setup query
         #dbc = InfluxDBCloud(dchost, dcport, dcusername, dcpassword, dcdatabase,  ssl=True)
