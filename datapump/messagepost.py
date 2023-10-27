@@ -486,10 +486,10 @@ def getSensorValues(alertParameters):
             resolution = epochtimes[2]
 
         # get sensor from key
-        idbcseriesparameters = getSensorParameter(alertParameters['key'])
+        idbcseriesparameters = getSensorParameter(sensorKey)
 
         # get select from key
-        idbcserieskeys = createInfluxDBCloudKeys(alertParameters['key'])
+        idbcserieskeys = createInfluxDBCloudKeys(sensorKey])
 
         # setup query
         #dbc = InfluxDBCloud(dchost, dcport, dcusername, dcpassword, dcdatabase,  ssl=True)
