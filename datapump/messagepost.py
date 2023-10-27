@@ -475,7 +475,7 @@ def getSensorValues(alertParameters):
         measurement = 'HS_' + str(alertParameters['deviceid'])
 
         #calculate start and end time from interval
-        epochtimes = getepochtimes(Interval)
+        epochtimes = getepochtimes(sensorInterval)
     
         startepoch = epochtimes[0]
         endepoch = epochtimes[1]
