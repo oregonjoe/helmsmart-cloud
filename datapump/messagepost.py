@@ -446,7 +446,13 @@ def getSensorValues(alertParameters):
     dcpassword = 'Salm0n16'
     dcdatabase = 'pushsmart-cloud'
 
-    sensorKey = alertParameters['key']
+    sensorSeries = alertParameters.get('series_1',"")
+
+    if sensorSeries == "":
+        return None
+
+    
+    sensorKey = sensorSeries['key']
     sensorUnits = alertParameters['units']
     sensorInterval = alertParameters['Interval']
 
@@ -555,6 +561,9 @@ def process_message(alert_message):
 
     # get sensor values from influxdb
     sensorValues = getSensorValues(parameters)
+    if sensorValues == None:
+        mymessage='no Sensor Values'
+        return mymessage
 
     if debug_all: log.info('process_message: sensor values %s:%s', sensorValues)
 
