@@ -572,6 +572,11 @@ def getSensorValues(alertParameters):
             log.info("getSensorValues Get InfluxDB series tags %s ", series['tags'])
             log.info("getSensorValues Get InfluxDB series columns %s ", series['columns'])
             log.info("getSensorValues Get InfluxDB series values %s ", series['values'])
+
+            for point in series['values']:
+                # point[0] is time and point[1] is sensor value
+                if point[0] is not None and  point[1] is not None:
+                    log.info("getSensorValues Get InfluxDB sensor values %s ", point[1])
         
     except KeyError as e:
         if debug_all: log.info('getSensorValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
