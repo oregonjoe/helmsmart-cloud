@@ -453,7 +453,7 @@ def getSensorValues(alertParameters):
 
     
     sensorKey = sensorSeries['key']
-    sensorUnits = alertParameters['units']
+    sensorUnits = sensorSeries['units']
     sensorInterval = alertParameters['Interval']
 
     if debug_all: log.info('getSensorValues: sensor key %s: interval %s: units%s', sensorKey,sensorInterval , sensorUnits)
