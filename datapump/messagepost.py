@@ -438,7 +438,7 @@ def createInfluxDBCloudKeys(sensorKey):
 # InfluxDB Sensor query
 # takes alert message sensor key and returns the sensor values
 # *************************************************************************
-def getSensorValues(alertParameters)
+def getSensorValues(alertParameters):
 
     dchost = 'hilldale-670d9ee3.influxcloud.net' 
     dcport = 8086
