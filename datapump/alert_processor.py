@@ -14,7 +14,10 @@ from itertools import groupby
 #from m2x.client import M2XClient
 #from geopy.distance import vincenty
 from array import *
+
+
 from astral import *
+from astral import LocationInfo
 
 # *******************************************************************
 # Debug Output defines
@@ -42,6 +45,8 @@ def get_timmerday_alert(parameters, value):
     result={}
     result['status']="error"
     result['message']=""
+
+    text_body= "error in timmerday alert"
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
@@ -72,7 +77,7 @@ def get_timmerday_alert(parameters, value):
             else:
                 location = a[locationcity]
             
-            log.info("gget_timmerday_alert  Astral location: %s", location)
+            log.info("get_timmerday_alert  Astral location: %s", location)
 
             timezone = location.timezone
 

@@ -32,7 +32,7 @@ greenlet==3.0.0
 splicer==0.2.1
 xlocal==0.5
 numpy==1.26.0
-astral==3.0.0
+astral==3.2.0
 APScheduler==3.10.4
 redis==5.0.1
 rq==1.15.1
