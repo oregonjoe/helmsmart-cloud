@@ -159,8 +159,13 @@ def process_emailalert(text_body, parameters, timestamp, value):
         # alerts are enabled so continue
         log.info('alert_processor process_emailalert: alert is enabled ' )
 
+        series_parameters = parameters.get['series_1',"")
+        # check for error/missing series parameters and retutn
+        if series_parameters == "":
+            return result
+            
         #check if alarm mode is specified
-        alarmmode = str(parameters["alarmmode"])
+        alarmmode = str(series_parameters["alarmmode"])
 
         #  not enabled so just exit          
         if alarmmode == "disabled":
@@ -183,7 +188,7 @@ def process_emailalert(text_body, parameters, timestamp, value):
             if alerttype == "timmer":
 
                 #create timmer array of dimmer values based on start and stop times            
-                result = get_timmer_alert(parameters, value)
+                result = get_timmer_alert(sparameters, value)
 
             #timmer event daily repeat
             elif alerttype == "timmerday":
