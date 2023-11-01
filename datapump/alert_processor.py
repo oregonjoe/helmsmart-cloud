@@ -316,7 +316,11 @@ def get_timmerday_alert(parameters, value):
 
     except NameError as e:
         if debug_all: log.info('get_timmerday_alert: NameError in process_emailaler %s:%s  ', text_body, value)
-        if debug_all: log.info('get_timmerday_alert: NameError in process_emailaler %s:  ' % str(e))     
+        if debug_all: log.info('get_timmerday_alert: NameError in process_emailaler %s:  ' % str(e))
+
+    except OverflowError as e:
+        if debug_all: log.info('get_timmerday_alert: OverflowError in process_emailaler %s:%s  ', text_body, value)
+        if debug_all: log.info('get_timmerday_alert: OverflowError in process_emailaler %s:  ' % str(e))         
 
     except:
         if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
