@@ -79,11 +79,19 @@ def get_alarms_alert(parameters, value):
     result['message']=""
 
     alerttype = parameters.get('alerttype',"mean")
+
+    # extract the series alarm paramterts
+    series_parameters = = parameters.get('series_1',"")
+    # check for errors
+    if series_parameters == "":
+        result['status']="error"
+        result['message']="missing series parameters"
+        return result
     
     if alerttype == "missing":
         if value == "missing":
             text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-            text_body = text_body  + parameters[series_number]["alarmmode"] + ": " + parameters[series_number]["title"] + '\n'
+            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
             text_body = text_body + "value is missing for Interval= " + parameters["Interval"] + " timestamp is:" + timestamp + '\n'
             result['status']="active"
             result['message']=text_body
@@ -92,7 +100,7 @@ def get_alarms_alert(parameters, value):
     if alerttype == "error":
         if value == "error":
             text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-            text_body = text_body  + parameters[series_number]["alarmmode"] + ": " + parameters[series_number]["title"] + '\n'
+            text_body = text_body  + series_parameters["alarmmode"] + ": " +series_parameters["title"] + '\n'
             text_body = text_body + "value error for Interval= " + parameters["Interval"] + " timestamp is:" + timestamp + '\n'
             result['status']="active"
             result['message']=text_body
@@ -102,8 +110,8 @@ def get_alarms_alert(parameters, value):
         try:
             if float(value) <= float(parameters['series_1']["alarmlow"]):
                 text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                text_body = text_body  + parameters[series_number]["alarmmode"] + ": " + parameters[series_number]["title"] + '\n'
-                text_body = text_body + 'is low - ' + alerttype + ' = ' + str(value) + " threshold: " + str(parameters[series_number]["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                text_body = text_body  + series_parameters]["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                text_body = text_body + 'is low - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
                 result['status']="active"
                 #http://www.helmsmart.net/getseriesdatabykey?serieskey=deviceid:0018E78B5121.sensor:engine_parameters_dynamic.source:08.instance:1.type:NULL.parameter:engine_temp.HelmSmart&devicekey=2a4731ac48c80ee3b4c17e7d74a6825f&startepoch=1405065555&endepoch=1405094365&resolution=60&format=csv
         except:
@@ -115,8 +123,8 @@ def get_alarms_alert(parameters, value):
         try:
             if float(value) >= float(parameters['series_1']["alarmhigh"]):
                 text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                text_body = text_body  + parameters[series_number]["alarmmode"] + ": " + parameters[series_number]["title"] + '\n'
-                text_body = text_body + 'is high - ' + alerttype + ' = ' + str(value) + " threshold: " + str(parameters[series_number]["alarmhigh"]) + " timestamp is:" + timestamp + '\n'
+                text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                text_body = text_body + 'is high - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmhigh"]) + " timestamp is:" + timestamp + '\n'
                 result['status']="active"
         except:
             result['status']="inactive"
