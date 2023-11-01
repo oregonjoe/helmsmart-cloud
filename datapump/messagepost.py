@@ -498,7 +498,7 @@ def getSensorValues(alertParameters):
     if sensorSeries == "":
         return None
 
-    
+    sensorValues=[]
     sensorKey = sensorSeries['key']
     sensorUnits = sensorSeries['units']
     sensorInterval = alertParameters['Interval']
@@ -579,6 +579,11 @@ def getSensorValues(alertParameters):
                 # point[0] is time and point[1] is sensor value
                 if point[0] is not None and  point[1] is not None:
                     log.info("getSensorValues Get InfluxDB sensor values %s ", point[1])
+                    sensorValues.append(point[1])
+
+
+        # return the sensor values
+        return sensorValues
         
     except KeyError as e:
         if debug_all: log.info('getSensorValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
@@ -690,8 +695,9 @@ def process_message(alert_message):
                     timmer_json['timmer_array'] = timmer_array
 
             else:
-              sensorValueUnits = convertunits(sensorValues, parameters['units'])
-              if debug_all: log.info('process_message: sensor value units %s', sensorValueUnits)
+              if len(sensorValues) != 0:
+                sensorValueUnits = convertunits(sensorValues[0], parameters['units'])
+                if debug_all: log.info('process_message: sensor value units %s', sensorValueUnits)
             
     except KeyError as e:
         #if debug_all: log.info('process_message: KeyError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
