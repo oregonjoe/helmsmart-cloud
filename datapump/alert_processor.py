@@ -30,11 +30,20 @@ log = logging
 def get_timmer_alert(parameters, value):
 
     #initialize return
+    result['message']=""
     result['status']="error"
 
     return result
 
+def get_timmerday_alert(parameters, value):
 
+    #initialize return
+    result['message']=""
+    result['status']="error"
+
+    return result
+
+  
 def get_sunriseset_alert(parameters, value):
 
     #initialize return
@@ -151,7 +160,7 @@ def process_emailalert(text_body, parameters, timestamp, value):
         log.info('alert_processor process_emailalert: alert is enabled ' )
 
         #check if alarm mode is specified
-        alarmmode = str(parameters[series_number]["alarmmode"])
+        alarmmode = str(parameters["alarmmode"])
 
         #  not enabled so just exit          
         if alarmmode == "disabled":
@@ -175,7 +184,11 @@ def process_emailalert(text_body, parameters, timestamp, value):
 
                 #create timmer array of dimmer values based on start and stop times            
                 result = get_timmer_alert(parameters, value)
-                
+
+            #timmer event daily repeat
+            elif alerttype == "timmerday":
+                #create timmer array of dimmer values based on start and stop times            
+                result = get_timmerday_alert(parameters, value)                
 
             #timmer event based on local sunrise sunset
             elif alerttype == "sunriseset" or alerttype == "sunsetrise" or alerttype == "sunriseexpires" or alerttype == "sunsetexpires" or alerttype == "startsunrise" or alerttype == "startsunset":
