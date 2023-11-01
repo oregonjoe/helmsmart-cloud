@@ -76,12 +76,12 @@ def get_timmerday_alert(parameters, value):
                     
                 #location = a['Seattle']
                 #location = LocationInfo("Seattle")
-                location = = lookup("Seattle", database())
+                location  = lookup("Seattle", database())
                 #location.name = 'Brookings'    
 
             else:
                 #location = a[locationcity]
-                location = = lookup("Seattle", database())
+                location  = lookup("Seattle", database())
             
             log.info("get_timmerday_alert  Astral location: %s", location)
 
