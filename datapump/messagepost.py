@@ -670,7 +670,7 @@ def process_message(alert_message):
             timmer_json={}
             distance = ""
 
-            if sensorValues=='missing':
+            if sensorValues == "missing":
                 
                 log.info('Posting to EmailAlertPost empty points ')
                 alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), "missing")
