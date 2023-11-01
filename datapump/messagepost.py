@@ -16,6 +16,8 @@ from itertools import groupby
 from array import *
 from astral import *
 
+from alert_processor import process_emailalert
+
 # *******************************************************************
 # Debug Output defines
 # Comment to enable/disable
@@ -641,8 +643,8 @@ def process_message(alert_message):
     # get sensor values from influxdb
     sensorValues = getSensorValues(parameters)
     if sensorValues == None:
-        mymessage='no Sensor Values'
-        return mymessage
+        sensorValues='missing'
+        #return mymessage
 
     if debug_all: log.info('process_message: sensor values %s:%s', sensorValues)
 
@@ -660,6 +662,25 @@ def process_message(alert_message):
             timmer_array = ""
             timmer_json={}
             distance = ""
+
+            if sensorValues=='missing':
+                
+                log.info('Posting to EmailAlertPost empty points ')
+                alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), "missing")
+                email_body = alarmresult['message']
+                log.info('Posting to EmailAlertPost empty points email_body = %s', email_body)
+                timmer_array = alarmresult.get('timmerArray', "")
+                if timmer_array != "":
+
+                    timmer_type = ""
+                    timmer_instance =  ""
+                    timmer_parameter =  ""
+                    
+
+                    timmer_json['type'] = timmer_type
+                    timmer_json['instance'] = timmer_instance
+                    timmer_json['parameter'] = timmer_parameter
+                    timmer_json['timmer_array'] = timmer_array            
 
             
     except KeyError as e:
