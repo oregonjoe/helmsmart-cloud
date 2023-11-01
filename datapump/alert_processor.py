@@ -68,14 +68,18 @@ def get_timmerday_alert(parameters, value):
 
                     
             log.info('get_timmerday_alert location->%s  ', locationcity)
-            a = Astral()
+
+    
+            #a = Astral()
             if locationcity == 'Brookings':
                     
-                location = a['Seattle']
-                location.name = 'Brookings'    
+                #location = a['Seattle']
+                location = LocationInfo("Seattle")
+                #location.name = 'Brookings'    
 
             else:
-                location = a[locationcity]
+                #location = a[locationcity]
+                location = LocationInfo("Seattle")
             
             log.info("get_timmerday_alert  Astral location: %s", location)
 
