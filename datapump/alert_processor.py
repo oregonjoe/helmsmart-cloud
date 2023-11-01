@@ -62,7 +62,7 @@ def get_timmerday_alert(parameters, value):
                 locationcity= 'Seattle'
 
                     
-            log.info('Telemetrypost: get timmer day location->%s  ', locationcity)
+            log.info('get_timmerday_alert location->%s  ', locationcity)
             a = Astral()
             if locationcity == 'Brookings':
                     
@@ -72,11 +72,11 @@ def get_timmerday_alert(parameters, value):
             else:
                 location = a[locationcity]
             
-            log.info("Telemetrypost: process_emailalert timmer day  Astral location: %s", location)
+            log.info("gget_timmerday_alert  Astral location: %s", location)
 
             timezone = location.timezone
 
-            log.info('Telemetrypost: process_emailalert timmer day  timezone ->%s ',   timezone)
+            log.info('get_timmerday_alert: process_emailalert timmer day  timezone ->%s ',   timezone)
 
             #get timezone for current sunset/sunrise location
             mylocal = pytz.timezone(timezone)
@@ -85,11 +85,11 @@ def get_timmerday_alert(parameters, value):
 
 
             currenttime = datetime.datetime.now()
-            log.info('Telemetrypost: process_emailalert timmerday alert %s  ', currenttime)
+            log.info('get_timmerday_alert timmerday alert %s  ', currenttime)
 
             #need to make time value timezone aeare
             utccurrenttime = pytz.utc.localize(currenttime)
-            log.info('Telemetrypost: process_emailalert timmerday utcstarttime secs %s  -', utccurrenttime)  
+            log.info('get_timmerday_alert utcstarttime secs %s  -', utccurrenttime)  
             
             # adjust time to sunset/sunrise local time
             localcurrenttime = utccurrenttime.astimezone(mylocal)
@@ -98,11 +98,11 @@ def get_timmerday_alert(parameters, value):
             currentsecs = time.mktime(localcurrenttime.timetuple())
            
 
-            log.info('Telemetrypost: process_emailalert timmerday localcurrenttime %s  -> %s', localcurrenttime, currentsecs)
+            log.info('get_timmerday_alert localcurrenttime %s  -> %s', localcurrenttime, currentsecs)
 
             startsecs = int(series_parameters["alarmlow"])
             starttime = datetime.datetime.fromtimestamp(int(series_parameters["alarmlow"]))
-            log.info('Telemetrypost: process_emailalert timmerday starttime secs %s  -> %s', starttime, startsecs)
+            log.info('get_timmerday_alert starttime secs %s  -> %s', starttime, startsecs)
             
             #need to make time value timezone aeare
             utcstarttime = pytz.utc.localize(starttime)
@@ -115,25 +115,25 @@ def get_timmerday_alert(parameters, value):
             startsecs = time.mktime(localstarttime.timetuple())
             
             startutcsecs_local  = mylocal.localize(starttime, is_dst=None) # No daylight saving time
-            log.info('Telemetrypost: process_emailalert timmerday utcstarttime local time %s ',startutcsecs_local)
+            log.info('get_timmerday_alert utcstarttime local time %s ',startutcsecs_local)
             startutcsecs_utc = startutcsecs_local.astimezone(pytz.utc)
-            log.info('Telemetrypost: process_emailalert timmerday utcstarttime utc time %s ',startutcsecs_utc)                   
+            log.info('get_timmerday_alert utcstarttime utc time %s ',startutcsecs_utc)                   
             startutcsecs = time.mktime(startutcsecs_utc.timetuple())
-            log.info('Telemetrypost: process_emailalert timmerday startutcsecs %s  -> %s', startutcsecs, int(startutcsecs % (24*60*60)))
+            log.info('get_timmerday_alert startutcsecs %s  -> %s', startutcsecs, int(startutcsecs % (24*60*60)))
 
             
             #sunset_utc = sunset.astimezone(pytz.utc)
-            log.info('Telemetrypost: process_emailalert timmerday starttime %s  : %s  ', str(series_parameters["alarmlow"]), localstarttime)
-            log.info('Telemetrypost: process_emailalert timmerday start secs %s  -> %s', startsecs, int(startsecs % (24*60*60)))
+            log.info('get_timmerday_alert starttime %s  : %s  ', str(series_parameters["alarmlow"]), localstarttime)
+            log.info('get_timmerday_alert start secs %s  -> %s', startsecs, int(startsecs % (24*60*60)))
             
 
             endsecs = int(series_parameters["alarmhigh"])
             endtime = datetime.datetime.fromtimestamp(int(series_parameters["alarmhigh"]))
-            log.info('Telemetrypost: process_emailalert timmerday endtime secs %s  -> %s', endtime, endsecs)
+            log.info('get_timmerday_alert endtime secs %s  -> %s', endtime, endsecs)
                                 
             #need to make time value timezone aeare
             utcendtime = pytz.utc.localize(endtime)
-            log.info('Telemetrypost: process_emailalert timmerday utcendtime secs %s  -> %s', utcendtime, endsecs)  
+            log.info('get_timmerday_alert utcendtime secs %s  -> %s', utcendtime, endsecs)  
 
             # adjust time to sunset/sunrise local time
             #localendtime = utcendtime.astimezone(mylocal)
@@ -142,18 +142,18 @@ def get_timmerday_alert(parameters, value):
             endsecs = time.mktime(localendtime.timetuple())
 
             endutcsecs_local  = mylocal.localize(endtime, is_dst=None) # No daylight saving time
-            log.info('Telemetrypost: process_emailalert timmerday utcendtime local time %s ',endutcsecs_local)
+            log.info('get_timmerday_alert utcendtime local time %s ',endutcsecs_local)
             endutcsecs_utc = endutcsecs_local.astimezone(pytz.utc)
-            log.info('Telemetrypost: process_emailalert timmerday utcendtime utc time %s ',endutcsecs_utc)                   
+            log.info('get_timmerday_alert utcendtime utc time %s ',endutcsecs_utc)                   
             endutcsecs = time.mktime(endutcsecs_utc.timetuple())
-            log.info('Telemetrypost: process_emailalert timmerday endutcsecs %s  -> %s', endutcsecs, int(endutcsecs % (24*60*60)))
+            log.info('get_timmerday_alert endutcsecs %s  -> %s', endutcsecs, int(endutcsecs % (24*60*60)))
 
             
-            log.info('Telemetrypost: process_emailalert timmerday endtime %s : %s  ', str(series_parameters["alarmhigh"]), localendtime)
-            log.info('Telemetrypost: process_emailalert timmerday end secs %s  -> %s', endsecs, int(endsecs % (24*60*60)))
+            log.info('get_timmerday_alert endtime %s : %s  ', str(series_parameters["alarmhigh"]), localendtime)
+            log.info('get_timmerday_alert end secs %s  -> %s', endsecs, int(endsecs % (24*60*60)))
 
 
-            log.info('Telemetrypost: process_emailalert timmerday times %s:  %s:   %s  ', localcurrenttime, localstarttime, localendtime)
+            log.info('get_timmerday_alert times %s:  %s:   %s  ', localcurrenttime, localstarttime, localendtime)
 
             #modulo start and end epoch times by 24 hours since we repeat daily
             #log.info('Telemetrypost: process_emailalert timmerday modulo secs times %s:  %s:   %s  ', int(currentsecs % (24*60*60))     , int(startsecs % (24*60*60)),  int(endsecs % (24*60*60)))  
@@ -174,7 +174,7 @@ def get_timmerday_alert(parameters, value):
             endutcsecs = int(endutcsecs % (24*60*60))
 
             
-            log.info('Telemetrypost: process_emailalert timmerday modulo secs times %s:  %s:   %s  ', currentsecs, startsecs, endsecs)          
+            log.info('get_timmerday_alert modulo secs times %s:  %s:   %s  ', currentsecs, startsecs, endsecs)          
             # need to handle case when end time goes into the next day
             # which will mean the end time is less then start time when we modulo by 24 hours
             # if that happens we need to offset all epoch times so the endtime is at 23:54:54
@@ -189,7 +189,7 @@ def get_timmerday_alert(parameters, value):
             #log.info('Telemetrypost: process_emailalert timmerday compare secs times %s:  %s:   %s  ', currentsecs, startsecs, endsecs)                    
             #log.info('Telemetrypost: process_emailalert timmerday offset  %s current secs  %s:   ', secoffset, (currentsecs - secoffset))
 
-            log.info('Telemetry:process_emailalert timmerday Initialize Timmer array')
+            log.info('get_timmerday_alert Initialize Timmer array')
                                 
             alertdefault_value = int(parameters.get('alertdefault_value',255))
 
@@ -199,7 +199,7 @@ def get_timmerday_alert(parameters, value):
 
 
             alertaction_value = int(parameters.get('alertaction_value',255))
-            log.info('Telemetrypost: process_emailalert compare timmerday start < end  alertaction_value %s  ', alertaction_value)
+            log.info('get_timmerday_alert compare timmerday start < end  alertaction_value %s  ', alertaction_value)
                 
                 
             # if start secs < endsec then both within saem 24 hours so its a simple compare                       
@@ -209,7 +209,7 @@ def get_timmerday_alert(parameters, value):
                     if t_tenmin > startutcsecs/(10*60) and t_tenmin < endutcsecs/(10*60) :
                         timmerArray[t_tenmin] =alertaction_value
 
-                log.info('Telemetrypost: process_emailalert compare timmerday start < end  timmerArray %s  ', timmerArray)  
+                log.info('get_timmerday_alert compare timmerday start < end  timmerArray %s  ', timmerArray)  
 
             # if strart secs > end sec then we span different 24 hours over midnight so we need to compare before midnight and after        
             elif   startutcsecs >  endutcsecs:                        
@@ -218,7 +218,7 @@ def get_timmerday_alert(parameters, value):
                     if t_tenmin > startutcsecs/(10*60) or t_tenmin < endutcsecs/(10*60) :
                         timmerArray[t_tenmin] =alertaction_value
 
-                log.info('Telemetrypost: process_emailalert compare timmerday start > end  timmerArray %s  ', timmerArray)
+                log.info('get_timmerday_alert compare timmerday start > end  timmerArray %s  ', timmerArray)
                 
             # if start secs < endsec then both within saem 24 hours so its a simple compare
             if   startsecs <  endsecs:
@@ -226,7 +226,7 @@ def get_timmerday_alert(parameters, value):
                 try:
 
                     alertaction_value = int(parameters.get('alertaction_value',255))
-                    log.info('Telemetrypost: process_emailalert compare timmerday start < end  alertaction_value %s  ', alertaction_value)
+                    log.info('get_timmerday_alert compare timmerday start < end  alertaction_value %s  ', alertaction_value)
                     
 
 
@@ -240,18 +240,18 @@ def get_timmerday_alert(parameters, value):
                         
                     else:
                         result['status']="inactive"
-                        log.info('Telemetrypost: process_emailalert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+                        log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
                         
                 except:
                     result['status']="error"
 
             # if strart secs > end sec then we span different 24 hours over midnight so we need to compare before midnight and after        
             elif   startsecs >  endsecs:
-                log.info('Telemetrypost: process_emailalert timmerday start > end  ', )                           
+                log.info('get_timmerday_alert timmerday start > end  ', )                           
                 try:
                     
                     alertaction_value = int(parameters.get('alertaction_value',255))
-                    log.info('Telemetrypost: process_emailalert compare timmerday start > end  alertaction_value %s  ', alertaction_value)
+                    log.info('get_timmerday_alert compare timmerday start > end  alertaction_value %s  ', alertaction_value)
                     
 
                     
@@ -261,7 +261,7 @@ def get_timmerday_alert(parameters, value):
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                         text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
                         result['status']="active"
-                        log.info('Telemetrypost: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                        log.info('get_timmerday_alert timmerday active alerttext %s:%s  ', text_body, currenttime)
                         
                     #if currenttime >=  newday and currenttime <=  endtime:
                     elif currentsecs  >=  0 and currentsecs  <=  endsecs:
@@ -269,11 +269,11 @@ def get_timmerday_alert(parameters, value):
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                         text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
                         result['status']="active"
-                        log.info('Telemetrypost: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                        log.info('get_timmerday_alert timmerday active alerttext %s:%s  ', text_body, currenttime)
                         
                     else:
                         result['status']="inactive"
-                        log.info('Telemetrypost: process_emailalert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+                        log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
                         
                 except:
                     result['status']="error"
@@ -281,13 +281,39 @@ def get_timmerday_alert(parameters, value):
             #start time equals end time so do nothing        
             else:
                 result['status']="inactive"
-                log.info('Telemetrypost: process_emailalert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+                log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
 
 
+        return result
 
-    
+    except TypeError as e:
+        if debug_all: log.info('get_timmerday_alert: TypeError in process_emailaler %s:%s  ', text_body, value)
+        if debug_all: log.info('get_timmerday_alert: TypeError in process_emailaler %s:  ' % str(e))
 
-    return result
+    except ValueError as e:
+        if debug_all: log.info('get_timmerday_alert: ValueError in process_emailaler %s:%s  ', text_body, value)
+        if debug_all: log.info('get_timmerday_alert: TypeError in process_emailaler %s:  ' % str(e))
+
+    except AttributeError as e:
+        if debug_all: log.info('get_timmerday_alert: AttributeError in process_emailaler %s:%s  ', text_body, value)
+        if debug_all: log.info('get_timmerday_alert: AttributeError in process_emailaler %s:  ' % str(e))        
+        
+    except KeyError as e:
+        if debug_all: log.info('get_timmerday_alert: KeyError in process_emailaler %s:%s  ', text_body, value)
+        if debug_all: log.info('get_timmerday_alert: KeyError in process_emailaler %s:  ' % str(e))
+
+    except NameError as e:
+        if debug_all: log.info('get_timmerday_alert: NameError in process_emailaler %s:%s  ', text_body, value)
+        if debug_all: log.info('get_timmerday_alert: NameError in process_emailaler %s:  ' % str(e))     
+
+    except:
+        if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
+        e = sys.exc_info()[0]
+
+        if debug_all: log.info("Error: %s" % e)
+        mymessage='Error in geting get_timmerday_alert'
+        return result
+
 
   
 def get_sunriseset_alert(parameters, value):
