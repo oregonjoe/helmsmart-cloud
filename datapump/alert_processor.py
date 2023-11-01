@@ -30,16 +30,18 @@ log = logging
 def get_timmer_alert(parameters, value):
 
     #initialize return
-    result['message']=""
+    result={}
     result['status']="error"
+    result['message']=""
 
     return result
 
 def get_timmerday_alert(parameters, value):
 
     #initialize return
-    result['message']=""
+    result={}
     result['status']="error"
+    result['message']=""
 
     return result
 
@@ -47,13 +49,16 @@ def get_timmerday_alert(parameters, value):
 def get_sunriseset_alert(parameters, value):
 
     #initialize return
+    result={}
     result['status']="error"
+    result['message']=""
 
     return result
 
 def get_status_alert(parameters, value):
 
     #initialize return
+    result={}
     result['status']="error"
     result['message']=""
 
@@ -69,6 +74,7 @@ def get_alarms_alert(parameters, value):
 
     #initialize return
     #result['status']="error"
+    result={}
     result['status']="inactive"
     result['message']=""
 
