@@ -44,7 +44,7 @@ def get_timmerday_alert(parameters, value):
     result['message']=""
 
     # extract the series alarm paramterts
-    series_parameters = = parameters.get('series_1',"")
+    series_parameters = parameters.get('series_1',"")
     # check for errors
     if series_parameters == "":
         result['status']="error"
@@ -307,7 +307,7 @@ def get_status_alert(parameters, value):
     result['message']=""
 
     # extract the series alarm paramterts
-    series_parameters = = parameters.get('series_1',"")
+    series_parameters = parameters.get('series_1',"")
     # check for errors
     if series_parameters == "":
         result['status']="error"
@@ -333,7 +333,7 @@ def get_alarms_alert(parameters, value):
     alerttype = parameters.get('alerttype',"mean")
 
     # extract the series alarm paramterts
-    series_parameters = = parameters.get('series_1',"")
+    series_parameters = parameters.get('series_1',"")
     # check for errors
     if series_parameters == "":
         result['status']="error"
