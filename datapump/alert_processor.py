@@ -43,6 +43,250 @@ def get_timmerday_alert(parameters, value):
     result['status']="error"
     result['message']=""
 
+    # extract the series alarm paramterts
+    series_parameters = = parameters.get('series_1',"")
+    # check for errors
+    if series_parameters == "":
+        result['status']="error"
+        result['message']="missing series parameters"
+        return result
+
+    try:
+        
+        if str(series_parameters["alarmlow"]) != "off" :
+
+            try:
+                locationcity= parameters["locationcity"]
+
+            except:
+                locationcity= 'Seattle'
+
+                    
+            log.info('Telemetrypost: get timmer day location->%s  ', locationcity)
+            a = Astral()
+            if locationcity == 'Brookings':
+                    
+                location = a['Seattle']
+                location.name = 'Brookings'    
+
+            else:
+                location = a[locationcity]
+            
+            log.info("Telemetrypost: process_emailalert timmer day  Astral location: %s", location)
+
+            timezone = location.timezone
+
+            log.info('Telemetrypost: process_emailalert timmer day  timezone ->%s ',   timezone)
+
+            #get timezone for current sunset/sunrise location
+            mylocal = pytz.timezone(timezone)
+            #get current local time for sunset/sunrise location
+            #currenttime = datetime.datetime.now(mylocal)
+
+
+            currenttime = datetime.datetime.now()
+            log.info('Telemetrypost: process_emailalert timmerday alert %s  ', currenttime)
+
+            #need to make time value timezone aeare
+            utccurrenttime = pytz.utc.localize(currenttime)
+            log.info('Telemetrypost: process_emailalert timmerday utcstarttime secs %s  -', utccurrenttime)  
+            
+            # adjust time to sunset/sunrise local time
+            localcurrenttime = utccurrenttime.astimezone(mylocal)
+            #localendtime = endtime
+            # get seconds so we can convert to 24 hour clock
+            currentsecs = time.mktime(localcurrenttime.timetuple())
+           
+
+            log.info('Telemetrypost: process_emailalert timmerday localcurrenttime %s  -> %s', localcurrenttime, currentsecs)
+
+            startsecs = int(series_parameters["alarmlow"])
+            starttime = datetime.datetime.fromtimestamp(int(series_parameters["alarmlow"]))
+            log.info('Telemetrypost: process_emailalert timmerday starttime secs %s  -> %s', starttime, startsecs)
+            
+            #need to make time value timezone aeare
+            utcstarttime = pytz.utc.localize(starttime)
+            log.info('Telemetrypost: process_emailalert timmerday utcstarttime secs %s  -> %s', utcstarttime, startsecs)  
+
+            # adjust time to sunset/sunrise local time
+            #localstarttime = utcstarttime.astimezone(mylocal)
+            localstarttime = utcstarttime
+            # get seconds so we can convert to 24 hour clock
+            startsecs = time.mktime(localstarttime.timetuple())
+            
+            startutcsecs_local  = mylocal.localize(starttime, is_dst=None) # No daylight saving time
+            log.info('Telemetrypost: process_emailalert timmerday utcstarttime local time %s ',startutcsecs_local)
+            startutcsecs_utc = startutcsecs_local.astimezone(pytz.utc)
+            log.info('Telemetrypost: process_emailalert timmerday utcstarttime utc time %s ',startutcsecs_utc)                   
+            startutcsecs = time.mktime(startutcsecs_utc.timetuple())
+            log.info('Telemetrypost: process_emailalert timmerday startutcsecs %s  -> %s', startutcsecs, int(startutcsecs % (24*60*60)))
+
+            
+            #sunset_utc = sunset.astimezone(pytz.utc)
+            log.info('Telemetrypost: process_emailalert timmerday starttime %s  : %s  ', str(series_parameters["alarmlow"]), localstarttime)
+            log.info('Telemetrypost: process_emailalert timmerday start secs %s  -> %s', startsecs, int(startsecs % (24*60*60)))
+            
+
+            endsecs = int(series_parameters["alarmhigh"])
+            endtime = datetime.datetime.fromtimestamp(int(series_parameters["alarmhigh"]))
+            log.info('Telemetrypost: process_emailalert timmerday endtime secs %s  -> %s', endtime, endsecs)
+                                
+            #need to make time value timezone aeare
+            utcendtime = pytz.utc.localize(endtime)
+            log.info('Telemetrypost: process_emailalert timmerday utcendtime secs %s  -> %s', utcendtime, endsecs)  
+
+            # adjust time to sunset/sunrise local time
+            #localendtime = utcendtime.astimezone(mylocal)
+            localendtime = utcendtime
+            # get seconds so we can convert to 24 hour clock
+            endsecs = time.mktime(localendtime.timetuple())
+
+            endutcsecs_local  = mylocal.localize(endtime, is_dst=None) # No daylight saving time
+            log.info('Telemetrypost: process_emailalert timmerday utcendtime local time %s ',endutcsecs_local)
+            endutcsecs_utc = endutcsecs_local.astimezone(pytz.utc)
+            log.info('Telemetrypost: process_emailalert timmerday utcendtime utc time %s ',endutcsecs_utc)                   
+            endutcsecs = time.mktime(endutcsecs_utc.timetuple())
+            log.info('Telemetrypost: process_emailalert timmerday endutcsecs %s  -> %s', endutcsecs, int(endutcsecs % (24*60*60)))
+
+            
+            log.info('Telemetrypost: process_emailalert timmerday endtime %s : %s  ', str(series_parameters["alarmhigh"]), localendtime)
+            log.info('Telemetrypost: process_emailalert timmerday end secs %s  -> %s', endsecs, int(endsecs % (24*60*60)))
+
+
+            log.info('Telemetrypost: process_emailalert timmerday times %s:  %s:   %s  ', localcurrenttime, localstarttime, localendtime)
+
+            #modulo start and end epoch times by 24 hours since we repeat daily
+            #log.info('Telemetrypost: process_emailalert timmerday modulo secs times %s:  %s:   %s  ', int(currentsecs % (24*60*60))     , int(startsecs % (24*60*60)),  int(endsecs % (24*60*60)))  
+            #before we do that....
+            # be shure the epoch srart time is less then the end time or else things will get messed up
+            # start time must always be less then end time for this check.
+            """                    
+            if startsecs > endsecs:
+                tempsecs = endsecs
+                endsecs = startsecs
+                startsecs = tempsecs
+            """       
+            currentsecs = int(currentsecs % (24*60*60))     
+            startsecs = int(startsecs % (24*60*60))
+            endsecs = int(endsecs % (24*60*60))
+
+            startutcsecs = int(startutcsecs % (24*60*60))
+            endutcsecs = int(endutcsecs % (24*60*60))
+
+            
+            log.info('Telemetrypost: process_emailalert timmerday modulo secs times %s:  %s:   %s  ', currentsecs, startsecs, endsecs)          
+            # need to handle case when end time goes into the next day
+            # which will mean the end time is less then start time when we modulo by 24 hours
+            # if that happens we need to offset all epoch times so the endtime is at 23:54:54
+            # which will force all times back into the same 24 hour period
+            """                           
+            secoffset = 0
+            if endsecs < startsecs:
+                secoffset = endsecs
+                endsecs = (24*60*60)-1
+                startsecs = startsecs - secoffset
+            """       
+            #log.info('Telemetrypost: process_emailalert timmerday compare secs times %s:  %s:   %s  ', currentsecs, startsecs, endsecs)                    
+            #log.info('Telemetrypost: process_emailalert timmerday offset  %s current secs  %s:   ', secoffset, (currentsecs - secoffset))
+
+            log.info('Telemetry:process_emailalert timmerday Initialize Timmer array')
+                                
+            alertdefault_value = int(parameters.get('alertdefault_value',255))
+
+            for t_hours in range(0, 144):
+                #timmerArray.append(255)
+                timmerArray.append(alertdefault_value)
+
+
+            alertaction_value = int(parameters.get('alertaction_value',255))
+            log.info('Telemetrypost: process_emailalert compare timmerday start < end  alertaction_value %s  ', alertaction_value)
+                
+                
+            # if start secs < endsec then both within saem 24 hours so its a simple compare                       
+            if   startutcsecs <  endutcsecs:
+                for t_tenmin in range(0, 6*24):
+                    
+                    if t_tenmin > startutcsecs/(10*60) and t_tenmin < endutcsecs/(10*60) :
+                        timmerArray[t_tenmin] =alertaction_value
+
+                log.info('Telemetrypost: process_emailalert compare timmerday start < end  timmerArray %s  ', timmerArray)  
+
+            # if strart secs > end sec then we span different 24 hours over midnight so we need to compare before midnight and after        
+            elif   startutcsecs >  endutcsecs:                        
+                for t_tenmin in range(0, 6*24):
+                    
+                    if t_tenmin > startutcsecs/(10*60) or t_tenmin < endutcsecs/(10*60) :
+                        timmerArray[t_tenmin] =alertaction_value
+
+                log.info('Telemetrypost: process_emailalert compare timmerday start > end  timmerArray %s  ', timmerArray)
+                
+            # if start secs < endsec then both within saem 24 hours so its a simple compare
+            if   startsecs <  endsecs:
+                log.info('Telemetrypost: process_emailalert timmerday start < end  ', )                           
+                try:
+
+                    alertaction_value = int(parameters.get('alertaction_value',255))
+                    log.info('Telemetrypost: process_emailalert compare timmerday start < end  alertaction_value %s  ', alertaction_value)
+                    
+
+
+                    
+                    if currentsecs >=  startsecs and currentsecs <=  endsecs:
+                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                        result['status']="active"
+                        log.info('Telemetrypost: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                        
+                    else:
+                        result['status']="inactive"
+                        log.info('Telemetrypost: process_emailalert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+                        
+                except:
+                    result['status']="error"
+
+            # if strart secs > end sec then we span different 24 hours over midnight so we need to compare before midnight and after        
+            elif   startsecs >  endsecs:
+                log.info('Telemetrypost: process_emailalert timmerday start > end  ', )                           
+                try:
+                    
+                    alertaction_value = int(parameters.get('alertaction_value',255))
+                    log.info('Telemetrypost: process_emailalert compare timmerday start > end  alertaction_value %s  ', alertaction_value)
+                    
+
+                    
+                    #if currenttime >=  starttime and currenttime <=  midnight:
+                    if  currentsecs  >=  startsecs and currentsecs  <=  (24*60*60):
+                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                        result['status']="active"
+                        log.info('Telemetrypost: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                        
+                    #if currenttime >=  newday and currenttime <=  endtime:
+                    elif currentsecs  >=  0 and currentsecs  <=  endsecs:
+                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                        result['status']="active"
+                        log.info('Telemetrypost: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                        
+                    else:
+                        result['status']="inactive"
+                        log.info('Telemetrypost: process_emailalert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+                        
+                except:
+                    result['status']="error"
+
+            #start time equals end time so do nothing        
+            else:
+                result['status']="inactive"
+                log.info('Telemetrypost: process_emailalert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+
+
+
+    
+
     return result
 
   
@@ -62,9 +306,17 @@ def get_status_alert(parameters, value):
     result['status']="error"
     result['message']=""
 
+    # extract the series alarm paramterts
+    series_parameters = = parameters.get('series_1',"")
+    # check for errors
+    if series_parameters == "":
+        result['status']="error"
+        result['message']="missing series parameters"
+        return result
+
     text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-    text_body = text_body  + parameters[series_number]["alarmmode"] + ": " + parameters[series_number]["title"] + '\n'
-    text_body = text_body + 'is = ' + str(value) + " threshold: " + str(parameters[series_number]["alarmlow"]) + "/" + str(parameters[series_number]["alarmhigh"])+ " timestamp is:" + timestamp + '\n'
+    text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+    text_body = text_body + 'is = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + "/" + str(series_parameters["alarmhigh"])+ " timestamp is:" + timestamp + '\n'
     result['status']="status"
     result['message']=text_body
     return result
@@ -106,11 +358,11 @@ def get_alarms_alert(parameters, value):
             result['message']=text_body
         return result
             
-    if str(parameters['series_1']["alarmlow"]) != "off" :
+    if str(series_parameters["alarmlow"]) != "off" :
         try:
-            if float(value) <= float(parameters['series_1']["alarmlow"]):
+            if float(value) <= float(series_parameters["alarmlow"]):
                 text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                text_body = text_body  + series_parameters]["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                 text_body = text_body + 'is low - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
                 result['status']="active"
                 #http://www.helmsmart.net/getseriesdatabykey?serieskey=deviceid:0018E78B5121.sensor:engine_parameters_dynamic.source:08.instance:1.type:NULL.parameter:engine_temp.HelmSmart&devicekey=2a4731ac48c80ee3b4c17e7d74a6825f&startepoch=1405065555&endepoch=1405094365&resolution=60&format=csv
@@ -118,10 +370,10 @@ def get_alarms_alert(parameters, value):
             result['status']="inactive"
     
     
-    if str(parameters[series_number]["alarmhigh"]) != "off" :
+    if str(series_parameters["alarmhigh"]) != "off" :
         #if value != "" or value != "missing" or value != "error":
         try:
-            if float(value) >= float(parameters['series_1']["alarmhigh"]):
+            if float(value) >= float(series_parameters["alarmhigh"]):
                 text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
                 text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                 text_body = text_body + 'is high - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmhigh"]) + " timestamp is:" + timestamp + '\n'
