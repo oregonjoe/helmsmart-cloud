@@ -696,7 +696,7 @@ def process_message(alert_message):
 
             else:
               if len(sensorValues) != 0:
-                sensorValueUnits = convertunits(sensorValues[0], parameters['units'])
+                sensorValueUnits = convertunits(sensorValues[0], parameters['series_1']['units'])
                 if debug_all: log.info('process_message: sensor value units %s', sensorValueUnits)
             
     except KeyError as e:
