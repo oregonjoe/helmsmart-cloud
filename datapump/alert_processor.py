@@ -18,6 +18,7 @@ from array import *
 
 from astral import *
 from astral import LocationInfo
+from astral.geocoder import lookup, database
 
 # *******************************************************************
 # Debug Output defines
@@ -74,12 +75,13 @@ def get_timmerday_alert(parameters, value):
             if locationcity == 'Brookings':
                     
                 #location = a['Seattle']
-                location = LocationInfo("Seattle")
+                #location = LocationInfo("Seattle")
+                location = = lookup("Seattle", database())
                 #location.name = 'Brookings'    
 
             else:
                 #location = a[locationcity]
-                location = LocationInfo("Seattle")
+                location = = lookup("Seattle", database())
             
             log.info("get_timmerday_alert  Astral location: %s", location)
 
