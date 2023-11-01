@@ -104,10 +104,11 @@ def get_timmerday_alert(parameters, value):
             
             # adjust time to sunset/sunrise local time
             localcurrenttime = utccurrenttime.astimezone(mylocal)
+            log.info('get_timmerday_alert localcurrenttime secs %s  -', localcurrenttime)  
             #localendtime = endtime
             # get seconds so we can convert to 24 hour clock
             currentsecs = time.mktime(localcurrenttime.timetuple())
-           
+            log.info('get_timmerday_alert currentsecs %s  -', currentsecs)  
 
             log.info('get_timmerday_alert localcurrenttime %s  -> %s', localcurrenttime, currentsecs)
 
