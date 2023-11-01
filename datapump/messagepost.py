@@ -646,7 +646,9 @@ def process_message(alert_message):
         sensorValues='missing'
         #return mymessage
 
-    if debug_all: log.info('process_message: sensor values %s:%s', sensorValues)
+    if debug_all: log.info('process_message: sensor values %s', sensorValues)
+
+    
 
     
 # **************************************************************************************
@@ -680,8 +682,11 @@ def process_message(alert_message):
                     timmer_json['type'] = timmer_type
                     timmer_json['instance'] = timmer_instance
                     timmer_json['parameter'] = timmer_parameter
-                    timmer_json['timmer_array'] = timmer_array            
+                    timmer_json['timmer_array'] = timmer_array
 
+            else:
+              sensorValueUnits = convertunits(sensorValues, parameters['units'])
+              if debug_all: log.info('process_message: sensor value units %s', sensorValueUnits)
             
     except KeyError as e:
         #if debug_all: log.info('process_message: KeyError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
