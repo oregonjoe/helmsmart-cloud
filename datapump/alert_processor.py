@@ -178,7 +178,7 @@ def process_emailalert(text_body, parameters, timestamp, value):
                 
 
             #timmer event based on local sunrise sunset
-            else if alerttype == "sunriseset" or alerttype == "sunsetrise" or alerttype == "sunriseexpires" or alerttype == "sunsetexpires" or alerttype == "startsunrise" or alerttype == "startsunset":
+            elif alerttype == "sunriseset" or alerttype == "sunsetrise" or alerttype == "sunriseexpires" or alerttype == "sunsetexpires" or alerttype == "startsunrise" or alerttype == "startsunset":
                 log.info('alert_processor: get location %s  : %s', parameters[series_number]["alarmlow"], parameters[series_number]["alarmhigh"])
 
                 #use location to determine sunrise and sunset times
