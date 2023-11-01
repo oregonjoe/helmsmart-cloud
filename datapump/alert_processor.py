@@ -100,12 +100,13 @@ def get_timmerday_alert(parameters, value):
 
             #need to make time value timezone aeare
             utccurrenttime = pytz.utc.localize(currenttime)
-            log.info('get_timmerday_alert utcstarttime secs %s  -', utccurrenttime)  
+            log.info('get_timmerday_alert utcstarttime  %s  -', utccurrenttime)  
             
             # adjust time to sunset/sunrise local time
             localcurrenttime = utccurrenttime.astimezone(mylocal)
-            log.info('get_timmerday_alert localcurrenttime secs %s  -', localcurrenttime)  
+            log.info('get_timmerday_alert localcurrenttime  %s  -', localcurrenttime)  
             #localendtime = endtime
+            log.info('get_timmerday_alert localcurrenttime.timetuple() %s  -', localcurrenttime.timetuple())  
             # get seconds so we can convert to 24 hour clock
             currentsecs = time.mktime(localcurrenttime.timetuple())
             log.info('get_timmerday_alert currentsecs %s  -', currentsecs)  
@@ -118,7 +119,7 @@ def get_timmerday_alert(parameters, value):
             
             #need to make time value timezone aeare
             utcstarttime = pytz.utc.localize(starttime)
-            log.info('Telemetrypost: process_emailalert timmerday utcstarttime secs %s  -> %s', utcstarttime, startsecs)  
+            log.info('get_timmerday_alert utcstarttime secs %s  -> %s', utcstarttime, startsecs)  
 
             # adjust time to sunset/sunrise local time
             #localstarttime = utcstarttime.astimezone(mylocal)
