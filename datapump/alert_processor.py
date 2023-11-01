@@ -159,7 +159,7 @@ def process_emailalert(text_body, parameters, timestamp, value):
         # alerts are enabled so continue
         log.info('alert_processor process_emailalert: alert is enabled ' )
 
-        series_parameters = parameters.get['series_1',"")
+        series_parameters = parameters.get('series_1',"")
         # check for error/missing series parameters and retutn
         if series_parameters == "":
             return result
