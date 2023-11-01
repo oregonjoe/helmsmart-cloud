@@ -633,13 +633,18 @@ def process_message(alert_message):
     times={}
     timesiso={}
 
-    posttypecloud=None
+    #initialize current time
+    nowtime = datetime.datetime.now()
+    myTime = nowtime.strftime("%y%m%d%H%M%S")
+    
 
+    posttypecloud=None
 
     if posttype == "EmailAlertPost":
         posttypecloud = "EmailAlertPost-Cloud"
 
 
+        
     # get sensor values from influxdb
     sensorValues = getSensorValues(parameters)
     if sensorValues == None:
