@@ -129,13 +129,17 @@ def get_timmerday_alert(parameters, value):
 
             # adjust time to sunset/sunrise local time
             #localstarttime = utcstarttime.astimezone(mylocal)
-            localstarttime = utcstarttime.timetuple()
-            log.info('get_timmerday_alert localstarttime  %s ',localstarttime)
+            localstarttime = utcstarttime
+            lctt = localstarttime.timetuple()
+            log.info('get_timmerday_alert localstarttime.timetuple() %s  -', lctt)
+            t=(lctt.tm_year, lctt.tm_mon, lctt.tm_mday, lctt.tm_hour, lctt.tm_min, lctt.tm_sec, lctt.tm_wday, lctt.tm_yday, 0)
+            #log.info('get_timmerday_alert localstarttime  %s ',localstarttime)
             
             # get seconds so we can convert to 24 hour clock
-            startsecs = time.mktime(localstarttime.timetuple())
+            #startsecs = time.mktime(localstarttime.timetuple())
+            startsecs = time.mktime(t)
             #startsecs = time.mktime(localstarttime.tm_year, localstarttime.tm_mon, localstarttime.tm_mday, localstarttime.tm_hour, localstarttime.tm_min, localstarttime.tm_sec, time.mktimetm_wday, time.mktimetm_yday, 0)
-            log.info('get_timmerday_alert localstarttime  %s ',localstarttime)
+            log.info('get_timmerday_alert startsecs  %s ',startsecs)
                        
             startutcsecs_local  = mylocal.localize(starttime, is_dst=None) # No daylight saving time
             log.info('get_timmerday_alert utcstarttime local time %s ',startutcsecs_local)
@@ -161,13 +165,21 @@ def get_timmerday_alert(parameters, value):
             # adjust time to sunset/sunrise local time
             #localendtime = utcendtime.astimezone(mylocal)
             localendtime = utcendtime
+
+            lctt = localendtime.timetuple()
+            log.info('get_timmerday_alert localendtime.timetuple() %s  -', lctt)
+            t=(lctt.tm_year, lctt.tm_mon, lctt.tm_mday, lctt.tm_hour, lctt.tm_min, lctt.tm_sec, lctt.tm_wday, lctt.tm_yday, 0)
             # get seconds so we can convert to 24 hour clock
-            endsecs = time.mktime(localendtime.timetuple())
+            #endsecs = time.mktime(localendtime.timetuple())
+            endsecs = time.mktime(t)
+            log.info('get_timmerday_alert endsecs %s ', endsecs)
 
             endutcsecs_local  = mylocal.localize(endtime, is_dst=None) # No daylight saving time
             log.info('get_timmerday_alert utcendtime local time %s ',endutcsecs_local)
             endutcsecs_utc = endutcsecs_local.astimezone(pytz.utc)
-            log.info('get_timmerday_alert utcendtime utc time %s ',endutcsecs_utc)                   
+            log.info('get_timmerday_alert utcendtime utc time %s ',endutcsecs_utc)
+
+            
             endutcsecs = time.mktime(endutcsecs_utc.timetuple())
             log.info('get_timmerday_alert endutcsecs %s  -> %s', endutcsecs, int(endutcsecs % (24*60*60)))
 
