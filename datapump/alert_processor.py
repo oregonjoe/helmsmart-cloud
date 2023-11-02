@@ -41,7 +41,7 @@ def get_timmer_alert(parameters, value):
     text_body= "error in timmer alert"
     alerttype = parameters.get('alerttype',"mean")
 
-     log.info("get_timmer_alert  deviceID: %s", parameters['deviceid'])
+    log.info("get_timmer_alert  deviceID: %s", parameters['deviceid'])
 
     return result
 
@@ -389,7 +389,7 @@ def get_sunriseset_alert(parameters, value):
     text_body= "error in timmer alert"
     alerttype = parameters.get('alerttype',"mean")
 
-     log.info("get_timmer_alert  deviceID: %s", parameters['deviceid'])
+    log.info("get_sunriseset_alert  deviceID: %s", parameters['deviceid'])
 
     return result
 
@@ -403,7 +403,7 @@ def get_status_alert(parameters, value):
     text_body= "error in get status alert"
     alerttype = parameters.get('alerttype',"mean")
 
-     log.info("get_status_alert  deviceID: %s", parameters['deviceid'])
+    log.info("get_status_alert  deviceID: %s", parameters['deviceid'])
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
@@ -432,7 +432,7 @@ def get_alarms_alert(parameters, value):
     text_body= "error in get_alarms alert"
     alerttype = parameters.get('alerttype',"mean")
 
-     log.info("get_alarms_alert  deviceID: %s", parameters['deviceid'])
+    log.info("get_alarms_alert  deviceID: %s", parameters['deviceid'])
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
