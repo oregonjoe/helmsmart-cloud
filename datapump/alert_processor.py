@@ -58,6 +58,8 @@ def get_timmerday_alert(parameters, value):
         result['message']="missing series parameters"
         return result
 
+    log.info("get_timmerday_alert  deviceID: %s", parameters['deviceid'])
+
     try:
         
         if str(series_parameters["alarmlow"]) != "off" :
