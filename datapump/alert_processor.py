@@ -284,6 +284,7 @@ def get_timmerday_alert(parameters, value):
                         
                     else:
                         result['status']="inactive"
+                        text_body = "alert is inactive - current time is outside start/end"
                         log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
                         
                 except:
@@ -320,6 +321,7 @@ def get_timmerday_alert(parameters, value):
                         
                     else:
                         result['status']="inactive"
+                        text_body = "alert is inactive - current time is outside start/end"
                         log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
                         
                 except:
@@ -331,6 +333,7 @@ def get_timmerday_alert(parameters, value):
             #start time equals end time so do nothing        
             else:
                 result['status']="inactive"
+                text_body = "alert is inactive - current time is equal to start/end"
                 log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
 
         result['message']=text_body
