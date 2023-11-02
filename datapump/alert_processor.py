@@ -113,6 +113,9 @@ def get_timmerday_alert(parameters, value):
             #localendtime = endtime
             log.info('get_timmerday_alert localcurrenttime.timetuple() %s  -', localcurrenttime.timetuple())
 
+            #bad python 3 hack here...
+            #seems as if is_dst (daylight savings time) is =1 for our localcurrenttime the following time.mktime function throws a overflow error for no reason
+            #so we got to cleat the isdst vale in the time tupple before we call time.mktime
             lctt = localcurrenttime.timetuple()
             log.info('get_timmerday_alert localcurrenttime.timetuple() %s  -', lctt)
             t=(lctt.tm_year, lctt.tm_mon, lctt.tm_mday, lctt.tm_hour, lctt.tm_min, lctt.tm_sec, lctt.tm_wday, lctt.tm_yday, 0)  
@@ -133,6 +136,9 @@ def get_timmerday_alert(parameters, value):
 
             # adjust time to sunset/sunrise local time
             #localstarttime = utcstarttime.astimezone(mylocal)
+            #bad python 3 hack here...
+            #seems as if is_dst (daylight savings time) is =1 for our localcurrenttime the following time.mktime function throws a overflow error for no reason
+            #so we got to cleat the isdst vale in the time tupple before we call time.mktime
             localstarttime = utcstarttime
             lctt = localstarttime.timetuple()
             log.info('get_timmerday_alert localstarttime.timetuple() %s  -', lctt)
@@ -142,7 +148,6 @@ def get_timmerday_alert(parameters, value):
             # get seconds so we can convert to 24 hour clock
             #startsecs = time.mktime(localstarttime.timetuple())
             startsecs = time.mktime(t)
-            #startsecs = time.mktime(localstarttime.tm_year, localstarttime.tm_mon, localstarttime.tm_mday, localstarttime.tm_hour, localstarttime.tm_min, localstarttime.tm_sec, time.mktimetm_wday, time.mktimetm_yday, 0)
             log.info('get_timmerday_alert startsecs  %s ',startsecs)
                        
             startutcsecs_local  = mylocal.localize(starttime, is_dst=None) # No daylight saving time
@@ -261,7 +266,7 @@ def get_timmerday_alert(parameters, value):
                 
             # if start secs < endsec then both within saem 24 hours so its a simple compare
             if   startsecs <  endsecs:
-                log.info('Telemetrypost: process_emailalert timmerday start < end  ', )                           
+                log.info('get_timmerday_alert: process_emailalert timmerday start < end  ', )                           
                 try:
 
                     alertaction_value = int(parameters.get('alertaction_value',255))
@@ -275,13 +280,16 @@ def get_timmerday_alert(parameters, value):
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                         text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
                         result['status']="active"
-                        log.info('Telemetrypost: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                        log.info('get_timmerday_alert: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
                         
                     else:
                         result['status']="inactive"
                         log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
                         
                 except:
+                    if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
+                    e = sys.exc_info()[0]
+                    if debug_all: log.info("Error: %s" % e)
                     result['status']="error"
 
             # if strart secs > end sec then we span different 24 hours over midnight so we need to compare before midnight and after        
