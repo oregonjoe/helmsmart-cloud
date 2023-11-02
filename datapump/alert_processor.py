@@ -46,6 +46,7 @@ def get_timmerday_alert(parameters, value):
     result={}
     result['status']="error"
     result['message']=""
+    timmerArray = []
 
     text_body= "error in timmerday alert"
 
@@ -318,7 +319,8 @@ def get_timmerday_alert(parameters, value):
                 result['status']="inactive"
                 log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
 
-
+        result['message']=text_body
+        result['timmerArray']=timmerArray
         return result
 
     except TypeError as e:
