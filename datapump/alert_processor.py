@@ -124,10 +124,14 @@ def get_timmerday_alert(parameters, value):
 
             # adjust time to sunset/sunrise local time
             #localstarttime = utcstarttime.astimezone(mylocal)
-            localstarttime = utcstarttime
-            # get seconds so we can convert to 24 hour clock
-            startsecs = time.mktime(localstarttime.timetuple())
+            localstarttime = utcstarttime.timetuple()
+            log.info('get_timmerday_alert localstarttime  %s ',localstarttime)
             
+            # get seconds so we can convert to 24 hour clock
+            #startsecs = time.mktime(localstarttime.timetuple())
+            startsecs = time.mktime(localstarttime.tm_year, localstarttime.tm_mon, localstarttime.tm_mday, localstarttime.tm_hour, localstarttime.tm_min, localstarttime.tm_sec, time.mktimetm_wday, time.mktimetm_yday, 0)
+            log.info('get_timmerday_alert localstarttime  %s ',localstarttime)
+                       
             startutcsecs_local  = mylocal.localize(starttime, is_dst=None) # No daylight saving time
             log.info('get_timmerday_alert utcstarttime local time %s ',startutcsecs_local)
             startutcsecs_utc = startutcsecs_local.astimezone(pytz.utc)
