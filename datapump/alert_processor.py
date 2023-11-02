@@ -49,6 +49,7 @@ def get_timmerday_alert(parameters, value):
     timmerArray = []
 
     text_body= "error in timmerday alert"
+    alerttype = parameters.get('alerttype',"mean")
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
@@ -314,6 +315,9 @@ def get_timmerday_alert(parameters, value):
                         log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
                         
                 except:
+                    if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
+                    e = sys.exc_info()[0]
+                    if debug_all: log.info("Error: %s" % e)
                     result['status']="error"
 
             #start time equals end time so do nothing        
