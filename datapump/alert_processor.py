@@ -107,15 +107,20 @@ def get_timmerday_alert(parameters, value):
             log.info('get_timmerday_alert localcurrenttime  %s  -', localcurrenttime)
             #localcurrenttime.tm_isdst=0
             #localendtime = endtime
-            log.info('get_timmerday_alert localcurrenttime.timetuple() %s  -', localcurrenttime.timetuple())  
-            # get seconds so we can convert to 24 hour clock
-            currentsecs = time.mktime(localcurrenttime.timetuple())
+            log.info('get_timmerday_alert localcurrenttime.timetuple() %s  -', localcurrenttime.timetuple())
+
+            lctt = localcurrenttime.timetuple()
+            log.info('get_timmerday_alert localcurrenttime.timetuple() %s  -', lctt)
+            
+            # get seconds so we can convert to 24 hour clock 
+            currentsecs = time.mktime(lctt.tm_year, lctt.tm_mon, lctt.tm_mday, lctt.tm_hour, lctt.tm_min, lctt.tm_sec, lctt.tm_wday, lctt.tm_yday, 0)         
+            #currentsecs = time.mktime(localcurrenttime.timetuple())
             log.info('get_timmerday_alert currentsecs %s  -', currentsecs)  
 
             log.info('get_timmerday_alert localcurrenttime %s  -> %s', localcurrenttime, currentsecs)
 
             startsecs = int(series_parameters["alarmlow"])
-            starttime = datetime.datetime.fromtimestamp(int(series_parameters["alarmlow"]))
+            starttime = datetime.datetime.fromtimestamp(int(series_parameters["alarmlow"]))  
             log.info('get_timmerday_alert starttime secs %s  -> %s', starttime, startsecs)
             
             #need to make time value timezone aeare
@@ -128,8 +133,8 @@ def get_timmerday_alert(parameters, value):
             log.info('get_timmerday_alert localstarttime  %s ',localstarttime)
             
             # get seconds so we can convert to 24 hour clock
-            #startsecs = time.mktime(localstarttime.timetuple())
-            startsecs = time.mktime(localstarttime.tm_year, localstarttime.tm_mon, localstarttime.tm_mday, localstarttime.tm_hour, localstarttime.tm_min, localstarttime.tm_sec, time.mktimetm_wday, time.mktimetm_yday, 0)
+            startsecs = time.mktime(localstarttime.timetuple())
+            #startsecs = time.mktime(localstarttime.tm_year, localstarttime.tm_mon, localstarttime.tm_mday, localstarttime.tm_hour, localstarttime.tm_min, localstarttime.tm_sec, time.mktimetm_wday, time.mktimetm_yday, 0)
             log.info('get_timmerday_alert localstarttime  %s ',localstarttime)
                        
             startutcsecs_local  = mylocal.localize(starttime, is_dst=None) # No daylight saving time
