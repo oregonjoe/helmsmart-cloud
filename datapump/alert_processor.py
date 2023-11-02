@@ -111,9 +111,9 @@ def get_timmerday_alert(parameters, value):
 
             lctt = localcurrenttime.timetuple()
             log.info('get_timmerday_alert localcurrenttime.timetuple() %s  -', lctt)
-            
+            t=(lctt.tm_year, lctt.tm_mon, lctt.tm_mday, lctt.tm_hour, lctt.tm_min, lctt.tm_sec, lctt.tm_wday, lctt.tm_yday, 0)  
             # get seconds so we can convert to 24 hour clock 
-            currentsecs = time.mktime(lctt.tm_year, lctt.tm_mon, lctt.tm_mday, lctt.tm_hour, lctt.tm_min, lctt.tm_sec, lctt.tm_wday, lctt.tm_yday, 0)         
+            currentsecs = time.mktime(t)         
             #currentsecs = time.mktime(localcurrenttime.timetuple())
             log.info('get_timmerday_alert currentsecs %s  -', currentsecs)  
 
