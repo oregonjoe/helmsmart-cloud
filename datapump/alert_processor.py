@@ -39,7 +39,7 @@ def get_timmer_alert(parameters, value):
     result['status']="error"
     result['message']=""
 
-    timestamp = datetime.datetime.now()
+    timestamp = str(datetime.datetime.now())
 
     text_body= "error in timmer alert"
     alerttype = parameters.get('alerttype',"mean")
@@ -186,7 +186,7 @@ def get_timmerday_alert(parameters, value):
     text_body= "error in timmerday alert"
     alerttype = parameters.get('alerttype',"mean")
 
-    timestamp = datetime.datetime.now()
+    timestamp = str(datetime.datetime.now())
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
@@ -530,7 +530,7 @@ def get_sunriseset_alert(parameters, value):
     result['message']=""
     timmerArray = []
     
-    timestamp = datetime.datetime.now()
+    timestamp = str(datetime.datetime.now())
 
     text_body= "error in timmer alert"
     alerttype = parameters.get('alerttype',"mean")
@@ -627,7 +627,7 @@ def get_sunriseset_alert(parameters, value):
         #gets sunset sunrise for current location in local time not GMT or UTC                    
         #sunriseset = getSunRiseSet(location)
         #sunriseset = sun(location, timestamp)
-        sunriseset = sun(location.observer, timestamp)
+        sunriseset = sun(location.observer, datetime.datetime.now())
         log.info('get_sunriseset_alert: get sunrise-set type->%s  times-> %s ', alerttype , sunriseset)
         
         sunrise = sunriseset['sunrise']
@@ -1378,7 +1378,7 @@ def get_status_alert(parameters, value):
     result['status']="error"
     result['message']=""
 
-    timestamp = datetime.datetime.now()
+    timestamp = str(datetime.datetime.now())
 
     text_body= "error in get status alert"
     alerttype = parameters.get('alerttype',"mean")
@@ -1409,7 +1409,7 @@ def get_alarms_alert(parameters, value):
     result['status']="inactive"
     result['message']=""
 
-    timestamp = datetime.datetime.now()
+    timestamp = str(datetime.datetime.now())
     
     text_body= "error in get_alarms alert"
     alerttype = parameters.get('alerttype',"mean")
