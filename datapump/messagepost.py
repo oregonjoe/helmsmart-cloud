@@ -2015,11 +2015,36 @@ def getDimmerValues(alertParameters):
 def SendEMAILAlert(parameters, alarmresult):
 
 
+  try:    
+
+    # extract the series alarm paramterts
+    series_parameters = parameters.get('series_1',"")
+
+
+  except:
+    e = sys.exc_info()[0]   
+    if debug_all: log.info('SendEMAILAlert: Error %s:  ' % str(e))
+
+    
+
 # ****************************************************************
 # SEND SMS ALERT
 # *************************************************************************
 def SendSMSAlert(parameters, alarmresult):
 
+
+  try:    
+
+    # extract the series alarm paramterts
+    series_parameters = parameters.get('series_1',"")
+
+
+  except:
+    e = sys.exc_info()[0]   
+    if debug_all: log.info('SendSMSAlert: Error %s:  ' % str(e))
+
+
+  
 # ****************************************************************
 # SEND HelmSmart ALERT
 # Creates a 'SSEA00' message and puts into SQS Que for the sqs_poller theads to process
