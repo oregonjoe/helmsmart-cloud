@@ -421,6 +421,10 @@ def get_timmerday_alert(parameters, value):
                         result['status']="inactive"
                         text_body = "alert is inactive - current time is outside start/end"
                         log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+
+                except NameError as e:
+                    if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start < end %s:%s  ', text_body, value)
+                    if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start < end %s:  ' % str(e))
                         
                 except:
                     if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
@@ -453,12 +457,16 @@ def get_timmerday_alert(parameters, value):
                         text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
                         result['status']="active"
                         log.info('get_timmerday_alert timmerday active alerttext %s:%s  ', text_body, currenttime)
-                        
+
                     else:
                         result['status']="inactive"
                         text_body = "alert is inactive - current time is outside start/end"
                         log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
-                        
+
+                except NameError as e:
+                    if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start > end %s:%s  ', text_body, value)
+                    if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start > end %s:  ' % str(e))
+                               
                 except:
                     if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
                     e = sys.exc_info()[0]
