@@ -2140,8 +2140,15 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
     # end of message queing ,cls = MyEncoder
     mymessage='qued SQS message for Alerts updaate'
     """
+
   except NameError as e:
     if debug_all: log.info('process_message: NameError in SendHSAlert %s:  ' % str(e))
+    
+  except AttributeError as e:
+    if debug_all: log.info('process_message: AttributeError in SendHSAlert %s:  ' % str(e))
+
+  except TypeError as e:
+    if debug_all: log.info('process_message: TypeError in SendHSAlert %s:  ' % str(e))
         
   except:
     e = sys.exc_info()[0]   
