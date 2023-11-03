@@ -626,7 +626,8 @@ def get_sunriseset_alert(parameters, value):
 
         #gets sunset sunrise for current location in local time not GMT or UTC                    
         #sunriseset = getSunRiseSet(location)
-        sunriseset = sun(location, timestamp)
+        #sunriseset = sun(location, timestamp)
+        sunriseset = sun(location.observer, timestamp)
         log.info('get_sunriseset_alert: get sunrise-set type->%s  times-> %s ', alerttype , sunriseset)
         
         sunrise = sunriseset['sunrise']
@@ -1326,7 +1327,7 @@ def get_sunriseset_alert(parameters, value):
         if debug_all: log.info('get_sunriseset_alert: ValueError in sunrise %s  ', text_body)
         if debug_all: log.info('get_sunriseset_alert: NameError in sunrise %s:  ' % str(e)) 
         
-    except NameErrorr as e:
+    except NameError as e:
         if debug_all: log.info('get_sunriseset_alert: NameError in sunrise %s  ', text_body)
         if debug_all: log.info('get_sunriseset_alert: NameError in sunrise %s:  ' % str(e))
 
