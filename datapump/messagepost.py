@@ -2088,20 +2088,8 @@ def SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdat
         else:
             data['series_1']=make_HSAlert_json("series_1", parameters, "",  "missing",  alarmresult['status'])
 
-    """        
-    elif series_parameters.find("parameter:latlng.") > 0:
-
-        
-        if  series_lat_value != None:
-            data['series_1']=make_HSAlert_json("series_1", parameters, distance, series_lat_value, alarmresult['status'] )
-        else:
-            data['series_1']=make_HSAlert_json("series_1", parameters, "", "", "")
-            
-        if  series_lng_value != None:   
-            data['series_2']=make_HSAlert_json("series_1", parameters, distance, series_lng_value, alarmresult['status'] )
-        else:
-            data['series_2']=make_HSAlert_json("series_1", parameters, "", "", "")
-    """                  
+    # todo - add latlng precessing here
+                
     elif sensorValueUnits != None: 
         data['series_1']=make_HSAlert_json("series_1", parameters, "", sensorValueUnits, alarmresult['status'])
         
