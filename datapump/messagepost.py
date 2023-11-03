@@ -2050,7 +2050,7 @@ def SendSMSAlert(parameters, alarmresult):
 # Creates a 'SSEA00' message and puts into SQS Que for the sqs_poller theads to process
 # contains the alert messages and any switch or dimmer data
 # *************************************************************************
-def SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata):
+def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata):
 
 
   payload = {}
@@ -2313,7 +2313,7 @@ def process_message(alert_message):
           # ################################################################
   
           log.info('Posting to EmailAlertPost-Cloud: sending out HelmSmart Alert via SQS que = deviceid=%s', parameters['deviceid'])
-          SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata)
+          SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata)
 
 
 
