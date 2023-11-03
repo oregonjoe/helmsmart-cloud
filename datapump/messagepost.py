@@ -2293,13 +2293,13 @@ def process_message(alert_message):
           # #########################################################
           # second lets check for any switch data and get switch states
           # #########################################################
-          switchdata = getSwitchValues(parameters)
+          switchdata = getSwitchValues(parameters['EventTypeId'])
 
           log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
           # #########################################################
           # third lets check for any dimmer data and get dimmer states
           # #########################################################
-          dimmerdata = getDimmerValues(parameters)
+          dimmerdata = getDimmerValues(parameters['EventTypeId'])
 
           log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
 
