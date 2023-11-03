@@ -147,15 +147,15 @@ def get_timmer_alert(parameters, value):
         if debug_all: log.info('get_timmer_alert: ValueError in timmer once %s  ', text_body)
         if debug_all: log.info('get_timmer_alert: ValueError in timmer once %s:  ' % str(e))
 
-    except NameError, e:
+    except NameError as e:
         if debug_all: log.info('get_timmer_alert: NameError in timmer once %s  ', text_body)
         if debug_all: log.info('get_timmer_alert: NameError in timmer once %s:  ' % str(e))
 
-    except AttributeError, e:
+    except AttributeError as e:
         if debug_all: log.info('get_timmer_alert: AttributeError in timmer once %s  ', text_body)
         if debug_all: log.info('get_timmer_alert: AttributeError in timmer once %s:  ' % str(e))
 
-    except TypeError, e:
+    except TypeError as e:
         if debug_all: log.info('get_timmer_alert: TypeError in timmer once %s  ', text_body)
         if debug_all: log.info('get_timmer_alert: TypeError in timmer once %s:  ' % str(e))                     
         
