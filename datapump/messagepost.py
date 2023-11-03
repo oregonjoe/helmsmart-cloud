@@ -2050,7 +2050,7 @@ def SendSMSAlert(parameters, alarmresult):
 # Creates a 'SSEA00' message and puts into SQS Que for the sqs_poller theads to process
 # contains the alert messages and any switch or dimmer data
 # *************************************************************************
-def SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata)
+def SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata):
 
 
   payload = {}
