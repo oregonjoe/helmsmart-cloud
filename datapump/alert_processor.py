@@ -140,8 +140,8 @@ def get_timmer_alert(parameters, value):
                 result['status']="error 1.1"
 
 
-    result['message']=text_body              
-    return result
+        result['message']=text_body              
+        return result
 
     except ValueError as e:
         if debug_all: log.info('get_timmer_alert: ValueError in timmer once %s  ', text_body)
