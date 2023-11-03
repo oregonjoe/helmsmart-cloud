@@ -2060,6 +2060,8 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
+
+    nowtime = datetime.datetime.now()
   
     data['subject']= parameters['subject']
     data['interval']= parameters['Interval']
