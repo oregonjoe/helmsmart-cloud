@@ -528,6 +528,7 @@ def get_sunriseset_alert(parameters, value):
     result={}
     result['status']="error"
     result['message']=""
+    timmerArray = []
     
     timestamp = datetime.datetime.now()
 
