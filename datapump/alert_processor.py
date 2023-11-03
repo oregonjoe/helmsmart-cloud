@@ -19,6 +19,7 @@ from array import *
 from astral import *
 from astral import LocationInfo
 from astral.geocoder import lookup, database
+from astral.sun import sun
 
 # *******************************************************************
 # Debug Output defines
@@ -56,7 +57,7 @@ def get_timmer_alert(parameters, value):
 
     try:
         
-        if str(parameters[series_number]["alarmlow"]) != "off" :
+        if str(series_parameters["alarmlow"]) != "off" :
                       
             try:
                 locationcity= parameters["locationcity"]
@@ -123,7 +124,7 @@ def get_timmer_alert(parameters, value):
 
                 if currenttime >=  starttime and currenttime <=  endtime:
                     text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                    text_body = text_body  + series_parameters["alarmmode"] + ": " + parameters[series_number]["title"] + '\n'
+                    text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                     text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
                     result['status']="active"
                     log.info('get_timmer_alert: process_emailalert timmer alerttext %s:%s  ', text_body, currenttime)
@@ -339,7 +340,7 @@ def get_timmerday_alert(parameters, value):
             log.info('get_timmerday_alert times %s:  %s:   %s  ', localcurrenttime, localstarttime, localendtime)
 
             #modulo start and end epoch times by 24 hours since we repeat daily
-            #log.info('Telemetrypost: process_emailalert timmerday modulo secs times %s:  %s:   %s  ', int(currentsecs % (24*60*60))     , int(startsecs % (24*60*60)),  int(endsecs % (24*60*60)))  
+            #log.info('get_sunriseset_alert: process_emailalert timmerday modulo secs times %s:  %s:   %s  ', int(currentsecs % (24*60*60))     , int(startsecs % (24*60*60)),  int(endsecs % (24*60*60)))  
             #before we do that....
             # be shure the epoch srart time is less then the end time or else things will get messed up
             # start time must always be less then end time for this check.
@@ -369,8 +370,8 @@ def get_timmerday_alert(parameters, value):
                 endsecs = (24*60*60)-1
                 startsecs = startsecs - secoffset
             """       
-            #log.info('Telemetrypost: process_emailalert timmerday compare secs times %s:  %s:   %s  ', currentsecs, startsecs, endsecs)                    
-            #log.info('Telemetrypost: process_emailalert timmerday offset  %s current secs  %s:   ', secoffset, (currentsecs - secoffset))
+            #log.info('get_sunriseset_alert: process_emailalert timmerday compare secs times %s:  %s:   %s  ', currentsecs, startsecs, endsecs)                    
+            #log.info('get_sunriseset_alert: process_emailalert timmerday offset  %s current secs  %s:   ', secoffset, (currentsecs - secoffset))
 
             log.info('get_timmerday_alert Initialize Timmer array')
                                 
@@ -535,7 +536,820 @@ def get_sunriseset_alert(parameters, value):
 
     log.info("get_sunriseset_alert  deviceID: %s", parameters['deviceid'])
 
+
+    # extract the series alarm paramterts
+    series_parameters = parameters.get('series_1',"")
+    # check for errors
+    if series_parameters == "":
+        result['status']="error"
+        result['message']="missing series parameters"
+        return result
+
+    # Check if there is a duration and offset
+    alertduration = 0
+    alertoffset = 0
+    try:
+        log.info('get_sunriseset_alert: get sunrise-set duration parameter %s  ', parameters["alertduration"])
+        log.info('get_sunriseset_alert: get sunrise-set offset parameter %s  ', parameters["alertoffset"])
+
+        alertduration = durationsec(parameters["alertduration"])
+        alertoffset = durationsec(parameters["alertoffset"])
+        alertdefault_value = int(parameters.get('alertdefault_value',255))
+        
+    except:
+        alertduration = 0
+        alertoffset = 0
+        alertdefault_value = 255
+
+    log.info('get_sunriseset_alert: get sunrise-set duration parameter %s  ', alertduration)
+    log.info('get_sunriseset_alert: get sunrise-set offset parameter %s  ', alertoffset)
+    log.info('get_sunriseset_alert: get sunrise-set alertdefault_value parameter %s  ', alertdefault_value)
+
+    
+    log.info('Telemetry:process_emailalert sunrise sunset Initialize Timmer array')
+
+    for t_hours in range(0, 144):
+        #timmerArray.append(255)
+        timmerArray.append(alertdefault_value)
+    
+    try:
+        sunriseset={}
+
+        """
+        location={}
+        location['city']= 'San Francisco'
+        location['lat']= 0
+        location['lng']= 0
+                  
+        try:
+            location['lat'] =float(series_parameters["alarmlow"])
+            location['lat'] =float(series_parameters["alarmhigh"])
+
+        except:
+            location['lat']= 0
+            location['lng']= 0
+            
+            if alerttype == "startsunrise" or alerttype == "startsunset" :
+                location['city']= series_parameters["alarmhigh"]
+            else:
+                location['city']= series_parameters["alarmlow"]
+        """
+
+        
+        try:
+            locationcity= parameters["locationcity"]
+
+        except:
+            locationcity= 'Seattle'
+
+                
+        log.info('get_timmerday_alert location->%s  ', locationcity)
+
+
+        #a = Astral()
+        if locationcity == 'Brookings':
+                
+            #location = a['Seattle']
+            #location = LocationInfo("Seattle")
+            location  = lookup("Seattle", database())
+            #location.name = 'Brookings'    
+
+        else:
+            #location  = lookup("Seattle", database())
+            try:
+                location  = lookup(locationcity, database())
+            except:
+                location  = lookup("Seattle", database())
+
+        log.info("get_timmerday_alert  Astral location: %s", location)
+
+        #gets sunset sunrise for current location in local time not GMT or UTC                    
+        #sunriseset = getSunRiseSet(location)
+        sunriseset = sun(location, timestamp)
+        log.info('get_sunriseset_alert: get sunrise-set type->%s  times-> %s ', alerttype , sunriseset)
+        
+        sunrise = sunriseset['sunrise']
+        sunset =  sunriseset['sunset']
+        #timezone =  sunriseset['timezone']
+        timezone = location.timezone
+        
+        result['sunrise']=str(sunrise)
+        result['sunset']=str(sunset)
+                    
+        log.info('get_sunriseset_alert: process_emailalert sunriseset times %s:%s timezone ->%s ',  sunrise, sunset, timezone)
+
+        #get timezone for current sunset/sunrise location
+        mylocal = pytz.timezone(timezone)
+        #get current local time for sunset/sunrise location
+        currenttime = datetime.datetime.now(mylocal)
+
+        #pushsmart gateways use UTC times for timmer compares
+        sunrise_utc = sunrise.astimezone(pytz.utc)
+        sunset_utc = sunset.astimezone(pytz.utc)
+        log.info('get_sunriseset_alert: process_emailalert sunriseset times UTC %s:%s ',  sunrise_utc, sunset_utc)
+
+
+
+        
+        #currenttime = currenttime.replace(year=2000, month=1, day=1)
+        #currentsecounds = (mytime.hour * 60 * 60) + (mytime.minute * 60)  + mytime.second
+        #log.info('get_sunriseset_alert: process_emailalert sunriseset alert %s:%s  ', str(series_parameters["alarmlow"]), currentsecounds)
+        log.info('get_sunriseset_alert: process_emailalert sunriseset currenttime %s ', currenttime)    
+        #currenttime = todayAt (mytime.hour, mytime.minute , mytime.second)
+
+        #starttime = datetime.datetime.now(int(series_parameters["alarmlow"]))
+        #sunrisetime = datetime.datetime.fromtimestamp(sunrise)
+        sunrisetime = sunrise
+        #deltatime = currenttime - sunrisetime
+        log.info('get_sunriseset_alert: process_emailalert sunriseset  current->%s  sunrise->%s  ', currenttime, sunrisetime)
+        if currenttime >= sunrisetime:
+            log.info('get_sunriseset_alert: process_emailalert sunriseset  sun is up %s',  currenttime)
+        
+        #sunrisetime = sunrisetime.replace(year=2000, month=1, day=1)
+        #starthour = int(int(sunrise)  % (60*60))
+        #startmin =int((int(sunrise) % (60*60)) / 60)
+        #startsec= int(sunrise) % (60)
+        log.info('get_sunriseset_alert: process_emailalert sunriseset sunrisetime %s:%s  ', currenttime, sunrisetime)  
+        #starttime = todayAt (starthour, startmin, startsec)
+        #starttime = todayAt(mytime.hour, mytime.minute , mytime.second)
+        
+        #endtime = datetime.datetime.now(int(series_parameters["alarmhigh"]))
+        #sunsettime = datetime.datetime.fromtimestamp(sunset)
+        sunsettime = sunset
+        #deltatime = currenttime - sunsettime
+        log.info('get_sunriseset_alert: process_emailalert sunriseset   current->%s  sunset->%s  ', currenttime, sunsettime)
+        if currenttime >= sunsettime:
+            log.info('get_sunriseset_alert: process_emailalert sunriseset  sun is down %s', currenttime)
+
+            
+        #sunsettime = sunsettime.replace(year=2000, month=1, day=1)
+        #endhour = int(int(sunset) % (60*60))
+        #endmin =int((int(sunset) % (60*60)) / 60)
+        #endsec= int(sunset) % (60)
+        log.info('get_sunriseset_alert: process_emailalert sunriseset sunsettime %s:%s  ', currenttime,  sunsettime)  
+        #endtime = todayAt (endhour, endmin, endsec)
+        #endtime = todayAt (mytime.hour, mytime.minute , mytime.second)
+
+        log.info('get_sunriseset_alert: process_emailalert sunriseset times %s  :  %s  :  %s  ', currenttime, sunrisetime, sunsettime)           
+
+        if currenttime >= sunrisetime and currenttime < sunsettime:
+            log.info('get_sunriseset_alert: process_emailalert sunriseset  sun is up 2 %s',  currenttime)
+
+        try:
+
+            #The sunset and sunrise times have been adjusted to not change during the current local time
+            #They only change at midnight
+            #
+            if alerttype == "sunriseset":
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times %s  :  %s  :  %s  ', currenttime, sunrisetime, sunsettime)
+                midnighttime = currenttime.replace(hour=23, minute=59, second=59)
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times midnight %s  ', midnighttime)
+                newdaytime = currenttime.replace(hour=0, minute=0, second=0)
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times midnight %s  ', newdaytime)
+
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times alertoffset %s  ', alertoffset)
+                if alertoffset != 0:
+                    sunrisetime = sunrisetime + datetime.timedelta(seconds = alertoffset)
+                    sunsettime = sunsettime + datetime.timedelta(seconds = -alertoffset)
+                    log.info('get_sunriseset_alert: process_emailalert adjusted sun rise->set times %s  :  %s  :  %s  ', alertoffset, sunrisetime, sunsettime)
+
+
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times alertduration %s  ', alertduration)
+                if alertduration != 0:
+                    sunsettime = sunrisetime + datetime.timedelta(seconds = alertduration)
+                    log.info('get_sunriseset_alert: process_emailalert adjusted sun rise->set times %s  :  %s  :  %s  ', alertduration, sunrisetime, sunsettime)
+
+                sunrisesecs = int(time.mktime(sunrisetime.timetuple()) % (60*60*24))
+                sunsetsecs = int(time.mktime(sunsettime.timetuple()) % (60*60*24))
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise ->set times  seconds %s  ', sunrisesecs)
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise ->set times  seconds %s  ', sunsetsecs)
+
+                sunrise_utc_sec = int(time.mktime(sunrise_utc.timetuple()) % (60*60*24))
+                sunset_utc_sec = int(time.mktime(sunset_utc.timetuple()) % (60*60*24))
+                log.info('get_sunriseset_alert: process_emailalert sunriseset seconds UTC %s:%s ',  sunrise_utc_sec, sunset_utc_sec)
+                
+                alertaction_value = int(parameters.get('alertaction_value',255))
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise ->set times sunset alertaction_value %s  ', alertaction_value)
+
+                if sunrise_utc_sec > sunset_utc_sec:
+                    for t_tenmin in range(0, 6*24):                           
+                        if t_tenmin <= sunset_utc_sec/(10*60):
+                            timmerArray[t_tenmin] = alertaction_value                                 
+                        elif t_tenmin >= sunrise_utc_sec/(10*60):
+                            timmerArray[t_tenmin] =alertaction_value    
+                else:
+                    for t_tenmin in range(0, 6*24):
+                        if t_tenmin >= sunrise_utc_sec/(10*60) and t_tenmin <= sunset_utc_sec/(10*60) :                                   
+                            timmerArray[t_tenmin] =alertaction_value
+
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise ->set times timmerArray %s  ', timmerArray)                            
+                    
+                #current time can be greater then sunset and greater then sunrise on current day
+                if currenttime >=  sunrisetime and currenttime <=  sunsettime:
+                    text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                    text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                    text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunrisetime) + " timestamp is:" + timestamp + '\n'
+                    result['status']="active"
+                    log.info('get_sunriseset_alert: process_emailalert sunriseset sun is up alerttext %s:%s  ', text_body, currenttime)
+                    
+                else:
+                    result['status']="inactive"
+
+            if alerttype == "sunsetrise":
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times %s  :  %s  :  %s  ', currenttime, sunrisetime, sunsettime)
+                midnighttime = currenttime.replace(hour=23, minute=59, second=59)
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times midnight %s  ', midnighttime)
+                newdaytime = currenttime.replace(hour=0, minute=0, second=0)
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times midnight %s  ', newdaytime)
+
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times alertoffset %s  ', alertoffset)
+                if alertoffset != 0:
+                    sunsettime = sunsettime + datetime.timedelta(seconds = alertoffset)
+                    sunrisetime = sunrisetime + datetime.timedelta(seconds = -alertoffset)
+                    log.info('get_sunriseset_alert: process_emailalert adjusted sun set ->rise times %s  :  %s  :  %s  ', alertoffset, sunrisetime, sunsettime)
+
+                #log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times alertduration %s  ', alertduration)
+
+                sunrisesecs = int(time.mktime(sunrisetime.timetuple()) % (60*60*24))
+                sunsetsecs = int(time.mktime(sunsettime.timetuple()) % (60*60*24))
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times sunrise seconds %s  ', sunrisesecs)
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times sunset seconds %s  ', sunsetsecs)
+
+
+                sunrise_utc_sec = int(time.mktime(sunrise_utc.timetuple()) % (60*60*24))
+                sunset_utc_sec = int(time.mktime(sunset_utc.timetuple()) % (60*60*24))
+                log.info('get_sunriseset_alert: process_emailalert sunriseset seconds UTC %s:%s ',  sunrise_utc_sec, sunset_utc_sec)
+                
+                alertaction_value = int(parameters.get('alertaction_value',255))
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times sunset alertaction_value %s  ', alertaction_value)
+                """                            
+                for t_tenmin in range(0, 6*24):
+                    
+                    #if t_tenmin > sunsetsecs/(10*60):                               
+                    if t_tenmin > sunset_utc_sec/(10*60):
+                        timmerArray[t_tenmin] = alertaction_value
+                    #elif t_tenmin < sunrisesecs/(10*60):                                    
+                    elif t_tenmin < sunrise_utc_sec/(10*60):
+                        timmerArray[t_tenmin] =alertaction_value
+                """   
+                #sunset to sun rise
+                if sunrise_utc_sec < sunset_utc_sec:
+                    for t_tenmin in range(0, 6*24):                           
+                        if t_tenmin >= sunset_utc_sec/(10*60):
+                            timmerArray[t_tenmin] = alertaction_value                                 
+                        elif t_tenmin <= sunrise_utc_sec/(10*60):
+                            timmerArray[t_tenmin] =alertaction_value    
+                else:
+                    for t_tenmin in range(0, 6*24):
+                        if t_tenmin >= sunset_utc_sec/(10*60) and t_tenmin <= sunrise_utc_sec/(10*60) :                                   
+                            timmerArray[t_tenmin] =alertaction_value
+
+                        
+
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times timmerArray %s  ', timmerArray)
+
+                
+                #current time can be greater then sunset and greater then sunrise on current day
+                if alertduration == 0:
+                    if currenttime < midnighttime and  currenttime >=  sunsettime:
+                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunsettime) + " timestamp is:" + timestamp + '\n'
+                        result['status']="active"
+                        log.info('get_sunriseset_alert: process_emailalert sunsetrise sun is down alerttext %s:%s  ', text_body, currenttime)
+                    
+                    #current time can be before sunrise on the next day
+                    elif currenttime > newdaytime and currenttime <= sunrisetime:                                
+                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunsettime) + " timestamp is:" + timestamp + '\n'
+                        result['status']="active"
+                        log.info('get_sunriseset_alert: process_emailalert sunsetrise sun is down alerttext %s:%s  ', text_body, currenttime)
+                        
+                    else:
+                        result['status']="inactive"
+
+               #if using duration then we just add to current sunset time 
+                elif alertduration != 0:
+                    
+                    log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times alertduration %s  ', alertduration)
+                    sunrisetime = sunsettime + datetime.timedelta(seconds = alertduration)
+                    log.info('get_sunriseset_alert: process_emailalert adjusted sun set ->rise times %s  :  %s  :  %s  ', alertduration, sunsettime, sunrisetime )                              
+                    
+                    #current time can be before sunrise on the next day
+                    if currenttime > sunsettime and currenttime <= sunrisetime:                                
+                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunsettime) + " timestamp is:" + timestamp + '\n'
+                        result['status']="active"
+                        log.info('get_sunriseset_alert: process_emailalert sunsetrise sun is down alerttext %s:%s  ', text_body, currenttime)
+                        
+                    else:
+                        result['status']="inactive"
+
+            # check for time greater then sunset but less then specified expires time
+            if alerttype == "sunsetexpires" or alerttype == "sunriseexpires":
+                #endsecs is based on UTC time and not local to sunsire/sunset
+                endsecs = int(series_parameters["alarmhigh"])
+                #get UTC time
+                endtime = datetime.datetime.fromtimestamp(endsecs)
+                log.info('get_sunriseset_alert: process_emailalert sunsetriseexpires endtime secs %s  -> %s', endtime, endsecs)
+
+                #need to make time value timezone aeare
+                utcendtime = pytz.utc.localize(endtime)
+                log.info('get_sunriseset_alert: process_emailalert sunsetriseexpires endtime secs %s  -> %s', utcendtime, endsecs)
+
+                #determine end time in UTC used by gateway timmers which are based on UTC
+                endutcsecs_local  = mylocal.localize(endtime, is_dst=None) # No daylight saving time
+                log.info('get_sunriseset_alert: process_emailalert sunsetriseexpires endtime  utcendtime local time %s ',endutcsecs_local)
+                endutcsecs_utc = endutcsecs_local.astimezone(pytz.utc)
+                log.info('get_sunriseset_alert: process_emailalert sunsetriseexpires endtime  utcendtime utc time %s ',endutcsecs_utc)                   
+                endutcsecs = time.mktime(endutcsecs_utc.timetuple())
+                log.info('get_sunriseset_alert: process_emailalert sunsetriseexpires endtime  endutcsecs %s  -> %s', endutcsecs, int(endutcsecs % (24*60*60)))
+
+
+
+                sunrise_utc_sec = int(time.mktime(sunrise_utc.timetuple()) % (60*60*24))
+                sunset_utc_sec = int(time.mktime(sunset_utc.timetuple()) % (60*60*24))
+                log.info('get_sunriseset_alert: process_emailalert sunsetriseexpires seconds UTC %s:%s ',  sunrise_utc_sec, sunset_utc_sec)
+                
+
+                # adjust time to sunset/sunrise local time
+                #localendtime = utcendtime.astimezone(mylocal)
+                localendtime = endtime
+                # get seconds so we can convert to 24 hour clock
+                localendseconds = time.mktime(localendtime.timetuple())
+                log.info('get_sunriseset_alert: process_emailalert sunsetriseexpires localendtime %s -> %s ', localendtime, localendseconds)     
+                #only need 24 hours out of UTC time
+                log.info('get_sunriseset_alert: process_emailalert sunsetriseexpires end secs %s  -> %s', localendseconds, int(localendseconds % (24*60*60)))
+
+                #currenttime is based on location for sunset/sunrise and not UTC
+                alertendtime = currenttime.replace(hour=0, minute=0, second=0)
+                alertendtime =alertendtime + datetime.timedelta(seconds = int(localendseconds % (24*60*60)))
+                
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->expires times %s  :  %s  :  %s  ', currenttime, sunsettime, alertendtime)
+
+                midnighttime = currenttime.replace(hour=23, minute=59, second=59)
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->expires times midnight %s  ', midnighttime)
+                newdaytime = currenttime.replace(hour=0, minute=0, second=0)
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->expires times newdaytime %s  ', newdaytime)
+
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->expires times alertoffset %s  ', alertoffset)
+                if alertoffset != 0:
+                    sunsettime = sunsettime + datetime.timedelta(seconds = alertoffset)
+                    sunrisetime = sunrisetime + datetime.timedelta(seconds = -alertoffset)
+                    log.info('get_sunriseset_alert: process_emailalert adjusted sun set ->expires times %s  :  %s  :  %s  ', alertoffset, sunsettime, alertendtime)
+
+                #log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times alertduration %s  ', alertduration)
+
+
+
+                # check from sunset to expire time
+                if alerttype == "sunsetexpires":
+
+                    #create timmer array
+                    alertendutcsecs = int(endutcsecs % (60*60*24))
+                    log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires->end times  utc seconds %s  ', alertendutcsecs)
+                    log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires ->set times  utc seconds %s  ', sunset_utc_sec)
+
+                    
+                    alertaction_value = int(parameters.get('alertaction_value',255))
+                    log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires -> sunset alertaction_value %s  ', alertaction_value)
+                    
+                    log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires ->alertendtime %s  sunsettime %s', alertendtime, sunsettime)
+
+                    try:
+                        #Timmer sunset to expires
+                        if alertendutcsecs < sunset_utc_sec:
+                            log.info('get_sunriseset_alert: process_emailalert timmer array sunsetexpires ->alertendutcsecs %s  sunsettime %s', alertendutcsecs, sunset_utc_sec)
+                            for t_tenmin in range(0, 6*24):                           
+                                if t_tenmin >= sunset_utc_sec/(10*60):
+                                    timmerArray[t_tenmin] = alertaction_value                                 
+                                elif t_tenmin <= alertendutcsecs/(10*60):
+                                    timmerArray[t_tenmin] =alertaction_value    
+                        else:
+                            for t_tenmin in range(0, 6*24):
+                                if t_tenmin >= sunset_utc_sec/(10*60) and t_tenmin <= alertendutcsecs/(10*60) :                                   
+                                    timmerArray[t_tenmin] =alertaction_value
+
+                    except UnboundLocalError, e:
+                        #log.info('get_sunriseset_alert: UnboundLocalErrorr in sunsetexpires   ')
+                        log.info('get_sunriseset_alert: UnboundLocalErrorr in sunsetexpires %s:  ' % str(e))
+                        pass
+                        
+                    except:
+                        e = sys.exc_info()[0]
+                        log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires ERROR %s  ' % e)
+                        pass
+
+                    log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires -> timmerArray %s  ', timmerArray)
+
+
+
+                    
+                    #current time can be greater then sunset and greater then sunrise on current day
+                    if alertendtime > sunsettime:
+
+                        alertendsecs = int(time.mktime(alertendtime.timetuple()) % (60*60*24))
+                        sunsetsecs = int(time.mktime(sunsettime.timetuple()) % (60*60*24))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires->end times  seconds %s  ', alertendsecs)
+                        log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires ->set times  seconds %s  ', sunsetsecs)
+
+
+                        alertaction_value = int(parameters.get('alertaction_value',255))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires -> sunset alertaction_value %s  ', alertaction_value)
+                        
+
+                
+                        if currenttime < midnighttime and  currenttime >=  sunsettime and  currenttime <  alertendtime:
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunsettime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert sunsetexpires sun is down and less then alertend time %s:%s  ', text_body, currenttime)
+                        else:
+                            result['status']="inactive"
+
+                    # if alertendtime is less then sunset time thne alert runs from current day after sunset till next day
+                    if alertendtime < sunsettime:
+
+                        alertendsecs = int(time.mktime(alertendtime.timetuple()) % (60*60*24))
+                        sunsetsecs = int(time.mktime(sunsettime.timetuple()) % (60*60*24))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires->end times  seconds %s  ', alertendsecs)
+                        log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires ->set times  seconds %s  ', sunsetsecs)
+                        alertaction_value = int(parameters.get('alertaction_value',255))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunsetexpires -> sunset alertaction_value %s  ', alertaction_value)
+                        
+
+                        
+                        #current time can be before sunrise on the next day
+                        if currenttime > sunsettime and currenttime <= midnighttime:                                
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunsettime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert sunsetexpires sun is down alerttext %s:%s  ', text_body, currenttime)
+                            
+                        elif currenttime > newdaytime and currenttime <= alertendtime:                                
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunsettime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert sunsetexpires sun is down alerttext %s:%s  ', text_body, currenttime)
+                            
+                        else:
+                            result['status']="inactive"
+
+                # check from sunsire to expire time
+                elif alerttype == "sunriseexpires" : 
+                    # just going to check the case when current time is greater then sunrise and less then endtime
+                    # This will only work between sunrise and midnight
+
+
+                    alertendutcsecs = int(endutcsecs % (60*60*24))
+                    log.info('get_sunriseset_alert: process_emailalert compare sunriseexpires->end times  utc seconds %s  ', alertendutcsecs)
+                    log.info('get_sunriseset_alert: process_emailalert compare sunriseexpires ->rise times  utc seconds %s  ', sunrise_utc_sec)
+
+                    
+                    alertaction_value = int(parameters.get('alertaction_value',255))
+                    log.info('get_sunriseset_alert: process_emailalert compare sunriseexpires -> sunset alertaction_value %s  ', alertaction_value)
+                    
+
+
+                    #Timmer sunset to expires
+                    if alertendutcsecs < sunrise_utc_sec:
+                        for t_tenmin in range(0, 6*24):                           
+                            if t_tenmin >= sunrise_utc_sec/(10*60):
+                                timmerArray[t_tenmin] = alertaction_value                                 
+                            elif t_tenmin <= alertendutcsecs/(10*60):
+                                timmerArray[t_tenmin] =alertaction_value    
+                    else:
+                        for t_tenmin in range(0, 6*24):
+                            if t_tenmin >= sunrise_utc_sec/(10*60) and t_tenmin <= alertendutcsecs/(10*60) :                                   
+                                timmerArray[t_tenmin] =alertaction_value
+
+
+
+                    log.info('get_sunriseset_alert: process_emailalert compare sunriseexpires -> timmerArray %s  ', timmerArray)
+
+
+                    
+                    if alertendtime > sunrisetime:
+
+                        alertendsecs = int(time.mktime(alertendtime.timetuple()) % (60*60*24))
+                        sunrisesecs = int(time.mktime(sunrisetime.timetuple()) % (60*60*24))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunriseexpires->end times  seconds %s  ', alertendsecs)
+                        log.info('get_sunriseset_alert: process_emailalert compare sunriseexpires ->rise times  seconds %s  ', sunrisesecs)
+                        alertaction_value = int(parameters.get('alertaction_value',255))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunriseexpires -> sunset alertaction_value %s  ', alertaction_value)
+                        
+                        for t_tenmin in range(0, 6*24):
+                            
+                            if t_tenmin > sunrisesecs/(10*60) and t_tenmin < alertendsecs/(10*60) :
+                                timmerArray[t_tenmin] =alertaction_value
+
+                        log.info('get_sunriseset_alert: process_emailalert compare sunriseexpires -> timmerArray %s  ', timmerArray)
+
+                        
+                        if  currenttime <  alertendtime:
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunrisetime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert sunsetexpires sun is up and less then alertend time %s:%s  ', text_body, currenttime)
+                        else:
+                            result['status']="inactive"
+                    """
+                    #if end time is less thne current sunset then it for the next day after midnight
+                    if alertendtime < sunrisetime:
+                        #current time can be before sunrise on the next day
+                        if currenttime > newdaytime and currenttime <= alertendtime:                                
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunrisetime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert sunsetexpires sun is up alerttext %s:%s  ', text_body, currenttime)
+                            
+                        else:
+                            result['status']="inactive"
+                    """
+
+
+            # check for time greater then sunset but less then specified expires time
+            if alerttype == "startsunrise" or alerttype == "startsunset":
+
+                #startsecs is based on UTC time and not local to sunsire/sunset
+                startsecs = int(series_parameters["alarmlow"])
+                #get UTC time
+                starttime = datetime.datetime.fromtimestamp(startsecs)
+                log.info('get_sunriseset_alert: process_emailalert startsunrise starttime secs %s  -> %s', starttime, startsecs)
+
+
+
+                #determine UTC start time for use with gateway Timmers which are based on UTC
+                startutcsecs_local  = mylocal.localize(starttime, is_dst=None) # No daylight saving time
+                log.info('get_sunriseset_alert: process_emailalert  startsunrise starttime utcstarttime local time %s ',startutcsecs_local)
+                startutcsecs_utc = startutcsecs_local.astimezone(pytz.utc)
+                log.info('get_sunriseset_alert: process_emailalert  startsunrise starttime utcstarttime utc time %s ',startutcsecs_utc)                   
+                startutcsecs = time.mktime(startutcsecs_utc.timetuple())
+                log.info('get_sunriseset_alert: process_emailalert  startsunrise starttime startutcsecs %s  -> %s', startutcsecs, int(startutcsecs % (24*60*60)))
+
+
+
+                sunrise_utc_sec = int(time.mktime(sunrise_utc.timetuple()) % (60*60*24))
+                sunset_utc_sec = int(time.mktime(sunset_utc.timetuple()) % (60*60*24))
+                log.info('get_sunriseset_alert: process_emailalert startsunrise seconds UTC %s:%s ',  sunrise_utc_sec, sunset_utc_sec)                            
+
+                #need to make time value timezone aeare
+                utcstarttime = pytz.utc.localize(starttime)
+                log.info('get_sunriseset_alert: process_emailalert startsunrise utcstarttime secs %s  -> %s', utcstarttime, startsecs)  
+
+                # adjust time to sunset/sunrise local time
+                #localstarttime = utcstarttime.astimezone(mylocal)
+                localstarttime = starttime
+                # get seconds so we can convert to 24 hour clock
+                localstartsecs = time.mktime(localstarttime.timetuple())
+                log.info('get_sunriseset_alert: process_emailalert startsunrise localstarttime %s -> %s ', localstarttime, localstartsecs)     
+                #only need 24 hours out of UTC time
+                log.info('get_sunriseset_alert: process_emailalert startsunrise start secs %s  -> %s', localstartsecs, int(localstartsecs % (24*60*60)))
+
+                
+                alertstarttime = currenttime.replace(hour=0, minute=0, second=0)
+                alertstarttime =alertstarttime + datetime.timedelta(seconds = int(localstartsecs % (24*60*60)))
+                
+                log.info('get_sunriseset_alert: process_emailalert startsunsetrise compare start >- sun rise times %s  :  %s  :  %s  ', currenttime, sunrisetime, alertstarttime)
+
+                midnighttime = currenttime.replace(hour=23, minute=59, second=59)
+                log.info('get_sunriseset_alert: process_emailalert startsunsetrise compare start >- sun rise times midnight %s  ', midnighttime)
+                newdaytime = currenttime.replace(hour=0, minute=0, second=0)
+                log.info('get_sunriseset_alert: process_emailalert startsunsetrise compare start >- sun rise times newdaytime %s  ', newdaytime)
+
+                log.info('get_sunriseset_alert: process_emailalert startsunsetrise compare start >- sun rise times alertoffset %s  ', alertoffset)
+                if alertoffset != 0:
+                    sunrisetime = sunrisetime + datetime.timedelta(seconds = -alertoffset)
+                    sunsettime = sunsettime + datetime.timedelta(seconds = alertoffset)
+                    log.info('get_sunriseset_alert: process_emailalert startsunsetrise adjusted start >- sun rise times %s  :  %s  :  %s  ', alertoffset, sunrisetime, alertstarttime)
+
+                #log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times alertduration %s  ', alertduration)
+
+
+
+                #>currenttime 2017-10-21 14:55:11.008807-07:00  : sunrisetime 2017-10-21 07:37:32-07:00  :alertstarttime  2017-10-21 19:30:25.008807-07:00   
+                # currenttime  2017-10-21 15:26:11.778414-07:00  :                   2017-10-21 07:37:32-07:00  :                       2017-10-21 02:00:25.778414-07:00
+                #current time can be greater then sunset and greater then sunrise on current day
+                # check for start time to sunrise
+                # start time can be from sunset to midnight or from newday to sunrise
+                if alerttype == "startsunrise":
+
+                    #create timmer array
+                    alertstartutcsecs = int(startutcsecs % (60*60*24))
+                    log.info('get_sunriseset_alert: process_emailalert compare startsunrise->start times  utc seconds %s  ', alertstartutcsecs)
+                    log.info('get_sunriseset_alert: process_emailalert compare startsunrise ->sunrise times  utc seconds %s  ', sunrise_utc_sec)
+
+                    
+                    alertaction_value = int(parameters.get('alertaction_value',255))
+                    log.info('get_sunriseset_alert: process_emailalert compare startsunrise -> sunset alertaction_value %s  ', alertaction_value)
+                    
+
+
+                    #Timmer sunset to expires
+                    if int(alertstartutcsecs) > int(sunrise_utc_sec):
+                        log.info('get_sunriseset_alert: process_emailalert compare startsunrise -> alertstartutcsecs > sunrise_utc_sec  ')
+                        for t_tenmin in range(0, 6*24):                           
+                            if t_tenmin >= alertstartutcsecs/(10*60):
+                                timmerArray[t_tenmin] = alertaction_value                                 
+                            elif t_tenmin <= sunrise_utc_sec/(10*60):
+                                timmerArray[t_tenmin] =alertaction_value    
+                    else:
+                        log.info('get_sunriseset_alert: process_emailalert compare startsunrise -> alertstartutcsecs < sunrise_utc_sec  ')
+                        for t_tenmin in range(0, 6*24):
+                            if t_tenmin >= alertstartutcsecs/(10*60) and t_tenmin <= sunrise_utc_sec/(10*60) :                                   
+                                timmerArray[t_tenmin] =alertaction_value
+
+
+
+                    log.info('get_sunriseset_alert: process_emailalert compare startsunrise -> timmerArray %s  ', timmerArray)
+
+                    
+                    # check if start time is from new day to sunrise
+
+
+                    
+                    if alertstarttime < sunrisetime:
+
+                        alertstartsecs = int(time.mktime(alertstarttime.timetuple()) % (60*60*24))
+                        sunrisesecs = int(time.mktime(sunrisetime.timetuple()) % (60*60*24))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart->start times  seconds %s  ', alertstartsecs)
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart ->rise times  seconds %s  ', sunrisesecs)
+                        alertaction_value = int(parameters.get('alertaction_value',255))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart -> sunrise alertaction_value %s  ', alertaction_value)
+                        
+
+                        
+                        if   currenttime > newdaytime and currenttime >=  alertstarttime and  currenttime <  sunrisetime:
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunrisetime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert startsunrise sun is down and less then alertend time %s:%s  ', text_body, currenttime)
+                        else:
+                            result['status']="inactive"
+
+                    # if alertstarttime is greater then sunrise we could be between sunset and midnight on the previous day
+                    # sunrise and sunset times are adjusted at midnight on each new day
+                    # so if starttime is after sunrise then it has to run till sunrise on the following day
+                    # for example if sunrise is at 7:00AM on 1/1/2010 and start time is set to 11:00PM
+                    # it must run to midnight on 1/1/2010 and also from 00:00 AM to sunrise on 1/2/2010
+                    #
+                    if alertstarttime > sunrisetime:
+
+
+                        alertstartsecs = int(time.mktime(alertstarttime.timetuple()) % (60*60*24))
+                        sunrisesecs = int(time.mktime(sunrisetime.timetuple()) % (60*60*24))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart->start times  seconds %s  ', alertstartsecs)
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart ->rise times  seconds %s  ', sunrisesecs)
+                        alertaction_value = int(parameters.get('alertaction_value',255))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart -> sunrise alertaction_value %s  ', alertaction_value)
+                        
+
+                        
+                        #current time can be between starttime and midmight
+                        if currenttime > alertstarttime and currenttime < midnighttime :                                
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunrisetime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert startsunrise sun is down before midnight and great then alertstarttime  %s:%s  ', text_body, currenttime)
+
+                        # keep alert active from midnight to sunrise on the next day
+                        elif currenttime > newdaytime and  currenttime <  sunrisetime:                               
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunrisetime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert startsunrise sun is down after midnight and before sunrise  %s:%s  ', text_body, currenttime)                                        
+                        else:
+                            result['status']="inactive"
+
+                elif alerttype == "startsunset":
+                    #only going to check for when start time is before sunset
+                    # so we only run from new day to sunset and not after sunset
+
+                    #create timmer array
+                    alertstartutcsecs = int(startutcsecs % (60*60*24))
+                    log.info('get_sunriseset_alert: process_emailalert compare startsunset->start times  utc seconds %s  ', startutcsecs)
+                    log.info('get_sunriseset_alert: process_emailalert compare startsunset ->sunset times  utc seconds %s  ', sunset_utc_sec)
+
+                    
+                    alertaction_value = int(parameters.get('alertaction_value',255))
+                    log.info('get_sunriseset_alert: process_emailalert compare startsunset -> sunset alertaction_value %s  ', alertaction_value)
+                    
+
+
+                    #Timmer sunset to expires
+                    if alertstartutcsecs > sunset_utc_sec:
+                        for t_tenmin in range(0, 6*24):                           
+                            if t_tenmin >= alertstartutcsecs/(10*60):
+                                timmerArray[t_tenmin] = alertaction_value                                 
+                            elif t_tenmin <= sunset_utc_sec/(10*60):
+                                timmerArray[t_tenmin] =alertaction_value    
+                    else:
+                        for t_tenmin in range(0, 6*24):
+                            if t_tenmin >= alertstartutcsecs/(10*60) and t_tenmin <= sunset_utc_sec/(10*60) :                                   
+                                timmerArray[t_tenmin] =alertaction_value
+
+
+
+                    log.info('get_sunriseset_alert: process_emailalert compare startsunset -> timmerArray %s  ', timmerArray)
+                    
+                    if alertstarttime < sunsettime:
+
+                        alertstartsecs = int(time.mktime(alertstarttime.timetuple()) % (60*60*24))
+                        sunrisesecs = int(time.mktime(sunrisetime.timetuple()) % (60*60*24))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart->start times  seconds %s  ', alertstartsecs)
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart ->rise times  seconds %s  ', sunrisesecs)
+                        alertaction_value = int(parameters.get('alertaction_value',255))
+                        log.info('get_sunriseset_alert: process_emailalert compare sunrisestart -> sunrise alertaction_value %s  ', alertaction_value)
+                        
+
+                        
+                        if   currenttime > newdaytime and currenttime >=  alertstarttime and  currenttime <  sunsettime:
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunsettime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert startsunset sun is up and greater then alertstart time but les then sunset %s:%s  ', text_body, currenttime)
+                        else:
+                            result['status']="inactive"
+                            
+                    """
+                    #if end time is less thne current sunset then it for the next day after midnight
+                    if alertstarttime > sunsettime:
+                        #current time can be before sunrise on the next day
+                        if currenttime < midnighttime and  currenttime > alertstarttime :                                
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(sunsettime) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            log.info('get_sunriseset_alert: process_emailalert startsunsetrise sun is down alerttext %s:%s  ', text_body, currenttime)
+                            
+                        else:
+                            result['status']="inactive"
+                    """
+             
+        except ValueError as e:
+            if debug_all: log.info('get_sunriseset_alert: ValueError in sunrise %s  ', text_body)
+            if debug_all: log.info('get_sunriseset_alert: ValueError in sunrise %s:  ' % str(e))
+
+        except NameError as e:
+            if debug_all: log.info('get_sunriseset_alert: NameError in sunrise %s  ', text_body)
+            if debug_all: log.info('get_sunriseset_alert: NameError in sunrise %s:  ' % str(e))
+
+        except AttributeError as e:
+            if debug_all: log.info('get_sunriseset_alert: AttributeError in sunrise %s  ', text_body)
+            if debug_all: log.info('get_sunriseset_alert: AttributeError in sunrise %s:  ' % str(e))
+
+        except TypeError as e:
+            if debug_all: log.info('get_sunriseset_alert: TypeError in sunrise %s  ', text_body)
+            if debug_all: log.info('get_sunriseset_alert: TypeError in sunrise %s:  ' % str(e))                     
+
+            
+        except:
+            log.info('get_sunriseset_alert: Error3 in get sunrise-set %s  ', text_body)
+            e = sys.exc_info()[0]
+
+            log.info("Error3: %s" % e)
+            result['status']="error 3"
+
+    except ValueError as e:
+        if debug_all: log.info('get_sunriseset_alert: ValueError in sunrise %s  ', text_body)
+        if debug_all: log.info('get_sunriseset_alert: NameError in sunrise %s:  ' % str(e)) 
+        
+    except NameErrorr as e:
+        if debug_all: log.info('get_sunriseset_alert: NameError in sunrise %s  ', text_body)
+        if debug_all: log.info('get_sunriseset_alert: NameError in sunrise %s:  ' % str(e))
+
+    except AttributeError as e:
+        if debug_all: log.info('get_sunriseset_alert: AttributeError in sunrise %s  ', text_body)
+        if debug_all: log.info('get_sunriseset_alert: AttributeError in sunrise %s:  ' % str(e))
+
+    except TypeError as e:
+        if debug_all: log.info('get_sunriseset_alert: TypeError in sunrise %s  ', text_body)
+        if debug_all: log.info('get_sunriseset_alert: TypeError in sunrise %s:  ' % str(e))                     
+
+    except:
+        if debug_all: log.info('get_sunriseset_alert: Error in get sunrise-set %s  ', text_body)
+        e = sys.exc_info()[0]
+
+        if debug_all: log.info("Error: %s" % e)
+        
+        result['status']="error1"
+
+        
+    result['message']=text_body
+    result['timmerArray']=timmerArray
     return result
+
 
 def get_status_alert(parameters, value):
 
