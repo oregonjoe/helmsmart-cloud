@@ -43,7 +43,134 @@ def get_timmer_alert(parameters, value):
 
     log.info("get_timmer_alert  deviceID: %s", parameters['deviceid'])
 
+
+    # extract the series alarm paramterts
+    series_parameters = parameters.get('series_1',"")
+    # check for errors
+    if series_parameters == "":
+        result['status']="error"
+        result['message']="missing series parameters"
+        return result    
+
+    try:
+        
+        if str(parameters[series_number]["alarmlow"]) != "off" :
+                      
+            try:
+                locationcity= parameters["locationcity"]
+
+            except:
+                locationcity= 'Seattle'
+
+                    
+            log.info('get_timmer_alert: get timmer once location->%s  ', locationcity)
+            #a = Astral()
+            if locationcity == 'Brookings':
+                    
+                location  = lookup("Seattle", database())
+                #location.name = 'Brookings'    
+
+            else:
+                #location  = lookup("Seattle", database())
+                try:
+                    location  = lookup(locationcity, database())
+                except:
+                    location  = lookup("Seattle", database())
+            
+            log.info("get_timmer_alert: process_emailalert timmer once  Astral location: %s", location)
+
+            timezone = location.timezone
+
+            log.info('get_timmer_alert: process_emailalert timmer once  timezone ->%s ',   timezone)
+
+            #get timezone for current sunset/sunrise location
+            mylocal = pytz.timezone(timezone)
+
+            currenttime = datetime.datetime.now()
+            log.info('get_timmer_alert: process_emailalert timmer once alert %s  ', currenttime)
+    
+            #need to make time value timezone aware
+            utccurrenttime = pytz.utc.localize(currenttime)
+            log.info('get_timmer_alert: process_emailalert timmer once utccurrenttime secs %s  ', utccurrenttime)  
+            
+            # adjust time to sunset/sunrise local time
+            localcurrenttime = utccurrenttime.astimezone(mylocal)
+            
+
+            #currenttime = datetime.datetime.now()
+            currenttime = localcurrenttime
+            #currentsecounds = (mytime.hour * 60 * 60) + (mytime.minute * 60)  + mytime.second
+            log.info('get_timmer_alert: process_emailalert timmer once localcurrenttime %s  ', currenttime)
+
+
+            #now remove timezone info so we can compare to start and end times
+            currenttime = currenttime.replace(tzinfo=None)
+            #currentsecounds = (mytime.hour * 60 * 60) + (mytime.minute * 60)  + mytime.second
+            log.info('get_timmer_alert: process_emailalert timmer once currenttime without timezone info %s  ', currenttime)
+            
+            starttime = datetime.datetime.fromtimestamp(int(series_parameters["alarmlow"]))
+            log.info('get_timmer_alert: process_emailalert timmer once starttime %s  : %s  ', str(series_parameters["alarmlow"]), starttime)
+
+            #need to make time value timezone aware
+            endtime = datetime.datetime.fromtimestamp(int(series_parameters["alarmhigh"]))
+            log.info('get_timmer_alert: process_emailalert timmer once endtime %s : %s  ', str(series_parameters["alarmhigh"]), endtime)
+
+            log.info('get_timmer_alert: process_emailalert timmer once times %s:  %s:   %s  ', currenttime, starttime, endtime)                
+
+            try:
+
+                if currenttime >=  starttime and currenttime <=  endtime:
+                    text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                    text_body = text_body  + series_parameters["alarmmode"] + ": " + parameters[series_number]["title"] + '\n'
+                    text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                    result['status']="active"
+                    log.info('get_timmer_alert: process_emailalert timmer alerttext %s:%s  ', text_body, currenttime)
+                    
+                else:
+                    result['status']="inactive"
+
+            except TypeError as e:
+                if debug_all: log.info('get_timmer_alert: TypeError in timmer once compare %s  ', text_body)
+                if debug_all: log.info('get_timmer_alert: TypeError in timmer once compare %s:  ' % str(e))  
+
+            except:
+                log.info('get_timmer_alert: Error1.1 in get timmer once compare %s  ', text_body)
+                e = sys.exc_info()[0]
+                log.info("Error1.1: %s" % e)
+                result['status']="error 1.1"
+
+
+    result['message']=text_body              
     return result
+
+    except ValueError as e:
+        if debug_all: log.info('get_timmer_alert: ValueError in timmer once %s  ', text_body)
+        if debug_all: log.info('get_timmer_alert: ValueError in timmer once %s:  ' % str(e))
+
+    except NameError, e:
+        if debug_all: log.info('get_timmer_alert: NameError in timmer once %s  ', text_body)
+        if debug_all: log.info('get_timmer_alert: NameError in timmer once %s:  ' % str(e))
+
+    except AttributeError, e:
+        if debug_all: log.info('get_timmer_alert: AttributeError in timmer once %s  ', text_body)
+        if debug_all: log.info('get_timmer_alert: AttributeError in timmer once %s:  ' % str(e))
+
+    except TypeError, e:
+        if debug_all: log.info('get_timmer_alert: TypeError in timmer once %s  ', text_body)
+        if debug_all: log.info('get_timmer_alert: TypeError in timmer once %s:  ' % str(e))                     
+        
+    except:
+        log.info('get_timmer_alert: Error1 in get timmer once %s  ', text_body)
+        e = sys.exc_info()[0]
+        log.info("Error1: %s" % e)
+        result['status']="error 1"
+
+        return result
+
+
+    
+
+ 
 
 def get_timmerday_alert(parameters, value):
 
@@ -89,9 +216,12 @@ def get_timmerday_alert(parameters, value):
                 #location.name = 'Brookings'    
 
             else:
-                #location = a[locationcity]
-                location  = lookup("Seattle", database())
-            
+                #location  = lookup("Seattle", database())
+                try:
+                    location  = lookup(locationcity, database())
+                except:
+                    location  = lookup("Seattle", database())
+
             log.info("get_timmerday_alert  Astral location: %s", location)
 
             timezone = location.timezone
