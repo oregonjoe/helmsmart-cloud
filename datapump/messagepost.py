@@ -317,7 +317,8 @@ def getepochtimes(Interval):
 def getSwitchIndex(eventtype):
     
     switchdata = {}
-        
+    if debug_all: log.info('getSwitchIndex: eventtype %s  ', eventtype)
+    
     try:
         if eventtype == "/M2M/Switch/Value 0 Port":	
             switchInstance=0
@@ -593,7 +594,8 @@ def getSwitchIndex(eventtype):
 def getDimmerIndex(eventtype):
     
     dimmerdata = {}
-        
+    if debug_all: log.info('getDimmerIndex: eventtype %s  ', eventtype)
+    
     try:
         if eventtype == "/M2M/LED Dimmer/Value 0 Zone 0":	
             switchInstance=0
@@ -2293,13 +2295,13 @@ def process_message(alert_message):
           # #########################################################
           # second lets check for any switch data and get switch states
           # #########################################################
-          switchdata = getSwitchValues(parameters['EventTypeId'])
+          switchdata = getSwitchValues(parameters)
 
           log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
           # #########################################################
           # third lets check for any dimmer data and get dimmer states
           # #########################################################
-          dimmerdata = getDimmerValues(parameters['EventTypeId'])
+          dimmerdata = getDimmerValues(parameters)
 
           log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
 
