@@ -2084,7 +2084,9 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
     if sensorValueUnits == "---":
         if debug_all: log.info('Posting to AlertPosts make_HSAlert_json empty points')
 
-        if series_parameters.find("parameter:latlng.") > 0:
+        
+
+        if series_parameters.get('parameter',"") == "latlng":
             data['series_1']=make_HSAlert_json("series_1", parameters, "", "missing", alarmresult['status'] )
             data['series_2']=make_HSAlert_json("series_1", parameters, "", "missing", alarmresult['status'] )
         else:
