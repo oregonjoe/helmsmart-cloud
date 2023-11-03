@@ -38,6 +38,8 @@ def get_timmer_alert(parameters, value):
     result['status']="error"
     result['message']=""
 
+    timestamp = datetime.datetime.now()
+
     text_body= "error in timmer alert"
     alerttype = parameters.get('alerttype',"mean")
 
@@ -182,6 +184,8 @@ def get_timmerday_alert(parameters, value):
 
     text_body= "error in timmerday alert"
     alerttype = parameters.get('alerttype',"mean")
+
+    timestamp = datetime.datetime.now()
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
@@ -523,6 +527,8 @@ def get_sunriseset_alert(parameters, value):
     result={}
     result['status']="error"
     result['message']=""
+    
+    timestamp = datetime.datetime.now()
 
     text_body= "error in timmer alert"
     alerttype = parameters.get('alerttype',"mean")
@@ -537,6 +543,8 @@ def get_status_alert(parameters, value):
     result={}
     result['status']="error"
     result['message']=""
+
+    timestamp = datetime.datetime.now()
 
     text_body= "error in get status alert"
     alerttype = parameters.get('alerttype',"mean")
@@ -567,6 +575,8 @@ def get_alarms_alert(parameters, value):
     result['status']="inactive"
     result['message']=""
 
+    timestamp = datetime.datetime.now()
+    
     text_body= "error in get_alarms alert"
     alerttype = parameters.get('alerttype',"mean")
 
