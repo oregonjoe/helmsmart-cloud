@@ -2100,11 +2100,11 @@ def SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdat
 
     payload['data']=data
 
-    log.info('Telemetrypost: EmailAlertPost-Cloud payload %s:  ', payload)
-    log.info('Telemetrypost: EmailAlertPost-Cloud switch %s:  ', switchdata)
+    log.info('SendHSAlert: EmailAlertPost-Cloud payload %s:  ', payload)
+    log.info('SendHSAlert: EmailAlertPost-Cloud switch %s:  ', switchdata)
 
     remote_mode = parameters.get('remotemode','singleevent')
-    log.info('Telemetrypost: EmailAlertPost-Cloud remote mode %s:  ', remote_mode)
+    log.info('SendHSAlert: EmailAlertPost-Cloud remote mode %s:  ', remote_mode)
 
     if remote_mode == 'singleevent':
         timmerdata_key = ""
@@ -2138,7 +2138,9 @@ def SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdat
     # end of message queing ,cls = MyEncoder
     mymessage='qued SQS message for Alerts updaate'
     """
-    
+  except NameError as e:
+    if debug_all: log.info('process_message: NameError in SendHSAlert %s:  ' % str(e))
+        
   except:
     e = sys.exc_info()[0]   
     if debug_all: log.info('SendHSAlert: Error %s:  ' % str(e))
