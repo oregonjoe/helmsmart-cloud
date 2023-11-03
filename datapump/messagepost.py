@@ -314,6 +314,1259 @@ def getepochtimes(Interval):
 
     return(epochtimes)
 
+def getSwitchIndex(eventtype):
+    
+    switchdata = {}
+        
+    try:
+        if eventtype == "/M2M/Switch/Value 0 Port":	
+            switchInstance=0
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/Switch/Value 1 Port":	
+            switchInstance=0
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/Switch/Value 2 Port":	
+            switchInstance=0
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/Switch/Value 3 Port":	
+            switchInstance=0
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/Switch/Value 4 Port":	
+            switchInstance=0
+            switchIndex=4
+
+
+        elif eventtype == "/M2M/Switch/Value 5 Port":	
+            switchInstance=0
+            switchIndex=5
+
+
+        elif eventtype == "/M2M/Switch/Value 6 Port":	
+            switchInstance=0
+            switchIndex=6
+
+
+        elif eventtype == "/M2M/Switch/Value 7 Port":	
+            switchInstance=0
+            switchIndex=7
+
+
+        elif eventtype == "/M2M/Switch/Value 8 Port":	
+            switchInstance=0
+            switchIndex=8
+
+
+
+        elif eventtype == "/M2M/Switch/Value 9 Port":	
+            switchInstance=0
+            switchIndex=9
+
+
+        elif eventtype == "/M2M/Switch/Value 10 Port":	
+            switchInstance=0
+            switchIndex=10
+
+
+        elif eventtype == "/M2M/Switch/Value 11 Port":	
+            switchInstance=0
+            switchIndex=11
+
+
+        elif eventtype == "/M2M/Switch/Value 12 Port":	
+            switchInstance=0
+            switchIndex=12
+
+
+        elif eventtype == "/M2M/Switch/Value 13 Port":	
+            switchInstance=0
+            switchIndex=13
+
+
+        elif eventtype == "/M2M/Switch/Value 14 Port":	
+            switchInstance=0
+            switchIndex=14
+
+
+        elif eventtype == "/M2M/Switch/Value 15 Port":	
+            switchInstance=0
+            switchIndex=15
+
+
+        elif eventtype == "/M2M/Switch/Value 0 Starboard":	
+            switchInstance=1
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/Switch/Value 1 Starboard":	
+            switchInstance=1
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/Switch/Value 2 Starboard":	
+            switchInstance=1
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/Switch/Value 3 Starboard":	
+            switchInstance=1
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/Switch/Value 4 Starboard":	
+            switchInstance=1
+            switchIndex=4
+
+
+        elif eventtype == "/M2M/Switch/Value 5 Starboard":	
+            switchInstance=1
+            switchIndex=5
+
+
+        elif eventtype == "/M2M/Switch/Value 6 Starboard":	
+            switchInstance=1
+            switchIndex=6
+
+
+        elif eventtype == "/M2M/Switch/Value 7 Starboard":	
+            switchInstance=1
+            switchIndex=7
+
+
+        elif eventtype == "/M2M/Switch/Value 8 Starboard":	
+            switchInstance=1
+            switchIndex=8
+
+
+
+        elif eventtype == "/M2M/Switch/Value 9 Starboard":	
+            switchInstance=1
+            switchIndex=9
+
+
+        elif eventtype == "/M2M/Switch/Value 10 Starboard":	
+            switchInstance=1
+            switchIndex=10
+
+
+        elif eventtype == "/M2M/Switch/Value 11 Starboard":	
+            switchInstance=1
+            switchIndex=11
+
+
+        elif eventtype == "/M2M/Switch/Value 12 Starboard":	
+            switchInstance=1
+            switchIndex=12
+
+
+        elif eventtype == "/M2M/Switch/Value 13 Starboard":	
+            switchInstance=1
+            switchIndex=13
+
+
+        elif eventtype == "/M2M/Switch/Value 14 Starboard":	
+            switchInstance=1
+            switchIndex=14
+
+
+        elif eventtype == "/M2M/Switch/Value 15 Starboard":	
+            switchInstance=1
+            switchIndex=15
+                    
+
+        elif eventtype == "/M2M/Switch/Value 0 Center":	
+            switchInstance=2
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/Switch/Value 1 Center":	
+            switchInstance=2
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/Switch/Value 2 Center":	
+            switchInstance=2
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/Switch/Value 3 Center":	
+            switchInstance=2
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/Switch/Value 4 Center":	
+            switchInstance=2
+            switchIndex=4
+
+
+        elif eventtype == "/M2M/Switch/Value 5 Center":	
+            switchInstance=2
+            switchIndex=5
+
+
+        elif eventtype == "/M2M/Switch/Value 6 Center":	
+            switchInstance=2
+            switchIndex=6
+
+
+        elif eventtype == "/M2M/Switch/Value 7 Center":	
+            switchInstance=2
+            switchIndex=7
+
+
+        elif eventtype == "/M2M/Switch/Value 8 Center":	
+            switchInstance=2
+            switchIndex=8
+
+
+        elif eventtype == "/M2M/Switch/Value 9 Center":	
+            switchInstance=2
+            switchIndex=9
+
+
+        elif eventtype == "/M2M/Switch/Value 10 Center":	
+            switchInstance=2
+            switchIndex=10
+
+
+        elif eventtype == "/M2M/Switch/Value 11 Center":	
+            switchInstance=2
+            switchIndex=11
+
+
+        elif eventtype == "/M2M/Switch/Value 12 Center":	
+            switchInstance=2
+            switchIndex=12
+
+
+        elif eventtype == "/M2M/Switch/Value 13 Center":	
+            switchInstance=2
+            switchIndex=13
+
+
+        elif eventtype == "/M2M/Switch/Value 14 Center":	
+            switchInstance=2
+            switchIndex=14
+
+
+        elif eventtype == "/M2M/Switch/Value 15 Center":	
+            switchInstance=2
+            switchIndex=15
+
+
+        switchdata['instance']=switchInstance
+        switchdata['index']=switchIndex
+        
+        return switchdata
+
+    except TypeError as e:
+        if debug_all: log.info('messagepost: TypeError in getSwitchIndex %s:%s  ', eventtype, switchdata)
+        if debug_all: log.info('messagepost: TypeError in getSwitchIndex %s:  ' % str(e))
+
+    except ValueError as e:
+        if debug_all: log.info('messagepost: ValueError in getSwitchIndex %s:%s  ', eventtype, switchdata)
+        if debug_all: log.info('messagepost: TypeError in getSwitchIndex %s:  ' % str(e))
+
+    except AttributeError as e:
+        if debug_all: log.info('messagepost: AttributeError in getSwitchIndex %s:%s  ', eventtype, switchdata)
+        if debug_all: log.info('messagepost: AttributeError in getSwitchIndex %s:  ' % str(e))        
+        
+    except KeyError as e:
+        if debug_all: log.info('messagepost: KeyError in getSwitchIndex %s:%s  ', eventtype, switchdata)
+        if debug_all: log.info('messagepost: KeyError in getSwitchIndex %s:  ' % str(e))
+
+    except NameError as e:
+        if debug_all: log.info('messagepost: NameError in getSwitchIndex %s:%s  ', eventtype, switchdata)
+        if debug_all: log.info('messagepost: NameError in getSwitchIndex %s:  ' % str(e))     
+
+    except:
+        if debug_all: log.info('messagepost: Error in getSwitchIndex %s:%s  ', eventtype, switchdata)
+        e = sys.exc_info()[0]
+
+def getDimmerIndex(eventtype):
+    
+    dimmerdata = {}
+        
+    try:
+        if eventtype == "/M2M/LED Dimmer/Value 0 Zone 0":	
+            switchInstance=0
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 1 Zone 0":	
+            switchInstance=0
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 2 Zone 0":	
+            switchInstance=0
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 3 Zone 0":	
+            switchInstance=0
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 4 Zone 0":	
+            switchInstance=0
+            switchIndex=4
+
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 1":	
+            switchInstance=1
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 1 Zone 1":	
+            switchInstance=1
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 2 Zone 1":	
+            switchInstance=1
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 3 Zone 1":	
+            switchInstance=1
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 4 Zone 1":	
+            switchInstance=1
+            switchIndex=4
+
+
+ 
+                    
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 2":	
+            switchInstance=2
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 1 Zone 2":	
+            switchInstance=2
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 2 Zone 2":	
+            switchInstance=2
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 3 Zone 2":	
+            switchInstance=2
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 4 Zone 2":	
+            switchInstance=2
+            switchIndex=4
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 3":	
+            switchInstance=3
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 4":	
+            switchInstance=4
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 5":	
+            switchInstance=5
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 6":	
+            switchInstance=6
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 7":	
+            switchInstance=7
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 8":	
+            switchInstance=8
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 9":	
+            switchInstance=9
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 10":	
+            switchInstance=10
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 11":	
+            switchInstance=11
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 12":	
+            switchInstance=12
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 13":	
+            switchInstance=13
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 14":	
+            switchInstance=14
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 15":	
+            switchInstance=15
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 16":	
+            switchInstance=16
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 17":	
+            switchInstance=17
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 18":	
+            switchInstance=18
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 19":	
+            switchInstance=19
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 20":	
+            switchInstance=20
+            switchIndex=0
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 21":	
+            switchInstance=21
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 22":	
+            switchInstance=22
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 23":	
+            switchInstance=23
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 24":	
+            switchInstance=24
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 25":	
+            switchInstance=25
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 26":	
+            switchInstance=26
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 27":	
+            switchInstance=27
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 28":	
+            switchInstance=28
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 29":	
+            switchInstance=29
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 30":	
+            switchInstance=30
+            switchIndex=0
+
+
+        elif eventtype == "/M2M/LED Dimmer/Value 0 Zone 31":	
+            switchInstance=31
+            switchIndex=0
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 0":	
+            switchInstance=128
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 0":	
+            switchInstance=128
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 0":	
+            switchInstance=128
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 0":	
+            switchInstance=128
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 0":	
+            switchInstance=128
+            switchIndex=4
+
+
+
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 1":	
+            switchInstance=129
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 1":	
+            switchInstance=129
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 1":	
+            switchInstance=129
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 1":	
+            switchInstance=129
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 1":	
+            switchInstance=129
+            switchIndex=4
+
+
+ 
+                    
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 2":	
+            switchInstance=130
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 2":	
+            switchInstance=130
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 2":	
+            switchInstance=130
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 2":	
+            switchInstance=130
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 2":	
+            switchInstance=130
+            switchIndex=4
+
+                    
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 3":	
+            switchInstance=131
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 3":	
+            switchInstance=131
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 3":	
+            switchInstance=131
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 3":	
+            switchInstance=131
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 3":	
+            switchInstance=131
+            switchIndex=4
+
+                    
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 4":	
+            switchInstance=132
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 4":	
+            switchInstance=132
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 4":	
+            switchInstance=132
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 4":	
+            switchInstance=132
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 4":	
+            switchInstance=132
+            switchIndex=4
+
+                    
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 5":	
+            switchInstance=133
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 5":	
+            switchInstance=133
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 5":	
+            switchInstance=133
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 5":	
+            switchInstance=133
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 5":	
+            switchInstance=133
+            switchIndex=4
+
+                    
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 6":	
+            switchInstance=134
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 6":	
+            switchInstance=134
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 6":	
+            switchInstance=134
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 6":	
+            switchInstance=134
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 6":	
+            switchInstance=134
+            switchIndex=4
+
+                    
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 7":	
+            switchInstance=135
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 7":	
+            switchInstance=135
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 7":	
+            switchInstance=135
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 7":	
+            switchInstance=135
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 7":	
+            switchInstance=135
+            switchIndex=4
+
+
+                    
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 0 Zone 8":	
+            switchInstance=136
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 1 Zone 8":	
+            switchInstance=136
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 2 Zone 8":	
+            switchInstance=136
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 3 Zone 8":	
+            switchInstance=136
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/RGB Dimmer/Value 4 Zone 8":	
+            switchInstance=136
+            switchIndex=4
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 0":	
+            switchInstance=192
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 0":	
+            switchInstance=192
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 0":	
+            switchInstance=192
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 0":	
+            switchInstance=192
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 0":	
+            switchInstance=192
+            switchIndex=4
+
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 1":	
+            switchInstance=193
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 1":	
+            switchInstance=193
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 1":	
+            switchInstance=193
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 1":	
+            switchInstance=193
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 1":	
+            switchInstance=193
+            switchIndex=4
+
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 2":	
+            switchInstance=194
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 2":	
+            switchInstance=194
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 2":	
+            switchInstance=194
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 2":	
+            switchInstance=194
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 2":	
+            switchInstance=194
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 3":	
+            switchInstance=194
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 3":	
+            switchInstance=194
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 3":	
+            switchInstance=194
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 3":	
+            switchInstance=194
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 3":	
+            switchInstance=194
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 4":	
+            switchInstance=195
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 4":	
+            switchInstance=195
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 41":	
+            switchInstance=195
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 4":	
+            switchInstance=195
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 4":	
+            switchInstance=195
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 15":	
+            switchInstance=196
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 5":	
+            switchInstance=1963
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 5":	
+            switchInstance=196
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 5":	
+            switchInstance=196
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 5":	
+            switchInstance=196
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 6":	
+            switchInstance=197
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 6":	
+            switchInstance=197
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 6":	
+            switchInstance=197
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 6":	
+            switchInstance=197
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 6":	
+            switchInstance=197
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 7":	
+            switchInstance=198
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 7":	
+            switchInstance=198
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 7":	
+            switchInstance=198
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 7":	
+            switchInstance=198
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 7":	
+            switchInstance=198
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 8":	
+            switchInstance=199
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 8":	
+            switchInstance=199
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 8":	
+            switchInstance=199
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 8":	
+            switchInstance=199
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 8":	
+            switchInstance=199
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 9":	
+            switchInstance=200
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 9":	
+            switchInstance=200
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 9":	
+            switchInstance=200
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 9":	
+            switchInstance=200
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 9":	
+            switchInstance=200
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 10":	
+            switchInstance=201
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 10":	
+            switchInstance=201
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 10":	
+            switchInstance=201
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 10":	
+            switchInstance=201
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 10":	
+            switchInstance=201
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 11":	
+            switchInstance=202
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 11":	
+            switchInstance=202
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 11":	
+            switchInstance=202
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 11":	
+            switchInstance=202
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 11":	
+            switchInstance=202
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 12":	
+            switchInstance=203
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 12":	
+            switchInstance=203
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 12":	
+            switchInstance=203
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 12":	
+            switchInstance=203
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 12":	
+            switchInstance=203
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 13":	
+            switchInstance=204
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 13":	
+            switchInstance=204
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 13":	
+            switchInstance=204
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 13":	
+            switchInstance=204
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 13":	
+            switchInstance=204
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 14":	
+            switchInstance=205
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 14":	
+            switchInstance=205
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 14":	
+            switchInstance=205
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 14":	
+            switchInstance=205
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 14":	
+            switchInstance=205
+            switchIndex=4
+
+
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 0 Zone 15":	
+            switchInstance=206
+            switchIndex=0
+            
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 1 Zone 15":	
+            switchInstance=206
+            switchIndex=1
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 2 Zone 15":	
+            switchInstance=206
+            switchIndex=2
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 3 Zone 15":	
+            switchInstance=206
+            switchIndex=3
+
+
+        elif eventtype == "/M2M/LED Dimmer 4 Channel/Value 4 Zone 15":	
+            switchInstance=206
+            switchIndex=4
+
+  
+
+        dimmerdata['instance']=switchInstance
+        dimmerdata['index']=switchIndex
+        
+        return dimmerdata
+
+    except TypeError as e:
+        if debug_all: log.info('messagepost: TypeError in getDimmerIndex %s:%s  ', eventtype, dimmerdata)
+        if debug_all: log.info('messagepost: TypeError in getDimmerIndex %s:  ' % str(e))
+
+    except ValueError as e:
+        if debug_all: log.info('messagepost: ValueError in getDimmerIndex %s:%s  ', eventtype, dimmerdata)
+        if debug_all: log.info('messagepost: TypeError in getDimmerIndex %s:  ' % str(e))
+
+    except AttributeError as e:
+        if debug_all: log.info('messagepost: AttributeError in getDimmerIndex %s:%s  ', eventtype, dimmerdata)
+        if debug_all: log.info('messagepost: AttributeError in getDimmerIndex %s:  ' % str(e))        
+        
+    except KeyError as e:
+        if debug_all: log.info('messagepost: KeyError in getDimmerIndex %s:%s  ', eventtype, dimmerdata)
+        if debug_all: log.info('messagepost: KeyError in getDimmerIndex %s:  ' % str(e))
+
+    except NameError as e:
+        if debug_all: log.info('messagepost: NameError in getDimmerIndex %s:%s  ', eventtype, dimmerdata)
+        if debug_all: log.info('messagepost: NameError in getDimmerIndex %s:  ' % str(e))     
+
+    except:
+        if debug_all: log.info('messagepost: Error in getDimmerIndex %s:%s  ', eventtype, dimmerdata)
+        e = sys.exc_info()[0]
+
+
+def make_HSAlert_json(series_number, parameters, distance, value, alarmstatus):
+
+        series_parameters={}
+
+        series_parameters = parameters.get('series_1',"")
+        
+        try:
+            
+            #if not value :
+            #    print 'make_tempodb_json: no value to update'
+            #    #if debug_all: log.info('Telemetry:make_HSAlert_json  : no value to update' )
+            #    return series_parameters
+
+
+            if value == "":
+                series_parameters["title"]= series_parameters['title']
+                series_parameters["interval"]= series_parameters['Interval']
+                series_parameters["alarmtype"]= series_parameters['alarmtype']
+                series_parameters["alarmmode"]= series_parameters['alarmmode']
+                series_parameters["alarmlow"]= series_parameters['alarmlow']
+                series_parameters["alarmhigh"]= series_parameters['alarmhigh']
+                series_parameters["units"]= series_parameters['units']
+                series_parameters["alarmstatus"]= alarmstatus
+                series_parameters["value"]= "missing"
+                
+
+
+            else:
+                series_parameters["title"]= series_parameters['title']
+                series_parameters["interval"]= series_parameters['Interval']
+                series_parameters["alarmtype"]= series_parameters['alarmtype']
+                series_parameters["alarmmode"]= series_parameters['alarmmode']
+                series_parameters["alarmlow"]= series_parameters['alarmlow']
+                series_parameters["alarmhigh"]= series_parameters['alarmhigh']
+                series_parameters["units"]= series_parameters['units']
+                series_parameters["alarmstatus"]= alarmstatus
+                series_parameters["distance"]= distance
+                series_parameters["value"]= value
+
+        except:
+            if debug_all: log.info('make_HSAlert_json: Error in make_HSAlert_json %s:  ', series_number)
+            e = sys.exc_info()[0]
+            
+        #if debug_all: log.info('Telemetry:make_HSAlert_jsonseries_parameters %s',series_parameters )
+        return series_parameters
+
+
 # ****************************************************************
 # InfluxDB Sensor key
 # takes alert message sensor key and returns the sensor values
@@ -607,7 +1860,278 @@ def getSensorValues(alertParameters):
         e = sys.exc_info()[0]
         if debug_all: log.info("getSensorValues: Error: %s" % e)
 
+# ****************************************************************
+# 
+# takes alert message sensor key and returns the switch values
+# *************************************************************************
+def getSwitchValues(alertParameters):
 
+  
+  switchdata = {}
+
+  # extract the series alarm paramterts
+  series_parameters = alertParameters.get('series_1',"")
+
+  try:
+    if series_parameters['alarmmode'] == 'alarmswitchon' or series_parameters['alarmmode'] == 'alarmswitchoff':
+        if series_parameters['alarmmode'] == 'alarmswitchon' :
+            if alarmresult['status'] == 'active':
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata['value']=1  
+                log.info('getSwitchValues: Email query switch data:alarmswitchon true %s: %s ', parameters['deviceid'], switchdata)
+            else:
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata['value']=0  
+                log.info('getSwitchValues: Email query switch data:alarmswitchon false %s: %s ', parameters['deviceid'], switchdata)
+
+            
+        elif series_parameters['alarmmode'] == 'alarmswitchoff' :
+            if alarmresult['status'] == 'active':
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata['value']=0                    
+                log.info('getSwitchValues: Email query switch data:alarmswitchoff true %s: %s ', parameters['deviceid'], switchdata)
+            else:
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata['value']=1                    
+                log.info('getSwitchValues: Email query switch data:alarmswitchoff false %s: %s ', parameters['deviceid'], switchdata)
+            #switchdata['instance']=1
+            #switchdata['index']=1
+
+    return switchdata
+    log.info('getSwitchValues: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
+
+  except KeyError as e:
+      if debug_all: log.info('getSwitchValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
+
+  except ValueError as e:
+      if debug_all: log.info('getSwitchValues: ValueError in EmailAlertPost-Cloud %s:  ' % str(e))
+
+  except TypeError as e:
+      if debug_all: log.info('getSwitchValues: TypeError in EmailAlertPost-Cloud %s:  ' % str(e))
+
+  except NameError as e:
+      if debug_all: log.info('getSensorValues: NameError in EmailAlertPost-Cloud %s:  ' % str(e))
+
+  except UnboundLocalError as e:
+      if debug_all: log.info('getSwitchValues: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
+      
+  except:
+      e = sys.exc_info()[0]
+      if debug_all: log.info("getSwitchValues: Error: %s" % e)
+
+# ****************************************************************
+# 
+# takes alert message sensor key and returns the dimmer values
+# *************************************************************************
+def getDimmerValues(alertParameters):
+
+  
+  dimmerdata = {}
+
+  # extract the series alarm paramterts
+  series_parameters = alertParameters.get('series_1',"")
+
+  try:
+    if series_parameters['alarmmode'] == 'alarmleddimmer' or series_parameters['alarmmode'] == 'alarmrgbdimmer' or series_parameters['alarmmode'] == 'alarmblinkdimmer' or series_parameters['alarmmode'] == 'alarmblinkdimmeronoff' or series_parameters['alarmmode'] == 'alarmdimmeroverride':
+      if series_parameters['alarmmode'] == 'alarmleddimmer' :
+          if alarmresult['status'] == 'active':
+              dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              dimmerdata['value']=parameters['alertaction_value']   
+              log.info('getDimmerValues: Email query dimmer data:alarmleddimmer true %s: %s ', parameters['deviceid'], dimmerdata)
+          else:
+              #dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              #dimmerdata['value']=0  
+              log.info('getDimmerValues: Email query dimmer data:alarmleddimmer false %s: %s ', parameters['deviceid'], dimmerdata)
+
+          
+      elif series_parameters['alarmmode'] == 'alarmrgbdimmer' :
+          if alarmresult['status'] == 'active':
+              dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              dimmerdata['value']=parameters['alertaction_value']                       
+              log.info('getDimmerValues: Email query dimmer data:alarmrgbdimmer true %s: %s ', parameters['deviceid'], dimmerdata)
+          else:
+              #dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              #dimmerdata['value']=0                    
+              log.info('getDimmerValues: Email query dimmer data:alarmrgbdimmer false %s: %s ', parameters['deviceid'], dimmerdata)
+
+          
+      elif series_parameters['alarmmode'] == 'alarmblinkdimmer' :
+          if alarmresult['status'] == 'active':
+              dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              dimmerdata['value']=parameters['alertaction_value']                       
+              log.info('Telemetrypost: Email query dimmer data:alarmblinkdimmer true %s: %s ', parameters['deviceid'], dimmerdata)
+          else:
+              #dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              #dimmerdata['value']=0                    
+              log.info('getDimmerValues: Email query dimmer data:alarmblinkdimmer false %s: %s ', parameters['deviceid'], dimmerdata)
+
+      elif series_parameters['alarmmode'] == 'alarmblinkdimmeronoff' :
+          if alarmresult['status'] == 'active':
+              dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              dimmerdata['value']=parameters['alertaction_value']                       
+              log.info('getDimmerValues: Email query dimmer data:alarmblinkdimmeronoff true %s: %s ', parameters['deviceid'], dimmerdata)
+          else:
+              dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              dimmerdata['value']=0                    
+              log.info('Telemetrypost: Email query dimmer data:alarmblinkdimmeronoff false %s: %s ', parameters['deviceid'], dimmerdata)
+
+      elif series_parameters['alarmmode'] == 'alarmdimmeroverride' :
+          if alarmresult['status'] == 'active':
+              dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              dimmerdata['value']=parameters['alertaction_value']
+              dimmerdata['override']=2
+              log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride true %s: %s ', parameters['deviceid'], dimmerdata)
+          else:
+              dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
+              dimmerdata['value']=255
+              dimmerdata['override']=1
+              log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride false %s: %s ', parameters['deviceid'], dimmerdata)
+
+    return dimmerdata
+    log.info('getDimmerValues: Email query dimmer data %s: %s ', parameters['deviceid'], dimmerdata)
+
+  except KeyError as e:
+      if debug_all: log.info('getDimmerValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
+
+  except ValueError as e:
+      if debug_all: log.info('getDimmerValues: ValueError in EmailAlertPost-Cloud %s:  ' % str(e))
+
+  except TypeError as e:
+      if debug_all: log.info('getDimmerValues: TypeError in EmailAlertPost-Cloud %s:  ' % str(e))
+
+  except NameError as e:
+      if debug_all: log.info('getDimmerValues: NameError in EmailAlertPost-Cloud %s:  ' % str(e))
+
+  except UnboundLocalError as e:
+      if debug_all: log.info('getDimmerValues: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
+      
+  except:
+      e = sys.exc_info()[0]
+      if debug_all: log.info("getDimmerValues: Error: %s" % e)
+
+# ****************************************************************
+# SEND EMAIL ALERT
+# *************************************************************************
+def SendEMAILAlert(parameters, alarmresult):
+
+
+# ****************************************************************
+# SEND SMS ALERT
+# *************************************************************************
+def SendSMSAlert(parameters, alarmresult):
+
+# ****************************************************************
+# SEND HelmSmart ALERT
+# Creates a 'SSEA00' message and puts into SQS Que for the sqs_poller theads to process
+# contains the alert messages and any switch or dimmer data
+# *************************************************************************
+def SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata)
+
+
+  payload = {}
+  data = {}
+
+  try:    
+
+    # extract the series alarm paramterts
+    series_parameters = parameters.get('series_1',"")
+  
+    data['subject']= parameters['subject']
+    data['interval']= parameters['Interval']
+    data['AlertId']= alertkey
+
+    data['alertmode']= parameters.get('alertmode', "disabled")
+    data['alerttype']= parameters.get('alerttype', "mean")
+    data['alertaction_value']= parameters.get('alertaction_value', "---")
+    data['locationcity']= parameters.get('locationcity', "---")
+
+
+    data['alert_sunrise']=  alarmresult.get('sunrise', "---")
+    data['alert_sunset']=   alarmresult.get('sunset', "---")
+
+    data['timestamp']= nowtime.strftime("%Y-%m-%d %H:%M:%S")
+
+    
+    #if debug_all: log.info('Posting to AlertPosts make_HSAlert_json ')
+
+    if sensorValueUnits == "---":
+        if debug_all: log.info('Posting to AlertPosts make_HSAlert_json empty points')
+
+        if series_parameters.find("parameter:latlng.") > 0:
+            data['series_1']=make_HSAlert_json("series_1", parameters, "", "missing", alarmresult['status'] )
+            data['series_2']=make_HSAlert_json("series_1", parameters, "", "missing", alarmresult['status'] )
+        else:
+            data['series_1']=make_HSAlert_json("series_1", parameters, "",  "missing",  alarmresult['status'])
+
+    """        
+    elif series_parameters.find("parameter:latlng.") > 0:
+
+        
+        if  series_lat_value != None:
+            data['series_1']=make_HSAlert_json("series_1", parameters, distance, series_lat_value, alarmresult['status'] )
+        else:
+            data['series_1']=make_HSAlert_json("series_1", parameters, "", "", "")
+            
+        if  series_lng_value != None:   
+            data['series_2']=make_HSAlert_json("series_1", parameters, distance, series_lng_value, alarmresult['status'] )
+        else:
+            data['series_2']=make_HSAlert_json("series_1", parameters, "", "", "")
+    """                  
+    elif sensorValueUnits != None: 
+        data['series_1']=make_HSAlert_json("series_1", parameters, "", sensorValueUnits, alarmresult['status'])
+        
+    else:
+        data['series_1']=make_HSAlert_json("series_1", parameters, "",  "error", "")
+
+
+
+    payload['data']=data
+
+    log.info('Telemetrypost: EmailAlertPost-Cloud payload %s:  ', payload)
+    log.info('Telemetrypost: EmailAlertPost-Cloud switch %s:  ', switchdata)
+
+    remote_mode = parameters.get('remotemode','singleevent')
+    log.info('Telemetrypost: EmailAlertPost-Cloud remote mode %s:  ', remote_mode)
+
+    if remote_mode == 'singleevent':
+        timmerdata_key = ""
+        dimmerdata_key = dimmerdata
+    elif remote_mode == 'dailytimmertable':
+        dimmerdata_key = ""
+        timmerdata_key = timmer_json
+
+     
+
+    if debug_all: log.info('SendHSAlert:  payload %s:  ', payload)     
+
+    # que up HSAlert message
+    """
+    queue.write(queue.new_message(json.dumps(
+        dict(
+              partition = "SSEA00_000000_00"+myTime+".txt",
+              device_id = parameters['deviceid'],
+              subject = parameters['subject'] ,
+              payload =  data,
+              switchdata = switchdata,
+              
+              dimmerdata = dimmerdata_key,
+              timmerdata = timmerdata_key,
+
+              
+              content_type = 'application/json',
+              dyno_id = os.environ['DYNO']
+                )
+        )))          
+    # end of message queing ,cls = MyEncoder
+    mymessage='qued SQS message for Alerts updaate'
+    """
+    
+  except:
+    e = sys.exc_info()[0]   
+    if debug_all: log.info('SendHSAlert: Error %s:  ' % str(e))
+
+
+  
 # ****************************************************************
 # Main message processor
 # takes alert message parameters and does a InfluxDB lookup to get sensor values
@@ -667,38 +2191,120 @@ def process_message(alert_message):
     try:
 
         if posttypecloud == "EmailAlertPost-Cloud":
-            #if debug_all: log.info('Posting to AlertPosts :')
-            log.info('Posting to EmailAlertPost-Cloud %s:', parameters)
+          #if debug_all: log.info('Posting to AlertPosts :')
+          log.info('Posting to EmailAlertPost-Cloud %s:', parameters)
 
-            email_body = ""
-            timmer_array = ""
-            timmer_json={}
-            distance = ""
+          email_body = ""
+          timmer_array = ""
+          timmer_json={}
+          distance = ""
 
-            if sensorValues == "missing":
-                
-                log.info('Posting to EmailAlertPost empty points ')
-                alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), "missing")
-                email_body = alarmresult['message']
-                log.info('Posting to EmailAlertPost empty points email_body = %s', email_body)
-                timmer_array = alarmresult.get('timmerArray', "")
-                if timmer_array != "":
+          # extract the series alarm paramterts
+          series_parameters = parameters.get('series_1',"")
 
-                    timmer_type = ""
-                    timmer_instance =  ""
-                    timmer_parameter =  ""
-                    
+          # #########################################################
+          # First lets process sensor values and check for any alarms and create email messages
+          # #########################################################
+          
+          if sensorValues == "missing":
+              
+              log.info('Posting to EmailAlertPost empty points ')
+              alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), "missing")
+              email_body = alarmresult['message']
+              log.info('Posting to EmailAlertPost empty points email_body = %s', email_body)
 
-                    timmer_json['type'] = timmer_type
-                    timmer_json['instance'] = timmer_instance
-                    timmer_json['parameter'] = timmer_parameter
-                    timmer_json['timmer_array'] = timmer_array
+              sensorValueUnits = "---"
+              
+              timmer_array = alarmresult.get('timmerArray', "")
+              if timmer_array != "":
+
+                  timmer_type = ""
+                  timmer_instance =  ""
+                  timmer_parameter =  ""
+                  
+
+                  timmer_json['type'] = timmer_type
+                  timmer_json['instance'] = timmer_instance
+                  timmer_json['parameter'] = timmer_parameter
+                  timmer_json['timmer_array'] = timmer_array
+
+          else:
+            if len(sensorValues) != 0:
+              sensorValueUnits = convertunits(sensorValues[0], series_parameters['units'])
+              if debug_all: log.info('process_message: sensor value units %s', sensorValueUnits)
+              alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), sensorValueUnits)
 
             else:
-              if len(sensorValues) != 0:
-                sensorValueUnits = convertunits(sensorValues[0], parameters['series_1']['units'])
-                if debug_all: log.info('process_message: sensor value units %s', sensorValueUnits)
+              alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), "missing")
+
+            email_body = alarmresult['message']
+            log.info('Posting to EmailAlertPost empty points email_body = %s', email_body)
+            timmer_array = alarmresult.get('timmerArray', "")
+            if timmer_array != "":
+
+                timmer_type = ""
+                timmer_instance =  ""
+                timmer_parameter =  ""
+                
+
+                timmer_json['type'] = series_parameters['type']
+                timmer_json['instance'] = series_parameters['instance']
+                timmer_json['parameter'] = series_parameters['parameter']
+                timmer_json['timmer_array'] = timmer_array
+              
+
+          if email_body != "":        
+              log.info('Posting to EmailAlertPost-Cloud   email_body= %s:', email_body)
+          else:
+              log.info('Posting to EmailAlertPost-Cloud   email_body= blank ' )
+
+
+          if timmer_array != "":        
+              log.info('Posting to EmailAlertPost-Cloud   timmer_array= %s:', timmer_array)
+          else:
+              log.info('Posting to EmailAlertPost-Cloud   timmer_array= blank ' )
+
+          # #########################################################
+          # second lets check for any switch data and get switch states
+          # #########################################################
+          switchdata = getSwitchValues(parameters)
+
+          log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
+          # #########################################################
+          # third lets check for any dimmer data and get dimmer states
+          # #########################################################
+          dimmerdata = getDimmerValues(parameters)
+
+          log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
+
+          # #########################################################
+          # Now send out EMAIL using SendGrid if enabled
+          # #########################################################
+          if series_parameters['alarmmode'] == 'alarmemail' or series_parameters['alarmmode'] == 'alarmemailsms':
+  
+            log.info('Posting to EmailAlertPost-Cloud: sending out email deviceid= %s', parameters['deviceid'])
+            SendEMAILAlert(parameters, alarmresult)
+
+          # #########################################################
+          # Now send out SMS using BLOWERIO if enabled
+          # #########################################################
+          if series_parameters['alarmmode'] == 'alarmsms' or series_parameters['alarmmode'] == 'alarmemailsms':
+  
+            log.info('Posting to EmailAlertPost-Cloud: sending out email deviceid= %s', parameters['deviceid'])
+            SendSMSAlert(parameters, alarmresult)          
+
+          # ################################################################
+          #Finally we will put a alert message in the SQS que for the main app to process using the SSEA00 partition
+          # ################################################################
+  
+          log.info('Posting to EmailAlertPost-Cloud: sending out HelmSmart Alert via SQS que = deviceid=%s', parameters['deviceid'])
+          SendHSAlert(parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata)
+
+
+
+
             
+          
     except KeyError as e:
         #if debug_all: log.info('process_message: KeyError in EmailAlertPost-Cloud %s:  ', SERIES_KEY1)
 
