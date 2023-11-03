@@ -1423,6 +1423,15 @@ def get_alarms_alert(parameters, value):
         result['status']="error"
         result['message']="missing series parameters"
         return result
+
+    if alerttype != "missing":
+        if value == "missing":
+            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+            text_body = text_body + "value is missing for Interval= " + parameters["Interval"] + " timestamp is:" + timestamp + '\n'
+            result['status']="inactive"
+            result['message']=text_body
+        return result    
     
     if alerttype == "missing":
         if value == "missing":
