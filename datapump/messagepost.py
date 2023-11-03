@@ -2050,7 +2050,7 @@ def SendSMSAlert(parameters, alarmresult):
 # Creates a 'SSEA00' message and puts into SQS Que for the sqs_poller theads to process
 # contains the alert messages and any switch or dimmer data
 # *************************************************************************
-def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata):
+def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata, timmerdata):
 
 
   payload = {}
@@ -2115,7 +2115,7 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
         dimmerdata_key = dimmerdata
     elif remote_mode == 'dailytimmertable':
         dimmerdata_key = ""
-        timmerdata_key = timmer_json
+        timmerdata_key = timmerdata
 
      
 
@@ -2222,7 +2222,7 @@ def process_message(alert_message):
 
           email_body = ""
           timmer_array = ""
-          timmer_json={}
+          timmerdata={}
           distance = ""
 
           # extract the series alarm paramterts
@@ -2249,10 +2249,10 @@ def process_message(alert_message):
                   timmer_parameter =  ""
                   
 
-                  timmer_json['type'] = timmer_type
-                  timmer_json['instance'] = timmer_instance
-                  timmer_json['parameter'] = timmer_parameter
-                  timmer_json['timmer_array'] = timmer_array
+                  timmerdata['type'] = timmer_type
+                  timmerdata['instance'] = timmer_instance
+                  timmerdata['parameter'] = timmer_parameter
+                  timmerdata['timmer_array'] = timmer_array
 
           else:
             if len(sensorValues) != 0:
@@ -2273,10 +2273,10 @@ def process_message(alert_message):
                 timmer_parameter =  ""
                 
 
-                timmer_json['type'] = series_parameters['type']
-                timmer_json['instance'] = series_parameters['instance']
-                timmer_json['parameter'] = series_parameters['parameter']
-                timmer_json['timmer_array'] = timmer_array
+                timmerdata['type'] = series_parameters['type']
+                timmerdata['instance'] = series_parameters['instance']
+                timmerdata['parameter'] = series_parameters['parameter']
+                timmerdata['timmer_array'] = timmer_array
               
 
           if email_body != "":        
@@ -2324,7 +2324,7 @@ def process_message(alert_message):
           # ################################################################
   
           log.info('Posting to EmailAlertPost-Cloud: sending out HelmSmart Alert via SQS que = deviceid=%s', parameters['deviceid'])
-          SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata)
+          SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata,timmerdata)
 
 
 
