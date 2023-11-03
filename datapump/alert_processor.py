@@ -567,7 +567,7 @@ def get_sunriseset_alert(parameters, value):
     log.info('get_sunriseset_alert: get sunrise-set alertdefault_value parameter %s  ', alertdefault_value)
 
     
-    log.info('Telemetry:process_emailalert sunrise sunset Initialize Timmer array')
+    log.info('get_sunriseset_alert:process_emailalert sunrise sunset Initialize Timmer array')
 
     for t_hours in range(0, 144):
         #timmerArray.append(255)
@@ -756,6 +756,8 @@ def get_sunriseset_alert(parameters, value):
                     
                 else:
                     result['status']="inactive"
+                    text_body = "alert is inactive - current time is outside sunrise/sunset"
+                    log.info('get_sunriseset_alert timmerday inactive sunriseset %s:%s  ', text_body, currenttime)
 
             if alerttype == "sunsetrise":
                 log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times %s  :  %s  :  %s  ', currenttime, sunrisetime, sunsettime)
@@ -830,6 +832,8 @@ def get_sunriseset_alert(parameters, value):
                         
                     else:
                         result['status']="inactive"
+                        text_body = "alert is inactive - current time is outside sunrise/sunset"
+                        log.info('get_sunriseset_alert timmerday inactive sunsetrise %s:%s  ', text_body, currenttime)
 
                #if using duration then we just add to current sunset time 
                 elif alertduration != 0:
@@ -848,6 +852,8 @@ def get_sunriseset_alert(parameters, value):
                         
                     else:
                         result['status']="inactive"
+                        text_body = "alert is inactive - current time is outside sunrise/sunset"
+                        log.info('get_sunriseset_alert timmerday inactive sunsetrise %s:%s  ', text_body, currenttime)
 
             # check for time greater then sunset but less then specified expires time
             if alerttype == "sunsetexpires" or alerttype == "sunriseexpires":
@@ -971,6 +977,8 @@ def get_sunriseset_alert(parameters, value):
                             log.info('get_sunriseset_alert: process_emailalert sunsetexpires sun is down and less then alertend time %s:%s  ', text_body, currenttime)
                         else:
                             result['status']="inactive"
+                            text_body = "alert is inactive - current time is outside sunrise/sunset"
+                            log.info('get_sunriseset_alert timmerday inactive sunsetexpires %s:%s  ', text_body, currenttime)
 
                     # if alertendtime is less then sunset time thne alert runs from current day after sunset till next day
                     if alertendtime < sunsettime:
@@ -1001,6 +1009,8 @@ def get_sunriseset_alert(parameters, value):
                             
                         else:
                             result['status']="inactive"
+                            text_body = "alert is inactive - current time is outside sunrise/sunset"
+                            log.info('get_sunriseset_alert timmerday inactive sunsetexpires %s:%s  ', text_body, currenttime)
 
                 # check from sunsire to expire time
                 elif alerttype == "sunriseexpires" : 
@@ -1061,6 +1071,8 @@ def get_sunriseset_alert(parameters, value):
                             log.info('get_sunriseset_alert: process_emailalert sunsetexpires sun is up and less then alertend time %s:%s  ', text_body, currenttime)
                         else:
                             result['status']="inactive"
+                            text_body = "alert is inactive - current time is outside sunrise/sunset"
+                            log.info('get_sunriseset_alert timmerday inactive sunriseexpires %s:%s  ', text_body, currenttime)
                     """
                     #if end time is less thne current sunset then it for the next day after midnight
                     if alertendtime < sunrisetime:
@@ -1196,6 +1208,8 @@ def get_sunriseset_alert(parameters, value):
                             log.info('get_sunriseset_alert: process_emailalert startsunrise sun is down and less then alertend time %s:%s  ', text_body, currenttime)
                         else:
                             result['status']="inactive"
+                            text_body = "alert is inactive - current time is outside sunrise/sunset"
+                            log.info('get_sunriseset_alert timmerday inactive startsunrise %s:%s  ', text_body, currenttime)
 
                     # if alertstarttime is greater then sunrise we could be between sunset and midnight on the previous day
                     # sunrise and sunset times are adjusted at midnight on each new day
@@ -1232,6 +1246,8 @@ def get_sunriseset_alert(parameters, value):
                             log.info('get_sunriseset_alert: process_emailalert startsunrise sun is down after midnight and before sunrise  %s:%s  ', text_body, currenttime)                                        
                         else:
                             result['status']="inactive"
+                            text_body = "alert is inactive - current time is outside sunrise/sunset"
+                            log.info('get_sunriseset_alert timmerday inactive startsunrise %s:%s  ', text_body, currenttime)
 
                 elif alerttype == "startsunset":
                     #only going to check for when start time is before sunset
@@ -1283,6 +1299,8 @@ def get_sunriseset_alert(parameters, value):
                             log.info('get_sunriseset_alert: process_emailalert startsunset sun is up and greater then alertstart time but les then sunset %s:%s  ', text_body, currenttime)
                         else:
                             result['status']="inactive"
+                            text_body = "alert is inactive - current time is outside sunrise/sunset"
+                            log.info('get_sunriseset_alert timmerday inactive startsunset %s:%s  ', text_body, currenttime)
                             
                     """
                     #if end time is less thne current sunset then it for the next day after midnight
