@@ -932,7 +932,7 @@ def get_sunriseset_alert(parameters, value):
                                 if t_tenmin >= sunset_utc_sec/(10*60) and t_tenmin <= alertendutcsecs/(10*60) :                                   
                                     timmerArray[t_tenmin] =alertaction_value
 
-                    except UnboundLocalError, e:
+                    except UnboundLocalError as e:
                         #log.info('get_sunriseset_alert: UnboundLocalErrorr in sunsetexpires   ')
                         log.info('get_sunriseset_alert: UnboundLocalErrorr in sunsetexpires %s:  ' % str(e))
                         pass
