@@ -1991,7 +1991,7 @@ def getDimmerValues(parameters, alarmstatus):
               log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride false %s: %s ', parameters['deviceid'], dimmerdata)
 
     return dimmerdata
-    log.info('getDimmerValues: Email query dimmer data %s: %s ', parameters['deviceid'], dimmerdata)
+    log.info('getDimmerValues: parameters %s: dimmerdata = %s ', parameters['deviceid'], dimmerdata)
 
   except KeyError as e:
       if debug_all: log.info('getDimmerValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
