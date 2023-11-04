@@ -1913,8 +1913,9 @@ def getSwitchValues(parameters, alarmstatus):
             #switchdata['instance']=1
             #switchdata['index']=1
 
-    return switchdata
     log.info('getSwitchValues: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
+    return switchdata
+
 
   except KeyError as e:
       if debug_all: log.info('getSwitchValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
@@ -2003,8 +2004,10 @@ def getDimmerValues(parameters, alarmstatus):
               dimmerdata['override']=1
               log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride false %s: %s ', parameters['deviceid'], dimmerdata)
 
-    return dimmerdata
+
     log.info('getDimmerValues: parameters %s: dimmerdata = %s ', parameters['deviceid'], dimmerdata)
+    return dimmerdata
+
 
   except KeyError as e:
       if debug_all: log.info('getDimmerValues error: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
