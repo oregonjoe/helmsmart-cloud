@@ -1866,20 +1866,20 @@ def getSensorValues(alertParameters):
 # 
 # takes alert message sensor key and returns the switch values
 # *************************************************************************
-def getSwitchValues(alertParameters, alarmstatus):
+def getSwitchValues(parameters, alarmstatus):
 
   
   switchdata = {}
 
   # extract the series alarm paramterts
-  series_parameters = alertParameters.get('series_1',"")
-  if debug_all:log.info('getSwitchValues: alertParameters %s ',alertParameters)
+  series_parameters = parameters.get('series_1',"")
+  if debug_all:log.info('getSwitchValues: alertParameters %s ',parameters)
   
   try:
     if series_parameters['alarmmode'] == 'alarmswitchon' or series_parameters['alarmmode'] == 'alarmswitchoff':
         if series_parameters['alarmmode'] == 'alarmswitchon' :
             if alarmstatus == 'active':
-                switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1  
                 log.info('getSwitchValues: Email query switch data:alarmswitchon true %s: %s ', parameters['deviceid'], switchdata)
             else:
@@ -1890,11 +1890,11 @@ def getSwitchValues(alertParameters, alarmstatus):
             
         elif series_parameters['alarmmode'] == 'alarmswitchoff' :
             if alarmstatus == 'active':
-                switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=0                    
                 log.info('getSwitchValues: Email query switch data:alarmswitchoff true %s: %s ', parameters['deviceid'], switchdata)
             else:
-                switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1                    
                 log.info('getSwitchValues: Email query switch data:alarmswitchoff false %s: %s ', parameters['deviceid'], switchdata)
             #switchdata['instance']=1
@@ -1926,13 +1926,13 @@ def getSwitchValues(alertParameters, alarmstatus):
 # 
 # takes alert message sensor key and returns the dimmer values
 # *************************************************************************
-def getDimmerValues(alertParameters, alarmstatus):
+def getDimmerValues(parameters, alarmstatus):
 
   
   dimmerdata = {}
 
   # extract the series alarm paramterts
-  series_parameters = alertParameters.get('series_1',"")
+  series_parameters = parameters.get('series_1',"")
 
   try:
     if series_parameters['alarmmode'] == 'alarmleddimmer' or series_parameters['alarmmode'] == 'alarmrgbdimmer' or series_parameters['alarmmode'] == 'alarmblinkdimmer' or series_parameters['alarmmode'] == 'alarmblinkdimmeronoff' or series_parameters['alarmmode'] == 'alarmdimmeroverride':
