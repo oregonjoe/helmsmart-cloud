@@ -1873,7 +1873,8 @@ def getSwitchValues(alertParameters):
 
   # extract the series alarm paramterts
   series_parameters = alertParameters.get('series_1',"")
-
+  if debug_all:log.info('getSwitchValues: alertParameters %s ',alertParameters)
+  
   try:
     if series_parameters['alarmmode'] == 'alarmswitchon' or series_parameters['alarmmode'] == 'alarmswitchoff':
         if series_parameters['alarmmode'] == 'alarmswitchon' :
