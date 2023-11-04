@@ -19788,7 +19788,7 @@ def setswitchapi():
   #log.info("sendswitchapi switchpgn %s", switchpgn)
   
   if deviceid == "":
-    return jsonify(result="Error", switch=switchpgn)
+    return jsonify(result="Error", switch=switchid)
 
   # Create an client object
   #cache = IronCache()
@@ -19885,7 +19885,7 @@ def setdimmerapi():
   #log.info("sendswitchapi dimmerpgn %s", dimmerpgn)
   
   if deviceid == "":
-    return jsonify(result="Error", switch=dimmerpgn)
+    return jsonify(result="Error", switch=dimmerid)
 
   # Create an client object
   #cache = IronCache()
