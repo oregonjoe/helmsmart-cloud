@@ -1879,22 +1879,22 @@ def getSwitchValues(alertParameters, alarmstatus):
     if series_parameters['alarmmode'] == 'alarmswitchon' or series_parameters['alarmmode'] == 'alarmswitchoff':
         if series_parameters['alarmmode'] == 'alarmswitchon' :
             if alarmstatus == 'active':
-                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
                 switchdata['value']=1  
                 log.info('getSwitchValues: Email query switch data:alarmswitchon true %s: %s ', parameters['deviceid'], switchdata)
             else:
-                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
                 switchdata['value']=0  
                 log.info('getSwitchValues: Email query switch data:alarmswitchon false %s: %s ', parameters['deviceid'], switchdata)
 
             
         elif series_parameters['alarmmode'] == 'alarmswitchoff' :
             if alarmstatus == 'active':
-                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
                 switchdata['value']=0                    
                 log.info('getSwitchValues: Email query switch data:alarmswitchoff true %s: %s ', parameters['deviceid'], switchdata)
             else:
-                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
                 switchdata['value']=1                    
                 log.info('getSwitchValues: Email query switch data:alarmswitchoff false %s: %s ', parameters['deviceid'], switchdata)
             #switchdata['instance']=1
@@ -1913,7 +1913,7 @@ def getSwitchValues(alertParameters, alarmstatus):
       if debug_all: log.info('getSwitchValues: TypeError in EmailAlertPost-Cloud %s:  ' % str(e))
 
   except NameError as e:
-      if debug_all: log.info('getSensorValues: NameError in EmailAlertPost-Cloud %s:  ' % str(e))
+      if debug_all: log.info('getSwitchValues: NameError in EmailAlertPost-Cloud %s:  ' % str(e))
 
   except UnboundLocalError as e:
       if debug_all: log.info('getSwitchValues: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
