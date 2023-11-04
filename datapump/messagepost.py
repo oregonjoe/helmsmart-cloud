@@ -58,6 +58,18 @@ sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=envir
 
 #queue_url = 'SQS_QUEUE_URL'
 queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
+
+
+
+class DateEncoder(json.JSONEncoder):
+  def default(self, obj):
+    if hasattr(obj, 'isoformat'):
+      return obj.isoformat()
+    else:
+      return str(obj)
+
+
+
 # ****************************************************************
 # converts database standard sensor units to specified units
 # *************************************************************************
