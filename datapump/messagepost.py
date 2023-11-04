@@ -1550,7 +1550,7 @@ def make_HSAlert_json(series_number, parameters, distance, value, alarmstatus):
 
             if value == "":
                 series_parameters["title"]= series_parameters['title']
-                series_parameters["interval"]= series_parameters['Interval']
+                series_parameters["interval"]= parameters['Interval']
                 series_parameters["alarmtype"]= series_parameters['alarmtype']
                 series_parameters["alarmmode"]= series_parameters['alarmmode']
                 series_parameters["alarmlow"]= series_parameters['alarmlow']
@@ -1563,7 +1563,7 @@ def make_HSAlert_json(series_number, parameters, distance, value, alarmstatus):
 
             else:
                 series_parameters["title"]= series_parameters['title']
-                series_parameters["interval"]= series_parameters['Interval']
+                series_parameters["interval"]= parameters['Interval']
                 series_parameters["alarmtype"]= series_parameters['alarmtype']
                 series_parameters["alarmmode"]= series_parameters['alarmmode']
                 series_parameters["alarmlow"]= series_parameters['alarmlow']
