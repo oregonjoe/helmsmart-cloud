@@ -19784,7 +19784,7 @@ def setswitchapi():
 
   deviceid = getedeviceid(deviceapikey)
     
-  log.info("sendswitchapi deviceid %s", deviceid)
+  log.info("setswitchapi deviceid %s", deviceid)
   #log.info("sendswitchapi switchpgn %s", switchpgn)
   
   if deviceid == "":
