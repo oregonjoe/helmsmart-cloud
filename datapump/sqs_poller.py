@@ -134,6 +134,109 @@ def proc(message):
     if "SSEA00" in partition:
       try:
         if debug_all: log.info('Got Alert message %s: %s ', device_id, partition)
+
+
+        try:
+          records = message['payload']
+          device = message['device_id']
+          partition = message['partition'][:-4]
+          switchdata = message.get('switchdata', {})
+          if debug_all: log.info('sqs_poller:SSEA00 switch %s: %s ', device, switchdata)
+
+          dimmerdata = message.get('dimmerdata', {})
+          if debug_all: log.info('sqs_poller:SSEA00 dimmerdata %s: %s ', device, dimmerdata)
+
+          timmerdata = message.get('timmerdata', {})
+          if debug_all: log.info('sqs_poller:SSEA00 timmerdata %s: %s ', device, timmerdata)       
+          
+    
+          if debug_all: log.info('sqs_poller got EmailAlert %s: %s', device, records)
+          #dump_firebase(device,  "Alert", partition, json.dumps(records))
+          dump_pcdinfirebase(device,  "Alert", partition, json.dumps(records))
+          
+          
+          #if debug_all: log.info('sqs_poller: Alert message update_firebase_index %s: %s ', device, partition)
+          #update_firebase_index(device, "Alert", partition)
+          
+          if debug_all: log.info('Inserted Alert message %s: %s ', device, partition)
+          
+        except:
+          if debug_all: log.info('sqs_poller:: Error in proc SSEA00 %s:', partition)
+
+          e = sys.exc_info()[0]
+          if debug_all: log.info("sqs_poller::  in proc SSEA00 Error: %s" % e)
+          pass
+
+
+        #if timmerdata or (timmerdata != ""  and timmerdata != None and timmerdata is not None):
+        #if timmerdata  is not {}:
+        if timmerdata :
+          #url = "https://api.telemetryapp.com/data"
+          log.info('sqs_poller:SSEA00 timmerdata  %s ', timmerdata)
+          timmerInstance  =timmerdata.get('instance',0)
+          timmerType  =timmerdata.get('type','LED Dimmer 4 Channel')
+          timmerParameter  =timmerdata.get('parameter','value0')
+          timmerArray =timmerdata.get('timmer_array',"")
+          
+          devicedataurl = "http://www.helmsmart.net/settimmerapi?deviceid=" + str(device)
+          devicedataurl = devicedataurl + "&instance=" + str(timmerInstance)
+          devicedataurl = devicedataurl + "&type=" + str(timmerType)
+          devicedataurl = devicedataurl + "&parameter=" + str(timmerParameter)
+          devicedataurl = devicedataurl + "&array=" + str(timmerArray)
+
+          log.info("sqs_poller:  in proc SSEA00 timmer: %s", devicedataurl)
+
+          
+          headers = {'content-type': 'application/json'}
+          response = requests.get(devicedataurl)
+
+        #if switchdata or (switchdata != ""  and switchdata != None and switchdata is not None):
+        #if switchdata  is not {}:
+        if switchdata :          
+          #url = "https://api.telemetryapp.com/data"
+          log.info('sqs_poller:SSEA00 switchdata  %s ', switchdata)
+          switchInstance  =switchdata.get('instance',15)
+          switchid  =switchdata.get('index',15)
+          switchvalue =switchdata.get('value',3)
+
+          devicedataurl = "http://www.helmsmart.net/setswitchapi?deviceid=" + str(device)
+          devicedataurl = devicedataurl + "&instance=" + str(switchInstance)
+          devicedataurl = devicedataurl + "&switchid=" + str(switchid)
+          devicedataurl = devicedataurl + "&switchvalue=" + str(switchvalue)
+
+          log.info("sqs_poller:  in proc SSEA00 switch: %s", devicedataurl)
+
+          
+          headers = {'content-type': 'application/json'}
+          response = requests.get(devicedataurl)
+
+
+        #if dimmerdata or (dimmerdata != ""  and dimmerdata != None and dimmerdata is not None):
+        #if dimmerdata  is not {}:
+        if dimmerdata  :                
+          log.info('sqs_poller:SSEA00 dimmer  %s ', dimmerdata)
+          dimmerInstance  =dimmerdata.get('instance',15)
+          dimmerid  =dimmerdata.get('index',15)
+          dimmervalue =dimmerdata.get('value',255)
+          dimmeroverride =dimmerdata.get('override',0)
+          
+          devicedataurl = "http://www.helmsmart.net/setdimmerapi?deviceid=" + str(device)
+          devicedataurl = devicedataurl + "&instance=" + str(dimmerInstance)
+          devicedataurl = devicedataurl + "&dimmerid=" + str(dimmerid)
+          devicedataurl = devicedataurl + "&dimmervalue=" + str(dimmervalue)
+          devicedataurl = devicedataurl + "&dimmeroverride=" + str(dimmeroverride)
+          
+          log.info("sqs_poller:  in proc SSEA00 dimmer: %s", devicedataurl)
+
+          
+          headers = {'content-type': 'application/json'}
+          response = requests.get(devicedataurl)
+
+
+
+
+
+
         
       except:
         if debug_all: log.info('s3_poller:: Error in proc SSEA00 %s:', partition)
@@ -142,7 +245,10 @@ def proc(message):
         if debug_all: log.info("s3_poller::  in proc SSEA00 Error: %s" % str(e))
         pass
 
-      
+
+    # ##########################################################
+    # Got a message from a seasmart gateway via HTTP POST
+    # ##########################################################
     elif "SSA300" in partition:  
       try:
         #if debug_all: log.info('s3_poller Got PushSmart SQS message %s: ', partition)
@@ -182,6 +288,7 @@ def proc(message):
         if debug_all: log.info('s3_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
         #log.info('s3_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
         #081316 JLB - added influxdb-cloud update
+        # write parsed nmea data to database
         dump_influxdb_cloud(device_id, partition, records)
 
       except TypeError as e:
