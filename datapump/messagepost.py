@@ -1913,7 +1913,8 @@ def getSwitchValues(parameters, alarmstatus):
             #switchdata['instance']=1
             #switchdata['index']=1
 
-    log.info('getSwitchValues: parameters %s: switchdata %s ', parameters['deviceid'], switchdata)
+    if switchdata != {}:
+      log.info('getSwitchValues: parameters %s: switchdata %s ', parameters['deviceid'], switchdata)
     return switchdata
 
 
@@ -2004,8 +2005,8 @@ def getDimmerValues(parameters, alarmstatus):
               dimmerdata['override']=1
               log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride false %s: %s ', parameters['deviceid'], dimmerdata)
 
-
-    log.info('getDimmerValues: parameters %s: dimmerdata = %s ', parameters['deviceid'], dimmerdata)
+    if dimmerdata != {}:
+      log.info('getDimmerValues: parameters %s: dimmerdata = %s ', parameters['deviceid'], dimmerdata)
     return dimmerdata
 
 
