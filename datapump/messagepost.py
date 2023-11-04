@@ -2096,7 +2096,7 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
     nowtime = datetime.datetime.now()
   
     data['subject']= parameters.get('subject',"")
-    data['interval']= parameters('Interval',"")
+    data['interval']= parameters.get('Interval',"")
     data['AlertId']= alertkey
 
     data['alertmode']= parameters.get('alertmode', "disabled")
