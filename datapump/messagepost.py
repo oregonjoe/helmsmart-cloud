@@ -2089,7 +2089,7 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
   data = {}
 
   try:    
-
+    log.info('SendHSAlert: parameters %s:  ', parameters)
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
 
