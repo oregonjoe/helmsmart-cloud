@@ -1913,7 +1913,7 @@ def getSwitchValues(parameters, alarmstatus):
             #switchdata['instance']=1
             #switchdata['index']=1
 
-    log.info('getSwitchValues: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
+    log.info('getSwitchValues: parameters %s: switchdata %s ', parameters['deviceid'], switchdata)
     return switchdata
 
 
