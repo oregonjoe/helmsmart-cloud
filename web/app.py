@@ -835,7 +835,7 @@ def setdimmerapi():
 
   log.info("setdimmerapi deviceid %s", deviceid)
   
-  newdimmeritem{}
+  newdimmeritem={}
 
   return jsonify(result="OK", state="COMPLETED", statusCode= 200,  dimmer=newdimmeritem)
 
