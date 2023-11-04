@@ -2206,24 +2206,24 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
       log.info("SendHSAlert:Parse JSON device_json %s:  ", device_json)
 
     except SystemExit as e:
-      log.info("SendHSAlert SQS:SystemExitError device_id %s: partition: %s data: %s ", device_id, partition, device_json)
+      log.info("SendHSAlert SQS:SystemExitError device_id %s: partition: %s  ", device_id, partition, )
       log.info('Que SQS:SystemExitError  Error in que SQS %s:  ' % e)
 
     except NameError as e:
-      log.info("SendHSAlert SQS:NameError device_id %s: %s ", device_id, device_json)
+      log.info("SendHSAlert SQS:NameError device_id %s:  ", device_id)
       log.info('SendHSAlert SQS:NameError  Error in que SQS %s:  ' % e)
 
     except TypeError as e:
-      log.info("Que SQS:TypeError device_id %s: %s ", device_id, device_json)
+      log.info("Que SQS:TypeError device_id %s: ", device_id)
       log.info('Que SQS:TypeError  Error in que SQS %s:  ' % e)
       
     except UnicodeDecodeError as e:
-      log.info("SendHSAlert SQS:UnicodeDecodeError device_id %s: %s ", device_id, device_json)
+      log.info("SendHSAlert SQS:UnicodeDecodeError device_id %s: ", device_id)
       log.info('SendHSAlert SQS:UnicodeDecodeError  Error in que SQS %s:  ' % e)
       
     except:
       e = sys.exc_info()[0]
-      log.info("SendHSAlert SQS:device_id %s: partition: %s data: %s ", device_id, partition, device_json)
+      log.info("SendHSAlert SQS:device_id %s: partition: %s ", device_id, partition)
       log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
 
     
