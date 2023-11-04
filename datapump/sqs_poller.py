@@ -178,7 +178,7 @@ def proc(message):
           timmerParameter  =timmerdata.get('parameter','value0')
           timmerArray =timmerdata.get('timmer_array',"")
           
-          devicedataurl = "http://www.helmsmart-cloud.herokuapp.com/settimmerapi?deviceid=" + str(device)
+          devicedataurl = "http://helmsmart-cloud.herokuapp.com/settimmerapi?deviceid=" + str(device)
           devicedataurl = devicedataurl + "&instance=" + str(timmerInstance)
           devicedataurl = devicedataurl + "&type=" + str(timmerType)
           devicedataurl = devicedataurl + "&parameter=" + str(timmerParameter)
@@ -199,7 +199,7 @@ def proc(message):
           switchid  =switchdata.get('index',15)
           switchvalue =switchdata.get('value',3)
 
-          devicedataurl = "http://www.helmsmart-cloud.herokuapp.com/setswitchapi?deviceid=" + str(device)
+          devicedataurl = "http://helmsmart-cloud.herokuapp.com/setswitchapi?deviceid=" + str(device)
           devicedataurl = devicedataurl + "&instance=" + str(switchInstance)
           devicedataurl = devicedataurl + "&switchid=" + str(switchid)
           devicedataurl = devicedataurl + "&switchvalue=" + str(switchvalue)
@@ -220,7 +220,7 @@ def proc(message):
           dimmervalue =dimmerdata.get('value',255)
           dimmeroverride =dimmerdata.get('override',0)
           
-          devicedataurl = "http://www.helmsmart-cloud.herokuapp.com/setdimmerapi?deviceid=" + str(device)
+          devicedataurl = "http://helmsmart-cloud.herokuapp.com/setdimmerapi?deviceid=" + str(device)
           devicedataurl = devicedataurl + "&instance=" + str(dimmerInstance)
           devicedataurl = devicedataurl + "&dimmerid=" + str(dimmerid)
           devicedataurl = devicedataurl + "&dimmervalue=" + str(dimmervalue)
