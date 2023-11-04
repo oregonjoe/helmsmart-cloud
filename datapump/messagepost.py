@@ -1561,9 +1561,22 @@ def make_HSAlert_json(series_number, parameters, distance, value, alarmstatus):
                 series_parameters["distance"]= distance
                 series_parameters["value"]= value
 
+
+        except TypeError as e:
+            if debug_all: log.info('make_HSAlert_json: TypeError in  %s:  ' % str(e))
+            
+        except KeyError as e:
+            if debug_all: log.info('make_HSAlert_json: KeyError in  %s:  ' % str(e))
+
+        except NameError as e:
+            if debug_all: log.info('make_HSAlert_json: NameError in  %s:  ' % str(e))
+
+        except IndexError as e:
+            if debug_all: log.info('make_HSAlert_json: IndexError in  %s:  ' % str(e))          
+
         except:
-            if debug_all: log.info('make_HSAlert_json: Error in make_HSAlert_json %s:  ', series_number)
-            e = sys.exc_info()[0]
+            if debug_all: log.info("make_HSAlert_json: Error: %s" % e)
+            
             
         #if debug_all: log.info('Telemetry:make_HSAlert_jsonseries_parameters %s',series_parameters )
         return series_parameters
@@ -1994,23 +2007,23 @@ def getDimmerValues(parameters, alarmstatus):
     log.info('getDimmerValues: parameters %s: dimmerdata = %s ', parameters['deviceid'], dimmerdata)
 
   except KeyError as e:
-      if debug_all: log.info('getDimmerValues: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
+      if debug_all: log.info('getDimmerValues error: KeyError in EmailAlertPost-Cloud %s:  ' % str(e))
 
   except ValueError as e:
-      if debug_all: log.info('getDimmerValues: ValueError in EmailAlertPost-Cloud %s:  ' % str(e))
+      if debug_all: log.info('getDimmerValues error: ValueError in EmailAlertPost-Cloud %s:  ' % str(e))
 
   except TypeError as e:
-      if debug_all: log.info('getDimmerValues: TypeError in EmailAlertPost-Cloud %s:  ' % str(e))
+      if debug_all: log.info('getDimmerValues error: TypeError in EmailAlertPost-Cloud %s:  ' % str(e))
 
   except NameError as e:
-      if debug_all: log.info('getDimmerValues: NameError in EmailAlertPost-Cloud %s:  ' % str(e))
+      if debug_all: log.info('getDimmerValues error: NameError in EmailAlertPost-Cloud %s:  ' % str(e))
 
   except UnboundLocalError as e:
-      if debug_all: log.info('getDimmerValues: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
+      if debug_all: log.info('getDimmerValues error: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
       
   except:
       e = sys.exc_info()[0]
-      if debug_all: log.info("getDimmerValues: Error: %s" % e)
+      if debug_all: log.info("getDimmerValues error: Error: %s" % e)
 
 # ****************************************************************
 # SEND EMAIL ALERT
