@@ -2095,8 +2095,8 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
 
     nowtime = datetime.datetime.now()
   
-    data['subject']= parameters['subject']
-    data['interval']= parameters['Interval']
+    data['subject']= parameters.get('subject',"")
+    data['interval']= parameters('Interval',"")
     data['AlertId']= alertkey
 
     data['alertmode']= parameters.get('alertmode', "disabled")
@@ -2206,24 +2206,24 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
       log.info("SendHSAlert:Parse JSON device_json %s:  ", device_json)
 
     except SystemExit as e:
-      log.info("SendHSAlert SQS:SystemExitError device_id %s: partition: %s data: %s ", device_id, partition, request.data)
+      log.info("SendHSAlert SQS:SystemExitError device_id %s: partition: %s data: %s ", device_id, partition, device_json)
       log.info('Que SQS:SystemExitError  Error in que SQS %s:  ' % e)
 
     except NameError as e:
-      log.info("SendHSAlert SQS:NameError device_id %s: %s ", device_id, request.data)
+      log.info("SendHSAlert SQS:NameError device_id %s: %s ", device_id, device_json)
       log.info('SendHSAlert SQS:NameError  Error in que SQS %s:  ' % e)
 
     except TypeError as e:
-      log.info("Que SQS:TypeError device_id %s: %s ", device_id, request.data)
+      log.info("Que SQS:TypeError device_id %s: %s ", device_id, device_json)
       log.info('Que SQS:TypeError  Error in que SQS %s:  ' % e)
       
     except UnicodeDecodeError as e:
-      log.info("SendHSAlert SQS:UnicodeDecodeError device_id %s: %s ", device_id, request.data)
+      log.info("SendHSAlert SQS:UnicodeDecodeError device_id %s: %s ", device_id, device_json)
       log.info('SendHSAlert SQS:UnicodeDecodeError  Error in que SQS %s:  ' % e)
       
     except:
       e = sys.exc_info()[0]
-      log.info("SendHSAlert SQS:device_id %s: partition: %s data: %s ", device_id, partition, request.data)
+      log.info("SendHSAlert SQS:device_id %s: partition: %s data: %s ", device_id, partition, device_json)
       log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
 
     
@@ -2239,24 +2239,24 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
 
       #print(response['MessageId'])
 
-      log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+      log.info("SendHSAlert sent SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
     except botocore.exceptions.ClientError as e:
-      log.info("Send SQS:ClientError device_id %s:  ", device_id)
-      log.info('Send SQS:ClientError  Error in que SQS %s:  ' % e)
+      log.info("SendHSAlert SQS:ClientError device_id %s:  ", device_id)
+      log.info('SendHSAlert SQS:ClientError  Error in que SQS %s:  ' % e)
 
     except botocore.exceptions.ParamValidationError as e:
-      log.info("Send SQS:ParamValidationError device_id %s:  ", device_id)
-      log.info('Send SQS:ParamValidationError  Error in que SQS %s:  ' % e)
+      log.info("SendHSAlert SQS:ParamValidationError device_id %s:  ", device_id)
+      log.info('SendHSAlert SQS:ParamValidationError  Error in que SQS %s:  ' % e)
 
     except NameError as e:
-      log.info("Send SQS:NameError device_id %s:  ", device_id)
-      log.info('Send SQS:NameError  Error in que SQS %s:  ' % e)    
+      log.info("SendHSAlert SQS:NameError device_id %s:  ", device_id)
+      log.info('SendHSAlert SQS:NameError  Error in que SQS %s:  ' % e)    
       
     except:
       e = sys.exc_info()[0]
-      log.info("Send SQS:device_id %s:  ", device_id)
-      log.info('Send SQS: Error in que SQS %s:  ' % e)
+      log.info("SendHSAlert SQS:device_id %s:  ", device_id)
+      log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
 
     
 
