@@ -45,7 +45,16 @@ from psycopg_pool import ConnectionPool
 db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
 
 
+import botocore
+import boto3
+# Get the service resource
+#sqs = boto3.resource('sqs')
+#s3 = boto3.resource(service_name='sqs', region_name='REGION_NAME')
 
+sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
+
+#queue_url = 'SQS_QUEUE_URL'
+queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 # ****************************************************************
 # converts database standard sensor units to specified units
 # *************************************************************************
@@ -2143,7 +2152,7 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
 
     # que up HSAlert message
     """
-    queue.write(queue.new_message(json.dumps(
+    sqs_queue.write(queue.new_message(json.dumps(
         dict(
               partition = "SSEA00_000000_00"+myTime+".txt",
               device_id = parameters['deviceid'],
@@ -2162,6 +2171,91 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
     # end of message queing ,cls = MyEncoder
     mymessage='qued SQS message for Alerts updaate'
     """
+
+      try:
+
+        device_id = parameters.get('deviceid', "")
+
+        #"partition": "SSA300_000051_01231026203849.txt"
+        #partition = "SSEA00"
+        #partition = "SSEA00_000000_00"+myTime+".txt",
+        myTime = nowtime.strftime("%y%m%d%H%M%S")
+
+        
+        log.info("Que SQS:Parse JSON payload %s:  ", payload)
+        
+        device_json = json.dumps(
+          dict(
+                  partition = "SSEA00_000000_00"+myTime+".txt",
+                  device_id = parameters['deviceid'],
+                  subject = parameters['subject'] ,
+                  payload =  data,
+                  switchdata = switchdata,
+                  dimmerdata = dimmerdata_key,
+                  timmerdata = timmerdata_key,
+                  content_type = 'application/json',
+                  dyno_id = os.environ['DYNO']
+                ),
+          cls=DateEncoder)
+
+        #log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
+        log.info("Que SQS:Parse JSON device_id %s:  ", device_id)
+        log.info("Que SQS:Parse JSON device_id %s:  ", device_json)
+
+      except SystemExit as e:
+        log.info("Que SQS:SystemExitError device_id %s: partition: %s data: %s ", device_id, partition, request.data)
+        log.info('Que SQS:SystemExitError  Error in que SQS %s:  ' % e)
+
+      except NameError as e:
+        log.info("Que SQS:NameError device_id %s: %s ", device_id, request.data)
+        log.info('Que SQS:NameError  Error in que SQS %s:  ' % e)
+
+      except TypeError as e:
+        log.info("Que SQS:TypeError device_id %s: %s ", device_id, request.data)
+        log.info('Que SQS:TypeError  Error in que SQS %s:  ' % e)
+        
+      except UnicodeDecodeError as e:
+        log.info("Que SQS:UnicodeDecodeError device_id %s: %s ", device_id, request.data)
+        log.info('Que SQS:UnicodeDecodeError  Error in que SQS %s:  ' % e)
+        
+      except:
+        e = sys.exc_info()[0]
+        log.info("Que SQS:device_id %s: partition: %s data: %s ", device_id, partition, request.data)
+        log.info('Que SQS: Error in que SQS %s:  ' % e)
+
+    
+      try:
+      
+        # Send message to SQS queue
+        response = sqs_queue.send_message(
+            QueueUrl=queue_url,
+            DelaySeconds=10,
+            #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+            MessageBody=(device_json)
+        )
+
+        #print(response['MessageId'])
+
+        log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+
+      except botocore.exceptions.ClientError as e:
+        log.info("Send SQS:ClientError device_id %s:  ", device_id)
+        log.info('Send SQS:ClientError  Error in que SQS %s:  ' % e)
+
+      except botocore.exceptions.ParamValidationError as e:
+        log.info("Send SQS:ParamValidationError device_id %s:  ", device_id)
+        log.info('Send SQS:ParamValidationError  Error in que SQS %s:  ' % e)
+
+      except NameError as e:
+        log.info("Send SQS:NameError device_id %s:  ", device_id)
+        log.info('Send SQS:NameError  Error in que SQS %s:  ' % e)    
+        
+      except:
+        e = sys.exc_info()[0]
+        log.info("Send SQS:device_id %s:  ", device_id)
+        log.info('Send SQS: Error in que SQS %s:  ' % e)
+
+    
 
   except NameError as e:
     if debug_all: log.info('process_message: NameError in SendHSAlert %s:  ' % str(e))
