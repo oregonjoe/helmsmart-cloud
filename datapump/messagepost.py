@@ -1866,7 +1866,7 @@ def getSensorValues(alertParameters):
 # 
 # takes alert message sensor key and returns the switch values
 # *************************************************************************
-def getSwitchValues(alertParameters):
+def getSwitchValues(alertParameters, alarmstatus):
 
   
   switchdata = {}
@@ -1878,7 +1878,7 @@ def getSwitchValues(alertParameters):
   try:
     if series_parameters['alarmmode'] == 'alarmswitchon' or series_parameters['alarmmode'] == 'alarmswitchoff':
         if series_parameters['alarmmode'] == 'alarmswitchon' :
-            if alarmresult['status'] == 'active':
+            if alarmstatus == 'active':
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1  
                 log.info('getSwitchValues: Email query switch data:alarmswitchon true %s: %s ', parameters['deviceid'], switchdata)
@@ -1889,7 +1889,7 @@ def getSwitchValues(alertParameters):
 
             
         elif series_parameters['alarmmode'] == 'alarmswitchoff' :
-            if alarmresult['status'] == 'active':
+            if alarmstatus == 'active':
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=0                    
                 log.info('getSwitchValues: Email query switch data:alarmswitchoff true %s: %s ', parameters['deviceid'], switchdata)
@@ -1926,7 +1926,7 @@ def getSwitchValues(alertParameters):
 # 
 # takes alert message sensor key and returns the dimmer values
 # *************************************************************************
-def getDimmerValues(alertParameters):
+def getDimmerValues(alertParameters, alarmstatus):
 
   
   dimmerdata = {}
@@ -1937,7 +1937,7 @@ def getDimmerValues(alertParameters):
   try:
     if series_parameters['alarmmode'] == 'alarmleddimmer' or series_parameters['alarmmode'] == 'alarmrgbdimmer' or series_parameters['alarmmode'] == 'alarmblinkdimmer' or series_parameters['alarmmode'] == 'alarmblinkdimmeronoff' or series_parameters['alarmmode'] == 'alarmdimmeroverride':
       if series_parameters['alarmmode'] == 'alarmleddimmer' :
-          if alarmresult['status'] == 'active':
+          if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']   
               log.info('getDimmerValues: Email query dimmer data:alarmleddimmer true %s: %s ', parameters['deviceid'], dimmerdata)
@@ -1948,7 +1948,7 @@ def getDimmerValues(alertParameters):
 
           
       elif series_parameters['alarmmode'] == 'alarmrgbdimmer' :
-          if alarmresult['status'] == 'active':
+          if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']                       
               log.info('getDimmerValues: Email query dimmer data:alarmrgbdimmer true %s: %s ', parameters['deviceid'], dimmerdata)
@@ -1959,7 +1959,7 @@ def getDimmerValues(alertParameters):
 
           
       elif series_parameters['alarmmode'] == 'alarmblinkdimmer' :
-          if alarmresult['status'] == 'active':
+          if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']                       
               log.info('Telemetrypost: Email query dimmer data:alarmblinkdimmer true %s: %s ', parameters['deviceid'], dimmerdata)
@@ -1969,7 +1969,7 @@ def getDimmerValues(alertParameters):
               log.info('getDimmerValues: Email query dimmer data:alarmblinkdimmer false %s: %s ', parameters['deviceid'], dimmerdata)
 
       elif series_parameters['alarmmode'] == 'alarmblinkdimmeronoff' :
-          if alarmresult['status'] == 'active':
+          if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']                       
               log.info('getDimmerValues: Email query dimmer data:alarmblinkdimmeronoff true %s: %s ', parameters['deviceid'], dimmerdata)
@@ -1979,7 +1979,7 @@ def getDimmerValues(alertParameters):
               log.info('Telemetrypost: Email query dimmer data:alarmblinkdimmeronoff false %s: %s ', parameters['deviceid'], dimmerdata)
 
       elif series_parameters['alarmmode'] == 'alarmdimmeroverride' :
-          if alarmresult['status'] == 'active':
+          if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']
               dimmerdata['override']=2
@@ -2296,13 +2296,13 @@ def process_message(alert_message):
           # #########################################################
           # second lets check for any switch data and get switch states
           # #########################################################
-          switchdata = getSwitchValues(parameters)
+          switchdata = getSwitchValues(parameters, alarmresult['status'])
 
           log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
           # #########################################################
           # third lets check for any dimmer data and get dimmer states
           # #########################################################
-          dimmerdata = getDimmerValues(parameters)
+          dimmerdata = getDimmerValues(parameters, alarmresult['status'])
 
           log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
 
