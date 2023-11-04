@@ -763,81 +763,6 @@ def freeboard_getdashboardlist():
     return jsonify({'preferences':dashboardlists})
   #  result = json.dumps(r, cls=DateEncoder)
 
-  #response = make_response(dashboardlists)
-  #response.headers['Cache-Control'] = 'public, max-age=0'
-  #response.headers['content-type'] = "application/json"
-  #return response
-
-# ######################################################
-# called from sqs_poller when it ques a set timmer command via timmer task list
-# #####################################################
-@app.route('/settimmerapi')
-def settimmerapi():
-  deviceid = request.args.get('deviceid', '000000000000')
-  timmertype = request.args.get('type', "")
-  timmerparameter = request.args.get('parameter', "")
-  timmervalues = request.args.get('array', "")
-  instance = request.args.get('instance', "0")
-
-
-  
-    
-  log.info("settimmerapi deviceid %s", deviceid)
-  log.info("settimmerapi timmertype %s", timmertype)
-  log.info("settimmerapi instance %s", instance)
-  log.info("settimmerapi parameter %s", timmerparameter)
-
-  # timmertype, timmerparameter, instance could all be empty strings which will cause problems
-
-  if timmertype == "":
-    return jsonify(result="Error", timmer=deviceid)
-
-  if instance == "":
-    return jsonify(result="Error", timmer=deviceid)
-
-  if timmerparameter == "":
-    return jsonify(result="Error", timmer=deviceid)
-
-  if deviceid == "":
-    return jsonify(result="Error", timmer=deviceid)
-
-
-# ######################################################
-# called from sqs_poller when it ques a set switch command via timmer task list
-# #####################################################
-@app.route('/setswitchapi')
-def setswitchapi():
-  deviceid = request.args.get('deviceid', '000000000000')
-  switchid = request.args.get('switchid', "0")
-  switchvalue = request.args.get('switchvalue', "3")
-  instance = request.args.get('instance', "0")
-
-
-  #deviceid = getedeviceid(deviceapikey)
-    
-  log.info("setswitchapi deviceid %s", deviceid)
-  #log.info("sendswitchapi switchpgn %s", switchpgn)
-  
-  if deviceid == "":
-    return jsonify(result="Error", switch=switchid)
-
-
-# ######################################################
-# called from sqs_poller when it ques a set dimmer command via timmer task list
-# #####################################################
-@app.route('/setdimmerapi')
-def setdimmerapi():
-  deviceid = request.args.get('deviceid', '000000000000')
-  dimmerid = request.args.get('dimmerid', "0")
-  dimmeroverride = request.args.get('dimmeroverride', "0")
-  dimmervalue = request.args.get('dimmervalue', "255")
-  instance = request.args.get('instance', "0")
-
-  log.info("setdimmerapi deviceid %s", deviceid)
-  
-  newdimmeritem={}
-
-  return jsonify(result="OK", state="COMPLETED", statusCode= 200,  dimmer=newdimmeritem)
 
 
 # ######################################################
@@ -19844,6 +19769,9 @@ def freeboard_ac_status_array():
     return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
 
 
+# ######################################################
+# called from sqs_poller when it ques a set switch command via timmer task list
+# #####################################################
 
 @app.route('/setswitchapi')
 @cross_origin()
@@ -19935,6 +19863,11 @@ def setswitchapi():
 
   
   return jsonify(result="OK", switch=newswitchitem)
+
+
+# ######################################################
+# called from sqs_poller when it ques a set switch command via timmer task list
+# #####################################################
 
 @app.route('/setdimmerapi')
 @cross_origin()
@@ -20068,3 +20001,36 @@ def setdimmerapi():
   
   return jsonify(result="OK", dimmer=newdimmeritem)
   
+# ######################################################
+# called from sqs_poller when it ques a set timmer command via timmer task list
+# #####################################################
+@app.route('/settimmerapi')
+def settimmerapi():
+  deviceid = request.args.get('deviceid', '000000000000')
+  timmertype = request.args.get('type', "")
+  timmerparameter = request.args.get('parameter', "")
+  timmervalues = request.args.get('array', "")
+  instance = request.args.get('instance', "0")
+
+
+  
+    
+  log.info("settimmerapi deviceid %s", deviceid)
+  log.info("settimmerapi timmertype %s", timmertype)
+  log.info("settimmerapi instance %s", instance)
+  log.info("settimmerapi parameter %s", timmerparameter)
+
+  # timmertype, timmerparameter, instance could all be empty strings which will cause problems
+
+  if timmertype == "":
+    return jsonify(result="Error", timmer=deviceid)
+
+  if instance == "":
+    return jsonify(result="Error", timmer=deviceid)
+
+  if timmerparameter == "":
+    return jsonify(result="Error", timmer=deviceid)
+
+  if deviceid == "":
+    return jsonify(result="Error", timmer=deviceid)
+
