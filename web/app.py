@@ -18839,7 +18839,8 @@ def make_timmerpgn_array(timmerArrays, timmerinstance, timmerid, timmervalues):
   valueArray = []
   #int(timmerinstance)
   for x in range(0,144):
-    valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+    #valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+    valueArray.append( getIndexFromValue(timmervaluesarray[x]))))
 
   try:
     
@@ -18880,7 +18881,8 @@ def make_timmerpgn(timmerArrays, timmerinstance, timmerid, timmervalues):
   if len(timmerArrays[int(timmerinstance)]) < 144:
   
     for x in range(0,144):
-      valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+      #valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+      valueArray.append( getIndexFromValue(timmervaluesarray[x]))))
       
     log.info("make_timmerpgn   valueArray = %s", valueArray)
       
@@ -18889,9 +18891,10 @@ def make_timmerpgn(timmerArrays, timmerinstance, timmerid, timmervalues):
       
   else:
     for x in range(0,144):
-      if int(filter(str.isdigit, timmervaluesarray[x])) != int(255):
-        temp = int(filter(str.isdigit, timmervaluesarray[x]))
-        #timmerArrays[int(timmerinstance)][x] = int(filter(str.isdigit, timmervaluesarray[x]))
+      if getIndexFromValue(timmervaluesarray[x])))  != int(255):
+        #temp = int(filter(str.isdigit, timmervaluesarray[x]))
+        temp =getIndexFromValue(timmervaluesarray[x]))) 
+        
 
     #if int(timmervaluesarray[x]) != int(255):
      #   timmerArray[x] = int(timmervaluesarray[x])       
@@ -18903,6 +18906,18 @@ def make_timmerpgn(timmerArrays, timmerinstance, timmerid, timmervalues):
 
   return timmerpgn
 
+
+def getIndexFromValue(valueStr)
+
+  try:
+    index = int(re.search("\d+", valueStr)[0])
+    
+    return index
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('getIndexFromValue: Error  %s:  ' % e)
+    return ""
 
 # **********************************************************************
 #
@@ -19238,13 +19253,14 @@ def events_endpoint(device_id, partition):
 
       
       #timmerparameterindex =  int(filter(str.isdigit, timmerparameter))
-      timmerparameterindex = int(re.search("\d+", timmerparameter)[0])
+      timmerparameterindex = getIndexFromValue( timmerparameter)
+
+      
       log.info("make_timmerpgn_array   timmerparameterindex %s", timmerparameterindex)
       valueArray = []
       #int(timmerinstance)
       for x in range(0,144):
-        #valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
-        valueArray.append(  int(re.search("\d+", timmervaluesarray[x])[0]))
+        valueArray.append( getIndexFromValue(timmervaluesarray[x]))
         
       log.info("events_endpoint get make_timmerpgn_array valueArray %s", valueArray )
       
@@ -20520,7 +20536,7 @@ def settimmerapi():
 
   # this creates an error if the value is empty string ""
   #timmerparameterindex =  int(filter(str.isdigit, str(timmerparameter)))
-  timmerparameterindex = int(re.search("\d+", timmerparameter)[0])
+  timmerparameterindex = getIndexFromValue(timmerparameter)
   
   log.info("settimmerapi    timmerparameterindex %s", timmerparameterindex)
   #log.info("settimmerapi values %s", timmervalues)
