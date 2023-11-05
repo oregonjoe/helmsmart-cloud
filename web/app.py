@@ -20514,3 +20514,126 @@ def settimmerapi():
   if deviceid == "":
     return jsonify(result="Error", timmer=deviceid)
 
+  # this creates an error if the value is empty string ""
+  timmerparameterindex =  int(filter(str.isdigit, str(timmerparameter)))
+
+  
+  log.info("settimmerapi    timmerparameterindex %s", timmerparameterindex)
+  #log.info("settimmerapi values %s", timmervalues)
+  #log.info("sendswitchapi switchpgn %s", switchpgn)
+
+
+  if str(timmertype) == "RGB 1 Channel":
+    instance = timmerparameterindex
+  elif str(timmertype) == "LED 4 Channel":
+    instance = timmerparameterindex
+
+  
+
+
+  timmeritem=""
+  try:
+    #log.info("setdimmerapi - IronCache  get key %s", "dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer")
+   
+    timmerid =str(deviceid) + '_timmer_' +  str(instance )
+    log.info('settimmerapi - MemCache  get deviceid %s timmerid %s:  ', deviceid, timmerid)
+
+    #timmeritem = mc.get(deviceid + '_timmer' )
+    timmeritem = mc.get(timmerid)
+    log.info('settimmerapi - MemCache  get deviceid %s payload %s:  ', deviceid, timmeritem)
+
+  except NameError as e:
+    log.info('settimmerapi - MemCache  get NameError %s:  ' % str(e))
+
+    
+  except:
+    timmeritem = ""
+    log.info('settimmerapi - MemCache   get error  deviceid %s payload %s:  ', deviceid, timmeritem)
+    e = sys.exc_info()[0]
+    log.info('settimmerapi - MemCache  get error %s:  ' % e)
+
+
+
+  # Create an client object
+  #cache = IronCache()
+
+
+  # Get existing keys that match instance
+  # will include all switchid's in single instance and possible commands for each dimmer id
+  # if unit is off-line these will stach up into long list of commands
+  """  
+  try:
+    #log.info("setdimmerapi - IronCache  get key %s", "dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer_"+str(instance))
+    dimmeritem = cache.get(cache=deviceid, key="dimmer")
+
+  except NameError, e:
+      log.info('setdimmerapi - IronCache NameError %s:  ' % str(e))
+
+    
+  except:
+    dimmeritem = ""
+    log.info('setdimmerapi - IronCache error  %s:  ', dimmeritem)
+    e = sys.exc_info()[0]
+    log.info('setdimmerapi - IronCache error %s:  ' % e)
+  """
+
+  
+  # if we have old keys we need to delete redundent keys with same switch id's and values
+  # since these will all be set at one time
+
+  #create new timmerpgn
+  timmerpgn = {'instance':instance, 'timmerid':timmertype, 'timmerparameter':timmerparameter, 'timmervalues':timmervalues}
+  
+  newtimmeritem=[]      
+  if timmeritem != "" and timmeritem != None and timmeritem is not None:
+    log.info("settimmerapi - MemCache  key exists %s", timmeritem)
+    #jsondata = json.loads(dimmeritem)
+    jsondata = timmeritem
+    #log.info("setdimmerapi - IronCache  key exists %s", dimmeritem.value)
+    #jsondata = json.loads(dimmeritem.value)
+    for item in jsondata:
+      #do not append old item if it matches the new one
+      if item != timmerpgn:
+        newtimmeritem.append(item)
+      
+
+    
+  #dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue}
+  #now add new dimmerpgn
+  newtimmeritem.append(timmerpgn)
+  log.info("settimmerapi - Cache  new key  %s",json.dumps(newtimmeritem))
+
+   
+
+  log.info("settimmerapi put timmer device= %s key = %s", deviceid, newtimmeritem)
+  #log.info("setdimmerapi - IronCache  put key %s", "dimmer_"+str(instance))
+  #log.info("setdimmerapi - IronCache  put key %s", "dimmer")
+  #item=cache.put(cache=deviceid, key="dimmer", value=newdimmeritem )
+  #log.info("IronCache response key %s", item)
+
+
+  try:
+    #log.info("setdimmerapi - IronCache  get key %s", "dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer")
+    #mc.set(deviceid + '_timmer' , newtimmeritem, time=600)
+    mc.set(timmerid, newtimmeritem, time=600)
+   
+
+    log.info('settimmerapi - MemCache  set deviceid %s payload %s:  ', deviceid, newtimmeritem)
+
+  except NameError as e:
+    log.info('settimmerapi - MemCache set NameError %s:  ' % str(e))
+
+    
+  except:
+    timmeritem = ""
+    log.info('settimmerapi - MemCache set error  deviceid %s payload %s:  ', deviceid, newtimmeritem)
+    e = sys.exc_info()[0]
+    log.info('settimmerapi - MemCache set error %s:  ' % e)
+
+    
+  return jsonify(result="OK", timmer=timmeritem)
