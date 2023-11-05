@@ -19243,9 +19243,10 @@ def events_endpoint(device_id, partition):
       valueArray = []
       #int(timmerinstance)
       for x in range(0,144):
-        valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+        #valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+        valueArray.append(  int(re.search("\d+", timmervaluesarray[x])[0]))
         
-      #log.info("events_endpoint get make valueArray %s", valueArray )
+      log.info("events_endpoint get make_timmerpgn_array valueArray %s", valueArray )
       
       try:
         
