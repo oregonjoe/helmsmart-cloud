@@ -19331,28 +19331,30 @@ def events_endpoint(device_id, partition):
   # Now return response based on any cached switch/dimmer/timmer keys
   # #######################################################
   epochtime =  int(time.time())
+
+  log.info("events_endpoint memc keys switchpgn %s dimmerpgns %s timmerpgns %s",switchpgn, dimmerpgns, timmerpgns )
   
-  if switchpgn == "" and dimmeritem == "" and timmeritem == "":
+  if switchpgn == "" and len(dimmerpgns) == 0 and len(timmerpgns) == 0:
     log.info("events_endpoint sending empty post response %s", device_id ) 
     return jsonify(result="OK", epochtime=epochtime)
 
-  elif switchpgn != "" and dimmeritem == "" and timmeritem == "":
+  elif switchpgn != "" and len(dimmerpgns) == 0 and len(timmerpgns) == 0:
     log.info("events_endpoint sending switchpgn %s", switchpgn )  
     #cache.delete(cache=device_id, key="switch_0")
     return jsonify(result="OK", switch=switchpgn, epochtime=epochtime)
 
-  elif switchpgn == "" and dimmeritem != "" and timmeritem == "":
+  elif switchpgn == "" and len(dimmerpgns) != 0 and len(timmerpgns) == 0:
     log.info("events_endpoint sending dimmer key %s", dimmeritem )
     #cache.delete(cache=device_id, key="dimmer")
     return jsonify(result="OK", dimmer=dimmerpgns, epochtime=epochtime)
 
-  elif switchpgn == "" and dimmeritem != "" and timmeritem != "":
+  elif switchpgn == "" and len(dimmerpgns) != 0 and len(timmerpgns) != 0:
     log.info("events_endpoint sending dimmer key %s", dimmeritem )
     #cache.delete(cache=device_id, key="dimmer")
     return jsonify(result="OK", dimmer=dimmerpgns, timmer=timmerpgns,  epochtime=epochtime)  
 
 
-  elif switchpgn == "" and dimmeritem == "" and timmeritem != "":
+  elif switchpgn == "" and len(dimmerpgns) == 0 and len(timmerpgns) != 0:
     log.info("events_endpoint sending timmer key %s", timmerpgns )
     #cache.delete(cache=device_id, key="dimmer")
     return jsonify(result="OK", timmer=timmerpgns, epochtime=epochtime)
