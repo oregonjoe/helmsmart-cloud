@@ -18907,7 +18907,7 @@ def make_timmerpgn(timmerArrays, timmerinstance, timmerid, timmervalues):
   return timmerpgn
 
 
-def getIndexFromValue(valueStr)
+def getIndexFromValue(valueStr):
 
   try:
     index = int(re.search("\d+", valueStr)[0])
