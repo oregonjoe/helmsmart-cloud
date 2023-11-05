@@ -18840,7 +18840,7 @@ def make_timmerpgn_array(timmerArrays, timmerinstance, timmerid, timmervalues):
   #int(timmerinstance)
   for x in range(0,144):
     #valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
-    valueArray.append( getIndexFromValue(timmervaluesarray[x]))))
+    valueArray.append( getIndexFromValue(timmervaluesarray[x]))
 
   try:
     
@@ -18882,7 +18882,7 @@ def make_timmerpgn(timmerArrays, timmerinstance, timmerid, timmervalues):
   
     for x in range(0,144):
       #valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
-      valueArray.append( getIndexFromValue(timmervaluesarray[x]))))
+      valueArray.append( getIndexFromValue(timmervaluesarray[x]))
       
     log.info("make_timmerpgn   valueArray = %s", valueArray)
       
@@ -18891,9 +18891,9 @@ def make_timmerpgn(timmerArrays, timmerinstance, timmerid, timmervalues):
       
   else:
     for x in range(0,144):
-      if getIndexFromValue(timmervaluesarray[x])))  != int(255):
+      if getIndexFromValue(timmervaluesarray[x])  != int(255):
         #temp = int(filter(str.isdigit, timmervaluesarray[x]))
-        temp =getIndexFromValue(timmervaluesarray[x]))) 
+        temp =getIndexFromValue(timmervaluesarray[x]) 
         
 
     #if int(timmervaluesarray[x]) != int(255):
