@@ -4,7 +4,7 @@ from os import environ as env, path
 #import pylibmc
 import bmemcached
 import sys
-
+import re
 
 import json
 
@@ -20515,8 +20515,8 @@ def settimmerapi():
     return jsonify(result="Error", timmer=deviceid)
 
   # this creates an error if the value is empty string ""
-  timmerparameterindex =  int(filter(str.isdigit, str(timmerparameter)))
-
+  #timmerparameterindex =  int(filter(str.isdigit, str(timmerparameter)))
+  timmerparameterindex = int(re.search("\d+", timmerparameter)[0])
   
   log.info("settimmerapi    timmerparameterindex %s", timmerparameterindex)
   #log.info("settimmerapi values %s", timmervalues)
