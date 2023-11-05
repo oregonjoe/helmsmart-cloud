@@ -18778,7 +18778,11 @@ def events_endpoint(device_id, partition):
   try:
 
     log.info("Que SQS:Parse JSON request.data %s:  ", request.data)
-    
+
+    # ######################################################
+    # First lets package the seasmart gateway payload into a json so we can place in SQS queue
+    # #######################################################
+
     device_json = json.dumps(
       dict(
               device_id = device_id,
@@ -18817,7 +18821,9 @@ def events_endpoint(device_id, partition):
 
 
   try:
-    
+    # ######################################################
+    # now place in SQS queue
+    # #######################################################
     # Send message to SQS queue
     response = sqs_queue.send_message(
         QueueUrl=queue_url,
@@ -18846,43 +18852,351 @@ def events_endpoint(device_id, partition):
     e = sys.exc_info()[0]
     log.info("Send SQS:device_id %s:  ", device_id)
     log.info('Send SQS: Error in que SQS %s:  ' % e)
-    
 
-  """
+
+  # ######################################################
+  # Next we will check MCACHER for any Switch keys
+  # #######################################################
+  switchitem = ""
+  switchpgn=""
+  # Memcacher get
   try:
-    
-    # read message from SQS queue
-    response = sqs_queue.receive_message(
-        QueueUrl=queue_url,
-        MaxNumberOfMessages=1,
-        MessageAttributeNames=[  'All'  ],
-        VisibilityTimeout=0,
-        WaitTimeSeconds=0
-    )
+    switchitem = mc.get(device_id + '_switch' )
+    log.info('events_endpoint - MemCache switch get  deviceid %s payload %s:  ', device_id, switchitem)
+
+  except:
+    switchitem = ""
+    log.info('events_endpoint - MemCache switch error  deviceid %s payload %s:  ', device_id, switchitem)
+    e = sys.exc_info()[0]
+    log.info('events_endpoint - MemCache switch error %s:  ' % e)
+
+  if switchitem != "" and switchitem != None and switchitem is not None:
+    switchpgn=""
+    statusvalues=[]
+    statusvalues.append(int(3))    
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+    statusvalues.append(int(3))
+
+    log.info("events_endpoint get switch key %s", switchitem )
+
+    #for each event make a new Switch PGN that adds in the previous events
+    for data in switchitem:
+      log.info("events_endpoint get switch data %s ", data)
+      #json_data = json.loads(data)
+      #log.info("events_endpoint get switch jsondata %s %s %s", json_data.instance,  json_data.switchid, json_data.switchvalue)
+      switchinstance = int(data['instance'])
+      switchid = int(data['switchid'])
+      switchvalue = int(data['switchvalue'])
+      # append switch events so we write them once
+      switchpgn = make_switchpgn(statusvalues, switchinstance,switchid,switchvalue)
+      log.info("events_endpoint get make switchpgn %s", switchpgn )
+      
+
+    # Memcacher delete
+    try:
+      mc.delete(device_id + '_switch' )
+      log.info('events_endpoint - MemCache switch delete  deviceid %s payload %s:  ', device_id, switchpgn)
+      
+    except:
+      log.info('events_endpoint - MemCache switch error  deviceid %s payload %s:  ', device_id, switchpgn)
+      e = sys.exc_info()[0]
+      log.info('events_endpoint - MemCache switch error %s:  ' % e)
+    #break
+
+  else:
+    switchpgn="" 
+    log.info("events_endpoint no values in switch cache %s", switchpgn )
+
+  # ######################################################
+  # Next we will check MCACHER for any dimmer keys
+  # #######################################################
+  dimmeritem = ""
+  dimmerpgn=""
+# Memcacher get
+  try:
+
+    dimmeritem = mc.get(device_id + '_dimmer' )
+
+    log.info('events_endpoint - MemCache dimmer get  deviceid %s payload %s:  ', device_id, dimmeritem)
+
+
+  except:
+    dimmeritem = ""
+    log.info('events_endpoint - MemCache dimmer error  deviceid %s payload %s:  ', device_id, dimmeritem)
+    e = sys.exc_info()[0]
+    log.info('events_endpoint - MemCache dimmer error %s:  ' % e)    
+
+  if dimmeritem != ""  and dimmeritem != None and dimmeritem is not None:
+    dimmerpgn=""
+    statusvalues=[]
+
+    for x in range(0,256):
+      statusvalues.append(int(255))    
 
     
+    # sort list so higher overrides are last to be sure they take effect
+    # 0 = No Override and will be deleted from MemCache on next HTTP Post from Gateway
+    # 1 = Remove Override - sent from WebPage to trun override Off
+    # 2-4 = Enabel override whihc is not removed from MemCache untill a override=1 is recieved.
+    dimmeritem = sorted(dimmeritem, key = lambda i: ( i['dimmeroverride'],i['instance'])) 
 
-    #print(response['Messages'][0])
+    log.info("events_endpoint get dimmer key %s", dimmeritem )
 
-    log.info("Read SQS:device_id %s:  response %s: ", device_id,response['Messages'][0])
+    dimmerpgns=[]
+    savedimmeritems = []
+    
+    for data in dimmeritem:
+      log.info("events_endpoint get dimmer data %s", data )
+      dimmerinstance = int(data['instance'])
+      dimmerid = int(data['dimmerid'])
+      dimmervalue = int(data['dimmervalue'])
+      dimmeroverride = int(data['dimmeroverride'])
+      log.info("events_endpoint get make dimmerpgn dimmeroverride %s", dimmeroverride )
+    
+      # Make up Responce dimmer PGN to send back to gateway if valid dimmervalue only if override is not false
+      if dimmeroverride != 1 and dimmervalue != 255:
+        dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance,dimmerid,dimmervalue,dimmeroverride)
+        log.info("events_endpoint get make dimmerpgn %s", dimmerpgn )
+        dimmerpgns.append(dimmerpgn)
+        log.info("events_endpoint get make dimmerpgns %s", dimmerpgns )
+        
+      else:
+        log.info("events_endpoint NULL dimmervalue so ignore " )
+      
 
-  except botocore.exceptions.ClientError as e:
-    log.info("Read SQS:ClientError device_id %s:  ", device_id)
-    log.info('Read SQS:ClientError  Error in que SQS %s:  ' % e)
+    # Memcacher delete
+    try:
 
-  except botocore.exceptions.ParamValidationError as e:
-    log.info("Read SQS:ParamValidationError device_id %s:  ", device_id)
-    log.info('Read SQS:ParamValidationError  Error in que SQS %s:  ' % e)
+      # dont delete any active overides  - they expire in 10 minutes if not renewed
+      mc.delete(device_id + '_dimmer' )
+      log.info('events_endpoint - MemCache dimmer delete  deviceid %s payload %s:  ', device_id, dimmerpgns)
 
-  except NameError as e:
-    log.info("Read SQS:NameError device_id %s:  ", device_id)
-    log.info('Read SQS:NameError  Error in que SQS %s:  ' % e)    
+        
+    except:
+      log.info('events_endpoint - MemCache dimmer error  deviceid %s payload %s:  ', device_id, dimmerpgns)
+      e = sys.exc_info()[0]
+      log.info('events_endpoint - MemCache dimmer error %s:  ' % e)
+
+  # ######################################################
+  # Next we will check MCACHER for any timmer keys
+  # #######################################################
+  timmeritem = ""
+  timmerpgn=""
+ # Memcacher get
+  # first get global instance counter for device id
+  # global variable for timmer instances used in memcache ids
+  #variable is incremented in each device push from 0 to 31 so
+  #that we only pick one instance at a time.
+  #This prevents pushing too many timmer updates at once to each gateway.
+  #Thus we only push one timmer instance at a time but cycle though all of them eventually
+  global_t_instance=0
+  try:
+    #global_t_instance  is a counter  that modo 32   
+    global_t_instance = mc.get(device_id + '_timmerid' )
+    
+    #global_t_instance  is a counter  that modo 32
+    if not (0 <= global_t_instance <= 31):
+      global_t_instance=0
+    #  mc.incr((device_id + '_timmerid' ))      
+
+    #else:
+    #  global_t_instance=0
+    #  mc.set((device_id + '_timmerid' ), global_t_instance)
+      
+    log.info('events_endpoint - MemCache get timmerid  deviceid %s global_t_instance %s:  ', device_id, global_t_instance)
     
   except:
+    global_t_instance = 0
+    #mc.set((device_id + '_timmerid' ), global_t_instance)
+    #log.info('events_endpoint - MemCache timmer error  deviceid %s global_t_instance %s:  ', device_id, global_t_instance)
     e = sys.exc_info()[0]
-    log.info("Send SQS:device_id %s:  ", device_id)
-    log.info('Send SQS: Error in que SQS %s:  ' % e)
-  """
+    #log.info('events_endpoint - MemCache timmer error %s:  ' % e)
+
+  timmeritem = ""
+
+  cache_instance = global_t_instance
+
+  for x in range(0, 32):
+
+  
+    try:
+      #global_t_instance  is a counter  that modo 32
+
+      timmerid =str(device_id) + '_timmer_' +  str(cache_instance)
+      #log.info('events_endpoint - MemCache timmer get  deviceid %s timmerid %s:  ', device_id, timmerid)
+      
+      timmeritem = mc.get(timmerid )
+
+      #log.info('events_endpoint - MemCache timmer get  timmerid %s payload %s:  ', timmerid, timmeritem)
+
+      if timmeritem != ""  and timmeritem != None and timmeritem is not None:
+        global_t_instance = cache_instance
+        break
+      
+      else:
+        global_t_instance =  cache_instance
+        cache_instance  = ((cache_instance+1) % 32)
+      
+    except:
+      timmeritem = ""
+      #log.info('events_endpoint - MemCache read timmer error  timmerid %s :  ', timmerid)
+      e = sys.exc_info()[0]
+      #log.info('events_endpoint - MemCache timmer error %s:  ' % e)
+
+  #update instance index to point to next one
+  mc.set((device_id + '_timmerid' ), ((global_t_instance+1) % 32))      
+  log.info('events_endpoint - MemCache read timmer loop completed  timmerid %s instance %s :  ', device_id, global_t_instance)
+ 
+  
+  if timmeritem != ""  and timmeritem != None and timmeritem is not None:
+    timmerpgn=""
+    timmerArrays=[]
+    timmerArray=[]
+
+        
+    for t_instance in range(0,16):
+      timmerArrays.append(timmerArray)
+         
+    #for each event make a new Switch PGN that adds in the previous events
+    timmerpgns=[]
+    for data in timmeritem:
+      #log.info("events_endpoint get timmer data %s", data )
+      timmerinstance = int(data['instance'])
+      timmertype = data['timmerid']
+      timmerparameter = str(data.get('timmerparameter', 'value0'))
+      timmervalues = str(data['timmervalues'])
+      # append switch events so we write them once
+      #timmerpgn = make_timmerpgn_array(timmerArrays, timmerinstance,timmerid,str(timmervalues))
+
+
+      #update new timmer value
+      timmervalues.replace("[","")
+      #log.info("make_timmerpgn   timmervalues length = %s", len(timmervalues))  
+      timmervalues.replace("]","")
+      #log.info("make_timmerpgn   timmervalues = %s", timmervalues)  
+      timmervaluesarray = timmervalues.split(",")
+      log.info("make_timmerpgn_array   timmervalues length %s", len(timmerArrays))
+      log.info("make_timmerpgn_array   timmerinstance %s", timmerinstance)
+      log.info("make_timmerpgn_array   timmertype %s", timmertype)
+      log.info("make_timmerpgn_array   timmerparameter %s", timmerparameter)
+      timmerparameterindex =  int(filter(str.isdigit, timmerparameter))
+      log.info("make_timmerpgn_array   timmerparameterindex %s", timmerparameterindex)
+      valueArray = []
+      #int(timmerinstance)
+      for x in range(0,144):
+        valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+        
+      #log.info("events_endpoint get make valueArray %s", valueArray )
+      
+      try:
+        
+        timmerValues =  timmerArrays[int(timmerinstance)]
+
+        log.info("make_timmerpgn_array   timmervalues exists %s", len(timmerValues))
+
+        if len(timmerValues) == 144:
+          log.info("make_timmerpgn_array   old timmervalues exists ")
+          for x in range(0,144):
+            if int(valueArray[x]) != int(255):
+              timmerArrays[int(timmerinstance)][x] = int(valueArray[x])
+        else:
+          log.info("make_timmerpgn_array   adding new timmervalues  ")
+          #for x in range(0,144):
+          timmerArrays[int(timmerinstance)]=( valueArray)
+              
+      except IndexError:
+        log.info("make_timmerpgn_array   IndexError %s " , int(timmerinstance))  
+        #timmerArrays.insert(int(timmerinstance), valueArray)
+
+
+
+    #log.info("events_endpoint get make timmerArrays %s", timmerArrays )  
+
+    for t_instance in range(0,16):
+      if len(timmerArrays[t_instance]) !=0:
+        if str(timmertype) == "LED 1 Channel":
+          timmerpgn = "$00FF07#"
+        elif str(timmertype) == "RGB 1 Channel":
+          timmerpgn = "$00FF08#"
+        elif str(timmertype) == "LED 4 Channel":
+          timmerpgn = "$00FF09#"
+        else :
+          timmerpgn = "$00FF0A#"
+          
+        timmerpgn = timmerpgn +  "{:02X}".format(t_instance)        
+        for x in range(0,144):               
+          timmerpgn = timmerpgn  +   "{:02X}".format(int( timmerArrays[t_instance][x]))  
+        timmerpgn = timmerpgn + "*24"
+        #log.info("events_endpoint get make timmerpgn %s", timmerpgn )
+             
+        timmerpgns.append(timmerpgn)
+    
+
+    log.info("events_endpoint created timmerpgns %s -> %s", device_id, timmerpgns )
+    # Memcacher delete
+    try:
+      #mc.delete(device_id + '_timmer_' + str(global_t_instance))
+      log.info('events_endpoint - MemCache timmer delete  deviceid %s payload %s:  ', device_id, timmerpgns)
+      
+    except:
+      log.info('events_endpoint - MemCache timmer error  deviceid %s payload %s:  ', device_id, timmerpgns)
+      e = sys.exc_info()[0]
+      log.info('events_endpoint - MemCache timmer error %s:  ' % e)
+    #break
+
+  else:
+    timmeritem = ""
+    timmerpgns=[]
+    log.info("events_endpoint no values in timmer cache %s", timmerpgns )
+
+
+
+  # ######################################################
+  # Now return response based on any cached switch/dimmer/timmer keys
+  # #######################################################
+  
+  if switchpgn == "" and dimmeritem == "" and timmeritem == "":
+    log.info("events_endpoint sending empty post response %s", device_id ) 
+    return jsonify(result="OK", epochtime=epochtime)
+
+  elif switchpgn != "" and dimmeritem == "" and timmeritem == "":
+    log.info("events_endpoint sending switchpgn %s", switchpgn )  
+    #cache.delete(cache=device_id, key="switch_0")
+    return jsonify(result="OK", switch=switchpgn, epochtime=epochtime)
+
+  elif switchpgn == "" and dimmeritem != "" and timmeritem == "":
+    log.info("events_endpoint sending dimmer key %s", dimmeritem )
+    #cache.delete(cache=device_id, key="dimmer")
+    return jsonify(result="OK", dimmer=dimmerpgns, epochtime=epochtime)
+
+  elif switchpgn == "" and dimmeritem != "" and timmeritem != "":
+    log.info("events_endpoint sending dimmer key %s", dimmeritem )
+    #cache.delete(cache=device_id, key="dimmer")
+    return jsonify(result="OK", dimmer=dimmerpgns, timmer=timmerpgns,  epochtime=epochtime)  
+
+
+  elif switchpgn == "" and dimmeritem == "" and timmeritem != "":
+    log.info("events_endpoint sending timmer key %s", timmerpgns )
+    #cache.delete(cache=device_id, key="dimmer")
+    return jsonify(result="OK", timmer=timmerpgns, epochtime=epochtime)
+
+  # ######################################################
+  # finally we always return the current time in the responce
+  # #######################################################
+
 
   epochtime =  int(time.time())
   return jsonify(result="OK", epochtime=epochtime)   
