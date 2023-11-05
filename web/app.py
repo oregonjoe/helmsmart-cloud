@@ -19235,7 +19235,10 @@ def events_endpoint(device_id, partition):
       log.info("make_timmerpgn_array   timmerinstance %s", timmerinstance)
       log.info("make_timmerpgn_array   timmertype %s", timmertype)
       log.info("make_timmerpgn_array   timmerparameter %s", timmerparameter)
-      timmerparameterindex =  int(filter(str.isdigit, timmerparameter))
+
+      
+      #timmerparameterindex =  int(filter(str.isdigit, timmerparameter))
+      timmerparameterindex = int(re.search("\d+", timmerparameter)[0])
       log.info("make_timmerpgn_array   timmerparameterindex %s", timmerparameterindex)
       valueArray = []
       #int(timmerinstance)
