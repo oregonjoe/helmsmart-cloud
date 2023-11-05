@@ -1,7 +1,8 @@
 import os
 from os import environ
 from os import environ as env, path
-import pylibmc  
+#import pylibmc
+import bmemcached
 import sys
 
 
@@ -175,7 +176,7 @@ oauth.register(
 # end of auth0 init
 
 
-
+"""
 mcservers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
 mcuser = os.environ.get('MEMCACHIER_USERNAME', '')
 mcpass = os.environ.get('MEMCACHIER_PASSWORD', '')
@@ -201,6 +202,18 @@ mc = pylibmc.Client(mcservers, binary=True,
                       'retry_timeout': 2,
                       'dead_timeout': 30,
                     })
+
+
+"""
+
+mcservers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
+mcuser = os.environ.get('MEMCACHIER_USERNAME', '')
+mcpassw = os.environ.get('MEMCACHIER_PASSWORD', '')
+
+mc = bmemcached.Client(mcservers, username=mcuser, password=mcpassw)
+
+mc.enable_retry_delay(True)  # Enabled by default. Sets retry delay to 5s.
+
 
 
 class DateEncoder(json.JSONEncoder):

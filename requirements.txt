@@ -14,7 +14,8 @@ psycopg==3.1.8
 psycopg-binary==3.1.8
 psycopg-pool==3.1.7
 urllib3==1.25.4
-pylibmc==1.6.3
+#pylibmc==1.6.3
+python-binary-memcached==0.31.2
 auth0-python
 python-dotenv>=0.19.2
 authlib>=1.0
