@@ -2377,11 +2377,16 @@ def process_message(alert_message):
                   timmer_instance =  ""
                   timmer_parameter =  ""
                   
+                  if series_parameters != "":
+                    timmerdata['type'] = series_parameters['type']
+                    timmerdata['instance'] = series_parameters['instance']
+                    timmerdata['parameter'] = series_parameters['parameter']
 
-                  timmerdata['type'] = timmer_type
-                  timmerdata['instance'] = timmer_instance
-                  timmerdata['parameter'] = timmer_parameter
-                  timmerdata['timmer_array'] = timmer_array
+                  else:
+                    timmerdata['type'] = timmer_type
+                    timmerdata['instance'] = timmer_instance
+                    timmerdata['parameter'] = timmer_parameter
+                    timmerdata['timmer_array'] = timmer_array
 
           else:
             if len(sensorValues) != 0:
