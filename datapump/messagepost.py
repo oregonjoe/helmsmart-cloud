@@ -2406,15 +2406,15 @@ def process_message(alert_message):
               timmer_array = alarmresult.get('timmerArray', "")
               if timmer_array != "":
 
-                    timmerdata['type'] =""
-                    timmerdata['instance'] =""
-                    timmerdata['parameter'] =""
-                    timmerdata['timmer_array'] = timmer_array
+                timmerdata['type'] =""
+                timmerdata['instance'] =""
+                timmerdata['parameter'] =""
+                timmerdata['timmer_array'] = timmer_array
                   
-                  if series_parameters != "":
-                    timmerdata['instance'] = getSensorTag(series_key, 3)
-                    timmerdata['type'] = getSensorTag(series_key, 4)
-                    timmerdata['parameter'] = getSensorTag(series_key, 5)
+                if series_parameters != "":
+                  timmerdata['instance'] = getSensorTag(series_key, 3)
+                  timmerdata['type'] = getSensorTag(series_key, 4)
+                  timmerdata['parameter'] = getSensorTag(series_key, 5)
 
 
           else:
@@ -2431,15 +2431,15 @@ def process_message(alert_message):
             timmer_array = alarmresult.get('timmerArray', "")
             if timmer_array != "":
 
-                  timmerdata['type'] =""
-                  timmerdata['instance'] =""
-                  timmerdata['parameter'] =""
-                  timmerdata['timmer_array'] = timmer_array
+              timmerdata['type'] =""
+              timmerdata['instance'] =""
+              timmerdata['parameter'] =""
+              timmerdata['timmer_array'] = timmer_array
                 
-                if series_parameters != "":
-                  timmerdata['instance'] = getSensorTag(series_key, 3)
-                  timmerdata['type'] = getSensorTag(series_key, 4)
-                  timmerdata['parameter'] = getSensorTag(series_key, 5)
+              if series_parameters != "":
+                timmerdata['instance'] = getSensorTag(series_key, 3)
+                timmerdata['type'] = getSensorTag(series_key, 4)
+                timmerdata['parameter'] = getSensorTag(series_key, 5)
               
 
           if email_body != "":        
