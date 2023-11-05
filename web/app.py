@@ -19776,13 +19776,17 @@ def freeboard_ac_status_array():
 @app.route('/setswitchapi')
 @cross_origin()
 def setswitchapi():
-  deviceapikey = request.args.get('deviceapikey', '000000000000')
+  deviceapikey = request.args.get('deviceapikey', "")
+  deviceid = request.args.get('deviceid', "")
   switchid = request.args.get('switchid', "0")
   switchvalue = request.args.get('switchvalue', "3")
   instance = request.args.get('instance', "0")
 
+  if deviceapikey != "":
+    deviceid = getedeviceid(deviceapikey)
 
-  deviceid = getedeviceid(deviceapikey)
+  elif deviceid == "":
+    return jsonify(result="Error", switch=switchid)
     
   log.info("setswitchapi deviceid %s", deviceid)
   #log.info("sendswitchapi switchpgn %s", switchpgn)
@@ -19872,14 +19876,19 @@ def setswitchapi():
 @app.route('/setdimmerapi')
 @cross_origin()
 def setdimmerapi():
-  deviceapikey = request.args.get('deviceapikey', '000000000000')
+  deviceapikey = request.args.get('deviceapikey', "")
+  deviceid = request.args.get('deviceid', "")
   dimmerid = request.args.get('dimmerid', "0")
   dimmervalue = request.args.get('dimmervalue', "3")
   dimmeroverride = request.args.get('dimmeroverride', "0")
   instance = request.args.get('instance', "0")
 
 
-  deviceid = getedeviceid(deviceapikey)
+  if deviceapikey != "":
+    deviceid = getedeviceid(deviceapikey)
+
+  elif deviceid == "":
+    return jsonify(result="Error", switch=dimmerid)
     
   log.info("setdimmerapi deviceid %s", deviceid)
   #log.info("sendswitchapi dimmerpgn %s", dimmerpgn)
