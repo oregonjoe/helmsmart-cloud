@@ -1664,6 +1664,35 @@ def getSensorParameter(sensorKey):
         e = sys.exc_info()[0]
         if debug_all: log.info("getSensorParameter: Error: %s" % e)
 
+# ****************************************************************
+# takes alert message sensor key and returns the selected value
+# *************************************************************************
+def getSensorTag(sensorKey, index):
+
+    try:
+        
+        if sensorKey.find(".*.") > 0:  
+            sensorKey = sensorKey.replace(".*.","*.")
+        
+        seriesname = sensorKey
+        seriestags = seriesname.split(".")
+        if debug_all: log.info('getSensorTag: seriestags %s:  ', seriestags)
+
+        seriesparametertag = seriestags[index]
+        if debug_all: log.info('getSensorTag: seriesparametertag %s:  ', seriesparametertag)
+        
+        seriesparameter = seriesparametertag.split(":")    
+        sensorTag = seriesparameter[1]
+        if debug_all: log.info('getSensorTag: sensorTag %s:  ', sensorTag)
+    
+        return sensorTag
+
+
+    except:
+        e = sys.exc_info()[0]
+        if debug_all: log.info("getSensorTag: Error: %s" % e)
+        return ""
+
 
 
 # ****************************************************************
@@ -2355,7 +2384,11 @@ def process_message(alert_message):
           distance = ""
 
           # extract the series alarm paramterts
+          #{'title': '/M2M/LED Dimmer/Value 0 Zone 1', 'alarmtype': 'sensor', 'units': '42', 'alarmlow': 'Brookings', 'alarmhigh': 'Brookings', 'key': 'deviceid:001EC0359C2B.sensor:seasmartdimmer.source:.*.instance:1.type:LED 1 Channel.parameter:value0.HelmSmart', 'alarmmode': 'alarmleddimmer'} 
           series_parameters = parameters.get('series_1',"")
+          
+          #'key': 'deviceid:001EC0359C2B.sensor:seasmartdimmer.source:.*.instance:1.type:LED 1 Channel.parameter:value0.HelmSmart'
+          series_key = series_parameters.get('key',"")
 
           # #########################################################
           # First lets process sensor values and check for any alarms and create email messages
@@ -2373,20 +2406,16 @@ def process_message(alert_message):
               timmer_array = alarmresult.get('timmerArray', "")
               if timmer_array != "":
 
-                  timmer_type = ""
-                  timmer_instance =  ""
-                  timmer_parameter =  ""
+                    timmerdata['type'] =""
+                    timmerdata['instance'] =""
+                    timmerdata['parameter'] =""
+                    timmerdata['timmer_array'] = timmer_array
                   
                   if series_parameters != "":
-                    timmerdata['type'] = series_parameters['type']
-                    timmerdata['instance'] = series_parameters['instance']
-                    timmerdata['parameter'] = series_parameters['parameter']
+                    timmerdata['instance'] = getSensorTag(series_key, 3)
+                    timmerdata['type'] = getSensorTag(series_key, 4)
+                    timmerdata['parameter'] = getSensorTag(series_key, 5)
 
-                  else:
-                    timmerdata['type'] = timmer_type
-                    timmerdata['instance'] = timmer_instance
-                    timmerdata['parameter'] = timmer_parameter
-                    timmerdata['timmer_array'] = timmer_array
 
           else:
             if len(sensorValues) != 0:
@@ -2402,15 +2431,15 @@ def process_message(alert_message):
             timmer_array = alarmresult.get('timmerArray', "")
             if timmer_array != "":
 
-                timmer_type = ""
-                timmer_instance =  ""
-                timmer_parameter =  ""
+                  timmerdata['type'] =""
+                  timmerdata['instance'] =""
+                  timmerdata['parameter'] =""
+                  timmerdata['timmer_array'] = timmer_array
                 
-
-                timmerdata['type'] = series_parameters['type']
-                timmerdata['instance'] = series_parameters['instance']
-                timmerdata['parameter'] = series_parameters['parameter']
-                timmerdata['timmer_array'] = timmer_array
+                if series_parameters != "":
+                  timmerdata['instance'] = getSensorTag(series_key, 3)
+                  timmerdata['type'] = getSensorTag(series_key, 4)
+                  timmerdata['parameter'] = getSensorTag(series_key, 5)
               
 
           if email_body != "":        
