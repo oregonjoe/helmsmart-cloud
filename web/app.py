@@ -18760,7 +18760,148 @@ def getgpsseriesbydeviceid_dbc():
 
 
 
+def make_switchpgn(statusvalues, switchinstance, switchid, switchvalue):
 
+  #update new switch value
+  statusvalues[int(switchid)]=switchvalue
+
+  #construct switchpgn
+  switchpgn = "$PCDIN,01F20E,00000000,00,"
+  switchpgn = switchpgn +  "{:02X}".format(int(switchinstance))
+  
+  swbyte = int(statusvalues[3]) << 2 | int(statusvalues[2])
+  switchpgn = switchpgn  +  "{:01X}".format(int(swbyte))  
+
+  
+  swbyte = int(statusvalues[1]) << 2 | int(statusvalues[0])
+  switchpgn = switchpgn  +  "{:01X}".format(int(swbyte))  
+
+  
+  swbyte = int(statusvalues[7]) << 2 | int(statusvalues[6])
+  switchpgn = switchpgn  +  "{:01X}".format(int(swbyte))  
+
+  
+  swbyte = int(statusvalues[5]) << 2 | int(statusvalues[4])
+  switchpgn = switchpgn  +  "{:01X}".format(int(swbyte))  
+
+  
+  swbyte = int(statusvalues[11]) << 2 | int(statusvalues[10])
+  switchpgn = switchpgn  +  "{:01X}".format(int(swbyte))  
+
+  
+  swbyte = int(statusvalues[9]) << 2 | int(statusvalues[8])
+  switchpgn = switchpgn  +  "{:01X}".format(int(swbyte))  
+
+  
+  swbyte = int(statusvalues[15]) << 2 | int(statusvalues[14])
+  switchpgn = switchpgn  +  "{:01X}".format(int(swbyte))  
+
+  
+  swbyte = int(statusvalues[13]) << 2 | int(statusvalues[12])
+  switchpgn = switchpgn  +  "{:01X}".format(int(swbyte))  
+
+
+  switchpgn = switchpgn + "FFFFFF*24"
+
+  return switchpgn
+
+
+def make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, dimmeroverride):
+
+  #update new dimmer value
+  statusvalues[int(dimmerid)]=dimmervalue
+
+  #update new dimmer control value
+  statusvalues[4]=dimmeroverride << 4
+
+  #construct dimmerpgn
+  #dimmerpgn = "$PCDIN,00FF06,00000000,00,99E1"
+  dimmerpgn = "$00FF06#"
+  dimmerpgn = dimmerpgn +  "{:02X}".format(int(dimmerinstance))
+  dimmerpgn = dimmerpgn  +   "{:02X}".format(int(statusvalues[0]))  
+  dimmerpgn = dimmerpgn  +   "{:02X}".format(int(statusvalues[1]))  
+  dimmerpgn = dimmerpgn  +   "{:02X}".format(int(statusvalues[2]))
+  dimmerpgn = dimmerpgn  +   "{:02X}".format(int(statusvalues[3]))  
+  dimmerpgn = dimmerpgn  +   "{:02X}".format(int(statusvalues[4]))
+  dimmerpgn = dimmerpgn + "*24"
+
+  return dimmerpgn
+
+def make_timmerpgn_array(timmerArrays, timmerinstance, timmerid, timmervalues):
+
+  #update new timmer value
+  timmervalues.replace("[","")
+  #log.info("make_timmerpgn   timmervalues length = %s", len(timmervalues))  
+  timmervalues.replace("]","")
+  #log.info("make_timmerpgn   timmervalues = %s", timmervalues)  
+  timmervaluesarray = timmervalues.split(",")
+  log.info("make_timmerpgn_array   timmervalues length %s", len(timmerArrays))  
+  valueArray = []
+  #int(timmerinstance)
+  for x in range(0,144):
+    valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+
+  try:
+    
+    timmerValues =  timmerArrays[int(timmerinstance)]
+
+    log.info("make_timmerpgn_array   timmervalues exists ")  
+    for x in range(0,144):
+      if int(valueArray[x]) != int(255):
+        timmerArrays[int(timmerinstance)][x] = int(valueArray[x])
+
+  except IndexError:
+    log.info("make_timmerpgn_array   inserting ")  
+    timmerArrays.insert(int(timmerinstance), valueArray)
+    
+  return
+  
+def make_timmerpgn(timmerArrays, timmerinstance, timmerid, timmervalues):
+
+  #update new timmer value
+  timmervalues.replace("[","")
+  #log.info("make_timmerpgn   timmervalues length = %s", len(timmervalues))  
+  timmervalues.replace("]","")
+  #log.info("make_timmerpgn   timmervalues = %s", timmervalues)  
+  timmervaluesarray = timmervalues.split(",")
+  
+  #log.info("make_timmerpgn   timmervaluesarray length = %s", len(timmervaluesarray))  
+  #log.info("make_timmerpgn   timmervaluesarray = %s", timmervaluesarray)  
+  #log.info("make_timmerpgn   timmerArray = %s", timmerArray)  
+  #construct dimmerpgn
+  #dimmerpgn = "$PCDIN,00FF06,00000000,00,99E1"
+  timmerpgn = "$00FF07#"
+  timmerpgn = timmerpgn +  "{:02X}".format(int(timmerinstance))
+  
+  log.info("make_timmerpgn   length timmerArray = %s", len(timmerArrays[int(timmerinstance)]))
+  
+  valueArray = []
+
+  if len(timmerArrays[int(timmerinstance)]) < 144:
+  
+    for x in range(0,144):
+      valueArray.append( int(filter(str.isdigit, timmervaluesarray[x])))
+      
+    log.info("make_timmerpgn   valueArray = %s", valueArray)
+      
+    timmerArrays[int(timmerinstance)].append(valueArray)
+      #timmerArrays[int(timmerinstance)].append( int(filter(str.isdigit, timmervaluesarray[x])))
+      
+  else:
+    for x in range(0,144):
+      if int(filter(str.isdigit, timmervaluesarray[x])) != int(255):
+        temp = int(filter(str.isdigit, timmervaluesarray[x]))
+        #timmerArrays[int(timmerinstance)][x] = int(filter(str.isdigit, timmervaluesarray[x]))
+
+    #if int(timmervaluesarray[x]) != int(255):
+     #   timmerArray[x] = int(timmervaluesarray[x])       
+        
+    timmerpgn = timmerpgn  +   "{:02X}".format(int( timmerArrays[int(timmerinstance)][x]))  
+
+  
+  timmerpgn = timmerpgn + "*24"
+
+  return timmerpgn
 
 
 # **********************************************************************
@@ -18795,7 +18936,7 @@ def events_endpoint(device_id, partition):
 
     #log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
     log.info("Que SQS:Parse JSON device_id %s:  ", device_id)
-    log.info("Que SQS:Parse JSON device_id %s:  ", device_json)
+    log.info("Que SQS:Parse JSON device_json %s:  ", device_json)
 
   except SystemExit as e:
     log.info("Que SQS:SystemExitError device_id %s: partition: %s data: %s ", device_id, partition, request.data)
