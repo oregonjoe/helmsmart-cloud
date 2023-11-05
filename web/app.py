@@ -18925,6 +18925,7 @@ def events_endpoint(device_id, partition):
   # #######################################################
   dimmeritem = ""
   dimmerpgn=""
+  dimmerpgns=[]
 # Memcacher get
   try:
 
@@ -18995,6 +18996,7 @@ def events_endpoint(device_id, partition):
   # #######################################################
   timmeritem = ""
   timmerpgn=""
+  timmerpgns=[]
  # Memcacher get
   # first get global instance counter for device id
   # global variable for timmer instances used in memcache ids
@@ -19167,6 +19169,7 @@ def events_endpoint(device_id, partition):
   # ######################################################
   # Now return response based on any cached switch/dimmer/timmer keys
   # #######################################################
+  epochtime =  int(time.time())
   
   if switchpgn == "" and dimmeritem == "" and timmeritem == "":
     log.info("events_endpoint sending empty post response %s", device_id ) 
@@ -19198,8 +19201,8 @@ def events_endpoint(device_id, partition):
   # #######################################################
 
 
-  epochtime =  int(time.time())
-  return jsonify(result="OK", epochtime=epochtime)   
+  #epochtime =  int(time.time())
+  #return jsonify(result="OK", epochtime=epochtime)   
 
 # End of main POST routine
 
