@@ -627,7 +627,11 @@ def get_sunriseset_alert(parameters, value):
         #gets sunset sunrise for current location in local time not GMT or UTC                    
         #sunriseset = getSunRiseSet(location)
         #sunriseset = sun(location, timestamp)
-        sunriseset = sun(location.observer, datetime.datetime.now())
+
+        # this gets in UTC
+        #sunriseset = sun(location.observer, datetime.datetime.now())
+        #this gets in local time
+        sunriseset = sun(location.observer, datetime.datetime.now(), tzinfo=location.timezone)
         log.info('get_sunriseset_alert: get sunrise-set type->%s  times-> %s ', alerttype , sunriseset)
         
         sunrise = sunriseset['sunrise']
@@ -638,7 +642,7 @@ def get_sunriseset_alert(parameters, value):
         result['sunrise']=str(sunrise)
         result['sunset']=str(sunset)
                     
-        log.info('get_sunriseset_alert: process_emailalert sunriseset times %s:%s timezone ->%s ',  sunrise, sunset, timezone)
+        log.info('get_sunriseset_alert: process_emailalert sunriseset local times %s:%s timezone ->%s ',  sunrise, sunset, timezone)
 
         #get timezone for current sunset/sunrise location
         mylocal = pytz.timezone(timezone)
