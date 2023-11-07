@@ -627,10 +627,14 @@ def get_sunriseset_alert(parameters, value):
         #gets sunset sunrise for current location in local time not GMT or UTC                    
         #sunriseset = getSunRiseSet(location)
         #sunriseset = sun(location, timestamp)
-        
+        #get timezone for current sunset/sunrise location
+        timezone = location.timezone
+        mylocal = pytz.timezone(timezone)
+        #get current local time for sunset/sunrise location
+        lccurrenttime = datetime.datetime.now(mylocal)
         #need to calculate sunise and set for current day not tomorrow
-        currenttime = datetime.datetime.now()
-        newdaytime = currenttime.replace(hour=0, minute=0, second=0)
+        #currenttime = datetime.datetime.now()
+        newdaytime = lccurrenttime.replace(hour=0, minute=0, second=0)
         log.info('get_sunriseset_alert:newdaytime-> %s ',newdaytime)
 
         
