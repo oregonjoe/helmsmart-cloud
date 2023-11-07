@@ -1444,7 +1444,7 @@ def get_alarms_alert(parameters, value):
 
         
         #if alerttype == "missing":
-        if value == "missing":
+        if value == "missing" or value == "---":
             text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
             text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
             text_body = text_body + "value is missing for Interval= " + parameters["Interval"] + " timestamp is:" + timestamp + '\n'
@@ -1467,10 +1467,12 @@ def get_alarms_alert(parameters, value):
             return result
 
         
-        if alerttype != "missing":               
+        if alerttype != "missing":
+            log.info("get_alarms_alert  value: %s alerttype %s", value, alerttype)
             if str(series_parameters["alarmlow"]) != "off" :
-                log.info("get_alarms_alert  low != off %s",  float(value), float(series_parameters["alarmhigh"]))
+                log.info("get_alarms_alert low != off value: %s alerttype %s", value, alerttype)
                 try:
+                    log.info("get_alarms_alert  low != off %s",  float(value), float(series_parameters["alarmhigh"]))
                     if float(value) <= float(series_parameters["alarmlow"]):
                         text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
@@ -1484,9 +1486,9 @@ def get_alarms_alert(parameters, value):
                     if debug_all: log.info("Error: %s" % e)
             
             if str(series_parameters["alarmhigh"]) != "off" :
-                #if value != "" or value != "missing" or value != "error":
-                log.info("get_alarms_alert  high != off %s",  float(value), float(series_parameters["alarmhigh"]))
+                log.info("get_alarms_alert high != off value: %s alerttype %s", value, alerttype)
                 try:
+                    log.info("get_alarms_alert  high != off %s",  float(value), float(series_parameters["alarmhigh"]))
                     if float(value) >= float(series_parameters["alarmhigh"]):
                         text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
@@ -1500,6 +1502,7 @@ def get_alarms_alert(parameters, value):
 
 
             if str(series_parameters["alarmlow"]) == "off" and str(series_parameters["alarmhigh"]) == "off" :
+                log.info("get_alarms_alert low != off  high != off value: %s alerttype %s", value, alerttype)
                 text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
                 text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                 text_body = text_body + 'is = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + "/" + str(series_parameters["alarmhigh"])+ " timestamp is:" + timestamp + '\n'
