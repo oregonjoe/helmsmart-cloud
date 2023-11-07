@@ -2130,33 +2130,28 @@ def SendEMAILAlert(parameters, alarmresult):
                 #smsnumber = str(row[1]) 
                 if debug_all: log.info('SendEMAILAlert: Email is %s:  ', alertemail)
                 if alertemail != "":
-                    sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
-                    from_email = Email("alerts@seasmart.net")
-                    subject = parameters['subject']
-                    #to_email = Email(alertemail)
-                    to_email = Email("joe@seagauge.com")
-                    content = Content("text/plain", email_body)
-                    mail = Mail(from_email, subject, to_email, content)
-                    sgresponse = sg.client.mail.send.post(request_body=mail.get())
-                    
-                    #if debug_all: log.info('Telemetrypost: Email SenGrid response.status %s',sgresponse.status_code)
-                    #if debug_all: log.info('Telemetrypost: Email SenGrid response.body %s',sgresponse.body)
-                    #if debug_all: log.info('Telemetrypost: Email SenGrid response.headers %s',sgresponse.headers)
+                    try:
+                      sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+                      from_email = Email("alerts@seasmart.net")
+                      subject = parameters['subject']
+                      #to_email = Email(alertemail)
+                      to_email = Email("joe@seagauge.com")
+                      content = Content("text/plain", email_body)
+                      mail = Mail(from_email, subject, to_email, content)
+                      sgresponse = sg.client.mail.send.post(request_body=mail.get())
+                      
+                      #if debug_all: log.info('Telemetrypost: Email SenGrid response.status %s',sgresponse.status_code)
+                      #if debug_all: log.info('Telemetrypost: Email SenGrid response.body %s',sgresponse.body)
+                      #if debug_all: log.info('Telemetrypost: Email SenGrid response.headers %s',sgresponse.headers)
 
-                    log.info('SendEMAILAlert: Email SenGrid response.status %s',sgresponse.status_code)
-                    log.info('SendEMAILAlert: Email SenGrid response.body %s',sgresponse.body)
-                    log.info('SendEMAILAlert: Email SenGrid response.headers %s',sgresponse.headers)
+                      log.info('SendEMAILAlert: Email SenGrid response.status %s',sgresponse.status_code)
+                      log.info('SendEMAILAlert: Email SenGrid response.body %s',sgresponse.body)
+                      log.info('SendEMAILAlert: Email SenGrid response.headers %s',sgresponse.headers)
 
-                                                      
-                    #pmmessage = PMMail(api_key = os.environ.get('POSTMARK_API_KEY'),
-                     #subject = parameters['subject'],
-                     #sender = "sales@helmsmart.com",
-                     #to = alertemail,
-                     #text_body = email_body,
-                     #tag = "Warning")
+                    except:
+                      e = sys.exc_info()[0]   
+                      if debug_all: log.info('SendEMAILAlert: sendgrid Error %s:  ' % str(e))                                
 
-                    #pmmessage.send()
-                        
                          
         except:
             alertemail = ''
