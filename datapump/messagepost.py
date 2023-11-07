@@ -36,6 +36,12 @@ logging.basicConfig(level=logging.INFO)
 log = logging
 
 
+import sendgrid
+
+from sendgrid.helpers.mail import *
+from sendgrid.helpers.mail import Mail, Email, Content
+
+
 from influxdb.influxdb08 import InfluxDBClient
 
 from influxdb import InfluxDBClient as InfluxDBCloud
@@ -2092,6 +2098,73 @@ def SendEMAILAlert(parameters, alarmresult):
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
+
+    email_body = alarmresult['message']
+
+    if debug_all: log.info('SendEMAILAlert: Email query %s: %s ', parameters['deviceid'], email_body)
+    
+    if email_body != "":
+        #alertemail = parameters['email']
+        alertemail = ""
+        
+        conn = db_pool.getconn()
+
+        #query = "select alertemail, smsnumber from user_devices where deviceid = %s"
+        query = "select alertemail from user_devices where deviceid = %s"
+        
+        if debug_all: log.info('SendEMAILAlert: Email query  %s ', query)
+        
+        try:
+            # first check db to see if user id is matched to device id
+            cursor = conn.cursor()
+            cursor.execute(query, (parameters['deviceid'],))
+            records = cursor.fetchall()
+
+            if cursor.rowcount == 0:
+                if debug_all: log.info('SendEMAILAlert: Email query -> no records found')
+
+
+            for row in records:     
+
+                alertemail = str(row[0])
+                #smsnumber = str(row[1]) 
+                if debug_all: log.info('SendEMAILAlert: Email is %s:  ', alertemail)
+                if alertemail != "":
+                    sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+                    from_email = Email("alerts@seasmart.net")
+                    subject = parameters['subject']
+                    #to_email = Email(alertemail)
+                    to_email = Email("joe@seagauge.com")
+                    content = Content("text/plain", email_body)
+                    mail = Mail(from_email, subject, to_email, content)
+                    sgresponse = sg.client.mail.send.post(request_body=mail.get())
+                    
+                    #if debug_all: log.info('Telemetrypost: Email SenGrid response.status %s',sgresponse.status_code)
+                    #if debug_all: log.info('Telemetrypost: Email SenGrid response.body %s',sgresponse.body)
+                    #if debug_all: log.info('Telemetrypost: Email SenGrid response.headers %s',sgresponse.headers)
+
+                    log.info('SendEMAILAlert: Email SenGrid response.status %s',sgresponse.status_code)
+                    log.info('SendEMAILAlert: Email SenGrid response.body %s',sgresponse.body)
+                    log.info('SendEMAILAlert: Email SenGrid response.headers %s',sgresponse.headers)
+
+                                                      
+                    #pmmessage = PMMail(api_key = os.environ.get('POSTMARK_API_KEY'),
+                     #subject = parameters['subject'],
+                     #sender = "sales@helmsmart.com",
+                     #to = alertemail,
+                     #text_body = email_body,
+                     #tag = "Warning")
+
+                    #pmmessage.send()
+                        
+                         
+        except:
+            alertemail = ''
+            smsnumber = ''
+      
+
+        finally:
+            db_pool.putconn(conn)
 
 
   except:

@@ -778,7 +778,7 @@ def get_sunriseset_alert(parameters, value):
                 midnighttime = currenttime.replace(hour=23, minute=59, second=59)
                 log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times midnight %s  ', midnighttime)
                 newdaytime = currenttime.replace(hour=0, minute=0, second=0)
-                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times midnight %s  ', newdaytime)
+                log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times newdaytime %s  ', newdaytime)
 
                 log.info('get_sunriseset_alert: process_emailalert compare sun set ->rise times alertoffset %s  ', alertoffset)
                 if alertoffset != 0:
