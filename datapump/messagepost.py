@@ -2500,7 +2500,9 @@ def process_message(alert_message):
               alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), "missing")
 
             email_body = alarmresult['message']
-            log.info('Posting to EmailAlertPost empty points email_body = %s', email_body)
+            log.info('Posting to EmailAlertPost alarmresult email_body = %s', email_body)
+
+            
             timmer_array = alarmresult.get('timmerArray', "")
             if timmer_array != "":
 
@@ -2552,7 +2554,7 @@ def process_message(alert_message):
           # #########################################################
           if series_parameters['alarmmode'] == 'alarmsms' or series_parameters['alarmmode'] == 'alarmemailsms':
   
-            log.info('Posting to EmailAlertPost-Cloud: sending out email deviceid= %s', parameters['deviceid'])
+            log.info('Posting to EmailAlertPost-Cloud: sending out sms deviceid= %s', parameters['deviceid'])
             SendSMSAlert(parameters, alarmresult)          
 
           # ################################################################
