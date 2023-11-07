@@ -627,11 +627,17 @@ def get_sunriseset_alert(parameters, value):
         #gets sunset sunrise for current location in local time not GMT or UTC                    
         #sunriseset = getSunRiseSet(location)
         #sunriseset = sun(location, timestamp)
+        
+        #need to calculate sunise and set for current day not tomorrow
+        currenttime = datetime.datetime.now()
+        newdaytime = currenttime.replace(hour=0, minute=0, second=0)
+        log.info('get_sunriseset_alert:newdaytime-> %s ',newdaytime)
 
+        
         # this gets in UTC
         #sunriseset = sun(location.observer, datetime.datetime.now())
         #this gets in local time
-        sunriseset = sun(location.observer, datetime.datetime.now(), tzinfo=location.timezone)
+        sunriseset = sun(location.observer, newdaytime, tzinfo=location.timezone)
         log.info('get_sunriseset_alert: get sunrise-set type->%s  times-> %s ', alerttype , sunriseset)
         
         sunrise = sunriseset['sunrise']
@@ -711,7 +717,7 @@ def get_sunriseset_alert(parameters, value):
                 midnighttime = currenttime.replace(hour=23, minute=59, second=59)
                 log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times midnight %s  ', midnighttime)
                 newdaytime = currenttime.replace(hour=0, minute=0, second=0)
-                log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times midnight %s  ', newdaytime)
+                log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times newdaytime %s  ', newdaytime)
 
                 log.info('get_sunriseset_alert: process_emailalert compare sun rise->set times alertoffset %s  ', alertoffset)
                 if alertoffset != 0:
