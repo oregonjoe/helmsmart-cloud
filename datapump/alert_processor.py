@@ -1428,7 +1428,7 @@ def get_alarms_alert(parameters, value):
     text_body= "error in get_alarms alert"
     alerttype = parameters.get('alerttype',"mean")
 
-    log.info("get_alarms_alert  deviceID: %s", parameters['deviceid'])
+    log.info("get_alarms_alert  deviceID: %s alerttype %s", parameters['deviceid'], alerttype)
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
@@ -1441,23 +1441,21 @@ def get_alarms_alert(parameters, value):
 
     try:
 
-        if alerttype != "missing":
-            if value == "missing":
-                text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                text_body = text_body + "value is missing for Interval= " + parameters["Interval"] + " timestamp is:" + timestamp + '\n'
-                result['status']="inactive"
-                result['message']=text_body
-            return result    
+
         
-        if alerttype == "missing":
-            if value == "missing":
-                text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                text_body = text_body + "value is missing for Interval= " + parameters["Interval"] + " timestamp is:" + timestamp + '\n'
+        #if alerttype == "missing":
+        if value == "missing":
+            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+            text_body = text_body + "value is missing for Interval= " + parameters["Interval"] + " timestamp is:" + timestamp + '\n'
+
+            if alerttype == "missing":
                 result['status']="active"
-                result['message']=text_body
-            return result
+            else :
+                result['status']="inactive"
+            
+            result['message']=text_body
+        return result
                 
         if alerttype == "error":
             if value == "error":
@@ -1467,38 +1465,46 @@ def get_alarms_alert(parameters, value):
                 result['status']="active"
                 result['message']=text_body
             return result
-                
-        if str(series_parameters["alarmlow"]) != "off" :
-            log.info("get_alarms_alert  low != off %s",  float(value), float(series_parameters["alarmhigh"]))
-            try:
-                if float(value) <= float(series_parameters["alarmlow"]):
-                    text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                    text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                    text_body = text_body + 'is low - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
-                    result['status']="active"
-                    #http://www.helmsmart.net/getseriesdatabykey?serieskey=deviceid:0018E78B5121.sensor:engine_parameters_dynamic.source:08.instance:1.type:NULL.parameter:engine_temp.HelmSmart&devicekey=2a4731ac48c80ee3b4c17e7d74a6825f&startepoch=1405065555&endepoch=1405094365&resolution=60&format=csv
-            except:
-                result['status']="inactive"
-                if debug_all: log.info('get_alarms_alert: low Error  %s:%s  ', text_body, value)
-                e = sys.exc_info()[0]
-                if debug_all: log.info("Error: %s" % e)
+
         
-        if str(series_parameters["alarmhigh"]) != "off" :
-            #if value != "" or value != "missing" or value != "error":
-            log.info("get_alarms_alert  high != off %s",  float(value), float(series_parameters["alarmhigh"]))
-            try:
-                if float(value) >= float(series_parameters["alarmhigh"]):
-                    text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                    text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                    text_body = text_body + 'is high - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmhigh"]) + " timestamp is:" + timestamp + '\n'
-                    result['status']="active"
-            except:
-                result['status']="inactive"
-                if debug_all: log.info('get_alarms_alert: high Error  %s:%s  ', text_body, value)
-                e = sys.exc_info()[0]
-                if debug_all: log.info("Error: %s" % e)
+        if alerttype != "missing":               
+            if str(series_parameters["alarmlow"]) != "off" :
+                log.info("get_alarms_alert  low != off %s",  float(value), float(series_parameters["alarmhigh"]))
+                try:
+                    if float(value) <= float(series_parameters["alarmlow"]):
+                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                        result['status']="active"
+                        #http://www.helmsmart.net/getseriesdatabykey?serieskey=deviceid:0018E78B5121.sensor:engine_parameters_dynamic.source:08.instance:1.type:NULL.parameter:engine_temp.HelmSmart&devicekey=2a4731ac48c80ee3b4c17e7d74a6825f&startepoch=1405065555&endepoch=1405094365&resolution=60&format=csv
+                except:
+                    result['status']="inactive"
+                    if debug_all: log.info('get_alarms_alert: low Error  %s:%s  ', text_body, value)
+                    e = sys.exc_info()[0]
+                    if debug_all: log.info("Error: %s" % e)
+            
+            if str(series_parameters["alarmhigh"]) != "off" :
+                #if value != "" or value != "missing" or value != "error":
+                log.info("get_alarms_alert  high != off %s",  float(value), float(series_parameters["alarmhigh"]))
+                try:
+                    if float(value) >= float(series_parameters["alarmhigh"]):
+                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                        text_body = text_body + 'is high - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmhigh"]) + " timestamp is:" + timestamp + '\n'
+                        result['status']="active"
+                except:
+                    result['status']="inactive"
+                    if debug_all: log.info('get_alarms_alert: high Error  %s:%s  ', text_body, value)
+                    e = sys.exc_info()[0]
+                    if debug_all: log.info("Error: %s" % e)
 
 
+            if str(series_parameters["alarmlow"]) == "off" and str(series_parameters["alarmhigh"]) == "off" :
+                text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                text_body = text_body + 'is = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + "/" + str(series_parameters["alarmhigh"])+ " timestamp is:" + timestamp + '\n'
+                result['status']="status"
+                result['message']=text_body                    
 
         result['message']=text_body
         return result
