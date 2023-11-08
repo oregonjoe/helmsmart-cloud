@@ -2197,28 +2197,28 @@ def SendEMAILAlert(parameters, alarmresult):
 
                       # send the message.
                       try:
-                          server = smtplib.SMTP(mailertogo_host, mailertogo_port)
-                          server.ehlo()
-                          server.starttls()
-                          server.ehlo()
-                          server.login(mailertogo_user, mailertogo_password)
-                          server.sendmail(sender_email, recipient_email, message.as_string())
-                          server.close()
+                        server = smtplib.SMTP(mailertogo_host, mailertogo_port)
+                        server.ehlo()
+                        server.starttls()
+                        server.ehlo()
+                        server.login(mailertogo_user, mailertogo_password)
+                        server.sendmail(sender_email, recipient_email, message.as_string())
+                        server.close()
 
 
                       except NameError as e:
-                        log.info("SendEMAILAlert mailertogo send device_id %s:  ", alertemail)
-                        log.info('SendEMAILAlert  mailertogo send NAME Error %s:  ' % e)
+                        if debug_all: log.info("SendEMAILAlert mailertogo send device_id %s:  ", alertemail)
+                        if debug_all: log.info('SendEMAILAlert  mailertogo send NAME Error %s:  ' % e)
                       except Exception as e:
-                          print ("Error: ", e)
+                        if debug_all: log.info('SendEMAILAlert: mailertogo Error %s:  ' % str(e)) 
                       else:
-                          print ("Email sent!")
+                        if debug_all: log.info("SendEMAILAlert mailertogo sent %s:  ", part1)
 
 
                       
                     except NameError as e:
-                      log.info("SendEMAILAlert mailertogo device_id %s:  ", alertemail)
-                      log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)
+                      if debug_all: log.info("SendEMAILAlert mailertogo device_id %s:  ", alertemail)
+                      if debug_all: log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)
                     except:
                       e = sys.exc_info()[0]   
                       if debug_all: log.info('SendEMAILAlert: sendgrid Error %s:  ' % str(e))                                
