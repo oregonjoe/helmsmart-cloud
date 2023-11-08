@@ -15,8 +15,8 @@ import logging
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
-debug_all = True
-#debug_all = False
+#debug_all = True
+debug_all = False
 
 
 
@@ -178,7 +178,7 @@ def convert_influxdbcloud_json(mytime, value, key):
     
 
     tagpairs = key.split(".")
-    #log.info('freeboard: convert_influxdbcloud_json tagpairs %s:  ', tagpairs)
+    #if debug_all: log.info('freeboard: convert_influxdbcloud_json tagpairs %s:  ', tagpairs)
 
     myjsonkeys={}
     #deviceid
@@ -197,14 +197,14 @@ def convert_influxdbcloud_json(mytime, value, key):
     #"deviceid:001EC010AD69.sensor:environmental_data.source:0.instance:0.type:Outside_Temperature.parameter:temperature.HelmSmart"
     #myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'source':tag2[1], 'instance':tag3[1], 'type':tag4[1], 'parameter':tag5[1]}
     myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'instance':tag3[1], 'type':tag4[1], 'parameter':tag5[1]}
-    #log.info('freeboard: convert_influxdbcloud_json tagpairs %s:  ', myjsonkeys)
+    #if debug_all: log.info('freeboard: convert_influxdbcloud_json tagpairs %s:  ', myjsonkeys)
 
     #values = {'value':value}
     values = {tag5[1]:value, 'source':tag2[1]}
     measurement = 'HS_'+str(tag0[1])
     #ifluxjson ={"measurement":tagpairs[6], "time": ts, "tags":myjsonkeys, "fields": values}
     ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
-    #log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
+    #if debug_all: log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
 
     return ifluxjson
 
@@ -334,35 +334,35 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
 #081316 JLB added influxdb_cloud insert 
 def insert_influxdb_cloud(fact_info, device, records):
   if debug_all: log.info("start of influxdb_cloud insert %s...%s records", device, len(records))
-  #log.info("start of influxdb_cloud insert %s...%s records", device, len(records))
-  #log.info("start of influxdb_cloud insert %s...%s records", partition, records)
+  #if debug_all: log.info("start of influxdb_cloud insert %s...%s records", device, len(records))
+  #if debug_all: log.info("start of influxdb_cloud insert %s...%s records", partition, records)
   try:
     mydata = []
     mydataIDBC = []
 
 
     ts = int(time.time())
-    #log.info('insert_influxdb_cloud: convert_influxdbcloud_json ts %s:  ', ts)
+    #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json ts %s:  ', ts)
   
     myjsonkeys = { 'deviceid': device}
-    #log.info('freeboard: convert_influxdbcloud_json myjsonkeys %s:  ', myjsonkeys)
+    #if debug_all: log.info('freeboard: convert_influxdbcloud_json myjsonkeys %s:  ', myjsonkeys)
     
       
     values = {'records': len(records)}
 
     measurement = 'HS_' + str(device)
-    #log.info('insert_influxdb_cloud: convert_influxdbcloud_json values %s:  ', values)
+    #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json values %s:  ', values)
     
     ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
     mydataIDBC.append(ifluxjson)
 
     
     measurement = 'HelmSmartDB'
-    #log.info('insert_influxdb_cloud: convert_influxdbcloud_json values %s:  ', values)
+    #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json values %s:  ', values)
     
     ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
     mydataIDBC.append(ifluxjson)
-    #log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs %s:  ', mydataIDBC)
+    #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs %s:  ', mydataIDBC)
     
     
     for record in records:
@@ -373,11 +373,11 @@ def insert_influxdb_cloud(fact_info, device, records):
           if record[PGN] == '01F200':
 
             try:
-              #log.info("insert_influxdb_cloud 01F200 device %s -> %s ", record[DEVICE], fact)
+              #if debug_all: log.info("insert_influxdb_cloud 01F200 device %s -> %s ", record[DEVICE], fact)
               if debug_all: log.info("insert_influxdb_cloud 01F200 device %s : %s -> %s ", record[DEVICE], record[TIMESTAMP], fact)
               instance = fact.get('engine_id', 0)
               if int(instance) > 2:
-                log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+                if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('speed', 'NULL')
@@ -415,11 +415,11 @@ def insert_influxdb_cloud(fact_info, device, records):
 
             try:
               
-              #log.info('PGN127489:  engine_parameters_dynamic ')
-              #log.info("PGN127489:  engine_parameters_dynamic  device %s fact %s", record[DEVICE], fact)      
+              #if debug_all: log.info('PGN127489:  engine_parameters_dynamic ')
+              #if debug_all: log.info("PGN127489:  engine_parameters_dynamic  device %s fact %s", record[DEVICE], fact)      
               instance = fact.get('engine_id', 0)
               if int(instance) > 2:
-                log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+                if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('oil_pressure', 'NULL')
@@ -468,7 +468,7 @@ def insert_influxdb_cloud(fact_info, device, records):
             
               instance = fact.get('instance', 0)
               if int(instance) > 2:
-                log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+                if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('oil_pressure', 'NULL')
@@ -527,7 +527,7 @@ def insert_influxdb_cloud(fact_info, device, records):
             try:
               instance = fact.get('instance', 0)
               if int(instance) > 2:
-                log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+                if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('level', 'NULL')
@@ -550,7 +550,7 @@ def insert_influxdb_cloud(fact_info, device, records):
                
               instance = fact.get('instance', 0)
               if int(instance) > 2:
-                log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+                if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('voltage', 'NULL')
@@ -602,7 +602,7 @@ def insert_influxdb_cloud(fact_info, device, records):
                
               instance = fact.get('instance', 0)
               if int(instance) > 2:
-                log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+                if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('type', 'NULL')
               value = fact.get('voltage', 'NULL')
@@ -806,10 +806,10 @@ def insert_influxdb_cloud(fact_info, device, records):
 
           #PGN130311:  ENviron Data
           elif record[PGN] == '01FD07':
-            #log.info('PGN130311:  ENviron Data ')
+            #if debug_all: log.info('PGN130311:  ENviron Data ')
             try:
               
-              log.info("PGN130311:  ENviron Data  device %s fact %s", record[DEVICE], fact)      
+              if debug_all: log.info("PGN130311:  ENviron Data  device %s fact %s", record[DEVICE], fact)      
               
               instance = fact.get('instance', 0)
               valuetype = fact.get('temperature_instance', 'NULL')
@@ -838,7 +838,7 @@ def insert_influxdb_cloud(fact_info, device, records):
             try:
               instance = fact.get('temperature_instance', 0)
               if int(instance) > 3:
-                log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+                if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('temperature_source', 'NULL')
               value = fact.get('actual_temperature', 'NULL')
@@ -861,7 +861,7 @@ def insert_influxdb_cloud(fact_info, device, records):
             try:
               instance = fact.get('temperature_instance', 0)
               #if int(instance) > 3:
-              #  log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+              #  if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('temperature_source', 'NULL')
               value = fact.get('actual_temperature', 'NULL') 
@@ -1072,7 +1072,7 @@ def insert_influxdb_cloud(fact_info, device, records):
               value = record[TIMESTAMP]
               #if debug_all: log.info('heartbeat =  %s ', int(mvalue))
               #if debug_all: log.info('sync:heartbeat =  %s : %s : %s ', record[DEVICE], dtvalue, record[TIMESTAMP] )
-              #log.info('sync:heartbeat =  %s : %s : %s ', record[DEVICE], dtvalue, record[TIMESTAMP] )
+              #if debug_all: log.info('sync:heartbeat =  %s : %s : %s ', record[DEVICE], dtvalue, record[TIMESTAMP] )
 
               if isinstance(int(mvalue), (int, float, complex)):            
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(mvalue) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:heartbeat' + '.source:' + record[SOURCE] + '.instance:0'  + '.type:NULL'  + '.parameter:timestamp' +  '.HelmSmart'   ) )         
@@ -1170,7 +1170,7 @@ def insert_influxdb_cloud(fact_info, device, records):
               
                 instance = fact.get('instance', 0)
                 if int(instance) > 16:
-                  log.info("insert_influxdb_cloud bad instance %s:%s ", device, fact)
+                  if debug_all: log.info("insert_influxdb_cloud bad instance %s:%s ", device, fact)
                   
                 valuetype = fact.get('dimmertype', 'NULL')
                 if debug_all: log.info("Dimmer dimmertype %s ", valuetype)
@@ -1224,10 +1224,10 @@ def insert_influxdb_cloud(fact_info, device, records):
               
                 instance = fact.get('instance', 0)
                 if int(instance) > 16:
-                  log.info("insert_influxdb_cloud bad instance %s:%s ", device, fact)
+                  if debug_all: log.info("insert_influxdb_cloud bad instance %s:%s ", device, fact)
                   
                 valuetype = fact.get('channel', 'NULL')
-                #log.info("Dimmer dimmertype %s ", valuetype)
+                #if debug_all: log.info("Dimmer dimmertype %s ", valuetype)
 
                 value = fact.get('runtime_sec', 'NULL')
                 if debug_all: log.info("Indicator Runtime insert value0 %s ", value)
@@ -1257,7 +1257,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
               instance = fact.get('instance', 0)
               if int(instance) > 16:
-                log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+                if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
 
               
               valuetype = fact.get('type_reference', 'NULL')
@@ -1382,7 +1382,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info("insert_influxdb_cloud 00FF60 -> %s ",fact)
+              #if debug_all: log.info("insert_influxdb_cloud 00FF60 -> %s ",fact)
               instance = fact.get('engine_id', 0)
                 
               valuetype = fact.get('type', 'HALTECH')
@@ -1428,7 +1428,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
             try:
               
-              #log.info("insert_influxdb_cloud 00FFE0 -> %s ",fact)        
+              #if debug_all: log.info("insert_influxdb_cloud 00FFE0 -> %s ",fact)        
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'HALTECH')
               
@@ -1463,7 +1463,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info("insert_influxdb_cloud 00FF61 -> %s ",fact)  
+              #if debug_all: log.info("insert_influxdb_cloud 00FF61 -> %s ",fact)  
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'HALTECH')
               
@@ -1500,7 +1500,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info("insert_influxdb_cloud 00FF61 -> %s ",fact)  
+              #if debug_all: log.info("insert_influxdb_cloud 00FF61 -> %s ",fact)  
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'HALTECH')
               
@@ -1533,7 +1533,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info("insert_influxdb_cloud 00FF71 -> %s ",fact)  
+              #if debug_all: log.info("insert_influxdb_cloud 00FF71 -> %s ",fact)  
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'HALTECH')
 
@@ -1562,7 +1562,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info("insert_influxdb_cloud 00FFE2 -> %s ",fact)  
+              #if debug_all: log.info("insert_influxdb_cloud 00FFE2 -> %s ",fact)  
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'HALTECH')
 
@@ -1587,7 +1587,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info("insert_influxdb_cloud 00FFE1 -> %s ",fact)  
+              #if debug_all: log.info("insert_influxdb_cloud 00FFE1 -> %s ",fact)  
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'HALTECH')
 
@@ -1617,7 +1617,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info("insert_influxdb_cloud 01F200 -> %s ",fact)
+              #if debug_all: log.info("insert_influxdb_cloud 01F200 -> %s ",fact)
               instance = fact.get('engine_id', 0)
                 
               valuetype = fact.get('type', 'J1939')
@@ -1654,7 +1654,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
             try:
               
-              #log.info('PGN65262:  j1939_engine_temps '+ record[PGN])          
+              #if debug_all: log.info('PGN65262:  j1939_engine_temps '+ record[PGN])          
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'J1939')
               
@@ -1694,7 +1694,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info('PGN65263:  j1939_engine_temps '+ record[PGN])          
+              #if debug_all: log.info('PGN65263:  j1939_engine_temps '+ record[PGN])          
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'J1939')
               
@@ -1744,7 +1744,7 @@ def insert_influxdb_cloud(fact_info, device, records):
               
               instance = fact.get('instance', 0)
               #if int(instance) > 2:
-              # log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
+              # if debug_all: log.info("insert_influxdb_cloud bad instance %s -> %s:%s:%s ",instance, record[PGN], device, fact.get('raw', ''))
                 
               valuetype = fact.get('type', 'J1939')
 
@@ -1790,7 +1790,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
             try:
               
-              #log.info('PGN65262:  j1939_engine_temps '+ record[PGN])          
+              #if debug_all: log.info('PGN65262:  j1939_engine_temps '+ record[PGN])          
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'J1939')
               
@@ -1826,7 +1826,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
             try:
-              #log.info('PGN65262:  j1939_engine_temps '+ record[PGN])          
+              #if debug_all: log.info('PGN65262:  j1939_engine_temps '+ record[PGN])          
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'J1939')
               
@@ -1871,7 +1871,7 @@ def insert_influxdb_cloud(fact_info, device, records):
             try:
 
               
-              #log.info('PGN65262:  j1939_engine_temps '+ record[PGN])          
+              #if debug_all: log.info('PGN65262:  j1939_engine_temps '+ record[PGN])          
               instance = fact.get('engine_id', 0)
               valuetype = fact.get('type', 'J1939')
               
@@ -2029,7 +2029,7 @@ def insert_influxdb_cloud(fact_info, device, records):
               if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
-              #log.info('PGN65014:  j1939_engine_temps %s', mydataIDBC)
+              #if debug_all: log.info('PGN65014:  j1939_engine_temps %s', mydataIDBC)
  
             except:
               e = sys.exc_info()[0] 
@@ -2207,7 +2207,7 @@ def insert_influxdb_cloud(fact_info, device, records):
               if isinstance(value, (int, float, complex)):             
                 mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], float(value) * 1.0,   'deviceid:' + record[DEVICE] + '.sensor:ac_basic' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:ac_watts' +  '.HelmSmart'   ) )         
 
-              #log.info('PGN65014:  j1939_engine_temps %s', mydataIDBC)
+              #if debug_all: log.info('PGN65014:  j1939_engine_temps %s', mydataIDBC)
  
             except:
               e = sys.exc_info()[0] 
@@ -2360,29 +2360,29 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
   except TypeError as e:
-    #log.info('Sync: TypeError in InfluxDBC mydata append %s:  ',  mydataIDBC)
-    log.info('Sync: TypeError in InfluxDBC mydata append %s:%s:%s  ', record[DEVICE] , record[PGN] , fact)
+    #if debug_all: log.info('Sync: TypeError in InfluxDBC mydata append %s:  ',  mydataIDBC)
+    if debug_all: log.info('Sync: TypeError in InfluxDBC mydata append %s:%s:%s  ', record[DEVICE] , record[PGN] , fact)
     #e = sys.exc_info()[0]
 
-    log.info('Sync: TypeError in InfluxDBC mydata append %s:  ' % str(e))
+    if debug_all: log.info('Sync: TypeError in InfluxDBC mydata append %s:  ' % str(e))
     
   except KeyError as e:
-    log.info('Sync: KeyError in InfluxDBC mydata append %s:  ', mydataIDBC)
+    if debug_all: log.info('Sync: KeyError in InfluxDBC mydata append %s:  ', mydataIDBC)
     #e = sys.exc_info()[0]
 
-    log.info('Sync: KeyError in InfluxDBC mydata append %s:  ' % str(e))
+    if debug_all: log.info('Sync: KeyError in InfluxDBC mydata append %s:  ' % str(e))
 
   except NameError as e:
-    log.info('Sync: Namerror in InfluxDBC mydata append %s: %s: %s: ', record[PGN], value, mydataIDBC)
+    if debug_all: log.info('Sync: Namerror in InfluxDBC mydata append %s: %s: %s: ', record[PGN], value, mydataIDBC)
     #e = sys.exc_info()[0]
 
-    log.info('Sync: NameError in InfluxDBC mydata append %s:  ' % str(e))     
+    if debug_all: log.info('Sync: NameError in InfluxDBC mydata append %s:  ' % str(e))     
   except:
     #if debug_all: log.info('Sync: Error in InfluxDB mydata append %s. %s, %s, %s:  ', mydata, record[TIMESTAMP], value,'deviceid:001EC010AD69.sensor:environmental_data.instance:0.type:Outside_Temperature.parameter:temperature'  )
-    log.info('Sync: Error in InfluxDBC mydata append %s:', mydataIDBC)
+    if debug_all: log.info('Sync: Error in InfluxDBC mydata append %s:', mydataIDBC)
 
     e = sys.exc_info()[0]
-    log.info("Error: %s" % e)
+    if debug_all: log.info("Error: %s" % e)
     #pass
 
   #if debug_all: log.info('Sync:  InfluxDB write mydata %s:  ', mydata)
@@ -2405,7 +2405,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
     #if debug_all: log.info('Sync:  InfluxDB write %s:  ', mydata)
     #if debug_all: log.info('Sync:  InfluxDB-Cloud write %s points', len(mydataIDBC))
-    log.info('Sync:  InfluxDB-Cloud write device=%s  points = %s', record[DEVICE], len(mydataIDBC))
+    if debug_all: log.info('Sync:  InfluxDB-Cloud write device=%s  points = %s', record[DEVICE], len(mydataIDBC))
     #db.write_points_with_precision(mydata, time_precision='ms')
 
 
@@ -2414,19 +2414,19 @@ def insert_influxdb_cloud(fact_info, device, records):
 
     #Add count of number of records written to global status
     ts = int(time.time()) * 1000
-    #log.info('insert_influxdb_cloud: convert_influxdbcloud_json ts %s:  ', ts)
+    #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json ts %s:  ', ts)
   
     myjsonkeys = { 'deviceid': device}
-    #log.info('freeboard: convert_influxdbcloud_json myjsonkeys %s:  ', myjsonkeys)
+    #if debug_all: log.info('freeboard: convert_influxdbcloud_json myjsonkeys %s:  ', myjsonkeys)
     
       
     values = {'records':len(mydataIDBC)}
     measurement = 'HelmSmartDB'
-    #log.info('insert_influxdb_cloud: convert_influxdbcloud_json values %s:  ', values)
+    #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json values %s:  ', values)
     
     ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
     mydataIDBC.append(ifluxjson)
-    #log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs %s:  ', mydataIDBC)
+    #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs %s:  ', mydataIDBC)
 
 
 
@@ -2443,8 +2443,8 @@ def insert_influxdb_cloud(fact_info, device, records):
     if debug_all: log.error('Sync: InfluxDBServerError error in InfluxDB-Cloud write %s:  ' % str(e))
 
   except InfluxDBServerError as e:
-    log.info('Sync:  InfluxDB-Cloud write device=%s  points = %s', record[DEVICE], len(mydataIDBC))
-    log.info('Sync: inFlux error in InfluxDBServer-Cloud write %s:  ' % str(e))    
+    if debug_all: log.info('Sync:  InfluxDB-Cloud write device=%s  points = %s', record[DEVICE], len(mydataIDBC))
+    if debug_all: log.info('Sync: inFlux error in InfluxDBServer-Cloud write %s:  ' % str(e))    
     if debug_all: log.error('Sync: inFlux error in InfluxDBServer-Cloud write %s:  ' % str(e))
     pass
     

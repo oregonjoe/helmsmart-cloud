@@ -18,7 +18,7 @@ from array import *
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-debug_all = True
+#debug_all = True
 
 
 requests_log = logging.getLogger("requests")
@@ -230,21 +230,21 @@ def get_HS_Message(interval):
                             else:
                                 location = a[alertlocationcity]
                             
-                            log.info("Push_Scheduler one shot timmer :  in  Astral location: %s", location)
+                            if debug_all: log.info("Push_Scheduler one shot timmer :  in  Astral location: %s", location)
                             
                             timezone = location.timezone
                             log.info("Push_Scheduler one shot timmer :  in  Astral timezone: %s", timezone)
                             mylocal = pytz.timezone(timezone)
                             #need to make time value timezone aware
                             utccurrenttime = pytz.utc.localize(currenttime)
-                            log.info('Push_Scheduler one shot timmer :  timmer once utccurrenttime secs %s  ', utccurrenttime)  
+                            if debug_all: log.info('Push_Scheduler one shot timmer :  timmer once utccurrenttime secs %s  ', utccurrenttime)  
                             
                             # adjust time to sunset/sunrise local time
                             localcurrenttime = utccurrenttime.astimezone(mylocal)
 
                             currenttime = localcurrenttime
 
-                            log.info('Push_Scheduler one shot timmer :  timmer once localcurrenttime %s  ', currenttime)
+                            if debug_all: log.info('Push_Scheduler one shot timmer :  timmer once localcurrenttime %s  ', currenttime)
 
                             #now remove timezone info so we can compare to start and end times
                             currenttime = currenttime.replace(tzinfo=None)
@@ -252,11 +252,11 @@ def get_HS_Message(interval):
                             
                             currentsecs = int(time.mktime(currenttime.timetuple()))
                         
-                        log.info('Push_Scheduler one shot timmer currentsecs %s  alertend %s', currentsecs, alertend)
+                        if debug_all: log.info('Push_Scheduler one shot timmer currentsecs %s  alertend %s', currentsecs, alertend)
                         if int(currentsecs) > int(alertend):
                             # Delete Key
                             messagekeys.append(int(row[0]))
-                            log.info('Push_Scheduler one shot timmer messagekeys %s', messagekeys)
+                            if debug_all: log.info('Push_Scheduler one shot timmer messagekeys %s', messagekeys)
                             #log.info('Push_Scheduler one shot timmer messagekeys %s', int(row[0]))
                             #messagekeys.append(int(row[0]))
                     

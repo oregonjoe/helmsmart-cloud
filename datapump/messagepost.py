@@ -25,7 +25,8 @@ from alert_processor import process_emailalert
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
-#debug_all = False
+debug_all = False
+debug_info = True
 debug_all = True
 
 
@@ -54,6 +55,7 @@ mailertogo_password = os.environ.get('MAILERTOGO_SMTP_PASSWORD')
 mailertogo_domain   = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
 
 
+from twilio.rest import Client as smsClient
 
 
 
@@ -216,11 +218,11 @@ def convertunits(value, units):
 
 
   elif units == 37: #//="37">Time</option>
-      #log.info('HeartBeat time %s:', datetime.datetime.fromtimestamp(int(value)).strftime('%H:%M:%S'))
+      #if debug_all: log.info('HeartBeat time %s:', datetime.datetime.fromtimestamp(int(value)).strftime('%H:%M:%S'))
       return (datetime.datetime.fromtimestamp(int(value)).strftime('%H:%M:%S'))
 
   elif units == 38: #//="38">Date/time</option>
-      #log.info('HeartBeat time %s:', datetime.datetime.fromtimestamp(int(value)).strftime('%m/%d/%Y %H:%M:%S'))
+      #if debug_all: log.info('HeartBeat time %s:', datetime.datetime.fromtimestamp(int(value)).strftime('%m/%d/%Y %H:%M:%S'))
       return (datetime.datetime.fromtimestamp(int(value)).strftime('%m/%d/%Y %H:%M:%S'))
     
   elif units == 39: #//="39">Hours</option>
@@ -241,7 +243,7 @@ def getepochtimes(Interval):
 
 
 
-    log.info('messagepost:  getepochtimes Interval %s:  ', Interval)
+    if debug_all: log.info('messagepost:  getepochtimes Interval %s:  ', Interval)
 
     epochtimes=[]
     starttime = 0
@@ -338,26 +340,26 @@ def getepochtimes(Interval):
         epochtimes.append(resolution)
 
     except TypeError as e:
-        log.info('messagepost: TypeError in geting getepochtimes parameters %s:  ', Interval)
-        log.info('messagepost: TypeError in geting getepochtimes parameters %s:  ' % str(e))
+        if debug_all: log.info('messagepost: TypeError in geting getepochtimes parameters %s:  ', Interval)
+        if debug_all: log.info('messagepost: TypeError in geting getepochtimes parameters %s:  ' % str(e))
             
     except KeyError as e:
-        log.info('messagepost: KeyError in geting getepochtimes parameters %s:  ', Interval)
-        log.info('messagepost: KeyError in geting getepochtimes parameters %s:  ' % str(e))
+        if debug_all: log.info('messagepost: KeyError in geting getepochtimes parameters %s:  ', Interval)
+        if debug_all: log.info('messagepost: KeyError in geting getepochtimes parameters %s:  ' % str(e))
 
     except NameError as e:
-        log.info('messagepost: NameError in geting getepochtimes parameters %s:  ', Interval)
-        log.info('messagepost: NameError in geting getepochtimes parameters %s:  ' % str(e))
+        if debug_all: log.info('messagepost: NameError in geting getepochtimes parameters %s:  ', Interval)
+        if debug_all: log.info('messagepost: NameError in geting getepochtimes parameters %s:  ' % str(e))
             
     except IndexError as e:
-        log.info('messagepost: IndexError in geting getepochtimes parameters %s:  ', Interval)
-        log.info('messagepost: IndexError in geting getepochtimes parameters %s:  ' % str(e))  
+        if debug_all: log.info('messagepost: IndexError in geting getepochtimes parameters %s:  ', Interval)
+        if debug_all: log.info('messagepost: IndexError in geting getepochtimes parameters %s:  ' % str(e))  
 
 
     except:
-        log.info('messagepost: Error in geting  getepochtimes %s:  ', Interval)
+        if debug_all: log.info('messagepost: Error in geting  getepochtimes %s:  ', Interval)
         e = sys.exc_info()[0]
-        log.info('messagepost: Error in geting getepochtimes parameters %s:  ' % str(e))
+        if debug_all: log.info('messagepost: Error in geting getepochtimes parameters %s:  ' % str(e))
 
     return(epochtimes)
 
@@ -1893,7 +1895,7 @@ def getSensorValues(alertParameters):
                             startepoch, endepoch,
                             resolution)
             
-        log.info('getSensorValues: Influx Cloud Query String %s:  ', dbcquery)
+        if debug_all: log.info('getSensorValues: Influx Cloud Query String %s:  ', dbcquery)
 
         response= dbc.query(dbcquery)
         
@@ -1903,26 +1905,26 @@ def getSensorValues(alertParameters):
         #[{'time': '2023-10-27T19:30:00Z', 'engine_temp': 350.4}, {'time': '2023-10-27T19:35:00Z', 'engine_temp': 336.64}]}):
 
         if response is None:
-            log.info('getSensorValues: InfluxDB Query has no data ')
+            if debug_all: log.info('getSensorValues: InfluxDB Query has no data ')
             return None
 
         if not response:
-            log.info('getSensorValues: InfluxDB Query has no data ')
+            if debug_all: log.info('getSensorValues: InfluxDB Query has no data ')
             return None
 
         keys = response.raw.get('series',[])
-        log.info("getSensorValues Get InfluxDB series keys %s", keys)
+        if debug_all: log.info("getSensorValues Get InfluxDB series keys %s", keys)
 
         for series in keys:
-            log.info("getSensorValues Get InfluxDB series key %s", series)
-            log.info("getSensorValues Get InfluxDB series tags %s ", series['tags'])
-            log.info("getSensorValues Get InfluxDB series columns %s ", series['columns'])
-            log.info("getSensorValues Get InfluxDB series values %s ", series['values'])
+            if debug_all: log.info("getSensorValues Get InfluxDB series key %s", series)
+            if debug_all: log.info("getSensorValues Get InfluxDB series tags %s ", series['tags'])
+            if debug_all: log.info("getSensorValues Get InfluxDB series columns %s ", series['columns'])
+            if debug_all: log.info("getSensorValues Get InfluxDB series values %s ", series['values'])
 
             for point in series['values']:
                 # point[0] is time and point[1] is sensor value
                 if point[0] is not None and  point[1] is not None:
-                    log.info("getSensorValues Get InfluxDB sensor values %s ", point[1])
+                    if debug_all: log.info("getSensorValues Get InfluxDB sensor values %s ", point[1])
                     sensorValues.append(point[1])
 
 
@@ -1945,7 +1947,7 @@ def getSensorValues(alertParameters):
         if debug_all: log.info('getSensorValues: UnboundLocalError in EmailAlertPost-Cloud %s:  ' % str(e))
 
     except InfluxDBClientError as e:
-      log.info('getSensorValues: Exception Error in InfluxDB  %s:  ' % str(e))
+      if debug_all: log.info('getSensorValues: Exception Error in InfluxDB  %s:  ' % str(e))
       
     except:
         e = sys.exc_info()[0]
@@ -1962,7 +1964,7 @@ def getSwitchValues(parameters, alarmstatus):
 
   # extract the series alarm paramterts
   series_parameters = parameters.get('series_1',"")
-  if debug_all:log.info('getSwitchValues: alertParameters %s ',parameters)
+  if debug_all:if debug_all: log.info('getSwitchValues: alertParameters %s ',parameters)
   
   try:
     if series_parameters['alarmmode'] == 'alarmswitchon' or series_parameters['alarmmode'] == 'alarmswitchoff':
@@ -1970,27 +1972,27 @@ def getSwitchValues(parameters, alarmstatus):
             if alarmstatus == 'active':
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1  
-                log.info('getSwitchValues: Email query switch data:alarmswitchon true %s: %s ', parameters['deviceid'], switchdata)
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchon true %s: %s ', parameters['deviceid'], switchdata)
             else:
                 switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
                 switchdata['value']=0  
-                log.info('getSwitchValues: Email query switch data:alarmswitchon false %s: %s ', parameters['deviceid'], switchdata)
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchon false %s: %s ', parameters['deviceid'], switchdata)
 
             
         elif series_parameters['alarmmode'] == 'alarmswitchoff' :
             if alarmstatus == 'active':
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=0                    
-                log.info('getSwitchValues: Email query switch data:alarmswitchoff true %s: %s ', parameters['deviceid'], switchdata)
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchoff true %s: %s ', parameters['deviceid'], switchdata)
             else:
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1                    
-                log.info('getSwitchValues: Email query switch data:alarmswitchoff false %s: %s ', parameters['deviceid'], switchdata)
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchoff false %s: %s ', parameters['deviceid'], switchdata)
             #switchdata['instance']=1
             #switchdata['index']=1
 
     if switchdata != {}:
-      log.info('getSwitchValues: parameters %s: switchdata %s ', parameters['deviceid'], switchdata)
+      if debug_all: log.info('getSwitchValues: parameters %s: switchdata %s ', parameters['deviceid'], switchdata)
     return switchdata
 
 
@@ -2031,58 +2033,58 @@ def getDimmerValues(parameters, alarmstatus):
           if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']   
-              log.info('getDimmerValues: Email query dimmer data:alarmleddimmer true %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('getDimmerValues: Email query dimmer data:alarmleddimmer true %s: %s ', parameters['deviceid'], dimmerdata)
           else:
               #dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               #dimmerdata['value']=0  
-              log.info('getDimmerValues: Email query dimmer data:alarmleddimmer false %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('getDimmerValues: Email query dimmer data:alarmleddimmer false %s: %s ', parameters['deviceid'], dimmerdata)
 
           
       elif series_parameters['alarmmode'] == 'alarmrgbdimmer' :
           if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']                       
-              log.info('getDimmerValues: Email query dimmer data:alarmrgbdimmer true %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('getDimmerValues: Email query dimmer data:alarmrgbdimmer true %s: %s ', parameters['deviceid'], dimmerdata)
           else:
               #dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               #dimmerdata['value']=0                    
-              log.info('getDimmerValues: Email query dimmer data:alarmrgbdimmer false %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('getDimmerValues: Email query dimmer data:alarmrgbdimmer false %s: %s ', parameters['deviceid'], dimmerdata)
 
           
       elif series_parameters['alarmmode'] == 'alarmblinkdimmer' :
           if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']                       
-              log.info('Telemetrypost: Email query dimmer data:alarmblinkdimmer true %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('Telemetrypost: Email query dimmer data:alarmblinkdimmer true %s: %s ', parameters['deviceid'], dimmerdata)
           else:
               #dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               #dimmerdata['value']=0                    
-              log.info('getDimmerValues: Email query dimmer data:alarmblinkdimmer false %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('getDimmerValues: Email query dimmer data:alarmblinkdimmer false %s: %s ', parameters['deviceid'], dimmerdata)
 
       elif series_parameters['alarmmode'] == 'alarmblinkdimmeronoff' :
           if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']                       
-              log.info('getDimmerValues: Email query dimmer data:alarmblinkdimmeronoff true %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('getDimmerValues: Email query dimmer data:alarmblinkdimmeronoff true %s: %s ', parameters['deviceid'], dimmerdata)
           else:
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=0                    
-              log.info('Telemetrypost: Email query dimmer data:alarmblinkdimmeronoff false %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('Telemetrypost: Email query dimmer data:alarmblinkdimmeronoff false %s: %s ', parameters['deviceid'], dimmerdata)
 
       elif series_parameters['alarmmode'] == 'alarmdimmeroverride' :
           if alarmstatus == 'active':
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=parameters['alertaction_value']
               dimmerdata['override']=2
-              log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride true %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride true %s: %s ', parameters['deviceid'], dimmerdata)
           else:
               dimmerdata = getDimmerIndex(parameters['EventTypeId'] )
               dimmerdata['value']=255
               dimmerdata['override']=1
-              log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride false %s: %s ', parameters['deviceid'], dimmerdata)
+              if debug_all: log.info('getDimmerValues: Email query dimmer data:alarmdimmeroverride false %s: %s ', parameters['deviceid'], dimmerdata)
 
     if dimmerdata != {}:
-      log.info('getDimmerValues: parameters %s: dimmerdata = %s ', parameters['deviceid'], dimmerdata)
+      if debug_all: log.info('getDimmerValues: parameters %s: dimmerdata = %s ', parameters['deviceid'], dimmerdata)
     return dimmerdata
 
 
@@ -2152,7 +2154,7 @@ def SendEMAILAlert(parameters, alarmresult):
                 alertemail = str(row[0])
                 devicename = str(row[1])
                 #smsnumber = str(row[1]) 
-                if debug_all: log.info('SendEMAILAlert: Email is %s: devicename %s ', alertemail, devicename)
+                if debug_info: log.info('SendEMAILAlert: Email is %s: devicename %s ', alertemail, devicename)
                 if alertemail != "" and alertemail != None:
                     try:
                       #sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
@@ -2164,9 +2166,9 @@ def SendEMAILAlert(parameters, alarmresult):
                       #mail = Mail(from_email, subject, to_email, content)
                       #sgresponse = sg.client.mail.send.post(request_body=mail.get())
 
-                      #log.info('SendEMAILAlert: Email SenGrid response.status %s',sgresponse.status_code)
-                      #log.info('SendEMAILAlert: Email SenGrid response.body %s',sgresponse.body)
-                      #log.info('SendEMAILAlert: Email SenGrid response.headers %s',sgresponse.headers)
+                      #if debug_all: log.info('SendEMAILAlert: Email SenGrid response.status %s',sgresponse.status_code)
+                      #if debug_all: log.info('SendEMAILAlert: Email SenGrid response.body %s',sgresponse.body)
+                      #if debug_all: log.info('SendEMAILAlert: Email SenGrid response.headers %s',sgresponse.headers)
 
 
                       # sender
@@ -2248,11 +2250,11 @@ def SendEMAILAlert(parameters, alarmresult):
                       if debug_all: log.info('SendEMAILAlert: sendgrid Error %s:  ' % str(e))                                
 
         except TypeError as e:
-          log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
-          log.info('SendEMAILAlert  mailertogo TYPE Error %s:  ' % e)     
+          if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
+          if debug_all: log.info('SendEMAILAlert  mailertogo TYPE Error %s:  ' % e)     
         except NameError as e:
-          log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
-          log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)                        
+          if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
+          if debug_all: log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)                        
         except:
             alertemail = ''
             smsnumber = ''
@@ -2263,11 +2265,11 @@ def SendEMAILAlert(parameters, alarmresult):
             db_pool.putconn(conn)
 
   except TypeError as e:
-    log.info("SendEMAILAlert alertemail %s:  ", alertemail)
-    log.info('SendEMAILAlert  TYPE Error %s:  ' % e)
+    if debug_all: log.info("SendEMAILAlert alertemail %s:  ", alertemail)
+    if debug_all: log.info('SendEMAILAlert  TYPE Error %s:  ' % e)
   except NameError as e:
-    log.info("SendEMAILAlert alertemail %s:  ", alertemail)
-    log.info('SendEMAILAlert  NAME Error %s:  ' % e)
+    if debug_all: log.info("SendEMAILAlert alertemail %s:  ", alertemail)
+    if debug_all: log.info('SendEMAILAlert  NAME Error %s:  ' % e)
     
   except:
     e = sys.exc_info()[0]   
@@ -2280,13 +2282,111 @@ def SendEMAILAlert(parameters, alarmresult):
 # *************************************************************************
 def SendSMSAlert(parameters, alarmresult):
 
+  alarmstatus = alarmresult.get('status', "")
+
+  if alarmstatus != "active":
+    if debug_all: log.info('SendSMSAlert: Email alarm is not active - returning ')
+    return
 
   try:    
 
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
 
+    email_body = alarmresult['message']
 
+    if debug_all: log.info('SendSMSAlert: Email query %s: %s ', parameters['deviceid'], email_body)
+    
+    if email_body != "":
+        #alertemail = parameters['email']
+        alertemail = ""
+        
+        conn = db_pool.getconn()
+
+        #query = "select alertemail, smsnumber from user_devices where deviceid = %s"
+        query = "select smsnumber, devicename from user_devices where deviceid = %s"
+        
+        if debug_all: log.info('SendSMSAlert: Email query  %s ', query)
+        
+        try:
+            # first check db to see if user id is matched to device id
+            cursor = conn.cursor()
+            cursor.execute(query, (parameters['deviceid'],))
+            records = cursor.fetchall()
+
+            if cursor.rowcount == 0:
+                if debug_all: log.info('SendSMSAlert: Email query -> no records found')
+
+
+            for row in records:     
+
+                alertesms = str(row[0])
+                devicename = str(row[1])
+                #smsnumber = str(row[1]) 
+                if debug_info: log.info('SendSMSAlert: alertesms is %s: devicename %s ', alertesms, devicename)
+                if alertemail != "" and alertemail != None:
+                    try:
+
+
+                      # Download the helper library from https://www.twilio.com/docs/python/install
+                      #import os
+                      #from twilio.rest import Client
+
+
+                      # Find your Account SID and Auth Token at twilio.com/console
+                      # and set the environment variables. See http://twil.io/secure
+                      account_sid = os.environ['TWILIO_ACCOUNT_SID']
+                      auth_token = os.environ['TWILIO_AUTH_TOKEN']
+                      #client = Client(account_sid, auth_token)
+
+                      #message = client.messages.create(  body="Join Earth's mightiest heroes. Like Kevin Bacon.", from_='+15017122661', to='+15558675310')
+                      #if debug_all: log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
+
+
+                      except TypeError as e:
+                        if debug_all: log.info("SendSMSAlert twilio send alertemail %s:  ", alertemail)
+                        if debug_all: log.info('SendSMSAlert  twilio send TYPE Error %s:  ' % e)
+                      except NameError as e:
+                        if debug_all: log.info("SendSMSAlert twilio send alertemail %s:  ", alertemail)
+                        if debug_all: log.info('SendSMSAlert  twilio send NAME Error %s:  ' % e)
+                      except Exception as e:
+                        if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e)) 
+                      else:
+                        if debug_all: log.info("SendSMSAlert twilio sent %s:  ", part1)
+
+
+                    except TypeError as e:
+                      if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
+                      if debug_all: log.info('SendSMSAlert  twilio TYPE Error %s:  ' % e)                     
+                    except NameError as e:
+                      if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
+                      if debug_all: log.info('SendSMSAlert  twilio NAME Error %s:  ' % e)
+                    except:
+                      e = sys.exc_info()[0]   
+                      if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e))                                
+
+        except TypeError as e:
+          if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
+          if debug_all: log.info('SendSMSAlert  twilio TYPE Error %s:  ' % e)     
+        except NameError as e:
+          if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
+          if debug_all: log.info('SendSMSAlert  twilio NAME Error %s:  ' % e)                        
+        except:
+            alertemail = ''
+            smsnumber = ''
+            e = sys.exc_info()[0]   
+            if debug_all: log.info('SendSMSAlert: Error %s:  ' % str(e))      
+
+        finally:
+            db_pool.putconn(conn)
+
+  except TypeError as e:
+    if debug_all: log.info("SendSMSAlert alertemail %s:  ", alertemail)
+    if debug_all: log.info('SendSMSAlert  TYPE Error %s:  ' % e)
+  except NameError as e:
+    if debug_all: log.info("SendSMSAlert alertemail %s:  ", alertemail)
+    if debug_all: log.info('SendSMSAlert  NAME Error %s:  ' % e)
+    
   except:
     e = sys.exc_info()[0]   
     if debug_all: log.info('SendSMSAlert: Error %s:  ' % str(e))
@@ -2305,7 +2405,7 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
   data = {}
 
   try:    
-    log.info('SendHSAlert: parameters %s:  ', parameters)
+    if debug_info: log.info('SendHSAlert: parameters %s:  ', parameters)
     # extract the series alarm paramterts
     series_parameters = parameters.get('series_1',"")
 
@@ -2352,11 +2452,11 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
 
     payload['data']=data
 
-    log.info('SendHSAlert: EmailAlertPost-Cloud payload %s:  ', payload)
-    log.info('SendHSAlert: EmailAlertPost-Cloud switch %s:  ', switchdata)
+    if debug_all: log.info('SendHSAlert: EmailAlertPost-Cloud payload %s:  ', payload)
+    if debug_all: log.info('SendHSAlert: EmailAlertPost-Cloud switch %s:  ', switchdata)
 
     remote_mode = parameters.get('remotemode','singleevent')
-    log.info('SendHSAlert: EmailAlertPost-Cloud remote mode %s:  ', remote_mode)
+    if debug_all: log.info('SendHSAlert: EmailAlertPost-Cloud remote mode %s:  ', remote_mode)
 
     if remote_mode == 'singleevent':
         timmerdata_key = ""
@@ -2401,7 +2501,7 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
       myTime = nowtime.strftime("%y%m%d%H%M%S")
 
       
-      log.info("SendHSAlert SQS:Parse JSON payload %s:  ", payload)
+      if debug_all: log.info("SendHSAlert SQS:Parse JSON payload %s:  ", payload)
       
       device_json = json.dumps(
         dict(
@@ -2417,30 +2517,30 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
               ),
         cls=DateEncoder)
 
-      #log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
-      log.info("SendHSAlertSQS:Parse JSON device_id %s:  ", device_id)
-      log.info("SendHSAlert:Parse JSON device_json %s:  ", device_json)
+      #if debug_all: log.info("Que SQS:Parse JSON device_id %s: partition: %s data: %s ", device_id, partition, device_json)
+      if debug_all: log.info("SendHSAlertSQS:Parse JSON device_id %s:  ", device_id)
+      if debug_all: log.info("SendHSAlert:Parse JSON device_json %s:  ", device_json)
 
     except SystemExit as e:
-      log.info("SendHSAlert SQS:SystemExitError device_id %s: partition: %s  ", device_id, partition, )
-      log.info('Que SQS:SystemExitError  Error in que SQS %s:  ' % e)
+      if debug_all: log.info("SendHSAlert SQS:SystemExitError device_id %s: partition: %s  ", device_id, partition, )
+      if debug_all: log.info('Que SQS:SystemExitError  Error in que SQS %s:  ' % e)
 
     except NameError as e:
-      log.info("SendHSAlert SQS:NameError device_id %s:  ", device_id)
-      log.info('SendHSAlert SQS:NameError  Error in que SQS %s:  ' % e)
+      if debug_all: log.info("SendHSAlert SQS:NameError device_id %s:  ", device_id)
+      if debug_all: log.info('SendHSAlert SQS:NameError  Error in que SQS %s:  ' % e)
 
     except TypeError as e:
-      log.info("Que SQS:TypeError device_id %s: ", device_id)
-      log.info('Que SQS:TypeError  Error in que SQS %s:  ' % e)
+      if debug_all: log.info("Que SQS:TypeError device_id %s: ", device_id)
+      if debug_all: log.info('Que SQS:TypeError  Error in que SQS %s:  ' % e)
       
     except UnicodeDecodeError as e:
-      log.info("SendHSAlert SQS:UnicodeDecodeError device_id %s: ", device_id)
-      log.info('SendHSAlert SQS:UnicodeDecodeError  Error in que SQS %s:  ' % e)
+      if debug_all: log.info("SendHSAlert SQS:UnicodeDecodeError device_id %s: ", device_id)
+      if debug_all: log.info('SendHSAlert SQS:UnicodeDecodeError  Error in que SQS %s:  ' % e)
       
     except:
       e = sys.exc_info()[0]
-      log.info("SendHSAlert SQS:device_id %s: partition: %s ", device_id, partition)
-      log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
+      if debug_all: log.info("SendHSAlert SQS:device_id %s: partition: %s ", device_id, partition)
+      if debug_all: log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
 
     
     try:
@@ -2455,24 +2555,24 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
 
       #print(response['MessageId'])
 
-      log.info("SendHSAlert sent SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+      if debug_info: log.info("SendHSAlert sent SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
     except botocore.exceptions.ClientError as e:
-      log.info("SendHSAlert SQS:ClientError device_id %s:  ", device_id)
-      log.info('SendHSAlert SQS:ClientError  Error in que SQS %s:  ' % e)
+      if debug_all: log.info("SendHSAlert SQS:ClientError device_id %s:  ", device_id)
+      if debug_all: log.info('SendHSAlert SQS:ClientError  Error in que SQS %s:  ' % e)
 
     except botocore.exceptions.ParamValidationError as e:
-      log.info("SendHSAlert SQS:ParamValidationError device_id %s:  ", device_id)
-      log.info('SendHSAlert SQS:ParamValidationError  Error in que SQS %s:  ' % e)
+      if debug_all: log.info("SendHSAlert SQS:ParamValidationError device_id %s:  ", device_id)
+      if debug_all: log.info('SendHSAlert SQS:ParamValidationError  Error in que SQS %s:  ' % e)
 
     except NameError as e:
-      log.info("SendHSAlert SQS:NameError device_id %s:  ", device_id)
-      log.info('SendHSAlert SQS:NameError  Error in que SQS %s:  ' % e)    
+      if debug_all: log.info("SendHSAlert SQS:NameError device_id %s:  ", device_id)
+      if debug_all: log.info('SendHSAlert SQS:NameError  Error in que SQS %s:  ' % e)    
       
     except:
       e = sys.exc_info()[0]
-      log.info("SendHSAlert SQS:device_id %s:  ", device_id)
-      log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
+      if debug_all: log.info("SendHSAlert SQS:device_id %s:  ", device_id)
+      if debug_all: log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
 
     
 
@@ -2505,7 +2605,7 @@ def process_message(alert_message):
     posttype = parameters['posttype']
     alerttype=parameters.get('alerttype', "mean")
 
-    if debug_all: log.info('Posting to Web Services %s:%s', posttype, starttime)
+    if debug_info: log.info('Posting to Web Services %s:%s', posttype, starttime)
     #mymessage='returning from Telemetry post'  
     #return mymessage
 
@@ -2551,7 +2651,7 @@ def process_message(alert_message):
 
         if posttypecloud == "EmailAlertPost-Cloud":
           #if debug_all: log.info('Posting to AlertPosts :')
-          log.info('Posting to EmailAlertPost-Cloud %s:', parameters)
+          if debug_info: log.info('Posting to EmailAlertPost-Cloud %s:', parameters)
 
           email_body = ""
           timmer_array = ""
@@ -2571,10 +2671,10 @@ def process_message(alert_message):
           
           if sensorValues == "missing":
               
-              log.info('Posting to EmailAlertPost empty points ')
+              if debug_all: log.info('Posting to EmailAlertPost empty points ')
               alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), "missing")
               email_body = alarmresult['message']
-              log.info('Posting to EmailAlertPost empty points email_body = %s', email_body)
+              if debug_all: log.info('Posting to EmailAlertPost empty points email_body = %s', email_body)
 
               sensorValueUnits = "---"
               
@@ -2603,10 +2703,10 @@ def process_message(alert_message):
 
 
             alarm_status = alarmresult['status']
-            log.info('Posting to EmailAlertPost alarmresult alarm_status = %s', alarm_status)
+            if debug_all: log.info('Posting to EmailAlertPost alarmresult alarm_status = %s', alarm_status)
 
             email_body = alarmresult['message']
-            log.info('Posting to EmailAlertPost alarmresult email_body = %s', email_body)
+            if debug_all: log.info('Posting to EmailAlertPost alarmresult email_body = %s', email_body)
 
             
             timmer_array = alarmresult.get('timmerArray', "")
@@ -2624,35 +2724,35 @@ def process_message(alert_message):
               
 
           if email_body != "":        
-              log.info('Posting to EmailAlertPost-Cloud   email_body= %s:', email_body)
+              if debug_all: log.info('Posting to EmailAlertPost-Cloud   email_body= %s:', email_body)
           else:
-              log.info('Posting to EmailAlertPost-Cloud   email_body= blank ' )
+              if debug_all: log.info('Posting to EmailAlertPost-Cloud   email_body= blank ' )
 
 
           if timmer_array != "":        
-              log.info('Posting to EmailAlertPost-Cloud   timmer_array= %s:', timmer_array)
+              if debug_all: log.info('Posting to EmailAlertPost-Cloud   timmer_array= %s:', timmer_array)
           else:
-              log.info('Posting to EmailAlertPost-Cloud   timmer_array= blank ' )
+              if debug_all: log.info('Posting to EmailAlertPost-Cloud   timmer_array= blank ' )
 
           # #########################################################
           # second lets check for any switch data and get switch states
           # #########################################################
           switchdata = getSwitchValues(parameters, alarmresult['status'])
 
-          log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
+          if debug_all: log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
           # #########################################################
           # third lets check for any dimmer data and get dimmer states
           # #########################################################
           dimmerdata = getDimmerValues(parameters, alarmresult['status'])
 
-          log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
+          if debug_all: log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
 
           # #########################################################
           # Now send out EMAIL using SendGrid if enabled
           # #########################################################
           if series_parameters['alarmmode'] == 'alarmemail' or series_parameters['alarmmode'] == 'alarmemailsms':
   
-            log.info('Posting to EmailAlertPost-Cloud: sending out email deviceid= %s', parameters['deviceid'])
+            if debug_all: log.info('Posting to EmailAlertPost-Cloud: sending out email deviceid= %s', parameters['deviceid'])
             SendEMAILAlert(parameters, alarmresult)
 
           # #########################################################
@@ -2660,14 +2760,14 @@ def process_message(alert_message):
           # #########################################################
           if series_parameters['alarmmode'] == 'alarmsms' or series_parameters['alarmmode'] == 'alarmemailsms':
   
-            log.info('Posting to EmailAlertPost-Cloud: sending out sms deviceid= %s', parameters['deviceid'])
+            if debug_all: log.info('Posting to EmailAlertPost-Cloud: sending out sms deviceid= %s', parameters['deviceid'])
             SendSMSAlert(parameters, alarmresult)          
 
           # ################################################################
           #Finally we will put a alert message in the SQS que for the main app to process using the SSEA00 partition
           # ################################################################
   
-          log.info('Posting to EmailAlertPost-Cloud: sending out HelmSmart Alert via SQS que = deviceid=%s', parameters['deviceid'])
+          if debug_all: log.info('Posting to EmailAlertPost-Cloud: sending out HelmSmart Alert via SQS que = deviceid=%s', parameters['deviceid'])
           SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata,timmerdata)
 
 

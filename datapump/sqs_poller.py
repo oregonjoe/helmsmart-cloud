@@ -35,8 +35,8 @@ import logging
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
-#debug_all = False
-debug_all = True
+debug_all = False
+#debug_all = True
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging
@@ -113,18 +113,18 @@ def proc(message):
     #partition = message_body['partition'][:-4]
 
 
-    #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
+    #if debug_all: log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
     mpartition = message_body.get('partition')
     device_id = message_body.get('device_id')
 
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
-    log.info('s3_poller Got SQS message %s: device %s ', mpartition,device_id)
+    if debug_all: log.info('s3_poller Got SQS message %s: device %s ', mpartition,device_id)
     #partition = message['partition'][:-4]
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
-    #log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
+    #if debug_all: log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
     
-    #log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
+    #if debug_all: log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
     partition = mpartition[:-4]
     if debug_all: log.info('s3_poller Got SQS message partition %s: ', partition)
@@ -172,7 +172,7 @@ def proc(message):
         #if timmerdata  is not {}:
         if timmerdata :
           #url = "https://api.telemetryapp.com/data"
-          log.info('sqs_poller:SSEA00 timmerdata  %s ', timmerdata)
+          if debug_all: log.info('sqs_poller:SSEA00 timmerdata  %s ', timmerdata)
           timmerInstance  =timmerdata.get('instance',0)
           timmerType  =timmerdata.get('type','LED Dimmer 4 Channel')
           timmerParameter  =timmerdata.get('parameter','value0')
@@ -184,7 +184,7 @@ def proc(message):
           devicedataurl = devicedataurl + "&parameter=" + str(timmerParameter)
           devicedataurl = devicedataurl + "&array=" + str(timmerArray)
 
-          log.info("sqs_poller:  in proc SSEA00 timmer: %s", devicedataurl)
+          if debug_all: log.info("sqs_poller:  in proc SSEA00 timmer: %s", devicedataurl)
 
           
           headers = {'content-type': 'application/json'}
@@ -194,7 +194,7 @@ def proc(message):
         #if switchdata  is not {}:
         if switchdata :          
           #url = "https://api.telemetryapp.com/data"
-          log.info('sqs_poller:SSEA00 switchdata  %s ', switchdata)
+          if debug_all: log.info('sqs_poller:SSEA00 switchdata  %s ', switchdata)
           switchInstance  =switchdata.get('instance',15)
           switchid  =switchdata.get('index',15)
           switchvalue =switchdata.get('value',3)
@@ -204,7 +204,7 @@ def proc(message):
           devicedataurl = devicedataurl + "&switchid=" + str(switchid)
           devicedataurl = devicedataurl + "&switchvalue=" + str(switchvalue)
 
-          log.info("sqs_poller:  in proc SSEA00 switch: %s", devicedataurl)
+          if debug_all: log.info("sqs_poller:  in proc SSEA00 switch: %s", devicedataurl)
 
           
           headers = {'content-type': 'application/json'}
@@ -214,7 +214,7 @@ def proc(message):
         #if dimmerdata or (dimmerdata != ""  and dimmerdata != None and dimmerdata is not None):
         #if dimmerdata  is not {}:
         if dimmerdata  :                
-          log.info('sqs_poller:SSEA00 dimmer  %s ', dimmerdata)
+          if debug_all: log.info('sqs_poller:SSEA00 dimmer  %s ', dimmerdata)
           dimmerInstance  =dimmerdata.get('instance',15)
           dimmerid  =dimmerdata.get('index',15)
           dimmervalue =dimmerdata.get('value',255)
@@ -226,7 +226,7 @@ def proc(message):
           devicedataurl = devicedataurl + "&dimmervalue=" + str(dimmervalue)
           devicedataurl = devicedataurl + "&dimmeroverride=" + str(dimmeroverride)
           
-          log.info("sqs_poller:  in proc SSEA00 dimmer: %s", devicedataurl)
+          if debug_all: log.info("sqs_poller:  in proc SSEA00 dimmer: %s", devicedataurl)
 
           
           headers = {'content-type': 'application/json'}
@@ -252,14 +252,14 @@ def proc(message):
     elif "SSA300" in partition:  
       try:
         #if debug_all: log.info('s3_poller Got PushSmart SQS message %s: ', partition)
-        log.info('s3_poller Got PushSmart SQS message %s: %s ', partition, device_id)
+        if debug_all: log.info('s3_poller Got PushSmart SQS message %s: %s ', partition, device_id)
 
         schema = SCHEMA
         #device = message['device_id']
         #partition = message['partition'][:-4]
 
         message_payload = message_body.get('payload')
-        #log.info('s3_poller Got SQS message_payload %s: ', message_payload)
+        #if debug_all: log.info('s3_poller Got SQS message_payload %s: ', message_payload)
         
         #records = nmea.loads(json.dumps(message_payload))
         #records = nmea.loads((message_payload))
@@ -286,7 +286,7 @@ def proc(message):
 
 
         if debug_all: log.info('s3_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
-        #log.info('s3_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
+        #if debug_all: log.info('s3_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
         #081316 JLB - added influxdb-cloud update
         # write parsed nmea data to database
         dump_influxdb_cloud(device_id, partition, records)
@@ -374,16 +374,16 @@ def get_messages(queue_url, num_receive):
 
     message = response.get("Messages", [])[0]
     # print(message)
-    #log.info("Read SQS:  message %s: ", message)
+    #if debug_all: log.info("Read SQS:  message %s: ", message)
     
     message_body = message['Body']
     receipt_handle = message['ReceiptHandle']
 
-    #log.info("Read SQS:  message_body %s: ", message_body)
+    #if debug_all: log.info("Read SQS:  message_body %s: ", message_body)
 
-    log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
+    if debug_all: log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
 
-    #log.info("get_messages:  response %s: ", rs['Messages'][0])
+    #if debug_all: log.info("get_messages:  response %s: ", rs['Messages'][0])
 
     #if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
 
@@ -392,21 +392,21 @@ def get_messages(queue_url, num_receive):
   
 
   except botocore.exceptions.ClientError as e:
-    #log.info("Read SQS:ClientError device_id %s:  ", device_id)
-    log.info('Read SQS:ClientError  Error in que SQS %s:  ' % str(e))
+    #if debug_all: log.info("Read SQS:ClientError device_id %s:  ", device_id)
+    if debug_all: log.info('Read SQS:ClientError  Error in que SQS %s:  ' % str(e))
 
   except botocore.exceptions.ParamValidationError as e:
-   # log.info("Read SQS:ParamValidationError device_id %s:  ", device_id)
-    log.info('Read SQS:ParamValidationError  Error in que SQS %s:  ' % str(e))
+   # if debug_all: log.info("Read SQS:ParamValidationError device_id %s:  ", device_id)
+    if debug_all: log.info('Read SQS:ParamValidationError  Error in que SQS %s:  ' % str(e))
 
   except NameError as e:
-    #log.info("Read SQS:NameError device_id %s:  ", device_id)
-    log.info('Read SQS:NameError  Error in que SQS %s:  ' % str(e))
+    #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
+    if debug_all: log.info('Read SQS:NameError  Error in que SQS %s:  ' % str(e))
     
   except:
     e = sys.exc_info()[0]
-    #log.info("Send SQS:device_id %s:  ", device_id)
-    log.info('Send SQS: Error in que SQS %s:  ' % str(e))
+    #if debug_all: log.info("Send SQS:device_id %s:  ", device_id)
+    if debug_all: log.info('Send SQS: Error in que SQS %s:  ' % str(e))
 
     log.warn(e)
     return []
@@ -440,8 +440,8 @@ def process_queue(config):
 
       if debug_all: log.info('sqs_poller process_queue %s: ', count)
 
-      log.info("process_queue:  message %s: ", message)
-      #log.info("process_queue:  message_MessageId %s: ", message['MessageId'])
+      if debug_all: log.info("process_queue:  message %s: ", message)
+      #if debug_all: log.info("process_queue:  message_MessageId %s: ", message['MessageId'])
       
       #try to get messages from the SQS queue and parse them
       if message != []:
@@ -454,17 +454,17 @@ def process_queue(config):
         sleep(1)
 
     except NameError as e:
-      #log.info("Read SQS:NameError device_id %s:  ", device_id)
-      log.info('process_queue SQS:NameError  Error in que SQS %s:  ' % str(e))
+      #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
+      if debug_all: log.info('process_queue SQS:NameError  Error in que SQS %s:  ' % str(e))
       
     except TypeError as e:
-      #log.info("Read SQS:NameError device_id %s:  ", device_id)
-      log.info('process_queue SQS:TypeError  Error in que SQS %s:  ' % str(e))
+      #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
+      if debug_all: log.info('process_queue SQS:TypeError  Error in que SQS %s:  ' % str(e))
       
     except:
       e = sys.exc_info()[0]
       #if debug_all: log.info('s3_poller: process_queue errror' % e)
-      log.info('sqs_poller: process_queue errror  %s' % str(e))
+      if debug_all: log.info('sqs_poller: process_queue errror  %s' % str(e))
 
     #end of while loop
         
@@ -513,16 +513,16 @@ def transaction(func, sqs_message):
     print('Received and deleted message: %s' % sqs_message)
 
   except AttributeError as e:
-    #log.info("Read SQS:NameError device_id %s:  ", device_id)
-    log.info('transaction SQS:AttributeError  Error in que SQS %s:  ' % str(e))
+    #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
+    if debug_all: log.info('transaction SQS:AttributeError  Error in que SQS %s:  ' % str(e))
     
   except NameError as e:
-    #log.info("Read SQS:NameError device_id %s:  ", device_id)
-    log.info('transaction SQS:NameError  Error in que SQS %s:  ' % str(e))
+    #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
+    if debug_all: log.info('transaction SQS:NameError  Error in que SQS %s:  ' % str(e))
     
   except TypeError as e:
-    #log.info("Read SQS:NameError device_id %s:  ", device_id)
-    log.info('transaction SQS:TypeError  Error in que SQS %s:  ' % str(e))
+    #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
+    if debug_all: log.info('transaction SQS:TypeError  Error in que SQS %s:  ' % str(e))
 
   except:
     e = sys.exc_info()[0]
@@ -572,7 +572,7 @@ def best_effort(func, pushsmart_message):
 
       #print(response['MessageId'])
 
-      log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+      if debug_all: log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
       
   

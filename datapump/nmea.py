@@ -122,11 +122,11 @@ def events(stream):
       #01F205,6DOB845V,A7,007F803CD0150000
       #line.strip()[7:-3]
 
-      #log.info("NMEA events - line %s ", line)      
+      #if debug_all: log.info("NMEA events - line %s ", line)      
       #line.strip()[7:-2]
       
       for line in stream:
-        log.info("NMEA events line %s ", line)
+        if debug_all: log.info("NMEA events line %s ", line)
       # Check that the line is formatted correctly and has a good checksum
       
       #if valid(line)
@@ -162,7 +162,7 @@ def interpeted(records):
       
 
       #if pgn == '00FF06':
-      #log.info("NMEA interpeted - PGN %s ", pgn)
+      #if debug_all: log.info("NMEA interpeted - PGN %s ", pgn)
 
       ps_ts =  seasmart_timestamp(record[TIMESTAMP])
       
@@ -243,44 +243,44 @@ def valid(sentence):
   checksum=255
   
   if not sentence.startswith('$'):
-    log.info("NMEA valid error - wrong start $ %s ", sentence)
+    if debug_all: log.info("NMEA valid error - wrong start $ %s ", sentence)
     return False
 
 
   valuepairs = sentence.split(",")
   # check if we have proper formatted pushsmart string
   if len(valuepairs) != 5:
-    log.info("NMEA valid error - wrong length %s ", sentence)
+    if debug_all: log.info("NMEA valid error - wrong length %s ", sentence)
     return False
 
   elif valuepairs[0] != '$PCDIN':
-    log.info("NMEA valid error - wrong start $PCDIN %s ", sentence)
+    if debug_all: log.info("NMEA valid error - wrong start $PCDIN %s ", sentence)
     return False
 
   #Check PGN length is correct
   elif len(valuepairs[1]) != 6:
-    log.info("NMEA valid error - wrong PGN length %s ", sentence)
+    if debug_all: log.info("NMEA valid error - wrong PGN length %s ", sentence)
     return False
 
   #check if timestamp length is correct
   elif len(valuepairs[2]) != 8:
-    log.info("NMEA valid error - wrong timestamp length %s ", sentence)
+    if debug_all: log.info("NMEA valid error - wrong timestamp length %s ", sentence)
     return False
 
   #check if source length is correct
   elif len(valuepairs[3]) != 2:
-    log.info("NMEA valid error - wrong source length %s ", sentence)
+    if debug_all: log.info("NMEA valid error - wrong source length %s ", sentence)
     return False
 
   #check if payload is terminated with * checksum
   elif len(valuepairs[4]) < 8:    
-    log.info("NMEA valid error - wrong payload length min %s ", sentence)
+    if debug_all: log.info("NMEA valid error - wrong payload length min %s ", sentence)
     return False
 
   #check if payload is terminated with * checksum
   #elif (valuepairs[4][len(valuepairs[4])-3] != '*') and (valuepairs[4][len(valuepairs[4])-4] != '*'):
   elif valuepairs[4].find('*') == -1:    
-    log.info("NMEA valid error - wrong payload * %s ", sentence)
+    if debug_all: log.info("NMEA valid error - wrong payload * %s ", sentence)
     return False
 
 
@@ -291,11 +291,11 @@ def valid(sentence):
 
   parts = sentence.split('*')
   if len(parts) != 2:
-    log.info("NMEA valid cs error length - sentence %s ", sentence)
+    if debug_all: log.info("NMEA valid cs error length - sentence %s ", sentence)
     return False
 
   data, checksum_str = parts
-  #log.info("NMEA checksum - data %s:checksum_str %s ", data, checksum_str)
+  #if debug_all: log.info("NMEA checksum - data %s:checksum_str %s ", data, checksum_str)
   
   # 031114 JLB
   # Added check for when checksum_str is not hexidecimal
@@ -304,21 +304,21 @@ def valid(sentence):
     checksum = functools.reduce(lambda checksum,c: checksum^ord(c), data[1:], 0)
 
     nema_checksum = int(checksum_str[:2], 16)
-    #log.info("NMEA valid cs error - checksum %s:nema_checksum %s ", checksum, nema_checksum)
+    #if debug_all: log.info("NMEA valid cs error - checksum %s:nema_checksum %s ", checksum, nema_checksum)
 
   # if error then return false as its not a good checksum
   except NameError as e:
     if debug_all: log.info('NMEA :: NameError in NMEA valid cs %s:  ' % str(e))
 
   except:
-    log.info("NMEA valid cs error - sentence %s:checksum_str %s ", sentence, checksum_str)
+    if debug_all: log.info("NMEA valid cs error - sentence %s:checksum_str %s ", sentence, checksum_str)
     e = sys.exc_info()[0]
     if debug_all: log.info("NMEA valid cs error ::  Error: %s" % str(e))
 
     return False
 
   if checksum != nema_checksum:
-    log.info("NMEA bad checksum - sentence %s ", sentence)
+    if debug_all: log.info("NMEA bad checksum - sentence %s ", sentence)
     return False
   else:
     #return checksum == nema_checksum
@@ -343,14 +343,14 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000):
     #ts = int(timestamp[:6], 32) + EPOCH
     ts = int(timestamp[:6], 32) 
   except:
-    log.info("NMEA get timestamp format error - timestamp %s ", timestamp)
+    if debug_all: log.info("NMEA get timestamp format error - timestamp %s ", timestamp)
     return ps_ts
 
   #return datetime.fromtimestamp(ts +  EPOCH)
 
   # and check that we have a date between now and 1/1/2010
   if ts <= 0:
-    log.info("NMEA get timestamp error - negitive timestamp %s ", timestamp)
+    if debug_all: log.info("NMEA get timestamp error - negitive timestamp %s ", timestamp)
     return ps_ts
 
   #return datetime.fromtimestamp(ts +  EPOCH)  
@@ -363,7 +363,7 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000):
     return datetime.fromtimestamp(ps_ts)
   
   else:
-    log.info("NMEA get timestamp error -  timestamp greater then current %s ", timestamp)
+    if debug_all: log.info("NMEA get timestamp error -  timestamp greater then current %s ", timestamp)
     return ps_ts
 
 
@@ -382,7 +382,7 @@ def pgn(number, returns=[]):
     return dict()
 
   """
-  #log.info("NMEA pgn - PGN %s ", number)
+  #if debug_all: log.info("NMEA pgn - PGN %s ", number)
 
   def field_type(desc):
     parts = desc.split(':')
@@ -403,8 +403,8 @@ def pgn(number, returns=[]):
     #h = hex(number).replace('x','').upper()
     # bad error here as string needs to be exactly 6 characters long - so zero pad
     h = format(number, '06X')
-    #log.info("NMEA payload - HEX %s ",payload )    
-    #log.info("NMEA pgn - HEX %s ", h)
+    #if debug_all: log.info("NMEA payload - HEX %s ",payload )    
+    #if debug_all: log.info("NMEA pgn - HEX %s ", h)
     wrapped_method = lambda payload: method(StringIO(payload))
     wrapped_method.__name__ = method.__name__
     PGNS.append((h, wrapped_method, fields))
@@ -696,7 +696,7 @@ def engine_parameters_rapid_update(data):
     reserved_bits = uint16(data)
     if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update reserved_bits {0}:  '.format(reserved_bits))
     raw=raw
-    log.info('NMEA interpeted - engine_parameters_rapid_update raw {0}:  '.format(raw))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update raw {0}:  '.format(raw))
       
     return dict(
       engine_id = engine_id,
@@ -708,16 +708,16 @@ def engine_parameters_rapid_update(data):
     )
 
   except ValueError as e:
-    log.info('NMEA interpeted - engine_parameters_rapid_update ValueError {0}:  '.format(e))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update ValueError {0}:  '.format(e))
 
   except NameError as e:
-    log.info('NMEA interpeted - engine_parameters_rapid_update NameError {0}:  '.format(e))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update NameError {0}:  '.format(e))
     
   except TypeError as e:
-    log.info('NMEA interpeted - engine_parameters_rapid_update:  TypeError {0}:  '.format(e))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update:  TypeError {0}:  '.format(e))
 
   except AttributeError as e:
-    log.info('NMEA interpeted - engine_parameters_rapid_update AttributeError{0}:  '.format(e))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update AttributeError{0}:  '.format(e))
 
   except:
     if debug_all: log.info('NMEA interpeted - engine_parameters_rapid_update {0}:{1}'.format( partition, device))
@@ -733,12 +733,12 @@ def engine_parameters_dynamic(data):
 
   try:
     
-    #log.info("NMEA interpeted - engine_parameters_dynamic Start ")
+    #if debug_all: log.info("NMEA interpeted - engine_parameters_dynamic Start ")
 
     raw=getrawvalue(data)
 
-    #log.info("NMEA interpeted - engine_parameters_dynamic %s ", raw)
-    #log.info("NMEA interpeted - engine_parameters_dynamic length %s ", len(raw))
+    #if debug_all: log.info("NMEA interpeted - engine_parameters_dynamic %s ", raw)
+    #if debug_all: log.info("NMEA interpeted - engine_parameters_dynamic length %s ", len(raw))
 
     """
     #improper length
@@ -807,7 +807,7 @@ def engine_parameters_dynamic(data):
     percent_engine_load = int8(data)
     percent_engine_torque = int8(data)
 
-    #log.info('NMEA interpeted - engine_parameters_dynamic fuel_rate %s:  ' , fuel_rate)
+    #if debug_all: log.info('NMEA interpeted - engine_parameters_dynamic fuel_rate %s:  ' , fuel_rate)
 
 
     return dict(
@@ -835,28 +835,28 @@ def engine_parameters_dynamic(data):
   except ValueError as e:
     #if debug_all: log.info('NMEA interpeted - engine_parameters_dynamic %s:  ', data)
 
-    log.info('NMEA interpeted - engine_parameters_dynamic ValueError %s:  ' % str(e))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_dynamic ValueError %s:  ' % str(e))
 
   except NameError as e:
     #if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK NameError in data %s:  ', data)
 
-    log.info('NMEA interpeted - engine_parameters_dynamic NameError %s:  ' % str(e))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_dynamic NameError %s:  ' % str(e))
     
   except TypeError as e:
     #if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK TypeError in data %s:  ', data)
 
-    log.info('NMEA interpeted - engine_parameters_dynamic:  TypeError %s' % str(e))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_dynamic:  TypeError %s' % str(e))
 
   except AttributeError as e:
     #if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK AttributeError in data %s:  ', data)
 
-    log.info('NMEA interpeted - engine_parameters_dynamic AttributeError %s:  ' % str(e))
+    if debug_all: log.info('NMEA interpeted - engine_parameters_dynamic AttributeError %s:  ' % str(e))
 
   except:
     if debug_all: log.info('NMEA interpeted - engine_parameters_dynamicerror %s:%s', partition, device)
     e = sys.exc_info()[0]
 
-    log.info("Error: %s" % e)
+    if debug_all: log.info("Error: %s" % e)
 
   
 
@@ -1117,7 +1117,7 @@ def environmental_conditions(data):
 @pgn(130311, ['sid', 'instance', 'humidity_instance:STRING', 'temperature_instance:STRING', 'temperature:real', 'humidity:real', 'atmospheric_pressure:real'])
 def environmental_parameters(data):
 
-  #log.info("NMEA ENviron Data  - PGN 0x1FD07 %s", data)
+  #if debug_all: log.info("NMEA ENviron Data  - PGN 0x1FD07 %s", data)
   
   try:
   
@@ -1130,7 +1130,7 @@ def environmental_parameters(data):
 
     hinstance = ( instance >> 6 ) &  (0b00000011)
     tinstance = ( instance  ) &  (0b00111111)
-    #log.info("NMEA ENviron Data  - PGN 0x1FD07 %s %s", hinstance, tinstance)
+    #if debug_all: log.info("NMEA ENviron Data  - PGN 0x1FD07 %s %s", hinstance, tinstance)
     
     #hinstance =4
     #tinstance =1
@@ -1216,13 +1216,13 @@ def environmental_parameters(data):
       63:'No Data'
     }.get(tinstance)
 
-    #log.info("NMEA ENviron Data  - PGN 0x1FD07  instance %s humidity_instance %s temperature_instance %s",  instance, humidity_instance, temperature_instance)
+    #if debug_all: log.info("NMEA ENviron Data  - PGN 0x1FD07  instance %s humidity_instance %s temperature_instance %s",  instance, humidity_instance, temperature_instance)
 
     temperature = decimal(uint16(data),2)
     humidity = mul(int16(data), .004)
     atmospheric_pressure = decimal(uint16(data),1)
 
-    #log.info("NMEA ENviron Data  - PGN 0x1FD07 temperature %s  humidity %s pressure %s" , temperature, humidity,atmospheric_pressure)
+    #if debug_all: log.info("NMEA ENviron Data  - PGN 0x1FD07 temperature %s  humidity %s pressure %s" , temperature, humidity,atmospheric_pressure)
 
     return dict(
       sid =  sid,
@@ -1241,7 +1241,7 @@ def environmental_parameters(data):
 
   except:
     e = sys.exc_info()[0]
-    log.info("NMEA XBEE - PGN 0x00FF09 error data " % e)
+    if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 error data " % e)
     
 #130312: // Temperature Data 0x1FD08
 @pgn(130312, ['sid', 'temperature_instance', 'temperature_source:STRING', 'actual_temperature', 'set_temperature', 'reserved','raw'])
@@ -1439,7 +1439,7 @@ def meteorological_station_data(data):
 @pgn(129026, ['sid', 'reserved1', 'cog_reference:STRING', 'course_over_ground:real', 'speed_over_ground:real', 'reserved2'])
 def cogsog(data):
 
-  #log.info("NMEA COGSOG - data %s", data.getvalue())
+  #if debug_all: log.info("NMEA COGSOG - data %s", data.getvalue())
   
   return dict(
    sid = uint8(data),
@@ -1640,7 +1640,7 @@ def water_speed(data):
 #65286: // Custom PGN  - SeaSmart Dimmer 0x0FF06
 @pgn(65286, ['pgntype','dimmertype','instance','dimmer0','dimmer1','dimmer2','dimmer3','control'])
 def dimmer(data):
-  #log.info("NMEA Dimmer - PGN 0x00FF06 %s", data)
+  #if debug_all: log.info("NMEA Dimmer - PGN 0x00FF06 %s", data)
   
   return dict(
     pgntype = uint16(data),
@@ -1675,7 +1675,7 @@ def dimmer(data):
 #65292: // Custom PGN  - SeaSmart Indicator Runtime 0x0FF0C
 @pgn(65292, ['pgntype','instance','channel','runtime_sec','cycles'])
 def indicator_runtime(data):
-  log.info("NMEA Indicator Runtime - PGN 0x00FF0C %s", data)
+  if debug_all: log.info("NMEA Indicator Runtime - PGN 0x00FF0C %s", data)
   
   return dict(
     pgntype = uint16(data),
@@ -1694,7 +1694,7 @@ def indicator_runtime(data):
 #65289: // Custom PGN  - SeaSmart XBEE Dimmer 0x0FF09 Data Sample Rx Indicator frame - 0x92
 @pgn(65289, ['pgntype','instance','mac','reserved','options','samples','dmask','amask','digital_value','analog_value','crc'])
 def xbee_data_sample(data):
-  #log.info("NMEA XBEE - PGN 0x00FF09 %s", data)
+  #if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 %s", data)
   try:
     pgntype0 = nint8(data)
     pgntype1 = nint8(data)
@@ -1739,11 +1739,11 @@ def xbee_data_sample(data):
       
     #digital_value = str("{:02X}".format(int(digital_value0))) + str("{:02X}".format(int(digital_value1)) )
     
-    #log.info("NMEA XBEE - PGN 0x00FF09 %s:%s", analog_value0, analog_value1)
-    #log.info("NMEA XBEE - PGN 0x00FF09 analog_value:%s", analog_value)
-    #log.info("NMEA XBEE - PGN 0x00FF09 digital_value:%s", digital_value)
-    #log.info("NMEA XBEE - PGN 0x00FF09 analog_value:%s", dmask)
-    #log.info("NMEA XBEE - PGN 0x00FF09 digital_value:%s", amask)
+    #if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 %s:%s", analog_value0, analog_value1)
+    #if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 analog_value:%s", analog_value)
+    #if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 digital_value:%s", digital_value)
+    #if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 analog_value:%s", dmask)
+    #if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 digital_value:%s", amask)
     
     
     #analog_value =  str("{:02X}".format(int(analog_value0))) + str("{:02X}".format(int(analog_value1)) )
@@ -1775,14 +1775,14 @@ def xbee_data_sample(data):
 
   except:
     e = sys.exc_info()[0]
-    log.info("NMEA XBEE - PGN 0x00FF09 error data " % e)
+    if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 error data " % e)
 
 
 
 #65290: // Custom PGN  - SeaSmart XBEE Dimmer 0x0FF0A Remote Command Response frame - 0x97
 @pgn(65290, ['pgntype','instance','mac','reserved','command','status','crc'])
 def xbee_command_response(data):
-  #log.info("NMEA XBEE - PGN 0x00FF0A ", data)
+  #if debug_all: log.info("NMEA XBEE - PGN 0x00FF0A ", data)
 
   #Need to use nint on these and not uint
   #Because these values may be FF which uint retuns NONE and not FF
@@ -1817,7 +1817,7 @@ def xbee_command_response(data):
     mac = str("{:02X}".format(int(mac0))) + str("{:02X}".format(int(mac1)) ) + str( "{:02X}".format(int(mac2)) ) + str( "{:02X}".format(int(mac3)) ) + str( "{:02X}".format(int(mac4)) ) + str( "{:02X}".format(int(mac5)) ) + str( "{:02X}".format(int(mac6)) ) + str( "{:02X}".format(int(mac7))  )
     #mac = "AABBCCDDEEFF0011"
 
-    #log.info("NMEA XBEE - PGN 0x00FF09 %s", mac0hex.decode("ascii"))
+    #if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 %s", mac0hex.decode("ascii"))
     
     return dict(
       pgntype =  str("{:02X}".format(int(pgntype0))) + str("{:02X}".format(int(pgntype1)) ),
@@ -1835,7 +1835,7 @@ def xbee_command_response(data):
   
   except:
       e = sys.exc_info()[0]
-      log.info("NMEA XBEE - PGN 0x00FF09 error data " % e)
+      if debug_all: log.info("NMEA XBEE - PGN 0x00FF09 error data " % e)
 
 # 127501: Binary Switch Bank Status
 # hex: 1F20D
@@ -2033,7 +2033,7 @@ def switch_bank_control(data):
 @pgn(129039, ['raw'])
 def AIS_Class_B_Position_Report(data):
 
-  log.info("AIS_Class_B_Position_Report - PGN 0x1F80F ", data)
+  if debug_all: log.info("AIS_Class_B_Position_Report - PGN 0x1F80F ", data)
 
   try:
     raw=getrawvalue(data)
@@ -2045,16 +2045,16 @@ def AIS_Class_B_Position_Report(data):
     return dict(raw=raw )
   
   except TypeError as e:
-    log.info('AIS_Class_B_Position_Report - PGN 0x1F80F: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('AIS_Class_B_Position_Report - PGN 0x1F80F: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('AIS_Class_B_Position_Report - PGN 0x1F80F: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('AIS_Class_B_Position_Report - PGN 0x1F80F: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("AIS_Class_B_Position_Report - PGN 0x1F80F error " % e)
+    if debug_all: log.info("AIS_Class_B_Position_Report - PGN 0x1F80F error " % e)
     return dict( error='error',)
     pass
 
@@ -2065,7 +2065,7 @@ def AIS_Class_B_Position_Report(data):
 @pgn(129040, ['raw'])
 def AIS_Class_B_ExtendedPosition_Report(data):
 
-  log.info("AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F ", data)
+  if debug_all: log.info("AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F ", data)
 
   try:
     raw=getrawvalue(data)
@@ -2077,16 +2077,16 @@ def AIS_Class_B_ExtendedPosition_Report(data):
     return dict(raw=raw )
   
   except TypeError as e:
-    log.info('AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F error " % e)
+    if debug_all: log.info("AIS_Class_B_ExtendedPosition_Report - PGN 0x1F80F error " % e)
     return dict( error='error',)
     pass  
 
@@ -2096,7 +2096,7 @@ def heartbeat(data):
   # check if this is  CDI custom PGN type
   # 0xE199 (57753) or 0x99E1 (39393)
 
-  #log.info("NMEA Heartbeat Data start - PGN 130944  ")
+  #if debug_all: log.info("NMEA Heartbeat Data start - PGN 130944  ")
   mymacstr = ""
   mydevicestr = ""
   mysessionstr = ""
@@ -2135,7 +2135,7 @@ def heartbeat(data):
         #mymacstr = mymacstr + str(int(myvarch, 16))
       #mymacstr = myvarch
 
-      #log.info("NMEA Heartbeat Data start - PGN 130944  mymacstr %s", str(mymacstr))
+      #if debug_all: log.info("NMEA Heartbeat Data start - PGN 130944  mymacstr %s", str(mymacstr))
 
       """
       return dict(
@@ -2150,7 +2150,7 @@ def heartbeat(data):
         myvarch = data.read(2)
         mydevicestr = mydevicestr + chr(int(myvarch, 16))
         
-      #log.info("NMEA Heartbeat Data start - PGN 130944  mydevicestr %s", mydevicestr)
+      #if debug_all: log.info("NMEA Heartbeat Data start - PGN 130944  mydevicestr %s", mydevicestr)
 
       """
       return dict(
@@ -2166,7 +2166,7 @@ def heartbeat(data):
         mysessionstr = mysessionstr + chr(int(myvarch, 16))     
 
         
-      log.info("NMEA Heartbeat Data start - PGN 130944  mysessionstr %s", str(mysessionstr))
+      if debug_all: log.info("NMEA Heartbeat Data start - PGN 130944  mysessionstr %s", str(mysessionstr))
 
       
 
@@ -2174,14 +2174,14 @@ def heartbeat(data):
         myvarch = data.read(2)
         myHWVerstr = myHWVerstr + chr(int(myvarch, 16))
 
-      #log.info("NMEA Heartbeat Data start - PGN 130944  myHWVerstr %s", str(myHWVerstr))
+      #if debug_all: log.info("NMEA Heartbeat Data start - PGN 130944  myHWVerstr %s", str(myHWVerstr))
         
 
       for i in range (0,10):
         myvarch = data.read(2)
         myFWVerstr = myFWVerstr + chr(int(myvarch, 16))
 
-      #log.info("NMEA Heartbeat Data start - PGN 130944  myFWVerstr %s", str(myFWVerstr))        
+      #if debug_all: log.info("NMEA Heartbeat Data start - PGN 130944  myFWVerstr %s", str(myFWVerstr))        
 
 
 
@@ -2199,16 +2199,16 @@ def heartbeat(data):
   # if error then return nulled (none) 0x7F or 0x7FFF 0r 0x7FFFFFF
   #except ValueError:
   except TypeError as e:
-    log.info('NMEA Heartbeat Data start - PGN 130944: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('NMEA Heartbeat Data start - PGN 130944: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('NMEA Heartbeat Data start - PGN 130944: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('NMEA Heartbeat Data start - PGN 130944: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("NMEA Heartbeat Data  - PGN 130944 " % e)
+    if debug_all: log.info("NMEA Heartbeat Data  - PGN 130944 " % e)
     return dict( error='error',)
     pass
 
@@ -2219,7 +2219,7 @@ def seasmart_cellular_status(data):
   # check if this is  CDI custom PGN type
   # 0xE199 (57753) or 0x99E1 (39393)
 
-  log.info("NMEA Cellular Connection Status - PGN 130942  Start  ")
+  if debug_all: log.info("NMEA Cellular Connection Status - PGN 130942  Start  ")
 
   myimeastr = ""
   myiccidstr = ""
@@ -2233,7 +2233,7 @@ def seasmart_cellular_status(data):
                
     pgntype = uint16(data)
 
-    log.info("NMEA Cellular Connection Status - PGN 130942  pgntype %s", str(pgntype))
+    if debug_all: log.info("NMEA Cellular Connection Status - PGN 130942  pgntype %s", str(pgntype))
 
     
     #0xE199 
@@ -2247,7 +2247,7 @@ def seasmart_cellular_status(data):
         myimeastr = myimeastr + str(myvarch)
 
 
-      log.info("NMEA Cellular Connection Status - PGN 130942  myimeastr %s", str(myimeastr))
+      if debug_all: log.info("NMEA Cellular Connection Status - PGN 130942  myimeastr %s", str(myimeastr))
 
         
       myvarch = 0
@@ -2256,7 +2256,7 @@ def seasmart_cellular_status(data):
         myiccidstr = myiccidstr + str(myvarch)
 
 
-      log.info("NMEA Cellular Connection Status - PGN 130942  myiccidstr %s", str(myiccidstr))
+      if debug_all: log.info("NMEA Cellular Connection Status - PGN 130942  myiccidstr %s", str(myiccidstr))
 
 
 
@@ -2266,7 +2266,7 @@ def seasmart_cellular_status(data):
         myphonestr = myphonestr + str(myvarch)
 
 
-      log.info("NMEA Cellular Connection Status - PGN 130942  myphonestr %s", str(myphonestr))
+      if debug_all: log.info("NMEA Cellular Connection Status - PGN 130942  myphonestr %s", str(myphonestr))
 
 
 
@@ -2274,7 +2274,7 @@ def seasmart_cellular_status(data):
       #myDBstr =  int(myvarch, 16)
       myDBstr =   format((int(data.read(2),16)), 'X')
         
-      log.info("NMEA Cellular Connection Status - PGN 130942  myDBstr %s", myDBstr)
+      if debug_all: log.info("NMEA Cellular Connection Status - PGN 130942  myDBstr %s", myDBstr)
 
 
 
@@ -2283,7 +2283,7 @@ def seasmart_cellular_status(data):
       #myCIstr =  int(myvarch, 16))
       myCIstr =   format((int(data.read(2),16)), 'X')
              
-      log.info("MEA Cellular Connection Status - PGN 130942  myCIstr %s", myCIstr)
+      if debug_all: log.info("MEA Cellular Connection Status - PGN 130942  myCIstr %s", myCIstr)
 
 
 
@@ -2291,7 +2291,7 @@ def seasmart_cellular_status(data):
       #myAIstr =  int(myvarch, 16))
       myAIstr =   format((int(data.read(2),16)), 'X')
       
-      log.info("MEA Cellular Connection Status - PGN 130942  myAIstr %s", myAIstr)
+      if debug_all: log.info("MEA Cellular Connection Status - PGN 130942  myAIstr %s", myAIstr)
 
   
       return dict(
@@ -2305,16 +2305,16 @@ def seasmart_cellular_status(data):
 
 
   except TypeError as e:
-    log.info('MEA Cellular Connection Status - PGN 130942: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('MEA Cellular Connection Status - PGN 130942: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('NMEA Cellular Connection Status - PGN 130942: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('NMEA Cellular Connection Status - PGN 130942: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("MEA Cellular Connection Status - PGN 130942 " % e)
+    if debug_all: log.info("MEA Cellular Connection Status - PGN 130942 " % e)
     return dict( error='error',)
     pass
 
@@ -2325,7 +2325,7 @@ def rain_gauge(data):
 
     pgntype = uint16(data)
 
-    log.info("CDI Custom PGN 130946 -  pgntype %s", str(pgntype))
+    if debug_all: log.info("CDI Custom PGN 130946 -  pgntype %s", str(pgntype))
 
     
     #0xE199 or   0x99E1
@@ -2353,7 +2353,7 @@ def rain_gauge(data):
 #65287: // Custom PGN  - SeaSmart ac watt hours 0x0FF07
 @pgn(65287, ['pgntype','instance','ac_type','ac_kwatt_hours'])
 def ac_watt_hours(data):
-  #log.info("NMEA ACWATTHOURS - PGN 0x00FF07 %s", data)
+  #if debug_all: log.info("NMEA ACWATTHOURS - PGN 0x00FF07 %s", data)
 
 
   # check if this is  CDI custom PGN type
@@ -2387,7 +2387,7 @@ def ac_watt_hours(data):
 #65288: // Custom PGN  - SeaSmart ac status detail 0x0FF08
 @pgn(65288, ['pgntype','ac_type','instance','ac_volts_detail','ac_amps_detail','status'])
 def ac_status_detail(data):
-  #log.info("NMEA ACDETAIL - PGN 0x00FF08 %s", data)
+  #if debug_all: log.info("NMEA ACDETAIL - PGN 0x00FF08 %s", data)
 
 
 
@@ -2466,7 +2466,7 @@ def ac_generator_total_energy(data):
 def ac_utility_basic_phase_a(data):
   
 
-  log.info("ac_utility_basic_phase_a  ")
+  if debug_all: log.info("ac_utility_basic_phase_a  ")
 
   try:
 
@@ -2486,16 +2486,16 @@ def ac_utility_basic_phase_a(data):
 
 
   except TypeError as e:
-    log.info('ac_utility_basic_phase_a: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('ac_utility_basic_phase_a: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('ac_utility_basic_phase_a: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('ac_utility_basic_phase_a: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("ac_utility_basic_phase_a error " % e)
+    if debug_all: log.info("ac_utility_basic_phase_a error " % e)
     return dict( error='error',)
     pass
 
@@ -2506,7 +2506,7 @@ def ac_utility_basic_phase_a(data):
 @pgn(65011, ['ac_line_line_volts','ac_line_neutral_volts','ac_frequency','ac_amps','ac_watts'])
 def ac_utility_basic_phase_b(data):
 
-  log.info("ac_utility_basic_phase_b  ")
+  if debug_all: log.info("ac_utility_basic_phase_b  ")
 
   try:
 
@@ -2526,16 +2526,16 @@ def ac_utility_basic_phase_b(data):
 
 
   except TypeError as e:
-    log.info('ac_utility_basic_phase_b: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('ac_utility_basic_phase_b: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('ac_utility_basic_phase_b: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('ac_utility_basic_phase_b: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("ac_utility_basic_phase_b error " % e)
+    if debug_all: log.info("ac_utility_basic_phase_b error " % e)
     return dict( error='error',)
     pass
 
@@ -2547,7 +2547,7 @@ def ac_utility_basic_phase_b(data):
 @pgn(65008, ['ac_line_line_volts','ac_line_neutral_volts','ac_frequency','ac_amps','ac_watts'])
 def ac_utility_basic_phase_c(data):
   
-  log.info("ac_utility_basic_phase_c  ")
+  if debug_all: log.info("ac_utility_basic_phase_c  ")
 
   try:
 
@@ -2567,16 +2567,16 @@ def ac_utility_basic_phase_c(data):
 
 
   except TypeError as e:
-    log.info('ac_utility_basic_phase_c: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('ac_utility_basic_phase_c: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('ac_utility_basic_phase_c: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('ac_utility_basic_phase_c: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("ac_utility_basic_phase_c error " % e)
+    if debug_all: log.info("ac_utility_basic_phase_c error " % e)
     return dict( error='error',)
     pass
 
@@ -2591,7 +2591,7 @@ def ac_utility_basic_average(data):
   
   
   
-  log.info("ac_utility_basic_average  ")
+  if debug_all: log.info("ac_utility_basic_average  ")
 
   try:
 
@@ -2611,16 +2611,16 @@ def ac_utility_basic_average(data):
 
 
   except TypeError as e:
-    log.info('ac_utility_basic_average: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('ac_utility_basic_average: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('ac_utility_basic_average: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('ac_utility_basic_average: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("ac_utility_basic_average error " % e)
+    if debug_all: log.info("ac_utility_basic_average error " % e)
     return dict( error='error',)
     pass
 
@@ -2633,7 +2633,7 @@ def ac_utility_basic_average(data):
 @pgn(65027, ['ac_line_line_volts','ac_line_neutral_volts','ac_frequency','ac_amps','ac_watts'])
 def ac_generator_basic_phase_a(data):
   
-  log.info("ac_generator_basic_phase_a  ")
+  if debug_all: log.info("ac_generator_basic_phase_a  ")
 
   try:
 
@@ -2653,16 +2653,16 @@ def ac_generator_basic_phase_a(data):
 
 
   except TypeError as e:
-    log.info('ac_generator_basic_phase_a: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('ac_generator_basic_phase_a: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('ac_generator_basic_phase_a: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('ac_generator_basic_phase_a: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("ac_generator_basic_phase_a error " % e)
+    if debug_all: log.info("ac_generator_basic_phase_a error " % e)
     return dict( error='error',)
     pass
 
@@ -2672,7 +2672,7 @@ def ac_generator_basic_phase_a(data):
 def ac_generator_basic_phase_b(data):
   
   
-  log.info("ac_generator_basic_phase_b  ")
+  if debug_all: log.info("ac_generator_basic_phase_b  ")
 
   try:
 
@@ -2692,16 +2692,16 @@ def ac_generator_basic_phase_b(data):
 
 
   except TypeError as e:
-    log.info('ac_generator_basic_phase_b: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('ac_generator_basic_phase_b: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('ac_generator_basic_phase_b: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('ac_generator_basic_phase_b: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("ac_generator_basic_phase_b error " % e)
+    if debug_all: log.info("ac_generator_basic_phase_b error " % e)
     return dict( error='error',)
     pass
 
@@ -2712,7 +2712,7 @@ def ac_generator_basic_phase_b(data):
 def ac_generator_basic_phase_c(data):
   
   
-  log.info("ac_generator_basic_phase_c  ")
+  if debug_all: log.info("ac_generator_basic_phase_c  ")
 
   try:
 
@@ -2732,16 +2732,16 @@ def ac_generator_basic_phase_c(data):
 
 
   except TypeError as e:
-    log.info('ac_generator_basic_phase_c: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('ac_generator_basic_phase_c: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('ac_generator_basic_phase_c: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('ac_generator_basic_phase_c: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("ac_generator_basic_phase_c error " % e)
+    if debug_all: log.info("ac_generator_basic_phase_c error " % e)
     return dict( error='error',)
     pass
 
@@ -2754,7 +2754,7 @@ def ac_generator_basic_average(data):
   
   
   
-  log.info("ac_generator_basic_average  ")
+  if debug_all: log.info("ac_generator_basic_average  ")
 
   try:
 
@@ -2774,16 +2774,16 @@ def ac_generator_basic_average(data):
 
 
   except TypeError as e:
-    log.info('ac_generator_basic_average: TypeError  %s:  ' % str(e))
+    if debug_all: log.info('ac_generator_basic_average: TypeError  %s:  ' % str(e))
     pass
 
   except ValueError as e:
-    log.info('ac_generator_basic_average: ValueError  %s:  ' % str(e))
+    if debug_all: log.info('ac_generator_basic_average: ValueError  %s:  ' % str(e))
     pass
   
   except:
     e = sys.exc_info()[0]
-    log.info("ac_generator_basic_average error " % e)
+    if debug_all: log.info("ac_generator_basic_average error " % e)
     return dict( error='error',)
     pass
 
@@ -2840,7 +2840,7 @@ def gofree(data):
   elif dataid in(41, 42, 43, 44, 45, 46, 47):
     sysval = sysval * 0.514444
   
-  #log.info(sysval)
+  #if debug_all: log.info(sysval)
 
   return dict(
     pgntype = pgntype,
@@ -2936,14 +2936,14 @@ def readBEbytes(data, count):
     for i in range(count):
       val = val << 8
       val = val + int(data.read(2), 16) 
-    #log.info("NMEA - readbytes val %s ", val)
+    #if debug_all: log.info("NMEA - readbytes val %s ", val)
     return val
   
   # if error then return nulled (none) 0x7F or 0x7FFF 0r 0x7FFFFFF
   #except ValueError:
   except:
     e = sys.exc_info()[0]
-    log.info("NMEA - readbytes error data " % e)
+    if debug_all: log.info("NMEA - readbytes error data " % e)
     return ( 2**((count*8)-1))
 
   
@@ -2960,18 +2960,18 @@ def readbytes(data, count):
   try:
     for i in range(count):
       val += int(data.read(2), 16) << (8*i)
-    #log.info("NMEA - readbytes val {0}:  ".format(val))
+    #if debug_all: log.info("NMEA - readbytes val {0}:  ".format(val))
     return val
   
   # if error then return nulled (none) 0x7F or 0x7FFF 0r 0x7FFFFFF
   #except ValueError:
   except TypeError as e:
-    log.info('NMEA readbytes:  TypeError {0}:  '.format(e))
+    if debug_all: log.info('NMEA readbytes:  TypeError {0}:  '.format(e))
 
 
   except:
     e = sys.exc_info()[0]
-    log.info("NMEA - readbytes error data {0}: ".format(e))
+    if debug_all: log.info("NMEA - readbytes error data {0}: ".format(e))
     return ( 2**((count*8)-1))
 
   
@@ -2983,7 +2983,7 @@ def readint(data, bits):
 
 
   try:
-    #log.info("NMEA - readbytes error data {0}:  ".format(data))
+    #if debug_all: log.info("NMEA - readbytes error data {0}:  ".format(data))
 
     # really stupid error her in python3
     # bits/8 results in a flot in python 3 which creates error
@@ -2996,10 +2996,10 @@ def readint(data, bits):
 
     
   except TypeError as e:
-    log.info('NMEA readint:  TypeError {0}:  '.format(e))
+    if debug_all: log.info('NMEA readint:  TypeError {0}:  '.format(e))
   except:
     e = sys.exc_info()[0]
-    log.info("NMEA - readbytes error data {0}:  ".format(e))
+    if debug_all: log.info("NMEA - readbytes error data {0}:  ".format(e))
     return ( 2**((count*8)-1))
   
 
