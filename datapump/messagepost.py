@@ -2341,7 +2341,7 @@ def SendSMSAlert(parameters, alarmresult):
                     auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
                     
                     if debug_info: log.info('SendSMSAlert: good alertesms is %s: devicename %s ', alertesms, devicename)
-                    client = Client(account_sid, auth_token)
+                    client = smsClient(account_sid, auth_token)
                     message = client.messages.create(  body=email_body, from_='+18449794144', to='+154166120510')
                     if debug_all: log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
 
