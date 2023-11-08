@@ -2251,6 +2251,9 @@ def SendEMAILAlert(parameters, alarmresult):
                       e = sys.exc_info()[0]   
                       if debug_all: log.info('SendEMAILAlert: sendgrid Error %s:  ' % str(e))                                
 
+                else:
+                  if debug_info: log.info('SendEMAILAlert: no alertemail number found - returnig : devicename %s ', devicename)
+                  
         except TypeError as e:
           if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
           if debug_all: log.info('SendEMAILAlert  mailertogo TYPE Error %s:  ' % e)     
@@ -2353,7 +2356,7 @@ def SendSMSAlert(parameters, alarmresult):
                     if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e))
                     
                 else:
-                  if debug_info: log.info('SendSMSAlert: no alertesms number found - returnig %s: devicename %s ', devicename)
+                  if debug_info: log.info('SendSMSAlert: no alertesms number found - returnig : devicename %s ', devicename)
                   
         except TypeError as e:
           if debug_all: log.info("SendSMSAlert twilio alertesms %s:  ", alertesms)
