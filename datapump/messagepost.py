@@ -2157,7 +2157,7 @@ def SendEMAILAlert(parameters, alarmresult):
                 devicename = str(row[1])
                 #smsnumber = str(row[1]) 
                 if debug_info: log.info('SendEMAILAlert: Email is %s: devicename %s ', alertemail, devicename)
-                if alertemail != "" and alertemail is not None:
+                if alertemail != "" and alertemail !="None" and alertemail is not None:
                     try:
                       #sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
                       #from_email = Email("alerts@seasmart.net")
@@ -2330,7 +2330,7 @@ def SendSMSAlert(parameters, alarmresult):
                 devicename = str(row[1])
                 #smsnumber = str(row[1]) 
                 if debug_info: log.info('SendSMSAlert: alertesms is %s: devicename %s ', alertesms, devicename)
-                if alertesms != "" and alertesms is not None:
+                if alertesms != "" and alertesms != "None" and alertesms is not None:
                   try:
                     # Find your Account SID and Auth Token at twilio.com/console
                     # and set the environment variables. See http://twil.io/secure
