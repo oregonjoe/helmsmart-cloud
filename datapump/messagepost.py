@@ -2149,10 +2149,10 @@ def SendEMAILAlert(parameters, alarmresult):
                 if debug_all: log.info('SendEMAILAlert: Email query -> no records found')
                 return
               
-            if debug_info: log.info('SendEMAILAlert: records is %s: devicename %s ', records, devicename)
+            if debug_info: log.info('SendEMAILAlert: records is %s:  ', records)
 
             for row in records:     
-                if debug_info: log.info('SendEMAILAlert: row is %s: devicename %s ', row, devicename)
+                if debug_info: log.info('SendEMAILAlert: row is %s:  ', row)
                 alertemail = str(row[0])
                 devicename = str(row[1])
                 #smsnumber = str(row[1]) 
@@ -2322,10 +2322,10 @@ def SendSMSAlert(parameters, alarmresult):
                 if debug_all: log.info('SendSMSAlert: Email query -> no records found')
                 return
               
-            if debug_info: log.info('SendSMSAlert: records is %s: devicename %s ', records, devicename)
+            if debug_info: log.info('SendSMSAlert: records is %s:  ', records)
 
             for row in records:     
-                if debug_info: log.info('SendSMSAlert: row is %s: devicename %s ', row, devicename)
+                if debug_info: log.info('SendSMSAlert: row is %s:  ', row)
                 alertesms = str(row[0])
                 devicename = str(row[1])
                 #smsnumber = str(row[1]) 
@@ -2356,10 +2356,10 @@ def SendSMSAlert(parameters, alarmresult):
                   if debug_info: log.info('SendSMSAlert: no alertesms number found - returnig %s: devicename %s ', devicename)
                   
         except TypeError as e:
-          if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
+          if debug_all: log.info("SendSMSAlert twilio alertesms %s:  ", alertesms)
           if debug_all: log.info('SendSMSAlert  twilio TYPE Error %s:  ' % e)     
         except NameError as e:
-          if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
+          if debug_all: log.info("SendSMSAlert twilio alertesms %s:  ", alertesms)
           if debug_all: log.info('SendSMSAlert  twilio NAME Error %s:  ' % e)                        
         except:
             alertemail = ''
