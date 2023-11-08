@@ -2147,10 +2147,12 @@ def SendEMAILAlert(parameters, alarmresult):
 
             if cursor.rowcount == 0:
                 if debug_all: log.info('SendEMAILAlert: Email query -> no records found')
-
+                return
+              
+            if debug_info: log.info('SendEMAILAlert: records is %s: devicename %s ', records, devicename)
 
             for row in records:     
-
+                if debug_info: log.info('SendEMAILAlert: row is %s: devicename %s ', row, devicename)
                 alertemail = str(row[0])
                 devicename = str(row[1])
                 #smsnumber = str(row[1]) 
@@ -2318,10 +2320,12 @@ def SendSMSAlert(parameters, alarmresult):
 
             if cursor.rowcount == 0:
                 if debug_all: log.info('SendSMSAlert: Email query -> no records found')
-
+                return
+              
+            if debug_info: log.info('SendSMSAlert: records is %s: devicename %s ', records, devicename)
 
             for row in records:     
-
+                if debug_info: log.info('SendSMSAlert: row is %s: devicename %s ', row, devicename)
                 alertesms = str(row[0])
                 devicename = str(row[1])
                 #smsnumber = str(row[1]) 
