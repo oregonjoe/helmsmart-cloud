@@ -2165,26 +2165,34 @@ def SendEMAILAlert(parameters, alarmresult):
                       sender_email = "@".join([sender_user, mailertogo_domain])
                       sender_name = 'Example'
 
+                      if debug_all: log.info("SendEMAILAlert mailertogo send sender_email %s:  ", sender_email)
+
                       # recipient
                       recipient_email = 'joe@seagauge.com' # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
                       recipient_name = 'Joe'
-
+                      if debug_all: log.info("SendEMAILAlert mailertogo send sender_email %s:  ", recipient_email)
+                      
                       # subject
                       subject = parameters['subject']
+                      if debug_all: log.info("SendEMAILAlert mailertogo send subject %s:  ", subject)
 
                       # text body
                       #body_plain = ("Hi,\n"  "Test from Mailer To Go 😊\n"   )
                       body_plain = (email_body  )
+                      if debug_all: log.info("SendEMAILAlert mailertogo send body_plain %s:  ", body_plain)
 
                       # html body
                       line_break = '\n' #used to replace line breaks with html breaks
                       body_html = f'''<html><head></head> <body> {'<br/>'.join(body_plain.split(line_break))} </body> </html>'''
+                      if debug_all: log.info("SendEMAILAlert mailertogo send body_html %s:  ", body_html)
 
                       # create message container
                       message = MIMEMultipart('alternative')
                       message['Subject'] = parameters['subject']
                       message['From'] = email.utils.formataddr((sender_name, sender_email))
                       message['To'] = email.utils.formataddr((recipient_name, recipient_email))
+
+                      if debug_all: log.info("SendEMAILAlert mailertogo send message %s:  ", message)
 
                       # prepare plain and html message parts
                       part1 = MIMEText(body_plain, 'plain')
@@ -2194,6 +2202,8 @@ def SendEMAILAlert(parameters, alarmresult):
 
                       message.attach(part1)
                       message.attach(part2)
+
+                      if debug_all: log.info("SendEMAILAlert mailertogo send message %s:  ", message)
 
                       # send the message.
                       try:
