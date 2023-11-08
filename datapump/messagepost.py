@@ -2345,6 +2345,9 @@ def SendSMSAlert(parameters, alarmresult):
                     message = client.messages.create(  body=email_body, from_='+18449794144', to='+154166120510')
                     if debug_all: log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
 
+                  except twilio.base.exceptions.TwilioRestException as e:
+                    if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertesms)
+                    if debug_all: log.info('SendSMSAlert  twilio Twilio Error %s:  ' % e) 
                   except TypeError as e:
                     if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertesms)
                     if debug_all: log.info('SendSMSAlert  twilio TYPE Error %s:  ' % e)                     
