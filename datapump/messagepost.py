@@ -2207,7 +2207,7 @@ def SendEMAILAlert(parameters, alarmresult):
 
 
                       except NameError as e:
-                        log.info("SendEMAILAlert mailertogo send device_id %s:  ", device_id)
+                        log.info("SendEMAILAlert mailertogo send device_id %s:  ", alertemail)
                         log.info('SendEMAILAlert  mailertogo send NAME Error %s:  ' % e)
                       except Exception as e:
                           print ("Error: ", e)
@@ -2217,14 +2217,14 @@ def SendEMAILAlert(parameters, alarmresult):
 
                       
                     except NameError as e:
-                      log.info("SendEMAILAlert mailertogo device_id %s:  ", device_id)
+                      log.info("SendEMAILAlert mailertogo device_id %s:  ", alertemail)
                       log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)
                     except:
                       e = sys.exc_info()[0]   
                       if debug_all: log.info('SendEMAILAlert: sendgrid Error %s:  ' % str(e))                                
 
         except NameError as e:
-          log.info("SendEMAILAlert mailertogo device_id %s:  ", device_id)
+          log.info("SendEMAILAlert mailertogo device_id %s:  ", alertemail)
           log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)                        
         except:
             alertemail = ''
@@ -2236,7 +2236,7 @@ def SendEMAILAlert(parameters, alarmresult):
             db_pool.putconn(conn)
 
   except NameError as e:
-    log.info("SendEMAILAlert device_id %s:  ", device_id)
+    log.info("SendEMAILAlert device_id %s:  ", alertemail)
     log.info('SendEMAILAlert  NAME Error %s:  ' % e)
     
   except:
