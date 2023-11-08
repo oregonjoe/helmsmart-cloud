@@ -2326,23 +2326,16 @@ def SendSMSAlert(parameters, alarmresult):
                 devicename = str(row[1])
                 #smsnumber = str(row[1]) 
                 if debug_info: log.info('SendSMSAlert: alertesms is %s: devicename %s ', alertesms, devicename)
-                if alertemail != "" and alertemail != None:
+                if alertesms != "" and alertesms != None:
                   try:
-                    # Download the helper library from https://www.twilio.com/docs/python/install
-                    #import os
-                    #from twilio.rest import Client
-
-
                     # Find your Account SID and Auth Token at twilio.com/console
                     # and set the environment variables. See http://twil.io/secure
-                    account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-                    auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+                    #account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+                    #auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+                    if debug_info: log.info('SendSMSAlert: alertesms is %s: devicename %s ', alertesms, devicename)
                     #client = Client(account_sid, auth_token)
-
                     #message = client.messages.create(  body="Join Earth's mightiest heroes. Like Kevin Bacon.", from_='+15017122661', to='+15558675310')
                     #if debug_all: log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
-
-
                     except TypeError as e:
                       if debug_all: log.info("SendSMSAlert twilio send alertemail %s:  ", alertesms)
                       if debug_all: log.info('SendSMSAlert  twilio send TYPE Error %s:  ' % e)
