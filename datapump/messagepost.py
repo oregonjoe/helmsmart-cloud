@@ -2211,7 +2211,9 @@ def SendEMAILAlert(parameters, alarmresult):
 
 
                       
-
+                    except NameError as e:
+                      log.info("SendEMAILAlert mailertogo device_id %s:  ", device_id)
+                      log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)
                     except:
                       e = sys.exc_info()[0]   
                       if debug_all: log.info('SendEMAILAlert: sendgrid Error %s:  ' % str(e))                                
@@ -2220,12 +2222,16 @@ def SendEMAILAlert(parameters, alarmresult):
         except:
             alertemail = ''
             smsnumber = ''
-      
+            e = sys.exc_info()[0]   
+            if debug_all: log.info('SendEMAILAlert: Error %s:  ' % str(e))      
 
         finally:
             db_pool.putconn(conn)
 
-
+  except NameError as e:
+    log.info("SendEMAILAlert device_id %s:  ", device_id)
+    log.info('SendEMAILAlert  NAME Error %s:  ' % e)
+    
   except:
     e = sys.exc_info()[0]   
     if debug_all: log.info('SendEMAILAlert: Error %s:  ' % str(e))
