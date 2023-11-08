@@ -100,7 +100,7 @@ def convertunits(value, units):
   # opps.. problem here as the value=0 also means its not=true so we cant dot this bucause 0 would return "---"
   #if not value:
   # return "---"
-  if not isinstance(number, (int, float)):  # it is an integer or a float
+  if not isinstance(value, (int, float)):  # it is an integer or a float
 
   if value is None:
     return "---"
