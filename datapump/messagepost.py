@@ -2297,7 +2297,7 @@ def SendSMSAlert(parameters, alarmresult):
 
     email_body = alarmresult['message']
 
-    if debug_all: log.info('SendSMSAlert: Email query %s: %s ', parameters['deviceid'], email_body)
+    if debug_all: log.info('SendSMSAlert: SMS query %s: %s ', parameters['deviceid'], email_body)
     
     if email_body != "":
         #alertemail = parameters['email']
@@ -2330,10 +2330,10 @@ def SendSMSAlert(parameters, alarmresult):
                   try:
                     # Find your Account SID and Auth Token at twilio.com/console
                     # and set the environment variables. See http://twil.io/secure
-                    #account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-                    #auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+                    account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+                    auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
                     
-                    if debug_info: log.info('SendSMSAlert: alertesms is %s: devicename %s ', alertesms, devicename)
+                    if debug_info: log.info('SendSMSAlert: good alertesms is %s: devicename %s ', alertesms, devicename)
                     #client = Client(account_sid, auth_token)
                     #message = client.messages.create(  body="Join Earth's mightiest heroes. Like Kevin Bacon.", from_='+15017122661', to='+15558675310')
                     #if debug_all: log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
@@ -2346,8 +2346,11 @@ def SendSMSAlert(parameters, alarmresult):
                     if debug_all: log.info('SendSMSAlert  twilio NAME Error %s:  ' % e)
                   except:
                     e = sys.exc_info()[0]   
-                    if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e))                                
-
+                    if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e))
+                    
+                else:
+                  if debug_info: log.info('SendSMSAlert: no alertesms number found - returnig %s: devicename %s ', devicename)
+                  
         except TypeError as e:
           if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
           if debug_all: log.info('SendSMSAlert  twilio TYPE Error %s:  ' % e)     
