@@ -2235,7 +2235,7 @@ def SendEMAILAlert(parameters, alarmresult):
                         if debug_all: log.info("SendEMAILAlert mailertogo sent %s:  ", part1)
 
 
-                     except TypeError as e:
+                    except TypeError as e:
                       if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
                       if debug_all: log.info('SendEMAILAlert  mailertogo TYPE Error %s:  ' % e)                     
                     except NameError as e:
