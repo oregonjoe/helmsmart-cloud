@@ -101,7 +101,8 @@ def convertunits(value, units):
   #if not value:
   # return "---"
   if not isinstance(value, (int, float)):  # it is an integer or a float
-
+    return "---"
+  
   if value is None:
     return "---"
 
