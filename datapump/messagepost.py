@@ -2166,7 +2166,7 @@ def SendEMAILAlert(parameters, alarmresult):
                       sender_name = 'Example'
 
                       # recipient
-                      recipient_email = joe@seagauge.com # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
+                      recipient_email = 'joe@seagauge.com' # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
                       recipient_name = 'Joe'
 
                       # subject
