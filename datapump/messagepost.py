@@ -2109,6 +2109,12 @@ def getDimmerValues(parameters, alarmstatus):
 def SendEMAILAlert(parameters, alarmresult):
 
 
+  alarmstatus = alarmresult.get('status', "")
+
+  if alarmstatus != "active":
+    if debug_all: log.info('SendEMAILAlert: Email alarm is not active - returning ')
+    return
+
   try:    
 
     # extract the series alarm paramterts
@@ -2125,7 +2131,7 @@ def SendEMAILAlert(parameters, alarmresult):
         conn = db_pool.getconn()
 
         #query = "select alertemail, smsnumber from user_devices where deviceid = %s"
-        query = "select alertemail from user_devices where deviceid = %s"
+        query = "select alertemail, devicename from user_devices where deviceid = %s"
         
         if debug_all: log.info('SendEMAILAlert: Email query  %s ', query)
         
@@ -2142,9 +2148,10 @@ def SendEMAILAlert(parameters, alarmresult):
             for row in records:     
 
                 alertemail = str(row[0])
+                devicename = str(row[1])
                 #smsnumber = str(row[1]) 
-                if debug_all: log.info('SendEMAILAlert: Email is %s:  ', alertemail)
-                if alertemail != "":
+                if debug_all: log.info('SendEMAILAlert: Email is %s: devicename %s ', alertemail, devicename)
+                if alertemail != "" and alertemail != None:
                     try:
                       #sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
                       #from_email = Email("alerts@seasmart.net")
@@ -2161,15 +2168,16 @@ def SendEMAILAlert(parameters, alarmresult):
 
 
                       # sender
-                      sender_user = 'noreply'
+                      sender_user = 'alerts'
                       sender_email = "@".join([sender_user, mailertogo_domain])
-                      sender_name = 'Example'
+                      sender_name = 'HelmSmart Sensor Alert'
 
                       if debug_all: log.info("SendEMAILAlert mailertogo send sender_email %s:  ", sender_email)
 
                       # recipient
-                      recipient_email = 'joe@seagauge.com' # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
-                      recipient_name = 'Joe'
+                      #recipient_email = 'joe@seagauge.com' # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
+                      recipient_email = alertemail # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
+                      recipient_name = devicename
                       if debug_all: log.info("SendEMAILAlert mailertogo send sender_email %s:  ", recipient_email)
                       
                       # subject
@@ -2215,9 +2223,11 @@ def SendEMAILAlert(parameters, alarmresult):
                         server.sendmail(sender_email, recipient_email, message.as_string())
                         server.close()
 
-
+                      except TypeError as e:
+                        if debug_all: log.info("SendEMAILAlert mailertogo send alertemail %s:  ", alertemail)
+                        if debug_all: log.info('SendEMAILAlert  mailertogo send TYPE Error %s:  ' % e)
                       except NameError as e:
-                        if debug_all: log.info("SendEMAILAlert mailertogo send device_id %s:  ", alertemail)
+                        if debug_all: log.info("SendEMAILAlert mailertogo send alertemail %s:  ", alertemail)
                         if debug_all: log.info('SendEMAILAlert  mailertogo send NAME Error %s:  ' % e)
                       except Exception as e:
                         if debug_all: log.info('SendEMAILAlert: mailertogo Error %s:  ' % str(e)) 
@@ -2225,16 +2235,21 @@ def SendEMAILAlert(parameters, alarmresult):
                         if debug_all: log.info("SendEMAILAlert mailertogo sent %s:  ", part1)
 
 
-                      
+                     except TypeError as e:
+                      if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
+                      if debug_all: log.info('SendEMAILAlert  mailertogo TYPE Error %s:  ' % e)                     
                     except NameError as e:
-                      if debug_all: log.info("SendEMAILAlert mailertogo device_id %s:  ", alertemail)
+                      if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
                       if debug_all: log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)
                     except:
                       e = sys.exc_info()[0]   
                       if debug_all: log.info('SendEMAILAlert: sendgrid Error %s:  ' % str(e))                                
 
+        except TypeError as e:
+          log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
+          log.info('SendEMAILAlert  mailertogo TYPE Error %s:  ' % e)     
         except NameError as e:
-          log.info("SendEMAILAlert mailertogo device_id %s:  ", alertemail)
+          log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
           log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)                        
         except:
             alertemail = ''
@@ -2245,8 +2260,11 @@ def SendEMAILAlert(parameters, alarmresult):
         finally:
             db_pool.putconn(conn)
 
+  except TypeError as e:
+    log.info("SendEMAILAlert alertemail %s:  ", alertemail)
+    log.info('SendEMAILAlert  TYPE Error %s:  ' % e)
   except NameError as e:
-    log.info("SendEMAILAlert device_id %s:  ", alertemail)
+    log.info("SendEMAILAlert alertemail %s:  ", alertemail)
     log.info('SendEMAILAlert  NAME Error %s:  ' % e)
     
   except:
@@ -2580,6 +2598,10 @@ def process_message(alert_message):
 
             else:
               alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), "missing")
+
+
+            alarm_status = alarmresult['status']
+            log.info('Posting to EmailAlertPost alarmresult alarm_status = %s', alarm_status)
 
             email_body = alarmresult['message']
             log.info('Posting to EmailAlertPost alarmresult email_body = %s', email_body)

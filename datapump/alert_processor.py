@@ -41,7 +41,7 @@ def get_timmer_alert(parameters, value):
 
     timestamp = str(datetime.datetime.now())
 
-    text_body= "error in timmer alert"
+    text_body= "Timer Alert"
     alerttype = parameters.get('alerttype',"mean")
 
     log.info("get_timmer_alert  deviceID: %s", parameters['deviceid'])
@@ -183,7 +183,7 @@ def get_timmerday_alert(parameters, value):
     result['message']=""
     timmerArray = []
 
-    text_body= "error in timmerday alert"
+    text_body= "Daily Timer Alert"
     alerttype = parameters.get('alerttype',"mean")
 
     timestamp = str(datetime.datetime.now())
@@ -532,7 +532,7 @@ def get_sunriseset_alert(parameters, value):
     
     timestamp = str(datetime.datetime.now())
 
-    text_body= "error in timmer alert"
+    text_body= "Sunrise/Sunset Event Alert"
     alerttype = parameters.get('alerttype',"mean")
 
     log.info("get_sunriseset_alert  deviceID: %s", parameters['deviceid'])
@@ -1394,7 +1394,7 @@ def get_status_alert(parameters, value):
 
     timestamp = str(datetime.datetime.now())
 
-    text_body= "error in get status alert"
+    text_body= "Sensor Status Alert"
     alerttype = parameters.get('alerttype',"mean")
 
     log.info("get_status_alert  deviceID: %s", parameters['deviceid'])
@@ -1425,7 +1425,7 @@ def get_alarms_alert(parameters, value):
 
     timestamp = str(datetime.datetime.now())
     
-    text_body= "error in get_alarms alert"
+    text_body= "Sensor Alarms Alert"
     alerttype = parameters.get('alerttype',"mean")
 
     log.info("get_alarms_alert  deviceID: %s alerttype %s", parameters['deviceid'], alerttype)
@@ -1448,7 +1448,7 @@ def get_alarms_alert(parameters, value):
             log.info("get_alarms_alert  value missing alerttype %s", alerttype)
             text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
             text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-            text_body = text_body + "value is missing for Interval= " + parameters["Interval"] + " timestamp is:" + timestamp + '\n'
+            text_body = text_body + "value is missing for Interval= " + parameters["Interval"] + " timestamp is: " + timestamp + '\n'
 
             if alerttype == "missing":
                 result['status']="active"
