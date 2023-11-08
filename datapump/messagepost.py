@@ -36,10 +36,25 @@ logging.basicConfig(level=logging.INFO)
 log = logging
 
 
-import sendgrid
+#import sendgrid
+#from sendgrid.helpers.mail import *
+#from sendgrid.helpers.mail import Mail, Email, Content
 
-from sendgrid.helpers.mail import *
-from sendgrid.helpers.mail import Mail, Email, Content
+import smtplib
+import email.utils
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+
+# read MailerToGo env vars
+mailertogo_host     = os.environ.get('MAILERTOGO_SMTP_HOST')
+mailertogo_port     = os.environ.get('MAILERTOGO_SMTP_PORT', 587)
+mailertogo_user     = os.environ.get('MAILERTOGO_SMTP_USER')
+mailertogo_password = os.environ.get('MAILERTOGO_SMTP_PASSWORD')
+mailertogo_domain   = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
+
+
+
 
 
 from influxdb.influxdb08 import InfluxDBClient
@@ -2131,22 +2146,71 @@ def SendEMAILAlert(parameters, alarmresult):
                 if debug_all: log.info('SendEMAILAlert: Email is %s:  ', alertemail)
                 if alertemail != "":
                     try:
-                      sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
-                      from_email = Email("alerts@seasmart.net")
-                      subject = parameters['subject']
+                      #sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+                      #from_email = Email("alerts@seasmart.net")
+                      #subject = parameters['subject']
                       #to_email = Email(alertemail)
-                      to_email = Email("joe@seagauge.com")
-                      content = Content("text/plain", email_body)
-                      mail = Mail(from_email, subject, to_email, content)
-                      sgresponse = sg.client.mail.send.post(request_body=mail.get())
-                      
-                      #if debug_all: log.info('Telemetrypost: Email SenGrid response.status %s',sgresponse.status_code)
-                      #if debug_all: log.info('Telemetrypost: Email SenGrid response.body %s',sgresponse.body)
-                      #if debug_all: log.info('Telemetrypost: Email SenGrid response.headers %s',sgresponse.headers)
+                      #to_email = Email("joe@seagauge.com")
+                      #content = Content("text/plain", email_body)
+                      #mail = Mail(from_email, subject, to_email, content)
+                      #sgresponse = sg.client.mail.send.post(request_body=mail.get())
 
-                      log.info('SendEMAILAlert: Email SenGrid response.status %s',sgresponse.status_code)
-                      log.info('SendEMAILAlert: Email SenGrid response.body %s',sgresponse.body)
-                      log.info('SendEMAILAlert: Email SenGrid response.headers %s',sgresponse.headers)
+                      #log.info('SendEMAILAlert: Email SenGrid response.status %s',sgresponse.status_code)
+                      #log.info('SendEMAILAlert: Email SenGrid response.body %s',sgresponse.body)
+                      #log.info('SendEMAILAlert: Email SenGrid response.headers %s',sgresponse.headers)
+
+
+                      # sender
+                      sender_user = 'noreply'
+                      sender_email = "@".join([sender_user, mailertogo_domain])
+                      sender_name = 'Example'
+
+                      # recipient
+                      recipient_email = joe@seagauge.com # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
+                      recipient_name = 'Joe'
+
+                      # subject
+                      subject = parameters['subject']
+
+                      # text body
+                      #body_plain = ("Hi,\n"  "Test from Mailer To Go 😊\n"   )
+                      body_plain = (email_body  )
+
+                      # html body
+                      line_break = '\n' #used to replace line breaks with html breaks
+                      body_html = f'''<html><head></head> <body> {'<br/>'.join(body_plain.split(line_break))} </body> </html>'''
+
+                      # create message container
+                      message = MIMEMultipart('alternative')
+                      message['Subject'] = parameters['subject']
+                      message['From'] = email.utils.formataddr((sender_name, sender_email))
+                      message['To'] = email.utils.formataddr((recipient_name, recipient_email))
+
+                      # prepare plain and html message parts
+                      part1 = MIMEText(body_plain, 'plain')
+                      part2 = MIMEText(body_html, 'html')
+
+                      # attach parts to message
+
+                      message.attach(part1)
+                      message.attach(part2)
+
+                      # send the message.
+                      try:
+                          server = smtplib.SMTP(mailertogo_host, mailertogo_port)
+                          server.ehlo()
+                          server.starttls()
+                          server.ehlo()
+                          server.login(mailertogo_user, mailertogo_password)
+                          server.sendmail(sender_email, recipient_email, message.as_string())
+                          server.close()
+                      except Exception as e:
+                          print ("Error: ", e)
+                      else:
+                          print ("Email sent!")
+
+
+                      
 
                     except:
                       e = sys.exc_info()[0]   
