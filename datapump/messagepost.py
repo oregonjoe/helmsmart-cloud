@@ -2288,6 +2288,8 @@ def SendSMSAlert(parameters, alarmresult):
     if debug_all: log.info('SendSMSAlert: Email alarm is not active - returning ')
     return
 
+  alertesms = ""
+  
   try:    
 
     # extract the series alarm paramterts
@@ -2299,7 +2301,7 @@ def SendSMSAlert(parameters, alarmresult):
     
     if email_body != "":
         #alertemail = parameters['email']
-        alertemail = ""
+        alertesms = ""
         
         conn = db_pool.getconn()
 
@@ -2325,45 +2327,43 @@ def SendSMSAlert(parameters, alarmresult):
                 #smsnumber = str(row[1]) 
                 if debug_info: log.info('SendSMSAlert: alertesms is %s: devicename %s ', alertesms, devicename)
                 if alertemail != "" and alertemail != None:
-                    try:
+                  try:
+                    # Download the helper library from https://www.twilio.com/docs/python/install
+                    #import os
+                    #from twilio.rest import Client
 
 
-                      # Download the helper library from https://www.twilio.com/docs/python/install
-                      #import os
-                      #from twilio.rest import Client
+                    # Find your Account SID and Auth Token at twilio.com/console
+                    # and set the environment variables. See http://twil.io/secure
+                    account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+                    auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+                    #client = Client(account_sid, auth_token)
 
-
-                      # Find your Account SID and Auth Token at twilio.com/console
-                      # and set the environment variables. See http://twil.io/secure
-                      account_sid = os.environ['TWILIO_ACCOUNT_SID']
-                      auth_token = os.environ['TWILIO_AUTH_TOKEN']
-                      #client = Client(account_sid, auth_token)
-
-                      #message = client.messages.create(  body="Join Earth's mightiest heroes. Like Kevin Bacon.", from_='+15017122661', to='+15558675310')
-                      #if debug_all: log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
-
-
-                      except TypeError as e:
-                        if debug_all: log.info("SendSMSAlert twilio send alertemail %s:  ", alertemail)
-                        if debug_all: log.info('SendSMSAlert  twilio send TYPE Error %s:  ' % e)
-                      except NameError as e:
-                        if debug_all: log.info("SendSMSAlert twilio send alertemail %s:  ", alertemail)
-                        if debug_all: log.info('SendSMSAlert  twilio send NAME Error %s:  ' % e)
-                      except Exception as e:
-                        if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e)) 
-                      else:
-                        if debug_all: log.info("SendSMSAlert twilio sent %s:  ", part1)
+                    #message = client.messages.create(  body="Join Earth's mightiest heroes. Like Kevin Bacon.", from_='+15017122661', to='+15558675310')
+                    #if debug_all: log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
 
 
                     except TypeError as e:
-                      if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
-                      if debug_all: log.info('SendSMSAlert  twilio TYPE Error %s:  ' % e)                     
+                      if debug_all: log.info("SendSMSAlert twilio send alertemail %s:  ", alertesms)
+                      if debug_all: log.info('SendSMSAlert  twilio send TYPE Error %s:  ' % e)
                     except NameError as e:
-                      if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
-                      if debug_all: log.info('SendSMSAlert  twilio NAME Error %s:  ' % e)
-                    except:
-                      e = sys.exc_info()[0]   
-                      if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e))                                
+                      if debug_all: log.info("SendSMSAlert twilio send alertemail %s:  ", alertesms)
+                      if debug_all: log.info('SendSMSAlert  twilio send NAME Error %s:  ' % e)
+                    except Exception as e:
+                      if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e)) 
+                    else:
+                      if debug_all: log.info("SendSMSAlert twilio sent %s:  ", part1)
+
+
+                  except TypeError as e:
+                    if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertesms)
+                    if debug_all: log.info('SendSMSAlert  twilio TYPE Error %s:  ' % e)                     
+                  except NameError as e:
+                    if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertesms)
+                    if debug_all: log.info('SendSMSAlert  twilio NAME Error %s:  ' % e)
+                  except:
+                    e = sys.exc_info()[0]   
+                    if debug_all: log.info('SendSMSAlert: twilio Error %s:  ' % str(e))                                
 
         except TypeError as e:
           if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertemail)
@@ -2381,10 +2381,10 @@ def SendSMSAlert(parameters, alarmresult):
             db_pool.putconn(conn)
 
   except TypeError as e:
-    if debug_all: log.info("SendSMSAlert alertemail %s:  ", alertemail)
+    if debug_all: log.info("SendSMSAlert alertemail %s:  ", alertesms)
     if debug_all: log.info('SendSMSAlert  TYPE Error %s:  ' % e)
   except NameError as e:
-    if debug_all: log.info("SendSMSAlert alertemail %s:  ", alertemail)
+    if debug_all: log.info("SendSMSAlert alertemail %s:  ", alertesms)
     if debug_all: log.info('SendSMSAlert  NAME Error %s:  ' % e)
     
   except:
