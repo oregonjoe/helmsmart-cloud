@@ -2346,7 +2346,7 @@ def SendSMSAlert(parameters, alarmresult):
 
                     if message.error_message:
                       raise Exception(f"Failed to send : {message.error_message}")
-                    else
+                    else:
                       log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
 
 
