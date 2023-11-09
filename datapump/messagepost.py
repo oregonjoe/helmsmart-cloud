@@ -1915,7 +1915,7 @@ def getSensorValues(alertParameters):
                             startepoch, endepoch,
                             resolution)
         
-         if debug_all: log.info('getSensorValues: Influx Cloud Query String %s:  ', dbcquery)
+        if debug_all: log.info('getSensorValues: Influx Cloud Query String %s:  ', dbcquery)
 
         response= dbc.query(dbcquery)
         
