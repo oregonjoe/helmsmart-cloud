@@ -1671,7 +1671,7 @@ def getSensorParameter(sensorKey):
         parameter = seriesparameter[1]
         if debug_all: log.info('getSensorParameter: parameter %s:  ', parameter)
         
-        parameterKey = ('median({}) AS {}').format( parameter,  parameter)
+        parameterKey = ('({}) AS {}').format( parameter,  parameter)
     
         return parameterKey
 
@@ -1908,7 +1908,7 @@ def getSensorValues(alertParameters):
         dbc = InfluxDBCloud(dchost, dcport, dcusername, dcpassword, dcdatabase,  ssl=True)
 
 
-        dbcquery = ('select {}({}) FROM {} '
+        dbcquery = ('select {}{} FROM {} '
                          'where {} AND time > {}s and time < {}s '
                          'group by *, time({}s) LIMIT 1') \
                     .format( alerttype, idbcseriesparameters,  measurement, idbcserieskeys,
@@ -2669,7 +2669,7 @@ def process_message(alert_message):
 
         if posttypecloud == "EmailAlertPost-Cloud":
           #if debug_all: log.info('Posting to AlertPosts :')
-          if debug_info: log.info('Posting to EmailAlertPost-Cloud deviceid = %s:', parameters.get('deviceid'),"")
+          if debug_info: log.info('Posting to EmailAlertPost-Cloud deviceid = %s:', parameters.get('deviceid',""))
           if debug_all: log.info('Posting to EmailAlertPost-Cloud %s:', parameters)
 
           email_body = ""
