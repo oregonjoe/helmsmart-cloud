@@ -25,9 +25,9 @@ from astral.sun import sun
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
-#debug_all = False
-debug_all = True
-
+debug_all = False
+#debug_all = True
+debug_info = True
 
 logging.basicConfig(level=logging.INFO)
 log = logging
@@ -1577,7 +1577,7 @@ def process_emailalert(text_body, parameters, timestamp, value):
             alertenabled = True
 
         # alerts are enabled so continue
-        if debug_all: log.info('alert_processor process_emailalert: alert is enabled ' )
+        if debug_info: log.info('alert_processor process_emailalert: alert is enabled ' )
 
         series_parameters = parameters.get('series_1',"")
         # check for error/missing series parameters and retutn
@@ -1589,7 +1589,7 @@ def process_emailalert(text_body, parameters, timestamp, value):
         #check if alarm mode is specified
         alarmmode = str(series_parameters["alarmmode"])
 
-        if debug_all: log.info('alert_processor alarmmode: %s ', alarmmode )
+        if debug_info: log.info('alert_processor alarmmode: %s ', alarmmode )
 
         #  not enabled so just exit          
         if alarmmode == "disabled":

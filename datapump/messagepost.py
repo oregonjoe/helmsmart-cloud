@@ -2342,12 +2342,14 @@ def SendSMSAlert(parameters, alarmresult):
                     
                     if debug_info: log.info('SendSMSAlert: good alertesms is %s: devicename %s ', alertesms, devicename)
                     client = smsClient(account_sid, auth_token)
-                    message = client.messages.create(  body=email_body, from_='+18449794144', to='+154166120510')
-                    if debug_all: log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
+                    message = client.messages.create(  body=email_body, from_='+18449794144', to='+15416612051')
 
-                  except twilio.base.exceptions.TwilioRestException as e:
-                    if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertesms)
-                    if debug_all: log.info('SendSMSAlert  twilio Twilio Error %s:  ' % e) 
+                    if message.error_message:
+                      raise Exception(f"Failed to send : {message.error_message}")
+                    else
+                      log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
+
+
                   except TypeError as e:
                     if debug_all: log.info("SendSMSAlert twilio alertemail %s:  ", alertesms)
                     if debug_all: log.info('SendSMSAlert  twilio TYPE Error %s:  ' % e)                     
