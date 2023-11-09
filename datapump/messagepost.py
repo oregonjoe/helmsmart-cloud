@@ -1633,6 +1633,21 @@ def make_HSAlert_json(series_number, parameters, distance, value, alarmstatus):
 
 # ****************************************************************
 # InfluxDB Sensor key
+# takes alertparameters and get the alerttype then checks if its a proper rollup operator
+# *************************************************************************
+def getAlertType(alertParameters):
+  
+  alerttype=alertParameters.get('alerttype', "mean")
+
+  if alerttype == "mean" or alerttype == "median" or alerttype == "min" or alerttype == "max" or alerttype == "count":
+    return alerttype
+  
+  else:
+    return "mean"
+
+
+# ****************************************************************
+# InfluxDB Sensor key
 # takes alert message sensor key and returns the sensor values
 # *************************************************************************
 def getSensorParameter(sensorKey):
@@ -1848,6 +1863,7 @@ def getSensorValues(alertParameters):
     sensorKey = sensorSeries['key']
     sensorUnits = sensorSeries['units']
     sensorInterval = alertParameters['Interval']
+    #alerttype=alertParameters.get('alerttype', "mean")
 
     if debug_all: log.info('getSensorValues: sensor key %s: interval %s: units %s', sensorKey,sensorInterval , sensorUnits)
 
@@ -1878,7 +1894,11 @@ def getSensorValues(alertParameters):
         if resolution == "":
             resolution = epochtimes[2]
 
+        #alerttype=alertParameters.get('alerttype', "mean")
+        alerttype = getAlertType(alertParameters)
+
         # get sensor from key
+        #select median(value0) AS value0 FROM HS_68271935A666 where ( deviceid='68271935A666' AND sensor='seasmartdimmer' AND instance='0' AND type='LED 1 Channel' AND parameter='value0'   ) AND time > 1699549573s and time < 1699549693s group by *, time(60s) LIMIT 1:      
         idbcseriesparameters = getSensorParameter(sensorKey)
 
         # get select from key
@@ -1888,14 +1908,14 @@ def getSensorValues(alertParameters):
         dbc = InfluxDBCloud(dchost, dcport, dcusername, dcpassword, dcdatabase,  ssl=True)
 
 
-        dbcquery = ('select {} FROM {} '
+        dbcquery = ('select {}({}) FROM {} '
                          'where {} AND time > {}s and time < {}s '
                          'group by *, time({}s) LIMIT 1') \
-                    .format( idbcseriesparameters,  measurement, idbcserieskeys,
+                    .format( alerttype, idbcseriesparameters,  measurement, idbcserieskeys,
                             startepoch, endepoch,
                             resolution)
-            
-        if debug_all: log.info('getSensorValues: Influx Cloud Query String %s:  ', dbcquery)
+        
+         if debug_all: log.info('getSensorValues: Influx Cloud Query String %s:  ', dbcquery)
 
         response= dbc.query(dbcquery)
         
@@ -2649,7 +2669,8 @@ def process_message(alert_message):
 
         if posttypecloud == "EmailAlertPost-Cloud":
           #if debug_all: log.info('Posting to AlertPosts :')
-          if debug_info: log.info('Posting to EmailAlertPost-Cloud %s:', parameters)
+          if debug_info: log.info('Posting to EmailAlertPost-Cloud deviceid = %s:', parameters.get('deviceid'),"")
+          if debug_all: log.info('Posting to EmailAlertPost-Cloud %s:', parameters)
 
           email_body = ""
           timmer_array = ""
@@ -2693,7 +2714,7 @@ def process_message(alert_message):
           else:
             if len(sensorValues) != 0:
               sensorValueUnits = convertunits(sensorValues[0], series_parameters['units'])
-              if debug_all: log.info('process_message: sensor value units %s', sensorValueUnits)
+              if debug_info: log.info('process_message: sensor value units %s', sensorValueUnits)
               alarmresult = process_emailalert(email_body,  parameters, nowtime.strftime("%Y-%m-%d %H:%M:%S"), sensorValueUnits)
 
             else:
@@ -2722,9 +2743,9 @@ def process_message(alert_message):
               
 
           if email_body != "":        
-              if debug_all: log.info('Posting to EmailAlertPost-Cloud   email_body= %s:', email_body)
+              if debug_info: log.info('Posting to EmailAlertPost-Cloud   email_body= %s:', email_body)
           else:
-              if debug_all: log.info('Posting to EmailAlertPost-Cloud   email_body= blank ' )
+              if debug_info: log.info('Posting to EmailAlertPost-Cloud   email_body= blank ' )
 
 
           if timmer_array != "":        
@@ -2737,20 +2758,20 @@ def process_message(alert_message):
           # #########################################################
           switchdata = getSwitchValues(parameters, alarmresult['status'])
 
-          if debug_all: log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
+          if debug_info: log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], switchdata)
           # #########################################################
           # third lets check for any dimmer data and get dimmer states
           # #########################################################
           dimmerdata = getDimmerValues(parameters, alarmresult['status'])
 
-          if debug_all: log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
+          if debug_info: log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
 
           # #########################################################
           # Now send out EMAIL using SendGrid if enabled
           # #########################################################
           if series_parameters['alarmmode'] == 'alarmemail' or series_parameters['alarmmode'] == 'alarmemailsms':
   
-            if debug_all: log.info('Posting to EmailAlertPost-Cloud: sending out email deviceid= %s', parameters['deviceid'])
+            if debug_info: log.info('Posting to EmailAlertPost-Cloud: sending out email deviceid= %s', parameters['deviceid'])
             SendEMAILAlert(parameters, alarmresult)
 
           # #########################################################
@@ -2758,14 +2779,14 @@ def process_message(alert_message):
           # #########################################################
           if series_parameters['alarmmode'] == 'alarmsms' or series_parameters['alarmmode'] == 'alarmemailsms':
   
-            if debug_all: log.info('Posting to EmailAlertPost-Cloud: sending out sms deviceid= %s', parameters['deviceid'])
+            if debug_info: log.info('Posting to EmailAlertPost-Cloud: sending out sms deviceid= %s', parameters['deviceid'])
             SendSMSAlert(parameters, alarmresult)          
 
           # ################################################################
           #Finally we will put a alert message in the SQS que for the main app to process using the SSEA00 partition
           # ################################################################
   
-          if debug_all: log.info('Posting to EmailAlertPost-Cloud: sending out HelmSmart Alert via SQS que = deviceid=%s', parameters['deviceid'])
+          if debug_info: log.info('Posting to EmailAlertPost-Cloud: sending out HelmSmart Alert via SQS que = deviceid=%s', parameters['deviceid'])
           SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata, dimmerdata,timmerdata)
 
 
