@@ -27,7 +27,7 @@ from alert_processor import process_emailalert
 # ********************************************************************
 debug_all = False
 debug_info = True
-debug_all = True
+#debug_all = True
 
 
 requests_log = logging.getLogger("requests")
