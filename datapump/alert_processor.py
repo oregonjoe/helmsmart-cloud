@@ -26,7 +26,7 @@ from astral.sun import sun
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-#debug_all = True
+debug_all = True
 debug_info = True
 
 logging.basicConfig(level=logging.INFO)

@@ -2764,7 +2764,7 @@ def process_message(alert_message):
           # #########################################################
           dimmerdata = getDimmerValues(parameters, alarmresult['status'])
 
-          if debug_info: log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
+          if debug_info: log.info('Posting to EmailAlertPost-Cloud: Email query dimmer data %s: %s ', parameters['deviceid'], dimmerdata)
 
           # #########################################################
           # Now send out EMAIL using SendGrid if enabled

@@ -65,6 +65,8 @@ import logging
 # ********************************************************************
 #debug_all = False
 debug_all = True
+debug_info = True
+debug_memcachier = True
 
 
 #from helmsmartmodules.user_db_functions import getdashboardlists
