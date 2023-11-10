@@ -403,86 +403,108 @@ def get_timmerday_alert(parameters, value):
                         timmerArray[t_tenmin] =alertaction_value
 
                 if debug_all: log.info('get_timmerday_alert compare timmerday start > end  timmerArray %s  ', timmerArray)
+
+
+            # if remotemode is dailytimmertable then we repeat the 24 hr timer valuse forever until the event is deleted
+            # this way both the on/off values are set everyday starting when event was created
+            # otherwise we will use start and end time to determine timer tables are active
+            remotemode = parameters.get('remotemode',"dailytimmertable")
+            if debug_all: log.info('get_timmerday_alert  remotemode = %s  ', remotemode)
+            
+            if remotemode == "dailytimmertable":
+
+                # get start and end times for current day
+                lccurrenttime = datetime.datetime.now(mylocal)
+                starthour = startsecs/(60*60)
+                startmin = int(startsecs % (60*60))
+                todaydaystarttime = lccurrenttime.replace(hour=starthour, minute=startmin, second=0)
+
+                endhour = startsecs/(60*60)
+                endmin = int(startsecs % (60*60))
+                todaydayendtime = lccurrenttime.replace(hour=starthour, minute=startmin, second=0)
+
+                text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                text_body = text_body + 'is = ' + str(alertaction_value) + ' dailly from ' + str(todaydaystarttime) + " to " + str(todaydayendtime) + " timestamp is:" + timestamp + '\n'
+                result['status']="active"
+                if debug_all: log.info('get_timmerday_alert: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+
+            else: #use start and end time to load new timer tables when alert is active
                 
-            # if start secs < endsec then both within saem 24 hours so its a simple compare
-            if   startsecs <  endsecs:
-                if debug_all: log.info('get_timmerday_alert: process_emailalert timmerday start < end  ', )                           
-                try:
-
-                    alertaction_value = int(parameters.get('alertaction_value',255))
-                    if debug_all: log.info('get_timmerday_alert compare timmerday start < end  alertaction_value %s  ', alertaction_value)
+                # if start secs < endsec then both within saem 24 hours so its a simple compare
+                if   startsecs <  endsecs:
+                    if debug_all: log.info('get_timmerday_alert: process_emailalert timmerday start < end  ', )
                     
-
-
-                    
-                    if currentsecs >=  startsecs and currentsecs <=  endsecs:
-                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
-                        result['status']="active"
-                        if debug_all: log.info('get_timmerday_alert: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                    try:
+                        alertaction_value = int(parameters.get('alertaction_value',255))
+                        if debug_all: log.info('get_timmerday_alert compare timmerday start < end  alertaction_value %s  ', alertaction_value)
                         
-                    else:
-                        result['status']="inactive"
-                        text_body = "alert is inactive - current time is outside start/end"
-                        if debug_all: log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+                        if currentsecs >=  startsecs and currentsecs <=  endsecs:
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            if debug_all: log.info('get_timmerday_alert: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                            
+                        else:
+                            result['status']="inactive"
+                            text_body = "alert is inactive - current time is outside start/end"
+                            if debug_all: log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
 
-                except NameError as e:
-                    if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start < end %s:%s  ', text_body, value)
-                    if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start < end %s:  ' % str(e))
+                    except NameError as e:
+                        if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start < end %s:%s  ', text_body, value)
+                        if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start < end %s:  ' % str(e))
+                            
+                    except:
+                        if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
+                        e = sys.exc_info()[0]
+                        if debug_all: log.info("Error: %s" % e)
+                        result['status']="error"
+
+                # if strart secs > end sec then we span different 24 hours over midnight so we need to compare before midnight and after        
+                elif   startsecs >  endsecs:
+                    if debug_all: log.info('get_timmerday_alert timmerday start > end  ', )
+                    
+                    try:                       
+                        alertaction_value = int(parameters.get('alertaction_value',255))
+                        if debug_all: log.info('get_timmerday_alert compare timmerday start > end  alertaction_value %s  ', alertaction_value)                        
                         
-                except:
-                    if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
-                    e = sys.exc_info()[0]
-                    if debug_all: log.info("Error: %s" % e)
-                    result['status']="error"
+                        #if currenttime >=  starttime and currenttime <=  midnight:
+                        if  currentsecs  >=  startsecs and currentsecs  <=  (24*60*60):
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            if debug_all: log.info('get_timmerday_alert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                            
+                        #if currenttime >=  newday and currenttime <=  endtime:
+                        elif currentsecs  >=  0 and currentsecs  <=  endsecs:
+                            text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                            text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                            text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                            result['status']="active"
+                            if debug_all: log.info('get_timmerday_alert timmerday active alerttext %s:%s  ', text_body, currenttime)
 
-            # if strart secs > end sec then we span different 24 hours over midnight so we need to compare before midnight and after        
-            elif   startsecs >  endsecs:
-                if debug_all: log.info('get_timmerday_alert timmerday start > end  ', )                           
-                try:
-                    
-                    alertaction_value = int(parameters.get('alertaction_value',255))
-                    if debug_all: log.info('get_timmerday_alert compare timmerday start > end  alertaction_value %s  ', alertaction_value)
-                    
+                        else:
+                            result['status']="inactive"
+                            text_body = "alert is inactive - current time is outside start/end"
+                            if debug_all: log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
 
-                    
-                    #if currenttime >=  starttime and currenttime <=  midnight:
-                    if  currentsecs  >=  startsecs and currentsecs  <=  (24*60*60):
-                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
-                        result['status']="active"
-                        if debug_all: log.info('get_timmerday_alert timmerday active alerttext %s:%s  ', text_body, currenttime)
-                        
-                    #if currenttime >=  newday and currenttime <=  endtime:
-                    elif currentsecs  >=  0 and currentsecs  <=  endsecs:
-                        text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
-                        text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(currenttime) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
-                        result['status']="active"
-                        if debug_all: log.info('get_timmerday_alert timmerday active alerttext %s:%s  ', text_body, currenttime)
+                    except NameError as e:
+                        if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start > end %s:%s  ', text_body, value)
+                        if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start > end %s:  ' % str(e))
+                                   
+                    except:
+                        if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
+                        e = sys.exc_info()[0]
+                        if debug_all: log.info("Error: %s" % e)
+                        result['status']="error"
 
-                    else:
-                        result['status']="inactive"
-                        text_body = "alert is inactive - current time is outside start/end"
-                        if debug_all: log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
-
-                except NameError as e:
-                    if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start > end %s:%s  ', text_body, value)
-                    if debug_all: log.info('get_timmerday_alert: NameError in  timmerday start > end %s:  ' % str(e))
-                               
-                except:
-                    if debug_all: log.info('get_timmerday_alert: Error in process_emailalert %s:%s  ', text_body, value)
-                    e = sys.exc_info()[0]
-                    if debug_all: log.info("Error: %s" % e)
-                    result['status']="error"
-
-            #start time equals end time so do nothing        
-            else:
-                result['status']="inactive"
-                text_body = "alert is inactive - current time is equal to start/end"
-                if debug_all: log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+                #start time equals end time so do nothing        
+                else:
+                    result['status']="inactive"
+                    text_body = "alert is inactive - current time is outside start/end"
+                    if debug_all: log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
 
         result['message']=text_body
         result['timmerArray']=timmerArray
