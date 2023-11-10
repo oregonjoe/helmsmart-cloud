@@ -1639,11 +1639,13 @@ def process_emailalert(text_body, parameters, timestamp, value):
 
                 #create timmer array of dimmer values based on start and stop times            
                 result = get_timmer_alert(parameters, value)
+                if debug_all: log.info('alert_processor get_timmer_alert result: %s ', result )
 
             #timmer event daily repeat
             elif alerttype == "timmerday":
                 #create timmer array of dimmer values based on start and stop times            
-                result = get_timmerday_alert(parameters, value)                
+                result = get_timmerday_alert(parameters, value)
+                if debug_all: log.info('alert_processor get_timmerday_alert result: %s ', result )
 
             #timmer event based on local sunrise sunset
             elif alerttype == "sunriseset" or alerttype == "sunsetrise" or alerttype == "sunriseexpires" or alerttype == "sunsetexpires" or alerttype == "startsunrise" or alerttype == "startsunset":
@@ -1651,6 +1653,7 @@ def process_emailalert(text_body, parameters, timestamp, value):
 
                 #use location to determine sunrise and sunset times
                 result = get_sunriseset_alert(parameters, value)
+                if debug_all: log.info('alert_processor get_sunriseset_alert result: %s ', result )
 
 
         # to do - need to handle serires status        
