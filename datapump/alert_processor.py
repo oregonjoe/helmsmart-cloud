@@ -425,7 +425,8 @@ def get_timmerday_alert(parameters, value):
 
                 text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
                 text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                text_body = text_body + 'is = ' + str(alertaction_value) + ' dailly from ' + str(todaydaystarttime) + " to " + str(todaydayendtime) + " timestamp is:" + timestamp + '\n'
+                text_body = text_body + 'is = ' + str(alertaction_value) + ' daily from ' + str(todaydaystarttime) + " to " + str(todaydayendtime) + '\n'
+                text_body = text_body + "timestamp is:" + timestamp + '\n'
                 result['status']="active"
                 if debug_all: log.info('get_timmerday_alert: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
 
