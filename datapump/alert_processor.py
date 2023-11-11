@@ -1523,15 +1523,17 @@ def get_alarms_alert(parameters, value):
         
         if alerttype != "missing":
             if debug_all: log.info("get_alarms_alert  value: %s alerttype %s", value, alerttype)
-            lowValue = series_parameters.get("alarmlow", "off")
-            if lowValue != "off" and isinstance(lowValue, (int, float)):  # it is an integer or a float:
-                if debug_all: log.info("get_alarms_alert low != off value: %s alerttype %s", lowValue, alerttype)
+            #lowValue = series_parameters.get("alarmlow", "off")
+            #if lowValue != "off" and isinstance(lowValue, (int, float)):  # it is an integer or a float:
+            if series_parameters.get("alarmlow", "off") != "off":  # it is an string:
+                if debug_all: log.info("get_alarms_alert low != off value: %s alerttype %s", series_parameters.get("alarmlow", "off"), alerttype)
                 try:
-                    if debug_all: log.info("get_alarms_alert  low != off value %s  alarm %s",  float(value), float(series_parameters["alarmlow"]))
-                    if float(value) <= float(series_parameters["alarmlow"]):
+                    lowValue = float(series_parameters.get("alarmlow", "off"))
+                    if debug_all: log.info("get_alarms_alert  low != off value %s  alarm %s",  float(value), lowValue)
+                    if float(value) <= lowValue:
                         text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
+                        text_body = text_body + 'is low - ' + alerttype + ' = ' + str(value) + " threshold: " + str(lowValue) + " timestamp is:" + timestamp + '\n'
                         result['status']="active"
                         
                 except ValueError as e:
@@ -1542,15 +1544,17 @@ def get_alarms_alert(parameters, value):
                     e = sys.exc_info()[0]
                     if debug_all: log.info("Error: %s" % e)
             
-            highValue = series_parameters.get("alarmhigh", "off")
-            if highValue != "off" and isinstance(highValue, (int, float)):  # it is an integer or a float:
-                if debug_all: log.info("get_alarms_alert high != off value: %s alerttype %s", highValue, alerttype)
+            #highValue = series_parameters.get("alarmhigh", "off")
+            #if highValue != "off" and isinstance(highValue, (int, float)):  # it is an integer or a float:
+            if series_parameters.get("alarmhigh", "off") != "off" :  # it is an string:
+                if debug_all: log.info("get_alarms_alert high != off value: %s alerttype %s", series_parameters.get("alarmhigh", "off"), alerttype)
                 try:
-                    if debug_all: log.info("get_alarms_alert  high != off value %s alarm %s",  float(value), float(series_parameters["alarmhigh"]))
-                    if float(value) >= float(series_parameters["alarmhigh"]):
+                    highValue = float(series_parameters.get("alarmhigh", "off"))
+                    if debug_all: log.info("get_alarms_alert  high != off value %s alarm %s",  float(value), highValue)
+                    if float(value) >= highValue:
                         text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
-                        text_body = text_body + 'is high - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmhigh"]) + " timestamp is:" + timestamp + '\n'
+                        text_body = text_body + 'is high - ' + alerttype + ' = ' + str(value) + " threshold: " + str(highValue) + " timestamp is:" + timestamp + '\n'
                         result['status']="active"
 
                 except ValueError as e:
