@@ -1523,8 +1523,9 @@ def get_alarms_alert(parameters, value):
         
         if alerttype != "missing":
             if debug_all: log.info("get_alarms_alert  value: %s alerttype %s", value, alerttype)
-            if str(series_parameters["alarmlow"]) != "off" :
-                if debug_all: log.info("get_alarms_alert low != off value: %s alerttype %s", value, alerttype)
+            lowValue = series_parameters.get("alarmlow", "off")
+            if lowValue != "off" and if isinstance(lowValue, (int, float)):  # it is an integer or a float:
+                if debug_all: log.info("get_alarms_alert low != off value: %s alerttype %s", lowValue, alerttype)
                 try:
                     if debug_all: log.info("get_alarms_alert  low != off value %s  alarm %s",  float(value), float(series_parameters["alarmlow"]))
                     if float(value) <= float(series_parameters["alarmlow"]):
@@ -1532,15 +1533,18 @@ def get_alarms_alert(parameters, value):
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                         text_body = text_body + 'is low - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmlow"]) + " timestamp is:" + timestamp + '\n'
                         result['status']="active"
-  
+                        
+                except ValueError as e:
+                    if debug_all: log.info('get_alarms_alert:alarmlow ValueError  %s:  ' % str(e))  
                 except:
                     result['status']="inactive"
                     if debug_all: log.info('get_alarms_alert: low Error  %s:%s  ', text_body, value)
                     e = sys.exc_info()[0]
                     if debug_all: log.info("Error: %s" % e)
             
-            if str(series_parameters["alarmhigh"]) != "off" :
-                if debug_all: log.info("get_alarms_alert high != off value: %s alerttype %s", value, alerttype)
+            highValue = series_parameters.get("alarmhigh", "off")
+            if highValue != "off" and if isinstance(highValue, (int, float)):  # it is an integer or a float:
+                if debug_all: log.info("get_alarms_alert high != off value: %s alerttype %s", highValue, alerttype)
                 try:
                     if debug_all: log.info("get_alarms_alert  high != off value %s alarm %s",  float(value), float(series_parameters["alarmhigh"]))
                     if float(value) >= float(series_parameters["alarmhigh"]):
@@ -1548,6 +1552,9 @@ def get_alarms_alert(parameters, value):
                         text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
                         text_body = text_body + 'is high - ' + alerttype + ' = ' + str(value) + " threshold: " + str(series_parameters["alarmhigh"]) + " timestamp is:" + timestamp + '\n'
                         result['status']="active"
+
+                except ValueError as e:
+                    if debug_all: log.info('get_alarms_alert:alarmhigh ValueError  %s:  ' % str(e))                          
                 except:
                     result['status']="inactive"
                     if debug_all: log.info('get_alarms_alert: high Error  %s:%s  ', text_body, value)
@@ -1572,7 +1579,7 @@ def get_alarms_alert(parameters, value):
 
     except ValueError as e:
         if debug_all: log.info('get_alarms_alert: ValueError  %s:%s  ', text_body, value)
-        if debug_all: log.info('get_alarms_alert: TypeError  %s:  ' % str(e))
+        if debug_all: log.info('get_alarms_alert: ValueError  %s:  ' % str(e))
 
     except AttributeError as e:
         if debug_all: log.info('get_alarms_alert: AttributeError %s:%s  ', text_body, value)
