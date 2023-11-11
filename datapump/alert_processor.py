@@ -1524,7 +1524,7 @@ def get_alarms_alert(parameters, value):
         if alerttype != "missing":
             if debug_all: log.info("get_alarms_alert  value: %s alerttype %s", value, alerttype)
             lowValue = series_parameters.get("alarmlow", "off")
-            if lowValue != "off" and if isinstance(lowValue, (int, float)):  # it is an integer or a float:
+            if lowValue != "off" and isinstance(lowValue, (int, float)):  # it is an integer or a float:
                 if debug_all: log.info("get_alarms_alert low != off value: %s alerttype %s", lowValue, alerttype)
                 try:
                     if debug_all: log.info("get_alarms_alert  low != off value %s  alarm %s",  float(value), float(series_parameters["alarmlow"]))
@@ -1543,7 +1543,7 @@ def get_alarms_alert(parameters, value):
                     if debug_all: log.info("Error: %s" % e)
             
             highValue = series_parameters.get("alarmhigh", "off")
-            if highValue != "off" and if isinstance(highValue, (int, float)):  # it is an integer or a float:
+            if highValue != "off" and isinstance(highValue, (int, float)):  # it is an integer or a float:
                 if debug_all: log.info("get_alarms_alert high != off value: %s alerttype %s", highValue, alerttype)
                 try:
                     if debug_all: log.info("get_alarms_alert  high != off value %s alarm %s",  float(value), float(series_parameters["alarmhigh"]))
