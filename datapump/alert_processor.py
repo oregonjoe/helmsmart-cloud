@@ -411,6 +411,7 @@ def get_timmerday_alert(parameters, value):
             remotemode = parameters.get('remotemode',"dailytimmertable")
             if debug_all: log.info('get_timmerday_alert  remotemode = %s  ', remotemode)
             
+            #repeats the daily timer table forever until event is deleted or disabled
             if remotemode == "dailytimmertable":
 
                 # get start and end times for current day
@@ -429,6 +430,35 @@ def get_timmerday_alert(parameters, value):
                 text_body = text_body + "timestamp is:" + timestamp + '\n'
                 result['status']="active"
                 if debug_all: log.info('get_timmerday_alert: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+
+            # Repeats daily timer table for set start/stop time span
+            elif remotemode == "dailytimmerspan":
+
+                #compare current utc time to utc start and end times
+                if utccurrenttime >=  startutcsecs_utc and utccurrenttime <=  endutcsecs_utc:
+                    # get start and end times for current day
+                    lccurrenttime = datetime.datetime.now(mylocal)
+                    starthour = int(int(startsecs)/(60*60))
+                    startmin = int(int(startsecs) % (60*60))
+                    todaydaystarttime = lccurrenttime.replace(hour=starthour, minute=startmin, second=0)
+
+                    endhour = int(int(endsecs)/(60*60))
+                    endmin = int(int(endsecs) % (60*60))
+                    todaydayendtime = lccurrenttime.replace(hour=endhour, minute=endmin, second=0)
+
+                    text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
+                    text_body = text_body  + series_parameters["alarmmode"] + ": " + series_parameters["title"] + '\n'
+                    text_body = text_body + 'is = ' + str(alertaction_value) + ' daily from ' + str(todaydaystarttime) + " to " + str(todaydayendtime) + '\n'
+                    text_body = text_body + 'active  daily from ' + str(startutcsecs_utc) + " to " + str(utccurrenttime) + '\n'
+                    text_body = text_body + "timestamp is:" + timestamp + '\n'
+                    result['status']="active"
+                    if debug_all: log.info('get_timmerday_alert: process_emailalert timmerday active alerttext %s:%s  ', text_body, currenttime)
+
+                else:
+                    result['status']="inactive"
+                    text_body = "alert is inactive - current time is outside start/end"
+                    if debug_all: log.info('get_timmerday_alert timmerday inactive alerttext %s:%s  ', text_body, currenttime)
+                
 
             else: #use start and end time to load new timer tables when alert is active
                 

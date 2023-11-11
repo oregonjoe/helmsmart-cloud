@@ -27,7 +27,7 @@ from alert_processor import process_emailalert
 # ********************************************************************
 debug_all = False
 debug_info = True
-#debug_all = True
+debug_all = True
 
 
 requests_log = logging.getLogger("requests")
@@ -2476,13 +2476,19 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
     remote_mode = parameters.get('remotemode','singleevent')
     if debug_all: log.info('SendHSAlert: EmailAlertPost-Cloud remote mode %s:  ', remote_mode)
 
-    if remote_mode == 'singleevent':
-        timmerdata_key = ""
-        dimmerdata_key = dimmerdata
-    elif remote_mode == 'dailytimmertable':
-        dimmerdata_key = ""
-        timmerdata_key = timmerdata
+    alarm_status = alarmresult.get('status', "")
 
+    if alarm_status == 'active':
+      
+      if remote_mode == 'singleevent':
+          timmerdata_key = ""
+          dimmerdata_key = dimmerdata
+      elif remote_mode == 'dailytimmertable':
+          dimmerdata_key = ""
+          timmerdata_key = timmerdata
+      elif remote_mode == 'dailytimmerspan':
+          dimmerdata_key = ""
+          timmerdata_key = timmerdata
      
 
     if debug_all: log.info('SendHSAlert:  payload %s:  ', payload)     

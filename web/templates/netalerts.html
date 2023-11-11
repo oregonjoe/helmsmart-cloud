@@ -2060,7 +2060,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 		
 	myEventAlarmModeType[EventID] = document.getElementById("EventTriggerType").options[sel.selectedIndex].value
 		  
-	if(document.getElementById("EventTriggerType").selectedIndex == 4)
+	if(document.getElementById("EventTriggerType").selectedIndex == 5)
 	{
 			document.getElementById("EventMin").value  = 'missing';
 			document.getElementById("EventMax").value = 'missing';	
@@ -2078,7 +2078,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 			document.getElementById("alertduration_group").style.display = 'none';
 			document.getElementById("alertoffset_group").style.display = 'none';
 	 }
-	 else if(document.getElementById("EventTriggerType").selectedIndex == 5)
+	 else if(document.getElementById("EventTriggerType").selectedIndex == 6)
 	{
 			document.getElementById("EventMin").value  = 'error';
 			document.getElementById("EventMax").value = 'error';
@@ -2097,7 +2097,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 
 			
 	 }
-	 else if(document.getElementById("EventTriggerType").selectedIndex == 6) // timmer once
+	 else if(document.getElementById("EventTriggerType").selectedIndex == 7) // timmer once
 	{
 			document.getElementById("EventMin").value  = 0;
 			document.getElementById("EventMax").value = 86400;
@@ -2114,7 +2114,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 			document.getElementById("alertstarttime_group").style.display = 'block';
 			document.getElementById("alertendtime_group").style.display = 'block';		
 	 }
-	  else if(document.getElementById("EventTriggerType").selectedIndex == 7) // timmer daily
+	  else if(document.getElementById("EventTriggerType").selectedIndex == 8) // timmer daily
 	{
 			document.getElementById("EventMin").value  = 0;
 			document.getElementById("EventMax").value = 86400;
@@ -2136,7 +2136,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 			
 	 }
 	 
-	else if(document.getElementById("EventTriggerType").selectedIndex == 8) // sun rise -> set
+	else if(document.getElementById("EventTriggerType").selectedIndex == 9) // sun rise -> set
 	{
 			document.getElementById("EventMin").value  = 'Seattle';
 			document.getElementById("EventMax").value = 'Seattle';
@@ -2151,7 +2151,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 			document.getElementById("alertoffset_group").style.display = 'block';
 		
 	 } 
-	 	else if(document.getElementById("EventTriggerType").selectedIndex == 9) // sun set -> rise
+	 	else if(document.getElementById("EventTriggerType").selectedIndex == 10) // sun set -> rise
 	{
 			document.getElementById("EventMin").value  = 'Seattle';
 			document.getElementById("EventMax").value = 'Seattle';
@@ -2165,7 +2165,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 			document.getElementById("alertduration_group").style.display = 'block';
 			document.getElementById("alertoffset_group").style.display = 'block';
 	 } 
-	 else if(document.getElementById("EventTriggerType").selectedIndex == 10) // sun rise -> expire time
+	 else if(document.getElementById("EventTriggerType").selectedIndex == 11) // sun rise -> expire time
 	{
 			document.getElementById("EventMin").value  = 'Seattle';
 			document.getElementById("EventMax").value = 86400;
@@ -2182,7 +2182,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 			document.getElementById("alertoffset_group").style.display = 'block';
 	 } 
 	 
-	 else if(document.getElementById("EventTriggerType").selectedIndex == 11) // sun set -> expire time
+	 else if(document.getElementById("EventTriggerType").selectedIndex == 12) // sun set -> expire time
 	{
 			document.getElementById("EventMin").value  = 'Seattle';
 			document.getElementById("EventMax").value = 86400;
@@ -2198,7 +2198,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 			document.getElementById("alertduration_group").style.display = 'none';
 			document.getElementById("alertoffset_group").style.display = 'block';
 	 } 
-	 	 else if(document.getElementById("EventTriggerType").selectedIndex == 12) // start time to sun rise 
+	 	 else if(document.getElementById("EventTriggerType").selectedIndex == 13) // start time to sun rise 
 	{
 			document.getElementById("EventMin").value  = 86400;
 			document.getElementById("EventMax").value = 'Seattle';
@@ -2215,7 +2215,7 @@ var secs = dt.getUTCSeconds() + (60 * dt.getUTCMinutes()) + (60 * 60 * dt.getUTC
 			document.getElementById("alertoffset_group").style.display = 'block';
 	 } 
 	 
-	 else if(document.getElementById("EventTriggerType").selectedIndex == 13) // start time to sun set
+	 else if(document.getElementById("EventTriggerType").selectedIndex == 14) // start time to sun set
 	{
 			document.getElementById("EventMin").value  = 86400;
 			document.getElementById("EventMax").value = 'Seattle';
@@ -2271,17 +2271,17 @@ function ChangedLocationCity(sel)
 	
 	if(myCity != "latlng")
 	{
-		if(document.getElementById("EventTriggerType").selectedIndex == 8 || document.getElementById("EventTriggerType").selectedIndex == 9) // start time to sun set
+		if(document.getElementById("EventTriggerType").selectedIndex == 9 || document.getElementById("EventTriggerType").selectedIndex == 10) // start time to sun set
 		{
 			document.getElementById("EventMax").value = myCity;
 			document.getElementById("EventMin").value = myCity;
 		}
-		else if(document.getElementById("EventTriggerType").selectedIndex == 10 || document.getElementById("EventTriggerType").selectedIndex == 11) // start time to sun set
+		else if(document.getElementById("EventTriggerType").selectedIndex == 11 || document.getElementById("EventTriggerType").selectedIndex == 12) // start time to sun set
 		{
 			//document.getElementById("EventMax").value = myCity;
 			document.getElementById("EventMin").value = myCity;
 		}
-		else if(document.getElementById("EventTriggerType").selectedIndex == 12 || document.getElementById("EventTriggerType").selectedIndex == 13) // start time to sun set
+		else if(document.getElementById("EventTriggerType").selectedIndex == 13 || document.getElementById("EventTriggerType").selectedIndex == 14) // start time to sun set
 		{
 			document.getElementById("EventMax").value = myCity;
 			//document.getElementById("EventMin").value = myCity;
@@ -2320,7 +2320,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("alertflash_group").style.display = 'none';	
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 5)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 6)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2332,7 +2332,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("alertflash_group").style.display = 'none';	
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 6)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 7)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2345,7 +2345,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
 	 
-	 else if(document.getElementById("EventTrigger").selectedIndex == 7)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 8)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2361,7 +2361,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("ActionDimmer").selectedIndex=0;
 			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 8)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 9)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2380,22 +2380,6 @@ function ChangedEventTrigger(sel)
 			
 			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 9)
-	{
-			//document.getElementById("EventMin").value  = 'off';
-			//document.getElementById("EventMax").value = 'off';
-			document.getElementById("alertcolor_group").style.display = 'none';
-			document.getElementById("alertdimmer_group").style.display = 'none';
-			document.getElementById("alertdimmerdefault_group").style.display = 'none';			
-			document.getElementById("alertaction_switch").style.display = 'none';
-			document.getElementById("alertaction_dimmer").style.display = 'block';	
-			document.getElementById("alertflash_group").style.display = 'block';	
-			document.getElementById("alertduty_group").style.display = 'block';		
-
-			//set default value to /M2M/RGB Dimmer/Value 4 Zone 0
-			document.getElementById("ActionDimmer").selectedIndex=0;
-			
-	 }
 	 else if(document.getElementById("EventTrigger").selectedIndex == 10)
 	{
 			//document.getElementById("EventMin").value  = 'off';
@@ -2412,7 +2396,23 @@ function ChangedEventTrigger(sel)
 			document.getElementById("ActionDimmer").selectedIndex=0;
 			
 	 }
-	  else if(document.getElementById("EventTrigger").selectedIndex == 11)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 11)
+	{
+			//document.getElementById("EventMin").value  = 'off';
+			//document.getElementById("EventMax").value = 'off';
+			document.getElementById("alertcolor_group").style.display = 'none';
+			document.getElementById("alertdimmer_group").style.display = 'none';
+			document.getElementById("alertdimmerdefault_group").style.display = 'none';			
+			document.getElementById("alertaction_switch").style.display = 'none';
+			document.getElementById("alertaction_dimmer").style.display = 'block';	
+			document.getElementById("alertflash_group").style.display = 'block';	
+			document.getElementById("alertduty_group").style.display = 'block';		
+
+			//set default value to /M2M/RGB Dimmer/Value 4 Zone 0
+			document.getElementById("ActionDimmer").selectedIndex=0;
+			
+	 }
+	  else if(document.getElementById("EventTrigger").selectedIndex == 12)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2512,7 +2512,7 @@ function ChangedAlertEndDate()
 	  //return Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]);
 	
 			
-		if(document.getElementById("EventTriggerType").selectedIndex == 6  ) // timmer events
+		if(document.getElementById("EventTriggerType").selectedIndex == 7  ) // timmer events
 		{
 			var timezoneOffset = parseInt(document.getElementById("AlertTimeZoneId").options[document.getElementById("AlertTimeZoneId").selectedIndex].value) * 60;
 			
@@ -2525,7 +2525,7 @@ function ChangedAlertEndDate()
 			document.getElementById("EventMax").value = Math.floor(myEndEpochsec/1000);
 		
 		}	
-		else if( document.getElementById("EventTriggerType").selectedIndex ==7 ) // timmer events
+		else if( document.getElementById("EventTriggerType").selectedIndex ==8 ) // timmer events
 		{
 			var timezoneOffset = parseInt(document.getElementById("AlertTimeZoneId").options[document.getElementById("AlertTimeZoneId").selectedIndex].value) * 60;
 
@@ -2544,7 +2544,7 @@ function ChangedAlertEndDate()
 			document.getElementById("EventMax").value = Math.floor(myEndEpochsec/1000);
 		
 		}			
-		else if(document.getElementById("EventTriggerType").selectedIndex >= 10) // sun rise to expire time
+		else if(document.getElementById("EventTriggerType").selectedIndex >= 11) // sun rise to expire time
 		{
 				
 			var myEndEpoch = new Date(Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]));
@@ -2603,7 +2603,7 @@ function ChangedAlertStartDate()
 
 			
 			
-		if(document.getElementById("EventTriggerType").selectedIndex == 6  ) // timmer events
+		if(document.getElementById("EventTriggerType").selectedIndex == 7  ) // timmer events
 		{
 
 		
@@ -2617,7 +2617,7 @@ function ChangedAlertStartDate()
 			document.getElementById("EventMin").value  = Math.floor(myStartEpochsec/1000);
 		}	
 		
-		else if( document.getElementById("EventTriggerType").selectedIndex ==7 ) // timmer events
+		else if( document.getElementById("EventTriggerType").selectedIndex ==8 ) // timmer events
 		{
 
 		
@@ -2635,7 +2635,7 @@ function ChangedAlertStartDate()
 			
 			document.getElementById("EventMin").value  = Math.floor(myStartEpochsec/1000);
 		}	
-		else if(document.getElementById("EventTriggerType").selectedIndex >= 10) // sun rise to expire time
+		else if(document.getElementById("EventTriggerType").selectedIndex >= 11) // sun rise to expire time
 		{
 				
 			myStartEpoch = new Date(Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]));
@@ -2999,7 +2999,7 @@ function SetEventsOptions(myindex){
 			document.getElementById("alertoffset_group").style.display = 'none';			
 			document.getElementById("locationcity_group").style.display = 'none';
 	 
-	if(document.getElementById("EventTriggerType").selectedIndex == 4)
+	if(document.getElementById("EventTriggerType").selectedIndex == 5)
 	{
 		document.getElementById("EventMin").value  = 'missing';
 		document.getElementById("EventMax").value = 'missing';
@@ -3019,7 +3019,7 @@ function SetEventsOptions(myindex){
 			
 	 }
 	 
-	if(document.getElementById("EventTriggerType").selectedIndex == 5)
+	if(document.getElementById("EventTriggerType").selectedIndex == 6)
 	{
 		document.getElementById("EventMin").value  = 'error';
 		document.getElementById("EventMax").value = 'error';	
@@ -3040,7 +3040,7 @@ function SetEventsOptions(myindex){
 			
 	 } 
 	 
-	  if(document.getElementById("EventTriggerType").selectedIndex == 7)
+	  if(document.getElementById("EventTriggerType").selectedIndex == 8)
 	{
 			//document.getElementById("alertstarttime").show;
 		//$('#alertstarttime').datetimepicker('show');
@@ -3165,7 +3165,7 @@ function SetEventsOptions(myindex){
 		
 	 } 
 	 
-	if(document.getElementById("EventTriggerType").selectedIndex == 6)
+	if(document.getElementById("EventTriggerType").selectedIndex == 7)
 	{
 	
 			document.getElementById("alerthigh_group").style.display = 'none';
@@ -3241,7 +3241,7 @@ function SetEventsOptions(myindex){
 	
 	}
 	
-	if(document.getElementById("EventTriggerType").selectedIndex == 8)
+	if(document.getElementById("EventTriggerType").selectedIndex == 9)
 	{
 	
 	
@@ -3275,7 +3275,7 @@ function SetEventsOptions(myindex){
 	
 	}
 	
-	if(document.getElementById("EventTriggerType").selectedIndex == 9)
+	if(document.getElementById("EventTriggerType").selectedIndex == 10)
 	{
 	
 	
@@ -3306,7 +3306,7 @@ function SetEventsOptions(myindex){
 	
 	
 	}
-	if(document.getElementById("EventTriggerType").selectedIndex == 10) // sun rise to expire time
+	if(document.getElementById("EventTriggerType").selectedIndex == 11) // sun rise to expire time
 	{
 	
 	
@@ -3394,7 +3394,7 @@ function SetEventsOptions(myindex){
 	
 	
 	}
-	if(document.getElementById("EventTriggerType").selectedIndex == 11) // sunset to expire time
+	if(document.getElementById("EventTriggerType").selectedIndex == 12) // sunset to expire time
 	{
 	
 	
@@ -3477,7 +3477,7 @@ function SetEventsOptions(myindex){
 	
 	
 	}
-		if(document.getElementById("EventTriggerType").selectedIndex == 12) // start time to sun rise
+		if(document.getElementById("EventTriggerType").selectedIndex == 13) // start time to sun rise
 	{
 	
 	
@@ -3564,7 +3564,7 @@ function SetEventsOptions(myindex){
 	
 	
 	}
-	if(document.getElementById("EventTriggerType").selectedIndex == 13) // start time to sun set
+	if(document.getElementById("EventTriggerType").selectedIndex == 14) // start time to sun set
 	{
 	
 	
@@ -4870,17 +4870,17 @@ function ModifyLogAlert()
 	 
 	 var myCity = document.getElementById("LocationCity").options[document.getElementById("LocationCity").selectedIndex].value
 	 
-	 if(document.getElementById("EventTriggerType").selectedIndex == 8 || document.getElementById("EventTriggerType").selectedIndex == 9)
+	 if(document.getElementById("EventTriggerType").selectedIndex == 9 || document.getElementById("EventTriggerType").selectedIndex == 10)
 	{
 		document.getElementById("EventMax").value = myCity;
 		document.getElementById("EventMin").value = myCity;
 	}
-	else if(document.getElementById("EventTriggerType").selectedIndex == 10 || document.getElementById("EventTriggerType").selectedIndex == 11)
+	else if(document.getElementById("EventTriggerType").selectedIndex == 11 || document.getElementById("EventTriggerType").selectedIndex == 12)
 	{
 		//document.getElementById("EventMax").value = myCity;
 		document.getElementById("EventMin").value = myCity;
 	}
-	else if(document.getElementById("EventTriggerType").selectedIndex == 12 || document.getElementById("EventTriggerType").selectedIndex == 13)
+	else if(document.getElementById("EventTriggerType").selectedIndex == 13 || document.getElementById("EventTriggerType").selectedIndex == 14)
 	{
 		document.getElementById("EventMax").value = myCity;
 		//document.getElementById("EventMin").value = myCity;
@@ -5333,17 +5333,17 @@ function AddLogAlert()
 	  
 	 var myCity = document.getElementById("LocationCity").options[document.getElementById("LocationCity").selectedIndex].value
 	 
-	 if(document.getElementById("EventTriggerType").selectedIndex == 8 || document.getElementById("EventTriggerType").selectedIndex == 9)
+	 if(document.getElementById("EventTriggerType").selectedIndex == 9 || document.getElementById("EventTriggerType").selectedIndex == 10)
 	{
 		document.getElementById("EventMax").value = myCity;
 		document.getElementById("EventMin").value = myCity;
 	}
-	else if(document.getElementById("EventTriggerType").selectedIndex == 10 || document.getElementById("EventTriggerType").selectedIndex == 11)
+	else if(document.getElementById("EventTriggerType").selectedIndex == 11 || document.getElementById("EventTriggerType").selectedIndex == 12)
 	{
 		//document.getElementById("EventMax").value = myCity;
 		document.getElementById("EventMin").value = myCity;
 	}
-	else if(document.getElementById("EventTriggerType").selectedIndex == 12 || document.getElementById("EventTriggerType").selectedIndex == 13)
+	else if(document.getElementById("EventTriggerType").selectedIndex == 13 || document.getElementById("EventTriggerType").selectedIndex == 14)
 	{
 		document.getElementById("EventMax").value = myCity;
 		//document.getElementById("EventMin").value = myCity;
@@ -9000,6 +9000,7 @@ function initializeMaps() {
 			 <div class="col-sm-6"> 
 					<select class="form-control "  id="EventTriggerType" name="EventTriggerType" onchange="ChangedEventTriggerType(this);">
 					<option value="mean">Mean</option>
+					<option value="median">Median</option>
 					<option value="min">Min</option>
 					<option value="max">Max</option>
 					<option value="count">Count</option>
@@ -9100,8 +9101,8 @@ function initializeMaps() {
 			 <div class="col-sm-6"> 
 					<select class="form-control "  id="EventRemoteMode" name="EventRemoteMode" onchange="ChangeEventRemoteMode(this);">
 					<option value="singleevent">Single Event</option>
-					<option value="dailytimmertable">Daily Timmer Table</option>
-
+					<option value="dailytimmertable">Daily Timer Table</option>
+					<option value="dailytimmerspan">Daily Timer Span</option>
 				</select>		
 			</div>
 		</div>  
