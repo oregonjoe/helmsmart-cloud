@@ -3110,10 +3110,10 @@ function SetEventsOptions(myindex){
 		//var de = new Date();
 		
 		var mystart = parseInt(myEventMin[myEindex]);
-		var ds = new Date(mystart);
+		var ds = new Date(mystart * 1000);
 		
 		var myend = parseInt(myEventMax[myEindex]);
-		var de = new Date(myend);
+		var de = new Date(myend * 1000);
 		
 		
 		$('#alertstarttime').datetimepicker('setDate', ds);
