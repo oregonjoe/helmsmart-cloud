@@ -3105,80 +3105,105 @@ function SetEventsOptions(myindex){
 		
 		document.getElementById("EventMin").value  = myEventMin[myEindex];
 		document.getElementById("EventMax").value = myEventMax[myEindex];	
+		var mystart = parseInt(myEventMin[myEindex]);	
+		var myend = parseInt(myEventMax[myEindex]);	
 		
-		//var ds = new Date();
-		//var de = new Date();
-		
-		var mystart = parseInt(myEventMin[myEindex]);
-		var ds = new Date(mystart * 1000);
-		
-		var myend = parseInt(myEventMax[myEindex]);
-		var de = new Date(myend * 1000);
-		
-		
-		$('#alertstarttime').datetimepicker('setUTCDate', ds);
-		$('#alertendtime').datetimepicker('setUTCDate', de);
-		
-		/*
-		try 
+		// if we are a timmer span we will use actual epoch times
+		if(document.getElementById("EventRemoteMode").selectedIndex == 2)
 		{
-			var mystart = parseInt(myEventMin[myEindex]);
-			
-			
-			if(mystart != NaN)
+
+
+			var ds = new Date(mystart * 1000);
+		
+
+			var de = new Date(myend * 1000);
+		
+		
+			$('#alertstarttime').datetimepicker('setUTCDate', ds);
+			$('#alertendtime').datetimepicker('setUTCDate', de);
+		}
+		else
+		{
+			var ds = new Date();
+			var de = new Date();
+			// set alarm start based on current day since it repeats every day
+			try 
 			{
 			
 			
-					//mystart = mystart - ((new Date().getTimezoneOffset()) * 60);
+
+				var mystart = parseInt(myEventMin[myEindex]);
 				
-				var myhour = Math.floor((mystart % (24*60*60))/(60*60));
-				var mymin = Math.floor((mystart % (60*60))/ 60);
-				var mysec = Math.floor((mystart % (60)));
 				
-				ds.setHours(myhour, mymin, mysec);
+				if(mystart != NaN)
+				{
 				
-				document.getElementById("alertstarttime").value =  pad(myhour, 2) + ':' +  pad(mymin, 2) + ':' + pad(mysec, 2);
-			}
-			else
-				document.getElementById("alertstarttime").value =  '00:00:00';
-		}
-		
-		catch (err)
-		{
-			ds.setHours(0, 0, 0);
-			//$('#alertstarttime').datetimepicker('show');
-			document.getElementById("alertstarttime").value =  '00:00:00';
-		}
-		
-		try 
-		{
-			var myend = parseInt(myEventMax[myEindex]);
-			
-			
-			if(myend != NaN)
-			{
-			
 				
-					//myend = myend - ((new Date().getTimezoneOffset()) * 60);
+						//mystart = mystart - ((new Date().getTimezoneOffset()) * 60);
 					
-				var myhour = Math.floor((myend % (24*60*60))/(60*60));
-				var mymin = Math.floor((myend % (60*60))/ 60);
-				var mysec = Math.floor((myend % (60)));
-				de.setHours(myhour, mymin, mysec);
-				
-				document.getElementById("alertendtime").value =  pad(myhour, 2) + ':' +  pad(mymin, 2) + ':' + pad(mysec, 2);
+					var myhour = Math.floor((mystart % (24*60*60))/(60*60));
+					var mymin = Math.floor((mystart % (60*60))/ 60);
+					var mysec = Math.floor((mystart % (60)));
+					
+					ds.setHours(myhour, mymin, mysec);
+					
+					//document.getElementById("alertstarttime").value =  pad(myhour, 2) + ':' +  pad(mymin, 2) + ':' + pad(mysec, 2);
+					$('#alertstarttime').datetimepicker('setUTCDate', ds);
+				}
+				else
+				{
+					//document.getElementById("alertstarttime").value =  '00:00:00';
+					ds.setHours(0, 0, 0);
+					$('#alertstarttime').datetimepicker('setUTCDate', ds);
+				}
 			}
-			else
-				document.getElementById("alertendtime").value =  '23:59:59';
-		}
-		catch (err)
-		{
-			de.setHours(23, 59, 59);
-			//$('#alertstarttime').datetimepicker('show');
-			document.getElementById("alertendtime").value =  '23:59:59';
-		}
+			
+			catch (err)
+			{
+			
+				ds.setHours(0, 0, 0);
+				//$('#alertstarttime').datetimepicker('show');
+				//document.getElementById("alertstarttime").value =  '00:00:00';
+				$('#alertstarttime').datetimepicker('setUTCDate', ds);
+			}
 		
-		*/
+			// set alarm start based on current day since it repeats every day
+			try 
+			{
+				
+				var myend = parseInt(myEventMax[myEindex]);
+				
+				
+				if(myend != NaN)
+				{
+				
+					
+						//myend = myend - ((new Date().getTimezoneOffset()) * 60);
+						
+					var myhour = Math.floor((myend % (24*60*60))/(60*60));
+					var mymin = Math.floor((myend % (60*60))/ 60);
+					var mysec = Math.floor((myend % (60)));
+					de.setHours(myhour, mymin, mysec);
+					
+					//document.getElementById("alertendtime").value =  pad(myhour, 2) + ':' +  pad(mymin, 2) + ':' + pad(mysec, 2);
+					$('#alertendtime').datetimepicker('setUTCDate', de);
+				}
+				else
+				{
+					//document.getElementById("alertendtime").value =  '23:59:59';
+					de.setHours(23, 59, 59);
+					$('#alertendtime').datetimepicker('setUTCDate', de);
+				}
+			}
+			catch (err)
+			{
+				de.setHours(23, 59, 59);
+				//$('#alertstarttime').datetimepicker('show');
+				//document.getElementById("alertendtime").value =  '23:59:59';
+				$('#alertendtime').datetimepicker('setUTCDate', de);
+			}
+		
+		}
 		
 	 } 
 	 
