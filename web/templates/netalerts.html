@@ -3116,8 +3116,8 @@ function SetEventsOptions(myindex){
 		var de = new Date(myend * 1000);
 		
 		
-		$('#alertstarttime').datetimepicker('setDate', ds);
-		$('#alertendtime').datetimepicker('setDate', de);
+		$('#alertstarttime').datetimepicker('setUTCDate', ds);
+		$('#alertendtime').datetimepicker('setUTCDate', de);
 		
 		/*
 		try 
