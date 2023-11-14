@@ -2540,7 +2540,7 @@ function ChangedAlertEndDate()
 			if(document.getElementById("EventRemoteMode").selectedIndex == 2)
 			{
 				var myEndEpoch = new Date(Date.UTC(+parts[1],+parts[2], +parts[3], +parts[4], +parts[5]));
-			{
+			}
 			else
 			{
 				var myEndEpoch = new Date(Date.UTC(currenttime.getFullYear(), currenttime.getMonth(), currenttime.getDate(), +parts[4], +parts[5]));
@@ -2647,7 +2647,7 @@ function ChangedAlertStartDate()
 			if(document.getElementById("EventRemoteMode").selectedIndex == 2)
 			{
 				var myStartEpoch = new Date(Date.UTC(+parts[1],+parts[2], +parts[3], +parts[4], +parts[5]));
-			{
+			}
 			else
 			{
 				var myStartEpoch = new Date(Date.UTC(currenttime.getFullYear(), currenttime.getMonth(), currenttime.getDate(), +parts[4], +parts[5]));
