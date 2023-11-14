@@ -2535,7 +2535,20 @@ function ChangedAlertEndDate()
 			
 			//var myEndEpoch = new Date(Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]));
 			//var myEndEpoch = new Date(Date.UTC(+currentparts[1], currentparts[2]-1, +currentparts[3], +parts[4], +parts[5]));
-			var myEndEpoch = new Date(Date.UTC(currenttime.getFullYear(), currenttime.getMonth(), currenttime.getDate(), +parts[4], +parts[5]));
+			
+			// if we are a timmer span we will use actual epoch times
+			if(document.getElementById("EventRemoteMode").selectedIndex == 2)
+			{
+				var myEndEpoch = new Date(Date.UTC(+parts[1],+parts[2], +parts[3], +parts[4], +parts[5]));
+			{
+			else
+			{
+				var myEndEpoch = new Date(Date.UTC(currenttime.getFullYear(), currenttime.getMonth(), currenttime.getDate(), +parts[4], +parts[5]));
+			
+			}
+		
+			
+			
 			//var myEndEpoch = new Date(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]);
 			var myEndEpochsec = myEndEpoch.getTime();
 			
@@ -2629,6 +2642,18 @@ function ChangedAlertStartDate()
 			//var myStartEpoch = new Date(Date.UTC(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]));			
 			//var myStartEpoch = new Date(Date.UTC(+currentparts[1], currentparts[2]-1, +currentparts[3], +parts[4], +parts[5]));
 			var myStartEpoch = new Date(Date.UTC(currenttime.getFullYear(), currenttime.getMonth(), currenttime.getDate(), +parts[4], +parts[5]));
+			
+			// if we are a timmer span we will use actual epoch times
+			if(document.getElementById("EventRemoteMode").selectedIndex == 2)
+			{
+				var myStartEpoch = new Date(Date.UTC(+parts[1],+parts[2], +parts[3], +parts[4], +parts[5]));
+			{
+			else
+			{
+				var myStartEpoch = new Date(Date.UTC(currenttime.getFullYear(), currenttime.getMonth(), currenttime.getDate(), +parts[4], +parts[5]));
+			
+			}
+			
 			//var myStartEpoch = new Date(+parts[1], parts[2]-1, +parts[3], +parts[4], +parts[5]);
 			var myStartEpochsec = myStartEpoch.getTime();
 			//myStartEpochsec = myStartEpochsec - (timezoneOffset * 1000);
