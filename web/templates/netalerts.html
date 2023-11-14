@@ -3148,13 +3148,13 @@ function SetEventsOptions(myindex){
 					ds.setHours(myhour, mymin, mysec);
 					
 					//document.getElementById("alertstarttime").value =  pad(myhour, 2) + ':' +  pad(mymin, 2) + ':' + pad(mysec, 2);
-					$('#alertstarttime').datetimepicker('setUTCDate', ds);
+					$('#alertstarttime').datetimepicker('setDate', ds);
 				}
 				else
 				{
 					//document.getElementById("alertstarttime").value =  '00:00:00';
 					ds.setHours(0, 0, 0);
-					$('#alertstarttime').datetimepicker('setUTCDate', ds);
+					$('#alertstarttime').datetimepicker('setDate', ds);
 				}
 			}
 			
@@ -3164,7 +3164,7 @@ function SetEventsOptions(myindex){
 				ds.setHours(0, 0, 0);
 				//$('#alertstarttime').datetimepicker('show');
 				//document.getElementById("alertstarttime").value =  '00:00:00';
-				$('#alertstarttime').datetimepicker('setUTCDate', ds);
+				$('#alertstarttime').datetimepicker('setDate', ds);
 			}
 		
 			// set alarm start based on current day since it repeats every day
@@ -3186,13 +3186,13 @@ function SetEventsOptions(myindex){
 					de.setHours(myhour, mymin, mysec);
 					
 					//document.getElementById("alertendtime").value =  pad(myhour, 2) + ':' +  pad(mymin, 2) + ':' + pad(mysec, 2);
-					$('#alertendtime').datetimepicker('setUTCDate', de);
+					$('#alertendtime').datetimepicker('setDate', de);
 				}
 				else
 				{
 					//document.getElementById("alertendtime").value =  '23:59:59';
 					de.setHours(23, 59, 59);
-					$('#alertendtime').datetimepicker('setUTCDate', de);
+					$('#alertendtime').datetimepicker('setDate', de);
 				}
 			}
 			catch (err)
@@ -3200,7 +3200,7 @@ function SetEventsOptions(myindex){
 				de.setHours(23, 59, 59);
 				//$('#alertstarttime').datetimepicker('show');
 				//document.getElementById("alertendtime").value =  '23:59:59';
-				$('#alertendtime').datetimepicker('setUTCDate', de);
+				$('#alertendtime').datetimepicker('setDate', de);
 			}
 		
 		}
