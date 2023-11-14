@@ -3092,8 +3092,13 @@ function SetEventsOptions(myindex){
 		de.setHours(23, 59, 59);
 		
 		//$('#alertstarttime').datetimepicker('setStartDate', '2012-01-01');
-		$('#alertstarttime').datetimepicker('setStartDate', ds);
-		$('#alertendtime').datetimepicker('setEndDate', de);
+		//$('#alertstarttime').datetimepicker('setStartDate', ds);
+		//$('#alertendtime').datetimepicker('setEndDate', de);
+		
+		
+		
+		
+		
 				//format:'hh:ii:ss',
 		//startDate:ds,
 		//endDate:de,
@@ -3101,10 +3106,20 @@ function SetEventsOptions(myindex){
 		document.getElementById("EventMin").value  = myEventMin[myEindex];
 		document.getElementById("EventMax").value = myEventMax[myEindex];	
 		
-		var ds = new Date();
-		var de = new Date();
-		//ds.setUTCHours(0, 0, 0);
-		//de.setUTCHours(23, 59, 59);
+		//var ds = new Date();
+		//var de = new Date();
+		
+		var mystart = parseInt(myEventMin[myEindex]);
+		var ds = new Date(mystart);
+		
+		var myend = parseInt(myEventMax[myEindex]);
+		var de = new Date(myend);
+		
+		
+		$('#alertstarttime').datetimepicker('setDate', ds);
+		$('#alertendtime').datetimepicker('setDate', de);
+		
+		/*
 		try 
 		{
 			var mystart = parseInt(myEventMin[myEindex]);
@@ -3162,6 +3177,8 @@ function SetEventsOptions(myindex){
 			//$('#alertstarttime').datetimepicker('show');
 			document.getElementById("alertendtime").value =  '23:59:59';
 		}
+		
+		*/
 		
 	 } 
 	 
