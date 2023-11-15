@@ -375,7 +375,13 @@ def netlog():
     features = [],
   )
 
+@app.route('/manage')
+def manage():
 
+  return render_template(
+    'manage.html',
+    features = [],
+  )
 
 @app.route('/alertsmart')
 def alertsmart():
