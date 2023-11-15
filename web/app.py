@@ -18927,6 +18927,44 @@ def getIndexFromValue(valueStr):
     log.info('getIndexFromValue: Error  %s:  ' % e)
     return ""
 
+
+
+@app.route('/updatedevice')
+def updatedevice_endpoint():
+  
+  conn = db_pool.getconn()
+  
+  deviceapikey = request.args.get('deviceapikey', '')
+  alertemail = request.args.get('alertemail', '')
+  alertsms = request.args.get('alertsms', '')
+  devicename = request.args.get('devicename', 'SeaSmart')
+
+
+ 
+  query  = "update user_devices SET devicename = %s, alertemail = %s, smsnumber = %s WHERE deviceapikey =  %s"
+  
+  try:
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, (devicename, alertemail, alertsms, deviceapikey))
+
+    conn.commit()
+    #i = cursor.fetchone()
+    # if not then just exit
+    #if cursor.rowcount == 0:
+      
+    if cursor.rowcount == 0:
+          return jsonify( message='Could not update device', status='error')      
+    else:
+          return jsonify( message='device updated', status='success') 
+  
+    
+
+  finally:
+    db_pool.putconn(conn)   
+
+
+
 # **********************************************************************
 #
 # MAin SeaSmart/SeaGauge HTTP POST
