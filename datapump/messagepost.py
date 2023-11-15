@@ -2462,7 +2462,9 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
     elif remote_mode == 'dailytimmertable':
         dimmerdata_key = ""
         timmerdata_key = timmerdata
-
+    elif remote_mode == 'dailytimmerspan':
+        dimmerdata_key = ""
+        timmerdata_key = timmerdata
      
 
     if debug_all: log.info('SendHSAlert:  payload %s:  ', payload)     
