@@ -2320,7 +2320,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("alertflash_group").style.display = 'none';	
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 6)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 5)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2332,7 +2332,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("alertflash_group").style.display = 'none';	
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 7)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 6)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2345,7 +2345,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
 	 
-	 else if(document.getElementById("EventTrigger").selectedIndex == 8)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 7)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2361,7 +2361,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("ActionDimmer").selectedIndex=0;
 			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 9)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 8)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2380,6 +2380,22 @@ function ChangedEventTrigger(sel)
 			
 			
 	 }
+	 else if(document.getElementById("EventTrigger").selectedIndex == 9)
+	{
+			//document.getElementById("EventMin").value  = 'off';
+			//document.getElementById("EventMax").value = 'off';
+			document.getElementById("alertcolor_group").style.display = 'none';
+			document.getElementById("alertdimmer_group").style.display = 'none';
+			document.getElementById("alertdimmerdefault_group").style.display = 'none';			
+			document.getElementById("alertaction_switch").style.display = 'none';
+			document.getElementById("alertaction_dimmer").style.display = 'block';	
+			document.getElementById("alertflash_group").style.display = 'block';	
+			document.getElementById("alertduty_group").style.display = 'block';		
+
+			//set default value to /M2M/RGB Dimmer/Value 4 Zone 0
+			document.getElementById("ActionDimmer").selectedIndex=0;
+			
+	 }
 	 else if(document.getElementById("EventTrigger").selectedIndex == 10)
 	{
 			//document.getElementById("EventMin").value  = 'off';
@@ -2396,23 +2412,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("ActionDimmer").selectedIndex=0;
 			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 11)
-	{
-			//document.getElementById("EventMin").value  = 'off';
-			//document.getElementById("EventMax").value = 'off';
-			document.getElementById("alertcolor_group").style.display = 'none';
-			document.getElementById("alertdimmer_group").style.display = 'none';
-			document.getElementById("alertdimmerdefault_group").style.display = 'none';			
-			document.getElementById("alertaction_switch").style.display = 'none';
-			document.getElementById("alertaction_dimmer").style.display = 'block';	
-			document.getElementById("alertflash_group").style.display = 'block';	
-			document.getElementById("alertduty_group").style.display = 'block';		
-
-			//set default value to /M2M/RGB Dimmer/Value 4 Zone 0
-			document.getElementById("ActionDimmer").selectedIndex=0;
-			
-	 }
-	  else if(document.getElementById("EventTrigger").selectedIndex == 12)
+	  else if(document.getElementById("EventTrigger").selectedIndex == 11)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
