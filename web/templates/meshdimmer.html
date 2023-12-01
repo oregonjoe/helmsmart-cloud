@@ -4853,7 +4853,7 @@ function getDeviceParamList(userid)
 
 	var devicedataurl;
 	
-   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=meshdimmerprefnames&userid=" + gUserID + "&deviceid=" + gDeviceID;
+   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=meshdimmerprefnames&userid=" + gUserID + "&deviceid=" + gDeviceID;
     
     
    return $.ajax({
@@ -4907,7 +4907,7 @@ function getDeviceParamList(userid)
    //prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
    
  
-   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=meshdimmerprefdetail&userid=" + gUserID + "&prefkey=" + prefkey;
+   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=meshdimmerprefdetail&userid=" + gUserID + "&prefkey=" + prefkey;
          
    return $.ajax({
 					   //async: false,
@@ -5035,7 +5035,7 @@ function AddNewPref()
 	meshDimmerScenes['scene0'] = meshDimmerScene;
 	
  
-  devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/prefs?type=add_meshdimmer_pref&userid=" + gUserID + "&deviceid=" +  gDeviceID + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScenes);
+  devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add_meshdimmer_pref&userid=" + gUserID + "&deviceid=" +  gDeviceID + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScenes);
 
 
 
@@ -5160,10 +5160,10 @@ function ModifyPref()
 	meshDimmerScenes['scene0'] = meshDimmerScene;
 	
  
-	devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/prefs?type=update_meshdimmer_pref&userid=" + gUserID + + "&deviceid=" +  gDeviceID + "&prefkey=" +  prefkey + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScenes);
+	devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update_meshdimmer_pref&userid=" + gUserID + + "&deviceid=" +  gDeviceID + "&prefkey=" +  prefkey + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScenes);
 	
 /*
-      devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/prefs?type=update&userid=" + gUserID + "&prefkey=" +  prefkey + "&options="
+      devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update&userid=" + gUserID + "&prefkey=" +  prefkey + "&options="
 
       devicedataurl =  devicedataurl  + optionmenuindex;
       devicedataurl =  devicedataurl + ",'" + prefName + "'";
@@ -5248,7 +5248,7 @@ function DeletePref()
   // optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
   // prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
-   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/prefs?type=delete&userid=" + gUserID + "&prefkey=" +  gPrefKey ;
+   devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=delete&userid=" + gUserID + "&prefkey=" +  gPrefKey ;
 
    return $.ajax({
 					   //async: false,
@@ -5281,7 +5281,7 @@ function DeletePref()
   
  function GetAlertEvents()
  {
- // http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c&_=1427391221558
+ // http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c&_=1427391221558
  
  /*
 	if(gDeviceID == "")
@@ -5310,11 +5310,11 @@ function DeletePref()
 	//var  myDeviceKey = document.getElementById("DeviceKey").value;
 	var  myDeviceKey = gDeviceKey;
 	
-  // devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + AccountDataFolder;
-  // devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
- // devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
-  //devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
-  devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + gUserID;
+  // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + AccountDataFolder;
+  // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
+ // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
+  //devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
+  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + gUserID;
 	
    return $.ajax({
 					   //async: false,
@@ -5388,9 +5388,9 @@ function UpdateDimmerBank()
 
 	
 
-   //devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
-   //devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
-   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/setdimmerbankapi?deviceid=" + gDeviceKey;
+   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
+   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
+   devicedataurl = "http://helmsmart-cloud.herokuapp.com/setdimmerbankapi?deviceid=" + gDeviceKey;
    
    				//devicedataurl = devicedataurl + "&instance=" + dimmerInstance ;
 				//devicedataurl = devicedataurl + "&dimmerid=0" ;
@@ -5466,9 +5466,9 @@ function SetHelmSmartDimmer(dimmerid, dimmerInstance,  dimmervalue, dimmeroverri
 
 	var devicedataurl;
 
-   //devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
-   //devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
-   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/setdimmerapi?deviceid=" + gDeviceKey;
+   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
+   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
+   devicedataurl = "http://helmsmart-cloud.herokuapp.com/setdimmerapi?deviceid=" + gDeviceKey;
    
    				devicedataurl = devicedataurl + "&instance=" + dimmerInstance ;
 				devicedataurl = devicedataurl + "&dimmerid=" + dimmerid ;
@@ -5622,13 +5622,13 @@ function SetHelmSmartDimmer(dimmerid, dimmerInstance,  dimmervalue, dimmeroverri
       // devicedataurl = "http://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
 
 
-   //   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
+   //   devicedataurl = "http://helmsmart-cloud.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
 
-    //  devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getseriesstatsbykey?devicekey=cace5b1ef7f39af021e9428cef3a6f54&serieskey=sensor:environmental_data.source:0F.instance:0.type:Outside Temperature.parameter:temperature.HelmSmart&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
+    //  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=cace5b1ef7f39af021e9428cef3a6f54&serieskey=sensor:environmental_data.source:0F.instance:0.type:Outside Temperature.parameter:temperature.HelmSmart&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
  
-  //   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getseriesstatsbykey?devicekey=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
+  //   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
 
-    devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getseriesstatsbydeviceid_idc?deviceid=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch + "&resolution=" + myInterval + "&format=json";
+    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbydeviceid_idc?deviceid=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch + "&resolution=" + myInterval + "&format=json";
 
  // devicedataurl =  devicedataurl  + "&blwskey=" + document.getElementById("BLWSKeyInput").value ;
    // devicedataurl =  devicedataurl  + "&datapaneid=" + myuserKey ;
@@ -5850,17 +5850,17 @@ function GetGeoReport()
       // devicedataurl = "http://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
 
 
-   //   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
+   //   devicedataurl = "http://helmsmart-cloud.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
 
-    //  devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getseriesstatsbykey?devicekey=cace5b1ef7f39af021e9428cef3a6f54&serieskey=sensor:environmental_data.source:0F.instance:0.type:Outside Temperature.parameter:temperature.HelmSmart&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
+    //  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=cace5b1ef7f39af021e9428cef3a6f54&serieskey=sensor:environmental_data.source:0F.instance:0.type:Outside Temperature.parameter:temperature.HelmSmart&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
  
-  //   devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getseriesstatsbykey?devicekey=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
+  //   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
 
-  //  devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getseriesstatsbydeviceid?deviceid=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch + "&resolution=" + myInterval + "&format=json";
+  //  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbydeviceid?deviceid=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch + "&resolution=" + myInterval + "&format=json";
 
 	GPSSource = "0F";
 	
-    devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getgpsseriesbydeviceid?";
+    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid?";
     devicedataurl =  devicedataurl + "deviceid=" + myDeviceKey + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + myInterval;
     devicedataurl =  devicedataurl + "&serieskey1=" + "deviceid:" + myDeviceKey +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; ;
  
@@ -5926,7 +5926,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "http://helmsmart-led-specialists.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
 
     return $.ajax({
     //async: false,
@@ -5982,10 +5982,10 @@ function getDeviceList(userid)
 <div>
   <center>
   {% if session['userid'] %}
-     <a href="http://helmsmart-led-specialists.herokuapp.com" id="login" class="persona-button">
+     <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="http://helmsmart-led-specialists.herokuapp.com" id="login" class="persona-button">
+    <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
