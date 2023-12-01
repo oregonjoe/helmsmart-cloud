@@ -20548,6 +20548,236 @@ def setdimmerapi():
 
   
   return jsonify(result="OK", dimmer=newdimmeritem)
+
+
+
+
+# ######################################################
+# called from web page to directly set a dimmer value
+# #####################################################
+#Updates MemCache with new Dimmer records
+def setdimmerMemCache(deviceid, new_instance, new_dimmerid, new_dimmeroverride, new_dimmervalue ):
+    
+  log.info("setdimmerMemCache deviceid:%s  instance:%s dimmerid:%s dimmeroverride:%s dimmervalue:%s ", deviceid, new_instance, new_dimmerid, new_dimmeroverride, new_dimmervalue )
+  #log.info("sendswitchapi switchpgn %s", switchpgn)
+  
+  if deviceid == "":
+    return jsonify(result="Error", dimmer=dimmerid)
+
+  old_dimmeritem=""
+  old_dimmerOVRDitem=""
+  
+  try:
+    #log.info("setdimmerapi - IronCache  get key %s", "dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer")
+    old_dimmeritem = mc.get(deviceid + '_dimmer' )
+
+    log.info('setdimmerMemCache - MemCache  get old key deviceid %s payload %s:  ', deviceid, old_dimmeritem)
+
+  except NameError as e:
+    log.info('setdimmerMemCache - MemCache  get NameError %s:  ' % str(e))
+
+    
+  except:
+    old_dimmeritem = ""
+    log.info('setdimmerMemCache - MemCache   get error  deviceid %s payload %s:  ', deviceid, old_dimmeritem)
+    e = sys.exc_info()[0]
+    log.info('setdimmerMemCache - MemCache  get error %s:  ' % e)
+
+  # see if there is an override key
+  try:
+    old_dimmerOVRDitem = mc.get(deviceid + '_dimmerOVRD' )
+
+    log.info('setdimmerMemCache - MemCache  get old key deviceid %s OVRD payload %s:  ', deviceid, old_dimmerOVRDitem)
+
+    if old_dimmerOVRDitem != "" and old_dimmerOVRDitem != None and old_dimmerOVRDitem is not None:
+      old_itemOVRDInstance = old_dimmerOVRDitem.get('instance', '255')
+      old_itemOVRDDimmerid = old_dimmerOVRDitem.get('dimmerid', '255')
+      old_itemOVRDDimmervalue = old_dimmerOVRDitem.get('dimmervalue', '255')
+      old_itemOVRDDimmeroverride = old_dimmerOVRDitem.get('dimmeroverride', '255')
+      
+    else:
+      old_itemOVRDInstance = 255
+      old_itemOVRDDimmerid = 255
+      old_itemOVRDDimmervalue = 255
+      old_itemOVRDDimmeroverride = 255  
+
+    log.info("setdimmerMemCache - MemCache  old OVRD dimmerpgn %s: %s: %s : %s", old_itemOVRDInstance, old_itemOVRDDimmerid, old_itemOVRDDimmervalue, old_itemOVRDDimmeroverride)
+
+  except NameError as e:
+    log.info('setdimmerMemCache - MemCache  OVRD get NameError %s:  ' % str(e))
+
+    
+  except:
+    old_dimmerOVRDitem = ""
+    log.info('setdimmerMemCache - MemCache   get error  deviceid %s OVRD payload %s:  ', deviceid, old_dimmerOVRDitem)
+    e = sys.exc_info()[0]
+    log.info('setdimmerMemCache - MemCache  get error %s:  ' % e)
+
+  # Create an client object
+  #cache = IronCache()
+
+
+  # Get existing keys that match instance
+  # will include all switchid's in single instance and possible commands for each dimmer id
+  # if unit is off-line these will stach up into long list of commands
+  """  
+  try:
+    #log.info("setdimmerapi - IronCache  get key %s", "dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer_"+str(instance))
+    dimmeritem = cache.get(cache=deviceid, key="dimmer")
+
+  except NameError, e:
+      log.info('setdimmerapi - IronCache NameError %s:  ' % str(e))
+
+    
+  except:
+    dimmeritem = ""
+    log.info('setdimmerapi - IronCache error  %s:  ', dimmeritem)
+    e = sys.exc_info()[0]
+    log.info('setdimmerapi - IronCache error %s:  ' % e)
+  """
+
+  
+  # if we have old keys we need to delete redundent keys with same switch id's and values
+  # since these will all be set at one time
+
+  #create new dimmerpgn
+  new_dimmerpgn = {'instance':new_instance, 'dimmerid':new_dimmerid, 'dimmervalue':new_dimmervalue, 'dimmeroverride':new_dimmeroverride}
+  log.info("setdimmerMemCache - MemCache  new dimmerpgn %s", new_dimmerpgn)
+
+
+  #create new OVERRIDE dimmerpgn
+  if int(new_dimmeroverride) == 2:
+    new_OVRDdimmerpgn = {'instance':new_instance, 'dimmerid':new_dimmerid, 'dimmervalue':new_dimmervalue, 'dimmeroverride':new_dimmeroverride}
+    log.info("setdimmerMemCache - MemCache  new dimmerpgn %s", new_OVRDdimmerpgn)
+    
+  else:
+    new_OVRDdimmerpgn = {}
+
+
+  
+  newdimmeritem=[]
+
+  # check if there was a valid old/existig key
+  if old_dimmeritem != "" and old_dimmeritem != None and old_dimmeritem is not None:
+    log.info("setdimmerMemCache - MemCache  old key exists %s", old_dimmeritem)
+    #jsondata = json.loads(dimmeritem)
+    jsondata = old_dimmeritem
+    #log.info("setdimmerapi - IronCache  key exists %s", dimmeritem.value)
+    #jsondata = json.loads(dimmeritem.value)
+    for old_item in jsondata:
+      # not all items have all keys so we need to rebuild them
+      old_itemInstance = old_item.get('instance', '0')
+      old_itemDimmerid = old_item.get('dimmerid', '0')
+      old_itemDimmervalue = old_item.get('dimmervalue', '0')
+      old_itemDimmeroverride = old_item.get('dimmeroverride', '0')
+      
+      # do not append old item if it matches the new one
+      # need to checkif both old dimmerid and dimmerinstance match new one
+      # If they match, dont add old one - we do this so we can update if we get a change in dimmeroverride value
+      # Overrides (!=0) are always appended
+      if ((int(old_itemInstance) != int(new_instance)) or (int(old_itemDimmerid) != int(new_dimmerid))) :
+        
+        #keys dont match so add back in the old key
+        oldItem = {'instance':old_itemInstance, 'dimmerid':old_itemDimmerid, 'dimmervalue':old_itemDimmervalue, 'dimmeroverride':old_itemDimmeroverride}
+
+        # add copy of old key to set of new keys because they dont match the new ones
+        newdimmeritem.append(oldItem)
+        log.info("setdimmerMemCache - old  keys are different %s", newdimmeritem)
+
+  # no old keys in memcache
+  else:
+    log.info("setdimmerMemCache - MemCache is empty")
+
+  # if new override is false ( ==1) - we wont do anything with new values
+  if int(new_dimmeroverride) == 1:
+    #clear out the new key so we dont set it later
+    new_dimmerpgn.clear()
+    log.info("setdimmerMemCache -clearing out new key  %s",new_dimmerpgn)
+
+
+  #create new OVERRIDE dimmerpgn if instance and id matches and override == 2
+  if (int(old_itemOVRDDimmeroverride) == 2) and (int(old_itemOVRDInstance)  == int(new_instance)) and (int(old_itemOVRDDimmerid) == int(new_dimmerid)):
+    #construct a new dimmerpgn using override values
+    new_dimmerpgn = {'instance':int(new_instance), 'dimmerid':int(new_dimmerid), 'dimmervalue':int(old_itemOVRDDimmervalue), 'dimmeroverride':'2'}
+    log.info("setdimmerMemCache - old  keys are same with old override = 2  %s", new_dimmerpgn)
+    
+
+  #now add new dimmerpgn which may have been modified by a old override key
+  log.info("setdimmerMemCache - Cache  adding new key  %s",new_dimmerpgn)
+
+  # append new dimmerpgn to list of old ones from memcache if they exist
+  if len(new_dimmerpgn) !=0:
+    newdimmeritem.append(new_dimmerpgn)
+    log.info("setdimmerMemCache - Cache  new keys  %s",json.dumps(newdimmeritem))
+
+
+  log.info("setdimmerMemCache put dimmer device= %s keys = %s", deviceid, newdimmeritem)
+
+  # now set all values back to memcache so they be used later when gateway posts new data
+  try:
+    
+    if len(newdimmeritem) != 0:
+      mc.set(deviceid + '_dimmer' , newdimmeritem, time=600)
+      log.info('setdimmerMemCache - MemCache  set deviceid %s len %s payload %s:  ', deviceid, len(newdimmeritem), newdimmeritem)
+
+    # we set any overrides to a seperate key that expires on its own after 10 minutes
+    if len(new_OVRDdimmerpgn) !=0:
+      mc.set(deviceid + '_dimmerOVRD' , new_OVRDdimmerpgn, time=600)
+      log.info('setdimmerMemCache - MemCache  set OVRD deviceid %s len %s payload %s:  ', deviceid, len(new_OVRDdimmerpgn), new_OVRDdimmerpgn)
+
+      
+  except NameError as e:
+    log.info('setdimmerMemCache - MemCache set NameError %s:  ' % str(e))
+
+    
+  except:
+    dimmeritem = ""
+    log.info('setdimmerMemCache - MemCache set error  deviceid %s payload %s:  ', deviceid, newdimmeritem)
+    e = sys.exc_info()[0]
+    log.info('setdimmerMemCache - MemCache set error %s:  ' % e)
+
+  
+  return newdimmeritem
+
+
+
+
+
+
+@app.route('/setdimmerbankapi')
+def setdimmerbankapi():
+  deviceid = request.args.get('deviceid', '000000000000')
+  dimmerid = request.args.get('dimmerid', "0")
+  dimmeroverride = request.args.get('dimmeroverrides', "0")
+  dimmervalue = request.args.get('dimmervalues', "255")
+  #instance = request.args.get('instance', "0")
+  newdimmeritem = {}
+  
+  log.info("setdimmerbankapi deviceid %s", deviceid)
+
+  dimmervalues = dimmervalue.split(',')
+  log.info("setdimmerbankapi dimmervalues %s", dimmervalues)
+  dimmeroverrides = dimmeroverride.split(',')
+  log.info("setdimmerbankapi dimmeroverrides %s", dimmeroverrides)
+
+  valuesLen = len(dimmervalues)
+  log.info("setdimmerbankapi valuesLen %s", valuesLen)
+
+  for instance  in  range(0, 16):
+
+    log.info("setdimmerbankapi setdimmerMemCache %s, %s, %s, %s, %s", deviceid, instance, dimmerid, dimmeroverrides[instance], dimmervalues[instance] )
+    newdimmeritem = setdimmerMemCache(deviceid, instance, dimmerid, dimmeroverrides[instance], dimmervalues[instance])
+
+
+  return jsonify(result="OK", dimmer=newdimmeritem)
+
+
+
+
+
   
 # ######################################################
 # called from sqs_poller when it ques a set timmer command via timmer task list
