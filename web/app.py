@@ -446,6 +446,24 @@ def netgauges_public():
   )
 
 
+@app.route('/netswitch')
+def netswitch():
+
+  return render_template(
+    'netswitch.html',
+    features = [],
+  )
+
+
+@app.route('/netdimmer')
+def netdimmer():
+
+  return render_template(
+    'netdimmer.html',
+    features = [],
+  )
+
+
 @app.route('/dashboards_list')
 @cross_origin()
 def dashboards_list():
