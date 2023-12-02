@@ -20389,7 +20389,8 @@ def setswitchapi():
   newswitchitem=[]      
   if switchitem != "" and switchitem != "" and switchitem is not None:
     log.info("setswitchapi - IronCache  key exists %s", switchitem)
-    jsondata = json.loads(switchitem)
+    #jsondata = json.loads(switchitem)
+    jsondata = switchitem
     for item in jsondata:
       newswitchitem.append(item)
     
