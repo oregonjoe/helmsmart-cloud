@@ -20371,7 +20371,8 @@ def setswitchapi():
   """
 
   try:
-    switchitem = mc.get(deviceid + '_switch_'+str(instance))
+    #switchitem = mc.get(deviceid + '_switch_'+str(instance))
+    switchitem = mc.get(deviceid + '_switch')
 
     log.info('setswitchapi - MemCache   deviceid %s payload %s:  ', deviceid, switchitem)
 
@@ -20409,7 +20410,8 @@ def setswitchapi():
   #log.info("IronCache response key %s", item)
 
   try:
-    mc.set(deviceid + "_switch_"+str(instance) , newswitchitem, time=600)
+    #mc.set(deviceid + "_switch_"+str(instance) , newswitchitem, time=600)
+    mc.set(deviceid + "_switch" , newswitchitem, time=600)
     log.info('setswitchapi - MemCache  set deviceid %s payload %s:  ', deviceid, newswitchitem)
 
   except NameError as e:
