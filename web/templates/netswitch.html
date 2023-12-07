@@ -1654,6 +1654,7 @@ function InitalizePrefs()
 		document.getElementById("ReportsID").options[15].text = DialText[15];
 		
 		gSwitchInstance = DialPGNInstance[0];
+		document.getElementById("PGNInstance").selectedIndex = gSwitchInstance;
 
 		document.getElementById("ClockPGNInstance").selectedIndex = SystemClockPGNID;
 		document.getElementById("ClockLcdColor").selectedIndex = ClockLCDColor;
