@@ -36,7 +36,7 @@ import logging
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-#debug_all = True
+debug_all = True
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging
