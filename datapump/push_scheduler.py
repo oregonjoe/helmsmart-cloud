@@ -18,7 +18,7 @@ from array import *
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-debug_all = True
+#debug_all = True
 
 
 requests_log = logging.getLogger("requests")

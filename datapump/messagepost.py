@@ -1967,8 +1967,9 @@ def getSwitchValues(parameters, alarmstatus):
   if debug_all: log.info('getSwitchValues: alertParameters %s ',parameters)
   
   try:
-    if series_parameters['alarmmode'] == 'alarmswitchon' or series_parameters['alarmmode'] == 'alarmswitchoff':
-        if series_parameters['alarmmode'] == 'alarmswitchon' :
+    if series_parameters['alarmmode'] == 'alarmswitchon' or series_parameters['alarmmode'] == 'alarmswitchoff' or series_parameters['alarmmode'] == 'alarmswitchonoff' or series_parameters['alarmmode'] == 'alarmswitchoffon':
+        #turn switch on if alarm is active and off if inactive
+        if series_parameters['alarmmode'] == 'alarmswitchonoff' :
             if alarmstatus == 'active':
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1  
@@ -1978,8 +1979,8 @@ def getSwitchValues(parameters, alarmstatus):
                 switchdata['value']=0  
                 if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchon false %s: %s ', parameters['deviceid'], switchdata)
 
-            
-        elif series_parameters['alarmmode'] == 'alarmswitchoff' :
+        # only turn switch off if alarm is active   and off if inactive         
+        elif series_parameters['alarmmode'] == 'alarmswitchoffon' :
             if alarmstatus == 'active':
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=0                    
@@ -1988,8 +1989,22 @@ def getSwitchValues(parameters, alarmstatus):
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1                    
                 if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchoff false %s: %s ', parameters['deviceid'], switchdata)
-            #switchdata['instance']=1
-            #switchdata['index']=1
+
+        # only turn switch on if alarm is active                 
+        elif series_parameters['alarmmode'] == 'alarmswitchon' :
+            if alarmstatus == 'active':
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata['value']=1  
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchon true %s: %s ', parameters['deviceid'], switchdata)
+
+
+        # only turn switch off if alarm is active             
+        elif series_parameters['alarmmode'] == 'alarmswitchoff' :
+            if alarmstatus == 'active':
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
+                switchdata['value']=0                    
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchoff true %s: %s ', parameters['deviceid'], switchdata)
+
 
     if switchdata != {}:
       if debug_all: log.info('getSwitchValues: parameters %s: switchdata %s ', parameters['deviceid'], switchdata)
@@ -2747,7 +2762,7 @@ def process_message(alert_message):
           # #########################################################
           dimmerdata = getDimmerValues(parameters, alarmresult['status'])
 
-          if debug_all: log.info('Posting to EmailAlertPost-Cloud: Email query switch data %s: %s ', parameters['deviceid'], dimmerdata)
+          if debug_all: log.info('Posting to EmailAlertPost-Cloud: Email query dimmer data %s: %s ', parameters['deviceid'], dimmerdata)
 
           # #########################################################
           # Now send out EMAIL using SendGrid if enabled
