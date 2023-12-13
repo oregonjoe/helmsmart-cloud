@@ -2345,7 +2345,36 @@ function ChangedEventTrigger(sel)
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
 	 
-	 else if(document.getElementById("EventTrigger").selectedIndex == 7)
+	 
+		 else if(document.getElementById("EventTrigger").selectedIndex == 7)
+	{
+			//document.getElementById("EventMin").value  = 'off';
+			//document.getElementById("EventMax").value = 'off';
+			document.getElementById("alertcolor_group").style.display = 'none';
+			document.getElementById("alertdimmer_group").style.display = 'none';
+				document.getElementById("alertdimmerdefault_group").style.display = 'none';
+			document.getElementById("alertaction_switch").style.display = 'block';
+			document.getElementById("alertaction_dimmer").style.display = 'none';
+			document.getElementById("alertflash_group").style.display = 'none';	
+			document.getElementById("alertduty_group").style.display = 'none';			
+	 }
+	 else if(document.getElementById("EventTrigger").selectedIndex == 8)
+	{
+			//document.getElementById("EventMin").value  = 'off';
+			//document.getElementById("EventMax").value = 'off';
+			document.getElementById("alertcolor_group").style.display = 'none';
+			document.getElementById("alertdimmer_group").style.display = 'none';
+			document.getElementById("alertdimmerdefault_group").style.display = 'none';
+			document.getElementById("alertaction_switch").style.display = 'block';
+			document.getElementById("alertaction_dimmer").style.display = 'none';
+			document.getElementById("alertflash_group").style.display = 'none';	
+			document.getElementById("alertduty_group").style.display = 'none';			
+	 }
+	 
+	  
+	 
+	 
+	 else if(document.getElementById("EventTrigger").selectedIndex == 9)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2361,7 +2390,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("ActionDimmer").selectedIndex=0;
 			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 8)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 10)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2380,7 +2409,7 @@ function ChangedEventTrigger(sel)
 			
 			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 9)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 11)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2396,7 +2425,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("ActionDimmer").selectedIndex=0;
 			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 10)
+	 else if(document.getElementById("EventTrigger").selectedIndex == 12)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -2412,7 +2441,7 @@ function ChangedEventTrigger(sel)
 			document.getElementById("ActionDimmer").selectedIndex=0;
 			
 	 }
-	  else if(document.getElementById("EventTrigger").selectedIndex == 11)
+	  else if(document.getElementById("EventTrigger").selectedIndex == 13)
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -3766,7 +3795,30 @@ function SetEventsOptions(myindex){
 			document.getElementById("alertflash_group").style.display = 'none';	
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 7) // LED Dimmer
+	  else if(document.getElementById("EventTrigger").selectedIndex == 7) // Switch ON/OFF
+	{
+		
+			document.getElementById("alertcolor_group").style.display = 'none';
+			document.getElementById("alertdimmer_group").style.display = 'none';
+			document.getElementById("alertdimmerdefault_group").style.display = 'none';			
+			document.getElementById("alertaction_switch").style.display = 'block';
+			document.getElementById("alertaction_dimmer").style.display = 'none';	
+			document.getElementById("alertflash_group").style.display = 'none';	
+			document.getElementById("alertduty_group").style.display = 'none';			
+	 }
+	 else if(document.getElementById("EventTrigger").selectedIndex == 8) // Switch OFF/ON
+	{
+			//document.getElementById("EventMin").value  = 'off';
+			//document.getElementById("EventMax").value = 'off';
+			document.getElementById("alertcolor_group").style.display = 'none';
+			document.getElementById("alertdimmer_group").style.display = 'none';
+			document.getElementById("alertdimmerdefault_group").style.display = 'none';			
+			document.getElementById("alertaction_switch").style.display = 'block';
+			document.getElementById("alertaction_dimmer").style.display = 'none';	
+			document.getElementById("alertflash_group").style.display = 'none';	
+			document.getElementById("alertduty_group").style.display = 'none';			
+	 }
+	 else if(document.getElementById("EventTrigger").selectedIndex == 9) // LED Dimmer
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -3778,7 +3830,7 @@ function SetEventsOptions(myindex){
 			document.getElementById("alertflash_group").style.display = 'none';	
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
-	 else if(document.getElementById("EventTrigger").selectedIndex == 8) // RGB Dimmer
+	 else if(document.getElementById("EventTrigger").selectedIndex == 10) // RGB Dimmer
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -3790,7 +3842,7 @@ function SetEventsOptions(myindex){
 			document.getElementById("alertflash_group").style.display = 'none';	
 			document.getElementById("alertduty_group").style.display = 'none';			
 	 }
-	 	 else if(document.getElementById("EventTrigger").selectedIndex == 9) // Blink Dimmer
+	 	 else if(document.getElementById("EventTrigger").selectedIndex == 11) // Blink Dimmer
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -3802,7 +3854,7 @@ function SetEventsOptions(myindex){
 			document.getElementById("alertflash_group").style.display = 'block';	
 			document.getElementById("alertduty_group").style.display = 'block';			
 	 }
-	  else if(document.getElementById("EventTrigger").selectedIndex == 10) // Blink Dimmer On then OFF
+	  else if(document.getElementById("EventTrigger").selectedIndex == 12) // Blink Dimmer On then OFF
 	{
 			//document.getElementById("EventMin").value  = 'off';
 			//document.getElementById("EventMax").value = 'off';
@@ -5128,7 +5180,20 @@ function ModifyLogAlert()
 		
 		
 	}
-	else if(document.getElementById("EventTrigger").selectedIndex == 7) // LED Dimmer
+	else if(document.getElementById("EventTrigger").selectedIndex == 7) // Switch ON/OFF
+	 {
+		AlertPrefs['alertaction_pgn'] =    document.getElementById("ActionSwitch").options[document.getElementById("ActionSwitch").selectedIndex].value;
+		AlertPrefs['alertaction_value'] =    1;
+	}
+	else if(document.getElementById("EventTrigger").selectedIndex == 8) // Switch OFF/ON
+	 {
+		AlertPrefs['alertaction_pgn'] =    document.getElementById("ActionSwitch").options[document.getElementById("ActionSwitch").selectedIndex].value;
+		AlertPrefs['alertaction_value'] =    0;
+		
+		
+		
+	}
+	else if(document.getElementById("EventTrigger").selectedIndex == 9) // LED Dimmer
 	 {
 	 
 	 	var actiondimmer = document.getElementById("ActionDimmer").options[document.getElementById("ActionDimmer").selectedIndex].value;
@@ -5150,7 +5215,7 @@ function ModifyLogAlert()
 		
 		
 	}
-	else if(document.getElementById("EventTrigger").selectedIndex == 11) // LED Dimmer Override
+	else if(document.getElementById("EventTrigger").selectedIndex == 13) // LED Dimmer Override
 	 {
 	 
 	 	var actiondimmer = document.getElementById("ActionDimmer").options[document.getElementById("ActionDimmer").selectedIndex].value;
@@ -5172,7 +5237,7 @@ function ModifyLogAlert()
 		
 	}
 	
-	 else if(document.getElementById("EventTrigger").selectedIndex == 8) // RGB Dimmer
+	 else if(document.getElementById("EventTrigger").selectedIndex == 10) // RGB Dimmer
 	 {
 		
 		var actiondimmer = document.getElementById("ActionDimmer").options[document.getElementById("ActionDimmer").selectedIndex].value;
@@ -5210,7 +5275,7 @@ function ModifyLogAlert()
 		
 		
 	}
-	 else if(document.getElementById("EventTrigger").selectedIndex == 9 || document.getElementById("EventTrigger").selectedIndex == 10) // blink Dimmer
+	 else if(document.getElementById("EventTrigger").selectedIndex == 11 || document.getElementById("EventTrigger").selectedIndex == 12) // blink Dimmer
 	 {
 
 		
@@ -5573,7 +5638,17 @@ function AddLogAlert()
 		AlertPrefs['alertaction_pgn'] =    document.getElementById("ActionSwitch").options[document.getElementById("ActionSwitch").selectedIndex].value;
 		AlertPrefs['alertaction_value'] =    0;
 	}
-	else if(document.getElementById("EventTrigger").selectedIndex == 7) // LED Dimmer
+	else if(document.getElementById("EventTrigger").selectedIndex == 7) // Switch ON/OFF
+	 {
+		AlertPrefs['alertaction_pgn'] =    document.getElementById("ActionSwitch").options[document.getElementById("ActionSwitch").selectedIndex].value;
+		AlertPrefs['alertaction_value'] =    1;
+	}
+	else if(document.getElementById("EventTrigger").selectedIndex == 8) // Switch OFF/ON
+	 {
+		AlertPrefs['alertaction_pgn'] =    document.getElementById("ActionSwitch").options[document.getElementById("ActionSwitch").selectedIndex].value;
+		AlertPrefs['alertaction_value'] =    0;
+	}
+	else if(document.getElementById("EventTrigger").selectedIndex == 9) // LED Dimmer
 	 {
 		AlertPrefs['alertaction_pgn'] =    document.getElementById("ActionDimmer").options[document.getElementById("ActionDimmer").selectedIndex].value;
 		//AlertPrefs['alertaction_value'] =    document.getElementById("LEDdimmer").value;
@@ -5597,7 +5672,7 @@ function AddLogAlert()
 		
 		
 	}
-	else if(document.getElementById("EventTrigger").selectedIndex == 11) // LED Dimmer Override
+	else if(document.getElementById("EventTrigger").selectedIndex == 13) // LED Dimmer Override
 	 {
 		AlertPrefs['alertaction_pgn'] =    document.getElementById("ActionDimmer").options[document.getElementById("ActionDimmer").selectedIndex].value;
 		AlertPrefs['alertaction_value'] =    document.getElementById("LEDdimmer").value;
@@ -5611,7 +5686,7 @@ function AddLogAlert()
 		
 		
 	}
-	 else if(document.getElementById("EventTrigger").selectedIndex == 8) // RGB Dimmer
+	 else if(document.getElementById("EventTrigger").selectedIndex == 10) // RGB Dimmer
 	 {
 	 
 	// series_prefs3['alarmmode'] = document.getElementById("EventTrigger").options[document.getElementById("EventTrigger").selectedIndex].value;
@@ -5649,7 +5724,7 @@ function AddLogAlert()
 		//AlertPrefs['alertdefault_value'] = document.getElementById("LEDDefaultcolorDD").selectedIndex;
 		
 	}
-	 else if(document.getElementById("EventTrigger").selectedIndex == 9 || document.getElementById("EventTrigger").selectedIndex == 10) // blink Dimmer
+	 else if(document.getElementById("EventTrigger").selectedIndex == 11 || document.getElementById("EventTrigger").selectedIndex == 12) // blink Dimmer
 	 {
 	 
 	 	var actiondimmer = document.getElementById("ActionDimmer").options[document.getElementById("ActionDimmer").selectedIndex].value;
@@ -8303,6 +8378,8 @@ function initializeMaps() {
 					<option value="alarmemailsms">Alarm Email/SMS</option>
 					<option value="alarmswitchon">Alarm Switch On</option>
 					<option value="alarmswitchoff">Alarm Switch Off</option>
+					<option value="alarmswitchonoff">Alarm Switch On/Off</option>
+					<option value="alarmswitchoffon">Alarm Switch Off/On</option>
 					<option value="alarmleddimmer">Dimmer Control</option>					
 					<option value="alarmrgbdimmer">Dimmer Color</option>
 					<option value="alarmblinkdimmer">Dimmer Blink ON</option>		
