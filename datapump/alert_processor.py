@@ -1664,7 +1664,7 @@ def process_emailalert(text_body, parameters, timestamp, value):
 
 
         # check if we are doing a switch or dimmer event alarm
-        elif alarmmode == "alarmswitchon" or alarmmode == "alarmswitchoff" or alarmmode == "alarmleddimmer" or alarmmode == "alarmrgbdimmer" or alarmmode == "alarmblinkdimmer" or alarmmode == "alarmblinkdimmeronoff" or alarmmode == "alarmdimmeroverride":
+        elif alarmmode == "alarmswitchon" or alarmmode == "alarmswitchoff" or alarmmode == "alarmswitchonff" or alarmmode == "alarmswitchoffon" or alarmmode == "alarmleddimmer" or alarmmode == "alarmrgbdimmer" or alarmmode == "alarmblinkdimmer" or alarmmode == "alarmblinkdimmeronoff" or alarmmode == "alarmdimmeroverride":
 
             #initialize default return values
             result['status']="error"
