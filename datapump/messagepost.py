@@ -1973,22 +1973,22 @@ def getSwitchValues(parameters, alarmstatus):
             if alarmstatus == 'active':
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1  
-                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchon true %s: %s ', parameters['deviceid'], switchdata)
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchonoff true %s: %s ', parameters['deviceid'], switchdata)
             else:
-                switchdata = getSwitchIndex(alertParameters['EventTypeId'] )
+                switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=0  
-                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchon false %s: %s ', parameters['deviceid'], switchdata)
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchonoff false %s: %s ', parameters['deviceid'], switchdata)
 
         # only turn switch off if alarm is active   and off if inactive         
         elif series_parameters['alarmmode'] == 'alarmswitchoffon' :
             if alarmstatus == 'active':
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=0                    
-                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchoff true %s: %s ', parameters['deviceid'], switchdata)
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchoffon true %s: %s ', parameters['deviceid'], switchdata)
             else:
                 switchdata = getSwitchIndex(parameters['EventTypeId'] )
                 switchdata['value']=1                    
-                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchoff false %s: %s ', parameters['deviceid'], switchdata)
+                if debug_all: log.info('getSwitchValues: Email query switch data:alarmswitchoffon false %s: %s ', parameters['deviceid'], switchdata)
 
         # only turn switch on if alarm is active                 
         elif series_parameters['alarmmode'] == 'alarmswitchon' :
