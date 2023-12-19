@@ -40,7 +40,8 @@ print (dir(fbdb))
 
 
 FIREBASE_URL = os.environ.get('FIREBASE_URL')
-DATABASE_URL = os.environ.get('DATABASE_URL')
+#DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get('HEROKU_POSTGRESQL_MAUVE_URL')
 #FIREBASE_URL = 'https://seasmart.firebaseio.com/'
 #DATABASE_URL = 'postgres://ualt8moiqdgaub:p7b34e14108c71def0466518fa6934848d544b6dc6ce8dc69f744431b0e7c06ca@ec2-34-202-89-215.compute-1.amazonaws.com:5432/dd2l1kva0c5agd'
 

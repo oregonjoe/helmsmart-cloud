@@ -582,7 +582,8 @@ if __name__ == "__main__":
   num_requests =1
   
 
-  db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
+  #db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
+  db_pool = ConnectionPool(os.environ.get('HEROKU_POSTGRESQL_MAUVE_URL'))
   
   
   conn = db_pool.getconn()
