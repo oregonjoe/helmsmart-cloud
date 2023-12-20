@@ -42,8 +42,8 @@ db_pool = ThreadedConnectionPool(
 from psycopg_pool import ConnectionPool
 #db_pool = ThreadedConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
 #db_pool = ConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
-#db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
-db_pool = ConnectionPool(os.environ.get('HEROKU_POSTGRESQL_MAUVE_URL'))
+db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
+#db_pool = ConnectionPool(os.environ.get('HEROKU_POSTGRESQL_MAUVE_URL'))
 
 SECOND30 = 255
 MINUTE1 = 0
