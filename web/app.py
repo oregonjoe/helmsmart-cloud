@@ -82,8 +82,8 @@ requests_log = logging.getLogger("requests")
 requests_log.setLevel(logging.DEBUG)
 #logging.disable(logging.DEBUG)
 
-#logging.basicConfig(level=logging.INFO)  
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)  
+#logging.basicConfig(level=logging.DEBUG)
 log = logging
 
 
