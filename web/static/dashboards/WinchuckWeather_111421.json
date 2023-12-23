@@ -2,9 +2,9 @@
 	"version": 1,
 	"allow_edit": true,
 	"plugins": [
-		"https://helmsmart-flasktest.herokuapp.com/static/plugins/helmsmart.widgets.js",
-		"https://helmsmart-flasktest.herokuapp.com/static/plugins/helmsmart.datasources.js",
-		"https://helmsmart-flasktest.herokuapp.com/static/plugins/plugin_highcharts_historical.js"
+		"https://helmsmart-cloud.herokuapp.com/static/plugins/helmsmart.widgets.js",
+		"https://helmsmart-cloud.herokuapp.com/static/plugins/helmsmart.datasources.js",
+		"https://helmsmart-cloud.herokuapp.com/static/plugins/plugin_highcharts_historical.js"
 	],
 	"panes": [
 		{
@@ -204,7 +204,7 @@
 			"name": "SeaDream Wind",
 			"type": "JSON",
 			"settings": {
-				"url": "https://helmsmart-flasktest.herokuapp.com/freeboard_winddata",
+				"url": "https://helmsmart-cloud.herokuapp.com/freeboard_winddata",
 				"apikey": "6df777ec3890df47661c721ec3e33b53",
 				"refresh": 30,
 				"span": "1day",
@@ -221,7 +221,7 @@
 			"name": "SeaDream Environmental",
 			"type": "JSON",
 			"settings": {
-				"url": "https://helmsmart-flasktest.herokuapp.com/freeboard_environmental",
+				"url": "https://helmsmart-cloud.herokuapp.com/freeboard_environmental",
 				"apikey": "6df777ec3890df47661c721ec3e33b53",
 				"refresh": 60,
 				"span": "1day",
@@ -238,7 +238,7 @@
 			"name": "SeaDream Location",
 			"type": "JSON",
 			"settings": {
-				"url": "https://helmsmart-flasktest.herokuapp.com/freeboard_location",
+				"url": "https://helmsmart-cloud.herokuapp.com/freeboard_location",
 				"apikey": "6df777ec3890df47661c721ec3e33b53",
 				"refresh": 15,
 				"span": "12hour",
@@ -255,7 +255,7 @@
 			"name": "Engine Fuel used",
 			"type": "JSON",
 			"settings": {
-				"url": "https://helmsmart-flasktest.herokuapp.com/freeboard_engine_aux",
+				"url": "https://helmsmart-cloud.herokuapp.com/freeboard_engine_aux",
 				"apikey": "6df777ec3890df47661c721ec3e33b53",
 				"refresh": 30,
 				"span": "15min",
