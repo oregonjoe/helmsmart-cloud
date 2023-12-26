@@ -131,7 +131,7 @@ def proc(message):
     
 
       
-    if "SSEA00" in partition:
+    if "TESTSSEA00" in partition:
       try:
         if debug_all: log.info('Got Alert message %s: %s ', device_id, partition)
 
