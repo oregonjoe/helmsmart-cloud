@@ -55,6 +55,7 @@ sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=envir
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 queue_url = os.environ.get('SQS_QUEUE_URL')
+alerts_queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
 #queue = boto3.connect_sqs().lookup(os.environ['SQS_QUEUE'])
 #queue = boto3.connect_sqs().lookup('SeaSmart')
 
