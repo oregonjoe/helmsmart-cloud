@@ -143,8 +143,6 @@ def proccess_alert(message):
     if debug_all: log.info('sqs_alerts_poller Got SQS message partition %s: ', partition)
     
 
-      
-    if "TESTSSEA00" in partition:
     try:
       if debug_all: log.info('Got Alert message %s: %s ', device_id, partition)
 
