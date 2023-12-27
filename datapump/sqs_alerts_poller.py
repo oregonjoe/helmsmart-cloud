@@ -92,17 +92,17 @@ def dump_influxdb_cloud(device, partition, records):
         )
     
   except TypeError as e:
-    if debug_all: log.info('sqs_poller TypeError in dump_influxdb_cloud  %s:  ' % str(e))
+    if debug_all: log.info('sqs_alerts_poller TypeError in dump_influxdb_cloud  %s:  ' % str(e))
     
   except AttributeError as e:
-    if debug_all: log.info('sqs_poller AttributeError in dump_influxdb_cloud  %s:  ' % str(e))
+    if debug_all: log.info('sqs_alerts_poller AttributeError in dump_influxdb_cloud  %s:  ' % str(e))
     
   except NameError as e:
-    if debug_all: log.info('sqs_poller: NameError in dump_influxdb_cloud  %s:  ' % str(e))
+    if debug_all: log.info('sqs_alerts_poller: NameError in dump_influxdb_cloud  %s:  ' % str(e))
 
   except:
     e = sys.exc_info()[0]
-    if debug_all: log.info("s3_poller: in dump_influxdb_cloud SSA300 Error: %s" % str(e))
+    if debug_all: log.info("sqs_alerts_poller: in dump_influxdb_cloud SSA300 Error: %s" % str(e))
 
 
 def proc(alert_message):
@@ -132,7 +132,7 @@ def proccess_alert(message):
     device_id = message_body.get('device_id')
 
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
-    if debug_all: log.info('s3_poller Got SQS message %s: device %s ', mpartition,device_id)
+    if debug_all: log.info('sqs_alerts_poller Got SQS message %s: device %s ', mpartition,device_id)
     #partition = message['partition'][:-4]
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
     #if debug_all: log.info('sqs_poller Got SQS message %s: device %s ', partition, message['device_id'])
@@ -140,7 +140,7 @@ def proccess_alert(message):
     #if debug_all: log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
     partition = mpartition[:-4]
-    if debug_all: log.info('s3_poller Got SQS message partition %s: ', partition)
+    if debug_all: log.info('sqs_alerts_poller Got SQS message partition %s: ', partition)
     
 
       
@@ -154,16 +154,16 @@ def proccess_alert(message):
         device = message['device_id']
         partition = message['partition'][:-4]
         switchdata = message.get('switchdata', {})
-        if debug_all: log.info('sqs_poller:SSEA00 switch %s: %s ', device, switchdata)
+        if debug_all: log.info('sqs_alerts_poller:SSEA00 switch %s: %s ', device, switchdata)
 
         dimmerdata = message.get('dimmerdata', {})
-        if debug_all: log.info('sqs_poller:SSEA00 dimmerdata %s: %s ', device, dimmerdata)
+        if debug_all: log.info('sqs_alerts_poller:SSEA00 dimmerdata %s: %s ', device, dimmerdata)
 
         timmerdata = message.get('timmerdata', {})
-        if debug_all: log.info('sqs_poller:SSEA00 timmerdata %s: %s ', device, timmerdata)       
+        if debug_all: log.info('sqs_alerts_poller:SSEA00 timmerdata %s: %s ', device, timmerdata)       
         
   
-        if debug_all: log.info('sqs_poller got EmailAlert %s: %s', device, records)
+        if debug_all: log.info('sqs_alerts_poller got EmailAlert %s: %s', device, records)
         #dump_firebase(device,  "Alert", partition, json.dumps(records))
         dump_pcdinfirebase(device,  "Alert", partition, json.dumps(records))
         
@@ -174,10 +174,10 @@ def proccess_alert(message):
         if debug_all: log.info('Inserted Alert message %s: %s ', device, partition)
         
       except:
-        if debug_all: log.info('sqs_poller:: Error in proc SSEA00 %s:', partition)
+        if debug_all: log.info('sqs_alerts_poller:: Error in proc SSEA00 %s:', partition)
 
         e = sys.exc_info()[0]
-        if debug_all: log.info("sqs_poller::  in proc SSEA00 Error: %s" % e)
+        if debug_all: log.info("sqs_alerts_poller::  in proc SSEA00 Error: %s" % e)
         pass
 
 
@@ -185,7 +185,7 @@ def proccess_alert(message):
       #if timmerdata  is not {}:
       if timmerdata :
         #url = "https://api.telemetryapp.com/data"
-        if debug_all: log.info('sqs_poller:SSEA00 timmerdata  %s ', timmerdata)
+        if debug_all: log.info('sqs_alerts_poller:SSEA00 timmerdata  %s ', timmerdata)
         timmerInstance  =timmerdata.get('instance',0)
         timmerType  =timmerdata.get('type','LED Dimmer 4 Channel')
         timmerParameter  =timmerdata.get('parameter','value0')
@@ -207,7 +207,7 @@ def proccess_alert(message):
       #if switchdata  is not {}:
       if switchdata :          
         #url = "https://api.telemetryapp.com/data"
-        if debug_all: log.info('sqs_poller:SSEA00 switchdata  %s ', switchdata)
+        if debug_all: log.info('sqs_alerts_poller:SSEA00 switchdata  %s ', switchdata)
         switchInstance  =switchdata.get('instance',15)
         switchid  =switchdata.get('index',15)
         switchvalue =switchdata.get('value',3)
@@ -217,7 +217,7 @@ def proccess_alert(message):
         devicedataurl = devicedataurl + "&switchid=" + str(switchid)
         devicedataurl = devicedataurl + "&switchvalue=" + str(switchvalue)
 
-        if debug_all: log.info("sqs_poller:  in proc SSEA00 switch: %s", devicedataurl)
+        if debug_all: log.info("sqs_alerts_poller:  in proc SSEA00 switch: %s", devicedataurl)
 
         
         headers = {'content-type': 'application/json'}
@@ -227,7 +227,7 @@ def proccess_alert(message):
       #if dimmerdata or (dimmerdata != ""  and dimmerdata != None and dimmerdata is not None):
       #if dimmerdata  is not {}:
       if dimmerdata  :                
-        if debug_all: log.info('sqs_poller:SSEA00 dimmer  %s ', dimmerdata)
+        if debug_all: log.info('sqs_alerts_poller:SSEA00 dimmer  %s ', dimmerdata)
         dimmerInstance  =dimmerdata.get('instance',15)
         dimmerid  =dimmerdata.get('index',15)
         dimmervalue =dimmerdata.get('value',255)
@@ -239,7 +239,7 @@ def proccess_alert(message):
         devicedataurl = devicedataurl + "&dimmervalue=" + str(dimmervalue)
         devicedataurl = devicedataurl + "&dimmeroverride=" + str(dimmeroverride)
         
-        if debug_all: log.info("sqs_poller:  in proc SSEA00 dimmer: %s", devicedataurl)
+        if debug_all: log.info("sqs_alerts_poller:  in proc SSEA00 dimmer: %s", devicedataurl)
 
         
         headers = {'content-type': 'application/json'}
@@ -252,10 +252,10 @@ def proccess_alert(message):
 
       
     except:
-      if debug_all: log.info('s3_poller:: Error in proc SSEA00 %s:', partition)
+      if debug_all: log.info('sqs_alerts_poller:: Error in proc SSEA00 %s:', partition)
 
       e = sys.exc_info()[0]
-      if debug_all: log.info("s3_poller::  in proc SSEA00 Error: %s" % str(e))
+      if debug_all: log.info("sqs_alerts_poller::  in proc SSEA00 Error: %s" % str(e))
       pass
 
 
@@ -264,33 +264,33 @@ def proccess_alert(message):
   except AttributeError as e:
     #if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
 
-    if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ' % str(e))
+    if debug_all: log.info('sqs_alerts_poller:: TypeError in proc  %s:  ' % str(e))
     
   except TypeError as e:
     #if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ', partition)
 
-    if debug_all: log.info('sqs_poller:: TypeError in proc  %s:  ' % str(e))
+    if debug_all: log.info('sqs_alerts_poller:: TypeError in proc  %s:  ' % str(e))
       
   except KeyError as e:
     #if debug_all: log.info('sqs_poller:: KeyError in proc %s:  ', partition)
 
-    if debug_all: log.info('sqs_poller:: KeyError in proc  %s:  ' % str(e))
+    if debug_all: log.info('sqs_alerts_poller:: KeyError in proc  %s:  ' % str(e))
 
   except NameError as e:
     #if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ', partition)
 
-    if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ' % str(e))
+    if debug_all: log.info('sqs_alerts_poller:: NameError in proc  %s:  ' % str(e))
       
   except:
     #if debug_all: log.info('sqs_poller:: Error in proc  %s:', partition)
 
     e = sys.exc_info()[0]
-    if debug_all: log.info("sqs_poller::  in proc Error: %s" % e)
+    if debug_all: log.info("sqs_alerts_poller::  in proc Error: %s" % e)
     pass     
 
 #reads num_receive messeges from SQS que
 def get_messages(queue_url, num_receive):
-  if debug_all: log.info('sqs_poller:get_messages %s', num_receive)
+  if debug_all: log.info('sqs_alerts_poller:get_messages %s', num_receive)
   try:
     
     # read message from SQS queue
@@ -303,7 +303,7 @@ def get_messages(queue_url, num_receive):
     )
 
     if "Messages" not in response:
-      if debug_all: log.info('sqs_poller:no messages left')
+      if debug_all: log.info('sqs_alerts_poller:no messages left')
       return []
 
     #print(response['Messages'][0])
@@ -316,7 +316,7 @@ def get_messages(queue_url, num_receive):
     message_body = message['Body']
     receipt_handle = message['ReceiptHandle']
 
-    #if debug_all: log.info("Read SQS:  message_body %s: ", message_body)
+    if debug_all: log.info("Read SQS:  message_body %s: ", message_body)
 
     if debug_all: log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
 
@@ -355,7 +355,7 @@ def process_queue(config):
   queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
   num_receive = int(os.environ.get('NUM_MESSAGES', 10))
   
-  if debug_all: log.info('sqs_poller start process_queue %s: ', num_receive)
+  if debug_all: log.info('sqs_alerts_poller start process_queue %s: ', num_receive)
   # get redis que info
   #if debug_all: log.info('s3_poller jobs in queue %s: ', len(q))
 
@@ -375,7 +375,7 @@ def process_queue(config):
       #for message in get_messages(queue_url, num_receive):
       message=get_messages(queue_url, num_receive)
 
-      if debug_all: log.info('sqs_poller process_queue %s: ', count)
+      if debug_all: log.info('sqs_alerts_poller process_queue %s: ', count)
 
       if debug_all: log.info("process_queue:  message %s: ", message)
       #if debug_all: log.info("process_queue:  message_MessageId %s: ", message['MessageId'])
@@ -387,7 +387,7 @@ def process_queue(config):
 
       if count == 0:
         # if we had messages process right away, else
-        if debug_all: log.info('sqs_poller process_queue sleeping: ')
+        if debug_all: log.info('sqs_alerts_poller process_queue sleeping: ')
         sleep(1)
 
     except NameError as e:
@@ -401,11 +401,11 @@ def process_queue(config):
     except:
       e = sys.exc_info()[0]
       #if debug_all: log.info('s3_poller: process_queue errror' % e)
-      if debug_all: log.info('sqs_poller: process_queue errror  %s' % str(e))
+      if debug_all: log.info('sqs_alerts_poller: process_queue errror  %s' % str(e))
 
     #end of while loop
         
-  if debug_all: log.info('sqs_poller: exiting process_queue')
+  if debug_all: log.info('sqs_alerts_poller: exiting process_queue')
 
 
 def interval(delay, method, *args, **kw):
@@ -418,7 +418,7 @@ def interval(delay, method, *args, **kw):
       method(*args, **kw)
     except:
       log.exception("Error invoking %s", method)
-      if debug_all: log.info('sqs_poller: Error invoking method%s', method)
+      if debug_all: log.info('sqs_alerts_poller: Error invoking method%s', method)
       
     gevent.sleep(delay)
 
@@ -429,7 +429,7 @@ def transaction(func, sqs_message):
   #if debug_all: log.info('s3_poller: transaction %s', sqs_message.get_body())
   try:
     
-    if debug_all: log.info('sqs_poller:transaction message %s', sqs_message['Body'])
+    if debug_all: log.info('sqs_alerts_poller:transaction message %s', sqs_message['Body'])
     queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
     #func(sqs_message.get_body())
     #func(sqs_message['Body'])
@@ -440,7 +440,7 @@ def transaction(func, sqs_message):
 
     #receipt_handle = sqs_message['ReceiptHandle']
     receipt_handle = sqs_message['ReceiptHandle']
-    if debug_all: log.info('sqs_poller: transaction ReceiptHandle  %s', receipt_handle)
+    if debug_all: log.info('sqs_alerts_poller: transaction ReceiptHandle  %s', receipt_handle)
 
     # Delete received message from queue
     sqs_queue.delete_message(
@@ -463,7 +463,7 @@ def transaction(func, sqs_message):
 
   except:
     e = sys.exc_info()[0]
-    if debug_all: log.info('sqs_poller: transaction errror  %s' % str(e))
+    if debug_all: log.info('sqs_alerts_poller: transaction errror  %s' % str(e))
 
 # tries to get pushsmart messages
 # and if there is a problem will retry several times (3)?
@@ -473,22 +473,22 @@ def best_effort(func, pushsmart_message):
   message = json.loads(pushsmart_message['Body'])
 
   #if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message['Body'])
-  if debug_all: log.info('sqs_poller:best_effort message %s', message)
+  if debug_all: log.info('sqs_alerts_poller:best_effort message %s', message)
 
   
   try:
     func(message)
   except  Exception as e:
-    if debug_all: log.info('sqs_poller:best_effort error %s' % str(e))
+    if debug_all: log.info('sqs_alerts_poller:best_effort error %s' % str(e))
     
     retry_count = message.get('retries', 0) + 1
     if retry_count > env.max_retries:
       log.exception('Discarding due to errors: %s', pushsmart_message)
-      if debug_all: log.info('sqs_poller:best_effort Discarding')
+      if debug_all: log.info('sqs_alerts_poller:best_effort Discarding')
       
     else:
       log.exception('Retrying')
-      if debug_all: log.info('sqs_poller:best_effort retrying')
+      if debug_all: log.info('sqs_alerts_poller:best_effort retrying')
       
       retry = message.copy()
       retry['retries'] = retry_count
@@ -509,7 +509,7 @@ def best_effort(func, pushsmart_message):
 
       #print(response['MessageId'])
 
-      if debug_all: log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+      if debug_all: log.info("sqs_alerts_poller Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
       
   
