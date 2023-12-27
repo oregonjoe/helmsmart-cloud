@@ -109,20 +109,20 @@ def put_SQS_Message(message_json):
     if debug_all: log.info('put_SQS_Message')
 
     try:
-    # ######################################################
-    # now place in SQS queue
-    # #######################################################
-    # Send message to SQS queue
-    response = sqs_queue.send_message(
-        QueueUrl=queue_url,
-        DelaySeconds=10,
-        #MessageAttributes={ 'Device': {  'deviceid':device_id} },
-        MessageBody=(message_json)
-    )
+        # ######################################################
+        # now place in SQS queue
+        # #######################################################
+        # Send message to SQS queue
+        response = sqs_queue.send_message(
+            QueueUrl=queue_url,
+            DelaySeconds=10,
+            #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+            MessageBody=(message_json)
+        )
 
-    #print(response['MessageId'])
+        #print(response['MessageId'])
 
-    log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+        log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
     except botocore.exceptions.ClientError as e:
     log.info("Send SQS:ClientError device_id %s:  ", device_id)
