@@ -118,6 +118,7 @@ class DateEncoder(json.JSONEncoder):
 def put_SQS_Message(message_json):
     if debug_all: log.info('put_SQS_Message')
 
+    nowtime = datetime.datetime.now()
     myTime = nowtime.strftime("%y%m%d%H%M%S")
     parameters = message_json['parameters']
 
