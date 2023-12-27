@@ -125,21 +125,21 @@ def put_SQS_Message(message_json):
         log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
     except botocore.exceptions.ClientError as e:
-    log.info("Send SQS:ClientError device_id %s:  ", device_id)
-    log.info('Send SQS:ClientError  Error in que SQS %s:  ' % e)
+        log.info("Send SQS:ClientError device_id %s:  ", device_id)
+        log.info('Send SQS:ClientError  Error in que SQS %s:  ' % e)
 
     except botocore.exceptions.ParamValidationError as e:
-    log.info("Send SQS:ParamValidationError device_id %s:  ", device_id)
-    log.info('Send SQS:ParamValidationError  Error in que SQS %s:  ' % e)
+        log.info("Send SQS:ParamValidationError device_id %s:  ", device_id)
+        log.info('Send SQS:ParamValidationError  Error in que SQS %s:  ' % e)
 
     except NameError as e:
-    log.info("Send SQS:NameError device_id %s:  ", device_id)
-    log.info('Send SQS:NameError  Error in que SQS %s:  ' % e)    
+        log.info("Send SQS:NameError device_id %s:  ", device_id)
+        log.info('Send SQS:NameError  Error in que SQS %s:  ' % e)    
 
     except:
-    e = sys.exc_info()[0]
-    log.info("Send SQS:device_id %s:  ", device_id)
-    log.info('Send SQS: Error in que SQS %s:  ' % e)
+        e = sys.exc_info()[0]
+        log.info("Send SQS:device_id %s:  ", device_id)
+        log.info('Send SQS: Error in que SQS %s:  ' % e)
 
 
 
