@@ -290,7 +290,7 @@ def proccess_alert(message):
 def get_messages(queue_url, num_receive):
   if debug_all: log.info('sqs_alerts_poller:get_messages %s', num_receive)
   try:
-    
+    queue_url = environ.get('SQS_QUEUE_ALERTS_URL')  
     # read message from SQS queue
     response = sqs_queue.receive_message(
         QueueUrl=queue_url,
@@ -495,7 +495,7 @@ def best_effort(func, pushsmart_message):
       retry['errors'].append(str(e))
 
       #env.queue.write( env.queue.new_message(json.dumps(retry)) )
-
+      queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
 
       # Send message to SQS queue
       response = sqs_queue.send_message(
