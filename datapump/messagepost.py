@@ -57,12 +57,6 @@ mailertogo_domain   = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
 
 from twilio.rest import Client as smsClient
 
-from splicer import Schema
-SCHEMA=Schema([
-  dict(name="device",type='STRING'),
-  dict(name="partition",type='STRING'),
-  dict(name="url",type='STRING'),
-]+nmea.SCHEMA.fields)
 
 from sync import (
   dump_pcdinfirebase, dump_json, insert_influxdb_cloud, ensure_database,PARTITION, URL
