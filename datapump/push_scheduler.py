@@ -104,7 +104,7 @@ sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=envir
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 #queue_url = os.environ.get('SQS_QUEUE_URL')
-queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
+queue_url = os.environ.get('SQS_QUE_ALERTS_URL')
 
 class DateEncoder(json.JSONEncoder):
   def default(self, obj):
@@ -117,6 +117,8 @@ class DateEncoder(json.JSONEncoder):
 #Put Alert message in SQS que for processing
 def put_SQS_Message(message_json):
     if debug_all: log.info('put_SQS_Message')
+
+    queue_url = os.environ.get('SQS_QUE_ALERTS_URL')
 
     nowtime = datetime.datetime.now()
     myTime = nowtime.strftime("%y%m%d%H%M%S")
