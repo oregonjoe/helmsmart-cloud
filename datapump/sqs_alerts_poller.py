@@ -118,7 +118,7 @@ def proc(alert_message):
   if debug_all: log.info("sqs_alerts_poller:alert_Parameters %s", alert_Parameters)    
 
   #looks up any alert actions and sends out SMS/Email/Switch/Dimmer/Timmer events
-  process_message(alert_message)
+  process_message(alert_payload)
 
   
 def proccess_alert(message):
