@@ -71,17 +71,17 @@ from psycopg_pool import ConnectionPool
 db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
 #db_pool = ConnectionPool(os.environ.get('HEROKU_POSTGRESQL_MAUVE_URL'))
 
-import botocore
-import boto3
+#import botocore
+#import boto3
 # Get the service resource
 #sqs = boto3.resource('sqs')
 #s3 = boto3.resource(service_name='sqs', region_name='REGION_NAME')
 
-sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
+#sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
 
 #queue_url = 'SQS_QUEUE_URL'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
-queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
+#queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
 
 
 class DateEncoder(json.JSONEncoder):
@@ -2561,39 +2561,7 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
       if debug_all: log.info("SendHSAlert SQS:device_id %s: partition: %s ", device_id, partition)
       if debug_all: log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
 
-    
-    try:
-    
-      # Send message to SQS queue
-      response = sqs_queue.send_message(
-          QueueUrl=queue_url,
-          DelaySeconds=10,
-          #MessageAttributes={ 'Device': {  'deviceid':device_id} },
-          MessageBody=(device_json)
-      )
-
-      #print(response['MessageId'])
-
-      if debug_info: log.info("SendHSAlert sent SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
-
-    except botocore.exceptions.ClientError as e:
-      if debug_all: log.info("SendHSAlert SQS:ClientError device_id %s:  ", device_id)
-      if debug_all: log.info('SendHSAlert SQS:ClientError  Error in que SQS %s:  ' % e)
-
-    except botocore.exceptions.ParamValidationError as e:
-      if debug_all: log.info("SendHSAlert SQS:ParamValidationError device_id %s:  ", device_id)
-      if debug_all: log.info('SendHSAlert SQS:ParamValidationError  Error in que SQS %s:  ' % e)
-
-    except NameError as e:
-      if debug_all: log.info("SendHSAlert SQS:NameError device_id %s:  ", device_id)
-      if debug_all: log.info('SendHSAlert SQS:NameError  Error in que SQS %s:  ' % e)    
-      
-    except:
-      e = sys.exc_info()[0]
-      if debug_all: log.info("SendHSAlert SQS:device_id %s:  ", device_id)
-      if debug_all: log.info('SendHSAlert SQS: Error in que SQS %s:  ' % e)
-
-    
+  
 
   except NameError as e:
     if debug_all: log.info('process_message: NameError in SendHSAlert %s:  ' % str(e))
@@ -2616,7 +2584,8 @@ def proccess_http_alerts(message):
   # test to read custom message from SQS que
   try:
     #message_body = json.loads(message['Body'])
-    message_body =message
+    #message_body =message
+    message_body =json.loads(message)
     #partition = message_body['partition'][:-4]
 
 
