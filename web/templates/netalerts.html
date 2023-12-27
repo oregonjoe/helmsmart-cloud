@@ -198,7 +198,7 @@
 		
 </style>
 <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script> -->
-<script type="text/javascript"      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y&sensor=false">    </script>
+<script type="text/javascript"      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y&sensor=false">    </script>
 
 
 
@@ -1330,8 +1330,8 @@ var myseries2;
 		
 		if( isNaN(myseries1.value)  || isNaN(myseries2.value) )
 		{
-			var pinurl = "http://maps.google.com/mapfiles/kml/shapes/info_circle.png"
-			//var pinurl = "http://maps.google.com/mapfiles/kml/paddle/ylw-blank.png"
+			var pinurl = "https://maps.google.com/mapfiles/kml/shapes/info_circle.png"
+			//var pinurl = "https://maps.google.com/mapfiles/kml/paddle/ylw-blank.png"
 			
 			myPin = new google.maps.MarkerImage(pinurl);
 			 myLatlng = new google.maps.LatLng(gLatitude, gLongitude);
@@ -4626,7 +4626,7 @@ function handleGetGeoReport(response)
 		//myinfoWindow.setContent(contentString);
 			
 			
-	//	var pinImage = new google.maps.MarkerImage("http://www.googlemapsmarkers.com/v1/009900/");
+	//	var pinImage = new google.maps.MarkerImage("https://www.googlemapsmarkers.com/v1/009900/");
 
 		//if(((myMarker != 0) && (oldtime + myMarker <= newtime))	|| i==0)
 		if(myMarker != 0)
@@ -5403,9 +5403,9 @@ function ModifyLogAlert()
       
    // var  myDeviceKey = document.getElementById("DeviceKey").value;
       var  myDeviceKey = gDeviceKey;
-  // devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + myuserid + "&deviceid=" +  myuserid + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&options=" + JSON.stringify(AlertPrefs);
-   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + gUserID + "&deviceid=" +  myDeviceKey + "&start=0" +  "&end=0" +   "&interval=" +  myInterval  + "&repeat=0" + "&options=" + JSON.stringify(AlertPrefs);
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + gUserID + "&deviceid=" +  gUserID + "&start=0" +  "&end=0" +   "&interval=" +  myInterval  + "&repeat=0" + "&options=" + JSON.stringify(AlertPrefs);
+  // devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + myuserid + "&deviceid=" +  myuserid + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&options=" + JSON.stringify(AlertPrefs);
+   //devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + gUserID + "&deviceid=" +  myDeviceKey + "&start=0" +  "&end=0" +   "&interval=" +  myInterval  + "&repeat=0" + "&options=" + JSON.stringify(AlertPrefs);
+   devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + gUserID + "&deviceid=" +  gUserID + "&start=0" +  "&end=0" +   "&interval=" +  myInterval  + "&repeat=0" + "&options=" + JSON.stringify(AlertPrefs);
 
 
 
@@ -5869,8 +5869,8 @@ function AddLogAlert()
   var  myDeviceKey = gDeviceKey;
 	
 	
-  //devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add_alert&userid=" + gUserID + "&deviceid=" +  myDeviceKey + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&repeat=0"  + "&options=" + JSON.stringify(AlertPrefs);
-  devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add_alert&userid=" + gUserID + "&deviceid=" +  gUserID + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&repeat=0"  + "&options=" + JSON.stringify(AlertPrefs);
+  //devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=add_alert&userid=" + gUserID + "&deviceid=" +  myDeviceKey + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&repeat=0"  + "&options=" + JSON.stringify(AlertPrefs);
+  devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=add_alert&userid=" + gUserID + "&deviceid=" +  gUserID + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&repeat=0"  + "&options=" + JSON.stringify(AlertPrefs);
 
 
 
@@ -5951,7 +5951,7 @@ function DeleteAlert()
    
 
   
-  devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=delete_alert&prefkey=" + prefkey + "&userid=" + gUserID ;
+  devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=delete_alert&prefkey=" + prefkey + "&userid=" + gUserID ;
 
 
 
@@ -5986,7 +5986,7 @@ function DeleteAlert()
   
  function GetAlertEvents()
  {
- // http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c&_=1427391221558
+ // https://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c&_=1427391221558
  
  /*
 	if(gDeviceID == "")
@@ -6015,11 +6015,11 @@ function DeleteAlert()
 	//var  myDeviceKey = document.getElementById("DeviceKey").value;
 	var  myDeviceKey = gDeviceKey;
 	
-  // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + AccountDataFolder;
-  // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
- // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
-  //devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
-  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + gUserID;
+  // devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + AccountDataFolder;
+  // devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
+ // devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
+  //devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
+  devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + gUserID;
 	
    return $.ajax({
 					   //async: false,
@@ -6200,9 +6200,9 @@ function DeleteAlert()
    
 
    var DeviceID =  document.getElementById("DeviceKey").value;
-   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
-   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   //devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   //devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
              return $.ajax({
              //async: false,
@@ -6263,10 +6263,10 @@ function DeleteAlert()
       myDeviceName = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].value;
      // myTextArray = myDeviceName.split(":");
 
-      // devicedataurl = "http://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
+      // devicedataurl = "https://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
 
 
-      devicedataurl = "http://helmsmart-cloud.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
+      devicedataurl = "https://helmsmart-cloud.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
 
 
       // devicedataurl =  devicedataurl  + "&blwskey=" + document.getElementById("BLWSKeyInput").value ;
@@ -6427,16 +6427,16 @@ function DeleteAlert()
       myDeviceName = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].value;
      // myTextArray = myDeviceName.split(":");
 
-      // devicedataurl = "http://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
+      // devicedataurl = "https://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
 
 
-   //   devicedataurl = "http://helmsmart-cloud.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
+   //   devicedataurl = "https://helmsmart-cloud.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
 
-    //  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=cace5b1ef7f39af021e9428cef3a6f54&serieskey=sensor:environmental_data.source:0F.instance:0.type:Outside Temperature.parameter:temperature.HelmSmart&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
+    //  devicedataurl = "https://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=cace5b1ef7f39af021e9428cef3a6f54&serieskey=sensor:environmental_data.source:0F.instance:0.type:Outside Temperature.parameter:temperature.HelmSmart&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
  
-  //   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
+  //   devicedataurl = "https://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
 
-    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbydeviceid_idc?deviceid=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch + "&resolution=" + myInterval + "&format=json";
+    devicedataurl = "https://helmsmart-cloud.herokuapp.com/getseriesstatsbydeviceid_idc?deviceid=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch + "&resolution=" + myInterval + "&format=json";
 
  // devicedataurl =  devicedataurl  + "&blwskey=" + document.getElementById("BLWSKeyInput").value ;
    // devicedataurl =  devicedataurl  + "&datapaneid=" + myuserKey ;
@@ -6764,16 +6764,16 @@ function GetGeoReport()
     //  myDeviceName = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].value;
      // myTextArray = myDeviceName.split(":");
 
-      // devicedataurl = "http://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
+      // devicedataurl = "https://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
 
 
-   //   devicedataurl = "http://helmsmart-cloud.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
+   //   devicedataurl = "https://helmsmart-cloud.herokuapp.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
 
-    //  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=cace5b1ef7f39af021e9428cef3a6f54&serieskey=sensor:environmental_data.source:0F.instance:0.type:Outside Temperature.parameter:temperature.HelmSmart&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
+    //  devicedataurl = "https://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=cace5b1ef7f39af021e9428cef3a6f54&serieskey=sensor:environmental_data.source:0F.instance:0.type:Outside Temperature.parameter:temperature.HelmSmart&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
  
-  //   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
+  //   devicedataurl = "https://helmsmart-cloud.herokuapp.com/getseriesstatsbykey?devicekey=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=1429291080&endepoch=1429292980&resolution=300&format=json";
 
-  //  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getseriesstatsbydeviceid?deviceid=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch + "&resolution=" + myInterval + "&format=json";
+  //  devicedataurl = "https://helmsmart-cloud.herokuapp.com/getseriesstatsbydeviceid?deviceid=" + myDeviceKey + "&serieskey=" + mySeriesKey + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch + "&resolution=" + myInterval + "&format=json";
 
 	//GPSSource = "0F";
 	//GPSSource = "*";
@@ -6782,7 +6782,7 @@ function GetGeoReport()
 	
 	if(Markerindex == 0 || Markerindex == 1)
 	{
-		devicedataurl = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid?";
+		devicedataurl = "https://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid?";
 		devicedataurl =  devicedataurl + "deviceid=" + myDeviceKey + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + myInterval;
 		devicedataurl =  devicedataurl + "&serieskey1=" + "deviceid:" + myDeviceKey +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; ;
 		devicedataurl =  devicedataurl + "&format=json"  ;
@@ -6790,7 +6790,7 @@ function GetGeoReport()
 	}
 	else if(Markerindex == 3)
 	{
-		devicedataurl = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid?";
+		devicedataurl = "https://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid?";
 		devicedataurl =  devicedataurl + "deviceid=" + myDeviceKey + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + myInterval;
 		devicedataurl =  devicedataurl + "&serieskey1=" + "deviceid:" + myDeviceKey +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; ;
 		devicedataurl =  devicedataurl + "&serieskey2=" + "deviceid:" + myDeviceKey +".sensor:cogsog.source:" + GPSSource + ".instance:0.type:NULL.parameter:speed_over_ground.HelmSmart"; ;
@@ -6857,7 +6857,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+    devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
 
     return $.ajax({
     //async: false,
@@ -6900,7 +6900,7 @@ function initializeMaps() {
 	
 	for (i = 0; i < myPinColors.length; i++) {
 	
-		var pinurl = "http://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
+		var pinurl = "https://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
 		myPins[i] = new google.maps.MarkerImage(pinurl);
 	 
 	}
@@ -7026,10 +7026,10 @@ function initializeMaps() {
 <div>
   <center>
   {% if session['userid'] %}
-     <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+     <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
@@ -7061,7 +7061,7 @@ function initializeMaps() {
 
 <p id="introText">With this datapane you can configure, control and monitor your SeaSmart device.</p>
 <div id="idMarketing">
-	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
 	<p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your BoatLogger yacht site where your logbooks and segments gets created automatically.</p>
 	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
 	<ul>
@@ -7091,9 +7091,9 @@ function initializeMaps() {
 	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
 	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
 	<div style="margin: 15px;">
-		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
 <!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
-		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
 
 	</div>
 	<p>

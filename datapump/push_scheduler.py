@@ -90,6 +90,59 @@ from messagepost import process_message
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
+import botocore
+import boto3
+# Get the service resource
+#sqs = boto3.resource('sqs')
+#s3 = boto3.resource(service_name='sqs', region_name='REGION_NAME')
+
+sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
+
+#queue_url = 'SQS_QUEUE_URL'
+#queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
+#queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
+#queue_url = os.environ.get('SQS_QUEUE_URL')
+queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
+
+#Put Alert message in SQS que for processing
+def put_SQS_Message(message_json):
+    if debug_all: log.info('put_SQS_Message')
+
+    try:
+    # ######################################################
+    # now place in SQS queue
+    # #######################################################
+    # Send message to SQS queue
+    response = sqs_queue.send_message(
+        QueueUrl=queue_url,
+        DelaySeconds=10,
+        #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+        MessageBody=(message_json)
+    )
+
+    #print(response['MessageId'])
+
+    log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+
+    except botocore.exceptions.ClientError as e:
+    log.info("Send SQS:ClientError device_id %s:  ", device_id)
+    log.info('Send SQS:ClientError  Error in que SQS %s:  ' % e)
+
+    except botocore.exceptions.ParamValidationError as e:
+    log.info("Send SQS:ParamValidationError device_id %s:  ", device_id)
+    log.info('Send SQS:ParamValidationError  Error in que SQS %s:  ' % e)
+
+    except NameError as e:
+    log.info("Send SQS:NameError device_id %s:  ", device_id)
+    log.info('Send SQS:NameError  Error in que SQS %s:  ' % e)    
+
+    except:
+    e = sys.exc_info()[0]
+    log.info("Send SQS:device_id %s:  ", device_id)
+    log.info('Send SQS: Error in que SQS %s:  ' % e)
+
+
+
 #this is called from the CRON scheduler every 30 seconds
 #Interval is passed into SQL query to find tasks that meet the schedule
 def get_HS_Message(interval):
@@ -178,7 +231,8 @@ def get_HS_Message(interval):
                         alert_message['endtime'] = endtime
                         alert_message['parameters'] = json.loads(row[4])
     
-                        myresult = q.enqueue(process_message, alert_message, ttl=10000)  
+                        #myresult = q.enqueue(process_message, alert_message, ttl=10000)
+                        put_SQS_Message(alert_message):
                        
                         log.info('Push_Scheduler inserted logged messages %s:%s -- %s', starttime, endtime, alert_message)
 
@@ -262,7 +316,8 @@ def get_HS_Message(interval):
                     
                     #071214 JLB added message to que for the worker (post) to process
                     
-                    myresult = q.enqueue(process_message, alert_message, ttl=10000)  
+                    #myresult = q.enqueue(process_message, alert_message, ttl=10000)
+                    put_SQS_Message(alert_message):
                     if debug_all: log.info('Push_Scheduler inserted realtime messages %s', alert_message)
                     
             except NameError as e:
