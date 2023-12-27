@@ -97,11 +97,11 @@
 
   </script >
 
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
      
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script> 
-  <!--      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
- <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script> 
+  <!--      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+ <script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     
 
        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script>
@@ -201,7 +201,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+    devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
 
     return $.ajax({
     //async: false,
@@ -279,10 +279,10 @@ function StartUpMyScript()
  
   <center>
   {% if session['userid'] %}
-     <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+     <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
@@ -301,34 +301,34 @@ function StartUpMyScript()
 
   </div>
   
-  <div class="auto-style3" id="netLog"  style="padding: 5px 5px 5px 5px; " ><a href="http://helmsmart-cloud.herokuapp.com/netlog" id="netLogBtn" class="helmsmart-button" >
+  <div class="auto-style3" id="netLog"  style="padding: 5px 5px 5px 5px; " ><a href="https://helmsmart-cloud.herokuapp.com/netlog" id="netLogBtn" class="helmsmart-button" >
       <span style="display:block; width:120px" >netLog&nbsp;&nbsp;&nbsp;&nbsp;</span>
     </a>&nbsp;&nbsp;Upload PushSmart log files to server
   </div>
 
-  <div class="auto-style3" id="netView"  style="padding: 5px 5px 5px 5px; " ><a href="http://helmsmart-cloud.herokuapp.com/netview" id="netViewBtn" class="helmsmart-button" >
+  <div class="auto-style3" id="netView"  style="padding: 5px 5px 5px 5px; " ><a href="https://helmsmart-cloud.herokuapp.com/netview" id="netViewBtn" class="helmsmart-button" >
       <span style="display:block; width:120px">netView&nbsp;&nbsp;&nbsp;</span>
     </a>&nbsp;&nbsp;View Live NMEA 2000 network traffic
   </div>
   
-  <div class="auto-style3" id="netSwitch"  style="padding: 5px 5px 5px 5px; " ><a href="http://helmsmart-cloud.herokuapp.com/netswitch" id="netViewBtn" class="helmsmart-button" >
+  <div class="auto-style3" id="netSwitch"  style="padding: 5px 5px 5px 5px; " ><a href="https://helmsmart-cloud.herokuapp.com/netswitch" id="netViewBtn" class="helmsmart-button" >
       <span style="display:block; width:120px">netSwitch&nbsp;&nbsp;&nbsp;</span>
     </a>&nbsp;&nbsp;Control Switches remotely
   </div>
 
   
-  <div class="auto-style3" id="netDimmer"  style="padding: 5px 5px 5px 5px; " ><a href="http://helmsmart-cloud.herokuapp.com/netdimmer" id="netViewBtn" class="helmsmart-button" >
+  <div class="auto-style3" id="netDimmer"  style="padding: 5px 5px 5px 5px; " ><a href="https://helmsmart-cloud.herokuapp.com/netdimmer" id="netViewBtn" class="helmsmart-button" >
       <span style="display:block; width:120px">netDimmer&nbsp;&nbsp;&nbsp;</span>
     </a>&nbsp;&nbsp;Control Dimmers remotely
   </div>
 
 
-  <div class="auto-style3" id="meshDimmer" style="padding: 5px 5px 5px 5px; "  ><a href="http://helmsmart-cloud.herokuapp.com/meshdimmer" id="meshdimmeryBtn" class="helmsmart-button" >
+  <div class="auto-style3" id="meshDimmer" style="padding: 5px 5px 5px 5px; "  ><a href="https://helmsmart-cloud.herokuapp.com/meshdimmer" id="meshdimmeryBtn" class="helmsmart-button" >
       <span style="display:block; width:120px">meshDimmers&nbsp;</span>
     </a>&nbsp;&nbsp;Control Dimmer/Switch modules in a wireless mesh network
   </div>
   
-    <div class="auto-style3" id="netTimer" style="padding: 5px 5px 5px 5px; "  ><a href="http://helmsmart-cloud.herokuapp.com/nettimers" id="nettimerBtn" class="helmsmart-button" >
+    <div class="auto-style3" id="netTimer" style="padding: 5px 5px 5px 5px; "  ><a href="https://helmsmart-cloud.herokuapp.com/nettimers" id="nettimerBtn" class="helmsmart-button" >
       <span style="display:block; width:120px">netTimers&nbsp;</span>
     </a>&nbsp;&nbsp;Create timer schedules to netDimmer and netSwitch gateways
   </div>
@@ -336,7 +336,7 @@ function StartUpMyScript()
 
   
      <div class="auto-style3" id="manage"  style="padding: 5px 5px 5px 5px; " >
-    <a href="http://helmsmart-cloud.herokuapp.com/manage" id="emailalertsBtn" class="helmsmart-button" >
+    <a href="https://helmsmart-cloud.herokuapp.com/manage" id="emailalertsBtn" class="helmsmart-button" >
       <span style="display:block; width:120px">Manage</span>
     </a>&nbsp;&nbsp;Manage your SeaSmart devices and preferences
   </div>

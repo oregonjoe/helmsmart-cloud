@@ -78,7 +78,7 @@
 
  <script type="text/javascript" src="{{ url_for('static', filename='js/ChangeChartStyleBootstrap.js') }}" ></script>
 
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/>  
@@ -93,7 +93,7 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
 	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
 
- <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+ <script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     
   <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
@@ -1972,7 +1972,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
     
     if(DialPGNNumber[gindex] != 0)
     {
-        url[gindex] = "http://helmsmart-cloud.herokuapp.com/get_influxdbcloud_data?serieskey=" + SearchString  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs + "&rollup=" + mySearchType;
+        url[gindex] = "https://helmsmart-cloud.herokuapp.com/get_influxdbcloud_data?serieskey=" + SearchString  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs + "&rollup=" + mySearchType;
 
         document.getElementById("SearchStatus").value = "Starting Search";
     }
@@ -2404,12 +2404,12 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
   	var mySearchType = document.getElementById("SearchType").options[SearchTypeIndex].value;
 	//"&rollup=" + mySearchType;
 // set up the SQL query string
-//    url[gindex] = "http://helmsmart-cloud.herokuapp.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
-//      devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+//    url[gindex] = "https://helmsmart-cloud.herokuapp.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+//      devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 
 
-      //devicedataurl = "http://helmsmart-cloud.herokuapp.com/getinfluxseriesmultibydeviceid?";
-      devicedataurl = "http://helmsmart-cloud.herokuapp.com/getinfluxseriesmultibydeviceid?";
+      //devicedataurl = "https://helmsmart-cloud.herokuapp.com/getinfluxseriesmultibydeviceid?";
+      devicedataurl = "https://helmsmart-cloud.herokuapp.com/getinfluxseriesmultibydeviceid?";
       devicedataurl =  devicedataurl + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
       //devicedataurl =  devicedataurl + "&serieskey1=" + DialPGNNumber[0] ;
       //devicedataurl =  devicedataurl + "&serieskey2=" + DialPGNNumber[1] ;
@@ -2691,7 +2691,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+   devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
 
 
    return $.ajax({
@@ -2778,8 +2778,8 @@ function GetSeriesAttributes(userid)
   
   
    var DeviceID = document.getElementById("DeviceID").value;
-   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series_test?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   //devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series_test?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
 
              return $.ajax({
@@ -2842,7 +2842,7 @@ function getDeviceParamList(userid)
 var deviceid = document.getElementById("DeviceID").value;
 
 	var devicedataurl;
-	   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&deviceid="+ deviceid + "&pagetype=2";
+	   devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&deviceid="+ deviceid + "&pagetype=2";
    
    
    return $.ajax({
@@ -2891,7 +2891,7 @@ function updateDeviceParamList(userid)
      } }); 
 
 	var devicedataurl;
-	     devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&pagetype=2";
+	     devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&pagetype=2";
 
    return $.ajax({
 					   //async: false,
@@ -2983,7 +2983,7 @@ function ShowSearchType()
      } });   
    
    
-       devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefs&userid=" + userid + "&pagetype=2&prefkey=" + prefkey;
+       devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefs&userid=" + userid + "&pagetype=2&prefkey=" + prefkey;
 
    return $.ajax({
 					   //async: false,
@@ -3094,7 +3094,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 
     nextConfigOption = document.getElementById("XMLFilesSelect").options.length+1;
 
-    devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add_tempodb&userid=" + myuserid + "&pagetype=2&prefkey=" +  nextConfigOption + "&options="
+    devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=add_tempodb&userid=" + myuserid + "&pagetype=2&prefkey=" +  nextConfigOption + "&options="
 
     devicedataurl =  devicedataurl  + "'" + document.getElementById("AddPreferenceName").value + "'";
     devicedataurl =  devicedataurl + ", '" + document.getElementById("DeviceID").value + "'";
@@ -3234,7 +3234,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
    if(prefName == "")
    prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
   
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+   devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=update_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
 
   devicedataurl =  devicedataurl  + optionmenuindex;
   devicedataurl =  devicedataurl + ",'" + prefName + "'";
@@ -3331,7 +3331,7 @@ function DeletePref()
 	
       prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
-      devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=delete_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey ;
+      devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=delete_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey ;
 
       return $.ajax({
       //async: false,
@@ -3656,11 +3656,11 @@ function myonload()
 
   <center>
     {% if session['userid'] %}
-    <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
       <span>HelmSmart: {{session['username']}}</span>
     </a>
     {% else %}
-    <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span>
     </a>
     {% endif %}
@@ -3747,7 +3747,7 @@ function myonload()
   	<div class="tab-pane" id="tabInfo">
 	<p id="introText">With this datapane you can view vessel position data from your SeaSmart device.</p>
 <div id="idMarketing">
-	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
 	
 	<p>
 		To get started  - select your registered device from the <B>PREF</B> tab and then enter the search dates on the <B> SEARCH </B>tab – select <B>MAP DATA</B>
@@ -3783,9 +3783,9 @@ function myonload()
 	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
 	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
 	<div style="margin: 15px;">
-		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
 <!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
-		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
 
 	</div>
 	<p>
@@ -5339,6 +5339,6 @@ www.chetcodigital.com www.seasmart.net www.netgauges.net www.digitalmarinegauges
   
   
 </div>
- <script src="http://code.highcharts.com/highcharts.js"></script>
+ <script src="https://code.highcharts.com/highcharts.js"></script>
  </div>
 </body></html>

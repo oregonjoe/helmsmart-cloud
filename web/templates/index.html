@@ -56,7 +56,7 @@
         <script>
         var AUTH0_CLIENT_ID = '{{env.AUTH0_CLIENT_ID}}';
         var AUTH0_DOMAIN = '{{env.AUTH0_DOMAIN}}';
-        var AUTH0_CALLBACK_URL = '{{env.AUTH0_CALLBACK_URL if env.AUTH0_CALLBACK_URL else "http://localhost:3000/callback" }}';
+        var AUTH0_CALLBACK_URL = '{{env.AUTH0_CALLBACK_URL if env.AUTH0_CALLBACK_URL else "https://localhost:3000/callback" }}';
         var API_AUDIENCE = '{{env.API_ID}}';
         </script>  
 
@@ -114,7 +114,7 @@ $(function() {
           $("#login").click(function(e) {
             e.preventDefault();
 
-			window.location.href = 'http://www.helmsmart.net/login';
+			window.location.href = 'https://www.helmsmart.net/login';
 			
 			
           });
@@ -225,20 +225,20 @@ var myusername;
         <tr>
           <td>
     
-			 <a href="http://helmsmart-cloud.herokuapp.com/mapsmart"> 
+			 <a href="https://helmsmart-cloud.herokuapp.com/mapsmart"> 
     
               <img alt="MapSmart.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_MapSmart_150W.jpg' ) }}">
             </a>
           </td>
           <td>  
   
-			   <a href="http://helmsmart-cloud.herokuapp.com/graphsmart">
+			   <a href="https://helmsmart-cloud.herokuapp.com/graphsmart">
               <img alt="GraphSmart.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_GraphSmart_150W.jpg' ) }}">
             </a>
           </td>
           <td>
    
-			<a href="http://helmsmart-cloud.herokuapp.com/alertsmart"> 
+			<a href="https://helmsmart-cloud.herokuapp.com/alertsmart"> 
               <img alt="AlertSmart.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_AlertSmart_150W.jpg' ) }}">
           </a>
               </td>
@@ -246,19 +246,19 @@ var myusername;
         <tr>
           <td>
 
-			<a href="http://helmsmart-cloud.herokuapp.com/netgauges">
+			<a href="https://helmsmart-cloud.herokuapp.com/netgauges">
             <img alt="netGauges.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_netGauges_150W.jpg' ) }}">
             </a>
           </td>
           <td>
     
-			  <a href="http://helmsmart-cloud.herokuapp.com/dashboards_list">
+			  <a href="https://helmsmart-cloud.herokuapp.com/dashboards_list">
               <img alt="netGraphs.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_DashBoards_150W.jpg' ) }}">
             </a>
           </td>
           <td>
         
-			<a href="http://helmsmart-cloud.herokuapp.com/nethelm">
+			<a href="https://helmsmart-cloud.herokuapp.com/nethelm">
               <img alt="netHelm.net" height="150" width="150" class="auto-style14" src="{{ url_for('static', filename='img/WebPage_ButtonBoxes_netHelm_150W.jpg' ) }}">
           </a>
           </td>
