@@ -118,7 +118,7 @@ class DateEncoder(json.JSONEncoder):
 def put_SQS_Message(message_json):
     if debug_all: log.info('put_SQS_Message')
 
-    queue_url = os.environ.get('SQS_QUE_ALERTS_URL')
+    #queue_url = os.environ.get('SQS_QUE_ALERTS_URL')
 
     nowtime = datetime.datetime.now()
     myTime = nowtime.strftime("%y%m%d%H%M%S")

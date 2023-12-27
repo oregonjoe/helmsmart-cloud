@@ -57,7 +57,7 @@ sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=envir
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 #queue_url = os.environ.get('SQS_QUEUE_URL')
-queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
+queue_url = os.environ.get('SQS_QUE_ALERTS_URL')
 
 import nmea
 from splicer import Schema
@@ -290,7 +290,7 @@ def proccess_alert(message):
 def get_messages(queue_url, num_receive):
   if debug_all: log.info('sqs_alerts_poller:get_messages %s', num_receive)
   try:
-    queue_url = environ.get('SQS_QUEUE_ALERTS_URL')  
+    #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')  
     # read message from SQS queue
     response = sqs_queue.receive_message(
         QueueUrl=queue_url,
@@ -350,7 +350,7 @@ def get_messages(queue_url, num_receive):
 
 def process_queue(config):  
   #queue = boto.connect_sqs().lookup(os.environ['SQS_QUEUE'])
-  queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
+  #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
   num_receive = int(os.environ.get('NUM_MESSAGES', 10))
   
   if debug_all: log.info('sqs_alerts_poller start process_queue %s: ', num_receive)
@@ -428,7 +428,7 @@ def transaction(func, sqs_message):
   try:
     
     if debug_all: log.info('sqs_alerts_poller:transaction message %s', sqs_message['Body'])
-    queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
+    #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
     #func(sqs_message.get_body())
     #func(sqs_message['Body'])
     func(sqs_message)
@@ -495,7 +495,7 @@ def best_effort(func, pushsmart_message):
       retry['errors'].append(str(e))
 
       #env.queue.write( env.queue.new_message(json.dumps(retry)) )
-      queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
+      #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
 
       # Send message to SQS queue
       response = sqs_queue.send_message(
