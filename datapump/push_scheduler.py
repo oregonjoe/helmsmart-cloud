@@ -124,23 +124,23 @@ def put_SQS_Message(message_json):
 
         #print(response['MessageId'])
 
-        log.info("Send SQS:MessageBody %s:  response %s: ", MessageBody,response['MessageId'])
+        log.info("Send SQS:MessageBody %s:  response %s: ", message_json,response['MessageId'])
 
     except botocore.exceptions.ClientError as e:
-        log.info("Send SQS:ClientError MessageBody %s:  ", device_id)
+        log.info("Send SQS:ClientError MessageBody %s:  ", message_json)
         log.info('Send SQS:ClientError  Error in que SQS %s:  ' % e)
 
     except botocore.exceptions.ParamValidationError as e:
-        log.info("Send SQS:ParamValidationError MessageBody %s:  ", MessageBody)
+        log.info("Send SQS:ParamValidationError MessageBody %s:  ", message_json)
         log.info('Send SQS:ParamValidationError  Error in que SQS %s:  ' % e)
 
     except NameError as e:
-        log.info("Send SQS:NameError MessageBody %s:  ", MessageBody)
+        log.info("Send SQS:NameError MessageBody %s:  ", message_json)
         log.info('Send SQS:NameError  Error in que SQS %s:  ' % e)    
 
     except:
         e = sys.exc_info()[0]
-        log.info("Send SQS:MessageBody %s:  ", MessageBody)
+        log.info("Send SQS:MessageBody %s:  ", message_json)
         log.info('Send SQS: Error in que SQS %s:  ' % e)
 
 
