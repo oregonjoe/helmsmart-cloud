@@ -57,6 +57,16 @@ mailertogo_domain   = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
 
 from twilio.rest import Client as smsClient
 
+from splicer import Schema
+SCHEMA=Schema([
+  dict(name="device",type='STRING'),
+  dict(name="partition",type='STRING'),
+  dict(name="url",type='STRING'),
+]+nmea.SCHEMA.fields)
+
+from sync import (
+  dump_pcdinfirebase, dump_json, insert_influxdb_cloud, ensure_database,PARTITION, URL
+)
 
 
 from influxdb.influxdb08 import InfluxDBClient
@@ -2578,21 +2588,21 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
 
 
 
-def proccess_http_alerts(message):
+def proccess_http_alerts(message_body):
 
   #062914 JLB
   # test to read custom message from SQS que
   try:
     #message_body = json.loads(message['Body'])
     #message_body =message
-    message_body =json.loads(message)
+    message =json.loads(message_body)
     #partition = message_body['partition'][:-4]
 
 
     #if debug_all: log.info('sqs_poller proc Got SQS message_body %s:  ', message_body)
 
-    mpartition = message_body.get('partition')
-    device_id = message_body.get('device_id')
+    mpartition = message.get('partition')
+    device_id = message.get('device_id')
 
     #if debug_all: log.info('s3_poller Got SQS message %s: ', partition)
     if debug_all: log.info('sqs_alerts_poller Got SQS message %s: device %s ', mpartition,device_id)
