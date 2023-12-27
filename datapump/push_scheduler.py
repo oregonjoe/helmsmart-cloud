@@ -106,9 +106,32 @@ sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=envir
 #queue_url = os.environ.get('SQS_QUEUE_URL')
 queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
 
+class DateEncoder(json.JSONEncoder):
+  def default(self, obj):
+    if hasattr(obj, 'isoformat'):
+      return obj.isoformat()
+    else:
+      return str(obj)
+
+
 #Put Alert message in SQS que for processing
 def put_SQS_Message(message_json):
     if debug_all: log.info('put_SQS_Message')
+
+    myTime = nowtime.strftime("%y%m%d%H%M%S")
+    parameters = message_json['parameters']
+
+    device_json = json.dumps(
+        dict(
+                partition = "SSEA00_000000_00"+myTime+".txt",
+                device_id = parameters['deviceid'],
+                subject = parameters['subject'] ,
+                payload =  message_json,
+                content_type = 'application/json',
+                dyno_id = os.environ['DYNO']
+              ),
+        cls=DateEncoder)
+    
 
     try:
         # ######################################################
@@ -119,28 +142,28 @@ def put_SQS_Message(message_json):
             QueueUrl=queue_url,
             DelaySeconds=10,
             #MessageAttributes={ 'Device': {  'deviceid':device_id} },
-            MessageBody=(message_json)
+            MessageBody=(device_json)
         )
 
         #print(response['MessageId'])
 
-        log.info("Send SQS:MessageBody %s:  response %s: ", message_json,response['MessageId'])
+        log.info("Send SQS:MessageBody %s:  response %s: ", device_json, response['MessageId'])
 
     except botocore.exceptions.ClientError as e:
-        log.info("Send SQS:ClientError MessageBody %s:  ", message_json)
+        log.info("Send SQS:ClientError MessageBody %s:  ", device_json)
         log.info('Send SQS:ClientError  Error in que SQS %s:  ' % e)
 
     except botocore.exceptions.ParamValidationError as e:
-        log.info("Send SQS:ParamValidationError MessageBody %s:  ", message_json)
+        log.info("Send SQS:ParamValidationError MessageBody %s:  ", device_json)
         log.info('Send SQS:ParamValidationError  Error in que SQS %s:  ' % e)
 
     except NameError as e:
-        log.info("Send SQS:NameError MessageBody %s:  ", message_json)
+        log.info("Send SQS:NameError MessageBody %s:  ", device_json)
         log.info('Send SQS:NameError  Error in que SQS %s:  ' % e)    
 
     except:
         e = sys.exc_info()[0]
-        log.info("Send SQS:MessageBody %s:  ", message_json)
+        log.info("Send SQS:MessageBody %s:  ", device_json)
         log.info('Send SQS: Error in que SQS %s:  ' % e)
 
 
