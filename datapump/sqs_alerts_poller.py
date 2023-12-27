@@ -17,7 +17,7 @@ from time import mktime
 from time import sleep
 from zoneinfo import ZoneInfo
 
-
+from messagepost import process_message
 
 #import md5
 import hashlib
@@ -111,10 +111,15 @@ def proc(alert_message):
   
   alertKey = alert_message.get('key', 0) 
   alert_StartTime = alert_message.get('starttime',0) 
-  alert_StartTime = alert_message.get('endtime',0) 
-  alert_Parameters = alert_message.get('parameters', "") 
+  alert_StartTime = alert_message.get('endtime',0)
+  alert_payload = alert_message.get('payload', "") 
+  alert_Parameters = alert_payload.get('parameters', "") 
 
   if debug_all: log.info("sqs_alerts_poller:alert_Parameters %s", alert_Parameters)    
+
+  #looks up any alert actions and sends out SMS/Email/Switch/Dimmer/Timmer events
+  process_message(alert_message):
+
   
 def proccess_alert(message):
 
@@ -314,9 +319,9 @@ def get_messages(queue_url, num_receive):
     message_body = message['Body']
     receipt_handle = message['ReceiptHandle']
 
-    if debug_all: log.info("Read SQS:  message_body %s: ", message_body)
+    if debug_all: log.info("sqs_alerts_poller:Read SQS:  message_body %s: ", message_body)
 
-    if debug_all: log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
+    if debug_all: log.info("sqs_alerts_poller:Read SQS:  receipt_handle %s: ", receipt_handle)
 
     #if debug_all: log.info("get_messages:  response %s: ", rs['Messages'][0])
 
@@ -373,7 +378,7 @@ def process_queue(config):
       #for message in get_messages(queue_url, num_receive):
       message=get_messages(queue_url, num_receive)
 
-      if debug_all: log.info('sqs_alerts_poller process_queue %s: ', count)
+      if debug_all: log.info('sqs_alerts_poller: process_queue %s: ', count)
 
       if debug_all: log.info("process_queue:  message %s: ", message)
       #if debug_all: log.info("process_queue:  message_MessageId %s: ", message['MessageId'])

@@ -81,10 +81,10 @@ HEADERS = {
 """
 
 
-from rq import Queue
-from worker import conn
+#from rq import Queue
+#from worker import conn
 
-q = Queue(connection=conn)
+#q = Queue(connection=conn)
 
 from messagepost import process_message
 
