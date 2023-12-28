@@ -2619,7 +2619,7 @@ def setswitchmc(deviceid, switchid, switchvalue, instance):
     
   except:
     switchitem = ""
-    log.info(messagepost:'setswitchmc - MemCache error  deviceid %s payload %s:  ', deviceid, switchitem)
+    log.info('messagepost:setswitchmc - MemCache error  deviceid %s payload %s:  ', deviceid, switchitem)
     e = sys.exc_info()[0]
     log.info('messagepost:setswitchmc - MemCache error %s:  ' % e)
 
