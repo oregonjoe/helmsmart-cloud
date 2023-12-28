@@ -2898,7 +2898,7 @@ def settimmermc(deviceid, timmertype, timmerparameter, timmervalues, instance):
     e = sys.exc_info()[0]
     log.info('messagepost:settimmermc - MemCache set error %s:  ' % e)
 
-    
+         
 
 
 
