@@ -28,7 +28,7 @@ from alert_processor import process_emailalert
 debug_all = False
 debug_info = True
 debug_all = True
-
+debug_memcachier = False
 
 requests_log = logging.getLogger("requests")
 requests_log.setLevel(logging.INFO)
@@ -56,6 +56,17 @@ mailertogo_domain   = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
 
 
 from twilio.rest import Client as smsClient
+
+
+import bmemcached
+mcservers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
+mcuser = os.environ.get('MEMCACHIER_USERNAME', '')
+mcpassw = os.environ.get('MEMCACHIER_PASSWORD', '')
+
+mc = bmemcached.Client(mcservers, username=mcuser, password=mcpassw)
+
+mc.enable_retry_delay(True)  # Enabled by default. Sets retry delay to 5s.
+
 
 
 from sync import (
@@ -2580,7 +2591,321 @@ def SendHSAlert(alertkey, parameters, alarmresult, sensorValueUnits, switchdata,
     e = sys.exc_info()[0]   
     if debug_all: log.info('SendHSAlert: Error %s:  ' % str(e))
 
+# ######################################################
+# sets switch memcache key/value pairs
+# these key/pairs are used by the main web app to format responce to HTTP POst from devices
+# #####################################################
+def setswitchmc(deviceid, switchid, switchvalue, instance):
 
+  log.info("messagepost: setswitchapi deviceid %s", deviceid)
+  #log.info("sendswitchapi switchpgn %s", switchpgn)
+  
+  if deviceid == "":
+    return 
+
+  # Create an client object
+  #cache = IronCache()
+  switchitem=""
+
+  try:
+    #switchitem = mc.get(deviceid + '_switch_'+str(instance))
+    switchitem = mc.get(deviceid + '_switch')
+
+    log.info('messagepost:setswitchmc - MemCache   deviceid %s payload %s:  ', deviceid, switchitem)
+
+  except NameError as e:
+    log.info('messagepost:setswitchmc - MemCache NameError %s:  ' % str(e))
+
+    
+  except:
+    switchitem = ""
+    log.info(messagepost:'setswitchmc - MemCache error  deviceid %s payload %s:  ', deviceid, switchitem)
+    e = sys.exc_info()[0]
+    log.info('messagepost:setswitchmc - MemCache error %s:  ' % e)
+
+
+  newswitchitem=[]      
+  if switchitem != "" and switchitem != "" and switchitem is not None:
+    log.info("messagepost:setswitchmc - MemCache  key exists %s", switchitem)
+    #jsondata = json.loads(switchitem)
+    jsondata = switchitem
+    for item in jsondata:
+      newswitchitem.append(item)
+    
+  switchpgn = {'instance':instance, 'switchid':switchid, 'switchvalue':switchvalue}
+  newswitchitem.append(switchpgn)
+  log.info("messagepost:setswitchmc - MemCache  new key  %s",json.dumps(newswitchitem))
+
+   
+  # Put an item
+  #cache.put(cache="001EC0B415BF", key="switch", value="$PCDIN,01F20E,00000000,00,0055000000FFFFFF*23")
+  #cache.put(cache="001EC0B415BF", key="switch", value=switchpgn )
+  #switchpgn = {'instance':instance, 'switchid':switchid, 'switchvalue':switchvalue}
+  log.info("Cache put switch key %s", newswitchitem)
+  log.info("messagepost:setswitchmc - Cache  put key %s", "switch_"+str(instance))
+  #item=cache.put(cache=deviceid, key="switch_"+str(instance), value=newswitchitem )
+  #log.info("IronCache response key %s", item)
+
+  try:
+    #mc.set(deviceid + "_switch_"+str(instance) , newswitchitem, time=600)
+    mc.set(deviceid + "_switch" , newswitchitem, time=600)
+    log.info('messagepost:setswitchmc - MemCache  set deviceid %s payload %s:  ', deviceid, newswitchitem)
+
+  except NameError as e:
+    log.info('messagepost:setswitchmc - MemCache set NameError %s:  ' % str(e))
+
+    
+  except:
+    newswitchitem = ""
+    log.info('messagepost:setswitchmc - MemCache set error  deviceid %s payload %s:  ', deviceid, newswitchitem)
+    e = sys.exc_info()[0]
+    log.info('messagepost:setswitchmc - MemCache set error %s:  ' % e)
+
+
+
+# ######################################################
+# sets dimmer memcache key/value pairs
+# these key/pairs are used by the main web app to format responce to HTTP POst from devices
+# #####################################################
+def setdimmermc(deviceid, dimmerid, dimmervalue, dimmeroverride, instance):
+
+
+  log.info("messagepost:setdimmermc deviceid %s", deviceid)
+  #log.info("sendswitchapi dimmerpgn %s", dimmerpgn)
+  
+  if deviceid == "":
+    return 
+
+  # Create an client object
+  #cache = IronCache()
+  dimmeritem=""
+
+
+  try:
+    dimmeritem = mc.get(deviceid + '_dimmer')
+
+    log.info('messagepost:setdimmermc - MemCache   deviceid %s payload %s:  ', deviceid, dimmeritem)
+
+  except NameError as e:
+    log.info('messagepost:setdimmermc - MemCache NameError %s:  ' % str(e))
+
+    
+  except:
+    dimmeritem = ""
+    log.info('messagepost:setdimmermc - MemCache error  deviceid %s payload %s:  ', deviceid, dimmeritem)
+    e = sys.exc_info()[0]
+    log.info('messagepost:setdimmermc - MemCache error %s:  ' % e)
+
+
+  # if we have old keys we need to delete redundent keys with same switch id's and values
+  # since these will all be set at one time
+
+  #create new dimmerpgn
+  dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'dimmeroverride':dimmeroverride}
+  log.info("messagepost:setdimmermc - MemCache  new dimmerpgn %s", dimmerpgn)
+
+  newdimmeritem=[]      
+  if dimmeritem != "" and dimmeritem != None and dimmeritem is not None:
+    log.info("messagepost:setdimmermc - MemCache  key exists %s", dimmeritem)
+    #jsondata = json.loads(dimmeritem)
+    jsondata = dimmeritem
+    #log.info("setdimmerapi - IronCache  key exists %s", dimmeritem.value)
+    #jsondata = json.loads(dimmeritem.value)
+    for item in jsondata:
+      #do not append old item if it matches the new one
+      # need to checkif both old dimmerid and dimmerinstance match new one
+      # If they match, dont add old one - we do this so we can update if we get a change in dimmeroverride value
+      # Overrides (!=0) are always appended
+      #if item != dimmerpgn:
+      if (int(item['instance']) != int(dimmerpgn['instance'])) or (int(item['dimmerid']) != int(dimmerpgn['dimmerid'])) :
+        
+        # not all items have all keys so we need to rebuild them
+        itemInstance = item.get('instance', '0')
+        itemDimmerid = item.get('dimmerid', '0')
+        itemDimmervalue = item.get('dimmervalue', '0')
+        itemDimmeroverride = item.get('dimmeroverride', '0')
+        
+        newItem = {'instance':itemInstance, 'dimmerid':itemDimmerid, 'dimmervalue':itemDimmervalue, 'dimmeroverride':itemDimmeroverride}
+        
+        newdimmeritem.append(newItem)
+        log.info("messagepost:setdimmermc - old  keys are different %s", newdimmeritem)
+
+      # if instance and ID are equal but old override value is 2 (override enabled) and new value is 0 (NULL from Alert)
+      # Keep override active
+      elif (int(item['instance'])  == int(dimmerpgn['instance'])) and (int(item['dimmerid']) == int(dimmerpgn['dimmerid'])):
+        #if we are disable override mode - new value =1 comes from web page api
+        #
+        # Not all ITEMs have a dimmeroverride so we need to check if one exists first
+        # itemDimmeroverride =  item['dimmeroverride']
+        itemDimmeroverride = item.get('dimmeroverride', '0')
+        
+        if int(dimmerpgn['dimmeroverride']) == 1 and int(itemDimmeroverride) >= 2:
+          #dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'dimmeroverride':'0'}
+          dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'dimmeroverride':'1'}
+          log.info("messagepost:setdimmermc - old  keys are same with new override = 1 and old >=2 %s", dimmerpgn)
+          
+        #If wee are in override mode  - replace values with override  
+        elif int(dimmerpgn['dimmeroverride'] )  == 0 and int(itemDimmeroverride) >= 2:
+          dimmerpgn['dimmervalue'] = item['dimmervalue'] 
+          dimmerpgn['dimmeroverride'] = itemDimmeroverride
+          log.info("messagepost:setdimmermc - old  keys are same with new override =0 old >=2 %s", dimmerpgn)
+
+          
+
+          
+  #dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue}
+  #now add new dimmerpgn
+  log.info("messagepost:setdimmermc - Cache  adding new key  %s",dimmerpgn)
+  
+  newdimmeritem.append(dimmerpgn)
+  log.info("messagepost:setdimmermc - Cache  new keys  %s",json.dumps(newdimmeritem))
+
+   
+
+  log.info("messagepost:setdimmermc put dimmer device= %s keys = %s", deviceid, newdimmeritem)
+  #log.info("setdimmerapi - IronCache  put key %s", "dimmer_"+str(instance))
+  #log.info("setdimmerapi - IronCache  put key %s", "dimmer")
+  #item=cache.put(cache=deviceid, key="dimmer", value=newdimmeritem )
+  #log.info("IronCache response key %s", item)
+
+
+  try:
+    #log.info("setdimmerapi - IronCache  get key %s", "dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer")
+    mc.set(deviceid + '_dimmer' , newdimmeritem, time=600)
+
+    log.info('messagepost:setdimmermc - MemCache  set deviceid %s payload %s:  ', deviceid, newdimmeritem)
+
+  except NameError as e:
+    log.info('messagepost:setdimmermc - MemCache set NameError %s:  ' % str(e))
+
+    
+  except:
+    dimmeritem = ""
+    log.info('messagepost:setdimmermc - MemCache set error  deviceid %s payload %s:  ', deviceid, newdimmeritem)
+    e = sys.exc_info()[0]
+    log.info('messagepost:setdimmermc - MemCache set error %s:  ' % e)
+
+
+# ######################################################
+# sets timmer memcache key/value pairs
+# these key/pairs are used by the main web app to format responce to HTTP POst from devices
+# #####################################################
+def settimmermc(deviceid, timmertype, timmerparameter, timmervalues, instance):
+
+  log.info("messagepost:settimmermc deviceid %s", deviceid)
+
+  # timmertype, timmerparameter, instance could all be empty strings which will cause problems
+
+  if timmertype == "":
+    return 
+
+  if instance == "":
+    return 
+
+  if timmerparameter == "":
+    return 
+
+  if deviceid == "":
+    return 
+
+  # this creates an error if the value is empty string ""
+  #timmerparameterindex =  int(filter(str.isdigit, str(timmerparameter)))
+  timmerparameterindex = getIndexFromValue(timmerparameter)
+  
+  log.info("messagepost:settimmermc    timmerparameterindex %s", timmerparameterindex)
+  #log.info("settimmerapi values %s", timmervalues)
+  #log.info("sendswitchapi switchpgn %s", switchpgn)
+
+
+  if str(timmertype) == "RGB 1 Channel":
+    instance = timmerparameterindex
+  elif str(timmertype) == "LED 4 Channel":
+    instance = timmerparameterindex
+
+  
+
+
+  timmeritem=""
+  try:
+
+   
+    timmerid =str(deviceid) + '_timmer_' +  str(instance )
+    log.info('messagepost:settimmermc - MemCache  get deviceid %s timmerid %s:  ', deviceid, timmerid)
+
+
+    timmeritem = mc.get(timmerid)
+    log.info('messagepost:settimmermc - MemCache  get deviceid %s payload %s:  ', deviceid, timmeritem)
+
+  except NameError as e:
+    log.info('messagepost:settimmermc - MemCache  get NameError %s:  ' % str(e))
+
+    
+  except:
+    timmeritem = ""
+    log.info('messagepost:settimmermc - MemCache   get error  deviceid %s payload %s:  ', deviceid, timmeritem)
+    e = sys.exc_info()[0]
+    log.info('messagepost:settimmermc - MemCache  get error %s:  ' % e)
+
+  # Get existing keys that match instance
+  # will include all switchid's in single instance and possible commands for each dimmer id
+  # if unit is off-line these will stach up into long list of commands
+
+  
+  # if we have old keys we need to delete redundent keys with same switch id's and values
+  # since these will all be set at one time
+
+  #create new timmerpgn
+  timmerpgn = {'instance':instance, 'timmerid':timmertype, 'timmerparameter':timmerparameter, 'timmervalues':timmervalues}
+  
+  newtimmeritem=[]      
+  if timmeritem != "" and timmeritem != None and timmeritem is not None:
+    log.info("messagepost:settimmermc - MemCache  key exists %s", timmeritem)
+    #jsondata = json.loads(dimmeritem)
+    jsondata = timmeritem
+    #log.info("setdimmerapi - IronCache  key exists %s", dimmeritem.value)
+    #jsondata = json.loads(dimmeritem.value)
+    for item in jsondata:
+      #do not append old item if it matches the new one
+      if item != timmerpgn:
+        newtimmeritem.append(item)
+      
+
+    
+  #dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue}
+  #now add new dimmerpgn
+  newtimmeritem.append(timmerpgn)
+  log.info("messagepost:settimmermc - Cache  new key  %s",json.dumps(newtimmeritem))
+
+   
+
+  log.info("messagepost:settimmermc put timmer device= %s key = %s", deviceid, newtimmeritem)
+
+
+  try:
+    mc.set(timmerid, newtimmeritem, time=600)
+   
+    log.info('messagepost:settimmermc - MemCache  set deviceid %s payload %s:  ', deviceid, newtimmeritem)
+
+  except NameError as e:
+    log.info('messagepost:settimmermc - MemCache set NameError %s:  ' % str(e))
+
+    
+  except:
+    timmeritem = ""
+    log.info('messagepost:settimmermc - MemCache set error  deviceid %s payload %s:  ', deviceid, newtimmeritem)
+    e = sys.exc_info()[0]
+    log.info('messagepost:settimmermc - MemCache set error %s:  ' % e)
+
+    
+
+
+
+
+# ######################################################
+# parses for swtich/dimmer/timer values and sets the MEMCACHE key pairs
+# #####################################################
 
 def proccess_http_alerts(message_body):
 
@@ -2646,8 +2971,6 @@ def proccess_http_alerts(message_body):
         pass
 
 
-      #if timmerdata or (timmerdata != ""  and timmerdata != None and timmerdata is not None):
-      #if timmerdata  is not {}:
       if timmerdata :
         #url = "https://api.telemetryapp.com/data"
         if debug_all: log.info('sqs_alerts_poller:SSEA00 timmerdata  %s ', timmerdata)
@@ -2656,20 +2979,23 @@ def proccess_http_alerts(message_body):
         timmerParameter  =timmerdata.get('parameter','value0')
         timmerArray =timmerdata.get('timmer_array',"")
         
-        devicedataurl = "http://helmsmart-cloud.herokuapp.com/settimmerapi?deviceid=" + str(device)
-        devicedataurl = devicedataurl + "&instance=" + str(timmerInstance)
-        devicedataurl = devicedataurl + "&type=" + str(timmerType)
-        devicedataurl = devicedataurl + "&parameter=" + str(timmerParameter)
-        devicedataurl = devicedataurl + "&array=" + str(timmerArray)
+        # set memcache key/value pairs directly
+        settimmermc(device, timmerType, timmerParameter, timmerArray, timmerInstance)
 
-        if debug_all: log.info("sqs_poller:  in proc SSEA00 timmer: %s", devicedataurl)
+        #######################################
+        # calls HTTP set switch from main web app      
+        #devicedataurl = "http://helmsmart-cloud.herokuapp.com/settimmerapi?deviceid=" + str(device)
+        #devicedataurl = devicedataurl + "&instance=" + str(timmerInstance)
+        #devicedataurl = devicedataurl + "&type=" + str(timmerType)
+        #devicedataurl = devicedataurl + "&parameter=" + str(timmerParameter)
+        #devicedataurl = devicedataurl + "&array=" + str(timmerArray)
 
+        #if debug_all: log.info("sqs_poller:  in proc SSEA00 timmer: %s", devicedataurl)
+        #headers = {'content-type': 'application/json'}
+        #response = requests.get(devicedataurl)
+        #######################################
         
-        headers = {'content-type': 'application/json'}
-        response = requests.get(devicedataurl)
 
-      #if switchdata or (switchdata != ""  and switchdata != None and switchdata is not None):
-      #if switchdata  is not {}:
       if switchdata :          
         #url = "https://api.telemetryapp.com/data"
         if debug_all: log.info('sqs_alerts_poller:SSEA00 switchdata  %s ', switchdata)
@@ -2677,17 +3003,20 @@ def proccess_http_alerts(message_body):
         switchid  =switchdata.get('index',15)
         switchvalue =switchdata.get('value',3)
 
-        devicedataurl = "http://helmsmart-cloud.herokuapp.com/setswitchapi?deviceid=" + str(device)
-        devicedataurl = devicedataurl + "&instance=" + str(switchInstance)
-        devicedataurl = devicedataurl + "&switchid=" + str(switchid)
-        devicedataurl = devicedataurl + "&switchvalue=" + str(switchvalue)
+        # set memcache key/value pairs directly
+        setswitchmc(device, switchid, switchvalue, switchInstance)
 
-        if debug_all: log.info("sqs_alerts_poller:  in proc SSEA00 switch: %s", devicedataurl)
+        #######################################
+        # calls HTTP set switch from main web app
+        #devicedataurl = "http://helmsmart-cloud.herokuapp.com/setswitchapi?deviceid=" + str(device)
+        #devicedataurl = devicedataurl + "&instance=" + str(switchInstance)
+        #devicedataurl = devicedataurl + "&switchid=" + str(switchid)
+        #devicedataurl = devicedataurl + "&switchvalue=" + str(switchvalue)
 
-        
-        headers = {'content-type': 'application/json'}
-        response = requests.get(devicedataurl)
-
+        #if debug_all: log.info("sqs_alerts_poller:  in proc SSEA00 switch: %s", devicedataurl)
+        #headers = {'content-type': 'application/json'}
+        #response = requests.get(devicedataurl)
+        #######################################
 
       #if dimmerdata or (dimmerdata != ""  and dimmerdata != None and dimmerdata is not None):
       #if dimmerdata  is not {}:
@@ -2697,20 +3026,21 @@ def proccess_http_alerts(message_body):
         dimmerid  =dimmerdata.get('index',15)
         dimmervalue =dimmerdata.get('value',255)
         dimmeroverride =dimmerdata.get('override',0)
-        
-        devicedataurl = "http://helmsmart-cloud.herokuapp.com/setdimmerapi?deviceid=" + str(device)
-        devicedataurl = devicedataurl + "&instance=" + str(dimmerInstance)
-        devicedataurl = devicedataurl + "&dimmerid=" + str(dimmerid)
-        devicedataurl = devicedataurl + "&dimmervalue=" + str(dimmervalue)
-        devicedataurl = devicedataurl + "&dimmeroverride=" + str(dimmeroverride)
-        
-        if debug_all: log.info("sqs_alerts_poller:  in proc SSEA00 dimmer: %s", devicedataurl)
 
+        # set memcache key/value pairs directly
+        setdimmermc(device, dimmerid, dimmervalue, dimmeroverride, dimmerInstance)
+
+        #######################################
+        #devicedataurl = "http://helmsmart-cloud.herokuapp.com/setdimmerapi?deviceid=" + str(device)
+        #devicedataurl = devicedataurl + "&instance=" + str(dimmerInstance)
+        #devicedataurl = devicedataurl + "&dimmerid=" + str(dimmerid)
+        #devicedataurl = devicedataurl + "&dimmervalue=" + str(dimmervalue)
+        #devicedataurl = devicedataurl + "&dimmeroverride=" + str(dimmeroverride)
         
-        headers = {'content-type': 'application/json'}
-        response = requests.get(devicedataurl)
-
-
+        #if debug_all: log.info("sqs_alerts_poller:  in proc SSEA00 dimmer: %s", devicedataurl)
+        #headers = {'content-type': 'application/json'}
+        #response = requests.get(devicedataurl)
+        #######################################
 
 
 
