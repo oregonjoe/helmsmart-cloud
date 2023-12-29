@@ -418,7 +418,7 @@ def get_timmerday_alert(parameters, value):
                 lccurrenttime = datetime.datetime.now(mylocal)
                 starthour = int(int(startsecs)/(60*60))
                 #startmin = int(int(startsecs) % (60*60))
-                startmin = int(int(startsecs) - (starthour * 60*60))/60)
+                startmin = int((int(startsecs) - (starthour * 60*60))/60)
                 
                 todaydaystarttime = lccurrenttime.replace(hour=starthour, minute=startmin, second=0)
                 if debug_all: log.info('get_timmerday_alert  remotemode = dailytimmertable starthour %s  startmin %s startsecs %s', starthour, startmin, startsecs)
@@ -426,7 +426,7 @@ def get_timmerday_alert(parameters, value):
 
                 endhour = int(int(endsecs)/(60*60))
                 #endmin = int(int(endsecs) % (60*60))
-                endmin = int(int(endsecs) - (endhour * 60*60))/60)
+                endmin = int((int(endsecs) - (endhour * 60*60))/60)
                 
                 if debug_all: log.info('get_timmerday_alert  remotemode = dailytimmertable endhour %s  endmin %s endsecs %s', endhour, endmin, endsecs)
                 todaydayendtime = lccurrenttime.replace(hour=endhour, minute=endmin, second=0)
