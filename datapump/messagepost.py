@@ -1586,6 +1586,22 @@ def getDimmerIndex(eventtype):
         e = sys.exc_info()[0]
 
 
+def getIndexFromValue(valueStr):
+
+  try:
+    index = int(re.search("\d+", valueStr)[0])
+    
+    return index
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('getIndexFromValue: Error  %s:  ' % e)
+    return ""
+
+
+
+
+
 def make_HSAlert_json(series_number, parameters, distance, value, alarmstatus):
 
         series_parameters={}
