@@ -3044,7 +3044,9 @@ def proccess_http_alerts(message_body):
 
 
 
-
+    except NameError as e:
+      if debug_all: log.info('sqs_poller:: NameError in proc  %s:  ', device)
+      if debug_all: log.info('sqs_alerts_poller:: NameError in proc  %s:  ' % str(e))
       
     except:
       if debug_all: log.info('sqs_alerts_poller:: Error in proc SSEA00 %s:', partition)
