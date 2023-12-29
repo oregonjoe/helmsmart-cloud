@@ -426,7 +426,7 @@ def get_timmerday_alert(parameters, value):
                 endhour = int(int(endsecs)/(60*60))
                 endmin = int(int(endsecs) % (60*60))
                 
-                if debug_all: log.info('get_timmerday_alert  remotemode = dailytimmertable endhour %s  startmin %s endmin %s', starthour, startmin, endsecs)
+                if debug_all: log.info('get_timmerday_alert  remotemode = dailytimmertable endhour %s  endmin %s endsecs %s', endhour, endmin, endsecs)
                 todaydayendtime = lccurrenttime.replace(hour=endhour, minute=endmin, second=0)
 
                 text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
