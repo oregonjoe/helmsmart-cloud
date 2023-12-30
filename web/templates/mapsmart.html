@@ -70,25 +70,25 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/>
 <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">  
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">  
 
  <!--  
-<script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y&sensor=false">    </script> 
+<script type="text/javascript"  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y&sensor=false">    </script> 
 
  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeXri6d7JRE5ejPf3QYSf_Ye4xt2iLnzY&callback=initMap"
     async defer></script>
 -->	
  <!--  	
- <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCeXri6d7JRE5ejPf3QYSf_Ye4xt2iLnzY&sensor=false">    </script> 
+ <script type="text/javascript"  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeXri6d7JRE5ejPf3QYSf_Ye4xt2iLnzY&sensor=false">    </script> 
 -->
 
- <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBFKMCUyvYx1PR4RAyhIF7sc-O2f7uJQVs">    </script> 
+ <script type="text/javascript"  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFKMCUyvYx1PR4RAyhIF7sc-O2f7uJQVs">    </script> 
 
 <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
-<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/geolocationmarker/src/geolocationmarker-compiled.js"></script> -->
-<script type="text/javascript" src="http://webviewer-api.navionics.com/js/proj4js/lib/proj4js-compressed.js"></script>
-<script type="text/javascript" src="http://webviewer-api.navionics.com/js/OpenLayers/OpenLayers.js"></script>
-<script type="text/javascript" src="http://webviewer-api.navionics.com/js/navionics/apimaps.js"></script>
+<script type="text/javascript" src="https://google-maps-utility-library-v3.googlecode.com/svn/trunk/geolocationmarker/src/geolocationmarker-compiled.js"></script> -->
+<script type="text/javascript" src="https://webviewer-api.navionics.com/js/proj4js/lib/proj4js-compressed.js"></script>
+<script type="text/javascript" src="https://webviewer-api.navionics.com/js/OpenLayers/OpenLayers.js"></script>
+<script type="text/javascript" src="https://webviewer-api.navionics.com/js/navionics/apimaps.js"></script>
 
 	
 <script src="{{ url_for('static', filename='js/MapSmartGlobals.js') }}" type="text/javascript"></script>
@@ -102,7 +102,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
 
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
@@ -2272,7 +2272,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 		var mySeriesKey =  makePGNfromEvent(myEventType, mysource);
 	
 
-		url = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
+		url = "https://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
 		url =  url + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 		url =  url + "&serieskey1=" + "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
 		url =  url + "&serieskey2=" + "deviceid:" + DeviceID + "." + mySeriesKey; 
@@ -2283,7 +2283,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 	}
 	else
 	{
-		url = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
+		url = "https://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
 		url =  url + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 		url =  url + "&serieskey1=" + "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
 		url =  url + "&format=json"  ;
@@ -2570,7 +2570,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
    // DialPGNNumber[2] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:speed_over_ground.HelmSmart";
     //DialPGNNumber[3] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:course_over_ground.HelmSmart";
     
-    url = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
+    url = "https://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid_dbc?";
     url =  url + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
     url =  url + "&serieskey1=" + "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; ;
  // url =  url + "&serieskey2=" +  "deviceid:" + DeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:lng.HelmSmart"; ;
@@ -2642,7 +2642,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
    } });
 
    var devicedataurl;
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+   devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
 
    return $.ajax({
    //async: false,
@@ -2724,7 +2724,7 @@ function GetSeriesAttributes(userid)
    } });
 
    var DeviceID = document.getElementById("DeviceID").value;
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + userid + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + userid + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
 
    return $.ajax({
@@ -2792,8 +2792,8 @@ function GetSeriesAttributes(userid)
 // var deviceid = document.getElementById("DeviceID").value;
   var deviceid = AccountDataFolder;
   
-   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=3";
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&deviceid="+ deviceid + "&pagetype=3";
+   //devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=3";
+   devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&deviceid="+ deviceid + "&pagetype=3";
 
    
    
@@ -2872,9 +2872,9 @@ function ShowSearchTick()
 	}
    prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
-    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefs&userid=" + userid + "&pagetype=3&prefkey=" + prefkey;
+    devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefs&userid=" + userid + "&pagetype=3&prefkey=" + prefkey;
 
-   // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=3&prefkey=" + prefkey;
+   // devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=3&prefkey=" + prefkey;
 
    return $.ajax({
    //async: false,
@@ -2992,7 +2992,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
      //ClockLCDColor = 0;
 
     /*
-     devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add&userid=" + myuserid + "&pagetype=3&prefkey=" +  nextConfigOption + "&options="
+     devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=add&userid=" + myuserid + "&pagetype=3&prefkey=" +  nextConfigOption + "&options="
 
      devicedataurl =  devicedataurl  + "'" + document.getElementById("AddPreferenceName").value + "'";
      devicedataurl =  devicedataurl + "," + PageLayout;
@@ -3062,7 +3062,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
     //var  GPSSourceID= GPSSource.toString(16);
 	var  GPSSourceID= parseInt(GPSSource, 16);
 
-    devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add_tempodb&userid=" + myuserid + "&pagetype=3&prefkey=" +  nextConfigOption + "&options="
+    devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=add_tempodb&userid=" + myuserid + "&pagetype=3&prefkey=" +  nextConfigOption + "&options="
 
     devicedataurl =  devicedataurl  + "'" + document.getElementById("AddPreferenceName").value + "'";
     devicedataurl =  devicedataurl + ", '" + document.getElementById("DeviceID").value + "'";
@@ -3222,7 +3222,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
        prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
   /*
-       devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+       devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=update&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
 
 
 
@@ -3296,7 +3296,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 	var  GPSSourceID= parseInt(GPSSource, 16);
 
 
-       devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+       devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=update_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
 
       devicedataurl =  devicedataurl  + optionmenuindex;
       devicedataurl =  devicedataurl + ",'" + prefName + "'";
@@ -3388,7 +3388,7 @@ function DeletePref()
    prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
 
-  devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=delete&userid=" + myuserid + "&prefkey=" +  prefkey ;
+  devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=delete&userid=" + myuserid + "&prefkey=" +  prefkey ;
 
    return $.ajax({
 					   //async: false,
@@ -3521,11 +3521,11 @@ function DeletePref()
     <body onload="myonload();"  >
       <center>
         {% if session['userid'] %}
-        <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+        <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
           <span>HelmSmart: {{session['username']}}</span>
         </a>
         {% else %}
-        <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+        <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
           <span>HelmSmart: Guest</span>
         </a>
         {% endif %}
@@ -3627,7 +3627,7 @@ function initializeMaps()
             var navionicsMap = new NavionicsMap("navMap", myNavKey, navMapOptions);
             var NavionicsOptions =
             {
-            base :"http://webviewer-api.navionics.com/getmap",
+            base :"https://webviewer-api.navionics.com/getmap",
             transparence : true, // optional, default false
             depth_level : 0, // optional 0-4 , default 0
             depth_unit : "mt", // optional // "fa","ft","mt" default mt
@@ -3650,7 +3650,7 @@ function initializeMaps()
 
 			for (i = 0; i < myPinColors.length; i++) {
 			
-				var pinurl = "http://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
+				var pinurl = "https://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
 				myPins[i] = new google.maps.MarkerImage(pinurl);
 			 
 			}
@@ -3703,7 +3703,7 @@ function initializeMaps()
   	<div class="tab-pane" id="tabInfo">
 		<p id="introText">With this datapane you can view vessel position data from your SeaSmart device.</p>
 <div id="idMarketing">
-	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
 	
 	<p>
 		To get started  - select your registered device from the <B>PREF</B> tab and then enter the search dates on the <B> SEARCH </B>tab – select <B>MAP DATA</B>
@@ -3739,9 +3739,9 @@ function initializeMaps()
 	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
 	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
 	<div style="margin: 15px;">
-		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
 <!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
-		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
 
 	</div>
 	<p>
