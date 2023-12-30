@@ -446,11 +446,13 @@ def get_timmerday_alert(parameters, value):
                     # get start and end times for current day
                     lccurrenttime = datetime.datetime.now(mylocal)
                     starthour = int(int(startsecs)/(60*60))
-                    startmin = int(int(startsecs) % (60*60))
+                    #startmin = int(int(startsecs) % (60*60))
+                    startmin = int((int(startsecs) - (starthour * 60*60))/60)
                     todaydaystarttime = lccurrenttime.replace(hour=starthour, minute=startmin, second=0)
 
                     endhour = int(int(endsecs)/(60*60))
-                    endmin = int(int(endsecs) % (60*60))
+                    #endmin = int(int(endsecs) % (60*60))
+                    endmin = int((int(endsecs) - (endhour * 60*60))/60)
                     todaydayendtime = lccurrenttime.replace(hour=endhour, minute=endmin, second=0)
 
                     text_body = text_body + '\n' + parameters['devicename'] + " ALARM Message \n"
