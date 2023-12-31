@@ -831,7 +831,7 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
         """
         send_args = {
             "Source": source,
-            "Destination": destination.to_service_format(),
+            "Destination": destination,
             "Message": {
                 "Subject": {"Data": subject},
                 "Body": {"Text": {"Data": text}, "Html": {"Data": html}},
@@ -861,6 +861,12 @@ def sendtestemail():
     text = "test"
     html = ""
 
+
+    Destination={
+                "ToAddresses": [
+                    "abhishek@learnaws.org",
+                ],
+            },
 
     log.info("sendtestemail_endpoint ")
     message_id = send_email(source, destination, subject, text, html, reply_tos=None)
