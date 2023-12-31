@@ -59,6 +59,10 @@ alerts_queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
 #queue = boto3.connect_sqs().lookup(os.environ['SQS_QUEUE'])
 #queue = boto3.connect_sqs().lookup('SeaSmart')
 
+email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-1"  )
+
+
+
 import logging
 # *******************************************************************
 # Debug Output defines
@@ -804,7 +808,68 @@ def freeboard_getdashboardlist():
     return jsonify({'preferences':dashboardlists})
   #  result = json.dumps(r, cls=DateEncoder)
 
+# ######################################################
+# send test email
+# #####################################################
 
+
+def send_email(source, destination, subject, text, html, reply_tos=None):
+        """
+        Sends an email.
+
+        Note: If your account is in the Amazon SES  sandbox, the source and
+        destination email accounts must both be verified.
+
+        :param source: The source email account.
+        :param destination: The destination email account.
+        :param subject: The subject of the email.
+        :param text: The plain text version of the body of the email.
+        :param html: The HTML version of the body of the email.
+        :param reply_tos: Email accounts that will receive a reply if the recipient
+                          replies to the message.
+        :return: The ID of the message, assigned by Amazon SES.
+        """
+        send_args = {
+            "Source": source,
+            "Destination": destination.to_service_format(),
+            "Message": {
+                "Subject": {"Data": subject},
+                "Body": {"Text": {"Data": text}, "Html": {"Data": html}},
+            },
+        }
+        if reply_tos is not None:
+            send_args["ReplyToAddresses"] = reply_tos
+        try:
+            response = email_ses_client.send_email(**send_args)
+            message_id = response["MessageId"]
+            log.info(  "Sent mail %s from %s to %s.", message_id, source, destination.tos  )
+        except ClientError:
+            log.info("Couldn't send mail from %s to %s.", source, destination.tos )
+            raise
+        else:
+            return message_id
+
+
+
+
+@app.route('/send_test_email')
+def sendtestemail():
+
+    source = "joe@chetcodigital.com"
+    destination = "joe@seagauge.com"
+    subject = "test aws ses email"
+    text = "test"
+    html = ""
+
+
+    log.info("sendtestemail_endpoint ")
+    message_id = send_email(source, destination, subject, text, html, reply_tos=None):
+
+    log.info("sendtestemail_endpoint message_id = %s", message_id)
+
+    response = make_response("success")
+    response.headers['content-type'] = "application/json"
+    return response
 
 # ######################################################
 # gets user info from a userid
