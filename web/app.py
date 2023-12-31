@@ -862,12 +862,7 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
                         'Data': subject,
                     },
                 },
-                ReplyToAddresses=[
-                ],
-                ReturnPath='',
-                ReturnPathArn='',
                 Source = source,
-                SourceArn='',
             )
 
 
