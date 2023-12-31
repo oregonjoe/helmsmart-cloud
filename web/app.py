@@ -831,19 +831,8 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
         :return: The ID of the message, assigned by Amazon SES.
         """
 
-
-
+        message_id=""
         
-        send_args = {
-            "Source": source,
-            "Destination": destination,
-            "Message": {
-                "Subject": {"Data": subject},
-                "Body": {"Text": {"Data": text}, "Html": {"Data": html}},
-            },
-        }
-        if reply_tos is not None:
-            send_args["ReplyToAddresses"] = reply_tos
         try:
             #response = email_ses_client.send_email(**send_args)
 
@@ -885,12 +874,21 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
 
             
             message_id = response["MessageId"]
-            log.info(  "Sent mail %s from %s to %s.", message_id, source, destination.tos  )
-        except ClientError:
-            log.info("Couldn't send mail from %s to %s.", source, destination.tos )
-            raise
-        else:
+            log.info(  "Sent mail %s from %s to %s.", message_id, source, destination )
+            
             return message_id
+          
+        except ClientError as e:
+
+          e = sys.exc_info()[0]
+          log.info('send_email: ClientError  %s:  ' % str(e))
+          
+        except:
+          e = sys.exc_info()[0]
+          log.info('send_email error: WRROR %s:  ' % e)
+    
+
+
 
 
 
