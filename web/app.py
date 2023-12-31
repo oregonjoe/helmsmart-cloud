@@ -895,8 +895,8 @@ def sendtestemail():
     source = "joe@chetcodigital.com"
     destination = "joe@seagauge.com"
     subject = "test aws ses email"
-    text = "test"
-    html = ""
+    text = "SSWIFIG2_Winchuck ALARM Message alarmemail: /Environmental/Air Temperature is high – mean = 95.5063636364 threshold: 95 timestamp is:2018-05-27T21:30:00Z"
+    html = "<p>SSWIFIG2_Winchuck ALARM Message alarmemail: /Environmental/Air Temperature is high – mean = 95.5063636364 threshold: 95 timestamp is:2018-05-27T21:30:00Z</p>"
 
 
 
