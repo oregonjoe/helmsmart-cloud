@@ -845,7 +845,45 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
         if reply_tos is not None:
             send_args["ReplyToAddresses"] = reply_tos
         try:
-            response = email_ses_client.send_email(**send_args)
+            #response = email_ses_client.send_email(**send_args)
+
+            response = client.email_ses_client(
+                Destination={
+                    'BccAddresses': [
+                    ],
+                    'CcAddresses': [
+                        'recipient3@example.com',
+                    ],
+                    'ToAddresses': [
+                        destination,
+                    ],
+                },
+                Message={
+                    'Body': {
+                        'Html': {
+                            'Charset': 'UTF-8',
+                            'Data': html,
+                        },
+                        'Text': {
+                            'Charset': 'UTF-8',
+                            'Data': text,
+                        },
+                    },
+                    'Subject': {
+                        'Charset': 'UTF-8',
+                        'Data': subject,
+                    },
+                },
+                ReplyToAddresses=[
+                ],
+                ReturnPath='',
+                ReturnPathArn='',
+                Source = source,
+                SourceArn='',
+            )
+
+
+            
             message_id = response["MessageId"]
             log.info(  "Sent mail %s from %s to %s.", message_id, source, destination.tos  )
         except ClientError:
