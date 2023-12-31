@@ -850,7 +850,7 @@ def send_raw_email(source, destination, subject, text, html, reply_tos=None):
 
             
           message_id = response["MessageId"]
-          log.info(  "Sent mail %s from %s to %s.", message_id, source, destination )
+          log.info(  "Sent raw mail %s from %s to %s.", message_id, source, destination )
             
           return message_id
           
@@ -946,9 +946,9 @@ def sendtestemail():
 
     source = "joe@chetcodigital.com"
     destination = "joe@seagauge.com"
-    subject = "test aws ses email"
-    text = "SSWIFIG2_Winchuck ALARM Message alarmemail: /Environmental/Air Temperature is high – mean = 95.5063636364 threshold: 95 timestamp is:2018-05-27T21:30:00Z"
-    html = "<p>SSWIFIG2_Winchuck ALARM Message alarmemail: /Environmental/Air Temperature is high – mean = 95.5063636364 threshold: 95 timestamp is:2018-05-27T21:30:00Z</p>"
+    subject = "test aws ses raw email"
+    text = "SSWIFIG2_SEADREAM ALARM Message alarmemail: /M2M/Battery/Battery Volts Port is low – mean = 14.38 threshold: 15 timestamp is:2019-02-13T20:48:00Z"
+    html = "<p>SSWIFI4G_DD30 ALARM Message alarmemail: /General/Heartbeat value is missing for Interval= 1min timestamp is:2018-10-12 18:11:09</p>"
 
 
 
