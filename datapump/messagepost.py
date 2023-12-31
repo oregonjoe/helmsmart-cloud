@@ -97,6 +97,10 @@ db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
 #queue_url = 'SQS_QUEUE_URL'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 #queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
+import botocore
+import boto3
+from botocore.exceptions import ClientError
+email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
 
 
 class DateEncoder(json.JSONEncoder):
@@ -2152,6 +2156,85 @@ def getDimmerValues(parameters, alarmstatus):
   except:
       e = sys.exc_info()[0]
       if debug_all: log.info("getDimmerValues error: Error: %s" % e)
+
+
+# ######################################################
+# send email via AWS SES
+# #####################################################
+
+
+def send_ses_email(source, destination, subject, text, html, reply_tos=None):
+        """
+        Sends an email.
+
+        Note: If your account is in the Amazon SES  sandbox, the source and
+        destination email accounts must both be verified.
+
+        :param source: The source email account.
+        :param destination: The destination email account.
+        :param subject: The subject of the email.
+        :param text: The plain text version of the body of the email.
+        :param html: The HTML version of the body of the email.
+        :param reply_tos: Email accounts that will receive a reply if the recipient
+                          replies to the message.
+        :return: The ID of the message, assigned by Amazon SES.
+        """
+
+        message_id=""
+        
+        try:
+            #response = email_ses_client.send_email(**send_args)
+
+            response = email_ses_client.send_email(
+                Destination={
+                    'BccAddresses': [
+                    ],
+                    'CcAddresses': [
+                    ],
+                    'ToAddresses': [
+                        destination,
+                    ],
+                },
+                Message={
+                    'Body': {
+                        'Html': {
+                            'Charset': 'UTF-8',
+                            'Data': html,
+                        },
+                        'Text': {
+                            'Charset': 'UTF-8',
+                            'Data': text,
+                        },
+                    },
+                    'Subject': {
+                        'Charset': 'UTF-8',
+                        'Data': subject,
+                    },
+                },
+                Source = source,
+            )
+
+
+            
+            message_id = response["MessageId"]
+            log.info(  "Sent mail %s from %s to %s.", message_id, source, destination )
+            
+            return message_id
+          
+        #except ClientError as e:
+        except botocore.exceptions.ClientError as e:
+          log.info('send_email: ClientError  %s:  ' % str(e))
+
+        except botocore.exceptions.ParamValidationError as e:
+          log.info('send_email:ParamValidationError %s:  ' % e)
+          
+        except:
+          e = sys.exc_info()[0]
+          log.info('send_email error: ERROR %s:  ' % e)
+    
+
+
+
 
 # ****************************************************************
 # SEND EMAIL ALERT

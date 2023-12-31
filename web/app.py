@@ -812,7 +812,59 @@ def freeboard_getdashboardlist():
 # ######################################################
 # send test email
 # #####################################################
+def send_raw_email(source, destination, subject, text, html, reply_tos=None):
 
+        message_id=""
+
+        # The character encoding for the email.
+        email_charset = "UTF-8"
+        email_msg = MIMEMultipart('mixed')
+        # Add subject, from and to lines.
+        email_msg['Subject'] =subject
+        email_msg['From'] = source
+        email_msg['To'] = destination
+        #email_msg['Cc'] = ', '.join(email Cc list)
+        #email_msg['Bcc'] = ', '.join(email bcc list)
+        email_msg_body = MIMEMultipart('alternative')
+        textpart = MIMEText(text.encode(email_charset), 'plain', email_charset)
+        htmlpart = MIMEText(html.encode(email_charset), 'html', email_charset)
+        # Add the text and HTML parts to the child container.
+        email_msg_body.attach(textpart)
+        email_msg_body.attach(htmlpart)
+        # Attach the multipart/alternative child container to the multipart/mixed
+        # parent container.
+        email_msg.attach(email_msg_body)
+
+        
+        try:
+          #response = email_ses_client.send_email(**send_args)
+
+          response = email_ses_client.send_raw_email(
+                              Source=email_msg['From'],
+                              #Destinations= email to list + emaom cc list + email bcc list,
+                              Destinations= [],
+                              RawMessage={
+                                  'Data': email_msg.as_string(),
+                              }
+                          )
+
+            
+          message_id = response["MessageId"]
+          log.info(  "Sent mail %s from %s to %s.", message_id, source, destination )
+            
+          return message_id
+          
+        #except ClientError as e:
+        except botocore.exceptions.ClientError as e:
+          log.info('send_email: ClientError  %s:  ' % str(e))
+
+        except botocore.exceptions.ParamValidationError as e:
+          log.info('send_email:ParamValidationError %s:  ' % e)
+          
+        except:
+          e = sys.exc_info()[0]
+          log.info('send_email error: ERROR %s:  ' % e)
+  
 
 def send_email(source, destination, subject, text, html, reply_tos=None):
         """
@@ -901,8 +953,9 @@ def sendtestemail():
 
 
     log.info("sendtestemail_endpoint ")
-    message_id = send_email(source, destination, subject, text, html, reply_tos=None)
-
+    #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
+    message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
+    
     log.info("sendtestemail_endpoint message_id = %s", message_id)
 
     response = make_response("success")
