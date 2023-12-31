@@ -45,6 +45,7 @@ from influxdb.client import InfluxDBClientError
 #import dashboard_routes
 import botocore
 import boto3
+from botocore.exceptions import ClientError
 # Get the service resource
 #sqs = boto3.resource('sqs')
 #s3 = boto3.resource(service_name='sqs', region_name='REGION_NAME')
@@ -831,7 +832,7 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
         """
         send_args = {
             "Source": source,
-            "Destination": destination,
+            "Destination": [destination],
             "Message": {
                 "Subject": {"Data": subject},
                 "Body": {"Text": {"Data": text}, "Html": {"Data": html}},
