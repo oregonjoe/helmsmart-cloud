@@ -62,7 +62,10 @@ alerts_queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
 
 email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
 
-
+import smtplib
+import email.utils
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 import logging
 # *******************************************************************
