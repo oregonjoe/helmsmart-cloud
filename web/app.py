@@ -899,17 +899,12 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
 def sendtestemail():
 
     source = "joe@chetcodigital.com"
-    #destination = "joe@seagauge.com"
+    destination = "joe@seagauge.com"
     subject = "test aws ses email"
     text = "test"
     html = ""
 
 
-    destination={
-                "ToAddresses": [
-                    "joe@seagauge.com",
-                ],
-            },
 
     log.info("sendtestemail_endpoint ")
     message_id = send_email(source, destination, subject, text, html, reply_tos=None)
