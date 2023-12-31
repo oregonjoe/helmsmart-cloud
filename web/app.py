@@ -830,9 +830,13 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
                           replies to the message.
         :return: The ID of the message, assigned by Amazon SES.
         """
+
+
+
+        
         send_args = {
             "Source": source,
-            "Destination": [destination],
+            "Destination": destination,
             "Message": {
                 "Subject": {"Data": subject},
                 "Body": {"Text": {"Data": text}, "Html": {"Data": html}},
@@ -857,15 +861,15 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
 def sendtestemail():
 
     source = "joe@chetcodigital.com"
-    destination = "joe@seagauge.com"
+    #destination = "joe@seagauge.com"
     subject = "test aws ses email"
     text = "test"
     html = ""
 
 
-    Destination={
+    destination={
                 "ToAddresses": [
-                    "abhishek@learnaws.org",
+                    "joe@seagauge.com",
                 ],
             },
 
