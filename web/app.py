@@ -841,7 +841,6 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
                     'BccAddresses': [
                     ],
                     'CcAddresses': [
-                        'recipient3@example.com',
                     ],
                     'ToAddresses': [
                         destination,
@@ -878,14 +877,16 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
             
             return message_id
           
-        except ClientError as e:
-
-          e = sys.exc_info()[0]
+        #except ClientError as e:
+        except botocore.exceptions.ClientError as e:
           log.info('send_email: ClientError  %s:  ' % str(e))
+
+        except botocore.exceptions.ParamValidationError as e:
+          log.info('send_email:ParamValidationError %s:  ' % e)
           
         except:
           e = sys.exc_info()[0]
-          log.info('send_email error: WRROR %s:  ' % e)
+          log.info('send_email error: ERROR %s:  ' % e)
     
 
 
