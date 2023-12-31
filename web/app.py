@@ -863,7 +863,7 @@ def sendtestemail():
 
 
     log.info("sendtestemail_endpoint ")
-    message_id = send_email(source, destination, subject, text, html, reply_tos=None):
+    message_id = send_email(source, destination, subject, text, html, reply_tos=None)
 
     log.info("sendtestemail_endpoint message_id = %s", message_id)
 
