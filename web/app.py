@@ -847,7 +847,7 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
         try:
             #response = email_ses_client.send_email(**send_args)
 
-            response = client.email_ses_client(
+            response = email_ses_client.send_email(
                 Destination={
                     'BccAddresses': [
                     ],
