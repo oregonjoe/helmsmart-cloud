@@ -2304,7 +2304,8 @@ def SendEMAILAlert(parameters, alarmresult):
 
                       # sender
                       sender_user = 'alerts'
-                      sender_email = "@".join([sender_user, mailertogo_domain])
+                      #sender_email = "@".join([sender_user, mailertogo_domain])
+                      sender_email = 'joe@chetcodigital.com'
                       sender_name = 'HelmSmart Sensor Alert'
 
                       if debug_all: log.info("SendEMAILAlert mailertogo send sender_email %s:  ", sender_email)
