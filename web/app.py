@@ -62,6 +62,7 @@ alerts_queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
 
 #email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
 email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
+sms_ses_client = boto3.client('sns', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
 
 import smtplib
 import email.utils
@@ -961,6 +962,27 @@ def sendtestemail():
     message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
     
     log.info("sendtestemail_endpoint message_id = %s", message_id)
+
+    response = make_response("success")
+    response.headers['content-type'] = "application/json"
+    return response
+
+@app.route('/send_test_sms')
+def sendtestsms():
+
+    source = "joe@chetcodigital.com"
+    destination = "joe@seagauge.com"
+    subject = "test aws ses raw email"
+    text = "SSWIFIG2_SEADREAM ALARM Message alarmemail: /M2M/Battery/Battery Volts Port is low – mean = 14.38 threshold: 15 timestamp is:2019-02-13T20:48:00Z"
+    html = "<p>SSWIFI4G_DD30 ALARM Message alarmemail: /General/Heartbeat value is missing for Interval= 1min timestamp is:2018-10-12 18:11:09</p>"
+
+
+
+    log.info("sendtestsms ")
+    #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
+    #message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
+    response = email_ses_client.publish( PhoneNumber="+15416612051", Message=text )
+    log.info("sendtestsms message_id = %s", response)
 
     response = make_response("success")
     response.headers['content-type'] = "application/json"
