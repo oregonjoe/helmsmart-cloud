@@ -100,7 +100,7 @@ db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
 import botocore
 import boto3
 from botocore.exceptions import ClientError
-email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
+email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
 
 
 class DateEncoder(json.JSONEncoder):
@@ -2350,13 +2350,28 @@ def SendEMAILAlert(parameters, alarmresult):
 
                       # send the message.
                       try:
-                        server = smtplib.SMTP(mailertogo_host, mailertogo_port)
-                        server.ehlo()
-                        server.starttls()
-                        server.ehlo()
-                        server.login(mailertogo_user, mailertogo_password)
-                        server.sendmail(sender_email, recipient_email, message.as_string())
-                        server.close()
+
+                        
+                        #server = smtplib.SMTP(mailertogo_host, mailertogo_port)
+                        #server.ehlo()
+                        #server.starttls()
+                        #server.ehlo()
+                        #server.login(mailertogo_user, mailertogo_password)
+                        #server.sendmail(sender_email, recipient_email, message.as_string())
+                        #server.close()
+
+                        response = email_ses_client.send_raw_email(
+                                                      Source=message['From'],
+                                                      Destinations= [],
+                                                      RawMessage={
+                                                          'Data': message.as_string(),
+                                                      }
+                                                  )
+
+                                    
+                        message_id = response["MessageId"]
+                        log.info(  "SendEMAILAlert Sent raw mail %s from %s to %s.", message_id, source, destination )
+                        
 
                       except TypeError as e:
                         if debug_all: log.info("SendEMAILAlert mailertogo send alertemail %s:  ", alertemail)
