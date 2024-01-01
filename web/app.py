@@ -60,7 +60,8 @@ alerts_queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
 #queue = boto3.connect_sqs().lookup(os.environ['SQS_QUEUE'])
 #queue = boto3.connect_sqs().lookup('SeaSmart')
 
-email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
+#email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
+email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
 
 import smtplib
 import email.utils
