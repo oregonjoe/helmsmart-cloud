@@ -2305,7 +2305,8 @@ def SendEMAILAlert(parameters, alarmresult):
                       # sender
                       sender_user = 'alerts'
                       #sender_email = "@".join([sender_user, mailertogo_domain])
-                      sender_email = 'joe@chetcodigital.com'
+                      #sender_email = 'joe@chetcodigital.com'
+                      sender_email=environ.get('SES_FROM_EMAIL')
                       sender_name = 'HelmSmart Sensor Alert'
 
                       if debug_all: log.info("SendEMAILAlert mailertogo send sender_email %s:  ", sender_email)
@@ -2371,7 +2372,7 @@ def SendEMAILAlert(parameters, alarmresult):
 
                                     
                         message_id = response["MessageId"]
-                        log.info(  "SendEMAILAlert Sent raw mail %s from %s to %s.", message_id, source, destination )
+                        log.info(  "SendEMAILAlert Sent raw mail %s from %s to %s.", message_id, message['From'], message['To'] )
                         
 
                       except TypeError as e:
