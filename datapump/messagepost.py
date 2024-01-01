@@ -47,12 +47,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-# read MailerToGo env vars
-mailertogo_host     = os.environ.get('MAILERTOGO_SMTP_HOST')
-mailertogo_port     = os.environ.get('MAILERTOGO_SMTP_PORT', 587)
-mailertogo_user     = os.environ.get('MAILERTOGO_SMTP_USER')
-mailertogo_password = os.environ.get('MAILERTOGO_SMTP_PASSWORD')
-mailertogo_domain   = os.environ.get('MAILERTOGO_DOMAIN', "mydomain.com")
+# read aws_ses env vars
+aws_ses_host     = os.environ.get('aws_ses_SMTP_HOST')
+aws_ses_port     = os.environ.get('aws_ses_SMTP_PORT', 587)
+aws_ses_user     = os.environ.get('aws_ses_SMTP_USER')
+aws_ses_password = os.environ.get('aws_ses_SMTP_PASSWORD')
+aws_ses_domain   = os.environ.get('aws_ses_DOMAIN', "mydomain.com")
 
 
 from twilio.rest import Client as smsClient
@@ -101,6 +101,7 @@ import botocore
 import boto3
 from botocore.exceptions import ClientError
 email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
+sms_ses_client = boto3.client('sns', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
 
 
 class DateEncoder(json.JSONEncoder):
@@ -2304,32 +2305,32 @@ def SendEMAILAlert(parameters, alarmresult):
 
                       # sender
                       sender_user = 'alerts'
-                      #sender_email = "@".join([sender_user, mailertogo_domain])
+                      #sender_email = "@".join([sender_user, aws_ses_domain])
                       #sender_email = 'joe@chetcodigital.com'
                       sender_email=environ.get('SES_FROM_EMAIL')
                       sender_name = 'HelmSmart Sensor Alert'
 
-                      if debug_all: log.info("SendEMAILAlert mailertogo send sender_email %s:  ", sender_email)
+                      if debug_all: log.info("SendEMAILAlert aws_ses send sender_email %s:  ", sender_email)
 
                       # recipient
                       #recipient_email = 'joe@seagauge.com' # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
                       recipient_email = alertemail # change to recipient email. Make sure to use a real email address in your tests to avoid hard bounces and protect your reputation as a sender.
                       recipient_name = devicename
-                      if debug_all: log.info("SendEMAILAlert mailertogo send sender_email %s:  ", recipient_email)
+                      if debug_all: log.info("SendEMAILAlert aws_ses send sender_email %s:  ", recipient_email)
                       
                       # subject
                       subject = parameters['subject']
-                      if debug_all: log.info("SendEMAILAlert mailertogo send subject %s:  ", subject)
+                      if debug_all: log.info("SendEMAILAlert aws_ses send subject %s:  ", subject)
 
                       # text body
                       #body_plain = ("Hi,\n"  "Test from Mailer To Go 😊\n"   )
                       body_plain = (email_body  )
-                      if debug_all: log.info("SendEMAILAlert mailertogo send body_plain %s:  ", body_plain)
+                      if debug_all: log.info("SendEMAILAlert aws_ses send body_plain %s:  ", body_plain)
 
                       # html body
                       line_break = '\n' #used to replace line breaks with html breaks
                       body_html = f'''<html><head></head> <body> {'<br/>'.join(body_plain.split(line_break))} </body> </html>'''
-                      if debug_all: log.info("SendEMAILAlert mailertogo send body_html %s:  ", body_html)
+                      if debug_all: log.info("SendEMAILAlert aws_ses send body_html %s:  ", body_html)
 
                       # create message container
                       message = MIMEMultipart('alternative')
@@ -2337,7 +2338,7 @@ def SendEMAILAlert(parameters, alarmresult):
                       message['From'] = email.utils.formataddr((sender_name, sender_email))
                       message['To'] = email.utils.formataddr((recipient_name, recipient_email))
 
-                      if debug_all: log.info("SendEMAILAlert mailertogo send message %s:  ", message)
+                      if debug_all: log.info("SendEMAILAlert aws_ses send message %s:  ", message)
 
                       # prepare plain and html message parts
                       part1 = MIMEText(body_plain, 'plain')
@@ -2348,17 +2349,17 @@ def SendEMAILAlert(parameters, alarmresult):
                       message.attach(part1)
                       message.attach(part2)
 
-                      if debug_all: log.info("SendEMAILAlert mailertogo send message %s:  ", message)
+                      if debug_all: log.info("SendEMAILAlert aws_ses send message %s:  ", message)
 
                       # send the message.
                       try:
 
                         
-                        #server = smtplib.SMTP(mailertogo_host, mailertogo_port)
+                        #server = smtplib.SMTP(aws_ses_host, aws_ses_port)
                         #server.ehlo()
                         #server.starttls()
                         #server.ehlo()
-                        #server.login(mailertogo_user, mailertogo_password)
+                        #server.login(aws_ses_user, aws_ses_password)
                         #server.sendmail(sender_email, recipient_email, message.as_string())
                         #server.close()
 
@@ -2376,23 +2377,23 @@ def SendEMAILAlert(parameters, alarmresult):
                         
 
                       except TypeError as e:
-                        if debug_all: log.info("SendEMAILAlert mailertogo send alertemail %s:  ", alertemail)
-                        if debug_all: log.info('SendEMAILAlert  mailertogo send TYPE Error %s:  ' % e)
+                        if debug_all: log.info("SendEMAILAlert aws_ses send alertemail %s:  ", alertemail)
+                        if debug_all: log.info('SendEMAILAlert  aws_ses send TYPE Error %s:  ' % e)
                       except NameError as e:
-                        if debug_all: log.info("SendEMAILAlert mailertogo send alertemail %s:  ", alertemail)
-                        if debug_all: log.info('SendEMAILAlert  mailertogo send NAME Error %s:  ' % e)
+                        if debug_all: log.info("SendEMAILAlert aws_ses send alertemail %s:  ", alertemail)
+                        if debug_all: log.info('SendEMAILAlert  aws_ses send NAME Error %s:  ' % e)
                       except Exception as e:
-                        if debug_all: log.info('SendEMAILAlert: mailertogo Error %s:  ' % str(e)) 
+                        if debug_all: log.info('SendEMAILAlert: aws_ses Error %s:  ' % str(e)) 
                       else:
-                        if debug_all: log.info("SendEMAILAlert mailertogo sent %s:  ", part1)
+                        if debug_all: log.info("SendEMAILAlert aws_ses sent %s:  ", part1)
 
 
                     except TypeError as e:
-                      if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
-                      if debug_all: log.info('SendEMAILAlert  mailertogo TYPE Error %s:  ' % e)                     
+                      if debug_all: log.info("SendEMAILAlert aws_ses alertemail %s:  ", alertemail)
+                      if debug_all: log.info('SendEMAILAlert  aws_ses TYPE Error %s:  ' % e)                     
                     except NameError as e:
-                      if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
-                      if debug_all: log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)
+                      if debug_all: log.info("SendEMAILAlert aws_ses alertemail %s:  ", alertemail)
+                      if debug_all: log.info('SendEMAILAlert  aws_ses NAME Error %s:  ' % e)
                     except:
                       e = sys.exc_info()[0]   
                       if debug_all: log.info('SendEMAILAlert: sendgrid Error %s:  ' % str(e))                                
@@ -2401,11 +2402,11 @@ def SendEMAILAlert(parameters, alarmresult):
                   if debug_info: log.info('SendEMAILAlert: no alertemail number found - returnig : devicename %s ', devicename)
                   
         except TypeError as e:
-          if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
-          if debug_all: log.info('SendEMAILAlert  mailertogo TYPE Error %s:  ' % e)     
+          if debug_all: log.info("SendEMAILAlert aws_ses alertemail %s:  ", alertemail)
+          if debug_all: log.info('SendEMAILAlert  aws_ses TYPE Error %s:  ' % e)     
         except NameError as e:
-          if debug_all: log.info("SendEMAILAlert mailertogo alertemail %s:  ", alertemail)
-          if debug_all: log.info('SendEMAILAlert  mailertogo NAME Error %s:  ' % e)                        
+          if debug_all: log.info("SendEMAILAlert aws_ses alertemail %s:  ", alertemail)
+          if debug_all: log.info('SendEMAILAlert  aws_ses NAME Error %s:  ' % e)                        
         except:
             alertemail = ''
             smsnumber = ''
