@@ -50,7 +50,7 @@ from botocore.exceptions import ClientError
 #sqs = boto3.resource('sqs')
 #s3 = boto3.resource(service_name='sqs', region_name='REGION_NAME')
 
-sqs_queue = boto3.client('sqs', region_name='us-east-1', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
+sqs_queue = boto3.client('sqs', region_name='us-west-2', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
 
 #queue_url = 'SQS_QUEUE_URL'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
@@ -62,7 +62,7 @@ alerts_queue_url = os.environ.get('SQS_QUEUE_ALERTS_URL')
 
 #email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
 email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
-sms_ses_client = boto3.client('sns', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-east-2"  )
+sms_ses_client = boto3.client('sns', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
 
 import smtplib
 import email.utils
