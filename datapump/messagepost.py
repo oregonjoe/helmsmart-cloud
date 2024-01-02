@@ -100,8 +100,8 @@ db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
 import botocore
 import boto3
 from botocore.exceptions import ClientError
-email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
-sms_ses_client = boto3.client('sns', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name="us-west-2"  )
+email_ses_client = boto3.client('ses', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name=os.environ.get('AWS_REGION')  )
+sms_ses_client = boto3.client('sns', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'),  aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'), region_name=os.environ.get('AWS_REGION')  )
 
 
 class DateEncoder(json.JSONEncoder):
