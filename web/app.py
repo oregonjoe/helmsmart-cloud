@@ -949,7 +949,8 @@ def send_email(source, destination, subject, text, html, reply_tos=None):
 @app.route('/send_test_email')
 def sendtestemail():
 
-    source = "joe@chetcodigital.com"
+    #source = "joe@chetcodigital.com"
+    source = "alerts@helmsmart-cloud.com"
     destination = "joe@seagauge.com"
     subject = "test aws ses raw email"
     text = "SSWIFIG2_SEADREAM ALARM Message alarmemail: /M2M/Battery/Battery Volts Port is low – mean = 14.38 threshold: 15 timestamp is:2019-02-13T20:48:00Z"
