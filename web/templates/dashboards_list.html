@@ -58,6 +58,8 @@ var myusername
    });
 
 
+   
+   /*
  {% if session['username'] %}
      myusername = "{{session['username']}}";  
 	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span> HelmSmart: ' + myusername + ': Sign Out</span>  </a>';
@@ -75,20 +77,12 @@ window.location.href = '/auth0logout';
             e.preventDefault();
 			
 			window.location.href = '/login';
-		/*	
-		// old API
-		auth.authorize({
-				audience: 'https://'+AUTH0_DOMAIN+'/userinfo', // you can also set this on the .env file and put API_AUDIENCE instead
-				scope: 'openid profile',
-				responseType: 'code',
-				redirectUri: AUTH0_CALLBACK_URL
-			  }); 
-			*/
+
 			
           });
  {% endif %}
 
-
+*/
 
 
 
@@ -471,23 +465,17 @@ function getDashboardLists(userid)
     </script>
 </head>
 <body style=" margin: 0;">
-<div style="padding:5px">
+<div>
   <center>
-  	<div id = 'loginbutton'>
-
-	</div>
-	<!--
   {% if session['userid'] %}
-     <a href="https://helmsmart-cloud.herokuapp.com/dashboard" id="login" class="persona-button">
+     <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="https://helmsmart-cloud.herokuapp.com/dashboard" id="login" class="persona-button">
+    <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
-  -->
   </center>
 </div>
-
 
 
 
