@@ -868,9 +868,9 @@ function GetSeriesAttributes(userid)
   StartEpoch = Math.floor(StartEpoch/1000);
 
    var DeviceID = document.getElementById("DeviceID").value;
-  // devicedataurl = "http://www.helmsmart-cloud.com/get_tempodb_series?&deviceid=" + userid;
-  //devicedataurl = "http://www.helmsmart-cloud.com/get_influxdb_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
- devicedataurl = "http://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+  // devicedataurl = "https://www.helmsmart-cloud.com/get_tempodb_series?&deviceid=" + userid;
+  //devicedataurl = "https://www.helmsmart-cloud.com/get_influxdb_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+ devicedataurl = "https://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
 
          return $.ajax({
@@ -1125,8 +1125,8 @@ var mypayload;
 		
 		if( isNaN(gLatitude)  || isNaN(gLongitude) )
 		{
-			var pinurl = "http://maps.google.com/mapfiles/kml/shapes/info_circle.png"
-			//var pinurl = "http://maps.google.com/mapfiles/kml/paddle/ylw-blank.png"
+			var pinurl = "https://maps.google.com/mapfiles/kml/shapes/info_circle.png"
+			//var pinurl = "https://maps.google.com/mapfiles/kml/paddle/ylw-blank.png"
 			
 			myPin = new google.maps.MarkerImage(pinurl);
 			 myLatlng = new google.maps.LatLng(mylat, mylng);
@@ -1215,9 +1215,9 @@ var mypayload;
 
 	var devicedataurl;
 
-    //devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid; 
+    //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid; 
 	
-	 devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=devicekeys&userid=" + userid; 
+	 devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devicekeys&userid=" + userid; 
 	
       
    return $.ajax({
@@ -1266,7 +1266,7 @@ var mypayload;
 
 	var devicedataurl;
 	
-   devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=0";
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=0";
     
     
    return $.ajax({
@@ -1334,7 +1334,7 @@ var mypayload;
    prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
    
  
-   devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + prefkey;
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + prefkey;
          
    return $.ajax({
 					   //async: false,
@@ -1394,7 +1394,7 @@ function AddNewPref()
 
 	  UpdateInterval = document.getElementById("UpdateInterval").options[document.getElementById("UpdateInterval").selectedIndex].value;
  
-  devicedataurl = "http://www.helmsmart-cloud.com/prefs?type=add&userid=" + myuserid + "&pagetype=0&prefkey=" +  nextConfigOption + "&options="
+  devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=add&userid=" + myuserid + "&pagetype=0&prefkey=" +  nextConfigOption + "&options="
 
   devicedataurl =  devicedataurl + "'" + document.getElementById("AddPreferenceName").value + "'";
   devicedataurl =  devicedataurl + "," + PageLayout;
@@ -1479,7 +1479,7 @@ function ModifyPref()
       prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
 	  UpdateInterval = document.getElementById("UpdateInterval").options[document.getElementById("UpdateInterval").selectedIndex].value;
 
-      devicedataurl = "http://www.helmsmart-cloud.com/prefs?type=update&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+      devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
 
       devicedataurl =  devicedataurl  + optionmenuindex;
       devicedataurl =  devicedataurl + ",'" + prefName + "'";
@@ -1562,7 +1562,7 @@ function DeletePref()
    optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
    prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
-   devicedataurl = "http://www.helmsmart-cloud.com/prefs?type=delete&userid=" + myuserid + "&prefkey=" +  prefkey ;
+   devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=delete&userid=" + myuserid + "&prefkey=" +  prefkey ;
 
    return $.ajax({
 					   //async: false,
@@ -1610,10 +1610,10 @@ function SetHelmSmartSwitch(switchInstance, switchid,switchvalue)
 
 	var devicedataurl;
 
-   //devicedataurl = "http://www.helmsmart-cloud.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
-   //devicedataurl = "http://www.helmsmart-cloud.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
- //  devicedataurl = "http://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
-   		    var devicedataurl = "http://www.helmsmart-cloud.com/setswitchapi?deviceid=" + AccountDataFolder;
+   //devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
+   //devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
+ //  devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
+   		    var devicedataurl = "https://www.helmsmart-cloud.com/setswitchapi?deviceid=" + AccountDataFolder;
 			
 			
 				devicedataurl = devicedataurl + "&instance=" + switchInstance ;
@@ -1994,7 +1994,7 @@ function MapData()
   
   
 	// create the search URL  
-	url = "http://www.helmsmart-cloud.com/getgpsseriesbydeviceid?";
+	url = "https://www.helmsmart-cloud.com/getgpsseriesbydeviceid?";
 		url =  url + "deviceid=" + myDeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 		url =  url + "&serieskey1=" + "deviceid:" + myDeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
 		url =  url + "&format=json"  ;
@@ -2074,7 +2074,7 @@ function initializeMaps() {
 	
 	for (i = 0; i < myPinColors.length; i++) {
 	
-		var pinurl = "http://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
+		var pinurl = "https://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
 		myPins[i] = new google.maps.MarkerImage(pinurl);
 	 
 	} 
@@ -2438,10 +2438,10 @@ var StatusString;
  
   <center>
   {% if session['userid'] %}
-     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
+     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
+    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
@@ -2516,7 +2516,7 @@ var StatusString;
   	<div class="tab-pane" id="tabInfo">
 	<p id="introText">With this datapane you can view vessel instrument data from your SeaSmart device.</p>
 <div id="idMarketing">
-	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
 	
 	<p>
 		To get started  - select your registered device from the <B>Device</B> tab and then enter the sensor data on the <B> PGN </B>tab – select <B>Gauges</B> to view.
@@ -2557,9 +2557,9 @@ var StatusString;
 	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
 	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
 	<div style="margin: 15px;">
-		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
 <!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
-		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
 
 	</div>
 	<p>
@@ -2663,7 +2663,7 @@ function sharescreen(){
    
    
 // Sets the new href (URL) for the current window.
-window.location.href = "http://www.helmsmart-cloud.com/netgauges_public?deviceapikey=" + deviceapikey + "&prefkey=" + prefkey;
+window.location.href = "https://www.helmsmart-cloud.com/netgauges_public?deviceapikey=" + deviceapikey + "&prefkey=" + prefkey;
 
 }
 
