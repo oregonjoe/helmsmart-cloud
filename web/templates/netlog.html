@@ -880,7 +880,7 @@ function uploadHSFileInChunks(file, myuploadDeviceID){
 
 				//myFileName = myFileName.substr(0,(myFileName.length - 7));
 
-				//var postfilename = "https://helmsmart-cloud.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
+				//var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
 				var postfilename = "https://salty-hollows-73367.herokuapp.com/https://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
 				xhr.open("POST", postfilename, true);
 				xhr.setRequestHeader("X_FILENAME", myFileName + ".txt");
@@ -1215,7 +1215,7 @@ function GetSeriesAttributes(seriesdeviceid)
    } });
 
    var DeviceID = document.getElementById("DeviceID").value;
-   devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdb_series?&deviceid=" + seriesdeviceid + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "https://www.helmsmart-cloud.com/get_influxdb_series?&deviceid=" + seriesdeviceid + "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
 
    return $.ajax({
@@ -1618,7 +1618,7 @@ function SearchDBbyURL(searchtype)
     //DialPGNNumber[3] = "deviceid:001EC0101CB4.sensor:cogsog.source:02.instance:0.type:True.parameter:course_over_ground.HelmSmart";
 
 
-		url = "https://helmsmart-cloud.herokuapp.com/downloadseriesbykey?";
+		url = "https://www.helmsmart-cloud.com/downloadseriesbykey?";
 		url =  url + "deviceid=" + DeviceID ;
 		url =  url + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 		url =  url + "&gpssource=" + GPSSource ; 
@@ -1747,7 +1747,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+    devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
 
     return $.ajax({
     //async: false,
@@ -2093,10 +2093,10 @@ StartEpoch.setDate(StartEpoch.getDate()-1);
  
   <center>
   {% if session['userid'] %}
-     <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>

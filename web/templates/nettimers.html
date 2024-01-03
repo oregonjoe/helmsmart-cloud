@@ -291,7 +291,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+    devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
 
     return $.ajax({
     //async: false,
@@ -460,10 +460,10 @@ var j;
 <div>
   <center>
   {% if session['userid'] %}
-     <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
@@ -1890,7 +1890,7 @@ function getDeviceParamList(userid)
 
 	var devicedataurl;
 	
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefnames&userid=" + gUserID + "&pagetype=7";
+   devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=pageprefnames&userid=" + gUserID + "&pagetype=7";
     
     
    return $.ajax({
@@ -2021,9 +2021,9 @@ function getDeviceParamDetails(userid)
    //prefkey = parseInt(document.getElementById("EventsID").options[optionmenuindex].value);
    
  
-   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefs&userid=" + gUserID + "&pagetype=7&prefkey=" + gprefkey;
+   //devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + gUserID + "&pagetype=7&prefkey=" + gprefkey;
    
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=scheduleprefs&userid=" + gUserID + "&deviceid=" +  gDeviceKey ;
+   devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=scheduleprefs&userid=" + gUserID + "&deviceid=" +  gDeviceKey ;
    
          
    return $.ajax({
@@ -3372,7 +3372,7 @@ function SetEventsOptions(myindex){
 
 function GetAlertEvents()
  {
- // http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c&_=1427391221558
+ // http://www.helmsmart-cloud.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c&_=1427391221558
  
  /*
 	if(gDeviceID == "")
@@ -3401,11 +3401,11 @@ function GetAlertEvents()
 	//var  myDeviceKey = document.getElementById("DeviceKey").value;
 	var  myDeviceKey = gDeviceKey;
 	
-  // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + AccountDataFolder;
-  // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
- // devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
-  //devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
-  devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + gUserID;
+  // devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + AccountDataFolder;
+  // devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
+ // devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
+  //devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
+  devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + gUserID;
 	
    return $.ajax({
 					   //async: false,

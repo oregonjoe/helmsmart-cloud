@@ -1972,7 +1972,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
     
     if(DialPGNNumber[gindex] != 0)
     {
-        url[gindex] = "https://helmsmart-cloud.herokuapp.com/get_influxdbcloud_data?serieskey=" + SearchString  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs + "&rollup=" + mySearchType;
+        url[gindex] = "https://www.helmsmart-cloud.com/get_influxdbcloud_data?serieskey=" + SearchString  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs + "&rollup=" + mySearchType;
 
         document.getElementById("SearchStatus").value = "Starting Search";
     }
@@ -2404,12 +2404,12 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
   	var mySearchType = document.getElementById("SearchType").options[SearchTypeIndex].value;
 	//"&rollup=" + mySearchType;
 // set up the SQL query string
-//    url[gindex] = "https://helmsmart-cloud.herokuapp.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
-//      devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+//    url[gindex] = "https://www.helmsmart-cloud.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+//      devicedataurl = "https://www.helmsmart-cloud.com/get_tempodb_data?serieskey=" + DialPGNNumber[gindex]  + "&userid=" + myuserid + "&deviceid=" + DeviceID +"&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 
 
-      //devicedataurl = "https://helmsmart-cloud.herokuapp.com/getinfluxseriesmultibydeviceid?";
-      devicedataurl = "https://helmsmart-cloud.herokuapp.com/getinfluxseriesmultibydeviceid?";
+      //devicedataurl = "https://www.helmsmart-cloud.com/getinfluxseriesmultibydeviceid?";
+      devicedataurl = "https://www.helmsmart-cloud.com/getinfluxseriesmultibydeviceid?";
       devicedataurl =  devicedataurl + "deviceid=" + DeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
       //devicedataurl =  devicedataurl + "&serieskey1=" + DialPGNNumber[0] ;
       //devicedataurl =  devicedataurl + "&serieskey2=" + DialPGNNumber[1] ;
@@ -2691,7 +2691,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 
-   devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid;
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
 
 
    return $.ajax({
@@ -2778,8 +2778,8 @@ function GetSeriesAttributes(userid)
   
   
    var DeviceID = document.getElementById("DeviceID").value;
-   //devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series_test?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
-   devicedataurl = "https://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   //devicedataurl = "https://www.helmsmart-cloud.com/get_influxdbcloud_series_test?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "https://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
 
              return $.ajax({
@@ -2842,7 +2842,7 @@ function getDeviceParamList(userid)
 var deviceid = document.getElementById("DeviceID").value;
 
 	var devicedataurl;
-	   devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&deviceid="+ deviceid + "&pagetype=2";
+	   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&deviceid="+ deviceid + "&pagetype=2";
    
    
    return $.ajax({
@@ -2891,7 +2891,7 @@ function updateDeviceParamList(userid)
      } }); 
 
 	var devicedataurl;
-	     devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&pagetype=2";
+	     devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=tempodb_pageprefnames&userid=" + userid + "&pagetype=2";
 
    return $.ajax({
 					   //async: false,
@@ -2983,7 +2983,7 @@ function ShowSearchType()
      } });   
    
    
-       devicedataurl = "https://helmsmart-cloud.herokuapp.com/getuser?gettype=tempodb_pageprefs&userid=" + userid + "&pagetype=2&prefkey=" + prefkey;
+       devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=tempodb_pageprefs&userid=" + userid + "&pagetype=2&prefkey=" + prefkey;
 
    return $.ajax({
 					   //async: false,
@@ -3094,7 +3094,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 
     nextConfigOption = document.getElementById("XMLFilesSelect").options.length+1;
 
-    devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=add_tempodb&userid=" + myuserid + "&pagetype=2&prefkey=" +  nextConfigOption + "&options="
+    devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=add_tempodb&userid=" + myuserid + "&pagetype=2&prefkey=" +  nextConfigOption + "&options="
 
     devicedataurl =  devicedataurl  + "'" + document.getElementById("AddPreferenceName").value + "'";
     devicedataurl =  devicedataurl + ", '" + document.getElementById("DeviceID").value + "'";
@@ -3234,7 +3234,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
    if(prefName == "")
    prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
   
-   devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=update_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+   devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
 
   devicedataurl =  devicedataurl  + optionmenuindex;
   devicedataurl =  devicedataurl + ",'" + prefName + "'";
@@ -3331,7 +3331,7 @@ function DeletePref()
 	
       prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
-      devicedataurl = "https://helmsmart-cloud.herokuapp.com/prefs?type=delete_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey ;
+      devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=delete_tempodb&userid=" + myuserid + "&prefkey=" +  prefkey ;
 
       return $.ajax({
       //async: false,
@@ -3656,11 +3656,11 @@ function myonload()
 
   <center>
     {% if session['userid'] %}
-    <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: {{session['username']}}</span>
     </a>
     {% else %}
-    <a href="https://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span>
     </a>
     {% endif %}

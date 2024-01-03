@@ -48,10 +48,10 @@
 <div>
   <center>
   {% if session['userid'] %}
-     <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
@@ -573,7 +573,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=values&userid=" + userid;
+    devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=values&userid=" + userid;
 
     return $.ajax({
     //async: false,
@@ -627,7 +627,7 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 	 
 
 
-	  devicedataurl = "http://helmsmart-cloud.herokuapp.com/updatedevice?deviceapikey=" + myDeviceKey[dIndex]; 
+	  devicedataurl = "http://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + myDeviceKey[dIndex]; 
 	  devicedataurl = devicedataurl + "&devicename=" + document.getElementById("DeviceName").value; 
 	  devicedataurl = devicedataurl + "&alertemail=" +  document.getElementById("AlertEmail").value; 
 	  devicedataurl = devicedataurl + "&alertsms=" + document.getElementById("AlertSMS").value;

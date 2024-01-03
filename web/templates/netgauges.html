@@ -868,9 +868,9 @@ function GetSeriesAttributes(userid)
   StartEpoch = Math.floor(StartEpoch/1000);
 
    var DeviceID = document.getElementById("DeviceID").value;
-  // devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_tempodb_series?&deviceid=" + userid;
-  //devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdb_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
- devicedataurl = "http://helmsmart-cloud.herokuapp.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+  // devicedataurl = "http://www.helmsmart-cloud.com/get_tempodb_series?&deviceid=" + userid;
+  //devicedataurl = "http://www.helmsmart-cloud.com/get_influxdb_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+ devicedataurl = "http://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
 
          return $.ajax({
@@ -1215,9 +1215,9 @@ var mypayload;
 
 	var devicedataurl;
 
-    //devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devices&userid=" + userid; 
+    //devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid; 
 	
-	 devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=devicekeys&userid=" + userid; 
+	 devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=devicekeys&userid=" + userid; 
 	
       
    return $.ajax({
@@ -1266,7 +1266,7 @@ var mypayload;
 
 	var devicedataurl;
 	
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=0";
+   devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=0";
     
     
    return $.ajax({
@@ -1334,7 +1334,7 @@ var mypayload;
    prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
    
  
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + prefkey;
+   devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + prefkey;
          
    return $.ajax({
 					   //async: false,
@@ -1394,7 +1394,7 @@ function AddNewPref()
 
 	  UpdateInterval = document.getElementById("UpdateInterval").options[document.getElementById("UpdateInterval").selectedIndex].value;
  
-  devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=add&userid=" + myuserid + "&pagetype=0&prefkey=" +  nextConfigOption + "&options="
+  devicedataurl = "http://www.helmsmart-cloud.com/prefs?type=add&userid=" + myuserid + "&pagetype=0&prefkey=" +  nextConfigOption + "&options="
 
   devicedataurl =  devicedataurl + "'" + document.getElementById("AddPreferenceName").value + "'";
   devicedataurl =  devicedataurl + "," + PageLayout;
@@ -1479,7 +1479,7 @@ function ModifyPref()
       prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
 	  UpdateInterval = document.getElementById("UpdateInterval").options[document.getElementById("UpdateInterval").selectedIndex].value;
 
-      devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=update&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
+      devicedataurl = "http://www.helmsmart-cloud.com/prefs?type=update&userid=" + myuserid + "&prefkey=" +  prefkey + "&options="
 
       devicedataurl =  devicedataurl  + optionmenuindex;
       devicedataurl =  devicedataurl + ",'" + prefName + "'";
@@ -1562,7 +1562,7 @@ function DeletePref()
    optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
    prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
-   devicedataurl = "http://helmsmart-cloud.herokuapp.com/prefs?type=delete&userid=" + myuserid + "&prefkey=" +  prefkey ;
+   devicedataurl = "http://www.helmsmart-cloud.com/prefs?type=delete&userid=" + myuserid + "&prefkey=" +  prefkey ;
 
    return $.ajax({
 					   //async: false,
@@ -1610,10 +1610,10 @@ function SetHelmSmartSwitch(switchInstance, switchid,switchvalue)
 
 	var devicedataurl;
 
-   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
-   //devicedataurl = "http://helmsmart-cloud.herokuapp.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
- //  devicedataurl = "http://helmsmart-cloud.herokuapp.com/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
-   		    var devicedataurl = "http://helmsmart-cloud.herokuapp.com/setswitchapi?deviceid=" + AccountDataFolder;
+   //devicedataurl = "http://www.helmsmart-cloud.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
+   //devicedataurl = "http://www.helmsmart-cloud.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
+ //  devicedataurl = "http://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
+   		    var devicedataurl = "http://www.helmsmart-cloud.com/setswitchapi?deviceid=" + AccountDataFolder;
 			
 			
 				devicedataurl = devicedataurl + "&instance=" + switchInstance ;
@@ -1994,7 +1994,7 @@ function MapData()
   
   
 	// create the search URL  
-	url = "http://helmsmart-cloud.herokuapp.com/getgpsseriesbydeviceid?";
+	url = "http://www.helmsmart-cloud.com/getgpsseriesbydeviceid?";
 		url =  url + "deviceid=" + myDeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 		url =  url + "&serieskey1=" + "deviceid:" + myDeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
 		url =  url + "&format=json"  ;
@@ -2438,10 +2438,10 @@ var StatusString;
  
   <center>
   {% if session['userid'] %}
-     <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
     <span>HelmSmart: {{session['username']}}</span></a>
   {% else %}
-    <a href="http://helmsmart-cloud.herokuapp.com" id="login" class="persona-button">
+    <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
@@ -2663,7 +2663,7 @@ function sharescreen(){
    
    
 // Sets the new href (URL) for the current window.
-window.location.href = "http://helmsmart-cloud.herokuapp.com/netgauges_public?deviceapikey=" + deviceapikey + "&prefkey=" + prefkey;
+window.location.href = "http://www.helmsmart-cloud.com/netgauges_public?deviceapikey=" + deviceapikey + "&prefkey=" + prefkey;
 
 }
 
