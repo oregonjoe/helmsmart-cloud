@@ -19130,7 +19130,70 @@ def getIndexFromValue(valueStr):
     log.info('getIndexFromValue: Error  %s:  ' % e)
     return ""
 
+@app.route('/addnewdevice')
+def addnewdevice_endpoint():
+  
+  conn = db_pool.getconn()
 
+  useremail = request.args.get('useremail', 'joe@chetcodigital.com')
+  deviceid = request.args.get('deviceid', '000000000000')
+  devicename = request.args.get('name', 'SeaSmart')
+  status = 1
+
+  userid=hash_string(useremail)
+  deviceapikey=hash_string(userid+deviceid+"083019")
+  
+  
+  try:
+    
+    query  = "select * from user_devices where useremail = %s and deviceid = %s"
+    cursor = conn.cursor()
+    cursor.execute(query, ( useremail, deviceid))
+      
+    if cursor.rowcount == 0:
+
+      log.info("Add Device status - user does not exist" )
+      userstatus = "user does not exist - adding"
+      
+      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename) Values (%s, %s, %s, %s, %s, %s)"
+
+      # add new device record to DB
+      cursor = conn.cursor()
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, status,  devicename))
+
+      conn.commit()
+        
+      if cursor.rowcount == 0:
+        userstatus = " Could not add user deviceid " + str(deviceid)
+        return jsonify( message='Could not add device', status='error')
+
+    else:
+      log.info("Add Device error - user already exixts %s", deviceid)
+      userstatus = "user deviceid " + str(deviceid) + " already exists"
+
+      
+    query  = "select devicename, deviceid from user_devices where useremail = %s"
+
+
+    cursor.execute(query, (useremail,))
+      
+    if cursor.rowcount == 0:
+      return jsonify( message='Could not get devices', status='error', userstatus = userstatus)
+
+
+    devices = [dict((cursor.description[i][0], value) \
+        for i, value in enumerate(row)) for row in cursor.fetchall()]
+
+
+    return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("Add Device error - user already exixts %s", deviceid)
+    log.info('Add Device error: Error in adding device %s:  ' % e)
+    
+  finally:
+    db_pool.putconn(conn)    
 
 @app.route('/updatedevice')
 def updatedevice_endpoint():
