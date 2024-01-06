@@ -4853,7 +4853,9 @@ function getDeviceParamList(userid)
 
 	var devicedataurl;
 	
-   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=meshdimmerprefnames&userid=" + gUserID + "&deviceid=" + gDeviceID;
+	gDeviceKey = document.getElementById("DeviceKey").value;
+	
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=meshdimmerprefnames&userid=" + gUserID + "&deviceid=" + gDeviceKey;
     
     
    return $.ajax({
