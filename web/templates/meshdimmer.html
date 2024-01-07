@@ -5054,7 +5054,7 @@ function AddNewPref()
 	*/
 	
  
-  devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=add_meshdimmer_pref&userid=" + gUserID + "&deviceid=" +  gDeviceID + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScene);
+  devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=add_meshdimmer_pref&userid=" + gUserID + "&deviceid=" +  gDeviceID + "&prefName=" +  prefName  + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScene);
 
 
 
@@ -5183,7 +5183,7 @@ function ModifyPref()
 	//meshDimmerScenes['scene0'] = meshDimmerScene;
 	
  
-	devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update_meshdimmer_pref&userid=" + gUserID + + "&deviceid=" +  gDeviceID + "&prefkey=" +  prefkey + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScene);
+	devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update_meshdimmer_pref&userid=" + gUserID + + "&deviceid=" +  gDeviceID + "&prefkey=" +  prefkey + "&prefName=" +  prefName + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScene);
 	
 /*
       devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update&userid=" + gUserID + "&prefkey=" +  prefkey + "&options="

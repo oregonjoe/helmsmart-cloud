@@ -1154,8 +1154,7 @@ def prefs_endpoint():
   instance = request.args.get('instance', '0')
   systemclock = request.args.get('systemclock', '0')
   labels = request.args.get('labels', '')
-
-
+  prefname = request.args.get('prefname', 'default')
   
 
   if userid == "":
