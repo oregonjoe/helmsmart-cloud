@@ -4979,7 +4979,7 @@ function AddNewPref()
 	PageLayout = parseInt(gNumberOfDimmers);
 	
 	//DialPGNInstance[0]=
-	
+	gDeviceID  = 	document.getElementById("DeviceKey").value ;
 	
 	DialText[0] = document.getElementById("Dimmer0Name").value;
 	DialText[1] = document.getElementById("Dimmer1Name").value;
@@ -5026,18 +5026,35 @@ function AddNewPref()
 	DialAlarmState[15] = gDimmerValues[15];
 	//DialAlarmState[16] = gDimmerValues[16];
 	
-	var meshDimmerScenes = {};
+	//var meshDimmerScenes = {};
 	
 	var meshDimmerScene ={}
 	
-	meshDimmerScene['sceneName'] = "test Scene High"
-	meshDimmerScene['sceneValues'] = DialAlarmState;
-	meshDimmerScene['sceneOverrides'] = DialAlarm;
+	//meshDimmerScene['sceneName'] = "test Scene High"
+	meshDimmerScene['sceneName'] =SceneNames[0];
 	
-	meshDimmerScenes['scene0'] = meshDimmerScene;
+	meshDimmerScene['sceneValues'] = DialAlarmState;
+	//meshDimmerScene['sceneOverrides'] = DialAlarm;
+	
+	//meshDimmerScenes['scene0'] = meshDimmerScene;
+	
+	/*
+	var SceneDimmerValues = [
+						[101,100,100,100,100,100,100,100,100,100,100,100,100,0,100,100],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[50,50,50,50,50,50,50,50,50,50,50,50,50,0,50,50],
+						[10,10,10,10,10,10,10,10,10,10,10,10,10,0,10,10],
+						[101,100,0,0,100,0,100,0,0,100,100,0,100,0,100,0],
+						[101,0,100,100,100,100,0,100,0,100,0,0,0,0,100,0],
+						[101,0,0,100,0,0,0,100,0,100,100,0,100,0,0,0],
+						[101,100,100,0,100,100,100,0,0,0,0,0,0,0,100,0],
+						[101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+ ];
+	*/
 	
  
-  devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=add_meshdimmer_pref&userid=" + gUserID + "&deviceid=" +  gDeviceID + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScenes);
+  devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=add_meshdimmer_pref&userid=" + gUserID + "&deviceid=" +  gDeviceID + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScene);
 
 
 
@@ -5100,6 +5117,8 @@ function ModifyPref()
 	PageLayout = parseInt(gNumberOfDimmers); 
 
 	//DialPGNInstance[0]=
+	gDeviceID  = 	document.getElementById("DeviceKey").value ;
+	  
 	  
 	DialText[0] = document.getElementById("Dimmer0Name").value;
 	DialText[1] = document.getElementById("Dimmer1Name").value;
@@ -5151,18 +5170,20 @@ function ModifyPref()
       prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
 	  
 	  
-	 var meshDimmerScenes = {};
+	// var meshDimmerScenes = {};
 	
 	var meshDimmerScene ={}
 	
-	meshDimmerScene['sceneName'] = "test Scene High"
+	//meshDimmerScene['sceneName'] = "test Scene High"
+		//meshDimmerScene['sceneName'] = "test Scene High"
+	meshDimmerScene['sceneName'] =SceneNames[0];
 	meshDimmerScene['sceneValues'] = DialAlarmState;
-	meshDimmerScene['sceneOverrides'] = DialAlarm;
+	//meshDimmerScene['sceneOverrides'] = DialAlarm;
 	
-	meshDimmerScenes['scene0'] = meshDimmerScene;
+	//meshDimmerScenes['scene0'] = meshDimmerScene;
 	
  
-	devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update_meshdimmer_pref&userid=" + gUserID + + "&deviceid=" +  gDeviceID + "&prefkey=" +  prefkey + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScenes);
+	devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update_meshdimmer_pref&userid=" + gUserID + + "&deviceid=" +  gDeviceID + "&prefkey=" +  prefkey + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScene);
 	
 /*
       devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update&userid=" + gUserID + "&prefkey=" +  prefkey + "&options="
@@ -7661,6 +7682,7 @@ $("#LEDcolor").on("change", function () {
 			</div>
 		</div>  
 		
+		<!--
 		
 					<div class="form-group" >	
 			 <label class="control-label col-sm-2"   for="Scene1Name">Scene 1</label> 
@@ -7726,7 +7748,7 @@ $("#LEDcolor").on("change", function () {
 			</div>
 		</div>  
 		
-		
+		-->
  
  <!-- 
 		<div class="form-group" >	
