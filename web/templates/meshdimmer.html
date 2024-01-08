@@ -4713,9 +4713,9 @@ function handleGetDevicePramDetails(response)
 				{
 					var SceneParameters = mySceneParameters[index];
 					gSceneIndex = SceneParameters.sceneIndex;
-					SceneNames[SceneIndex] = SceneParameters.sceneName;
+					SceneNames[gSceneIndex] = SceneParameters.sceneName;
 					
-					SceneDimmerValues[SceneIndex] = SceneParameters.sceneValues;
+					SceneDimmerValues[gSceneIndex] = SceneParameters.sceneValues;
 					
 					//DialAlarmState[0] = gDimmerValues[0];
 					
