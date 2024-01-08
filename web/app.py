@@ -475,7 +475,7 @@ def netdimmer():
     features = [],
   )
 
-@app.route('/dashoard_api')
+@app.route('/dashboard_api')
 def dashboardapi():
 
   return render_template(
