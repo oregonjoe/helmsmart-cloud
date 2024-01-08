@@ -4683,11 +4683,16 @@ function handleGetDevicePramDetails(response)
 				myDialSettingsSubStrings= row[4].split(",");
 				for ( index=0; index< myDialSettingsSubStrings.length; index++ )
 				{
-						DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
-						
-						
-						document.getElementById("Dimmer"+index+"Label").innerHTML = DialText[0];
-						document.getElementById("Dimmer"+index+"Name").value = DialText[0];
+				
+						//this errors out if we go too big
+						if(index < 16)
+						{
+							DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
+							
+							
+							document.getElementById("Dimmer"+index+"Label").innerHTML = DialText[0];
+							document.getElementById("Dimmer"+index+"Name").value = DialText[0];
+						}
 				}
 
 				
