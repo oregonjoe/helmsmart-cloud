@@ -4690,8 +4690,8 @@ function handleGetDevicePramDetails(response)
 							DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
 							
 							
-							document.getElementById("Dimmer"+index+"Label").innerHTML = DialText[0];
-							document.getElementById("Dimmer"+index+"Name").value = DialText[0];
+							document.getElementById("Dimmer"+index+"Label").innerHTML = DialText[index];
+							document.getElementById("Dimmer"+index+"Name").value = DialText[index];
 						}
 				}
 
@@ -4714,6 +4714,8 @@ function handleGetDevicePramDetails(response)
 					var SceneParameters = mySceneParameters[index];
 					gSceneIndex = SceneParameters.sceneIndex;
 					SceneNames[gSceneIndex] = SceneParameters.sceneName;
+					
+					changedSceneName(gSceneIndex)
 					
 					SceneDimmerValues[gSceneIndex] = SceneParameters.sceneValues;
 					
