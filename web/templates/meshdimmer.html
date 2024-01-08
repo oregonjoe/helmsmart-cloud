@@ -497,7 +497,7 @@ var 		sceneButton9;
 //Half Field Far End - Modules 2--3--4--5--7--9--13--14
 //Half Field Stand Side Touchline - Modules 3--7--9--10--12--13
 //Half Field Far Side Touchline - Modules 1--2--4--5--6--14
-
+/*
 var SceneDimmerValues = [
 						[101,100,100,100,100,100,100,100,100,100,100,100,100,0,100,100],
 						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -510,6 +510,19 @@ var SceneDimmerValues = [
 						[101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 						[101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
  ];
+ */
+ var SceneDimmerValues = [
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+ 
  
  var SceneDimmerOverride = [
 						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -4656,98 +4669,52 @@ function handleGetDevicePramDetails(response)
 
 	if(response.records.length !=0)
 	{
-   	response.records.forEach(function(row){
+		response.records.forEach(function(row){
    	
-   		  // console.log(row);
-   		   
-  				PageLayout   = row[5];
-				if(PageLayout > 1)
-				PageLayout = 0;
+
 				
-				//DialStart  =  parseInt(row[6]);
-				//PageBackGroundColor  = "#" + row[7];
-				PageForeGroundColor  =  "#" + row[8];
-				ClockLCDColor   = row[9];
-				SystemClockPGNID   = row[10];
-				//UpdateInterval   = row[11];
-				//DialTimeout   = row[12];
-				
-			    var myDialSettingsSubStrings = new Array();
-		//alert('got a cookies');
-		// parse the cookie string
+				SystemClockPGNID   = row[3];
+				document.getElementById("ClockPGNInstance").selectedIndex = row[3];;
+			
+				DialPGNInstance[0] = row[2];
+				document.getElementById("PGNInstance").selectedIndex = row[2];
 		
-		//myDialSettingsSubStrings= row[13].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				// get dimmer label text
+				myDialSettingsSubStrings= row[4].split(",");
+				for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				{
+						DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
+						
+						
+						document.getElementById("Dimmer"+i+"Label").innerHTML = DialText[0];
+						document.getElementById("Dimmer"+i+"Name").value = DialText[0];
+				}
+
 				
-		myDialSettingsSubStrings= row[14].split(",");
-		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-				DialPGNInstance[index]   =  parseInt(myDialSettingsSubStrings[index]);
-				
-		document.getElementById("PGNInstance").selectedIndex = parseInt(DialPGNInstance[0]);
-		//gNumberOfDimmers = parseInt(PageLayout);		
-		//myDialSettingsSubStrings= row[15].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialPGNNumber[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
-
-		//myDialSettingsSubStrings= row[16].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialPGNParameter[index]   =  parseInt(myDialSettingsSubStrings[index]);
-
-		//myDialSettingsSubStrings= row[17].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialUnits[index]   =  parseInt(myDialSettingsSubStrings[index]);
-
-		//myDialSettingsSubStrings= row[18].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialMin[index]   =  parseInt(myDialSettingsSubStrings[index]);
-
-		//myDialSettingsSubStrings= row[19].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialMax[index]   =  parseInt(myDialSettingsSubStrings[index]);
-
-		myDialSettingsSubStrings= row[20].split(",");
-		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		{
-				DialAlarm[index]   =  parseInt(myDialSettingsSubStrings[index]);
-				gDimmerOverrideValues[index] ==  parseInt(myDialSettingsSubStrings[index]);
-		}
-
-		myDialSettingsSubStrings= row[21].split(",");
-		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		{
-				DialAlarmState[index]   =  parseInt(myDialSettingsSubStrings[index]);
-				gDimmerValues[0] = parseInt(myDialSettingsSubStrings[index]);
-				
-		}
-		
-		
-		
-		myDialSettingsSubStrings= row[22].split(",");
-		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		{
-				DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
-		}
-
-		//myDialSettingsSubStrings= row[23].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialFrameType[index]   =  parseInt(myDialSettingsSubStrings[index]);
-
-		//myDialSettingsSubStrings= row[24].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialBackground[index]   =  parseInt(myDialSettingsSubStrings[index]);
-
-		//myDialSettingsSubStrings= row[25].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialLCDColor[index]   =  parseInt(myDialSettingsSubStrings[index]);
-
-		//myDialSettingsSubStrings= row[26].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialPointerColor[index]   =  parseInt(myDialSettingsSubStrings[index]);
-
-		//myDialSettingsSubStrings= row[27].split(",");
-		//for ( index=0; index< myDialSettingsSubStrings.length; index++ )
-		//		DialPonterType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				try
+				{
+					var mySceneParameters = JSON.parse(row[5]);
+					//myText = myMessage.posttype;
+					
+					var
+				}
+				catch(err)
+				{
+					myText = "ParseError";
+					var mySceneParameters = new array();
+				}
+			
+				for ( index=0; index< mySceneParameters.length; index++ )
+				{
+					SceneParameters = mySceneParameters[index];
+					SceneIndex = SceneParameters.sceneIndex;
+					SceneNames[SceneIndex] = SceneParameters.sceneName;
+					
+					SceneDimmerValues[SceneIndex] = SceneParameters.sceneValues[SceneIndex];
+					
+					//DialAlarmState[0] = gDimmerValues[0];
+					
+				}
 
 
    		   
@@ -4792,7 +4759,7 @@ function handleGetDevicePramDetails(response)
 			
 	   		 ParameterInit = true;
 
- 			InitalizePrefs(gPrefKey);
+ 			//InitalizePrefs(gPrefKey);
 
 			UpdateDimmerBank();
 			
