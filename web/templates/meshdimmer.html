@@ -4673,11 +4673,11 @@ function handleGetDevicePramDetails(response)
    	
 
 				
-				SystemClockPGNID   = row[3];
-				document.getElementById("ClockPGNInstance").selectedIndex = row[3];;
+				SystemClockPGNID   = parseInt(row[3]);
+				document.getElementById("ClockPGNInstance").selectedIndex = parseInt(row[3]);
 			
-				DialPGNInstance[0] = row[2];
-				document.getElementById("PGNInstance").selectedIndex = row[2];
+				DialPGNInstance[0] = parseInt(row[2]);
+				document.getElementById("PGNInstance").selectedIndex = parseInt(row[2]);
 		
 				// get dimmer label text
 				myDialSettingsSubStrings= row[4].split(",");
@@ -4686,8 +4686,8 @@ function handleGetDevicePramDetails(response)
 						DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
 						
 						
-						document.getElementById("Dimmer"+i+"Label").innerHTML = DialText[0];
-						document.getElementById("Dimmer"+i+"Name").value = DialText[0];
+						document.getElementById("Dimmer"+index+"Label").innerHTML = DialText[0];
+						document.getElementById("Dimmer"+index+"Name").value = DialText[0];
 				}
 
 				
