@@ -479,7 +479,7 @@ def netdimmer():
 def dashboardapi():
 
   return render_template(
-    'dashoard_api.html',
+    'dashboard_api.html',
     features = [],
   )
 
