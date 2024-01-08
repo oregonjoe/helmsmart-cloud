@@ -522,7 +522,7 @@ var SceneDimmerValues = [
 						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
- 
+  ];
  
  var SceneDimmerOverride = [
 						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -4706,8 +4706,8 @@ function handleGetDevicePramDetails(response)
 			
 				for ( index=0; index< mySceneParameters.length; index++ )
 				{
-					SceneParameters = mySceneParameters[index];
-					SceneIndex = SceneParameters.sceneIndex;
+					var SceneParameters = mySceneParameters[index];
+					gSceneIndex = SceneParameters.sceneIndex;
 					SceneNames[SceneIndex] = SceneParameters.sceneName;
 					
 					SceneDimmerValues[SceneIndex] = SceneParameters.sceneValues[SceneIndex];
