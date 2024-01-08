@@ -4715,7 +4715,12 @@ function handleGetDevicePramDetails(response)
 					gSceneIndex = SceneParameters.sceneIndex;
 					SceneNames[gSceneIndex] = SceneParameters.sceneName;
 					
-					changedSceneName(gSceneIndex)
+					//changedSceneName(gSceneIndex)
+					
+
+					document.getElementById("Scene" + index + "Name").value = SceneParameters.sceneName;
+	
+					document.getElementById("scene" + index).innerHTML = SceneParameters.sceneName;
 					
 					SceneDimmerValues[gSceneIndex] = SceneParameters.sceneValues;
 					
