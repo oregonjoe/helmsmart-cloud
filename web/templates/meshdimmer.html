@@ -4711,20 +4711,25 @@ function handleGetDevicePramDetails(response)
 			
 				for ( index=0; index< mySceneParameters.length; index++ )
 				{
-					var SceneParameters = mySceneParameters[index];
-					gSceneIndex = SceneParameters.sceneIndex;
-					SceneNames[gSceneIndex] = SceneParameters.sceneName;
+				
+					//this errors out if we go too big
+					if(index < 16)
+					{
+						
+						SceneParameters = mySceneParameters[index];
+						gSceneIndex = SceneParameters.sceneIndex;
+						SceneNames[gSceneIndex] = SceneParameters.sceneName;
 					
-					//changedSceneName(gSceneIndex)
+						//changedSceneName(gSceneIndex)
 					
 
-					document.getElementById("Scene" + index + "Name").value = SceneParameters.sceneName;
+						document.getElementById("Scene" + index + "Name").value = SceneParameters.sceneName;
 	
-					document.getElementById("scene" + index).innerHTML = SceneParameters.sceneName;
+						document.getElementById("scene" + index).innerHTML = SceneParameters.sceneName;
 					
-					SceneDimmerValues[gSceneIndex] = SceneParameters.sceneValues;
+						SceneDimmerValues[gSceneIndex] = SceneParameters.sceneValues;
 					
-					//DialAlarmState[0] = gDimmerValues[0];
+					}
 					
 				}
 
