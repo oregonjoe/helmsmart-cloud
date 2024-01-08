@@ -1246,7 +1246,7 @@ def prefs_endpoint():
         sqlstr = 'select * from updatemeshdimmerprefs(%s,%s,%s,%s,%s,%s,%s,%s);' 
         cursor.execute(sqlstr, (prefkey, userid, prefname, deviceid, instance, systemclock,labels,options))
     elif gettype == 'delete_meshdimmer_pref':
-        sqlstr = 'delete from user_meshdimmer_prefs where messagekey = %s;' 
+        sqlstr = 'delete from user_meshdimmer_prefs where prefidkey = %s;' 
         cursor.execute(sqlstr, (prefkey, ))         
 
     elif gettype == 'add_timmer_pref':
