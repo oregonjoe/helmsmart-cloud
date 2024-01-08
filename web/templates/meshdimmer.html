@@ -4595,13 +4595,13 @@ function handleGetDevicePramNames(response)
    	    response.records.forEach(function(row){
 		
 			// Initialize the Sceen buttons
-			gSceneText[index]= row[2];
+			gSceneText[index]= row[1];
 			gScenePrefIDs[index] = row[0];
 			document.getElementById("scene" + index).innerHTML = gSceneText[index];
 			
 			
 			// set up the the dropdown prefs menu
-			document.getElementById("XMLFilesSelect").options[index] = new Option(row[2],  row[0] );
+			document.getElementById("XMLFilesSelect").options[index] = new Option(row[1],  row[0] );
 				//gPrefKey = row[0];
 				document.getElementById("XMLFilesSelect").selectedIndex = index++;
 	   		});
