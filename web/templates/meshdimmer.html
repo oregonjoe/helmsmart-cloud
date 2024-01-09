@@ -1497,15 +1497,22 @@ function LiveUpdatesButtonClick(button,index, value)
 {
 
 	//Toggle Live updates from Firebase
-	if(gFirebasePaused == true)
+	if(gFirebasePaused == false)
 	{
-		gFirebasePaused = false;
-		document.getElementById("LiveUpdatesButton").innerHTML = "Live Updates - Paused";
+		gFirebasePaused = true;
+		document.getElementById("LiveUpdatesButton").innerHTML = "Updates - Paused";
+		
+		$(LiveUpdatesButton).removeClass('active');
+		$(LiveUpdatesButton).addClass('disabled');
+		
+		
 	}
 	else
 	{
-		gFirebasePaused = true;
-		document.getElementById("LiveUpdatesButton").innerHTML = "Live Updates - Enabled";
+		gFirebasePaused = false;
+		document.getElementById("LiveUpdatesButton").innerHTML = "Updates - Enabled";
+		$(LiveUpdatesButton).removeClass('disabled');
+		$(LiveUpdatesButton).addClass('active');
 		
 	}
 	
@@ -2226,6 +2233,12 @@ function InitalizeFirebase()
 
 	
 	gFirebaseInitialized = true;
+	
+	gFirebasePaused = false;
+	document.getElementById("LiveUpdatesButton").innerHTML = "Updates - Enabled";
+	$(LiveUpdatesButton).removeClass('disabled');
+	$(LiveUpdatesButton).addClass('active');
+		
 	/*
 	    rootRef.on('child_changed', function(snapshot) {
     ShowFirebaseData(snapshot.val());
