@@ -5161,6 +5161,9 @@ function ModifyPref()
       prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
       prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
 	  
+	  if (prefName == "")
+		prefName = "scene preference";
+	  
 	  
 	// var meshDimmerScenes = {};
 	
@@ -5183,7 +5186,7 @@ function ModifyPref()
 	//meshDimmerScenes['scene0'] = meshDimmerScene;
 	
  
-	devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update_meshdimmer_pref&userid=" + gUserID + + "&deviceid=" +  gDeviceID + "&prefkey=" +  prefkey + "&prefname=" +  prefName + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScenes);
+	devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update_meshdimmer_pref&userid=" + gUserID + "&deviceid=" +  gDeviceID + "&prefkey=" +  prefkey + "&prefname=" +  prefName + "&labels=" + DimmerLabels + "&options=" + JSON.stringify(meshDimmerScenes);
 	
 /*
       devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update&userid=" + gUserID + "&prefkey=" +  prefkey + "&options="
