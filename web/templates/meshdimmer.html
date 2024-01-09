@@ -649,7 +649,11 @@ var gDimmerElements = Array(
 
     if (gUserID == null)
     {
-    gUserID = "0";
+		gUserID = "0";
+		gFirebasePaused = true;
+		document.getElementById("LiveUpdatesButton").innerHTML = "Updates - Paused";
+		$(LiveUpdatesButton).removeClass('active');
+		$(LiveUpdatesButton).addClass('disabled');
     }
     else
     {
