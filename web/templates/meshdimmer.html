@@ -584,7 +584,7 @@ var upDateControl = 0;
 var gDimmerValues = new Array(100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100);
 var gDimmerAmpValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 var gDimmerDIOValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-var gDimmerControlValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+var gDimmerControlValues = new Array(15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15);
 var gDimmerOverrideValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 var gDimmerLockout=0;
 var gDimmerLockoutFlag = true;
@@ -4531,6 +4531,12 @@ var index=0;
 			document.getElementById("scene" + index).innerHTML = SceneNames[index];
 		}
 		
+		for(index = 0; index < 16; index++)
+		{
+			gDimmerControlValues[index] = 0x0F;
+		}
+		
+		gDimmerControlValues[DialIndex] = dimmervalue & 0x0F;
 		
 		EnableDimmers();
 		
