@@ -5441,6 +5441,14 @@ function handleUpdateDimmerBank(response)
 function UpdateDimmerBank()
 {
 
+	if(gFirebasePaused == true)
+	{
+	
+		alert('Updates are paused. No commands sent');
+		return
+	}
+
+
         $.blockUI({ 
      message: '<h1>Setting Dimmer...</h1>',    
      css: {             
@@ -6287,7 +6295,7 @@ function getDeviceList(userid)
 
 
 
-<td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="10">
+<td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="20">
 <div class="btn-group" role="group" aria-label="HTTPPostDimmersButton">
 			  <button type="button" class="btn btn-primary"  style="width: 180px" id="HTTPPostDimmersButton" ; > Status</button>
 </div>
@@ -6300,7 +6308,7 @@ function getDeviceList(userid)
 <!-- <td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="10"> <div id="sceneLabel"  onclick="UpdateDimmerBank();"> Scene 0 </div> </td> -->
 
 
-<td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="10">
+<td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="20">
 <div class="btn-group" role="group" aria-label="LiveUpdatesButton">
 			  <button type="button" class="btn btn-primary"  style="width: 180px" id="LiveUpdatesButton" onclick="LiveUpdatesButtonClick(0,0,0)"; > Updates - Live</button>
 </div>
