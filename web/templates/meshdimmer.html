@@ -4508,63 +4508,29 @@ function InitalizePrefs(gPrefKey)
 {
 var index=0;
 
-		document.getElementById("Dimmer0Label").innerHTML = DialText[0];
-		document.getElementById("Dimmer1Label").innerHTML = DialText[1];
-		document.getElementById("Dimmer2Label").innerHTML = DialText[2];
-		document.getElementById("Dimmer3Label").innerHTML = DialText[3];
-		document.getElementById("Dimmer4Label").innerHTML = DialText[4];
-		document.getElementById("Dimmer5Label").innerHTML = DialText[5];
-		document.getElementById("Dimmer6Label").innerHTML = DialText[6];
-		document.getElementById("Dimmer7Label").innerHTML = DialText[7];
-		document.getElementById("Dimmer8Label").innerHTML = DialText[8];
-		document.getElementById("Dimmer9Label").innerHTML = DialText[9];
-		document.getElementById("Dimmer10Label").innerHTML = DialText[10];
-		document.getElementById("Dimmer11Label").innerHTML = DialText[11];
-		document.getElementById("Dimmer12Label").innerHTML = DialText[12];
-		document.getElementById("Dimmer13Label").innerHTML = DialText[13];
-		document.getElementById("Dimmer14Label").innerHTML = DialText[14];
-		document.getElementById("Dimmer15Label").innerHTML = DialText[15];		
+		for(index = 0; index < 16; index++)
+		{
+			document.getElementById("Dimmer"+index+"Label").innerHTML = DialText[index];
+		}		
 		//document.getElementById("Dimmer16Label").innerHTML = DialText[16];	
 		
-		
-		document.getElementById("Dimmer0Name").value = DialText[0];
-		document.getElementById("Dimmer1Name").value = DialText[1];
-		document.getElementById("Dimmer2Name").value = DialText[2];
-		document.getElementById("Dimmer3Name").value = DialText[3];
-		document.getElementById("Dimmer4Name").value = DialText[4];
-		document.getElementById("Dimmer5Name").value = DialText[5];
-		document.getElementById("Dimmer6Name").value = DialText[6];
-		document.getElementById("Dimmer7Name").value = DialText[7];
-		document.getElementById("Dimmer8Name").value = DialText[8];
-		document.getElementById("Dimmer9Name").value = DialText[9];
-		document.getElementById("Dimmer10Name").value = DialText[10];
-		document.getElementById("Dimmer11Name").value = DialText[11];
-		document.getElementById("Dimmer12Name").value = DialText[12];
-		document.getElementById("Dimmer13Name").value = DialText[13];
-		document.getElementById("Dimmer14Name").value = DialText[14];
-		document.getElementById("Dimmer15Name").value = DialText[15];		
-		//document.getElementById("Dimmer15Name").value = DialText[16];		
+		for(index = 0; index < 16; index++)
+		{
+			document.getElementById("Dimmer"+index+"Name").value = DialText[index];
+		}
+	
 		
 		for(index = 0; index < 16; index++)
+		{
 			setdimmerOverrideButtonClick(index)
-		//document.getElementById("ReportsID").options[0].text = DialText[0];
-		//document.getElementById("ReportsID").options[1].text = DialText[1];
-		//document.getElementById("ReportsID").options[2].text = DialText[2];
-		//document.getElementById("ReportsID").options[3].text = DialText[3];
-		//document.getElementById("ReportsID").options[4].text = DialText[4];
-		//document.getElementById("ReportsID").options[5].text = DialText[5];
-		//document.getElementById("ReportsID").options[6].text = DialText[6];
-		//document.getElementById("ReportsID").options[7].text = DialText[7];
-		//document.getElementById("ReportsID").options[8].text = DialText[8];
-		//document.getElementById("ReportsID").options[9].text = DialText[9];
-		//document.getElementById("ReportsID").options[10].text = DialText[10];
-		//document.getElementById("ReportsID").options[11].text = DialText[11];
-		//document.getElementById("ReportsID").options[12].text = DialText[12];
-		//document.getElementById("ReportsID").options[13].text = DialText[13];
-		//document.getElementById("ReportsID").options[14].text = DialText[14];	
-		//document.getElementById("ReportsID").options[15].text = DialText[15];		
-		//setDimmerLayout(PageLayout);
-		//document.getElementById("DimmerType").selectedIndex = PageLayout;
+		}
+
+		for(index = 0; index < 8; index++)
+		{
+			document.getElementById("Scene" + index + "Name").value = SceneNames[index];
+			document.getElementById("scene" + index).innerHTML = SceneNames[index];
+		}
+		
 		
 		EnableDimmers();
 		
@@ -4581,6 +4547,8 @@ var index=0;
 		
 		
 		document.getElementById("XMLFilesSelect").selectedIndex = gPrefKey;
+		document.getElementById("PauseLiveUpdate").selectedIndex = 0;
+		gFirebasePaused = false;
 		
 		gDimmerLockout=0;
 		gDimmerLockoutFlag = true;
