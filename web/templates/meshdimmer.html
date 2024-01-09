@@ -4636,7 +4636,7 @@ function handleGetDevicePramNames(response)
 	
 	
 	// if no prefeferences are found then just use the defaults
-	if(index == 0)
+	if(index <= 1)
 	{
 		 document.getElementById("XMLFilesSelect").selectedIndex = 0;
 		 gPrefKey = 0;
@@ -4647,7 +4647,7 @@ function handleGetDevicePramNames(response)
 	 {
 	 
 	 	//gPrefKey = sel.options[sel.selectedIndex].value;
-		gPrefKey = parseInt(document.getElementById("XMLFilesSelect").options[index].value);
+		gPrefKey = parseInt(document.getElementById("XMLFilesSelect").options[index-1].value);
 		// go to DB and load new prefs
 		getDeviceParamDetails(gPrefKey);
 	 }
