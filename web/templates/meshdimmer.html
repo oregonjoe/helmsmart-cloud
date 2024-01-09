@@ -6251,6 +6251,42 @@ function getDeviceList(userid)
  </td>
 
 </tr>
+
+
+<tr id=header-row>	
+<!-- <td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="10"> <div id="sceneLabel"  onclick="UpdateDimmerBank();"> Scene 0 </div> </td> -->
+
+
+
+<td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="10">
+<div class="btn-group" role="group" aria-label="HTTPPostDimmersButton">
+			 			
+				<select class="form-control" id="PauseLiveUpdate"  onchange="selectPauseLiveUpdate(this);" name="D2">   
+                    <option value="false">Updates Live</option>
+                    <option value="true">Updates Paused</option>
+
+                    </select>
+</div>
+ </td>
+
+</tr>
+
+
+<!--
+
+		<div class="form-group">	
+				
+				 <label class="control-label col-sm-2" for="PauseLiveUpdate">Pause Live Updates</label>
+				 
+				<div class="col-sm-6">
+				<select class="form-control" id="PauseLiveUpdate"  onchange="selectPauseLiveUpdate(this);" name="D2">   
+                    <option value="false">Live</option>
+                    <option value="true">Paused</option>
+
+                    </select></div>
+		
+		</div> 
+-->
 </tbody>
 </table>
 
@@ -7886,6 +7922,7 @@ $("#LEDcolor").on("change", function () {
 		
 		</div> 
 		
+		<!--
 		<div class="form-group">	
 				
 				 <label class="control-label col-sm-2" for="PauseLiveUpdate">Pause Live Updates</label>
@@ -7898,7 +7935,7 @@ $("#LEDcolor").on("change", function () {
                     </select></div>
 		
 		</div> 
-		
+		-->
 				<div class="form-group" style="margin-top:25px;">
 				
 			<div class="col-sm-offset-4 col-sm-4">
