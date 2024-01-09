@@ -285,9 +285,11 @@ var gNumberOfDimmers = 15;
 	var gDeviceKey="";
 	//var gDeviceName="001EC0B415C2:SSENETG2_SeaDream";
 	var gDeviceName="";
-  var device;
-  var firebase;
+	var device;
+	var firebase;
     var rootRef;;
+	var gFirebaseInitialized = false;
+	var gFirebasePaused = false;
 	
 	// PageType = 7 = meshDimmerPrefs
 	var pagetype=7;
@@ -2197,6 +2199,8 @@ function InitalizeFirebase()
     ShowFirebaseData(snapshot.val());
     });
 
+	
+	gFirebaseInitialized = true;
 	/*
 	    rootRef.on('child_changed', function(snapshot) {
     ShowFirebaseData(snapshot.val());
@@ -2244,6 +2248,9 @@ var amps;
 
 
 	var dimmervalue;
+	
+	if(gFirebasePaused = true;)
+		return;
 
 	// Check if a timeout occurred
 	if(!mydata)
@@ -3591,6 +3598,13 @@ function changedSceneName(index)
 }
 
 
+function selectPauseLiveUpdate(sel) {
+	  
+
+		
+		gFirebasePaused = sel.options[sel.selectedIndex].value;
+}
+
 function SetClockPGNInstance(sel)
 {
 
@@ -4620,23 +4634,25 @@ function handleGetDevicePramNames(response)
 	   		});
 	}
 	
+	
+	// if no prefeferences are found then just use the defaults
 	if(index == 0)
 	{
-	 document.getElementById("XMLFilesSelect").selectedIndex = 0;
-	 gPrefKey = 0;
-	 }
+		 document.getElementById("XMLFilesSelect").selectedIndex = 0;
+		 gPrefKey = 0;
+		 InitalizePrefs(gPrefKey);
 	 
+	 }
+	 else // load the last one in the list
+	 {
+	 
+	 	//gPrefKey = sel.options[sel.selectedIndex].value;
+		gPrefKey = parseInt(document.getElementById("XMLFilesSelect").options[index].value);
+		// go to DB and load new prefs
+		getDeviceParamDetails(gPrefKey);
+	 }
 
-   //	 if(gDeviceKey !== "")
-	//	InitalizeFirebase();
-		
-    // load up user pameters from DB if there were any returned
-   // if(index > 0)        
-	// 	  getDeviceParamDetails(gUserID);
-    //else
-    //{
-		InitalizePrefs(gPrefKey);
-   // }
+
  
 }
 
@@ -4678,6 +4694,8 @@ function handleGetDevicePramDetails(response)
 			
 				DialPGNInstance[0] = parseInt(row[2]);
 				document.getElementById("PGNInstance").selectedIndex = parseInt(row[2]);
+				
+				document.getElementById("AddPreferenceName").value = row[1];
 		
 				// get dimmer label text
 				myDialSettingsSubStrings= row[4].split(",");
@@ -4776,8 +4794,14 @@ function handleGetDevicePramDetails(response)
 			
 	   		 ParameterInit = true;
 
- 			//InitalizePrefs(gPrefKey);
 
+			if((gDeviceKey !== "") && (gFirebaseInitialized == false))
+			{
+				InitalizeFirebase();
+			}
+			
+			
+			
 			UpdateDimmerBank();
 			
 			
@@ -5159,7 +5183,9 @@ function ModifyPref()
 	
       optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
       prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
-      prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
+      #prefName = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
+	  prefName = document.getElementById("AddPreferenceName").value;
+	  
 	  
 	  if (prefName == "")
 		prefName = "scene preference";
@@ -7879,6 +7905,19 @@ $("#LEDcolor").on("change", function () {
                     <option value="AMBER">Amber</option>
                     <option value="LIGHTBLUE">LightBlue</option>
                     <option value="SECTIONS">Sections</option>
+                    </select></div>
+		
+		</div> 
+		
+		<div class="form-group">	
+				
+				 <label class="control-label col-sm-2" for="PauseLiveUpdate">Pause Live Updates</label>
+				 
+				<div class="col-sm-6">
+				<select class="form-control" id="PauseLiveUpdate"  onchange="selectPauseLiveUpdate(this);" name="D2">   
+                    <option value="false">Live</option>
+                    <option value="true">Paused</option>
+
                     </select></div>
 		
 		</div> 
