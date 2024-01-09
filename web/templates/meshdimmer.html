@@ -1492,6 +1492,28 @@ function dimmerOverrideButtonClick(button)
 
 }
 
+
+function LiveUpdatesButtonClick(button,index, value)
+{
+
+	//Toggle Live updates from Firebase
+	if(gFirebasePaused == true)
+	{
+		gFirebasePaused = false;
+		document.getElementById("LiveUpdatesButton").innerHTML = "Live Updates - Paused";
+	}
+	else
+	{
+		gFirebasePaused = true;
+		document.getElementById("LiveUpdatesButton").innerHTML = "Live Updates - Enabled";
+		
+	}
+	
+
+	
+
+}
+
 		
 function dimmerButtonClick(button,index, value)
 {
@@ -3944,6 +3966,10 @@ function sceneButtonClick(index)
 
 	
 	document.getElementById("HTTPPostDimmersButton").innerHTML = "Set " + SceneNames[index];
+	
+	
+	
+	
 	//getDeviceParamDetails(gScenePrefIDs[index]);
 	
 	
@@ -6257,7 +6283,17 @@ function getDeviceList(userid)
 <!-- <td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="10"> <div id="sceneLabel"  onclick="UpdateDimmerBank();"> Scene 0 </div> </td> -->
 
 
+<td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="10">
+<div class="btn-group" role="group" aria-label="LiveUpdatesButton">
+			  <button type="button" class="btn btn-primary"  style="width: 180px" id="LiveUpdatesButton" onclick="LiveUpdatesButtonClick(0,0,0)"; > Updates - Live</button>
+</div>
+ </td>
 
+</tr>
+
+
+
+<!--
 <td  class="tablescenerow"  align="center" style="width: 690px; height: 30px; min-width:690px;" cellpadding="10">
 <div class="btn-group" role="group" aria-label="HTTPPostDimmersButton">
 			 			
@@ -6272,7 +6308,7 @@ function getDeviceList(userid)
 </tr>
 
 
-<!--
+
 
 		<div class="form-group">	
 				
@@ -7221,7 +7257,11 @@ function getDeviceList(userid)
 						 });
 						
 
-	HTTPPostDimmersButton= $("#HTTPPostDimmersButton").button();					
+	HTTPPostDimmersButton= $("#HTTPPostDimmersButton").button();	
+
+	LiveUpdatesButton= $("#LiveUpdatesButton").button();	
+		
+		
 		
 	dimmer0Override= $("#dimmer0Override").button();
 	dimmer1Override= $("#dimmer1Override").button();
