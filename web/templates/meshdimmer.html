@@ -4546,6 +4546,71 @@ function EnableDimmers()
 
 }
 
+function InitalizeDefaultPrefs(gPrefKey)
+{
+var index=0;
+
+var defaultSceneNames = ["Master High", "Master Off", "Master Mid","Master Low","Slaves High","Slaves Off","Slaves Mid","Slaves Low","Scene 8","Scene 9"];
+var defaultDialText = new Array("Master","Dimmer 1","Dimmer 2","Dimmer 3","Dimmer 4","Dimmer 5","Dimmer 6","Dimmer 7","Dimmer 8","Dimmer 9","Dimmer 10","Dimmer 11","Dimmer 12","Dimmer 13","Dimmer 14","Dimmer 15","Dimmer 16");
+
+		for(index = 0; index < 16; index++)
+		{
+			document.getElementById("Dimmer"+index+"Label").innerHTML = defaultDialText[index];
+		}		
+		//document.getElementById("Dimmer16Label").innerHTML = DialText[16];	
+		
+		for(index = 0; index < 16; index++)
+		{
+			document.getElementById("Dimmer"+index+"Name").value = defaultDialText[index];
+		}
+	
+		
+		for(index = 0; index < 16; index++)
+		{
+			setdimmerOverrideButtonClick(index)
+		}
+
+		for(index = 0; index < 8; index++)
+		{
+			document.getElementById("Scene" + index + "Name").value = defaultSceneNames[index];
+			document.getElementById("scene" + index).innerHTML = defaultSceneNames[index];
+		}
+		
+		for(index = 0; index < 16; index++)
+		{
+			gDimmerControlValues[index] = 0x0F;
+		}
+		
+		
+		
+		EnableDimmers();
+		
+		//var dimmervalues = PageForeGroundColor.replace("#", "") ;
+		
+		//setDimmerControls(dimmervalues);
+		
+		document.getElementById("clock-row").style.display = 'block';
+	    //document.getElementById("amps-row").style.display = 'block';
+		
+		document.getElementById("ClockPGNInstance").selectedIndex = 6;
+		document.getElementById("ClockLcdColor").selectedIndex = 0;
+		setClockLcdColor(ClockLCDColor);
+		
+		
+		document.getElementById("XMLFilesSelect").selectedIndex = 0;
+		document.getElementById("PauseLiveUpdate").selectedIndex = 0;
+		gFirebasePaused = false;
+		
+		gDimmerLockout=0;
+		gDimmerLockoutFlag = true;
+		
+		 if(gDeviceKey !== "")
+			InitalizeFirebase();
+		
+		// if(gDeviceKey !== "")
+		//InitalizeFirebase();
+}
+
 
 function InitalizePrefs(gPrefKey)
 {
@@ -4579,7 +4644,7 @@ var index=0;
 			gDimmerControlValues[index] = 0x0F;
 		}
 		
-		gDimmerControlValues[DialIndex] = dimmervalue & 0x0F;
+		
 		
 		EnableDimmers();
 		
@@ -4608,6 +4673,8 @@ var index=0;
 		// if(gDeviceKey !== "")
 		//InitalizeFirebase();
 }
+
+
 function AddLogAlert()
 {
 	AddNewPref();
@@ -4685,8 +4752,18 @@ function handleGetDevicePramNames(response)
    // save new CongigOptions to Cookie file
   //  SetServerType( 1);
 	gPrefKey = sel.options[sel.selectedIndex].value;
-  // go to DB and load new prefs
-   getDeviceParamDetails(gPrefKey);
+	
+	if(gPrefKey == 0)
+	{
+		InitalizePrefs(0);
+	}
+	else
+	{
+	
+		// go to DB and load new prefs
+		getDeviceParamDetails(gPrefKey);
+	}
+
 
  }
 
