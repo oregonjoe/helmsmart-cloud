@@ -4598,8 +4598,11 @@ var defaultDialText = new Array("Master","Dimmer 1","Dimmer 2","Dimmer 3","Dimme
 		
 		
 		document.getElementById("XMLFilesSelect").selectedIndex = 0;
-		document.getElementById("PauseLiveUpdate").selectedIndex = 0;
+		//document.getElementById("PauseLiveUpdate").selectedIndex = 0;
 		gFirebasePaused = false;
+		document.getElementById("LiveUpdatesButton").innerHTML = "Updates - Enabled";
+		$(LiveUpdatesButton).removeClass('disabled');
+		$(LiveUpdatesButton).addClass('active');
 		
 		gDimmerLockout=0;
 		gDimmerLockoutFlag = true;
@@ -4661,8 +4664,11 @@ var index=0;
 		
 		
 		document.getElementById("XMLFilesSelect").selectedIndex = gPrefKey;
-		document.getElementById("PauseLiveUpdate").selectedIndex = 0;
+		//document.getElementById("PauseLiveUpdate").selectedIndex = 0;
 		gFirebasePaused = false;
+		document.getElementById("LiveUpdatesButton").innerHTML = "Updates - Enabled";
+		$(LiveUpdatesButton).removeClass('disabled');
+		$(LiveUpdatesButton).addClass('active');
 		
 		gDimmerLockout=0;
 		gDimmerLockoutFlag = true;
@@ -4755,7 +4761,7 @@ function handleGetDevicePramNames(response)
 	
 	if(gPrefKey == 0)
 	{
-		InitalizePrefs(0);
+		InitalizeDefaultPrefs(0);
 	}
 	else
 	{
