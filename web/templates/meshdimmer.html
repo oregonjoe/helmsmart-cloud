@@ -4837,11 +4837,14 @@ function handleAddNewPref(response)
 
 }
 
-function handleModifyPref(response)
+function handleModifyPref(prefkey)
  {
  var index=0;
  
    	$.unblockUI();
+	
+	getDeviceParamDetails(prefkey);
+	
 
 }
 
@@ -5277,7 +5280,10 @@ function ModifyPref()
       200: function() {      }
       },
       success: function(response) {
-      handleModifyPref(response)
+	  
+		//handleModifyPref(response)
+		handleModifyPref(prefkey)
+	  
       },
       complete: function() {
       // unblock when remote call returns
