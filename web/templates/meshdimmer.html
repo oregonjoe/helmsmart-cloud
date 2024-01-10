@@ -4582,6 +4582,59 @@ var defaultDialText = new Array("Master","Dimmer 1","Dimmer 2","Dimmer 3","Dimme
 		}
 		
 		
+
+  
+		for(index = 0; index < 16; index++)
+		{
+			SceneDimmerValues[0][index] = 100;
+			SceneDimmerOverride[0][index]=0;
+		}
+		
+		for(index = 0; index < 16; index++)
+		{
+			SceneDimmerValues[1][index] = 0;
+			SceneDimmerOverride[1][index]=0;
+		}
+		for(index = 0; index < 16; index++)
+		{
+			SceneDimmerValues[2][index] = 25;
+			SceneDimmerOverride[20][index]=0;
+		}
+		for(index = 0; index < 16; index++)
+		{
+			SceneDimmerValues[3][index] = 50;
+			SceneDimmerOverride[3][index]=0;
+		}
+		
+		for(index = 0; index < 16; index++)
+		{
+			SceneDimmerValues[4][index] = 100;
+			SceneDimmerOverride[4][index]=0;
+		}
+		
+		for(index = 0; index < 16; index++)
+		{
+			SceneDimmerValues[5][index] = 0;
+			SceneDimmerOverride[5][index]=0;
+		}
+		for(index = 0; index < 16; index++)
+		{
+			SceneDimmerValues[6][index] = 25;
+			SceneDimmerOverride[6][index]=0;
+		}
+		for(index = 0; index < 16; index++)
+		{
+			SceneDimmerValues[7][index] = 50;
+			SceneDimmerOverride[7][index]=0;
+		}
+		
+		SceneDimmerValues[4][0] = 101;
+		SceneDimmerValues[5][0] = 101;
+		SceneDimmerValues[6][0] = 101;
+		SceneDimmerValues[7][0] = 101;
+		
+		DialPGNInstance[0]=0;
+				
 		
 		EnableDimmers();
 		
