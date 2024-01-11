@@ -19155,7 +19155,11 @@ def addnewdevice_endpoint():
     
     query  = "select * from user_devices where useremail = %s and deviceid = %s"
     cursor = conn.cursor()
+
+    cursor = conn.cursor()
     cursor.execute(query, ( useremail, deviceid))
+    i = cursor.fetchone()       
+
       
     if cursor.rowcount == 0:
 
@@ -19175,21 +19179,9 @@ def addnewdevice_endpoint():
         return jsonify( message='Could not add device', status='error')
 
     else:
+      deviceapikey= str(i[0])
       log.info("Add Device error - user already exixts %s", deviceid)
       userstatus = "user deviceid " + str(deviceid) + " already exists"
-
-      
-    query  = "select devicename, deviceid from user_devices where useremail = %s"
-
-
-    cursor.execute(query, (useremail,))
-      
-    if cursor.rowcount == 0:
-      return jsonify( message='Could not get devices', status='error', userstatus = userstatus)
-
-
-    devices = [dict((cursor.description[i][0], value) \
-        for i, value in enumerate(row)) for row in cursor.fetchall()]
 
 
     return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
