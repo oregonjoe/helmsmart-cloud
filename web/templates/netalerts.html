@@ -5750,12 +5750,14 @@ function AddLogAlert()
 	{
 		AlertPrefs['alertaction_pgn'] = "none"
 		AlertPrefs['alertaction_value'] =   "---";
+		AlertPrefs['alertdefault_value'] = 0xFF;
+		
 	}
 	  //myInterval = parseInt(document.getElementById("EventInterval").value);
       //myInterval = parseInt(document.getElementById("EventInterval").selectedIndex);
 	  myInterval = parseInt(document.getElementById("EventInterval").value);
       AlertPrefs['AlertId'] = 0;
-	  AlertPrefs['alertdefault_value'] = 0xFF;
+	  //AlertPrefs['alertdefault_value'] = 0xFF;
 
       //AlertPrefs['prefname'] = document.getElementById("EventName").value + "Upload";
       //AlertPrefs['Interval'] = document.getElementById("EventInterval").options[document.getElementById("EventInterval").selectedIndex].text;
