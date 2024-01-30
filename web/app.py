@@ -19142,7 +19142,7 @@ def addnewdevice_endpoint():
   
   conn = db_pool.getconn()
 
-  useremail = request.args.get('useremail', 'joe@chetcodigital.com')
+  useremail = request.args.get('useremail', '')
   deviceid = request.args.get('deviceid', '000000000000')
   devicename = request.args.get('name', 'SeaSmart')
   status = 1
@@ -19222,6 +19222,10 @@ def addnewdevice_endpoint():
         userstatus = "user deviceid " + str(deviceid) + " already exists"
         
         return jsonify( message='user deviceidapikey already exists' , deviceapikey=deviceapikey, userstatus = userstatus )
+
+  except TypeError as e:
+    log.info("Add Device error -:TypeError deviceid %s ", deviceid)
+    log.info('Add Device error -:TypeError  Error %s:  ' % e)
 
   except:
     e = sys.exc_info()[0]
