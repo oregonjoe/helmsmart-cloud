@@ -19149,22 +19149,22 @@ def addnewdevice_endpoint():
 
   userid=hash_string(useremail)
   log.info("addnewdevice- userid %s", userid)
-  deviceapikey=hash_string(userid+deviceid+"083019")
+  #deviceapikey=hash_string(userid+deviceid+"083019")
+  deviceapikey=hash_string(userid+deviceid+"013024")
   log.info("addnewdevice - deviceapikey %s", deviceapikey)
   
   try:
     
-    query  = "select * from user_devices where useremail = %s and deviceid = %s"
+    query  = "select userid from user_devices where useremail = %s"
     cursor = conn.cursor()
 
     cursor = conn.cursor()
-    cursor.execute(query, ( useremail, deviceid))
+    cursor.execute(query, ( useremail))
     i = cursor.fetchone()       
 
-      
+    #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
     if cursor.rowcount == 0:
-
-      log.info("Add Device status - user does not exist" )
+      log.info("addnewdevice - userid does not exist so adding userid and deviceapikey", deviceapikey)
       userstatus = "user does not exist - adding"
       
       query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename) Values (%s, %s, %s, %s, %s, %s)"
@@ -19178,20 +19178,57 @@ def addnewdevice_endpoint():
       if cursor.rowcount == 0:
         userstatus = " Could not add user deviceid " + str(deviceid)
         return jsonify( message='Could not add device', status='error')
+      
+      userstatus = "new userid and deviceapikey added"
+      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
 
+    #userid exists so look up if deviceapikey has already been added
     else:
-      deviceapikey= str(i[0])
-      log.info("Add Device error - user already exixts %s", deviceid)
-      userstatus = "user deviceid " + str(deviceid) + " already exists"
+      
+      log.info("Add Device status - deviceapikey does not exist" )
 
+      query  = "select deviceapikey from user_devices where useremail = %s and deviceid = %s"
+      cursor = conn.cursor()
 
-    return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+      cursor = conn.cursor()
+      cursor.execute(query, ( useremail))
+      i = cursor.fetchone()       
+
+      #no existing deviceapikey so add new one 
+      if cursor.rowcount == 0:
+      
+        log.info("addnewdevice - deviceapikey does not exist so adding  deviceapikey", deviceapikey)
+        userstatus = "deviceapikey does not exist - adding"
+        
+        query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename) Values (%s, %s, %s, %s, %s, %s)"
+
+        # add new device record to DB
+        cursor = conn.cursor()
+        cursor.execute(query, (deviceapikey, userid, useremail, deviceid, status,  devicename))
+
+        conn.commit()
+          
+        if cursor.rowcount == 0:
+          userstatus = " Could not add user deviceid " + str(deviceid)
+          return jsonify( message='Could not add device', status='error')
+        
+        userstatus = "deviceapikey new deviceapikey added"
+        return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )     
+
+      #deviceapikey already exists so just return it
+      else:
+        deviceapikey= str(i[0])
+        log.info("Add Device status - deviceapikey already exixts %s", deviceapikey)
+        userstatus = "user deviceid " + str(deviceid) + " already exists"
+        
+        return jsonify( message='user deviceidapikey already exists' , deviceapikey=deviceapikey, userstatus = userstatus )
 
   except:
     e = sys.exc_info()[0]
-    log.info("Add Device error - user already exixts %s", deviceid)
+    log.info("Add Device error - Error in adding device %s", deviceid)
     log.info('Add Device error: Error in adding device %s:  ' % e)
-    
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+  
   finally:
     db_pool.putconn(conn)    
 
@@ -19229,7 +19266,39 @@ def updatedevice_endpoint():
   finally:
     db_pool.putconn(conn)   
 
+@app.route('/deletedevice')
+def deletedevice_endpoint():
+  
+  conn = db_pool.getconn()
+  
+  deviceapikey = request.args.get('deviceapikey', '')
+  useremail = request.args.get('useremail', '')
+  deviceid = request.args.get('deviceid', '000000000000')
+  devicename = request.args.get('name', '')
 
+
+ 
+  query  = "delete from user_devices where deviceapikey = %s AND deviceid = %s AND useremail = %s "
+  
+  try:
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, (deviceapikey, deviceid, useremail))
+
+    conn.commit()
+    #i = cursor.fetchone()
+    # if not then just exit
+    #if cursor.rowcount == 0:
+      
+    if cursor.rowcount == 0:
+          return jsonify( message='Could not delete device', status='error')      
+    else:
+          return jsonify( message='device deleted', status='success') 
+  
+    
+
+  finally:
+    db_pool.putconn(conn)   
 
 # **********************************************************************
 #
