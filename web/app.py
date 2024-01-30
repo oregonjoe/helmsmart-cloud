@@ -19148,8 +19148,9 @@ def addnewdevice_endpoint():
   status = 1
 
   userid=hash_string(useremail)
+  log.info("addnewdevice- userid %s", userid)
   deviceapikey=hash_string(userid+deviceid+"083019")
-  
+  log.info("addnewdevice - deviceapikey %s", deviceapikey)
   
   try:
     
