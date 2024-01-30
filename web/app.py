@@ -19159,7 +19159,7 @@ def addnewdevice_endpoint():
     cursor = conn.cursor()
 
     cursor = conn.cursor()
-    cursor.execute(query, ( useremail))
+    cursor.execute(query, ( useremail,))
     i = cursor.fetchone()       
 
     #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
