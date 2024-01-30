@@ -19184,20 +19184,20 @@ def addnewdevice_endpoint():
 
     #userid exists so look up if deviceapikey has already been added
     else:
-      
-      log.info("Add Device status - deviceapikey does not exist" )
+      userid= str(i[0])
+      log.info("Add Device status userid  %s  exists", userid )
 
-      query  = "select deviceapikey from user_devices where useremail = %s and deviceid = %s"
+      query  = "select deviceapikey from user_devices where userid = %s and deviceid = %s"
       cursor = conn.cursor()
 
       cursor = conn.cursor()
-      cursor.execute(query, ( useremail, deviceid))
+      cursor.execute(query, ( userid, deviceid))
       i = cursor.fetchone()       
 
       #no existing deviceapikey so add new one 
       if cursor.rowcount == 0:
       
-        log.info("addnewdevice - deviceapikey does not exist so adding  deviceapikey", deviceapikey)
+        log.info("addnewdevice - udeviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
         userstatus = "deviceapikey does not exist - adding"
         
         query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename) Values (%s, %s, %s, %s, %s, %s)"
