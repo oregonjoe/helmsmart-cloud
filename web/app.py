@@ -19191,7 +19191,7 @@ def addnewdevice_endpoint():
       cursor = conn.cursor()
 
       cursor = conn.cursor()
-      cursor.execute(query, ( useremail))
+      cursor.execute(query, ( useremail, deviceid))
       i = cursor.fetchone()       
 
       #no existing deviceapikey so add new one 
@@ -19226,6 +19226,7 @@ def addnewdevice_endpoint():
   except TypeError as e:
     log.info("Add Device error -:TypeError deviceid %s ", deviceid)
     log.info('Add Device error -:TypeError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
 
   except:
     e = sys.exc_info()[0]
