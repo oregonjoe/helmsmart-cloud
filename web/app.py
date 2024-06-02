@@ -18587,7 +18587,8 @@ def getgpsseriesbydeviceid_dbc():
         #log.info("getgpsseriesbydeviceid_dbc  jsondata   %s",jsondata)
         #return jsonify( message=jsondata, status='success')
 
-      
+        log.info("getgpsseriesbydeviceid_dbc  jsondata result length  %s:  %s",len(jsondata))
+
         # group lat and lng values based on epoch times and get rid of repeated epoch times
         for key, latlnggroup in groupby(jsondata, lambda x: x[0]):
 
@@ -18637,7 +18638,7 @@ def getgpsseriesbydeviceid_dbc():
       
         return jsonify( message='Error in inFluxDB_GPS  parsing', status='error')
 
-      
+      log.info("getgpsseriesbydeviceid_dbc  jsondataarray result length  %s:  %s",len(jsondataarray))      
       
       if dataformat == 'csv':
         try:
