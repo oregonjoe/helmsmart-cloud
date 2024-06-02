@@ -18881,9 +18881,9 @@ def getgpsseriesbydeviceid_dbc():
                 gpsjson = {'epoch': jsondata[i]['epoch'], 'source':jsondata[i]['source'], 'lat':jsondata[i]['lat'], 'lng': jsondata[i]['lng'], 'distance':delta, 'speed':speed, 'overlay': jsondata[i].get('overlay',"")}
               
               #if delta < float(maxthreshold)/1000:
-              #if deltatime <  float(maxinterval) * 60:
-              # if speed < float(maxthreshold)/100:
-              gpsdata.append(gpsjson)
+              if deltatime <  float(maxinterval) * 60:
+                if speed < float(maxthreshold)/100:
+                  gpsdata.append(gpsjson)
 
           log.info('getgpsseriesbydeviceid_dbc: gpsdata_len  %s:  ', len(gpsdata) )   
           log.info('getgpsseriesbydeviceid_dbc: gpsdata  %s:  ', gpsdata)      
