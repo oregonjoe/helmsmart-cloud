@@ -21111,7 +21111,7 @@ def setdimmerbankapi():
   valuesLen = len(dimmervalues)
   log.info("setdimmerbankapi valuesLen %s", valuesLen)
 
-  if dimmervalues[0] < 101:
+  if int(dimmervalues[0]) < 101:
       log.info("setdimmerbankapi MASTER setdimmerMemCache %s, %s, %s, %s, %s", deviceid, 0, dimmerid, dimmeroverrides[0], dimmervalues[0] )
       newdimmeritem = setdimmerMemCache(deviceid, 0, dimmerid, dimmeroverrides[0], dimmervalues[0])
 
