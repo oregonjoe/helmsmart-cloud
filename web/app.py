@@ -21111,10 +21111,16 @@ def setdimmerbankapi():
   valuesLen = len(dimmervalues)
   log.info("setdimmerbankapi valuesLen %s", valuesLen)
 
-  for instance  in  range(0, 16):
+  if dimmervalues[0] < 101:
+      log.info("setdimmerbankapi MASTER setdimmerMemCache %s, %s, %s, %s, %s", deviceid, 0, dimmerid, dimmeroverrides[0], dimmervalues[0] )
+      newdimmeritem = setdimmerMemCache(deviceid, 0, dimmerid, dimmeroverrides[0], dimmervalues[0])
 
-    log.info("setdimmerbankapi setdimmerMemCache %s, %s, %s, %s, %s", deviceid, instance, dimmerid, dimmeroverrides[instance], dimmervalues[instance] )
-    newdimmeritem = setdimmerMemCache(deviceid, instance, dimmerid, dimmeroverrides[instance], dimmervalues[instance])
+  else:
+
+    for instance  in  range(0, 16):
+
+      log.info("setdimmerbankapi setdimmerMemCache %s, %s, %s, %s, %s", deviceid, instance, dimmerid, dimmeroverrides[instance], dimmervalues[instance] )
+      newdimmeritem = setdimmerMemCache(deviceid, instance, dimmerid, dimmeroverrides[instance], dimmervalues[instance])
 
 
   return jsonify(result="OK", dimmer=newdimmeritem)
