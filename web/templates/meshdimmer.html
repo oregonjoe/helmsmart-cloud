@@ -1289,7 +1289,7 @@ function dimmerOverrideButtonClick(button)
 						document.getElementById("dimmer1Override").innerHTML = "OFF";
 						$(dimmer1Override).removeClass('active').siblings('.btn').removeClass('active');
 						gDimmerOverrideValues[1] = 1;
-						gDimmerValues[1] = 255;
+						//gDimmerValues[1] = 255;
 						
 					}
 					else{
@@ -4904,6 +4904,14 @@ function handleGetDevicePramDetails(response)
 						document.getElementById("scene" + index).innerHTML = SceneParameters.sceneName;
 					
 						SceneDimmerValues[gSceneIndex] = SceneParameters.sceneValues;
+						
+						try{
+						SceneDimmerOverride[gSceneIndex] = SceneParameters.sceneOverride;
+						 }
+						catch(err)
+						{}
+						
+						
 					
 					}
 					
@@ -5198,17 +5206,23 @@ function AddNewPref()
 	//var meshDimmerScenes = {};
 	var meshDimmerScenes = new Array();
 	
+	
 	for(i=0; i<9; i++)
 	{
 		var meshDimmerScene ={}
+		var meshDimmerOverride ={}
 		
 		//meshDimmerScene['sceneName'] = "test Scene High"
 		meshDimmerScene['sceneIndex'] = i;
 		meshDimmerScene['sceneName'] =SceneNames[i];
 		
 		meshDimmerScene['sceneValues'] = SceneDimmerValues[i];
+		meshDimmerScene['sceneOverrides'] = SceneDimmerOverride[i];
 		
 		meshDimmerScenes.push(meshDimmerScene);
+		
+
+		
 	
 	}
 	//meshDimmerScene['sceneOverrides'] = DialAlarm;
@@ -5365,6 +5379,7 @@ function ModifyPref()
 		meshDimmerScene['sceneName'] =SceneNames[i];
 		
 		meshDimmerScene['sceneValues'] = SceneDimmerValues[i];
+		meshDimmerScene['sceneOverrides'] = SceneDimmerOverride[i];
 		
 		meshDimmerScenes.push(meshDimmerScene);
 	
