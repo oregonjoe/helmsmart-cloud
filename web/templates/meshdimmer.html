@@ -1289,6 +1289,8 @@ function dimmerOverrideButtonClick(button)
 						document.getElementById("dimmer1Override").innerHTML = "OFF";
 						$(dimmer1Override).removeClass('active').siblings('.btn').removeClass('active');
 						gDimmerOverrideValues[1] = 1;
+						gDimmerValues[1] = 255;
+						
 					}
 					else{
 						document.getElementById("dimmer1Override").innerHTML = "&nbsp;ON";
