@@ -4905,14 +4905,21 @@ function handleGetDevicePramDetails(response)
 					
 						SceneDimmerValues[gSceneIndex] = SceneParameters.sceneValues;
 						
+						if('sceneOverride' in SceneParameters)
+						{
+							SceneDimmerOverride[gSceneIndex] = SceneParameters.sceneOverride;
+						}
+						
+						/*
 						try{
 							SceneDimmerOverride[gSceneIndex] = SceneParameters.sceneOverride;
 						 }
 						catch(err)
 						{
 							SceneDimmerOverride[gSceneIndex] = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+							SceneDimmerOverride
 						}
-						
+						*/
 						
 					
 					}
