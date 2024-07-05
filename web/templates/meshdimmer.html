@@ -4905,9 +4905,9 @@ function handleGetDevicePramDetails(response)
 					
 						SceneDimmerValues[gSceneIndex] = SceneParameters.sceneValues;
 						
-						if('sceneOverride' in SceneParameters)
+						if('sceneOverrides' in SceneParameters)
 						{
-							SceneDimmerOverride[gSceneIndex] = SceneParameters.sceneOverride;
+							SceneDimmerOverride[gSceneIndex] = SceneParameters.sceneOverrides;
 						}
 						else
 						{
