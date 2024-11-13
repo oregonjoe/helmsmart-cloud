@@ -893,16 +893,10 @@ var myPGNTag="";
 					switch(myPGNInstance)
 					{
 						case "0":	//	<option value="None"> -------- </option>
-							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Port";
+							myPGNTag =  "/M2M/Engine/Generator Transmission Pressure J1939";
 						break;
 						
-						case "1":	//	<option value="None"> -------- </option>
-							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Starboard";
-						break;
 						
-						case "2":	//	<option value="None"> -------- </option>
-							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Center";
-						break;
 					}
 					break;
 					
@@ -910,16 +904,10 @@ var myPGNTag="";
 					switch(myPGNInstance)
 					{
 						case "0":	//	<option value="None"> -------- </option>
-							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Port";
+							myPGNTag =  "/M2M/Engine/Generator Transmission Temperature J1939";
 						break;
 						
-						case "1":	//	<option value="None"> -------- </option>
-							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Starboard";
-						break;
 						
-						case "2":	//	<option value="None"> -------- </option>
-							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Center";
-						break;
 					}
 					break;
 				} // switch myPGNParameter
