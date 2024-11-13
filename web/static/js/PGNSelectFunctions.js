@@ -843,43 +843,90 @@ var myPGNTag="";
 			
 		case "transmission_parameters_dynamic":	//	<option value="None"> -------- </option>
 		
-			switch(myPGNParameter)
-			{
-				case "oil_pressure":
-				switch(myPGNInstance)
+		switch(myPGNType)
+		{
+			case "NULL":
+		
+				switch(myPGNParameter)
 				{
-					case "0":	//	<option value="None"> -------- </option>
-						myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Port";
+					case "oil_pressure":
+					switch(myPGNInstance)
+					{
+						case "0":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Port";
+						break;
+						
+						case "1":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Starboard";
+						break;
+						
+						case "2":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Center";
+						break;
+					}
 					break;
 					
-					case "1":	//	<option value="None"> -------- </option>
-						myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Starboard";
+					case "oil_temp":
+					switch(myPGNInstance)
+					{
+						case "0":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Port";
+						break;
+						
+						case "1":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Starboard";
+						break;
+						
+						case "2":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Center";
+						break;
+					}
 					break;
-					
-					case "2":	//	<option value="None"> -------- </option>
-						myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Center";
-					break;
-				}
-				break;
-				
-				case "oil_temp":
-				switch(myPGNInstance)
+				} //switch myPGNParameter
+			break; // Type=NULL
+			
+			case "J1939":
+		
+				switch(myPGNParameter)
 				{
-					case "0":	//	<option value="None"> -------- </option>
-						myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Port";
+					case "oil_pressure":
+					switch(myPGNInstance)
+					{
+						case "0":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Port";
+						break;
+						
+						case "1":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Starboard";
+						break;
+						
+						case "2":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Pressure Center";
+						break;
+					}
 					break;
 					
-					case "1":	//	<option value="None"> -------- </option>
-						myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Starboard";
+					case "oil_temp":
+					switch(myPGNInstance)
+					{
+						case "0":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Port";
+						break;
+						
+						case "1":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Starboard";
+						break;
+						
+						case "2":	//	<option value="None"> -------- </option>
+							myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Center";
+						break;
+					}
 					break;
-					
-					case "2":	//	<option value="None"> -------- </option>
-						myPGNTag =  "/M2M/Engine/Transmission OIL Temperature Center";
-					break;
-				}
-				break;
-			}
-			break;// transmission_parameters_dynamic
+				} // switch myPGNParameter
+				break; //J1939
+			}// switch type
+		
+		break;// transmission_parameters_dynamic
 			
 			
 			
@@ -5276,6 +5323,10 @@ var myPGNParameter= "";
 
 
 
+	
+
+
+
 		case "/M2M/Engine/Generator OIL Pressure J1939": //<option value="/M2M/Engine/Generator OIL Pressure J1939">Generator - J1939 - OIL Pressure</option>
 			myPGNNumber="engine_parameters_dynamic";
 			myPGNSource=Source;
@@ -5283,6 +5334,7 @@ var myPGNParameter= "";
 			myPGNType="J1939";
 			myPGNParameter="oil_pressure";
 		break;		
+		
 		
 		case "/M2M/Engine/Generator Alternator Volts J1939": //<option value="/M2M/Engine/Generator Alternator Volts J1939">Generator - J1939 - Alternator Volts</option>
 			myPGNNumber="engine_parameters_dynamic";
@@ -5339,7 +5391,22 @@ var myPGNParameter= "";
 		
 		
 		
+		case "/M2M/Engine/Generator Transmission Pressure J1939": //<option value="/M2M/Engine/Generator OIL Pressure J1939">Generator - J1939 - OIL Pressure</option>
+			myPGNNumber="transmission_parameters_dynamic";
+			myPGNSource=Source;
+			myPGNInstance="0";
+			myPGNType="J1939";
+			myPGNParameter="oil_pressure";
+		break;		
 		
+		
+		case "/M2M/Engine/Generator Transmission Temperature J1939":	//<option value="/M2M/Engine/Engine Temperature Port">Engine Temperature Port</option>
+			myPGNNumber="transmission_parameters_dynamic";
+			myPGNSource=Source;
+			myPGNInstance="0";
+			myPGNType="J1939";
+			myPGNParameter="oil_temp";
+		break;	
 		
 		
 
