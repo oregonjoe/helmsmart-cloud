@@ -530,6 +530,22 @@ var myPGNTag="";
 			
 		break;// J1939 engine pressures			
 		
+		case "65272":	//	J1939 Transmission
+		
+			switch(myPGNParameter)
+			{
+				case 3://"oil pressure":
+					myPGNTag =  "/M2M/Engine/Generator Transmission Pressure J1939";
+				break;
+				
+				case 4://"oil temperature":
+					myPGNTag =  "/M2M/Engine/enerator Transmission Temperature J1939";
+				break;
+			}
+			
+			
+		break;// J1939 engine pressures			
+		
 		case "65271":	//	J1939 engine voltages
 		
 			switch(myPGNParameter)
@@ -3766,6 +3782,21 @@ var myPGNParameter= "0";
 			myPGNParameter="3";
 		break;
 		
+		case "/M2M/Engine/Generator Transmission Pressure J1939":	//<option value="/M2M/Engine/Generator OIL Pressure J1939">Generator - J1939 - OIL Pressure</option>
+			myPGNNumber="65272";
+			myPGNSource=Source;
+			myPGNInstance="0";
+			myPGNType="0";
+			myPGNParameter="3";
+		break;
+		
+		case "/M2M/Engine/Generator Transmission Temperature J1939":	//<option value="/M2M/Engine/Generator OIL Pressure J1939">Generator - J1939 - OIL Pressure</option>
+			myPGNNumber="65272";
+			myPGNSource=Source;
+			myPGNInstance="0";
+			myPGNType="0";
+			myPGNParameter="4";
+		break;
 		
 		case "/M2M/Engine/Generator Alternator Volts J1939": //	<option value="/M2M/Engine/Generator Alternator Volts J1939">Generator - J1939 - Alternator Volts</option>
 			myPGNNumber="65271";
