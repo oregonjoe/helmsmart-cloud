@@ -953,64 +953,53 @@ var myPCDINdata = mydata.split("\r\n");
 
 	for(index=0; index < (myPCDINdata.length); index++) //
 	{  
-       var table = document.getElementById("AlertData");
- 
-       var rowCount = table.rows.length;
-            
-        if(rowCount >= 140)
-            table.deleteRow(rowCount-1);
-           
-            var row = table.insertRow(1);
-			
-			row.style.verticalAlign="top"; 
-			
-			var PGNFields = myPCDINdata[index].split(",");
-			
-			//var timestamp = PGNFields[2];
-			
+		if(myPCDINdata[index].indexOf("$PCDIN") != -1)
+		{
+		   var table = document.getElementById("AlertData");
+	 
+		   var rowCount = table.rows.length;
+				
+			if(rowCount >= 200)
+				table.deleteRow(rowCount-1);
+			   
+				var row = table.insertRow(1);
+				
+				row.style.verticalAlign="top"; 
+				
+				var PGNFields = myPCDINdata[index].split(",");
+				
+				
 				var myTimeStamp;
 				var myTimeStampStr;
-	
-				//myTimeStampStr = myHexStr.substr(0 ,6)
+		
 				myTimeStampStr =PGNFields[2];
 				myTimeStamp = parseInt(myTimeStampStr, 32);
 				myTimeStamp = myTimeStamp /1024;
 				myTimeStamp = myTimeStamp + 1262304000;
 				myTimeStamp = myTimeStamp * 1000;
-				
+					
 				NGTDate.setTime(myTimeStamp);
-			
-			var cell0 = row.insertCell(0);
-			
-		  
-	    var utcTime = new Date();;
-	
-		//	var utcTime = new Date(myNewAlertValues.timestamp  + " GMT").getTime() / 1000;
-			
-			//if(document.getElementById("TimeZoneId").options[document.getElementById("TimeZoneId").selectedIndex].value == "-0")
-			{
 				
+				var cell0 = row.insertCell(0);
+				
+			  
+				var utcTime = new Date();;
+		
+					
 				utcTime = utcTime + new Date().getTimezoneOffset();
-				//var mydate = new Date(utcTime * 1000);
- 
 
-               var cell0 = row.insertCell(0);
-			   //cell0.innerHTML = NGTDate.toUTCString();
-			var mytimestring = NGTDate.toString().replace(/GMT.*/g, "");
-		  
-			    cell0.innerHTML = mytimestring.replace(" ", "&nbsp;");
+				var cell0 = row.insertCell(0);
+
+				var mytimestring = NGTDate.toString().replace(/GMT.*/g, "");
+			  
+				cell0.innerHTML = mytimestring.replace(" ", "&nbsp;");
 				cell0.style.textAlign = 'left';
-			}
-			
-			
-			
-			
+
+				
 				var cell1 = row.insertCell(1);
 				cell1.innerHTML =  myPCDINdata[index];
-				//cell1.innerHTML = "$PCDIN" + myPCDINdata[index]
-			    //cell1.innerHTML = PGNFields[1];
 				cell1.style.textAlign = 'left';
-			
+		}	
 	}
 
  
@@ -1063,7 +1052,7 @@ var myseries2;
  
        var rowCount = table.rows.length;
             
-        if(rowCount >= 140)
+        if(rowCount >= 200)
             table.deleteRow(rowCount-1);
            
             var row = table.insertRow(1);
@@ -1231,7 +1220,7 @@ var mypgndata;
  
        var rowCount = table.rows.length;
             
-        if(rowCount >= 140)
+        if(rowCount >= 200)
             table.deleteRow(rowCount-1);
            
             var row = table.insertRow(1);
