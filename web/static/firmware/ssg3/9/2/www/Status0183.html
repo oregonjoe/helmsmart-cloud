@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html >
+<head>
+<meta content="en-us" http-equiv="Content-Language" />
+<title>SeaSmart NMEA 0183 Status Page</title>
+
+	<script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/main_conf.js"><\/script>');
+	</script>  
+	
+	<script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/mchp.js"><\/script>');
+	</script>  
+	
+	<script type="text/javascript">
+	document.write(' <link href="style/style.css" rel="stylesheet" type="text/css" />');
+	</script> 
+
+
+<style type="text/css">
+.auto-style2 {
+	text-align: center;
+}
+.auto-style3 {
+	border-bottom-style: solid;
+	border-bottom-color: #000080;
+}
+.auto-style4 {
+	border-top-style: solid;
+	border-top-color: #000080;
+}
+.auto-style6 {
+	font-size: medium;
+	color: #12126C;
+}
+.auto-style7 {
+	font-size: large;
+}
+.auto-style8 {
+	font-size: medium;
+}
+.auto-style9 {
+	color: #12126C;
+	font-size: small;
+}
+.auto-style10 {
+	font-size: medium;
+  color: #FFFFFF;
+  border-top-style: none;
+	border-top-color: #12365e;
+  border-bottom-style: none;
+	border-bottom-color: #12365e;
+}
+</style>
+<style  type="text/css">
+ <!--
+ A{text-decoration:none}
+ .auto-style10 {
+	margin-left: 60px;
+}
+ -->
+ </style>
+
+
+</head>
+
+<body>
+ 
+<table style="width: 800px">
+	<tr>
+		<td>
+		<table style="width: 800px">
+			<tr>
+				<td style="width: 100px" colspan="2"><img alt="" height="80" src="images/CDI_Logo.jpg" width="80" /></td>
+				<td style="width: 450px" colspan="2"><img alt="" height="77" src="images/SeaSmartBanner.jpg" width="400" /></td>
+				<td style="width: 100px" colspan="2"><img alt="SeaSmart G3 Gateway" height="90" longdesc="SeaSmart G3 Gateway" src="images/SeaSmartG3Logo.jpg" width="150" /></td>
+			</tr>	
+		</table>
+		<table style="width: 800px">
+			<tr>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+			</tr>	
+			<tr>
+				<td style="width: 200px" class="auto-style6"><strong><a href="index.html">Home</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="conf.html">Config</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="StatusN2K.html">Status CAN</strong></a></td>
+				<td style="width: 200px" class="auto-style6"><strong>Status 0183</strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="Files.html">Files</strong></a></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="PGNfilters.html">PGN Filters</strong></a></td>
+				
+			</tr>
+           <tr style=" background-color:#12365e; " >
+              <td colspan="3" class="auto-style10">Device: </td>
+			   <td colspan="3" id="DeviceIDXMLValue" class="auto-style10">~DEVICE~</td>
+            </tr>
+            
+            <tr style=" background-color:#12365e; " class="auto-style10">
+              <td colspan="3" style="width: 426px">Firmware Version</td>
+              <td colspan="3" id="VersionXMLValue"style="width: 500px">~FWID~</td>
+            </tr>
+          </span>
+		</table>
+		</td>
+	</tr>
+	
+			
+
+	</table>
+
+	
+	
+	 
+		
+</div></p>		  
+		  
+	<table>	  
+		<tr>
+		<td>	  
+				
+
+
+				<div  class="auto-style3"></div>
+				
+				<strong>HTTP POST Status:</strong> 
+			<span id="HTTPPostStatus" style="font-weight:normal" class="auto-style9">&nbsp;</span><form name="HTTPPostStatus">
+					<textarea name="HTTPPostText" style="width: 800px; height: 128px; font-size:12px"></textarea></form>
+		
+
+				<div  class="auto-style3"></div>
+
+</td>		              
+		</tr>
+	
+	<tr>
+		<td>	  
+				
+
+
+				<div  class="auto-style3"></div>
+				
+				<strong>RAW 0183 Data:</strong> <input type="button" style="margin-right: 10px; margin-top: 10px;margin-bottom: 10px;text-align:left; width: 120px; height: 25px;"  id="pauselist"  name="pause" value="PAUSE"  onclick="pauseList()" /> 
+			<span id="0183Data" style="font-weight:normal" class="auto-style9">&nbsp;</span><form name="0183Data">
+					<textarea name="0183Text" style="width: 800px; height: 228px; font-size:12px"></textarea></form>
+		
+
+				<div  class="auto-style3"></div>
+
+</td>		              
+		</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="auto-style2"><a href="http://www.chetcodigital.com">
+		www.chetcodigital.com</a> - <a href="http://www.seasmart.net">
+		www.seasmart.net</a> - <a href="http://www.netgauges.net">
+		www.netgauges.net</a> - <a href="http://www.digitalmarinegauges.com">
+		www.digitalmarinegauges.com</a>&nbsp;&nbsp; copyright 2023</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+
+var pauseListFlag = false;
+
+function pauseList() {
+
+	if(pauseListFlag == false)
+	{
+		pauseListFlag = true;
+		document.getElementById("pauselist").value="CONTINUE";
+	
+	}
+	else
+	{
+		pauseListFlag = false;
+		document.getElementById("pauselist").value="PAUSE";
+	}
+
+}
+
+//<!--
+// Parses the xmlResponse from status.xml and updates the status box
+function updateStatus(xmlData) {
+
+	if(pauseListFlag == true)
+		return;
+
+	// Check if a timeout occurred
+	if(!xmlData)
+	{
+		return;
+	}
+
+
+	
+	var StatusString;
+	
+	
+			var myXMLdata = getXMLValue(xmlData, 'DeviceID');
+		document.getElementById('DeviceIDXMLValue').innerHTML =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'VersionInfo');
+		document.getElementById('VersionXMLValue').innerHTML =  myXMLdata;
+	
+
+	document.forms['HTTPPostStatus']['HTTPPostText'].value = getXMLValue(xmlData, 'POSTStatus');
+	//document.forms['HTTPPostStatus']['HTTPPostText'].value += getXMLValue(xmlData, 'POSTStatus');
+	
+	document.forms['0183Data']['0183Text'].value = getXMLValue(xmlData, '0183buffer');
+
+
+}
+setInterval("newAJAXCommand('status0183.xml', updateStatus, false)",2000);
+//-->
+</script>
+
+ 
+</body>
+</html>

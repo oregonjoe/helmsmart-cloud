@@ -1,0 +1,3082 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html >
+<head>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta http-equiv="Cache-control:max-age=2592000"  />
+<title>SeaSmart G3 Configuration Page</title>
+
+
+<!--
+<link href="style/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="scripts/main_conf.min.js"></script>
+<script type="text/javascript" src="scripts/mchp.js"></script>
+<script src="scripts/jquery.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="scripts/jqblockUI.min.js"></script>
+ -->
+
+ 
+  	 <script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/main_conf.js"><\/script>');
+	</script> 
+	  
+	 <script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/mchp.js"><\/script>');
+	</script> 
+	  
+	 <script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/jquery.js"><\/script>');
+	</script> 
+  
+  	 <script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/jqblockUI.js"><\/script>');
+	</script> 
+  
+  	<script type="text/javascript">
+	document.write(' <link href="style/style.css" rel="stylesheet" type="text/css" />');
+	</script> 
+  
+<style type="text/css">
+.auto-style2 {
+	text-align: center;
+}
+.auto-style3 {
+	border-bottom-style: solid;
+	border-bottom-color: #000080;
+}
+.auto-style4 {
+	border-top-style: solid;
+	border-top-color: #000080;
+}
+.auto-style6 {
+	font-size: medium;
+	color: #12126C;
+}
+.auto-style7 {
+	text-align: right;
+}
+.auto-style8 {
+	font-size: medium;
+}
+.auto-style9 {
+	color: #12126C;
+	font-size: small;
+}
+.auto-style10 {
+	font-size: medium;
+  color: #FFFFFF;
+  border-top-style: none;
+	border-top-color: #12365e;
+  border-bottom-style: none;
+	border-bottom-color: #12365e;
+}
+</style>
+<style  type="text/css">
+ <!--
+ A{text-decoration:none}
+ .auto-style8 {
+	color: #FFFFFF;
+}
+ -->
+ </style>
+
+
+<script type="text/javascript">
+
+var gAnalogStr = "00000000";
+var chunkindex=0;
+var gversionSubstrings
+
+var CurrentDialID;
+
+	var DialPGNInstance = new Array(0,0,0,0,0,0,0,0); 
+
+	var DialPGNNumber = new Array("127489","127489","127489","127489","127489","127489","127489","127489"); 
+	var DialPGNSetValue = new Array("","","","","","","",""); 
+	var DialPGNParameter = new Array(0,0,0,0,0,0,0,0); 
+	var gnumOfZones = 12;
+	var TemperatureInstanceStrings = new Array("Sea Temp", "Outside", "Inside", "Engine Room","Cabin", "Live Well", "Bait Well", "Refigeration", "Heating", "Dew Point", "Wind Chill A", "Wind Chill T", "Heat Index", "Freezer", "EGT ", "---");
+	
+	
+	
+	
+ function StartUpMyScript() {
+
+InitializePGNNumberOptionList(0);
+
+}
+
+function changeDHCPenable()
+{
+
+
+
+  var 	 myOptionValue;
+
+  
+  myOptionValue = document.getElementById("DHCPCLIENT_ON_CB").value;
+
+  switch(myOptionValue)
+  {
+	case "0":
+	
+		document.getElementById('DHCPXML').innerHTML = "STATIC IP";		
+		document.getElementById("IPADDR").disabled = false;
+		document.getElementById("SUBNET").disabled = false;
+		document.getElementById("GATEWAY").disabled = false;
+		document.getElementById("DNS1").disabled = false;
+		document.getElementById("DNS2").disabled = false;	
+		break;
+			  
+	case "1":
+	
+		document.getElementById('DHCPXML').innerHTML = "DHCP ENABLED";
+		document.getElementById("IPADDR").disabled = true;
+		document.getElementById("SUBNET").disabled = true;
+		document.getElementById("GATEWAY").disabled = true;
+		document.getElementById("DNS1").disabled = true;
+		document.getElementById("DNS2").disabled = true;
+		break;
+
+	}
+}
+
+
+
+
+  function ChangedHTTPPost()
+  {
+  var 	 myOptionValue;
+
+  document.getElementById("HTTPPostEnable").value = document.getElementById("HTTPPostMenu").selectedIndex;
+
+  myOptionValue = document.getElementById("HTTPPostEnable").value;
+
+  switch(myOptionValue)
+  {
+  case "0":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+  case "1":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+
+  case "2":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+
+  case "3":
+  document.getElementById("HTTPIPADDR").disabled = false;
+  document.getElementById("HTTPIPPORT").disabled = false;
+  document.getElementById("HTTPScript").disabled = false;
+  break;
+  
+  default:
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+  }
+
+  }
+
+
+
+
+
+function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+}
+
+
+
+function InitializePage(numOfZones)
+{
+
+	var instanceOptions = "";
+	
+	if(gversionSubstrings[1]==9) // SeaGaugeG4
+	{
+	
+		for(instanceindex=0; instanceindex < 16; instanceindex++)
+		{
+			 instanceOptions = instanceOptions + '<option value="' + instanceindex + '">' + instanceindex + '</option>';
+		}
+
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;">ADCXX</td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 60px"><select id="PGNIXX" name="PGNIXX"   style="width: 60px" size="1"  > '
+		tablerowcontent = tablerowcontent + instanceOptions + ' </select> </td>'		  
+		tablerowcontent = tablerowcontent +' <td style="width: 295px"> <select id="PGNNXX" name="PGNNXX"   style="width: 280px" size="1" onchange="SetPGNNumberOptionList(XX);"> </select></td>'  
+		tablerowcontent = tablerowcontent +'<td style="width: 220px"> <select id="PGNPXX" name="PGNPXX"   style="width: 220px" size="1" onchange="SetDialPGNParameter(this);"> </select></td>'
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 90px;" maxlength="32" id="PGNSXX" name="PGNSXX" value="" /></td>'
+		//tablerowcontent = tablerowcontent +' <td style="width: 100px"> <select id="CALXX" name="CALXX"   style="width: 100px" size="1" onchange="SetCalibrationOptionList(XX);"> </select></td>' 
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 180px;" maxlength="32" id="CALFILEXX" name="CALFILEXX" value="" readonly /></td>'
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="file" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileSelectXX"  value="Cal File" name="files[]"   multiple class="auto-style10" /></td>'
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"  name="CalFileSelectXX" value="select"  onclick=" window.open("download/", "_self");" class="auto-style10" /></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"  name="CalFileSelectXX" value="select"   class="auto-style10" /></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><button type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"  name="CalFileSelectXX" value="select"    onclick=" window.open("download/", "_self");" />select</button></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><button type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"  name="files[]"   multiple value="select"    onclick=" window.open("download/", "_self");" />select</button></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="file" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"   value="select"  name="files[]"    /></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"   value="select"  name="files[]"    /></td>'
+		//tablerowcontent = tablerowcontent +'<td style="width: 70px"><input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileSelectXX"   value="select"  onclick="handleCalFileSelect(XX)"   /></td>'
+		
+		tablerowcontent = tablerowcontent +'<td style="width: 70px"><input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileModifyXX"   value="modify"  onclick="handleCalFileModify(XX)"   /></td>'
+		
+		
+		for(rowindex=0; rowindex < numOfZones; rowindex++)
+		{
+			var tablerowid = "ADC" + rowindex + "PGNConfig";
+			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
+			
+			document.getElementById(tablerowid).innerHTML =tablerow;		
+			//document.getElementById(tablerowid).addEventListener('click', handleCalFileSelect, false);
+
+		}
+		
+		
+	//#define ALARM_MODE_OFF 0
+	//#define ALARM_MODE_LOW_EQUALTO 1
+	//#define ALARM_MODE_LOW_LESSTHEN 2
+	//#define ALARM_MODE_LOW_GREATERTHEN 3
+	//#define ALARM_MODE_HIGH_EQUALTO 4
+	//#define ALARM_MODE_HIGH_LESSTHEN 5
+	//#define ALARM_MODE_HIGH_GREATERTHEN 6
+	//#define ALARM_MODE_LESSTHENLOW_GREATERTHENHIGH 7
+	//#define ALARM_MODE_GREATERTHENLOW_LESSTEHNHIGH 8
+		
+			var alarmOptions = "";
+			alarmOptions = alarmOptions + '<option value="0">Disabled</option>';
+			alarmOptions = alarmOptions + '<option value="1">Equal to Low</option>';
+			alarmOptions = alarmOptions + '<option value="2">Less then Low</option>';
+			alarmOptions = alarmOptions + '<option value="3">Greater then Low</option>';
+			alarmOptions = alarmOptions + '<option value="4">Equal to High</option>';
+			alarmOptions = alarmOptions + '<option value="5">Less then High</option>';
+			alarmOptions = alarmOptions + '<option value="6">Greater then High</option>';
+			alarmOptions = alarmOptions + '<option value="7">Less the Low and Greater then High</option>';
+			alarmOptions = alarmOptions + '<option value="8">Greater then Low and Less then High</option>';
+			alarmOptions = alarmOptions + '<option value="9">Latch when greater then High</option>';
+			alarmOptions = alarmOptions + '<option value="10">Latch when less then Low</option>';
+			/*
+			var alarmActions = "";
+			alarmActions = alarmActions + '<option value="0">Disabled</option>';
+			alarmActions = alarmActions + '<option value="1">Set Alarm</option>';
+			alarmActions = alarmActions + '<option value="2">Latch High</option>';
+			alarmActions = alarmActions + '<option value="3">Latch Low</option>';
+			alarmActions = alarmActions + '<option value="4">Latch HighLOW</option>';
+			alarmActions = alarmActions + '<option value="5">Latch LowHigh</option>';
+			alarmActions = alarmActions + '<option value="6">Set PIO4</option>';
+			alarmActions = alarmActions + '<option value="7">Set PIO5</option>';
+			alarmActions = alarmActions + '<option value="8">Set PIO6</option>';
+			*/
+			var alarmActions = "";
+			alarmActions = alarmActions + '<option value="0">Set PIO7</option>';
+			alarmActions = alarmActions + '<option value="1">Set PIO6</option>';
+			alarmActions = alarmActions + '<option value="2">Set PIO5</option>';
+			alarmActions = alarmActions + '<option value="3">Set PIO4</option>';
+			alarmActions = alarmActions + '<option value="4">Disabled</option>';
+
+			
+			var alarmMessages = "";
+			alarmMessages = alarmMessages + '<option value="0">Disabled</option>';
+			alarmMessages = alarmMessages + '<option value="1">Port Eng Check</option>';
+			alarmMessages = alarmMessages + '<option value="2">Port Eng Temp</option>';
+			alarmMessages = alarmMessages + '<option value="3">Port Eng Oil</option>';
+			alarmMessages = alarmMessages + '<option value="4">Port Fuel Pressure</option>';
+			alarmMessages = alarmMessages + '<option value="5">Port Alt Volts</option>';
+			alarmMessages = alarmMessages + '<option value="6">Port EGT</option>';
+			alarmMessages = alarmMessages + '<option value="7">Port Fuel Flow</option>';
+			alarmMessages = alarmMessages + '<option value="8">Port Tran Oil</option>';									
+			alarmMessages = alarmMessages + '<option value="9">Port Tran Temp</option>';		
+
+			alarmMessages = alarmMessages + '<option value="10">Stbd Eng Check</option>';
+			alarmMessages = alarmMessages + '<option value="11">Stbd Eng Temp</option>';
+			alarmMessages = alarmMessages + '<option value="12">Stbd Eng Oil</option>';
+			alarmMessages = alarmMessages + '<option value="13">Stbd Fuel Pressure</option>';
+			alarmMessages = alarmMessages + '<option value="14">Stbd Alt Volts</option>';
+			alarmMessages = alarmMessages + '<option value="15">Stbd EGT</option>';
+			alarmMessages = alarmMessages + '<option value="16">Stbd Fuel Flow</option>';
+			alarmMessages = alarmMessages + '<option value="17">Stbd Tran Oil</option>';									
+			alarmMessages = alarmMessages + '<option value="18">Stbd Tran Oil</option>';		
+
+
+			alarmMessages = alarmMessages + '<option value="19">Cntr Eng Check</option>';
+			alarmMessages = alarmMessages + '<option value="20">Cntr Eng Temp</option>';
+			alarmMessages = alarmMessages + '<option value="21">Cntr Eng Oil</option>';
+			alarmMessages = alarmMessages + '<option value="22">Cntr Fuel Pressure</option>';
+			alarmMessages = alarmMessages + '<option value="23">Cntr Alt Volts</option>';
+			alarmMessages = alarmMessages + '<option value="24">Cntr EGT</option>';
+			alarmMessages = alarmMessages + '<option value="25">Cntr Fuel Flow</option>';
+			alarmMessages = alarmMessages + '<option value="26">Cntr Tran Oil</option>';									
+			alarmMessages = alarmMessages + '<option value="27">Cntr Tran Oil</option>';		
+
+			
+											
+		
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;">ADCXX</td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 290px"><select id="ADCAMXX" name="ADCAMXX"   style="width: 290px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmOptions + ' </select> </td>'		  
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCALXX" name="ADCALXX" value="0" /></td>'
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCAHXX" name="ADCAHXX" value="65535" /></td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAAXX" name="ADCAAXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmActions + ' </select> </td>'	
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAPXX" name="ADCAPXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmMessages + ' </select> </td>'
+		
+		
+		for(rowindex=0; rowindex < 12; rowindex++)
+		{
+			
+			var tablerowid = "ADC" + rowindex + "AlarmConfig";
+			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
+			
+			document.getElementById(tablerowid).innerHTML =tablerow;		
+			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
+
+		}
+		
+		
+		
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;">PULSEYY</td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 290px"><select id="ADCAMXX" name="ADCAMXX"   style="width: 290px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmOptions + ' </select> </td>'		  
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCALXX" name="ADCALXX" value="0" /></td>'
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCAHXX" name="ADCAHXX" value="65535" /></td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAAXX" name="ADCAAXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmActions + ' </select> </td>'	
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAPXX" name="ADCAPXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmMessages + ' </select> </td>'
+		
+		
+		for(rowindex=13; rowindex < 16; rowindex++)
+		{
+			var tablerowid = "ADC" + rowindex + "AlarmConfig";
+			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
+			
+			var tablerow = tablerow.replaceAll('YY',(15-rowindex));
+			
+			document.getElementById(tablerowid).innerHTML =tablerow;		
+			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
+
+		}
+		
+
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;">PIOYY</td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 290px"><select id="ADCAMXX" name="ADCAMXX"   style="width: 290px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmOptions + ' </select> </td>'		  
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCALXX" name="ADCALXX" value="0" /></td>'
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCAHXX" name="ADCAHXX" value="65535" /></td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAAXX" name="ADCAAXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmActions + ' </select> </td>'	
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAPXX" name="ADCAPXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmMessages + ' </select> </td>'
+		
+		
+		for(rowindex=16; rowindex < 20; rowindex++)
+		{
+			
+			var tablerowid = "ADC" + rowindex + "AlarmConfig";
+			var tablerow1 = tablerowcontent.replaceAll('XX',rowindex);
+			var tablerow2 = tablerow1.replaceAll('YY',(rowindex-16));
+			
+			document.getElementById(tablerowid).innerHTML =tablerow2;		
+			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
+
+		}
+	
+	}
+	
+	
+	document.getElementById("DimmerInstanceDD").options.length = 0;
+	for(instanceindex=0; instanceindex < 250; instanceindex++)
+	{
+		 document.getElementById("DimmerInstanceDD").options[instanceindex] = new Option(instanceindex, instanceindex);
+	}
+	document.getElementById("DimmerInstanceDD").selectedIndex = 15;
+
+}
+
+// Sets the current dial Id
+  function setPGNDialID(sel) {
+
+	CurrentDialID = document.getElementById("PGNDialID").selectedIndex ;
+	
+	//document.getElementById("DialID").selectedIndex = CurrentDialID;
+	//document.getElementById("PGNDialID").selectedIndex = CurrentDialID;
+	//document.getElementById("PGNTimeout").selectedIndex = DialTimeout;
+	//document.getElementById("UpdateInterval").selectedIndex = UpdateInterval/1000;
+
+     //document.getElementById("PGNNumber").value = DialPGNNumber[myDialID];
+	document.getElementById("PGNN").selectedIndex =0;
+		for(i=0; i< document.getElementById("PGNN").length; i++)
+		{
+			if(document.getElementById("PGNN").options[i].value == DialPGNNumber[CurrentDialID])
+			{
+				document.getElementById("PGNN").selectedIndex = i;
+			}
+		}
+	
+	SetPGNParamatersOptionList(DialPGNNumber[CurrentDialID]);
+	SetPGNInstanceOptionList(DialPGNNumber[CurrentDialID]);
+
+
+	document.getElementById("PGNParameterID").selectedIndex = DialPGNParameter[CurrentDialID];
+	
+	
+    document.getElementById("PGNInstance").selectedIndex = DialPGNInstance[CurrentDialID];
+	
+	
+	
+}
+
+
+
+function InitializePGNNumberOptionList(numOfZones)
+{
+
+
+
+for(rowindex=0; rowindex < numOfZones; rowindex++)
+{
+
+var selectDDid = "PGNN" + rowindex ;
+
+			document.getElementById(selectDDid).options.length = 0;
+
+			/*
+			document.getElementById(selectDDid).options[0] = new Option("disabled", "000000");
+			document.getElementById(selectDDid).options[1] = new Option("PGN127489 - Engine Dynamic", "127489");
+			document.getElementById(selectDDid).options[2] = new Option("PGN127508 - Battery Status", "127508");
+			document.getElementById(selectDDid).options[3] = new Option("PGN127505 - Fluid Level", "127505");
+			document.getElementById(selectDDid).options[4] = new Option("PGN127493 - Transmission", "127493");
+			document.getElementById(selectDDid).options[5] = new Option("PGN130314 - Pressure", "130314");
+			document.getElementById(selectDDid).options[6] = new Option("PGN130311 - Environmental", "130311");
+			document.getElementById(selectDDid).options[7] = new Option("PGN130312 - Temperature", "130312");
+			document.getElementById(selectDDid).options[8] = new Option("PGN130316 - Temperature Extended", "130316");
+			document.getElementById(selectDDid).options[9] = new Option("PGN127245 - Rudder", "127245");
+			*/
+			document.getElementById(selectDDid).options[0] = new Option("disabled", 0);
+			document.getElementById(selectDDid).options[1] = new Option("PGN127489 - Engine Dynamic", 1);
+			document.getElementById(selectDDid).options[2] = new Option("PGN127508 - Battery Status", 2);
+			document.getElementById(selectDDid).options[3] = new Option("PGN127505 - Fluid Level", 3);
+			document.getElementById(selectDDid).options[4] = new Option("PGN127493 - Transmission", 4);
+			document.getElementById(selectDDid).options[5] = new Option("PGN130314 - Pressure", 5);
+			document.getElementById(selectDDid).options[6] = new Option("PGN130311 - Environmental", 6);
+			document.getElementById(selectDDid).options[7] = new Option("PGN130312 - Temperature", 7);
+			document.getElementById(selectDDid).options[8] = new Option("PGN130316 - Temperature Extended", 8);
+			document.getElementById(selectDDid).options[9] = new Option("PGN127245 - Rudder", 9);
+			document.getElementById(selectDDid).options[10] = new Option("PGN127288 - Engine Rapid", 10);
+			
+			document.getElementById(selectDDid).options[11] = new Option("---", 11);
+			document.getElementById(selectDDid).options[12] = new Option("---", 12);
+			document.getElementById(selectDDid).options[13] = new Option("---", 13);
+			document.getElementById(selectDDid).options[14] = new Option("---", 14);
+			document.getElementById(selectDDid).options[15] = new Option("---", 15);
+	
+			document.getElementById(selectDDid).options[16] = new Option("PGN065262 - J1939 Temperature", 16);
+			document.getElementById(selectDDid).options[17] = new Option("PGN065263 - J1939 Pressures", 17);
+			document.getElementById(selectDDid).options[18] = new Option("PGN065271 - J1939 Volts", 18);
+			document.getElementById(selectDDid).options[19] = new Option("PGN065276 - J1939 Fluids", 19);
+			document.getElementById(selectDDid).options[20] = new Option("PGN065272 - J1939 Transmission", 20);
+						
+			document.getElementById(selectDDid).selectedIndex = 0;
+  }
+  
+  	//
+	//CurrentDialID = 0;
+
+  
+}
+
+function SetPGNNumberOptionList(adcchannel)
+{
+var myADCID;
+
+	//myDialID = document.getElementById("PGNDialID").selectedIndex ;
+	//myADCID = sel ;
+	//alert(myDialID);
+	var PGNNumberSelectID = 'PGNN' + adcchannel;
+	
+
+	
+	var selectedIndex = document.getElementById(PGNNumberSelectID).selectedIndex
+	
+
+	var selectedPGN = document.getElementById(PGNNumberSelectID).options[selectedIndex].value;
+
+
+	
+	SetPGNParamatersOptionList(adcchannel, selectedPGN);
+	
+	SetPGNInstanceOptionList(adcchannel, selectedPGN);
+	
+/*
+   switch (selectedPGN) 
+	{
+
+
+		case "127489":
+			SetPGNParamatersOptionList(adcchannel, "127489");
+			//SetPGNInstanceOptionList("127489");
+		break
+		
+		 case "127506":
+			SetPGNParamatersOptionList(adcchannel,"127506");
+			//SetPGNInstanceOptionList("127506");
+		break
+
+		 case "127508":
+			SetPGNParamatersOptionList(adcchannel,"127508");
+			//SetPGNInstanceOptionList("127508");
+		break
+
+		 case "127505":
+			SetPGNParamatersOptionList(adcchannel,"127505");
+			//SetPGNInstanceOptionList("127505");
+		break
+
+		 case "127493":
+			SetPGNParamatersOptionList(adcchannel,"127493");
+			//SetPGNInstanceOptionList("127493");
+		break
+		
+		case "127497":
+			SetPGNParamatersOptionList(adcchannel,"127497");
+			//SetPGNInstanceOptionList("127497");
+		break
+		
+
+
+		case "130314":
+			SetPGNParamatersOptionList(adcchannel,"130314");
+			//SetPGNInstanceOptionList("130314");
+		break
+
+		case "130323":
+			SetPGNParamatersOptionList(adcchannel,"130323");
+			//SetPGNInstanceOptionList("130323");
+		break
+
+		 case "130306":
+			SetPGNParamatersOptionList(adcchannel,"130306");
+			//SetPGNInstanceOptionList("130306");
+		break
+
+
+
+
+		 case "130312":
+			SetPGNParamatersOptionList(adcchannel,"130312");
+			//SetPGNInstanceOptionList("130312");
+		break
+		
+		case "130316":
+			SetPGNParamatersOptionList(adcchannel,"130316");
+			//SetPGNInstanceOptionList("130316");
+		break
+
+		case "127245":
+			SetPGNParamatersOptionList(adcchannel,"127245");
+			//SetPGNInstanceOptionList("127245");
+		break
+
+	
+
+
+		case "":
+			SetPGNParamatersOptionList(adcchannel,"Undefined");
+			//SetPGNInstanceOptionList("Undefined");
+		break
+
+		case "Undefined":
+			SetPGNParamatersOptionList(adcchannel,"Undefined");
+			//SetPGNInstanceOptionList("Undefined");
+		break
+
+		default:
+			SetPGNParamatersOptionList(adcchannel,"Undefined");
+			//SetPGNInstanceOptionList("Undefined");
+		break
+
+
+
+		}
+		
+		*/
+
+	//alert(myDialID);
+		// reset parameter list to first value
+		//document.getElementById("PGNParameterID").selectedIndex = 0;
+
+
+
+		// reset parameter index to 0
+		//DialPGNParameter[myDialID] = 0;
+
+		//radialDial[myDialID].setUnitString("undefined");
+	
+}
+
+function SetPGNSetValue(selText)
+{
+		myDialID = document.getElementById("PGNDialID").selectedIndex ;
+
+	//alert(myDialID);
+
+	DialPGNSetValue[myDialID] = sel.options[sel.selectedIndex].value;   
+	
+	
+}
+
+function SetPGNSetValue(selText)
+{
+	
+	myDialID = document.getElementById("PGNDialID").selectedIndex ;
+
+
+	document.getElementById("DialPGNSetValue").value = DialPGNSetValue[myDialID];
+	
+}
+
+function SetPGNInstanceOptionList(adcchannel, selText)
+{
+
+//document.getElementById("PGNInstance").options.length = 0;
+
+	var index=0;
+	var PGNParameterID = 'PGNI' + adcchannel;
+	
+	document.getElementById(PGNParameterID).options.length = 0;
+
+	switch (parseInt(selText))
+	{
+
+		case 6:
+		
+			for(index=0; index < 16; index++)
+			{
+				document.getElementById(PGNParameterID).options[index] = new Option("Port " + TemperatureInstanceStrings[index], index);
+			}
+
+			for(index=0; index < 16; index++)
+			{
+				document.getElementById(PGNParameterID).options[index+16] = new Option("Stbd " + TemperatureInstanceStrings[index], index+16);
+			}
+
+			
+			
+		break
+		
+
+		case 7:
+		
+			for(index=0; index < 16; index++)
+			{
+				document.getElementById(PGNParameterID).options[index] = new Option("Port " + TemperatureInstanceStrings[index], index);
+			}
+
+			for(index=0; index < 16; index++)
+			{
+				document.getElementById(PGNParameterID).options[index+16] = new Option("Stbd " + TemperatureInstanceStrings[index], index+16);
+			}
+
+			
+			
+		break
+		
+		case 8:
+			for(index=0; index < 16; index++)
+			{
+				document.getElementById(PGNParameterID).options[index] = new Option("Port " + TemperatureInstanceStrings[index], index);
+			}
+
+			for(index=0; index < 16; index++)
+			{
+				document.getElementById(PGNParameterID).options[index+16] = new Option("Stbd " + TemperatureInstanceStrings[index], index+16);
+			}
+		break;
+
+		default:
+
+			for(i=0; i<32; i++)
+			document.getElementById(PGNParameterID).options[i] = new Option(i, i);
+		break;
+		}
+
+}
+
+function UpdateCalibrationOptionList(adcchannel, selText)
+{
+
+
+
+
+
+	var PGNCAlID = 'CAL' + adcchannel;
+	
+	//document.getElementById(PGNCAlID).options.length = 0;
+	
+}
+function SetCalibrationOptionList(adcchannel, selText)
+{
+
+
+
+
+
+	var PGNCAlID = 'CAL' + adcchannel;
+	
+	//document.getElementById(PGNCAlID).options.length = 0;
+	
+}
+
+
+function SetPGNParamatersOptionList(adcchannel, selText)
+{
+
+
+
+
+
+	var PGNParameterID = 'PGNP' + adcchannel;
+	
+	document.getElementById(PGNParameterID).options.length = 0;
+	
+	//var selectedIndex = document.getElementById(PGNNumberSelectID).selectedIndex
+
+	/*
+				document.getElementById(selectDDid).options[0] = new Option("disabled", 0);
+			document.getElementById(selectDDid).options[1] = new Option("PGN127489 - Engine Dynamic", 1);
+			document.getElementById(selectDDid).options[2] = new Option("PGN127508 - Battery Status", 2);
+			document.getElementById(selectDDid).options[3] = new Option("PGN127505 - Fluid Level", 3);
+			document.getElementById(selectDDid).options[4] = new Option("PGN127493 - Transmission", 4);
+			document.getElementById(selectDDid).options[5] = new Option("PGN130314 - Pressure", 5);
+			document.getElementById(selectDDid).options[6] = new Option("PGN130311 - Environmental", 6);
+			document.getElementById(selectDDid).options[7] = new Option("PGN130312 - Temperature", 7);
+			document.getElementById(selectDDid).options[8] = new Option("PGN130316 - Temperature Extended", 8);
+			document.getElementById(selectDDid).options[9] = new Option("PGN127245 - Rudder", "9");
+*/
+
+	switch (parseInt(selText))
+	{
+
+
+		case 1:
+			document.getElementById(PGNParameterID).options[0] = new Option("Oil Pressure", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Oil Temp", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Engine Temp", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Alt Volts", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Fuel Rate", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Engine Hours", 5);
+			document.getElementById(PGNParameterID).options[6] = new Option("Coolant Pressure", 6);
+			document.getElementById(PGNParameterID).options[7] = new Option("Fuel Pressure", 7);
+			document.getElementById(PGNParameterID).options[8] = new Option("Check Engine", 8);
+			document.getElementById(PGNParameterID).options[9] = new Option("Over Temp", 9);
+			document.getElementById(PGNParameterID).options[10] = new Option("Low Oil Pres", 10);
+			document.getElementById(PGNParameterID).options[11] = new Option("Low Oil Level", 11);
+			document.getElementById(PGNParameterID).options[12] = new Option("Low Sys Volt", 12);
+			document.getElementById(PGNParameterID).options[13] = new Option("Low Coolant Level", 13);
+		break
+
+		
+		
+		 case 2:
+			document.getElementById(PGNParameterID).options[0] = new Option("Battery Volt", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Current", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Temperature", 2);
+		break
+
+		 case 3:
+			document.getElementById(PGNParameterID).options[0] = new Option("Fuel Level", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Fresh Water Level", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Waste Water Level", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Live Well Level", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Oil Level", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Black Water Level", 80);
+			
+		break
+
+		 case 4:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Pressure", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Temperature", 1);
+		break
+		
+
+
+		case 5:// pressure
+			document.getElementById(PGNParameterID).options[0] = new Option("Atmospheric Pressure", 16);
+			document.getElementById(PGNParameterID).options[1] = new Option("Water Pressure", 32);
+			document.getElementById(PGNParameterID).options[2] = new Option("Steam Pressure", 48);
+			document.getElementById(PGNParameterID).options[3] = new Option("Compresssed Air", 64);
+			document.getElementById(PGNParameterID).options[4] = new Option("Hydraulic Pressure", 80);
+			document.getElementById(PGNParameterID).options[5] = new Option("Fuel Filter Pressure", 96);
+			document.getElementById(PGNParameterID).options[6] = new Option("Pressure 6", 112);
+			document.getElementById(PGNParameterID).options[7] = new Option("Pressure 7", 128);
+		break
+
+
+		case 6:
+			document.getElementById(PGNParameterID).options[0] = new Option("Temperature", 0);
+			/*
+			document.getElementById(PGNParameterID).options[1] = new Option("Outside", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Inside", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Engine Room", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Cabin", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Live Well", 80);
+			document.getElementById(PGNParameterID).options[6] = new Option("Bait Well", 96);
+			document.getElementById(PGNParameterID).options[7] = new Option("Refigeration", 112);
+			document.getElementById(PGNParameterID).options[8] = new Option("Heating", 128);
+			document.getElementById(PGNParameterID).options[9] = new Option("Dew Point", 144);
+			document.getElementById(PGNParameterID).options[10] = new Option("Wind Chill A", 160);
+			document.getElementById(PGNParameterID).options[11] = new Option("Wind Chill T", 176);
+			document.getElementById(PGNParameterID).options[12] = new Option("Heat Index", 192);
+			document.getElementById(PGNParameterID).options[13] = new Option("Freezer", 208);
+			document.getElementById(PGNParameterID).options[14] = new Option("EGT Port", 224);
+			document.getElementById(PGNParameterID).options[15] = new Option("EGT Stbd", 240);
+			*/
+			
+		break
+
+		case 7:
+			document.getElementById(PGNParameterID).options[0] = new Option("Temperature", 0);
+			/*
+			document.getElementById(PGNParameterID).options[1] = new Option("Outside", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Inside", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Engine Room", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Cabin", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Live Well", 80);
+			document.getElementById(PGNParameterID).options[6] = new Option("Bait Well", 96);
+			document.getElementById(PGNParameterID).options[7] = new Option("Refigeration", 112);
+			document.getElementById(PGNParameterID).options[8] = new Option("Heating", 128);
+			document.getElementById(PGNParameterID).options[9] = new Option("Dew Point", 144);
+			document.getElementById(PGNParameterID).options[10] = new Option("Wind Chill A", 160);
+			document.getElementById(PGNParameterID).options[11] = new Option("Wind Chill T", 176);
+			document.getElementById(PGNParameterID).options[12] = new Option("Heat Index", 192);
+			document.getElementById(PGNParameterID).options[13] = new Option("Freezer", 208);
+			document.getElementById(PGNParameterID).options[14] = new Option("EGT Port", 224);
+			document.getElementById(PGNParameterID).options[15] = new Option("EGT Stbd", 240);
+			*/
+			
+			
+		break
+		
+		case 8:
+			document.getElementById(PGNParameterID).options[0] = new Option("Temperature", 0);
+			/*
+			document.getElementById(PGNParameterID).options[1] = new Option("Outside", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Inside", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Engine Room", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Cabin", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Live Well", 80);
+			document.getElementById(PGNParameterID).options[6] = new Option("Bait Well", 96);
+			document.getElementById(PGNParameterID).options[7] = new Option("Refigeration", 112);
+			document.getElementById(PGNParameterID).options[8] = new Option("Heating", 128);
+			document.getElementById(PGNParameterID).options[9] = new Option("Dew Point", 144);
+			document.getElementById(PGNParameterID).options[10] = new Option("Wind Chill A", 160);
+			document.getElementById(PGNParameterID).options[11] = new Option("Wind Chill T", 176);
+			document.getElementById(PGNParameterID).options[12] = new Option("Heat Index", 192);
+			document.getElementById(PGNParameterID).options[13] = new Option("Freezer", 208);
+			document.getElementById(PGNParameterID).options[14] = new Option("EGT Port", 224);
+			document.getElementById(PGNParameterID).options[15] = new Option("EGT Stbd", 240);
+			*/
+			
+
+		break
+
+		case 9:
+			document.getElementById(PGNParameterID).options[0] = new Option("Rudder", 0);
+		
+		break
+
+
+		
+		case 10:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("---", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Boost", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Trim", 2);
+		break
+		
+
+		
+		case 16:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Coolant", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Fuel", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Oil", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Turbo", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Inner Cooler", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Thermostat", 5);
+		break
+		
+		case 17:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Fuel", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Blowby", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Oil Level", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Oil Pressure", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Coolant Pressure", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Coolant level", 5);
+		break
+		
+		case 18:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Bat Current", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Alt Current", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Charge Volts", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Bat Volts", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Keyswitch Volts", 4);
+		break
+		
+		case 19:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Washer Level", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Fuel Level", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Fuel Filter", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Oil Filter", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Cargo Temp", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Aux Fuel Level", 5);
+			//document.getElementById(PGNParameterID).options[1] = new Option("Fuel Volume", 1);
+
+		break
+		
+		
+		case 20:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Clutch Pressure", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Oil Level", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Diff Pressure", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Oil Pressure", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Oil Temperature", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Oil Warning", 5);
+		break
+
+		case "Undefined":
+			document.getElementById(PGNParameterID).options[0] = new Option("----", 0);
+		
+		break
+
+
+
+	   default:
+			document.getElementById(PGNParameterID).options[0] = new Option("----", 0);	
+		break
+
+	}
+
+
+}
+
+function SetDialPGNParameter(sel)
+{
+var myDialID;
+
+	//myDialID = document.getElementById("PGNDialID").selectedIndex ;
+
+	//alert(myDialID);
+
+	//DialPGNParameter[myDialID] = sel.options[sel.selectedIndex].value;
+
+
+}
+
+function getConfigVars()
+{
+
+	//InitializePage(gnumOfZones);
+	//InitializePGNNumberOptionList(gnumOfZones);
+	//document.getElementById("PGNDialID").selectedIndex = 0;
+	//CurrentDialID = 0;
+
+
+	newAJAXCommand('wificonfig.xml', initializewifivars, false)
+
+
+}
+// Parses the xmlResponse from status.xml and updates the status box
+function initializewifivars(xmlData) {
+
+
+	var myN2Kdata;
+	var PGNIndex;
+
+	// Check if a timeout occurred
+	if(!xmlData)
+	{
+		//var myXMLdata = getXMLValue(xmlData, 'DeviceID');
+		document.getElementById('DeviceIDXMLValue').innerHTML = "------------";
+	}
+	else{
+	
+		var myXMLdata = getXMLValue(xmlData, 'DeviceID');
+		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myXMLdata;
+		document.cookie = "deviceid=" + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'VersionInfo');
+		document.getElementById('VersionXMLValue').innerHTML = "Version " + myXMLdata;
+		document.cookie = "version=" + myXMLdata;
+		
+		
+		gversionSubstrings = myXMLdata.split(".");
+	
+	InitializePage(gnumOfZones);
+	InitializePGNNumberOptionList(gnumOfZones);
+		
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'CELLDB');
+		document.getElementById('CELLDB').innerHTML = "CELL DB " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'CELLAI');
+		
+		if(myXMLdata == '0')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = connected" ;
+		else if(myXMLdata == '34')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = registering" ;
+		else if(myXMLdata == '35')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = connecting..." ;
+		else if(myXMLdata == '36')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = connection denied" ;
+		else if (myXMLdata == '255')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = initializing..." ;		
+		else 
+		document.getElementById('CELLAI').innerHTML = "CELL AI = unknown" ;
+		
+		myXMLdata = getXMLValue(xmlData, 'CIPAddress');
+		document.getElementById('IPaddressXML').innerHTML = "IP Address " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'CIPMask');
+		document.getElementById('IPMaskXML').innerHTML = "IP Mask " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'CIPGW');
+		document.getElementById('IPGatewayXML').innerHTML = "IP Gateway " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'DHCP');
+		document.getElementById("DHCPCLIENT_ON_CB").selectedIndex = parseInt(myXMLdata);
+		if(parseInt(myXMLdata) == 1)
+		{
+			 document.getElementById('DHCPXML').innerHTML = "DHCP ENABLED";
+			
+			  document.getElementById("IPADDR").disabled = true;
+			  document.getElementById("SUBNET").disabled = true;
+			  document.getElementById("GATEWAY").disabled = true;
+			  document.getElementById("DNS1").disabled = true;
+			  document.getElementById("DNS2").disabled = true;
+		}
+		else
+		{
+			document.getElementById('DHCPXML').innerHTML = "STATIC IP";
+			
+						
+			  document.getElementById("IPADDR").disabled = false;
+			  document.getElementById("SUBNET").disabled = false;
+			  document.getElementById("GATEWAY").disabled = false;
+			  document.getElementById("DNS1").disabled = false;
+			  document.getElementById("DNS2").disabled = false;
+		}
+		
+		myXMLdata = getXMLValue(xmlData, 'IPAddress');
+		document.getElementById('IPADDR').value =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'IPMask');
+		document.getElementById('SUBNET').value =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'IPGateway');
+		document.getElementById('GATEWAY').value =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'DNS1');
+		document.getElementById('DNS1').value =  myXMLdata;		
+		
+		myXMLdata = getXMLValue(xmlData, 'DNS2');
+		document.getElementById('DNS2').value =  myXMLdata;		
+		
+		myXMLdata = getXMLValue(xmlData, 'NetTypeXML');
+		document.getElementById('NetTypeXML').innerHTML = "Net Type = " + myXMLdata;
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'WIFIType');
+		document.getElementById("WIFINetType_CB").selectedIndex = parseInt(myXMLdata);	
+		
+		if(parseInt(myXMLdata) == 0)
+		{
+		
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Ethernet" ;
+		}
+		else if (parseInt(myXMLdata) == 1) //sta
+		{
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Station" ;
+			
+
+			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = true;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;		
+
+				
+		}
+		else if (parseInt(myXMLdata) == 2) //AP
+		{
+		
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Access Point" ;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;		
+		
+		}
+		else if (parseInt(myXMLdata) == 3) //AP
+		{
+		
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Station + Access Point" ;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;		
+
+		}
+		else if (parseInt(myXMLdata) == 5) //MESH
+		{
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Mesh Root" ;	
+			
+			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = true;	
+		
+		}
+
+		myXMLdata = getXMLValue(xmlData, 'STAWIFISSID');
+		document.getElementById('STASSID').value =  myXMLdata;
+		document.getElementById('SSIDXML').innerHTML = "SSID = " + myXMLdata;
+
+			
+		myXMLdata = getXMLValue(xmlData, 'STAWIFIPW');
+		document.getElementById('STAPASSWORD').value =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'APWIFISSID');	
+		document.getElementById('APSSID').value =  myXMLdata;
+			
+			
+		myXMLdata = getXMLValue(xmlData, 'APWIFIMode');
+		document.getElementById("APSECTYPE").selectedIndex = parseInt(myXMLdata);
+				
+			
+		myXMLdata = getXMLValue(xmlData, 'APWIFIPW');
+		document.getElementById("APSECKEY").value = myXMLdata;	
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'MESHCHANNEL');
+		document.getElementById("MESHCHANNEL").selectedIndex = parseInt(myXMLdata);
+				
+			
+			
+		myXMLdata = getXMLValue(xmlData, 'MESHID');
+		document.getElementById("MESHID").value = myXMLdata;
+
+		
+		myXMLdata = getXMLValue(xmlData, 'HTTPPostMenu');
+		document.getElementById("HTTPPostMenu").selectedIndex = parseInt(myXMLdata);
+		
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'HpptPostInterval');
+		document.getElementById("HttpPostInterval").value = parseInt(myXMLdata);	
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'SDLogEnable');
+		document.getElementById("SDLogFName").selectedIndex = parseInt(myXMLdata);
+	
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'SDLogInterval');
+		document.getElementById("SDLogInterval").value= myXMLdata;
+
+		
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'UartInterval');
+		document.getElementById("UartInterval").value= myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'TimeStampSource');
+		document.getElementById("TimeStampSource").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'UDPBroadcastEnable');
+		document.getElementById("UDPBROADCAST_ON_CB").selectedIndex = parseInt(myXMLdata);
+	
+
+		
+		myXMLdata = getXMLValue(xmlData, 'UDPClientPort');
+		document.getElementById("UDPBROADPORT").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'UART0MODE');
+		document.getElementById("UART0ModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'UART1MODE');
+		document.getElementById("UART1ModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'UART2MODE');
+		document.getElementById("UART2ModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'PULSEMODE');
+		document.getElementById("PULSEModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'PULSESCALE0');
+		document.getElementById("PULSE0SCALE").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'PULSESCALE1');
+		document.getElementById("PULSE1SCALE").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'PULSESCALE2');
+		document.getElementById("PULSE2SCALE").value = myXMLdata;
+		
+			
+		myXMLdata = getXMLValue(xmlData, 'PFLT0');
+		document.getElementById("PFLT0").value = myXMLdata;	
+		
+					
+		myXMLdata = getXMLValue(xmlData, 'PFLT1');
+		document.getElementById("PFLT1").value = myXMLdata;	
+		
+					
+		myXMLdata = getXMLValue(xmlData, 'PFLT2');
+		document.getElementById("PFLT2").value = myXMLdata;	
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'FUELTOTAL');
+		document.getElementById("FUELTACHTOTAL").value = myXMLdata;
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERTYPE');
+		document.getElementById("DimmerTypeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERINSTANCE');
+		document.getElementById("DimmerInstanceDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERSCALE');
+		document.getElementById("DIMMERSCALE").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERPON');
+		{
+			if(parseInt(myXMLdata) <= (100/5))
+				document.getElementById("DimmerPONDD").selectedIndex = parseInt(myXMLdata);
+			else
+				document.getElementById("DimmerPONDD").selectedIndex = 21;
+		}
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERTXRATE');
+		
+		for(i=0; i< document.getElementById("DimmerTXDD").options.length; i++)
+	    {
+	    	var myTXrate = document.getElementById("DimmerTXDD").options[i].value;
+		    if( parseInt(myXMLdata)  == parseInt(myTXrate))
+		    	document.getElementById("DimmerTXDD").selectedIndex = i;
+		}
+			
+		
+		myXMLdata = getXMLValue(xmlData, 'TIMERMODE');
+		document.getElementById("TimerModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'SDLogInterval');
+		document.getElementById("SDLogInterval").value= myXMLdata;
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'CANMODE');
+		document.getElementById("CANModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		
+		for(var channel=0; channel< 12; channel++)
+		{
+			//if(i!= 12)
+			{
+				myXMLdata = getXMLValue(xmlData, 'PGNN'+ channel.toString());
+				
+				PGNIndex = parseInt(myXMLdata);
+				
+				
+				document.getElementById('PGNN' + channel.toString()).selectedIndex = PGNIndex;
+				
+				SetPGNParamatersOptionList(channel, myXMLdata);
+				SetPGNInstanceOptionList(channel, myXMLdata);		
+				
+				
+				myXMLdata = getXMLValue(xmlData, 'PGNI' + channel.toString());
+				
+				/*
+				//var pgntype = (parseInt(myXMLdata) & 0x00F0) >> 4;
+				
+				//var pgninstance = (parseInt(myXMLdata) & 0x000F);
+				
+				
+				
+				
+				
+				if(PGNIndex == 6 || PGNIndex == 7 || PGNIndex == 8)
+				{
+					//var pgninstance = (parseInt(myXMLdata) & 0x00F0) >> 4;
+					var pgninstance = (parseInt(myXMLdata) );
+					var pgntype = (parseInt(myXMLdata) & 0x000F);
+				}
+				else
+				{
+					var pgntype = 0;
+					var pgninstance = (parseInt(myXMLdata) );
+				}
+				
+				document.getElementById('PGNI'+channel.toString()).selectedIndex = pgninstance;
+				*/
+				
+				
+				document.getElementById('PGNI'+channel.toString()).selectedIndex = parseInt(myXMLdata);
+				
+				myXMLdata = getXMLValue(xmlData, 'PGNP' + channel.toString());
+				//var pgnparameterindex = parseInt(myXMLdata);
+				
+				document.getElementById('PGNP' + channel.toString()).selectedIndex = parseInt(myXMLdata);
+				
+				/*
+				if(pgntype != 0 ) // if type is set we use that foe the parameter list
+					document.getElementById('PGNP' + channel.toString()).selectedIndex = pgntype;
+				else
+					document.getElementById('PGNP' + channel.toString()).selectedIndex = pgnparameterindex;
+				*/
+				
+				
+				myXMLdata = getXMLValue(xmlData, 'PGNS' + channel.toString());
+				if(parseInt(myXMLdata) == -1)
+					document.getElementById('PGNS' + channel.toString()).value = "";
+				else
+					document.getElementById('PGNS' + channel.toString()).value = parseInt(myXMLdata);
+					
+					
+				myXMLdata = getXMLValue(xmlData, 'CAL' + channel.toString());
+				
+				document.getElementById('CALFILE' + channel.toString()).value = myXMLdata;
+			}
+		
+		}
+		
+		
+		for(i=0; i< 20; i++)
+		{
+			if(i!= 12)
+			{
+				myXMLdata = getXMLValue(xmlData, 'ADCAM'+i.toString());
+				document.getElementById('ADCAM'+i.toString()).selectedIndex = parseInt(myXMLdata);
+						
+					
+				myXMLdata = getXMLValue(xmlData, 'ADCAL'+i.toString());
+				document.getElementById('ADCAL'+i.toString()).value = myXMLdata;
+				
+				myXMLdata = getXMLValue(xmlData, 'ADCAH'+i.toString());
+				document.getElementById('ADCAH'+i.toString()).value = myXMLdata;
+				
+				myXMLdata = getXMLValue(xmlData, 'ADCAA'+i.toString());
+				document.getElementById('ADCAA'+i.toString()).selectedIndex = parseInt(myXMLdata);
+				
+				myXMLdata = getXMLValue(xmlData, 'ADCAP'+i.toString());
+				document.getElementById('ADCAP'+i.toString()).selectedIndex = parseInt(myXMLdata);
+			}
+		}
+			
+
+		
+	if(gversionSubstrings != null)
+	{
+	
+			if(gversionSubstrings[1]==0) // seasmart wifi module
+			{
+				//  disable ALL descendants of the DIV
+				$("#PULSEMode *").prop('disabled',true);
+				//$("#UART1Mode *").prop('disabled',true);
+				$("#UART0Mode *").prop('disabled',true);
+				
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+			}
+			
+			else if(gversionSubstrings[1]==1) // SeaSmartG3 Gateway
+			{
+
+				$("#ADCChannelsDIV *").prop('disabled',true);
+				$("#ADCAlarmsDIV *").prop('disabled',true);
+				
+				
+				//$("#ADCChannelsDIV *").attr("disabled", "disabled").off('click');
+				//$("#ADCAlarmsDIV *").attr("disabled", "disabled").off('click');
+
+						
+				//$('#ADCChannelsDIV').children().off('click');
+				//$('#ADCAlarmsDIV').children().off('click');
+				
+				//document.getElementById("ADCChannelsDIV").disabled = true;
+				//document.getElementById("ADCAlarmsDIV").disabled = true;
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+			}
+			
+			else if(gversionSubstrings[1]==3) // mesh slavemodule
+			{
+				//  disable ALL descendants of the DIV
+				$("#PULSEMode *").prop('disabled',true);
+				$("#portsdetails *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+				
+			}
+			else if(gversionSubstrings[1]==4) // seagauge wifi module
+			{
+				//  disable ALL descendants of the DIV
+				$("#PULSEMode *").prop('disabled',true);
+				$("#UART1Mode *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+			}
+			else if(gversionSubstrings[1]==5) // mesh root slave
+			{
+				//  disable ALL descendants of the DIV
+				$("#SDLogParams *").prop('disabled',true);
+				$("#PULSEMode *").prop('disabled',true);
+				$("#UART0Mode *").prop('disabled',true);
+				$("#UART1Mode *").prop('disabled',true);
+				$("#CANMode *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+				
+			}
+			else if(gversionSubstrings[1]==6) // dimmer 2/3 phase switch module
+			{
+				//  disable ALL descendants of the DIV
+				$("#SDLogParams *").prop('disabled',true);
+				$("#PULSEMode *").prop('disabled',true);
+				$("#portsdetails *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+			}
+			else if(gversionSubstrings[1]==7) // dimmer slave module
+			{
+				//  disable ALL descendants of the DIV
+				$("#SDLogParams *").prop('disabled',true);
+				$("#PULSEMode *").prop('disabled',true);
+				$("#portsdetails *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+			}
+	}
+		
+		
+		
+		
+		initialize();
+		
+		
+		// WIFI_MODE_NULL 0
+// WIFI_MODE_STA 1
+// WIFI_MODE_AP 2
+// WIFI_MODE_APSTA 3
+// WIFI_MODE_MAX 4
+// WIFI_MODE_MESHMASTER 5
+// WIFI_MODE_MESHSLAVE 6
+	
+	}
+	
+}
+  function initialize()
+  {
+  var myOptionValue;
+  var myAnalogModeValue ;
+  var myAnalogModeIndex;
+  
+			
+
+
+
+  myOptionValue = document.getElementById("HTTPPostEnable").value ;
+  document.getElementById("HTTPPostMenu").selectedIndex = parseInt(myOptionValue);
+
+  switch(myOptionValue)
+  {
+  case "0":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+  case "1":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+
+  case "2":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+
+  case "3":
+  document.getElementById("HTTPIPADDR").disabled = false;
+  document.getElementById("HTTPIPPORT").disabled = false;
+  document.getElementById("HTTPScript").disabled = false;
+  break;
+
+  }
+
+  //myOptionValue = document.getElementById("SwitchStatusInstanceValue").value ;
+  //document.getElementById("SwitchStatusInstance").selectedIndex = parseInt(myOptionValue);
+
+  //myOptionValue = document.getElementById("BatteryStatusInstanceValue").value ;
+  //document.getElementById("BatteryStatusInstance").selectedIndex = parseInt(myOptionValue);
+
+  myOptionValue = document.getElementById("SystemTimeInstanceValue").value ;
+  //document.getElementById("SystemTimeInstance").selectedIndex = parseInt(myOptionValue);
+  document.getElementById("SystemTimeInstance").selectedIndex =  parseInt(myOptionValue, 16);
+
+  myOptionValue = document.getElementById("CUSTOMCONFIG").value ;
+  document.getElementById("CUSTOMCFG_CB").selectedIndex = parseInt(myOptionValue);
+  
+  myOptionValue = document.getElementById("DHCPCL").value ;
+  document.getElementById("DHCPCLIENT_ON_CB").selectedIndex = parseInt(myOptionValue);
+  
+   myOptionValue = document.getElementById("TCPCLIENT_ON").value ;
+  document.getElementById("TCPCLIENT_ON_CB").selectedIndex = parseInt(myOptionValue);
+  
+    myOptionValue = document.getElementById("UDPBROADCAST_ON").value ;
+  document.getElementById("UDPBROADCAST_ON_CB").selectedIndex = parseInt(myOptionValue);
+
+  //myOptionValue = document.getElementById("SDLogFNameValue").value ;
+  //document.getElementById("SDLogFName").selectedIndex = parseInt(myOptionValue);
+
+  myOptionValue = document.getElementById("UART1ModeValue").value ;
+  //document.getElementById("UART1ModeDD").selectedIndex = parseInt(myOptionValue);
+    document.getElementById("UART1ModeDD").selectedIndex = parseInt(myOptionValue, 32);
+
+	
+	
+	
+
+  }
+
+function changeWIFINetType()
+{
+
+  myOptionValue = document.getElementById("WIFINetType_CB").selectedIndex ;
+
+
+  switch(myOptionValue)
+  {
+		case 0:
+  
+			document.getElementById('STASSID').disabled = true;
+			document.getElementById('STAPASSWORD').disabled = true;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = true;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;
+		 break;	
+			
+  		case 1:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = true;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;
+		break;	
+			
+		case 2:
+  
+			document.getElementById('STASSID').disabled = true;
+			document.getElementById('STAPASSWORD').disabled = true;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;	
+		break;
+			
+		case 3:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+
+		case 4:
+  
+			document.getElementById('STASSID').disabled = true;
+			document.getElementById('STAPASSWORD').disabled = true;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = true;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+			
+		case 5:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = true;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+			
+		case 6:
+  
+			document.getElementById('STASSID').disabled = true;
+			document.getElementById('STAPASSWORD').disabled = true;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+		
+		
+		case 7:
+  
+			document.getElementById('STASSID').disabled = true;
+			document.getElementById('STAPASSWORD').disabled = true;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+  
+		default:	
+			document.getElementById('STASSID').disabled = true;
+			document.getElementById('STAPASSWORD').disabled = true;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = true;
+			document.getElementById("APSECKEY").disabled = true;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		  break;	
+			
+	}
+	
+
+}  
+
+function setpath() {
+    var default_path = document.getElementById("newfile").files[0].name;
+    document.getElementById("filepath").value = default_path;
+}
+function upload(filePath, fileName) {
+    //var filePath = document.getElementById("filepath").value;
+   // var upload_path = "/upload" + filePath;
+	var upload_path = "/upload/" + filePath + fileName.name;
+   // var fileInput = document.getElementById("newfile").files;
+	// var fileInput = filePath;
+	  var fileInput = fileName.name;
+
+    /* Max size of an individual file. Make sure this
+     * value is same as that set in file_server.c */
+    var MAX_FILE_SIZE = 200*1024;
+    var MAX_FILE_SIZE_STR = "200KB";
+
+    if (fileInput.length == 0) {
+        alert("No file selected!");
+    } 
+	else if (fileName.length == 0) 
+	{
+        alert("File path on server is not set!");
+	}
+
+	
+	else 
+	{
+       
+		$.blockUI({ 
+		 message: '<h1>Downloading file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+		   
+	   
+       // var file = fileInput[0];
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+            }
+        };
+        xhttp.open("POST", upload_path, true);
+        xhttp.send(fileName);
+    }
+}
+  
+function handleCalFileSelect(evt) {
+
+
+	
+	//var ADCchannel = evt.target.id;
+
+	
+	//var ADCindex = parseInt(ADCchannel)
+	//var ADCindex = parseInt(ADCchannel.match(/\d/g).join(''), 10);
+	var ADCindex = parseInt(evt);
+
+	var myFilePath =  "download/calibrations/" + ADCindex.toString() + "/" ;
+
+	//window.open('download/calibrations/', '_self');
+	window.open(myFilePath, '_self');
+
+}  
+
+function handleCalFileModify(evt) {
+
+
+	
+	//var ADCchannel = evt.target.id;
+	const timestamp = new Date().getTime();
+	
+	//var ADCindex = parseInt(ADCchannel)
+	//var ADCindex = parseInt(ADCchannel.match(/\d/g).join(''), 10);
+	var ADCindex = parseInt(evt);
+
+	var myFilePath =  "ModifyCalTable.html?ADC=" + ADCindex.toString()  + "&t=" + timestamp;
+
+
+	//window.open('download/calibrations/', '_self');
+	window.open(myFilePath, '_self');
+	
+	//	location.reload(true)
+		
+
+}  
+
+  
+function xxxhandleCalFileSelect(evt) {
+
+
+
+    var files = evt.target.files; // FileList object
+	
+	var mytarget = evt.target.id;
+	
+	//var adcchannel =  parseInt(mytarget.replace ( /[^\d.]/g, '' ), 10);
+
+	if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    // files is a FileList of File objects. List some properties.
+    myFile = files[0];
+	var myFileSize = myFile.size;
+	//var myFileName = "/www/" + myFile.name;
+	//var myFileName = myFile.name + "/" + adcchannel.toString();
+	
+	var ADCchannel = evt.target.id;
+
+	
+	//var ADCindex = parseInt(ADCchannel)
+	var ADCindex = parseInt(ADCchannel.match(/\d/g).join(''), 10);
+	
+	var myFileName = myFile.name;
+	
+	var calrowid = "CALFILE" + ADCindex;
+	
+	document.getElementById(calrowid).value = myFileName;
+	
+   	var myFilePath =  "calibrations/" + ADCindex.toString() + "/" ;
+	upload(myFilePath, myFile);
+
+   
+}
+
+
+function UploadFirmware(fwType)
+{
+
+
+	if (confirm('This action requires a active connection to the HelmSmart Server. Please verify before proceeding')) {
+	  // Save it!
+	  //console.log('Thing was saved to the database.');
+	} else {
+	  // Do nothing!
+	  //console.log('Thing was not saved to the database.');
+	  return;
+	}
+
+
+
+
+
+	$.blockUI({ 
+     message: '<h1>Downloading firmware file from server...</h1><p><h2>please reset device when complete</h2>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+//newAJAXCommand('command.cgi?fwupdate=1');
+
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+            }
+        };
+        //xhttp.open("POST", upload_path, true);
+        //xhttp.send(filePath);
+		var commandStr = "command.cgi?fwupdate="+fwType;
+        xhttp.open("GET", commandStr, true);
+		//xhttp.open("GET", 'command.cgi?spiffsupdate=1', true);
+        xhttp.send(null);
+
+
+}
+function CreateConfigFiles()
+{
+
+	$.blockUI({ 
+     message: '<h1>Creating Config Files...</h1><p><h2>please wait while .xml files are saved to SD card</h2>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+//newAJAXCommand('command.cgi?fwupdate=1');
+
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+            }
+        };
+        //xhttp.open("POST", upload_path, true);
+        //xhttp.send(filePath);
+        xhttp.open("GET", 'command.cgi?SaveXML=1', true);
+        xhttp.send(null);
+
+
+}
+function ResetDevice()
+{
+
+	$.blockUI({ 
+     message: '<h1>resetting device...</h1><p><h2>please wait while reestablish network connection</h2>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+//newAJAXCommand('command.cgi?fwupdate=1');
+
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+            }
+        };
+        //xhttp.open("POST", upload_path, true);
+        //xhttp.send(filePath);
+        xhttp.open("GET", 'command.cgi?reset=1', true);
+        xhttp.send(null);
+
+
+}
+function SaveDeviceSettings()
+{
+
+	if (confirm('Please reset device after settings are saved to take effect')) {
+	  // Save it!
+	  //console.log('Thing was saved to the database.');
+	} else {
+	  // Do nothing!
+	  //console.log('Thing was not saved to the database.');
+	  return;
+	}
+
+	$.blockUI({ 
+     message: '<h1>saving settings...</h1>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+
+		
+		document.getElementById("configuration").submit();
+
+}
+
+
+	
+</script>
+ </head>
+
+<body onload="getConfigVars();">
+
+ 
+<table style="width: 800px">
+	<tr>
+		<td>
+		<table style="width: 800px">
+			<table style="width: 800px">
+			<tr>
+				<td style="width: 100px" colspan="2"><img alt="" height="80" src="images/CDI_Logo.jpg" width="80" /></td>
+				<td style="width: 450px" colspan="2"><img alt="" height="77" src="images/SeaSmartBanner.jpg" width="400" /></td>
+				<td style="width: 100px" colspan="2"><img alt="ENET" height="90" longdesc="SeaSmart G3 Gateway" src="images/SeaSmartG3Logo.jpg" width="150" /></td>
+			</tr>	
+		</table>
+		<table style="width: 800px">
+			<tr>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+			</tr>
+			<tr>
+				<td style="width: 200px" class="auto-style6"><strong><a href="index.html">Home</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="conf.html">Config</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="StatusN2K.html">Status CAN</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="Status0183.html">Status 0183</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><a href="Files.html"><strong>Files</strong></a></td>
+				<td style="width: 200px" class="auto-style6"><a href="PGNfilters.html"><strong>PGN Filters</strong></a></td>
+			</tr>
+			<tr>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+			</tr>
+			
+			<tr>
+			<td colspan="3" id="DeviceIDXMLValue" class="auto-style6"></td>
+			<td colspan="3" id="VersionXMLValue" class="auto-style6"></td>
+			</tr>
+			
+		</table>
+		</td>
+	</tr>
+	
+	
+	<tr>
+		<td>		              
+		<!-- <form id="configuration"  method="post"> -->
+		<form id="configuration" action="/seasmartconfig">
+                         <!-- <input type="hidden" id="CUSTOMCFG" name="CUSTOMCFG" value="false" /> -->
+		<div class="network" id="networkstatus"style="width: 800px; height: 10px; background-color:#12365e; font-weight: bold; border-bottom: 2px solid #ccc;">
+			</div>
+			
+
+			<div>
+			
+			<table style="width: 800px">
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td colspan="2" class="auto-style10">Current Network: </td>
+			</tr>
+			
+			<tr style=" background-color:#12365e;" class="auto-style10">
+			<td id = "IPaddressXML" style="width: 379px">IP Address =  ------  </td>
+			<td id="SSIDXML" style="width: 350px">SSID =  SeaSmart Adhoc  </td>
+			</tr>
+			
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td id="IPMaskXML" style="width: 379px">Mask = ------ </td>
+			<td id="NetTypeXML" style="width: 541px">Net Type = --- </td> 
+			</tr>
+			
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td id="IPGatewayXML" style="width: 379px">Gateway = -------- </td>
+			<td id="DHCPXML" style="width: 541px">DHCP = ---- </td> 
+			</tr>	
+
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td id="CELLDB" style="width: 379px">CELL DB = -------- </td>
+			<td id="CELLAI" style="width: 541px">CELL AI = ---- </td> 
+			</tr>
+			
+			</table>
+			
+				</div>
+			
+			<div class="customconfigdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Boot Config</summary>
+			<div class="network" style="width: 800px; height: 30px; border-bottom: 2px solid #ccc;">
+			<table>
+				<tr>
+			
+					<td style="font-weight: bold; width: 200px; height: 30px;">Boot Config:</td>
+                        <td style="width: 603px; height: 30px">
+		
+						  
+						   <select id="CUSTOMCFG_CB" name="CUSTOMCFG_CB"  style="width: 113px" size="1">
+						  <option  value="0">Default</option>
+						  <option  value="1">Factory</option>
+						  <option  value="2">XML Override</option>
+						  <option  value="3">---</option>
+						  <option  value="4">Bypass FW Check</option>
+						  </select>
+                         
+						  
+						  
+                     </td>
+             	</tr>
+			</table>
+			</div>
+			</details>
+			</div>
+				
+				
+			<div class="wifinetworkdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Network Mode</summary>
+			
+			       <div class="wifinetwork" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+      
+                    <table>
+                    <tr>
+                    <td style="font-weight: bold; width: 200px">Network Type:</td>
+	
+					<td>
+							<select id="WIFINetType_CB" name="WIFINetType_CB" onchange="changeWIFINetType();"  >
+                            <option value="0">Ethernet </option>
+                            <option value="1">Station</option>
+                            <option value="2">AP</option>
+							<option value="3">STA+AP</option>
+							<option value="4">MESH AP</option>
+                            <option value="5">Mesh Master</option>
+							<option value="6">Mesh Root</option>
+							 <option value="7">Mesh Slave</option>
+                            </select>
+                           
+					</td>
+				  </tr>
+                     </table>
+                
+                </div>
+
+               
+				
+				<div  id="wifi_content" class="wireless"  style="height: 240px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+				
+				
+           
+                    <table style="height: 240px;">
+					
+					 <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">STA SSID:</td>
+                        <td ><input type="text" style="width: 280px;" id="STASSID" name="SSID" value="SeaSmart G3" maxlength="32" /></td>
+                      </tr>
+					
+					<tr>
+					<td style="font-weight: bold; width: 200px; height: 30px;">STA Password</td>
+					<td><input type="text" style="width: 280px;" maxlength="64" id="STAPASSWORD" name="STAPASSWORD" value="" /></td>
+                     </tr>
+					
+					
+                    <tr>
+                    <td style="font-weight: bold; width: 200px; height: 30px;">AP SSID:</td>
+                    <td ><input type="text" style="width: 280px;" id="APSSID" name="APSSID" value="SeaSmart G3" maxlength="32" /></td>
+                    </tr>
+					  
+					  
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">AP Security Type:</td>
+                        <td >
+                          <select id="APSECTYPE" name="APSECTYPE" style="width: 280px">
+                            <option value="WIFI_AUTH_OPEN">Open</option>
+                            <option value="WIFI_AUTH_WEP">WEP </option>
+                            <option value="WIFI_AUTH_WPA_PSK">WPA Passkey</option>
+                            <option value="WIFI_AUTH_WPA2_PSK">WPA2 PassKey</option>
+                            <option value="WIFI_AUTH_WPA_WPA2_PSK">WPA WPA2 PassPhrase</option>
+                            <option value="WIFI_AUTH_WPA2_ENTERPRISE">WPA2 Wnterprise</option>
+                            <option value="WIFI_AUTH_WPA3_PSK">WPA3 PassPhrase</option>
+							<option value="WIFI_AUTH_WPS2_WPA3_PSK">WPA2 WPA3 PassPhrase</option>
+							<option value="WIFI_AUTH_WPAI_PSK">WPAI PassPhrase</option>
+							<option value="WIFI_AUTH_MAX">MAX</option>
+                            </select>
+                   
+
+                          </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">AP Security Key:</td>
+						<td> <input type="text" style="width: 280px;" maxlength="45" id="APSECKEY" name="APSECKEY" value=""  /> </td>
+                      </tr>
+					  
+					   <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Mesh Channel:</td>
+                        <td >
+                          <select id="MESHCHANNEL" name="MESHCHANNEL" style="width: 280px">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">---</option>
+							<option value="16">Auto</option>
+                            </select>
+                   
+
+                          </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">MESH ID</td>
+						<td> <input type="text" style="width: 280px;" maxlength="10" id="MESHID" name="MESHID" value=""  /> </td>
+                      </tr>
+					  
+					  
+                    </table>
+					
+					
+                  </div>
+                 </details>
+				</div>
+
+			<div class="wificontentdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Network Configurations</summary>
+				
+                <div id="wifi_content" class="dhcp" style="height: 240px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+                  
+                    <table style="height: 240px;">
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">DHCP Client:</td>
+                        <td >
+	
+						  
+						  
+						    <select id="DHCPCLIENT_ON_CB" name="DHCPCLIENT_ON_CB"   onchange="changeDHCPenable();"   style="width: 280px" size="1">
+						  <option  value="0">Disabled</option>
+						  <option  value="1">Enabled</option>
+						  </select>
+                          
+						  
+						  
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">IP Address:</td>
+                        <td><input type="text" style="width: 280px;" id="IPADDR" name="IPADDR" value= "169.254.100.100" /></td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Subnet Mask:</td>
+                        <td><input type="text" style="width: 280px;" id="SUBNET" name="SUBNET" value= "255.255.255.0" /></td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Default Gateway:</td>
+                        <td><input type="text" style="width: 280px;" id="GATEWAY" name="GATEWAY" value= "169.254.100.1" /></td>
+                      </tr>
+                      <tr>
+                       <td style="font-weight: bold; width: 200px; height: 30px;">Primary DNS:</td>
+                        <td>
+                          <input type="text" style="width: 280px;" id="DNS1" name="DNS1" value= "8.8.8.8" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Secondary DNS:</td>
+                        <td>
+                          <input type="text" style="width: 280px;" id="DNS2" name="DNS2" value= "8.8.8.8" />
+                        </td>
+                      </tr>
+                    </table>
+                 
+                </div>
+           </details>
+				</div>
+				
+			<div class="helmsmartpostdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> HelmSmart Configurations</summary>
+			
+                <div id="HTTPPostParams" class="HTTPPostParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                  
+                    <table>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">HTTP POST Enabled:</td>
+                        
+                          <td style="width: 395px">
+                          <select id="HTTPPostMenu" name="HTTPPostMenu"  style="width: 280px" size="1">
+						  <option  value="0">disabled</option>
+						  <option  value="1">POST HelmSmart via Router</option>
+						  <option  value="2">POST HelmSmart via Cellular</option>
+						  <option  value="3">POST HelmSmart via Router (SD Cached)</option>
+						  <option  value="4">POST HelmSmart via Cellular (SD Cached)</option>
+						  <option  value="5" disabled>POST Local Server</option>
+						  <option  value="6" disabled>GET from HelmSmart</option>
+				
+						  </select>
+                        
+                         </td>
+                      </tr>
+
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;"disabled >IP Address/Port:</td>
+                        <td disabled>
+                          <input type="text" style="width: 140px;" id="HTTPIPADDR" name="HTTPIPADDR" value= "192.168.0.1"  disabled/>
+                      
+                          &nbsp;:&nbsp;<input type="text" style="width: 55px;" id="HTTPIPPORT" name="HTTPIPPORT" value= 80  disabled/>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;" disabled>HTTP Server Script:</td>
+                        <td disabled>
+                          <input type="text" style="width: 280px;" id="HTTPScript" name="HTTPScript" value= "/HelmSmart.net"  disabled/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;" disabled>Sample Interval:</td>
+                        <td disabled>
+                          <input type="text" style="width: 280px;" id="UartInterval" name="UartInterval"  value= 1 />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">HTTP Post Interval:</td>
+                        <td >
+                          <input type="text" style="width: 280px;" id="HttpPostInterval" name="HttpPostInterval"  value= 60 />
+                        </td>
+                      </tr>
+                    </table>
+                
+                </div>
+
+				</details>
+				</div>
+				
+			<div class="tcpudpdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> TCP/UDP Configurations</summary>
+                <div id="TCPClientParams" class="TCPClientParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                 
+                    <table>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;"disabled>TCP Client Enabled:</td>
+                        <td style="width: 319px"disabled>
+						
+						  
+						  
+						  <select id="TCPCLIENT_ON_CB" name="TCPCLIENT_ON_CB"  style="width: 280px" size="1"disabled>
+						  <option  value="0">disabled</option>
+						  <option  value="1">Enabled</option>
+						  </select>
+                           
+						   
+						   
+						  
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;" disabled>TCP Client Port:</td>
+                        <td style="width: 319px" disabled>
+                          <input type="text" style="width: 280px;" id="TCPCLIENTPORT" name="TCPCLIENTPORT" value= 10001 disabled />
+                        </td>
+
+                      </tr>
+                    </table>
+                 
+                </div>
+
+                <div id="UDPBroadcastParams" class="UDPBroadcastParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                 
+                    <table>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">UDP Broadcast Enabled:</td>
+                        <td style="width: 295px">
+						  <select id="UDPBROADCAST_ON_CB" name="UDPBROADCAST_ON_CB"  style="width: 280px" size="1">
+						  <option  value="0">disabled</option>
+						  <option  value="1">enabled HTTP 1 sec</option>
+						  <option  value="2">enabled HTTP 2 sec</option>
+						  <option  value="3">enabled HTTP 5 sec</option>
+						  <option  value="4">enabled HTTP 10 sec</option>
+						  <option  value="5">enabled HTTP 30 sec</option>
+						  <option  value="6">enabled HTTP 60 sec</option>	
+						  <option  value="7">enabled HTTP 300 sec</option>
+						  <option  value="8">disabled MTU</option>
+						  <option  value="9">enabled MTU 1 sec</option>
+						  <option  value="10">enabled MTU 2 sec</option>
+						  <option  value="11">enabled MTU 5 sec</option>
+						  <option  value="12">enabled MTU 10 sec</option>
+						  <option  value="13">enabled MTU 30 sec</option>
+						  <option  value="14">enabled MTU 60 sec</option>
+						  <option  value="15">enabled MTU 300 sec</option>
+
+
+						  
+						  </select>
+                          
+						  
+						  
+						  
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">UDP Broadcast  Port:</td>
+                        <td style="width: 295px">
+                          <input type="text" style="width: 280px;" id="UDPBROADPORT" name="UDPBROADPORT" value= 10010  />
+                        </td>
+
+                      </tr>
+                    </table>
+                 
+                </div>
+		</details>
+				</div>
+
+	
+		
+			<div id="sdloggingdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> SD logging Configurations</summary>	
+				
+				
+			<div id="SDLogParams" class="SDLogParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                  
+                    <table>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">SD Logging 
+						Mode:</td>
+                        <td style="width: 295px">
+                           <select id="SDLogFName" name="SDLogFName"   style="width: 280px" size="1">
+						  <option value="0">disabled</option>
+						  <option value="1">Sec</option>
+						  <option  value="2">Min</option>
+						  <option  value="3">Hour</option>
+						  <option  value="4">Day</option>
+						  <option  value="5">Month</option>
+
+						  </select>
+                           
+
+                                                 
+                         </td>
+                      </tr>
+                     
+                       <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">SD Logging Interval:</td>
+                        <td style="width: 558px">
+                          <input type="text" style="width: 280px;" id="SDLogInterval" name="SDLogInterval" value= 60  />
+                        </td>
+
+                      </tr>
+   
+ 
+                    </table>
+                 
+                </div>
+				
+		</details>
+				</div>		
+				
+		<div id="portsdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Port Configurations</summary>			
+				
+		  <div id="UART0Mode" class="UART0Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 0 Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="UART0ModeDD" name="UART0ModeDD"   style="width: 280px" size="1">
+                  <option value="0">Disabled  </option>
+                  <option value="1">Debug </option>
+                  <option value="2">PushSmart</option>
+                  <option value="3">N2K Raw</option>
+                  <option value="4">NMEA 0183</option>
+                  <option value="5">Mesh Xbee</option>	
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+
+
+          </table>
+       
+      </div>			
+				
+
+      <div id="UART1Mode" class="UART1Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 1 Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="UART1ModeDD" name="UART1ModeDD"   style="width: 280px" size="1">
+                  <option value="0">Disabled  </option>
+                  <option value="1">Cellular XB3 - 115600  </option>
+                  <option value="2">Cellular Skywire - 57600  </option>
+                  <option value="3">Mesh Xbee - 57600  </option>
+                  <option value="4">---  </option>
+				  <option value="5">---  </option>
+                  <option value="6">Mesh Root Master  </option>
+                  <option value="7">Mesh Root Slave  </option>
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+
+
+          </table>
+       
+      </div>
+	  
+	  <div id="UART2Mode" class="UART2Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 2 Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="UART2ModeDD" name="UART2ModeDD"   style="width: 280px" size="1">
+                  <option value="0">Disabled  </option>
+                  <option value="1">Debug - 57600  </option>
+                  <option value="2">PushSmart - 57600  </option>
+                  <option value="3">Cellular XB3 - 115600 </option>
+                  <option value="4">NMEA 0183 - 4800  </option>
+                  <option value="5">Mesh Xbee - 57600  </option>	
+				  <option value="6">Mesh Root Master </option>
+                  <option value="7">Mesh Root Slave </option>	
+				  
+				  
+				  
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+
+
+          </table>
+       
+      </div>
+	  
+	  
+	  
+	  
+	  	  <div id="CANMode" class="CANMode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                CAN BUS Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="CANModeDD" name="CANModeDD"   style="width: 280px" size="1">
+                  <option value="0">Disabled  </option>
+                  <option value="1">J1939  </option>
+				  <option value="2">NMEA 2000  </option>
+                 
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+
+
+          </table>
+       
+      </div>
+	  
+	  	</details>
+				</div>	
+				
+				
+		<div class="dimmerdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Dimmer/Switch Configurations</summary>					
+	  
+	  	  <div id="DimmerMode" class="DimmerMode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer/Switch Type:
+              </td>
+              <td style="width: 295px">
+                <select id="DimmerTypeDD" name="DimmerTypeDD"   style="width: 280px" size="1">
+                  <option value="0">Disabled  </option>
+                  <option value="1">1 Channel slave  </option>
+                  <option value="2">2 Channel slave  </option>
+                  <option value="3">RGB slave </option>
+                  <option value="4">RGBW slave  </option>
+				  <option value="5">Switch  </option>
+				  <option value="6">Switch 2P  </option>
+				  <option value="7">Switch 3P  </option>
+                  <option value="8">Mesh Gateway  </option>	
+				  <option value="9">Mesh Slave </option>
+				  <option value="10">---  </option>
+				  <option value="11">---  </option>
+                  <option value="12">UDP Gateway </option>	
+				  <option value="13">UDP 1 Channel slave  </option>
+                  <option value="14">UDP 2 Channel slave  </option>
+                  <option value="15">UDP RGB slave </option>
+                  <option value="16">UDP RGBW slave  </option>
+				  <option value="17">UDP Switch 2P </option>
+				  <option value="18">UDP Dimmer 2Phase </option>
+                  <option value="19">UDP Dimmer 3Phase  </option>
+				  <option value="20">---  </option>
+				  <option value="21">---  </option>
+                  <option value="22">--- </option>	
+				  <option value="23">---  </option>
+                  <option value="24">SeaSwitch 8C </option>
+				  <option value="25">SeaGauge 4C </option>
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+			 <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer/Switch Instance:
+              </td>
+              <td style="width: 295px">
+                <select id="DimmerInstanceDD" name="DimmerInstanceDD"   style="width: 280px" size="1">
+				<option value="0">0</option>
+                </select>
+               
+
+
+              </td>
+            </tr>
+			
+			<tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer Power On:
+              </td>
+              <td style="width: 295px">
+                <select id="DimmerPONDD" name="DimmerPONDD"   style="width: 280px" size="1">
+                  <option value="0">0%  </option>
+                  <option value="5">5%  </option>
+                  <option value="10">10%  </option>
+                  <option value="15">15%  </option>
+                  <option value="20">20%  </option>
+                  <option value="25">25%  </option>	
+				  <option value="30">30% </option>
+				  <option value="35">35%  </option>
+			      <option value="40">40%  </option>
+                  <option value="45">45%  </option>
+                  <option value="50">50%  </option>
+                  <option value="55">55%  </option>	
+				  <option value="60">60% </option>	  
+				  <option value="65">65%  </option>
+                  <option value="70">70%  </option>
+                  <option value="75">75%  </option>	
+				  <option value="80">80% </option>
+				  <option value="85">85%  </option>
+			      <option value="90">90%  </option>
+                  <option value="95">95%  </option>
+                  <option value="100">100%  </option>
+				  <option value="255">NVRAM</option>
+                </select>
+               
+
+
+              </td>
+            </tr>
+			
+			
+							<tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer TX rate:
+              </td>
+              <td style="width: 295px">
+                <select id="DimmerTXDD" name="DimmerTXDD"   style="width: 280px" size="1">
+                  <option value="0">disable  </option>
+                  <option value="5">5 sec  </option>
+                  <option value="10">10 sec  </option>
+                  <option value="15">15 sec  </option>
+                  <option value="20">20 sec  </option>
+                  <option value="25">25 sec  </option>	
+				  <option value="30">30 sec </option>
+				  <option value="35">35 sec  </option>
+			      <option value="40">40 sec  </option>
+                  <option value="45">45 sec  </option>
+                  <option value="50">50 sec  </option>
+                  <option value="55">55 sec  </option>	
+				  <option value="60">60 sec </option>	 
+                </select>
+               
+
+
+              </td>
+            </tr>
+			
+			
+			<tr>
+				<td style="font-weight: bold;">Dimmer Scale</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="DIMMERSCALE" name="DIMMERSCALE" value="" /></td>
+            </tr>
+			
+			<tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Timer Mode
+              <td style="width: 295px">
+                <select id="TimerModeDD" name="TimerModeDD"   style="width: 280px" size="1">
+                  <option value="0">Disabled  </option>
+                  <option value="1">Enabled  </option>	  
+				  <option value="2">Save to NVRAM (XML)  </option>	
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+          </table>
+       
+      </div>
+	  
+	  	  	</details>
+				</div>	
+				
+				
+		<div class="pulsedetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Pulse Input Configurations</summary>
+			
+	  <div id="PULSEMode" class="PULSEMode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                PULSE Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="PULSEModeDD" name="PULSEModeDD"   style="width: 280px" size="1">
+                <option value="0">Disabled  </option>
+                <option value="1">PORT RPM  </option>
+                <option value="2">STBD RPM  </option>
+				<option value="3">CNTER RPM  </option>
+				<option value="4">DUAL RPM  </option>
+				<option value="5">TRIPLE RPM </option>		
+				
+					
+				<option value="6">PORT RPM-SINGLE FUEL FLOW </option>
+				<option value="7">STBD RPM-SINGLE FUEL FLOW </option>
+				<option value="8">CNTR RPM-SINGLE FUEL FLOW </option>			
+				
+				<option value="9">PORT RPM-DUEL FUEL FLOW </option>
+				<option value="10">STBD RPM-DUEL FUEL FLOW </option>
+				<option value="11">CNTR RPM-DUEL FUEL FLOW </option>					
+	
+
+				
+				<option value="12">PORT SINGLE-FUEL FLOW </option>
+				<option value="13">STBD SINGLE-FUEL FLOW </option>
+				<option value="14">CNTR SINGLE-FUEL FLOW </option>
+				
+
+				<option value="15">PORT DUAL FUEL FLOW </option>
+				<option value="16">STBD DUAL FUEL FLOW </option>
+				<option value="17">CNTR DUAL FUEL FLOW </option>				
+				
+		
+                </select>
+              </td>
+			  
+			    <td style="font-weight: bold; width: 180px; height: 30px;">
+                PULSE Filter:
+              </td>
+            </tr>
+			
+			<tr>
+				<td style="font-weight: bold;">Pulse0 Scale X 100</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE0SCALE" name="PULSE0SCALE" value="" /></td>
+				
+				<td style="width: 295px">
+                <select id="PFLT0" name="PULSE0FILTER"   style="width: 180px" size="1">
+                <option value="0">Disabled  </option>
+                <option value="1">SOFT  </option>
+                <option value="2">MEDIUM  </option>
+				<option value="3">HARD</option>				
+                </select>
+				</td>
+				
+            </tr>
+			
+			<tr>
+				<td style="font-weight: bold;">Pulse1 Scale X 100</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE1SCALE" name="PULSE1SCALE" value="" /></td>
+								
+				<td style="width: 295px">
+                <select id="PFLT1" name="PULSE1FILTER"   style="width: 180px" size="1">
+                <option value="0">Disabled  </option>
+                <option value="1">SOFT  </option>
+                <option value="2">MEDIUM  </option>
+				<option value="3">HARD</option>				
+                </select>
+				</td>
+				
+            </tr>
+			
+			
+			<tr>
+				<td style="font-weight: bold;">Pulse2 Scale X 100</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE2SCALE" name="PULSE2SCALE" value="" /></td>
+								
+				<td style="width: 295px">
+                <select id="PFLT2" name="PULSE2FILTER"   style="width: 180px" size="1">
+                <option value="0">Disabled  </option>
+                <option value="1">SOFT  </option>
+                <option value="2">MEDIUM  </option>
+				<option value="3">HARD</option>				
+                </select>
+				</td>
+				
+            </tr>
+			
+			<tr>
+				<td style="font-weight: bold;">Fuel Used Total</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="FUELTACHTOTAL" name="FUELTACHTOTAL" value="" /></td>
+            </tr>
+			
+          </table>
+      </div>
+	  
+	  	</details>
+				</div>	
+				
+		<div id="ADCChannelsDIV" class="sgg4details" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; " >
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Analog Input Configurations</summary>
+			
+	  <div id="ADCChannels" class="ADCChannels" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+          <table>
+		  
+		  <tr>
+				<td style="font-weight: bold; width: 100px; height: 30px;">
+                Channel
+				</td>
+				<td style="font-weight: bold; width: 100px; height: 30px;">
+                Instance
+				</td>
+				<td style="font-weight: bold; width: 280px; height: 30px;">
+                PGN
+				</td>
+				<td style="font-weight: bold; width: 240px; height: 30px;">
+                Parameter
+				</td>
+				<td style="font-weight: bold; width: 160px; height: 30px;">
+                Set value
+				</td>
+				<td style="font-weight: bold; width: 180px; height: 30px;">
+                Calibration
+				</td>
+		  </tr>
+		  
+
+
+           <tr id=ADC0PGNConfig></tr>
+           <tr id=ADC1PGNConfig> </tr>
+           <tr id=ADC2PGNConfig> </tr>
+           <tr id=ADC3PGNConfig> </tr>
+           <tr id=ADC4PGNConfig> </tr>
+           <tr id=ADC5PGNConfig> </tr>
+           <tr id=ADC6PGNConfig> </tr>
+           <tr id=ADC7PGNConfig> </tr>
+           <tr id=ADC8PGNConfig> </tr>
+           <tr id=ADC9PGNConfig> </tr>
+           <tr id=ADC10PGNConfig> </tr>
+           <tr id=ADC11PGNConfig> </tr>
+		   
+          </table>
+      </div>
+	  
+	  	</details>
+				</div>	
+								
+			<div id="ADCAlarmsDIV" class="sgg4alarmdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; " >
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Analog Alarms Configurations</summary>
+			
+	  <div id="ADCAlarms" class="ADCAlarms" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+          <table>
+		  
+		  <tr>
+				<td style="font-weight: bold; width: 100px; height: 30px;">
+                Channel
+				</td>
+				<td style="font-weight: bold; width: 300px; height: 30px;">
+                Mode
+				</td>
+				<td style="font-weight: bold; width: 120px; height: 30px;">
+                Low
+				</td>
+				<td style="font-weight: bold; width: 120px; height: 30px;">
+                High
+				</td>
+				<td style="font-weight: bold; width: 120px; height: 30px;">
+                Action
+				</td>
+				<td style="font-weight: bold; width: 120px; height: 30px;">
+                Message
+				</td>
+		  </tr>
+		  
+
+
+           <tr id=ADC0AlarmConfig></tr>
+           <tr id=ADC1AlarmConfig> </tr>
+           <tr id=ADC2AlarmConfig> </tr>
+           <tr id=ADC3AlarmConfig> </tr>
+           <tr id=ADC4AlarmConfig> </tr>
+           <tr id=ADC5AlarmConfig> </tr>
+           <tr id=ADC6AlarmConfig> </tr>
+           <tr id=ADC7AlarmConfig> </tr>
+           <tr id=ADC8AlarmConfig> </tr>
+           <tr id=ADC9AlarmConfig> </tr>
+           <tr id=ADC10AlarmConfig> </tr>
+           <tr id=ADC11AlarmConfig> </tr>
+	       <!-- <tr id=ADC12AlarmConfig> </tr> -->
+           <tr id=ADC13AlarmConfig> </tr>
+           <tr id=ADC14AlarmConfig> </tr>
+           <tr id=ADC15AlarmConfig> </tr>	
+		   <tr id=ADC16AlarmConfig></tr>
+           <tr id=ADC17AlarmConfig> </tr>
+           <tr id=ADC18AlarmConfig> </tr>
+           <tr id=ADC19AlarmConfig> </tr>		   
+          </table>
+      </div>
+	  
+	  	</details>
+				</div>				
+				
+				
+		<div class="timestampdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Timestamp Configurations</summary>		
+			<div id="TimeStampParams" class="TimeStampParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                  
+                    <table >
+
+                       <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Time Stamp:</td>
+                 
+           				 <td style="width: 295px">
+                           <select id="TimeStampSource" name="TimeStampSource"   style="width: 280px" size="1">
+						  <option  value="0">disabled</option>
+						  <option  value="1">NTP</option>
+						  <option  value="2">GPS</option>
+						  <option  value="3">GLONASS</option>
+						  <option  value="4">Radio Station</option>
+						  <option  value="5">Cesium clock</option>
+						  <option  value="6">Rubidium clock</option>
+						  <option value="7">Crystal clock</option>
+						  <option value="8">SeaGauge</option>
+						  <option value="9">GNSS</option>
+						  <option value="A">HelmSmart</option>
+						  <option value="B">SeaSmart RTC</option>
+						  </select>
+                         </td>
+                      </tr>
+                    </table>
+                </div>
+                	</details>
+				</div>	
+				
+                <table>
+				<tr>
+                 <td style="height: 30px">                 
+                 &nbsp;
+				 <button style="width: 150px; height: 30px;" id="SaveSettings" onclick="SaveDeviceSettings();" type="button" />Save Settings</button>
+				 </td> 
+				 
+				 <td style="height: 30px">                 
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="CreateConfigXMLFiles" onclick="CreateConfigFiles();" type="button" />Create XML</button>
+				 </td> 
+				 
+                 <td style="height: 30px">                 
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="UploadFirmware('firmware.bin');" type="button" />Update Firmware</button>
+				 </td> 
+				  
+				  <td style="height: 30px">                 
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="UploadFirmware('spiffs.bin');" type="button" />Update SPIFFS</button>
+				 </td> 
+				 
+				<td  style="height: 30px">
+				&nbsp;   <button style="width: 150px; height: 30px;" id="Reset" onclick="ResetDevice();" type="button" />Reset</button>
+				</td>
+				</tr>
+				</table>
+				
+             </form>
+	<table>
+	<tr>
+		<td class="auto-style2"><a href="http://www.chetcodigital.com">
+		www.chetcodigital.com</a> - <a href="http://www.seasmart.net">
+		www.seasmart.net</a> - <a href="http://www.netgauges.net">
+		www.netgauges.net</a> - <a href="http://www.digitalmarinegauges.com">
+		www.digitalmarinegauges.com</a>&nbsp;&nbsp; copyright 2024</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+ 
+ 
+ 
+</body>
+</html>

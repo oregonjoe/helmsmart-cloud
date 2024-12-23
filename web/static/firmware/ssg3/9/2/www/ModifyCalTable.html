@@ -1,0 +1,1413 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>SeaGauge G4</title>
+
+  
+
+	 <script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/jquery.js"><\/script>');
+	</script> 
+	  
+	 <script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/jqblockUI.js"><\/script>');
+	</script> 
+	
+	
+	 <script type="text/javascript">
+	document.write('\<script type="text/javascript" src="scripts/bootstrap.js"><\/script>');
+	</script> 
+	
+		
+	<script type="text/javascript">
+	document.write('<link href="style/persona-buttons.css" rel="stylesheet" type="text/css" /> ');
+	</script> 
+  	  
+	<script type="text/javascript">
+	document.write('<link href="style/bootstrap.css" rel="stylesheet" type="text/css" />');
+	</script> 
+	
+  
+<style type="text/css">
+
+  .auto-style9 {
+  color: #000080;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: x-small;
+  text-align: center;
+  }
+  
+    .auto-style11 {
+  color: #000080;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: left;
+  }
+  
+  auto-style12 {
+  color: #000080;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: center;
+  }
+
+</style>
+
+<script type="text/javascript">
+
+let gFileHandle;
+var gFileName =  ""
+var gCalFileContents = "";
+var gDescription = "";
+var gType = "";
+var gUnits = "";
+var gResolution = "";
+var gMin = "";
+var gMax = "";
+var gFileSource = "SPIFFS";
+var gADCchannel=0;
+var gCurrentFile = "Not_Defined.xml"
+
+function StartUpMyScript(mydata)
+{
+
+
+	var mykey="test key";
+	var myvalue = "test value"
+			
+	var table = document.getElementById("DetailData");
+
+    var rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>0; x--)
+    table.deleteRow(x);	
+	
+	getCalibrationFiles("SPIFFS");
+			
+
+}
+
+function getCalibrationFiles(fileSource)
+{
+
+
+ var tmp = new Date();
+    var suffix = tmp.getTime();
+
+
+  
+    objXml = new XMLHttpRequest();
+    
+		$.blockUI({ 
+		 message: '<h1>Downloading file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+    
+   //  alert(newdatafile);
+    //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
+	//newdatafile = "/download/calibrations/";
+	newdatafile = "/download/calibrations/?MODE=" + fileSource;
+
+      try
+      {
+          objXml.open("GET",newdatafile   , true);
+      }
+      catch (exception)
+      {
+            var ie = (typeof window.ActiveXObject != 'undefined');
+
+            if (ie)
+            {
+                xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+                xmlDoc.async = false;
+                while(xmlDoc.readyState != 4) {};
+                xmlDoc.load(newdatafile);
+               // alert(xmlDoc.getElementsByTagName("Body")[0].childNodes[0].nodeValue);
+                mydata = xmlDoc.getElementsByTagName("Body")[0].childNodes[0].nodeValue;
+                //if(mydata != null)
+                // ProcessPageGaugeUpdates(mydata);
+                //xmlloaded = true;
+                return;
+            }
+            else
+            {
+                //xmlDoc = document.implementation.createDocument("", "", null);
+                //xmlDoc.onload = readXML;
+                //xmlDoc.load(newdatafile);
+                //xmlloaded = true;
+                return;
+            }
+
+      }
+
+   // define the call back function to handle the result from the ObjXMl.send
+   // during an async operation
+    objXml.onreadystatechange = function () 
+    {
+
+        // 0: request not initialized 
+        // 1: server connection established
+        // 2: request received 
+        // 3: processing request 
+        // 4: request finished and response is ready
+        // All other ready states are ignored
+        // we are only intrested in event 4 which is 
+        
+      
+          if (objXml.readyState == 4) 
+          {
+            //  alert("finished " + objXml.responseText);
+            // page not found (404) so clear out data
+            if (objXml.status == 404) 
+            {
+              // Clears Dial values from Parsed PGNs
+              // create each dial
+
+           }  // end of status = 404
+    
+         // Here is a  fun one !!
+         // If XMLHTTPRequest is to a web server then the objXml.status == 200
+         // if it is to a local file system then objXml.status == 0
+         // status 200 means request completed with OK
+         // else if (objXml.status == 0)
+         else if (objXml.status == 200) 
+         {
+             // mydata = objXml.responseText;
+             if(objXml.responseText != null)
+			 {
+
+                 //ProcessPageGaugeUpdates(objXml.responseText);
+				 //displayCalibrationFiles(objXml.responseText)
+				 listCalibrationFiles(objXml.responseText)
+			}
+			
+			//$.unblockUI();
+         } // end of status = 200 routine
+		 
+			$.unblockUI();
+    } // end of readystate = 4 
+    
+// commented out section to display readystate status in browser window        
+//    else 
+//    {
+//        document.getElementById("zone").innerHTML = objXml .readyState  + "<br /> ";
+//        // insert this in body of HTML doc // 
+//        <div id="zone" style="width:100%; Height:10%;"></div>
+//    }
+
+    }; // end of onreadystatechange callback function for async get data request
+
+  // send the XMLHttpRequest async after setting up callback to process events
+  //
+  objXml.send(null);
+
+} // end of GetN2KData function
+
+function listCalibrationFiles(files)
+{
+var calibrationFileName;
+var optionFileName;
+var myFiletags = files.split(/\r\n/);
+var XMLvalue;
+var optionIndex=0;
+
+
+
+
+
+	document.getElementById("CalFilesSelectDD").length = 0;
+	document.getElementById("CalFilesSelectDD").selectedIndex = 0;
+	
+	//document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""),calibrationFileName.replace("cal/", ""));
+
+	
+	// Create a new option element
+	//const newOption = new Option("select a file", "hiddenValue");
+
+	// Set the hidden property to true
+	//newOption.hidden = true;
+
+	// Add the option to the select element
+	//document.getElementById("CalFilesSelectDD").add(newOption);
+	
+	
+	
+	for(var index=0; index<myFiletags.length; index++)
+	{
+		
+		XMLvalue = getXMLTag(myFiletags[index], "<ADCchannel>");
+		if(XMLvalue != null)
+		{
+			gADCchannel = parseInt(XMLvalue);
+			document.getElementById("ADCChannelDD").selectedIndex = gADCchannel;
+		}
+	
+	
+		XMLvalue = getXMLTag(myFiletags[index], "<FileSource>");
+		if(XMLvalue != null)
+		{
+			gFileSource = XMLvalue;
+			
+			if(gFileSource == "SPIFFS")
+				document.getElementById("CalFilesSourceDD").selectedIndex = 0;
+			else if(gFileSource == "SDCARD")
+				document.getElementById("CalFilesSourceDD").selectedIndex = 1;
+			else 
+				document.getElementById("CalFilesSourceDD").selectedIndex = 2;	
+				
+		}
+	
+	
+	
+		
+		XMLvalue = getXMLTag(myFiletags[index], "<CurrentFilename>");
+		if(XMLvalue != null)
+		{
+
+			gCurrentFile = XMLvalue;
+			document.getElementById("CurrentCalFile").value = gCurrentFile;	
+			
+		}
+		
+		calibrationFileName = getXMLTag(myFiletags[index], "<CalibrationFilename>");
+		if(calibrationFileName != null)
+		{
+			if(calibrationFileName.includes(".xml", ""))
+			{		
+				//calibrationFileName.replace("cal\/", "");
+				document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""),calibrationFileName.replace("cal/", ""));
+			}
+		}
+
+					
+	}
+	
+	
+	
+		//document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""),calibrationFileName.replace("cal/", ""));;
+		if(optionIndex == 0)
+			document.getElementById("CalFilesSelectDD").options[0] = new Option("Select File","");
+		else if(optionIndex == 1)
+			document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option("Select File","");
+		
+			//document.getElementById("CalFilesSelectDD").add(newOption);
+		
+		document.getElementById("CalFilesSelectDD").selectedIndex = 0;
+		gFileName = document.getElementById("CalFilesSelectDD").options[0].value;
+		
+		if(gFileName != "")
+			getFile(gFileName);
+
+
+}
+function displayCalibrationFiles(files)
+{
+
+
+
+}
+
+function ChangedCalFilesSourceDD(sel)
+{
+	gFileSource = document.getElementById("CalFilesSourceDD").options[sel.selectedIndex].value;
+	
+	getCalibrationFiles(gFileSource)
+
+}
+
+function ChangedCalFilesSelectDD(sel)
+{
+
+	gFileName = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].value;
+	
+	gCurrentFile = gFileName;
+	document.getElementById("CurrentCalFile").value = gCurrentFile;	
+	
+	getFile(gFileName);
+
+
+}
+
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLValue(xmlData, field) {
+var myerr;	
+
+var startStr = '<configitem name="'+ field + '"><value>';
+
+
+//var endStr = "</" + field + ">";
+var endStr = "</value></configitem>";
+
+
+var startPos;
+var endPos;
+
+	try{
+		
+		startPos = xmlData.indexOf(startStr);
+		if(startPos == -1)
+			return null;
+		
+		startPos = startPos + startStr.length;
+		endPos = xmlData.indexOf(endStr, startPos);
+		
+		if(endPos == -1)
+			return null;
+		
+		return xmlData.substring(startPos,endPos).trim();
+		
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+	
+	
+	
+}
+
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLTag(xmlData, field) {
+var myerr;	
+
+var startStr = field;
+
+
+//var endStr = "</" + field + ">";
+var endStr = "</";
+
+
+var startPos;
+var endPos;
+
+	try{
+		
+		startPos = xmlData.indexOf(startStr);
+		if(startPos == -1)
+			return null;
+		
+		startPos = startPos + startStr.length;
+		endPos = xmlData.indexOf(endStr, startPos);
+		
+		if(endPos == -1)
+			return null;
+		
+		return xmlData.substring(startPos,endPos).trim();
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+	
+	
+	
+}
+
+function scaleValues()
+{
+var myNewValue;
+var row;
+
+let value = prompt("Please enter a scale value:", ""); // The second argument is an optional default value
+
+
+const scale = Number.parseFloat(value);
+  if (Number.isNaN(scale)) {
+  
+	alert("Please enter an numerical value");
+    return 0;
+	
+  }
+  
+  	
+	
+	for(i=0; i<256; i++)
+	{
+	
+		row = document.getElementById("DetailData").rows[i];
+		
+		//myNewValue	= row.cells[3].textContent;
+		myNewValue	= parseInt(parseInt(row.cells[2].textContent) * scale);
+		
+		if (myNewValue > 65536)
+			myNewValue = 65536;
+		
+		if (myNewValue < 0)
+			myNewValue = 0;
+			
+		document.getElementById("newValue" + (i+1).toString().padStart(3, '0')).value = myNewValue;
+		
+		
+		
+	}
+
+
+}
+
+function offsetValues()
+{
+
+var myNewValue;
+var row;
+
+let value = prompt("Please enter a offset value:", ""); // The second argument is an optional default value
+
+
+const offset = Number.parseFloat(value);
+  if (Number.isNaN(offset)) {
+  
+	alert("Please enter an numerical value");
+    return 0;
+	
+  }
+  
+  	
+	
+	for(i=0; i<256; i++)
+	{
+	
+		row = document.getElementById("DetailData").rows[i];
+		
+		//myNewValue	= row.cells[3].textContent;
+		myNewValue	= parseInt(parseInt(row.cells[2].textContent) + offset);
+		
+		if (myNewValue > 65536)
+			myNewValue = 65536;
+		
+		if (myNewValue < 0)
+			myNewValue = 0;
+			
+		document.getElementById("newValue" + (i+1).toString().padStart(3, '0')).value = myNewValue;
+		
+		
+		
+	}
+
+
+}
+
+function interpolateValues()
+{
+
+var myValue1; 
+var myValue2;
+var mydiffValue = new Array();
+var myInterpolatedValue = new Array();
+var mydiffIndex = new Array();
+var myInterpolatedIndex = new Array();
+var myCount; 
+var myDiffCount = new Array();
+var myDecimal;
+var myHexIndex;
+var myRowIndex;
+
+	myCount=0;
+	
+	myValue1=0;
+	myValue2=0;
+	j=0;
+	myRowIndex=1;
+
+
+
+	var row = document.getElementById("DetailData").rows[myRowIndex-1];
+
+	// get first value in table to be sure its no empty (NULL) else we cant interpolate
+	myValue	= row.cells[2].textContent;;
+	myNewValue	= document.getElementById("newValue" + myRowIndex.toString().padStart(3, '0')).value;
+	
+	// if empty set to first value
+	if(myNewValue == "")
+	{
+		document.getElementById("newValue" + myRowIndex.toString().padStart(3, '0')).value = parseInt(row.cells[2].textContent)
+	}
+
+	myRowIndex=256;
+	var row = document.getElementById("DetailData").rows[myRowIndex-1];
+
+	// get last value in table to be sure its no empty (NULL) else we cant interpolate
+	myValue	= row.cells[2].textContent;;
+	myNewValue	= document.getElementById("newValue" + myRowIndex.toString().padStart(3, '0')).value;
+	
+	// if empty set to last value
+	if(myNewValue == "")
+	{
+		document.getElementById("newValue" + myRowIndex.toString().padStart(3, '0')).value = parseInt(row.cells[2].textContent)
+	}
+
+
+	for(i=1; i<=256; i++)
+	{
+	
+		row = document.getElementById("DetailData").rows[i];
+		
+	
+		myNewValue	= document.getElementById("newValue" + i.toString().padStart(3, '0')).value;
+	
+			if(myNewValue != "")
+			{
+				myDiffCount[myCount]	= i-1;
+				mydiffValue[myCount++]	= parseFloat(myNewValue);
+
+
+			}
+	}
+
+	i = 0;
+
+	for(i=0; i< (myCount-1); i++)
+	{
+
+		myDiffCount[i]	= myDiffCount[i+1] - myDiffCount[i];
+		mydiffValue[i]	= mydiffValue[i+1] - mydiffValue[i];
+		
+	}
+
+	myCount = -1;
+	
+	
+	for(i=1; i<=256; i++)
+	{
+		myNewValue	= document.getElementById("newValue" + i.toString().padStart(3, '0')).value;;
+		
+			if(myNewValue == "")
+			{
+				
+				myValue1 = myValue1 + (mydiffValue[myCount]/myDiffCount[myCount]);
+
+
+
+			}
+			else
+			{
+				myValue1 = parseInt(myNewValue);
+		
+				myCount++;
+
+
+			}
+
+
+			document.getElementById("newValue" + i.toString().padStart(3, '0')).value = parseInt(myValue1)
+	}
+
+
+}
+
+function handleCalFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+	
+	//var file = e.target.files[0];
+
+	if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+	
+    // files is a FileList of File objects. List some properties.
+    myFile = files[0];
+	var myFileSize = myFile.size;
+	//var myFileName = "/www/" + myFile.name;
+	var myFileName = myFile.name;
+	
+	gFileName = myFile.name;
+
+   	var myFilePath =  "calibrations/";
+	
+	  var reader = new FileReader();
+  reader.onload = function(evt) {
+    var contents = evt.target.result;
+
+    // Display file content
+    displayContents(contents);
+  };
+  reader.readAsText(myFile);
+	
+	
+	// var myfilehandle = window.showOpenFilePicker();
+	
+	//upload(myFilePath, myFile);
+//	readTextFile("file:///O:/development/PlatformIO/SeaGaugeG4_CalibrationTables.txt");
+
+   
+}
+
+function displayContents(file_contents)
+{
+ //var fileSize =
+ 
+ var gCalFileContents = "";
+var gDescription = "";
+var gType = "";
+var gUnits = "";
+var gResolution = "";
+var gMin = "";
+var gMax = "";
+
+var row;
+var cell0;
+var cell1;
+var inputCell;
+
+
+	var table = document.getElementById("HeaderData");
+
+    var rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>=0; x--)
+    table.deleteRow(x);	
+	
+	table = document.getElementById("DetailData");
+
+    rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>=0; x--)
+    table.deleteRow(x);	
+ 
+	gDescription = getXMLValue(file_contents, 'DESCRIPTION');
+ 	gType = getXMLValue(file_contents, 'TYPE');
+	gUnits = getXMLValue(file_contents, 'UNITS');
+	gResolution = getXMLValue(file_contents, 'RESOLUTION');
+	gMin = getXMLValue(file_contents, 'MIN');
+	gMax = getXMLValue(file_contents, 'MAX');
+
+ 
+ 
+
+	var myLookupValues = getXMLValue(file_contents, 'LOOKUPVALUES');
+	
+	gCalFileContents = myLookupValues;
+ 
+	//var myCaldata = myLookupValues.split(/\r|\n/);
+	//var myCaldata = myLookupValues.split(",");
+	var myCaldata = myLookupValues.split(",\r\n");
+	
+	
+	var myCaldatalength = myCaldata.length;
+
+	/*
+	var mykey="test key";
+	var myvalue = "test value"
+			
+	var table = document.getElementById("HeaderData");
+
+    var rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>0; x--)
+    table.deleteRow(x);	
+			
+	*/
+			
+	table = document.getElementById("HeaderData");		
+			
+			
+	//for(rowCount=0; rowCount<7; rowCount++)			
+	{		
+	
+	        row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 			
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "FILE NAME";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" maxlength="28" id="FileNameValue" value="' + gFileName + '">';;
+			cell1.style.textAlign = 'left';	
+	
+           
+            row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 			
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "DESCRIPTION";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="DescriptionValue" value="' + gDescription + '">';
+			cell1.style.textAlign = 'left';		
+
+            row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "TYPE";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="TypeValue" value="' + gType + '">';
+			cell1.style.textAlign = 'left';		
+			
+		    row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "UNITS";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="UnitsValue" value="' + gUnits + '">';
+			cell1.style.textAlign = 'left';		
+
+
+            row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "RESOLUTION";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="ResolutionValue" value="' + gResolution + '">';
+			cell1.style.textAlign = 'left';					
+			
+			
+			row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "MIN";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="MinValue" value="' + gMin + '">';
+			cell1.style.textAlign = 'left';		
+			
+			
+			row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "MAX";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="MaxValue" value="' + gMax + '">';
+			cell1.style.textAlign = 'left';		
+			
+
+	}			
+			
+	table = document.getElementById("DetailData");
+		
+			
+	for(rowCount=0; rowCount<myCaldatalength; rowCount++)			
+	{		
+           
+            row = table.insertRow(-1);
+			
+			row.style.verticalAlign="top"; 
+			
+			mykey = myCaldata[rowCount];
+			
+			var cell0 = row.insertCell(0);
+			   cell0.innerHTML = rowCount;
+				cell0.style.textAlign = 'left';
+				  
+			var cell1 = row.insertCell(1);
+				cell1.innerHTML = parseFloat((rowCount * (3.3/256)), 2).toFixed(2);
+				cell1.style.textAlign = 'left';
+				
+			var cell2 = row.insertCell(2);
+			   cell2.innerHTML = parseInt(myCaldata[rowCount]);
+				cell2.style.textAlign = 'left';
+				   
+				  
+			var cell3 = row.insertCell(3);
+				cell3.innerHTML = '<input type="number" id="newValue' + (rowCount+1).toString().padStart(3, '0') + '" min="0" max="65536" value="">';
+				cell3.style.textAlign = 'left';
+	}
+
+
+
+
+
+}
+
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    { 
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            { 
+                var allText = rawFile.responseText;
+                prompt(allText);
+            }
+        }
+    }
+   // rawFile.send(null);
+	
+}
+
+/*
+async function saveFile(fileHandle, data) {
+  const writable = await fileHandle.createWritable();
+  await writable.write(data);
+  await writable.close();
+}
+*/
+
+// Function to Get new N2K data from server or local file
+//
+function getFile(fileName)
+{
+    //var tmp = new Date();
+   // var suffix = tmp.getTime();
+
+	if(fileName == "")
+	{
+		var fileName = prompt("Please enter a SD card file name:", ""); // The second argument is an optional default value
+ 
+		if(fileName == "")
+			return;
+	}
+  
+    
+	//gFileSource = document.getElementById("CalFilesSourceDD").options[sel.selectedIndex].value;
+	if(gFileSource == "SPIFFS")
+	{
+		newdatafile = "/download/seagaugeg4/cal/" + fileName;
+	}
+	else
+	{
+		newdatafile = "/download/calibrations/" + fileName;
+	}
+
+    		$.blockUI({ 
+		 message: '<h1>Downloading file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+   //  alert(newdatafile);
+    //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
+	
+	
+	  objXml = new XMLHttpRequest();
+
+      try
+      {
+          objXml.open("GET",newdatafile   , true);
+      }
+      catch (exception)
+      {
+            var ie = (typeof window.ActiveXObject != 'undefined');
+
+            if (ie)
+            {
+                xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+                xmlDoc.async = false;
+                while(xmlDoc.readyState != 4) {};
+                xmlDoc.load(newdatafile);
+               // alert(xmlDoc.getElementsByTagName("Body")[0].childNodes[0].nodeValue);
+                mydata = xmlDoc.getElementsByTagName("Body")[0].childNodes[0].nodeValue;
+                //if(mydata != null)
+                // ProcessPageGaugeUpdates(mydata);
+                //xmlloaded = true;
+                return;
+            }
+            else
+            {
+                //xmlDoc = document.implementation.createDocument("", "", null);
+                //xmlDoc.onload = readXML;
+                //xmlDoc.load(newdatafile);
+                //xmlloaded = true;
+                return;
+            }
+
+      }
+
+   // define the call back function to handle the result from the ObjXMl.send
+   // during an async operation
+    objXml.onreadystatechange = function () 
+    {
+
+        // 0: request not initialized 
+        // 1: server connection established
+        // 2: request received 
+        // 3: processing request 
+        // 4: request finished and response is ready
+        // All other ready states are ignored
+        // we are only intrested in event 4 which is 
+        
+      
+          if (objXml.readyState == 4) 
+          {
+            //  alert("finished " + objXml.responseText);
+            // page not found (404) so clear out data
+            if (objXml.status == 404) 
+            {
+              // Clears Dial values from Parsed PGNs
+              // create each dial
+
+           }  // end of status = 404
+    
+         // Here is a  fun one !!
+         // If XMLHTTPRequest is to a web server then the objXml.status == 200
+         // if it is to a local file system then objXml.status == 0
+         // status 200 means request completed with OK
+         // else if (objXml.status == 0)
+         else if (objXml.status == 200) 
+         {
+             // mydata = objXml.responseText;
+             if(objXml.responseText != null)
+			 {
+                 //ProcessPageGaugeUpdates(objXml.responseText);
+				 gFileName = fileName;
+				 displayContents(objXml.responseText)
+			}
+
+         } // end of status = 200 routine
+		$.unblockUI();
+    } // end of readystate = 4 
+    
+// commented out section to display readystate status in browser window        
+//    else 
+//    {
+//        document.getElementById("zone").innerHTML = objXml .readyState  + "<br /> ";
+//        // insert this in body of HTML doc // 
+//        <div id="zone" style="width:100%; Height:10%;"></div>
+//    }
+
+    }; // end of onreadystatechange callback function for async get data request
+
+  // send the XMLHttpRequest async after setting up callback to process events
+  //
+  objXml.send(null);
+
+} // end of GetN2KData function
+
+
+function setChannel() {
+
+
+	const timestamp = new Date().getTime();
+	
+
+	var currentFile = document.getElementById("CurrentCalFile").value;
+	var currentChannel = document.getElementById("ADCChannelDD").selectedIndex;
+	
+	
+	var myFilePath =  "/download/www/calibrations/"  + currentChannel + "/" + currentFile + "?MODE=SETCAL" + "&t=" + timestamp;
+
+
+	//window.open('download/calibrations/', '_self');
+	window.open(myFilePath, '_self');
+
+}
+
+function saveFile() {
+ 
+ /*
+var myFileData = '<configgroup name = "CALIBRATION_TABLE"><configitem name="DESCRIPTION"><value>VDO Temperature 250F</value></configitem><configitem name="TYPE"><value>Temperature</value></configitem><configitem name="UNITS"><value>Kelvin</value></configitem><configitem name="RESOLUTION"><value>K*0.01</value></configitem><configitem name="MIN"><value>247</value></configitem><configitem name="MAX"><value>410</value></configitem><configitem name="LOOKUPVALUES"><value>';
+
+
+var gCalFileContents = "";
+var gDescription = "";
+var gType = "";
+var gUnits = "";
+var gResolution = "";
+var gMin = "";
+var gMax = "";
+*/
+	var CalLookupValues="\r\n";
+
+   	var myFilePath =  "calibrations/";
+	var myFile = "testCalFile.xml";
+	var myFile = document.getElementById("FileNameValue").value;
+
+	var myFileData = '<configgroup name = "CALIBRATION_TABLE">\r\n';
+	myFileData = myFileData  + '<configitem name="DESCRIPTION"><value>' + document.getElementById("DescriptionValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="TYPE"><value>' + document.getElementById("TypeValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="UNITS"><value>' + document.getElementById("UnitsValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="RESOLUTION"><value>' + document.getElementById("ResolutionValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="MIN"><value>' + document.getElementById("MinValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="MAX"><value>' + document.getElementById("MaxValue").value + '</value></configitem>\r\n';
+	
+	for(i=1;i<= 256; i++)
+	{
+		CalLookupValues = CalLookupValues + document.getElementById("newValue" + i.toString().padStart(3, '0')).value + ",\r\n";
+	}
+	
+	myFileData = myFileData  + '<configitem name="LOOKUPVALUES"><value>' + CalLookupValues + '</value></configitem>\r\n';
+	myFileData = myFileData  + '</configgroup>\r\n'
+	
+	upload(myFilePath, myFile, myFileData );
+	
+	
+}
+
+
+function upload(filePath, fileName, fileData) {
+    //var filePath = document.getElementById("filepath").value;
+   // var upload_path = "/upload" + filePath;
+	var upload_path = "/upload/" + filePath + fileName;
+   // var fileInput = document.getElementById("newfile").files;
+	// var fileInput = filePath;
+	  var fileInput = fileName;
+
+    /* Max size of an individual file. Make sure this
+     * value is same as that set in file_server.c */
+    var MAX_FILE_SIZE = 200*1024;
+    var MAX_FILE_SIZE_STR = "200KB";
+
+    if (fileInput.length == 0) {
+        alert("No file selected!");
+    } 
+	else if (fileName.length == 0) 
+	{
+        alert("File path on server is not set!");
+	}
+
+	
+	else 
+	{
+       
+		$.blockUI({ 
+		 message: '<h1>Downloading file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+		   
+	   
+       // var file = fileInput[0];
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+				
+				$.unblockUI();
+            }
+        };
+        xhttp.open("POST", upload_path, true);
+        xhttp.send(fileData);
+    }
+}
+
+
+
+</script>
+
+</head>
+
+<body style="width: 900px; height: 600px" onload ="StartUpMyScript(); " style="background-color:#FFFFFF">
+
+<table  cellpadding="0" cellspacing="0" style="border-collapse: collapse"  width="80%" height="100">
+<tr style="border-bottom: 2px solid #66A">
+    <td width="100%" height="77" colspan="2">
+    <p align="center">
+    	<a href="index.html">
+ <img border="0" src="images/SeaSmartBanner.jpg" />
+</a></td>
+  </tr>
+  
+<tr style="border-bottom: 2px solid #66A">
+    <td width="100%" height="50" colspan="2">
+    <p align="center">
+    Modify selected calibration table
+	
+	</td>
+  </tr>
+
+  </table>
+
+
+ <table  cellpadding="5" cellspacing="5" style="border-collapse: collapse"  style="border-bottom: 1px solid #66A" width="80%" height="60">
+  
+   <tr >
+
+	<td style="width: 300px; font-size: 12;" class="auto-style11" />
+	<p align="left">
+	Current Calibration File 
+	</td>	
+	
+	<td style="width: 100px; font-size: 12;" class="auto-style11" />
+    <p align="left">
+	ADC Channel
+	</td> 
+	
+	<td style="width: 200px; font-size: 12;" class="auto-style11" />
+    <p align="left">
+	Set Channel
+	</td>
+	
+
+
+	
+</tr>
+
+
+<tr style="border-bottom: 2px solid #66A">
+
+	<td style="width: 300px">
+		
+	<input type="text" style="margin-right: 10px; text-align:left; width: 240px; height: 30px;"  id="CurrentCalFile" name="CurrentCalFile" value="--" readonly/>		
+			
+	</td>	
+
+	
+		<td style="width: 100px">
+	<!-- <input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetFile"  name="GetFile" value="Get SD" class="auto-style10" /> -->
+	<select style="margin-right: 10px; text-align:left; width: 100px; height: 30px;"  id="ADCChannelDD" name="ADCChannelDD"   onchange="ChangedADCChannelDD(this);"  >
+				<option  value="0">ADC 0</option>
+				<option  value="1">ADC 1</option>
+				<option  value="2">ADC 2</option>
+				<option  value="3">ADC 3</option>
+				<option  value="4">ADC 4</option>
+				<option  value="5">ADC 5</option>
+				<option  value="6">ADC 6</option>	
+				<option  value="7">ADC 7</option>
+				<option  value="8">ADC 8</option>
+				<option  value="9">ADC 9</option>
+				<option  value="10">ADC 10</option>
+				<option  value="11">ADC 11</option>
+			</select>
+	</td>	
+	
+	
+
+	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="SetChannel"  name="SetChannel" value="Set" class="auto-style10" />
+	</td>	
+	
+
+	
+</tr> 
+  
+  
+  <tr >
+
+	<td style="width: 300px; font-size: 12;" class="auto-style11" />
+	<p align="left">
+	Choose SD card file 
+	</td>	
+	
+	<td style="width: 100px; font-size: 12;" class="auto-style11" />
+    <p align="left">
+	Source
+	</td> 
+	
+	<td style="width: 200px; font-size: 12;" class="auto-style11" />
+    <p align="left">
+	Choose local file
+	</td>
+	
+	<td style="width: 200px; font-size: 12;" class="auto-style11" />
+	<p align="left">
+	Save to SD card
+	</td>	
+	
+
+	
+</tr>
+
+
+<tr style="border-bottom: 2px solid #66A">
+
+	<td style="width: 300px">
+	<!-- <input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetFile"  name="GetFile" value="Get SD" class="auto-style10" /> -->
+	<select style="margin-right: 10px; text-align:left; width: 240px; height: 30px;"  id="CalFilesSelectDD" name="CalFilesSelectDD"   onchange="ChangedCalFilesSelectDD(this);"  >
+				<option value="">choose file</option>
+
+			</select>
+	</td>	
+
+	
+		<td style="width: 100px">
+	<!-- <input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetFile"  name="GetFile" value="Get SD" class="auto-style10" /> -->
+	<select style="margin-right: 10px; text-align:left; width: 100px; height: 30px;"  id="CalFilesSourceDD" name="CalFilesSourceDD"   onchange="ChangedCalFilesSourceDD(this);"  >
+				<option value="SPIFFS">SPIFFS</option>
+				<option value="SDCARD">SD Card</option>
+				<option value="UNKNOWN">UNKNOWN</option>
+			</select>
+	</td>	
+	
+	
+	<td style="width: 200px">
+    
+	<input type="file" style="margin-right: 10px; text-align:left; width: 200px; height: 30px;"  id="SDGetCalFile"  value="Choose Local" name="files[]"    class="auto-style10" />
+	</td>
+	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="SaveFile"  name="SaveFile" value="Save" class="auto-style10" />
+	</td>	
+	
+
+	
+</tr>
+
+
+<tr style="border-bottom: 2px solid #66A">
+
+  <tr >
+
+	<td style="width: 600px; font-size: 12; text-align:center;" colspan="3"  class="auto-style12" />
+	Modify Calibration table and save back to internal SD card 
+	</td>	
+
+	
+	
+
+	
+</tr>
+
+	<td style="width: 300px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="InterpolateFile"  name="InterpolateFile" value="Interpolate" class="auto-style10" />		
+	</td>	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="ScaleFile"  name="ScaleFile" value="Scale" class="auto-style10" />		
+	</td>	
+	<td style="width: 200px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="OffsetFile"  name="OffsetFile" value="Offset" class="auto-style10" />		
+	</td>	
+  </tr>
+ 
+  
+</table>
+  
+      <Table class="headertable" id="HeaderData" cellspacing="5" cellpadding="5" style="width:75%; border-bottom: 2px solid #66A; border-top: 2px solid #66A; display: block" class="auto-style9" >
+
+
+      <tbody class="auto-style9" ></tbody>
+      
+    </Table>
+  
+      <Table class="caltable" id="CalData" border="0" cellspacing="5" cellpadding="5" style="width:75%; display: block" class="auto-style9" >
+		<thead class="calhead">
+        <tr style="border-bottom: 2px solid #66A; border-top: 2px solid #66A" class="auto-style9" >
+			<th style="width: 100px"> Index</th>    
+			<th style="width: 150px"> Volts</th>    
+			<th style="width: 150px"> Current</th>    
+			<th style="width: 150px"> New</th>   
+		</tr>
+      </thead>
+      <tbody class="auto-style9" id="DetailData" cellspacing="0" cellpadding="0" ></tbody>
+      
+    </Table>
+  
+  <table>
+  
+  <tr>
+    <td width="100%" height="50" colspan="2">
+      <div id="linkbar" style="width:100%; height:2%; padding: 10px 10px 10px 10px;" class="auto-style9" >
+    www.chetcodigital.com www.seasmart.net www.netgauges.net www.digitalmarinegauges.com
+  </div></td>
+  </tr>
+  
+    <tr>
+    <td width="100%" height="50" colspan="2">
+      <div id="linkbar" style="width:100%; height:2%; padding: 10px 10px 10px 10px;" class="auto-style9" >
+    copyright 2024 - all rights reserved
+  </div></td>
+  </tr>
+  
+  
+</table>
+
+
+
+
+<script type="text/javascript">
+
+document.getElementById('SDGetCalFile').addEventListener('change', handleCalFileSelect, false);
+
+
+document.getElementById('InterpolateFile').addEventListener('click', interpolateValues, false);
+document.getElementById('ScaleFile').addEventListener('click', scaleValues, false);
+document.getElementById('OffsetFile').addEventListener('click', offsetValues, false);
+
+
+//document.getElementById('GetFile').addEventListener('click', getFile, false);
+
+document.getElementById('SaveFile').addEventListener('click', saveFile, false);
+
+
+document.getElementById('SetChannel').addEventListener('click', setChannel, false);
+
+// Add an event listener to the table
+document.getElementById("DetailData").addEventListener("click", function(event) {
+  // Check if the clicked element is a table cell
+  if (event.target.tagName === "TD") {
+    // Get the clicked cell element
+    const oldcell = event.target;
+
+    // Get the row and column indices
+    const rowIndex = oldcell.parentNode.rowIndex;
+    const colIndex = oldcell.cellIndex;
+
+    // Do something with the clicked cell data
+    //console.log("Clicked cell at row:", rowIndex, ", column:", colIndex);
+    //console.log("Cell content:", cell.textContent);
+	if(colIndex == 2)
+	{
+	
+		//alert(oldcell.textContent);
+		
+		 // const table = document.getElementById(tableId);
+		const row = document.getElementById("DetailData").rows[rowIndex-1];
+		const newcell = row.cells[3];
+		//newcell.innerHTML = oldcell.textContent;
+		newcell.innerHTML = '<input type="number" id="newValue' + rowIndex.toString().padStart(3, '0') + '" min="0" max="65536" value="' + oldcell.textContent + '">';
+		
+	}
+	
+	
+  }
+});
+
+
+
+
+
+</script>
+
+
+</body>
+
+</html>
