@@ -1,229 +1,84 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html >
-<head>
-<meta content="en-us" http-equiv="Content-Language" />
-<title>SeaSmart NMEA 0183 Status Page</title>
-
-	<script type="text/javascript">
-	document.write('\<script type="text/javascript" src="scripts/main_conf.js"><\/script>');
-	</script>  
-	
-	<script type="text/javascript">
-	document.write('\<script type="text/javascript" src="scripts/mchp.js"><\/script>');
-	</script>  
-	
-	<script type="text/javascript">
-	document.write(' <link href="style/style.css" rel="stylesheet" type="text/css" />');
-	</script> 
-
-
-<style type="text/css">
-.auto-style2 {
-	text-align: center;
-}
-.auto-style3 {
-	border-bottom-style: solid;
-	border-bottom-color: #000080;
-}
-.auto-style4 {
-	border-top-style: solid;
-	border-top-color: #000080;
-}
-.auto-style6 {
-	font-size: medium;
-	color: #12126C;
-}
-.auto-style7 {
-	font-size: large;
-}
-.auto-style8 {
-	font-size: medium;
-}
-.auto-style9 {
-	color: #12126C;
-	font-size: small;
-}
-.auto-style10 {
-	font-size: medium;
-  color: #FFFFFF;
-  border-top-style: none;
-	border-top-color: #12365e;
-  border-bottom-style: none;
-	border-bottom-color: #12365e;
-}
-</style>
-<style  type="text/css">
- <!--
- A{text-decoration:none}
- .auto-style10 {
-	margin-left: 60px;
-}
- -->
- </style>
-
-
-</head>
-
-<body>
- 
-<table style="width: 800px">
-	<tr>
-		<td>
-		<table style="width: 800px">
-			<tr>
-				<td style="width: 100px" colspan="2"><img alt="" height="80" src="images/CDI_Logo.jpg" width="80" /></td>
-				<td style="width: 450px" colspan="2"><img alt="" height="77" src="images/SeaSmartBanner.jpg" width="400" /></td>
-				<td style="width: 100px" colspan="2"><img alt="SeaSmart G3 Gateway" height="90" longdesc="SeaSmart G3 Gateway" src="images/SeaSmartG3Logo.jpg" width="150" /></td>
-			</tr>	
-		</table>
-		<table style="width: 800px">
-			<tr>
-				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
-				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
-				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
-				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
-				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
-				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
-			</tr>	
-			<tr>
-				<td style="width: 200px" class="auto-style6"><strong><a href="index.html">Home</a></strong></td>
-				<td style="width: 200px" class="auto-style6"><strong><a href="conf.html">Config</a></strong></td>
-				<td style="width: 200px" class="auto-style6"><strong><a href="StatusN2K.html">Status CAN</strong></a></td>
-				<td style="width: 200px" class="auto-style6"><strong>Status 0183</strong></td>
-				<td style="width: 200px" class="auto-style6"><strong><a href="Files.html">Files</strong></a></td>
-				<td style="width: 200px" class="auto-style6"><strong><a href="PGNfilters.html">PGN Filters</strong></a></td>
-				
-			</tr>
-           <tr style=" background-color:#12365e; " >
-              <td colspan="3" class="auto-style10">Device: </td>
-			   <td colspan="3" id="DeviceIDXMLValue" class="auto-style10">~DEVICE~</td>
-            </tr>
-            
-            <tr style=" background-color:#12365e; " class="auto-style10">
-              <td colspan="3" style="width: 426px">Firmware Version</td>
-              <td colspan="3" id="VersionXMLValue"style="width: 500px">~FWID~</td>
-            </tr>
-          </span>
-		</table>
-		</td>
-	</tr>
-	
-			
-
-	</table>
-
-	
-	
-	 
-		
-</div></p>		  
-		  
-	<table>	  
-		<tr>
-		<td>	  
-				
-
-
-				<div  class="auto-style3"></div>
-				
-				<strong>HTTP POST Status:</strong> 
-			<span id="HTTPPostStatus" style="font-weight:normal" class="auto-style9">&nbsp;</span><form name="HTTPPostStatus">
-					<textarea name="HTTPPostText" style="width: 800px; height: 128px; font-size:12px"></textarea></form>
-		
-
-				<div  class="auto-style3"></div>
-
-</td>		              
-		</tr>
-	
-	<tr>
-		<td>	  
-				
-
-
-				<div  class="auto-style3"></div>
-				
-				<strong>RAW 0183 Data:</strong> <input type="button" style="margin-right: 10px; margin-top: 10px;margin-bottom: 10px;text-align:left; width: 120px; height: 25px;"  id="pauselist"  name="pause" value="PAUSE"  onclick="pauseList()" /> 
-			<span id="0183Data" style="font-weight:normal" class="auto-style9">&nbsp;</span><form name="0183Data">
-					<textarea name="0183Text" style="width: 800px; height: 228px; font-size:12px"></textarea></form>
-		
-
-				<div  class="auto-style3"></div>
-
-</td>		              
-		</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="auto-style2"><a href="http://www.chetcodigital.com">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html ><head><meta content="en-us" http-equiv="Content-Language" /><title>SeaSmart 0183 Status Page</title><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/main_conf.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/mchp.js"><\/script>');</script><script type="text/javascript">
+document.write(' <link href="style/style.css" rel="stylesheet" type="text/css" />');</script><style type="text/css"> .auto-style2{text-align:center}.auto-style3{border-bottom-style:solid;border-bottom-color:#000080}.auto-style4{border-top-style:solid;border-top-color:#000080}.auto-style6{font-size:medium;color:#12126C}.auto-style7{font-size:large}.auto-style8{font-size:medium}.auto-style9{color:#12126C;font-size:small}.auto-style10{font-size:medium;color:#FFF;border-top-style:none;border-top-color:#12365e;border-bottom-style:none;border-bottom-color:#12365e}</style><style type="text/css"></style></head><body><table style="width: 800px"><tr><td><table style="width: 800px"><tr><td style="width: 100px" colspan="2"><img alt="" height="80" src="images/CDI_Logo.jpg" width="80" /></td><td style="width: 450px" colspan="2"><img alt="" height="77" src="images/SeaSmartBanner.jpg" width="400" /></td><td style="width: 100px" colspan="2"><img alt="ENET" height="90" longdesc="SeaSmart G3 Gateway" src="images/SeaSmartG3Logo.jpg" width="150" /></td></tr></table><table style="width: 800px"><tr><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td></tr><tr><td style="width: 200px" class="auto-style6"><strong><a href="index.html">Home</a></strong></td><td style="width: 200px" class="auto-style6"><strong><a href="conf.html">Config</a></strong></td><td style="width: 200px" class="auto-style6"><strong>Status CAN</strong></td><td style="width: 200px" class="auto-style6"><strong><a href="Status0183.html">Status 0183</strong></td><td style="width: 200px" class="auto-style6"><strong><a href="Files.html">Files</strong></a></td><td style="width: 200px" class="auto-style6"><strong><a href="PGNfilters.html">PGN Filters</strong></a></td></tr><tr style=" background-color:#12365e; "><td colspan="3" class="auto-style10">Device: </td><td colspan="3" id="DeviceIDXMLValue" class="auto-style10">~DEVICE~</td></tr><tr style=" background-color:#12365e; " class="auto-style10"><td colspan="3" style="width: 426px">Firmware Version</td><td colspan="3" id="VersionXMLValue"style="width: 500px">~FWID~</td></tr></span></table></td></tr></table><div id="StatusBar"><p><strong>Status:</strong><br /></div><div id="PGNList" style=" width:804px; height:460px; background-color:#92b7d3;"><table><tr><td style="width: 200px"><input type="checkbox" id="PGNF0" name="PGNFILTER" value="PGNF0"><label for="PGNF0">CDI Custom Dimmer</label></td><td style="width: 200px"><input type="checkbox" id="PGNF1" name="PGNFILTER" value="PGNF1"><label for="PGNF1">SystemTime</label></td><td style="width: 200px"><input type="checkbox" id="PGNF2" name="PGNFILTER" value="PGNF2"><label for="PGNF2">Time/Date</label></td><td style="width: 200px"><input type="checkbox" id="PGNF3" name="PGNFILTER" value="PGNF3"><label for="PGNF3">Position Rapid</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF4" name="PGNFILTER" value="PGNF4"><label for="PGNF4">COG & SOG</label></td><td style="width: 200px"><input type="checkbox" id="PGNF5" name="PGNFILTER" value="PGNF5"><label for="PGNF5">Attitude</label></td><td style="width: 200px"><input type="checkbox" id="PGNF6" name="PGNFILTER" value="PGNF6"><label for="PGNF6">Heading</label></td><td style="width: 200px"><input type="checkbox" id="PGNF7" name="PGNFILTER" value="PGNF7"><label for="PGNF7">rate of turn</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF8" name="PGNFILTER" value="PGNF8"><label for="PGNF8">rudder angle</label></td><td style="width: 200px"><input type="checkbox" id="PGNF9" name="PGNFILTER" value="PGNF9"><label for="PGNF9">Wind Data</label></td><td style="width: 200px"><input type="checkbox" id="PGNF10" name="PGNFILTER" value="PGNF10"><label for="PGNF10">Environmential</label></td><td style="width: 200px"><input type="checkbox" id="PGNF11" name="PGNFILTER" value="PGNF11"><label for="PGNF11">Temperature</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF12" name="PGNFILTER" value="PGNF12"><label for="PGNF12">Temperature extended</label></td><td style="width: 200px"><input type="checkbox" id="PGNF13" name="PGNFILTER" value="PGNF13"><label for="PGNF13">Water Depth</label></td><td style="width: 200px"><input type="checkbox" id="PGNF14" name="PGNFILTER" value="PGNF14"><label for="PGNF14">Water Speed</label></td><td style="width: 200px"><input type="checkbox" id="PGNF15" name="PGNFILTER" value="PGNF15"><label for="PGNF15">Meteo Station</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF16" name="PGNFILTER" value="PGNF16"><label for="PGNF16">GNNS Sats in View</label></td><td style="width: 200px"><input type="checkbox" id="PGNF17" name="PGNFILTER" value="PGNF17"><label for="PGNF17">Battery Status</label></td><td style="width: 200px"><input type="checkbox" id="PGNF18" name="PGNFILTER" value="PGNF18"><label for="PGNF18">Engine Rapid</label></td><td style="width: 200px"><input type="checkbox" id="PGNF19" name="PGNFILTER" value="PGNF19"><label for="PGNF19">Engine Dynamic</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF20" name="PGNFILTER" value="PGNF20"><label for="PGNF20">Transmission</label></td><td style="width: 200px"><input type="checkbox" id="PGNF21" name="PGNFILTER" value="PGNF21"><label for="PGNF21">pressure</label></td><td style="width: 200px"><input type="checkbox" id="PGNF22" name="PGNFILTER" value="PGNF22"><label for="PGNF22">Trip Engine</label></td><td style="width: 200px"><input type="checkbox" id="PGNF23" name="PGNFILTER" value="PGNF23"><label for="PGNF23">Fuel Level</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF24" name="PGNFILTER" value="PGNF24"><label for="PGNF24">Switch Status</label></td><td style="width: 200px"><input type="checkbox" id="PGNF25" name="PGNFILTER" value="PGNF25"><label for="PGNF25">Switch Control</label></td><td style="width: 200px"><input type="checkbox" id="PGNF26" name="PGNFILTER" value="PGNF26"><label for="PGNF26">GNSS DOPs</label></td><td style="width: 200px"><input type="checkbox" id="PGNF27" name="PGNFILTER" value="PGNF27"><label for="PGNF27">Datum</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF28" name="PGNFILTER" value="PGNF28"><label for="PGNF28">GNSS Position</label></td><td style="width: 200px"><input type="checkbox" id="PGNF29" name="PGNFILTER" value="PGNF29"><label for="PGNF29">AIS Class B</label></td><td style="width: 200px"><input type="checkbox" id="PGNF30" name="PGNFILTER" value="PGNF30"><label for="PGNF30">AIS Class B</label></td><td style="width: 200px"><input type="checkbox" id="PGNF31" name="PGNFILTER" value="PGNF31"><label for="PGNF31">DC Detailed</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF32" name="PGNFILTER" value="PGNF32"><label for="PGNF32">AC Input Status</label></td><td style="width: 200px"><input type="checkbox" id="PGNF33" name="PGNFILTER" value="PGNF33"><label for="PGNF33">AC Output Status</label></td><td style="width: 200px"><input type="checkbox" id="PGNF34" name="PGNFILTER" value="PGNF34"><label for="PGNF34">Charger Status</label></td><td style="width: 200px"><input type="checkbox" id="PGNF35" name="PGNFILTER" value="PGNF35"><label for="PGNF35">Inverter Status</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF36" name="PGNFILTER" value="PGNF36"><label for="PGNF36">Cross track error</label></td><td style="width: 200px"><input type="checkbox" id="PGNF37" name="PGNFILTER" value="PGNF37"><label for="PGNF37">Navigation Data</label></td><td style="width: 200px"><input type="checkbox" id="PGNF38" name="PGNFILTER" value="PGNF38"><label for="PGNF38">Magnetic Variation</label></td><td style="width: 200px"><input type="checkbox" id="PGNF39" name="PGNFILTER" value="PGNF39"><label for="PGNF39">J1939 Engine Temperatures</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF40" name="PGNFILTER" value="PGNF40"><label for="PGNF40">J1939 Engine Pressures</label></td><td style="width: 200px"><input type="checkbox" id="PGNF41" name="PGNFILTER" value="PGNF41"><label for="PGNF41">J1939 Engine Volts</label></td><td style="width: 200px"><input type="checkbox" id="PGNF42" name="PGNFILTER" value="PGNF42"><label for="PGNF42">J1939 Engine Speed</label></td><td style="width: 200px"><input type="checkbox" id="PGNF43" name="PGNFILTER" value="PGNF43"><label for="PGNF43">J1939 Fuel Rates</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF44" name="PGNFILTER" value="PGNF44"><label for="PGNF44">J1939 Fuel Level</label></td><td style="width: 200px"><input type="checkbox" id="PGNF45" name="PGNFILTER" value="PGNF45"><label for="PGNF45">J1939 Transmission</label></td><td style="width: 200px"><input type="checkbox" id="PGNF46" name="PGNFILTER" value="PGNF46"><label for="PGNF46">J1939 Utility Phase A</label></td><td style="width: 200px"><input type="checkbox" id="PGNF47" name="PGNFILTER" value="PGNF47"><label for="PGNF47">J1939 Utility Phase B</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF48" name="PGNFILTER" value="PGNF48"><label for="PGNF48">J1939 Utility Phase C</label></td><td style="width: 200px"><input type="checkbox" id="PGNF49" name="PGNFILTER" value="PGNF49"><label for="PGNF49">J1939 Utility Average </label></td><td style="width: 200px"><input type="checkbox" id="PGNF50" name="PGNFILTER" value="PGNF50"><label for="PGNF50">J1939 Utility Total Energy</label></td><td style="width: 200px"><input type="checkbox" id="PGNF51" name="PGNFILTER" value="PGNF51"><label for="PGNF51">J1939 Generator Phase A </label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF52" name="PGNFILTER" value="PGNF52"><label for="PGNF52">J1939 Generator Phase B</label></td><td style="width: 200px"><input type="checkbox" id="PGNF53" name="PGNFILTER" value="PGNF53"><label for="PGNF53">J1939 Generator Phase C</label></td><td style="width: 200px"><input type="checkbox" id="PGNF54" name="PGNFILTER" value="PGNF54"><label for="PGNF54">J1939 Generator Average</label></td><td style="width: 200px"><input type="checkbox" id="PGNF55" name="PGNFILTER" value="PGNF55"><label for="PGNF55">J1939 Generator Total AC</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF56" name="PGNFILTER" value="PGNF56"><label for="PGNF56">Custom AC Power kWh</label></td><td style="width: 200px"><input type="checkbox" id="PGNF57" name="PGNFILTER" value="PGNF57"><label for="PGNF57">Custom DC Power kWh</label></td><td style="width: 200px"><input type="checkbox" id="PGNF58" name="PGNFILTER" value="PGNF58"><label for="PGNF58">Custom Indicator Runtime</label></td><td style="width: 200px"><input type="checkbox" id="PGNF59" name="PGNFILTER" value="PGNF59"><label for="PGNF59">Custom ADC Status</label></td><tr><tr><td style="width: 200px"><input type="checkbox" id="PGNF60" name="PGNFILTER" value="PGNF60"><label for="PGNF60">CDI Heartbeat</label></td><td style="width: 200px"><input type="checkbox" id="PGNF61" name="PGNFILTER" value="PGNF61"><label for="PGNF61">---</td><td style="width: 200px"><input type="checkbox" id="PGNF62" name="PGNFILTER" value="PGNF62"><label for="PGNF62">---</label></td><td style="width: 200px"><input type="checkbox" id="PGNF63" name="PGNFILTER" value="PGNF63" onclick="clearPGNList();"><label for="PGNF63">Clear List</label></td><tr></table></div></p><table><tr><td><div class="auto-style3"></div><strong>RAW Data:</strong><input type="button" style="margin-right: 10px; margin-top: 10px;margin-bottom: 10px;text-align:left; width: 120px; height: 25px;" id="pauselist" name="pause" value="PAUSE" onclick="pauseList()" /><span id="N2KData" style="font-weight:normal" class="auto-style9">&nbsp;</span><form name="N2KData"><textarea name="N2KText" style="width: 800px; height: 228px; font-size:12px"></textarea></form><div class="auto-style3"></div></td></tr><tr><td>&nbsp;</td></tr><tr><td class="auto-style2"><a href="http://www.chetcodigital.com">
 		www.chetcodigital.com</a> - <a href="http://www.seasmart.net">
 		www.seasmart.net</a> - <a href="http://www.netgauges.net">
 		www.netgauges.net</a> - <a href="http://www.digitalmarinegauges.com">
-		www.digitalmarinegauges.com</a>&nbsp;&nbsp; copyright 2023</td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-</table>
-
-<script type="text/javascript">
-
-var pauseListFlag = false;
-
-function pauseList() {
-
-	if(pauseListFlag == false)
-	{
-		pauseListFlag = true;
-		document.getElementById("pauselist").value="CONTINUE";
-	
-	}
-	else
-	{
-		pauseListFlag = false;
-		document.getElementById("pauselist").value="PAUSE";
-	}
-
-}
-
-//<!--
-// Parses the xmlResponse from status.xml and updates the status box
-function updateStatus(xmlData) {
-
-	if(pauseListFlag == true)
-		return;
-
-	// Check if a timeout occurred
-	if(!xmlData)
-	{
-		return;
-	}
-
-
-	
-	var StatusString;
-	
-	
-			var myXMLdata = getXMLValue(xmlData, 'DeviceID');
-		document.getElementById('DeviceIDXMLValue').innerHTML =  myXMLdata;
-		
-		myXMLdata = getXMLValue(xmlData, 'VersionInfo');
-		document.getElementById('VersionXMLValue').innerHTML =  myXMLdata;
-	
-
-	document.forms['HTTPPostStatus']['HTTPPostText'].value = getXMLValue(xmlData, 'POSTStatus');
-	//document.forms['HTTPPostStatus']['HTTPPostText'].value += getXMLValue(xmlData, 'POSTStatus');
-	
-	document.forms['0183Data']['0183Text'].value = getXMLValue(xmlData, '0183buffer');
-
-
-}
-setInterval("newAJAXCommand('status0183.xml', updateStatus, false)",2000);
-//-->
-</script>
-
- 
-</body>
-</html>
+		www.digitalmarinegauges.com</a>&nbsp;&nbsp; copyright 2023</td></tr><tr><td>&nbsp;</td></tr></table><script type="text/javascript">
+var pauseListFlag=false;var myPGNLists=new Array(
+"00FF06", 
+"01F010", 
+"01F809", 
+"01F801", 
+"01F802", 
+"01F112", 
+"01F119", 
+"01F113", 
+"01F10D", 
+"01FD02", 
+"01FD07", 
+"01FD08", 
+"01FD0C", 
+"01F50B",
+"01F503", 
+"01FD13",
+"01FA04", 
+"01F214", 
+"01F200",
+"01F201", 
+"01F205", 
+"01FD0A", 
+"01F209", 
+"01F211", 
+"01F20D", 
+"01F20E", 
+"01FA03", 
+"01F814", 
+"01F805", 
+"01F80F", 
+"01F810", 
+"01F212", 
+"01F20F", 
+"01F210", 
+"01F213", 
+"01F215", 
+"01F903", 
+"01F904", 
+"01F11A", 
+"00FEEE", 
+"00FEEF", 
+"00FEF7", 
+"00F004", 
+"00FEF2", 
+"00FEFC", 
+"00FEF8", 
+"00FDF6",
+"00FDF3", 
+"00FDF0", 
+"00FDF9", 
+"00FDED", 
+"00FE03", 
+"00FE00", 
+"00FDFD", 
+"00FE06", 
+"00FDFA", 
+"00FF07", 
+"00FF08", 
+"00FF0C", 
+"01FF0E", 
+"01FF80", 
+"01FFFF", 
+"01FFFF", 
+"01FFFF",);function clearPGNList(){for(j=0;j<64; j++){var PGNID = "PGNF" + j.toString();document.getElementById(PGNID).checked=false;}}
+function pauseList(){if(pauseListFlag==false){pauseListFlag=true;document.getElementById("pauselist").value="CONTINUE";}else{pauseListFlag=false;document.getElementById("pauselist").value="PAUSE";}}
+function updateStatus(xmlData){if(pauseListFlag==true)
+return;if(!xmlData){return;}
+var StatusString;var myXMLdata=getXMLValue(xmlData, 'DeviceID');document.getElementById('DeviceIDXMLValue').innerHTML=myXMLdata;myXMLdata=getXMLValue(xmlData, 'VersionInfo');document.getElementById('VersionXMLValue').innerHTML=myXMLdata;var myPCDINs=xmlData.split("$PCDIN")	
+var timestr ="";for(i=0; i<myPCDINs.length;i++){try{myPGN=myPCDINs[i].split(",");myPGNnumber=myPGN[1];myPGTime=myPGN[2];myTimeStampStr=myPGN[2].slice(0,6);myTimeStamp=parseInt(myTimeStampStr,32);myTimeStamp=myTimeStamp + 1262304000;myTimeStamp=myTimeStamp * 1000;timestr=dateLocal.toISOString().slice(0,19).replace(/-/g, "/").replace("T", " ");}
+catch(err){myTimeStamp=0;}
+var dateLocal=new Date(myTimeStamp);for(j=0; j<64;j++){if(myPGNnumber==myPGNLists[j])
+{var PGNID = "PGNF" + j.toString();document.getElementById(PGNID).checked=true;}}}
+document.getElementById("StatusBar").innerHTML= "Status: " + timestr;document.forms['N2KData']['N2KText'].value=getXMLValue(xmlData, 'N2Kbuffer');}
+setInterval("newAJAXCommand('status.xml', updateStatus, false)",2000);//--></script></body></html>
