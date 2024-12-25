@@ -8,7 +8,7 @@ document.write('\<script type="text/javascript" src="scripts/jqblockUI.js"><\/sc
 		www.chetcodigital.com</a> - <a href="http://www.seasmart.net">
 		www.seasmart.net</a> - <a href="http://www.netgauges.net">
 		www.netgauges.net</a> - <a href="http://www.digitalmarinegauges.com">
-		www.digitalmarinegauges.com</a>&nbsp;&nbsp; copyright 2023</td></tr><tr><td>&nbsp;</td></tr></table><script type="text/javascript">
+		www.digitalmarinegauges.com</a>&nbsp;&nbsp; copyright 2024</td></tr><tr><td>&nbsp;</td></tr></table><script type="text/javascript">
 var reader=new FileReader();var currentChunk=0;var chunkcount=0;var myloaded=0;var myFile;var total=0;var getNextBlob=false;var step=150;function getCookieVal(offset){var endstr=document.cookie.indexOf(";", offset);if(endstr==-1)
 endstr=document.cookie.length;return unescape(document.cookie.substring(offset,endstr));}
 function GetCookie(name){var arg=name + "=";var alen=arg.length;var clen=document.cookie.length;var i=0;while(i < clen){var j=i + alen;if(document.cookie.substring(i,j) == arg)
@@ -54,7 +54,6 @@ backgroundColor: '#000',
 '-webkit-border-radius': '10px',
 '-moz-border-radius': '10px',
 opacity: .5,
-color: '#fff'}});var xhttp=new XMLHttpRequest();xhttp.onreadystatechange=function(){if(xhttp.readyState==4){if(xhttp.status==200) {document.open();document.write(xhttp.responseText);
-document.close();}else if(xhttp.status==0){alert("Server closed the connection abruptly!");location.reload()}else{alert(xhttp.status + " Error!\n" + xhttp.responseText);location.reload()}}};xhttp.open("POST", upload_path, true);xhttp.send(fileName);}}
+color: '#fff'}});var xhttp=new XMLHttpRequest();xhttp.onreadystatechange=function(){if(xhttp.readyState==4){if(xhttp.status==200) {window.open("index.html", '_self');}else if(xhttp.status==0){alert("Server closed the connection abruptly!");location.reload()}else{window.open("index.html", '_self');}}};xhttp.open("POST", upload_path, true);xhttp.send(fileName);}}
 function esp32upload(filePath){var upload_path = "/upload/" + filePath.name;var fileInput=filePath.name;}
 document.getElementById('SDdownloadXML').addEventListener('change', handleXMLFileSelect, false);document.getElementById('SDdownloadSPIFFS').addEventListener('change', handleSPIFFSFileSelect, false);document.getElementById('SDdownloadFW').addEventListener('change', handleFWFileSelect, false);document.getElementById('SDdownloadWEB').addEventListener('change', handleHTMLFileSelect, false);document.getElementById('SDdownloadCals').addEventListener('change', handleCalFileSelect, false);</script></body></html>

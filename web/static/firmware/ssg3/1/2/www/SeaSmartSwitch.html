@@ -1,0 +1,263 @@
+<!DOCTYPE html><html><head><title>switch</title><style type="text/css"> body{background-color:#051382}label{color:#000}output{color:#000}.form-group{margin-bottom:5px}.control-label{padding-right:3px}.timeAgo{color:gray}.valueFormat{color:black}hr{margin-top:2px;margin-bottom:6px}input[type=checkbox]{margin-left:0px !important}.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover,.nav-tabs > li.active > a:focus{color:#fff;background-color:#428bca}.tab-content{margin-top:15px}</style><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/mchp.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/jquery.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/jqblockUI.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/bootstrap.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/bstrap-switch.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="ParseN2KData.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="ChangeDialStyle.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="SSHTMLLayout.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/tween.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/SSsteelseries.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/jscolor.js"><\/script>');</script><script type="text/javascript">
+document.write('<link href="style/persona-buttons.css" rel="stylesheet" type="text/css" /> ');</script><script type="text/javascript">
+document.write('<link href="style/bootstrap.css" rel="stylesheet" type="text/css" />');</script><script type="text/javascript">
+document.write('<link href="style/bstrap-switch.css" rel="stylesheet" type="text/css" />');</script><script type="text/javascript">
+document.write(' <link href="style/style.css" rel="stylesheet" type="text/css" />');</script></head><body><div style="width: 540px; height: 40px"><center><a href="index.html"><img alt="" height="38" src="images/SeaSmartLogo.jpg" width="200" /></a></center></div><script>
+$(function(){$(document).ajaxComplete(function (event,xhr,settings) {if(xhr.getResponseHeader('ReloadWholePage')){window.location.reload();}});$('.nav-tabs a[href="#tabDimmers"]').tab('show');});
+</script><ul class="nav nav-tabs" id="tab" role="tablist"><li><a href="#tabDimmers" role="tab" data-toggle="tab">Switches</a></li><li><a href="#tabPrefs" role="tab" data-toggle="tab">Prefs</a></li></ul><div class="tab-content"><div class="tab-pane" id="tabDimmers"><div class="form-horizontal"><div class="form-group"><label class="control-label col-sm-2" id=switch0Label for=switch0>Switch 0</label><input type="checkbox" id=switch0 name="switch0" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch1Label for=switch1>Switch 1</label><input type="checkbox" id=switch1 name="switch1" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch2Label for=switch2>Switch 2</label><input type="checkbox" id=switch2 name="switch2" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch3Label for=switch3>Switch 3</label><input type="checkbox" id=switch3 name="switch3" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch4Label for=switch4>Switch 4</label><input type="checkbox" id=switch4 name="switch4" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch5Label for=switch5>Switch 5</label><input type="checkbox" id=switch5 name="switch5" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch6Label for=switch6>Switch 6</label><input type="checkbox" id=switch6 name="switch6" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch7Label for=switch7>Switch 7</label><input type="checkbox" id=switch7 name="switch7" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch8Label for=switch8>Switch 8</label><input type="checkbox" id=switch8 name="switch8" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch9Label for=switch9>Switch 9</label><input type="checkbox" id=switch9 name="switch9" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch10Label for=switch10>Switch 10</label><input type="checkbox" id=switch10 name="switch10" checked></div><div class="form-group"><label class="control-label col-sm-2" id=switch11Label for=switch11>Switch 11</label><input type="checkbox" id=switch11 name="switch11" checked></div><div class="form-group"><div class="col-sm-6"><canvas id="canvasClock" style="margin-left:10px; width: 380px; height: 40px"></canvas></div></div></div><script>
+$(function(){$("[name='switch0']").bootstrapSwitch();});
+$(function(){$("[name='switch1']").bootstrapSwitch();});
+$(function(){$("[name='switch2']").bootstrapSwitch();});
+$(function(){$("[name='switch3']").bootstrapSwitch();});
+$(function(){$("[name='switch4']").bootstrapSwitch();});
+$(function(){$("[name='switch5']").bootstrapSwitch();});
+$(function(){$("[name='switch6']").bootstrapSwitch();});
+$(function(){$("[name='switch7']").bootstrapSwitch();});
+$(function(){$("[name='switch8']").bootstrapSwitch();});
+$(function(){$("[name='switch9']").bootstrapSwitch();});
+$(function(){$("[name='switch10']").bootstrapSwitch();});
+$(function(){$("[name='switch11']").bootstrapSwitch();});
+$('input[name="switch0"]').on('switchChange.bootstrapSwitch', function(event,state) {if(gSwitchLockoutFlag==false)
+updateSwitchs(0,state);gSwitchLockoutFlag=false;});$('input[name="switch1"]').on('switchChange.bootstrapSwitch', function(event,state){if(gSwitchLockoutFlag==false)
+updateSwitchs(1,state);gSwitchLockoutFlag=false;});$('input[name="switch2"]').on('switchChange.bootstrapSwitch', function(event,state) {if(gSwitchLockoutFlag==false)
+updateSwitchs(2,state);gSwitchLockoutFlag=false;});$('input[name="switch3"]').on('switchChange.bootstrapSwitch', function(event,state){if(gSwitchLockoutFlag==false)
+updateSwitchs(3,state);gSwitchLockoutFlag=false;});$('input[name="switch4"]').on('switchChange.bootstrapSwitch', function(event,state) {if(gSwitchLockoutFlag==false)
+updateSwitchs(4,state);gSwitchLockoutFlag=false;});$('input[name="switch5"]').on('switchChange.bootstrapSwitch', function(event,state){if(gSwitchLockoutFlag==false)
+updateSwitchs(5,state);gSwitchLockoutFlag=false;});$('input[name="switch6"]').on('switchChange.bootstrapSwitch', function(event,state) {if(gSwitchLockoutFlag==false)
+updateSwitchs(6,state);gSwitchLockoutFlag=false;});$('input[name="switch7"]').on('switchChange.bootstrapSwitch', function(event,state){if(gSwitchLockoutFlag==false)
+updateSwitchs(7,state);gSwitchLockoutFlag=false;});$('input[name="switch8"]').on('switchChange.bootstrapSwitch', function(event,state) {if(gSwitchLockoutFlag==false)
+updateSwitchs(8,state);gSwitchLockoutFlag=false;});$('input[name="switch9"]').on('switchChange.bootstrapSwitch', function(event,state){if(gSwitchLockoutFlag==false)
+updateSwitchs(9,state);gSwitchLockoutFlag=false;});$('input[name="switch10"]').on('switchChange.bootstrapSwitch', function(event,state) {if(gSwitchLockoutFlag==false)
+updateSwitchs(10,state);gSwitchLockoutFlag=false;});$('input[name="switch11"]').on('switchChange.bootstrapSwitch', function(event,state){if(gSwitchLockoutFlag==false)
+updateSwitchs(11,state);gSwitchLockoutFlag=false;});</script></div><div class="tab-pane" id="tabPrefs"><div class="form-horizontal"><div class="form-group"><label class="control-label col-sm-2" for="Switch0Name">Switch 0</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch0Name" placeholder="Switch_0" maxlength="16" onchange="changedSwitch0();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch1Name">Switch 1</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch1Name" placeholder="Switch_1" maxlength="16" onchange="changedSwitch1();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch2Name">Switch 2</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch2Name" placeholder="Switch_2" maxlength="16" onchange="changedSwitch2();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch3Name">Switch 3</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch3Name" placeholder="Switch_3" maxlength="16" onchange="changedSwitch3();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch4Name">Switch 4</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch4Name" placeholder="Switch_4" maxlength="16" onchange="changedSwitch4();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch5Name">Switch 5</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch5Name" placeholder="Switch_5" maxlength="16" onchange="changedSwitch5();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch6Name">Switch 6</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch6Name" placeholder="Switch_6" maxlength="16" onchange="changedSwitch6();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch7Name">Switch 7</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch7Name" placeholder="Switch_7" maxlength="16" onchange="changedSwitch7();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch8Name">Switch 8</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch8Name" placeholder="Switch_8" maxlength="16" onchange="changedSwitch8();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch9Name">Switch 9</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch9Name" placeholder="Switch_9" maxlength="16" onchange="changedSwitch9();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch10Name">Switch 10</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch10Name" placeholder="Switch_10" maxlength="16" onchange="changedSwitch10();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="Switch11Name">Switch 11</label><div class="col-sm-6"><input type="text" class="form-control" id="Switch11Name" placeholder="Switch_11" maxlength="16" onchange="changedSwitch11();"></div></div><div class="form-group"><label class="control-label col-sm-2" for="PGNInstance">Switch Instance</label><div class="col-sm-6"><select class="form-control" id="PGNInstance" onchange="PGNInstancenstance(this);"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option selected>15</option></select></div></div><div class="form-group"><label class="control-label col-sm-2" for="ClockPGNInstance">Clock Source</label><div class="col-sm-6"><select class="form-control" id="ClockPGNInstance" onchange="SetClockPGNInstance(this);" name="D3"><option value="0">GPS</option><option value="0">GPS</option><option value="1">GLONASS</option><option value="2">Radio Station</option><option value="3">Cesium clock</option><option value="4">Rubidium clock</option><option value="5">Crystal clock</option><option value="6">SeaGauge</option><option value="7">GNSS</option><option value="8">HelmSmart</option><option value="9">SeaSmart RTC</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">NPT</option></select></div></div><div class="form-group"><label class="control-label col-sm-2" for="ClockLcdColor">Clock Color</label><div class="col-sm-6"><select class="form-control" id="ClockLcdColor" onchange="selectClockLcdColor(this);" name="D2"><option value="BEIGE">Beige</option><option value="BLUE">Blue</option><option value="ORANGE">Orange</option><option value="RED">Red</option><option value="YELLOW">Yellow</option><option value="WHITE">White</option><option value="GRAY">Gray</option><option value="BLACK">Black</option><option value="GREEN">Green</option><option value="BLUE2">Blue2</option><option value="BLUE_BLACK">BlueBlack</option><option value="BLUE_DARKBLUE">BlueDarkBlue</option><option value="BLUE_GRAY">BlueGray</option><option value="STANDARD">Standard</option><option value="STANDARD_GREEN">StandardGreen</option><option value="BLUE_BLUE">BlueBlue</option><option value="RED_DARKRED">RedDarkRed</option><option value="DARKBLUE">DarkBlue</option><option value="LILA">Lila</option><option value="BLACKRED">BlackRed</option><option value="DARKGREEN">DarkGreen</option><option value="AMBER">Amber</option><option value="LIGHTBLUE">LightBlue</option><option value="SECTIONS">Sections</option></select></div></div><div class="form-group"><label class="control-label col-sm-2" for="PrefSource">Pref Source</label><div class="col-sm-6"><select class="form-control" id="PrefSource" onchange="SetPrefSource(this);" name="D3"><option value="0">Default</option><option value="1">Cookies</option><option value="2">SD Card</option></select></div></div><div class="form-group" style="margin-top:25px;"><div class="col-sm-offset-4 col-sm-4"><button id="Save" name="btnValue" value="Save" class="btn btn-primary" style="width: 200px; height: 40px;" onclick="SavePage();">Save Browser Prefs</button><button id="ApplyAll" name="btnValue" value="Save" class="btn btn-primary" style="width: 200px; height: 40px;" onclick="ResetPageParameters();">Clear Browser Prefs</button></div></div><div class="form-group" style="margin-top:25px;"><div class="col-sm-offset-4 col-sm-4"><button id="UploadDefaultsXML" name="btnValue" value="Cancel"class="btn btn-primary" style="width: 200px; height: 40px" onclick='upload_globals("SSSwitch_Globals.html");'>Save Prefs to SD</button><button id="DeleteDefaultsXML" name="btnValue" value="Cancel"class="btn btn-primary" style="width: 200px; height: 40px;" onclick='delete_globals("SSSSwitch_Globals.html");'>Delete Prefs from SD</button></div></div></div></div></div></div></div><script>
+function padToFour(number){if(number<=9999){number = ("000"+number).slice(-4);}
+return number;}
+function padToThree(number){if(number<=999){number = ("00"+number).slice(-3);}
+return number;}
+function convert(integer){var str=Number(integer).toString(16);return str.length == 1 ? "0" + str : str;};
+function updateSwitchs(index,state){gSwitchLockout=3;gSwitchLockoutFlag=false;if(state==true)
+gSwitchValues[index] = 1;else
+gSwitchValues[index] = 0;gSwitchStates = "000000";for(i=0; i<12;i++)
+SetgSwitchStates(i, gSwitchValues[i]);if(gSwitchLockoutFlag==false)	
+outputSwitchValues(index);}
+function SetgSwitchState(Index,mode,value){var myPGNValue ;
+myPGNValue=gSwitchStates.charAt(Index);if(mode==0){if(myPGNValue == '0' && value == 1)
+{gSwitchStates=gSwitchStates.substr(0,Index) + '1' + gSwitchStates.substr(Index +1);return 1;}else if(myPGNValue == '1' && value == 0){gSwitchStates=gSwitchStates.substr(0,Index) + '0' + gSwitchStates.substr(Index +1);return 0;}else if(myPGNValue == '4' && value == 1){gSwitchStates=gSwitchStates.substr(0,Index) + '5' + gSwitchStates.substr(Index +1);return 1;}else if(myPGNValue == '5' && value == 0){gSwitchStates=gSwitchStates.substr(0,Index) + '4' + gSwitchStates.substr(Index +1);return 0;}else{return value;}}else if(mode==1){if(myPGNValue == '0' && value == 1)
+{gSwitchStates=gSwitchStates.substr(0,Index) + '4' + gSwitchStates.substr(Index +1);return 1;}else if(myPGNValue == '1' && value == 1){gSwitchStates=gSwitchStates.substr(0,Index) + '5' + gSwitchStates.substr(Index +1);return 1;}else if(myPGNValue == '4' && value == 0){gSwitchStates=gSwitchStates.substr(0,Index) + '0' + gSwitchStates.substr(Index +1);return 0;}else if(myPGNValue == '5' && value == 0){gSwitchStates=gSwitchStates.substr(0,Index) + '1' + gSwitchStates.substr(Index +1);return 0;}else{return value;}}}
+function SetgSwitchStates(Index,value){var vSwitchState=new Array();switch(Index)
+{case 0:
+vSwitchState[0] = SetgSwitchState(1,0,value);break;
+case 1:
+vSwitchState[1] = SetgSwitchState(1,1,value);break;
+case 2:
+vSwitchState[2] = SetgSwitchState(0,0,value);break;
+case 3:
+vSwitchState[3] = SetgSwitchState(0,1,value);break;
+case 4:
+vSwitchState[4] = SetgSwitchState(3,0,value);break;
+case 5:
+vSwitchState[5] = SetgSwitchState(3,1,value);break;
+case 6:
+vSwitchState[6] = SetgSwitchState(2,0,value);break;
+case 7:
+vSwitchState[7] = SetgSwitchState(2,1,value);break;
+case 8:
+vSwitchState[8] = SetgSwitchState(5,0,value);break;
+case 9:
+vSwitchState[9] = SetgSwitchState(5,1,value);break;
+case 10:
+vSwitchState[10] = SetgSwitchState(4,0,value);break;
+case 11:
+vSwitchState[11] = SetgSwitchState(4,1,value);break;
+case 12:
+vSwitchState[12] = SetgSwitchState(7,0,value);break;
+case 13:
+vSwitchState[13] = SetgSwitchState(7,1,value);break;
+case 14:
+vSwitchState[14] = SetgSwitchState(6,0,value);break;
+case 15:
+vSwitchState[15] = SetgSwitchState(6,1,value);break;}}
+function outputSwitchValues(index){var SwitchInstance=document.getElementById("PGNInstance").selectedIndex;SwitchPGN = "$PCDIN,01F20E,00000000,00," + convert(SwitchInstance) + gSwitchStates + "FFFFFFFF*24";$('input[name="switch0"]').bootstrapSwitch('disabled', true);$('input[name="switch1"]').bootstrapSwitch('disabled', true);$('input[name="switch2"]').bootstrapSwitch('disabled', true);$('input[name="switch3"]').bootstrapSwitch('disabled', true);$('input[name="switch4"]').bootstrapSwitch('disabled', true);$('input[name="switch5"]').bootstrapSwitch('disabled', true);$('input[name="switch6"]').bootstrapSwitch('disabled', true);$('input[name="switch7"]').bootstrapSwitch('disabled', true);$('input[name="switch8"]').bootstrapSwitch('disabled', true);$('input[name="switch9"]').bootstrapSwitch('disabled', true);$('input[name="switch10"]').bootstrapSwitch('disabled', true);$('input[name="switch11"]').bootstrapSwitch('disabled', true);UpdateSwitch=1;}
+function outputUpdate0(value){document.querySelector('#dimmer0value').innerHTML=value;gDimmerValues[0] = Math.floor((value));upDateControl=1;}
+function outputUpdate1(value){document.querySelector('#dimmer1value').innerHTML=value;gDimmerValues[1] = Math.floor((value));upDateControl=1;}
+function outputUpdate2(value){document.querySelector('#dimmer2value').innerHTML=value;gDimmerValues[2] = Math.floor((value));upDateControl=1;}
+function outputUpdate3(value){document.querySelector('#dimmer3value').innerHTML=value;gDimmerValues[3] = Math.floor((value));upDateControl=1;}
+function outputUpdate4(value){}
+function setDialID(sel){}
+function setDialLabel(){}
+function PGNInstancenstance(sel){for(i=0;i<12; i++)
+DialPGNInstance[i] = sel.selectedIndex;}
+function SetDialPGNParameter(sel){}
+function updatePage(){if(UpdateSwitch==1){newdatafile = "SWITCHPGN.cgi?PGN127502=" + SwitchPGN;newAJAXCommand(newdatafile);
+newAJAXCommand(newdatafile);UpdateSwitch=0;}
+else
+newAJAXCommand('status.xml', updateStatus, false)}
+function updateStatus(xmlData){var myN2Kdata;var dimmervalue;if(!xmlData){}
+myN2KData=getXMLValue(xmlData, 'SwitchPGN');if(myN2KData!=null)
+ProcessPageGaugeUpdates(myN2KData);}
+function ProcessPageGaugeUpdates(mydata){var CanvasIndex=0;var N2KValues=new Array();var DialIndex;var PGN126992Values=new Array();var NGTDate=new Date(0);var myN2KdataArray=new Array();var myPCDIN=mydata.split("$PCDIN,");for(i=0; i< myPCDIN.length;i++){myN2KdataArray.push(myPCDIN[i].split(","));}
+for(i=0;i< myN2KdataArray.length;i++){if(parseInt(myN2KdataArray[i][0],16)==126992)
+{var N2KValue=GetPGN126992(myN2KdataArray[i], SystemClockPGNID );if(N2KValue.length!=0)
+N2KValues=N2KValue;}}if(N2KValues.length > 0){PGN126992Values=N2KValues.pop();N2KTimeStr=PGN126992Values[0];if(N2KTimeStr != null && (typeof(N2KTimeStr)!="undefined"))
+ClockLCD.setValue(N2KTimeStr);}
+for(DialIndex=0;DialIndex < 12;DialIndex++){N2KValues=GetPGNbyNumber(myN2KdataArray, DialIndex, DialPGNInstance[DialIndex], DialPGNNumber[DialIndex], DialPGNParameter[DialIndex], DialUnits[DialIndex] );value=N2KValues.pop();if(value[0]==255)
+gSwitchValues[DialIndex] = 1;else if(value[0]==0)
+gSwitchValues[DialIndex] = 0;else 
+gSwitchValues[DialIndex] = 2;}
+gSwitchLockoutFlag=true;if(gSwitchLockout==0){$('input[name="switch0"]').bootstrapSwitch('disabled', false);if(gSwitchValues[0]==0)
+$('input[name="switch0"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[0]==1)
+$('input[name="switch0"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch0"]').bootstrapSwitch('indeterminate', true);$('input[name="switch1"]').bootstrapSwitch('disabled', false);if(gSwitchValues[1]==0)
+$('input[name="switch1"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[1]==1)
+$('input[name="switch1"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch1"]').bootstrapSwitch('indeterminate', true);$('input[name="switch2"]').bootstrapSwitch('disabled', false);if(gSwitchValues[2]==0)
+$('input[name="switch2"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[2]==1)
+$('input[name="switch2"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch2"]').bootstrapSwitch('indeterminate', true);$('input[name="switch3"]').bootstrapSwitch('disabled', false);if(gSwitchValues[3]==0)
+$('input[name="switch3"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[3]==1)
+$('input[name="switch3"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch3"]').bootstrapSwitch('indeterminate', true);$('input[name="switch4"]').bootstrapSwitch('disabled', false);if(gSwitchValues[4]==0)
+$('input[name="switch4"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[4]==1)
+$('input[name="switch4"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch4"]').bootstrapSwitch('indeterminate', true);$('input[name="switch5"]').bootstrapSwitch('disabled', false);if(gSwitchValues[5]==0)
+$('input[name="switch5"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[5]==1)
+$('input[name="switch5"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch5"]').bootstrapSwitch('indeterminate', true);$('input[name="switch6"]').bootstrapSwitch('disabled', false);if(gSwitchValues[6]==0)
+$('input[name="switch6"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[6]==1)
+$('input[name="switch6"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch6"]').bootstrapSwitch('indeterminate', true);$('input[name="switch7"]').bootstrapSwitch('disabled', false);if(gSwitchValues[7]==0)
+$('input[name="switch7"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[7]==1)
+$('input[name="switch7"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch7"]').bootstrapSwitch('indeterminate', true);$('input[name="switch8"]').bootstrapSwitch('disabled', false);if(gSwitchValues[8]==0)
+$('input[name="switch8"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[8]==1)
+$('input[name="switch8"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch8"]').bootstrapSwitch('indeterminate', true);$('input[name="switch9"]').bootstrapSwitch('disabled', false);if(gSwitchValues[9]==0)
+$('input[name="switch9"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[9]==1)
+$('input[name="switch9"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch9"]').bootstrapSwitch('indeterminate', true);$('input[name="switch10"]').bootstrapSwitch('disabled', false);if(gSwitchValues[10]==0)
+$('input[name="switch10"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[10]==1)
+$('input[name="switch10"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch10"]').bootstrapSwitch('indeterminate', true);$('input[name="switch11"]').bootstrapSwitch('disabled', false);if(gSwitchValues[11]==0)
+$('input[name="switch11"]').bootstrapSwitch('state', false, false);else if(gSwitchValues[11]==1)
+$('input[name="switch11"]').bootstrapSwitch('state', true, false);else
+$('input[name="switch11"]').bootstrapSwitch('indeterminate', true);}
+gSwitchLockout--;if(gSwitchLockout < 0){gSwitchLockout=0;}
+gSwitchLockoutFlag=false;}
+function GetDialStyleInfo(myCurrentCanvas){ShowHideTabBar(true);}
+function changedSwitch0(){DialText[0] = document.getElementById("Switch0Name").value;document.getElementById("switch0Label").innerHTML=DialText[0];}
+function changedSwitch1(){DialText[1] = document.getElementById("Switch1Name").value;document.getElementById("switch1Label").innerHTML=DialText[1];}
+function changedSwitch2(){DialText[2] = document.getElementById("Switch2Name").value;document.getElementById("switch2Label").innerHTML=DialText[2];}
+function changedSwitch3(){DialText[3] = document.getElementById("Switch3Name").value;document.getElementById("switch3Label").innerHTML=DialText[3];}
+function changedSwitch4(){DialText[4] = document.getElementById("Switch4Name").value;document.getElementById("switch4Label").innerHTML=DialText[4];}
+function changedSwitch5(){DialText[5] = document.getElementById("Switch5Name").value;document.getElementById("switch5Label").innerHTML=DialText[5];}
+function changedSwitch6(){DialText[6] = document.getElementById("Switch6Name").value;document.getElementById("switch6Label").innerHTML=DialText[6];}
+function changedSwitch7(){DialText[7] = document.getElementById("Switch7Name").value;document.getElementById("switch7Label").innerHTML=DialText[7];}
+function changedSwitch8(){DialText[8] = document.getElementById("Switch8Name").value;document.getElementById("switch8Label").innerHTML=DialText[8];}
+function changedSwitch9(){DialText[9] = document.getElementById("Switch9Name").value;document.getElementById("switch9Label").innerHTML=DialText[9];}
+function changedSwitch10(){DialText[10] = document.getElementById("Switch10Name").value;document.getElementById("switch10Label").innerHTML=DialText[10];}
+function changedSwitch11(){DialText[11] = document.getElementById("Switch11Name").value;document.getElementById("switch11Label").innerHTML=DialText[11];}
+function SetClockPGNInstance(sel){SystemClockPGNID=sel.options[sel.selectedIndex].value;}
+function selectClockLcdColor(sel){ClockLCDColor=sel.selectedIndex;setClockLcdColor(parseInt(sel.selectedIndex))}
+function setClockLcdColor(ClockLCDColor){switch (parseInt(ClockLCDColor)) {case 0:
+ClockLCD.setLcdColor(steelseries.LcdColor.BEIGE);break;
+case 1:
+ClockLCD.setLcdColor(steelseries.LcdColor.BLUE);break;
+case 2:
+ClockLCD.setLcdColor(steelseries.LcdColor.ORANGE);break;
+case 3:
+ClockLCD.setLcdColor(steelseries.LcdColor.RED);break;
+case 4:
+ClockLCD.setLcdColor(steelseries.LcdColor.YELLOW);break;
+case 5:
+ClockLCD.setLcdColor(steelseries.LcdColor.WHITE);break;
+case 6:
+ClockLCD.setLcdColor(steelseries.LcdColor.GRAY);break;
+case 7:
+ClockLCD.setLcdColor(steelseries.LcdColor.BLACK);break;
+case 8:
+ClockLCD.setLcdColor(steelseries.LcdColor.GREEN);break;
+case 9:
+ClockLCD.setLcdColor(steelseries.LcdColor.BLUE2);break;
+case 10:
+ClockLCD.setLcdColor(steelseries.LcdColor.BLUE_BLACK);break;
+case 11:
+ClockLCD.setLcdColor(steelseries.LcdColor.BLUE_DARKBLUE);break;
+case 12:
+ClockLCD.setLcdColor(steelseries.LcdColor.BLUE_GRAY);break;
+case 13:
+ClockLCD.setLcdColor(steelseries.LcdColor.STANDARD);break;
+case 14:
+ClockLCD.setLcdColor(steelseries.LcdColor.STANDARD_GREEN);break;
+case 15:
+ClockLCD.setLcdColor(steelseries.LcdColor.BLUE_BLUE);break;
+case 16:
+ClockLCD.setLcdColor(steelseries.LcdColor.RED_DARKRED);break;
+case 17:
+ClockLCD.setLcdColor(steelseries.LcdColor.DARKBLUE);break;
+case 18:
+ClockLCD.setLcdColor(steelseries.LcdColor.LILA);break;
+case 19:
+ClockLCD.setLcdColor(steelseries.LcdColor.BLACKRED);break;
+case20:
+ClockLCD.setLcdColor(steelseries.LcdColor.DARKGREEN);break;
+case 21:
+ClockLCD.setLcdColor(steelseries.LcdColor.DARKGREEN);break;
+case 22:
+ClockLCD.setLcdColor(steelseries.LcdColor.AMBER);break;
+case 23:
+ClockLCD.setLcdColor(steelseries.LcdColor.LIGHTBLUE);break;}}
+function SetPrefSource(sel){var exp=new Date();exp.setTime(exp.getTime() + (30 * 24 * 60 * 60 * 1000));var AccountDataFolder = "000000000000"
+AccountType=0
+ConfigOptions=sel.selectedIndex;SetCookie(CookiePrefix +'Account', AccountDataFolder + ":" + AccountType + ":" + ConfigOptions, exp);}
+function SavePrefs(){var exp=new Date();exp.setTime(exp.getTime() + (30 * 24 * 60 * 60 * 1000));ConfigOptions=document.getElementById("PrefSource").selectedIndex;SetCookie(CookiePrefix +'Account', AccountDataFolder + ":" + AccountType + ":" + ConfigOptions, exp);SavePageCookies();
+SaveDialCookies();}
+</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="SSSwitch_Globals.html"><\/script>');</script><script language = "Javascript">
+var upDateControl=0;var gDimmerValues=new Array(0,0,0,0);var DialIndex=0;var CanvasIndex=0;var gshowhide=false;var ClockLCD;;
+var SwitchPGN = "$PCDIN,01F20E,00000000,00,00000000FFFFFFFF*24";var gSwitchValues=new Array(0,0,0,0,0,0,0,0,0,0,0,0);var gSwitchStates="00000000";var gSwitchLockout=1;var gSwitchLockoutFlag=true;var gSwitchLockout=0;var UpdateSwitch=0;var gSwitchLockouts=new Array(0,0,0,0,0,0,0,0,0,0,0,0);try{if(typeof AccountType   === 'undefined')
+var AccountType=0;if(typeof AccountDataFolder  === 'undefined')
+var AccountDataFolder = "000000000000";if(typeof ConfigOptions   === 'undefined')
+var ConfigOptions=1;if(!PageID )
+var PageID=7;if(!CookiePrefix )
+var CookiePrefix = "SSSW1";if(!PageLayout )
+var PageLayout=3;if(!DialStart )
+var DialStart=0;if(!PageBackGroundColor )
+var PageBackGroundColor = "#336699";if(!PageForeGroundColor )
+var PageForeGroundColor = "#FFFFFF";if(!ClockLCDColor )
+var ClockLCDColor=0;if(!SystemClockPGNID )
+var SystemClockPGNID=6;if(!UpdateInterval )
+var UpdateInterval=3000;if(!DialTimeout )
+var DialTimeout=4;if(!xmlDescription )
+var xmlDescription = "Switch";if(!DialType )
+var DialType=new Array(1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0);if(!DialPGNInstance )
+var DialPGNInstance=new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);if(!DialPGNNumber )
+var DialPGNNumber=new Array("127501","127501","127501","127501","127501","127501","127501","127501","127501","127501","127501","127501","","","","");if(!DialPGNParameter )
+var DialPGNParameter=new Array(0,1,2,3,4,5,6,7,8,9,10,11,0,0,0,0);if(!DialUnits )
+var DialUnits=new Array(16,16,4,24,26,16,16,27,0,0,0,0,0,0,0,0);if(!DialMin )
+var DialMin=new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);if(!DialMax )
+var DialMax=new Array(100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100);if(!DialAlarm )
+var DialAlarm=new Array(200,3500,40,20,10,10,200,10,50,50,50,50,50,50,50,50);if(!DialAlarmState )
+var DialAlarmState=new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);if(!DialText )
+var DialText=new Array("Switch 0","Switch 1","Switch 2","Switch 3","Switch 4","Switch 5","Switch 6","Switch 7","Switch 8","Switch 9","Switch 10","Switch 11","","","","");if(!DialFrameType )
+var DialFrameType=new Array(5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5);if(!DialBackground )
+var DialBackground=new Array(16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16);if(!DialLCDColor )
+var DialLCDColor=new Array(17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17);if(!DialPointerColor )
+var DialPointerColor=new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);if(!DialPonterType )
+var DialPonterType=new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);}
+catch(e){}	
+DialEnd=12;MaxDials=12;AccountDataFolder=GetCookie(CookiePrefix + 'Account');if(AccountDataFolder==null){AccountDataFolder = "000000000000";}else{var myStringArray
+myStringArray=AccountDataFolder.split(":");if(myStringArray.length!=0){AccountDataFolder=myStringArray[0];AccountType=myStringArray[1];ConfigOptions=myStringArray[2];document.getElementById("PrefSource").selectedIndex=ConfigOptions;}else{AccountDataFolder = "000000000000";AccountType=0;ConfigOptions=0;document.getElementById("PrefSource").selectedIndex=ConfigOptions;}}if(ConfigOptions==1){DialSettings=GetCookie(CookiePrefix + 'PageSettings');ParsePageSettingsCookie(DialSettings);}if(ConfigOptions==1){for(i=0;i < 12;i++)
+{DialSettings=GetCookie(CookiePrefix + 'Dial' + i + 'Settings');ParseDialCookie(i,DialSettings);}}
+document.getElementById("switch0Label").innerHTML=DialText[0];document.getElementById("Switch0Name").value=DialText[0];document.getElementById("switch1Label").innerHTML=DialText[1];document.getElementById("Switch1Name").value=DialText[1];document.getElementById("switch2Label").innerHTML=DialText[2];document.getElementById("Switch2Name").value=DialText[2];document.getElementById("switch3Label").innerHTML=DialText[3];document.getElementById("Switch3Name").value=DialText[3];document.getElementById("switch4Label").innerHTML=DialText[4];document.getElementById("Switch4Name").value=DialText[4];document.getElementById("switch5Label").innerHTML=DialText[5];document.getElementById("Switch5Name").value=DialText[5];document.getElementById("switch6Label").innerHTML=DialText[6];document.getElementById("Switch6Name").value=DialText[6];document.getElementById("switch7Label").innerHTML=DialText[7];document.getElementById("Switch7Name").value=DialText[7];document.getElementById("switch8Label").innerHTML=DialText[8];document.getElementById("Switch8Name").value=DialText[8];document.getElementById("switch9Label").innerHTML=DialText[9];document.getElementById("Switch9Name").value=DialText[9];document.getElementById("switch10Label").innerHTML=DialText[10];document.getElementById("Switch10Name").value=DialText[10];document.getElementById("switch11Label").innerHTML=DialText[11];document.getElementById("Switch11Name").value=DialText[11];document.getElementById("PGNInstance").selectedIndex=DialPGNInstance[0];document.getElementById("ClockLcdColor").selectedIndex=ClockLCDColor;ClockLCD=new steelseries.DisplaySingle('canvasClock', {width: 380,height: 36, valuesNumeric: false});setClockLcdColor(ClockLCDColor)
+setInterval('updatePage()',1000);</script></body></html>
