@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html ><head><meta content="en-us" http-equiv="Content-Language" /><meta http-equiv="Cache-control:max-age=2592000"  /><title>SeaSmart Files Page</title><script type="text/javascript">document.write('<link rel="icon" href="favicon.ico"  />');</script><script type="text/javascript">
+document.write(' <link href="style/style.css" rel="stylesheet" type="text/css" />');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/main_conf.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/mchp.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/jquery.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/jqblockUI.js"><\/script>');</script><style type="text/css"> .auto-style2{text-align:center}.auto-style3{border-bottom-style:solid;border-bottom-color:#000080}.auto-style4{border-top-style:solid;border-top-color:#000080}.auto-style6{font-size:medium;color:#12126C}</style><style type="text/css"></style><script type="text/javascript">
+var imgAddresses=["images/CDI_Logo.jpg", "images/SeaSmartBanner.jpg", "images/SeaSmartG3Logo.jpg" ];function loadmyimages(index){if(index==imgAddresses.length){return;}
+var logo_image=document.getElementById("img"+index);logo_image.onload=logo_image.onerror=function(){loadmyimages(index+1);}
+logo_image.src=imgAddresses[index];}
+</script></head><body onload="loadmyimages(0);"><table style="width: 800px"><tr><td><table style="width: 800px"><tr><td style="width: 100px" colspan="2"><img alt="" id='img0' height="80" src="#" width="80" /></td><td style="width: 450px" colspan="2"><img alt="" id='img1' height="77" src="#" width="400" /></td><td style="width: 100px" colspan="2"><img alt="ENET" id='img2' height="90" longdesc="SeaSmart G3 Gateway" src="#" width="150" /></td></tr></table><table style="width: 800px"><tr><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><tr><td style="width: 200px" class="auto-style6"><strong><a href="index.html">Home</a></strong></td><td style="width: 200px" class="auto-style6"><strong><a href="conf.html">Config</a></strong></td><td style="width: 200px" class="auto-style6"><strong><a href="StatusN2K.html">Status CAN</a></strong></td><td style="width: 200px" class="auto-style6"><strong><a href="Status0183.html">Status 0183</a></strong></td><td style="width: 200px" class="auto-style6"><strong>Files</strong></td><td style="width: 200px" class="auto-style6"><strong><a href="PGNfilters.html">PGN Filters</a></strong></td></tr><tr><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td></tr></td></tr><div></table><div class="uploaddetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> Upload files to local SD card</summary><div><table style="width: 800px"><tr><td style="width: 180px"><strong>LIST</strong></td><td style="width: 180px"><strong>CONFIG</strong></td><td style="width: 180px"><strong>SPIFFS</strong></td><td style="width: 180px"><strong>Firmware</strong></td><td style="width: 180px"><strong>WEB </strong></td><td style="width: 180px"><strong>Calibrations </strong></td></tr><tr><td style="width: 180px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;" id="SDListPushSmart" name="SDListPushSmart" value="List Files" onclick=" window.open('download/', '_self');" class="auto-style10" /></td><td style="width: 180px"><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;" id="SDdownloadXML" value="Download" name="files[]"  multiple class="auto-style10"></td><td style="width: 180px"><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;" id="SDdownloadSPIFFS" value="Download" name="files[]"  multiple class="auto-style10"></td><td style="width: 180px"><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;" id="SDdownloadFW" value="Download" name="files[]"  multiple class="auto-style10"></td><td style="width: 180px"><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;" id="SDdownloadWEB" value="Choose File" name="files[]"   multiple class="auto-style10" /></td><td style="width: 180px"><input type="file" style="margin-right: 10px; text-align:left; width: 120px; height: 30px;" id="SDdownloadCals" value="Choose File" name="files[]"   multiple class="auto-style10" /></td></tr></table></div><br><div></details></div><div class="downloaddetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> Download files from HelmSmart Server</summary><table style="width: 800px"><tr><td colspan="5" style="width: 200px" class="auto-style4">&nbsp;</td></tr><tr><td style="width: 200px"><strong>CONFIG</strong></td><td style="width: 200px"><strong>SPIFFS</strong></td><td style="width: 200px"><strong>Firmware</strong></td><td style="width: 200px"><strong>WWW</strong></td></tr><tr><td style="width: 200px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;" id="DownloadConfigFiles" name="DownloadConfigFiles" value="Download" onclick="DownloadFile('config.zip');" class="auto-style10" /></td><td style="width: 200px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;" id="DownloadSPIFFSFiles" name="DownloadSPIFFSFiles" value="Download" onclick="DownloadFile('spiffs.bin');" class="auto-style10" /></td><td style="width: 200px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;" id="DownloadFirmwareFiles" name="DownloadFirmwareFiles" value="Download" onclick="DownloadFile('firmware.bin');" class="auto-style10" /></td><td style="width: 200px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;" id="DownloadWWWFiles" name="DownloadWWWFiles" value="Download" onclick="DownloadFile('www.zip');" class="auto-style10" /></td></tr></table></div></details></div><br><table><tr><td class="auto-style2"><a href="http://www.chetcodigital.com">
+		www.chetcodigital.com</a> - <a href="http://www.seasmart.net">
+		www.seasmart.net</a> - <a href="http://www.netgauges.net">
+		www.netgauges.net</a> - <a href="http://www.digitalmarinegauges.com">
+		www.digitalmarinegauges.com</a>&nbsp;&nbsp; copyright 2024</td></tr><tr><td>&nbsp;</td></tr></table><script type="text/javascript">
+var reader=new FileReader();var currentChunk=0;var chunkcount=0;var myloaded=0;var myFile;var total=0;var getNextBlob=false;var step=150;function getCookieVal(offset){var endstr=document.cookie.indexOf(";", offset);if(endstr==-1)
+endstr=document.cookie.length;return unescape(document.cookie.substring(offset,endstr));}
+function GetCookie(name){var arg=name + "=";var alen=arg.length;var clen=document.cookie.length;var i=0;while(i < clen){var j=i + alen;if(document.cookie.substring(i,j) == arg)
+return getCookieVal(j);i=document.cookie.indexOf(" ", i) + 1;if(i==0) break;}
+return null;}
+function DownloadFile(fileName){var myCookies=document.cookie
+var myVersion = "";var req=new XMLHttpRequest();req.open('GET', document.location, false);req.send(null);
+myVersion=req.getResponseHeader('DeviceIDVersion');if(myVersion==null){myVersion=GetCookie('version');}if(myVersion==null){alert("No product version saved  - please enable browser cookies too use this feature")
+return;}
+var versionSubstrings=myVersion.split(".");if(versionSubstrings[0]==1)
+var productID=versionSubstrings[1];else{alert("Incorrect version string")
+return;}
+$.blockUI({message: '<h1>Getting Data...</h1>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});devicedataurl = "http://helmsmart-cloud.herokuapp.com/static/firmware/ssg3/" + versionSubstrings[1] + "/" + versionSubstrings[2] + "/" + fileName;window.location=devicedataurl;$.unblockUI();
+alert("Download Complete - \ncheck browser Download folder for .zip files\nUnzip and copy to contents to matching SD card folders")}	
+function handleXMLFileSelect(evt){var files=evt.target.files;if(!files.length){alert('Please select a file!');return;}
+myFile=files[0];var myFileSize=myFile.size;var myFileName=myFile.name;var myFilePath =  "config/"
+upload(myFilePath,myFile);}	
+function handleSPIFFSFileSelect(evt){var files=evt.target.files;if(!files.length){alert('Please select a file!');return;}
+myFile=files[0];var myFileSize=myFile.size;var myFileName=myFile.name;var myFilePath =  "spiffs/"
+upload(myFilePath,myFile);}		
+function handleFWFileSelect(evt){var files=evt.target.files;if(!files.length){alert('Please select a file!');return;}
+myFile=files[0];var myFileSize=myFile.size;var myFileName=myFile.name;var myFilePath =  "firmware/"
+upload(myFilePath,myFile);}	
+function handleHTMLFileSelect(evt){var files=evt.target.files;if(!files.length){alert('Please select a file!');return;}
+myFile=files[0];var myFileSize=myFile.size;var myFileName=myFile.name;var myFilePath =  "www/"
+upload(myFilePath,myFile);}
+function handleCalFileSelect(evt){var files=evt.target.files;if(!files.length){alert('Please select a file!');return;}
+myFile=files[0];var myFileSize=myFile.size;var myFileName=myFile.name;var myFilePath =  "calibrations/"
+upload(myFilePath,myFile);}
+function sleep(milliseconds){var start=new Date().getTime();for(var i=0;i < 1e7;i++){if((new Date().getTime() - start) > milliseconds){break;}}}
+function setpath(){var default_path=document.getElementById("newfile").files[0].name;document.getElementById("filepath").value=default_path;}
+function upload(filePath,fileName){var upload_path = "/upload/" + filePath + fileName.name;var fileInput=fileName.name;var MAX_FILE_SIZE=200*1024;var MAX_FILE_SIZE_STR = "200KB";if(fileInput.length==0){alert("No file selected!");}else if(fileName.length==0){alert("File path on server is not set!");}else{$.blockUI({message: '<h1>Downloading file...</h1>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});var xhttp=new XMLHttpRequest();xhttp.onreadystatechange=function(){if(xhttp.readyState==4){if(xhttp.status==200) {window.open("index.html", '_self');}else if(xhttp.status==0){alert("Server closed the connection abruptly!");location.reload()}else{window.open("index.html", '_self');}}};xhttp.open("POST", upload_path, true);xhttp.send(fileName);}}
+function esp32upload(filePath){var upload_path = "/upload/" + filePath.name;var fileInput=filePath.name;}
+document.getElementById('SDdownloadXML').addEventListener('change', handleXMLFileSelect, false);document.getElementById('SDdownloadSPIFFS').addEventListener('change', handleSPIFFSFileSelect, false);document.getElementById('SDdownloadFW').addEventListener('change', handleFWFileSelect, false);document.getElementById('SDdownloadWEB').addEventListener('change', handleHTMLFileSelect, false);document.getElementById('SDdownloadCals').addEventListener('change', handleCalFileSelect, false);</script></body></html>

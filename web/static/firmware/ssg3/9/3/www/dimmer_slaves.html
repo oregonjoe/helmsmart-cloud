@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><title>dimmer slaves</title><meta http-equiv="Cache-control:max-age=2592000"  /><style type="text/css"> body{background-color:#051382}label{color:#000}output{color:#000}.form-group{margin-bottom:5px}.control-label{padding-right:3px}.timeAgo{color:gray}.valueFormat{color:black}hr{margin-top:2px;margin-bottom:6px}input[type=checkbox]{margin-left:0px !important}.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover,.nav-tabs > li.active > a:focus{color:#fff;background-color:#428bca}.tab-content{margin-top:20px}.btn-primary{color:#fff;background-color:#007bff;border-color:#007bff}.btn-primary:hover{color:#fff;background-color:#0069d9;border-color:#0062cc}.btn-primary:focus,.btn-primary.focus{box-shadow:0 0 0 3px rgba(0,123,255,0.5)}.btn-primary.disabled,.btn-primary:disabled{background-color:#CCB1E5;border-color:#007bff}.btn-primary:active,.btn-primary.active,.show > .btn-primary.dropdown-toggle{background-color:#B3981D;background-image:none;border-color:#0062cc}</style>
+<script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/jquery.js"><\/script>');</script><script type="text/javascript">
+document.write('\<script type="text/javascript" src="scripts/bootstrap.js"><\/script>');</script><script type="text/javascript">
+document.write('<link href="style/persona-buttons.css" rel="stylesheet" type="text/css" /> ');</script><script type="text/javascript">
+document.write('<link href="style/bootstrap_min.css" rel="stylesheet" type="text/css" />');</script>
+<style type="text/css"> .btn-primary.disabled,.btn-primary:disabled{background-color:#CCB1E5;border-color:#007bff}.btn-primary:active,.btn-primary.active,.show > .btn-primary.dropdown-toggle{background-color:#B3981D;background-image:none;border-color:#0062cc}.btn-info.disabled,.btn-info:disabled{background-color:#AEB32C;border-color:#007bff}.btn-info:active,.btn-info.active,.show > .btn-info.dropdown-toggle{background-color:#1489AF;background-image:none;border-color:#0062cc}</style></head><body ><style type="text/css"> .btn-primary:active,.btn-primary.active,.show > .btn-primary.dropdown-toggle{background-color:#B3981D;background-image:none;border-color:#0062cc}</style><div style="width: 780px; height: 40px"><center><a href="index.html"><img alt="" height="38" src="images/SeaSmartBanner.jpg" width="200" /></a></center></div><div style="width: 780px; height: 40px"><center><b>
+netDimmer RGBW control panel
+</center></div><table style="margin-top:5px; margin-left:10px;"><tbody class="livetbody" style="width: 780px; height: 30px"><tr id=header-row><td class="tableheaderrow" align="center" style="width: 120px; height: 30px; min-width:120px;" cellpadding="10"> Label </td><td class="tableheaderrow" align="center" style="width: 270px; height: 30px; min-width:270px;">  Slave id </td><td class="tableheaderrow" align="center" style="width: 170px; height: 30px; min-width:170px;">  Slave Type </td><td class="tableheaderrow" align="center" style="width: 120px; height: 30px; min-width:120px;">  AMP Scale </td></tr></tbody></table><form id="dimmer_Slave_configuration" action="/dimmerslaveconfig"><div><table style="margin-top:5px; margin-left:10px;"><tr id=led_dimmer0-row></tr><tr id=led_dimmer1-row></tr><tr id=led_dimmer2-row></tr><tr id=led_dimmer3-row></tr><tr id=led_dimmer4-row></tr><tr id=led_dimmer5-row></tr><tr id=led_dimmer6-row></tr><tr id=led_dimmer7-row></tr><tr id=led_dimmer8-row></tr><tr id=led_dimmer9-row></tr><tr id=led_dimmer10-row></tr><tr id=led_dimmer11-row></tr><tr id=led_dimmer12-row></tr><tr id=led_dimmer13-row></tr><tr id=led_dimmer14-row></tr><tr id=led_dimmer15-row></tr><tr id=led_dimmer16-row></tr><tr id=led_dimmer17-row></tr><tr id=led_dimmer18-row></tr><tr id=led_dimmer19-row></tr><tr id=led_dimmer20-row></tr><tr id=led_dimmer21-row></tr><tr id=led_dimmer22-row></tr><tr id=led_dimmer23-row></tr><tr id=led_dimmer24-row></tr><tr id=led_dimmer25-row></tr><tr id=led_dimmer26-row></tr><tr id=led_dimmer27-row></tr><tr id=led_dimmer28-row></tr><tr id=led_dimmer29-row></tr><tr id=led_dimmer30-row></tr><tr id=led_dimmer31-row></tr><tr  ><td style="width: 120px; height: 60px; min-width:120px;" cellpadding="10"><label id=LABELNUMOFZONES for=NUMOFZONES>Total Zones</label></td><td><input type="text" style="width: 280px;" maxlength="64" id="NUMOFZONES" name="NUMOFZONES" value="8" /></td><td colspan="1"><center><button style="padding: 5px 10px 5px 10px;" class="btn btn-secondary" name="btnValue" id="AddSlave" onclick="AddSlaveZone(); return false;" type="button" />Add Zone</button></center></td><td colspan="1"><center><button style="padding: 5px 10px 5px 10px;" class="btn btn-secondary" name="btnValue" id="DeleteSlave" onclick="DeleteSlaveZone(); return false;" type="button" />Delete Zone</button></center></td></tr><tr  ><td colspan="4"><center><button style="padding: 5px 30px 5px 30px;" class="btn btn-primary" name="btnValue" id="SetDimmerSlaves" onclick="SaveDeviceSettings(); "  />Save settings</button> 
+
+&nbsp;&nbsp;&nbsp;
+
+<button style="padding: 5px 15px 5px 15px;" class="btn btn-primary" name="SetDimmerLevels" id="SetDimmerLevels" value="SetDimmerLevels" onclick="SetDimmerLevelsClick(); return false;" type="button">Set Dimmers</button></center></td></tr></table></div></form><script></script><script src="dimmer_Globals.html" type="text/javascript"></script><script language = "Javascript">
+try{if(typeof numOfZones   === 'undefined')
+var numOfZones=10;if(typeof numOfLevels  === 'undefined')
+var numOfLevels=7;if(typeof numOfColors   === 'undefined')
+var numOfColors=14;if(!ZoneLabel)
+var ZoneLabel=new Array("Zone 0","Zone 1","Zone 2","Zone 3","Zone 4","Zone 5","Zone 6","Zone 7","Zone 8","Zone 9","Zone 10","Zone 11","Zone 12","Zone 13","Zone 14","Zone 15");}
+catch(e){}	
+var gDimmerTimmer;var upDateControl=0;var gDimmerValues=new Array(0);var gDimmerLevelValues=new Array(0);var gDimmerColorValues=new Array(0);var gDimmerSensorValues=new Array(0);var DialAlarm=new Array(0);var DialAlarmState=new Array(0);var gDimmerThresholds=new Array(0,7,14,20,30,35,40,49,56,63,70,77,84,90,98,100);var dimmerLevelDDMenuText=new Array(" 0% "," 5% "," 10% "," 25% "," 50% "," 75% "," 100% ");var dimmerTypeDDMenuText=new Array("WHITE PWM","RGB PWM","RGBW PWM","SWITCH NO","DUALSWITCH","SWITCH NC","DSWITCH NC","MOTION","RGB","RGBW","Lemon","Azure","Honeydew","Rose","White");var gmasterdimmer=true;var gDimmerInstance=0;var gDimmerLockout=0;var gDimmerTimmerValue;var gDimmerLockoutFlag=false;function padToFour(number){if(number<=9999){number = ("000"+number).slice(-4);}
+return number;}
+function padToThree(number){if(number<=999){number = ("00"+number).slice(-3);}
+return number;}
+function rgbToHex(r,g,b){return "#"+("00000"+(r<<16|g<<8|b).toString(16)).slice(-6);}
+function padToHex(value){return ("00000"+(value).toString(16)).slice(-6);}
+function convert(integer){var str=Number(integer).toString(16).toUpperCase();return str.length == 1 ? "0" + str : str;};
+function SetDimmerLevelsClick(){window.location.href = '/dimmer_zones.html';}
+function AddSlaveZone(){if(confirm('Increase number of zones and save?')){}else{event.preventDefault();return false;}
+numOfZones++;document.getElementById("NUMOFZONES").value=numOfZones;$.blockUI({message: '<h1>saving settings...</h1>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});document.getElementById("dimmer_Slave_configuration").submit();}
+function DeleteSlaveZone(){if(confirm('Decrease number of zones and save?')){}else{event.preventDefault();return false;}
+numOfZones--;document.getElementById("NUMOFZONES").value=numOfZones;$.blockUI({message: '<h1>saving settings...</h1>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});document.getElementById("dimmer_Slave_configuration").submit();}
+function SaveDeviceSettings(){if(confirm('Overwrite current slaves?')){}else{event.preventDefault();return false;}
+$.blockUI({message: '<h1>saving settings...</h1>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});document.getElementById("dimmer_Slave_configuration").submit();}
+function dimmerTypeButtonClick(buttonid){}
+function LoadPage(numOfZones){newAJAXCommand('dimmerslavesconfig.xml', initializedimmervars, false)}
+function InitializePage(numOfZones){var myButtonID;var tablerowcontent = '<td style="width: 120px;height: 60px;min-width:120px;" cellpadding="10"><label id=DimmerXXLabel for=dimmerXX>ZoneYY</label></td>' 
+tablerowcontent=tablerowcontent +'<td><input type="text" style="width: 280px;" maxlength="64" id="DXXMAC" name="DXXMAC" value="" /></td>' ;
+
+tablerowcontent=tablerowcontent +'<td style="width: 170px;height: 60px" cellpadding="10">' ;
+tablerowcontent=tablerowcontent +'<div class="btn-group" id="dimmerTypeXX" role="group" aria-label="DimmerXX">' ;
+tablerowcontent=tablerowcontent +'<select style="width: 170px" id="DXXType" name="DXXType">';tablerowcontent=tablerowcontent +'<option value="0"> DISABLED </option>';tablerowcontent=tablerowcontent +'<option value="1"> WHITE PWM </option>';tablerowcontent=tablerowcontent +'<option value="2"> RG PWM </option>';tablerowcontent=tablerowcontent +'<option value="3"> RGB PWM </option>';tablerowcontent=tablerowcontent +'<option value="4"> RGBW PWM </option>';tablerowcontent=tablerowcontent +'<option value="5"> SWITCH </option>';tablerowcontent=tablerowcontent +'<option value="6"> SWITCH DUAL </option>';tablerowcontent=tablerowcontent +'<option value="7"> SWITCH TRI </option>';tablerowcontent=tablerowcontent +'</select>/div></td>';tablerowcontent=tablerowcontent +'<td style="width: 120px;height: 60px" cellpadding="10">' ;
+tablerowcontent=tablerowcontent +'<div class="btn-group" id="dimmerScaleXX" role="group" aria-label="DimmerXX">' ;
+tablerowcontent=tablerowcontent +'<select style="width: 120px" id="DXXScale" name="DXXScale">';tablerowcontent=tablerowcontent +'</select>/div></td>';for(rowindex=0; rowindex < numOfZones;rowindex++){var tablerowid = "led_dimmer" + rowindex + "-row";var tablerow2=tablerowcontent.replaceAll('XX',rowindex);var tablerow=tablerow2.replaceAll('ZoneYY',ZoneLabel[rowindex]);document.getElementById(tablerowid).innerHTML=tablerow;var scaleselecttag="D" + rowindex + "Scale";var scaleselect=document.getElementById(scaleselecttag);for(j=0; j<255;j++){scaleselect.options[scaleselect.options.length] = new Option(j,j);}}}
+function initializedimmervars(xmlData){var myMACIDxml;var myXMLdata;if(!xmlData){}else{numOfZones=parseInt(getXMLValue(xmlData, "NUMOFZONES"));InitializePage(numOfZones)
+document.getElementById("NUMOFZONES").value=numOfZones;for(i=0; i < numOfZones ; i++){myMACIDxml = "MAC" + i;myXMLdata=getXMLValue(xmlData,myMACIDxml);myMACIDxml="D" + i + "MAC";document.getElementById(myMACIDxml).value=myXMLdata;myMACIDxml = "TYPE" + i;myXMLdata=getXMLValue(xmlData,myMACIDxml);myMACIDxml="D" + i + "Type";document.getElementById(myMACIDxml).selectedIndex=myXMLdata;document.getElementById(myMACIDxml).disabled=true;
+myMACIDxml = "SCALE" + i;myXMLdata=getXMLValue(xmlData,myMACIDxml);myMACIDxml="D" + i + "Scale";document.getElementById(myMACIDxml).selectedIndex=myXMLdata;}
+document.getElementById("D0MAC").disabled=true;document.getElementById("D0Type").disabled=false;}}
+window.onload=LoadPage(8);</script></body></html>

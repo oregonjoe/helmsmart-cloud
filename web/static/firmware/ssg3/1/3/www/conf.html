@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html ><head><meta content="en-us" http-equiv="Content-Language" /><meta http-equiv="Cache-control:max-age=2592000"  /><title>SeaSmart G3 Configuration Page</title><!--
+<link href="style/style.css" rel="stylesheet" type="text/css" /><script type="text/javascript" src="scripts/main_conf.min.js"></script><script type="text/javascript" src="scripts/mchp.js"></script><script src="scripts/jquery.min.js" type="text/javascript"></script><script type="text/javascript" src="scripts/jqblockUI.min.js"></script>
+ -->
+ 
+<script type="text/javascript">document.write('<link rel="icon" href="favicon.ico"  />');</script>
+<script type="text/javascript">document.write('\<script type="text/javascript" src="scripts/main_conf.js"><\/script>');</script>
+<script type="text/javascript">document.write('\<script type="text/javascript" src="scripts/mchp.js"><\/script>');</script>
+<script type="text/javascript">document.write('\<script type="text/javascript" src="scripts/jquery.js"><\/script>');</script>
+<script type="text/javascript">document.write('\<script type="text/javascript" src="scripts/jqblockUI.js"><\/script>');</script>
+<script type="text/javascript">document.write(' <link href="style/style.css" rel="stylesheet" type="text/css" />');</script>
+
+<style type="text/css"> .auto-style2{text-align:center}.auto-style3{border-bottom-style:solid;border-bottom-color:#000080}.auto-style4{border-top-style:solid;border-top-color:#000080}.auto-style6{font-size:medium;color:#12126C}.auto-style7{text-align:right}.auto-style8{font-size:medium}.auto-style9{color:#12126C;font-size:small}.auto-style10{font-size:medium;color:#FFF;border-top-style:none;border-top-color:#12365e;border-bottom-style:none;border-bottom-color:#12365e}</style><style type="text/css"></style><script type="text/javascript">
+var gAnalogStr = "00000000";var chunkindex=0;var gversionSubstrings
+var CurrentDialID;var DialPGNInstance=new Array(0,0,0,0,0,0,0,0);var DialPGNNumber=new Array("127489","127489","127489","127489","127489","127489","127489","127489");var DialPGNSetValue=new Array("","","","","","","","");var DialPGNParameter=new Array(0,0,0,0,0,0,0,0);var gnumOfZones=12;
+
+
+   
+
+	var imgAddresses=["images/CDI_Logo.jpg", "images/SeaSmartBanner.jpg", "images/SeaSmartG3Logo.jpg" ];
+	
+	function loadmyimages(index)
+	{
+	
+	  // Break out if no more images
+		if (index==imgAddresses.length) { newAJAXCommand('wificonfig.xml', initializewifivars, false); return; }
+	
+		 var logo_image = document.getElementById("img"+index);
+		
+		// Monitor load or error events, moving on to next image in either case
+		logo_image.onload = logo_image.onerror = function() { loadmyimages(index+1);}
+
+		//Change source (then wait for event)
+		logo_image.src = imgAddresses[index];
+		
+	}
+		
+
+
+
+
+
+function StartUpMyScript()
+{
+
+
+//loadmyimages(1);
+//loadmyimages(2);
+
+InitializePGNNumberOptionList(0);
+
+}
+function changedTCPenable(){if(document.getElementById("TCPSERVER_ON_CB").selectedIndex!=0)
+document.getElementById("UDPBROADCAST_ON_CB").selectedIndex=0;}
+function changedUDPenable(){if(document.getElementById("UDPBROADCAST_ON_CB").selectedIndex!=0)
+document.getElementById("TCPSERVER_ON_CB").selectedIndex=0;}
+function changeDHCPenable(){var 	 myOptionValue;myOptionValue=document.getElementById("DHCPCLIENT_ON_CB").value;switch(myOptionValue)
+{case "0":
+document.getElementById('DHCPXML').innerHTML = "STATIC IP";document.getElementById("IPADDR").disabled=false;document.getElementById("SUBNET").disabled=false;document.getElementById("GATEWAY").disabled=false;document.getElementById("DNS1").disabled=false;document.getElementById("DNS2").disabled=false;break;
+case "1":
+document.getElementById('DHCPXML').innerHTML = "DHCP ENABLED";document.getElementById("IPADDR").disabled=true;document.getElementById("SUBNET").disabled=true;document.getElementById("GATEWAY").disabled=true;document.getElementById("DNS1").disabled=true;document.getElementById("DNS2").disabled=true;break;}}
+function ChangedHTTPPost(){var 	 myOptionValue;document.getElementById("HTTPPostEnable").value=document.getElementById("HTTPPostMenu").selectedIndex;myOptionValue=document.getElementById("HTTPPostEnable").value;switch(myOptionValue)
+{case "0":
+document.getElementById("HTTPIPADDR").disabled=true;document.getElementById("HTTPIPPORT").disabled=true;document.getElementById("HTTPScript").disabled=true;break;
+case "1":
+document.getElementById("HTTPIPADDR").disabled=true;document.getElementById("HTTPIPPORT").disabled=true;document.getElementById("HTTPScript").disabled=true;break;
+case "2":
+document.getElementById("HTTPIPADDR").disabled=true;document.getElementById("HTTPIPPORT").disabled=true;document.getElementById("HTTPScript").disabled=true;break;
+case "3":
+document.getElementById("HTTPIPADDR").disabled=false;document.getElementById("HTTPIPPORT").disabled=false;document.getElementById("HTTPScript").disabled=false;break;
+default:
+document.getElementById("HTTPIPADDR").disabled=true;document.getElementById("HTTPIPPORT").disabled=true;document.getElementById("HTTPScript").disabled=true;break;}}
+function setCharAt(str,index,chr){if(index > str.length-1) return str;return str.substr(0,index) + chr + str.substr(index+1);}
+function InitializePage(numOfZones){var instanceOptions = "";document.getElementById("DimmerInstanceDD").options.length=0;for(instanceindex=0; instanceindex < 250;instanceindex++){document.getElementById("DimmerInstanceDD").options[instanceindex] = new Option(instanceindex,instanceindex);}
+document.getElementById("DimmerInstanceDD").selectedIndex=15;}
+function getConfigVars(){
+loadmyimages(0);
+
+//newAJAXCommand('wificonfig.xml', initializewifivars, false)
+
+
+}
+function initializewifivars(xmlData){var myN2Kdata;var PGNIndex;var PGNinstance;var PGNparameter;if(!xmlData){document.getElementById('DeviceIDXMLValue').innerHTML = "------------";}else{var myXMLdata=getXMLValue(xmlData, 'DeviceID');document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myXMLdata;document.cookie = "deviceid=" + myXMLdata;myXMLdata=getXMLValue(xmlData, 'VersionInfo');document.getElementById('VersionXMLValue').innerHTML = "Version " + myXMLdata;document.cookie = "version=" + myXMLdata;gversionSubstrings=myXMLdata.split(".");InitializePage(gnumOfZones);
+myXMLdata=getXMLValue(xmlData, 'CELLDB');document.getElementById('CELLDB').innerHTML = "CELL DB " + myXMLdata;myXMLdata=getXMLValue(xmlData, 'CELLAI');if(myXMLdata=='0')
+document.getElementById('CELLAI').innerHTML = "CELL AI=connected" ;else if(myXMLdata=='34')
+document.getElementById('CELLAI').innerHTML = "CELL AI=registering" ;else if(myXMLdata=='35')
+document.getElementById('CELLAI').innerHTML = "CELL AI=connecting..." ;else if(myXMLdata=='36')
+document.getElementById('CELLAI').innerHTML = "CELL AI=connection denied" ;else if(myXMLdata=='255')
+document.getElementById('CELLAI').innerHTML = "CELL AI=initializing..." ;		
+else 
+document.getElementById('CELLAI').innerHTML = "CELL AI=unknown" ;
+myXMLdata=getXMLValue(xmlData, 'CIPAddress');document.getElementById('IPaddressXML').innerHTML = "IP Address " + myXMLdata;myXMLdata=getXMLValue(xmlData, 'CIPMask');document.getElementById('IPMaskXML').innerHTML = "IP Mask " + myXMLdata;myXMLdata=getXMLValue(xmlData, 'CIPGW');document.getElementById('IPGatewayXML').innerHTML = "IP Gateway " + myXMLdata;myXMLdata=getXMLValue(xmlData, 'BSSID');document.getElementById('BSSIDXML').innerHTML = "BSSID " + myXMLdata;myXMLdata=getXMLValue(xmlData, 'RSSI');document.getElementById('RSSIXML').innerHTML = "RSSI = " + myXMLdata;myXMLdata=getXMLValue(xmlData, 'DHCP');document.getElementById("DHCPCLIENT_ON_CB").selectedIndex=parseInt(myXMLdata);if(parseInt(myXMLdata)==1){document.getElementById('DHCPXML').innerHTML = "DHCP ENABLED";document.getElementById("IPADDR").disabled=true;document.getElementById("SUBNET").disabled=true;document.getElementById("GATEWAY").disabled=true;document.getElementById("DNS1").disabled=true;document.getElementById("DNS2").disabled=true;}else{document.getElementById('DHCPXML').innerHTML = "STATIC IP";document.getElementById("IPADDR").disabled=false;document.getElementById("SUBNET").disabled=false;document.getElementById("GATEWAY").disabled=false;document.getElementById("DNS1").disabled=false;document.getElementById("DNS2").disabled=false;}
+myXMLdata=getXMLValue(xmlData, 'IPAddress');document.getElementById('IPADDR').value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'IPMask');document.getElementById('SUBNET').value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'IPGateway');document.getElementById('GATEWAY').value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'DNS1');document.getElementById('DNS1').value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'DNS2');document.getElementById('DNS2').value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'NetTypeXML');document.getElementById('NetTypeXML').innerHTML = "Net Type = " + myXMLdata;myXMLdata=getXMLValue(xmlData, 'WIFIType');document.getElementById("WIFINetType_CB").selectedIndex=parseInt(myXMLdata);if(parseInt(myXMLdata)==0){document.getElementById('NetTypeXML').innerHTML = "Net Type=Ethernet" ;}else if(parseInt(myXMLdata)==1){document.getElementById('NetTypeXML').innerHTML = "Net Type=Station" ;
+document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=true;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;}else if(parseInt(myXMLdata)==2){document.getElementById('NetTypeXML').innerHTML = "Net Type=Access Point" ;
+document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;}else if(parseInt(myXMLdata)==3){document.getElementById('NetTypeXML').innerHTML = "Net Type=Station + Access Point" ;
+document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;}else if(parseInt(myXMLdata)==5){document.getElementById('NetTypeXML').innerHTML = "Net Type=Mesh Root" ;	
+document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=true;}
+myXMLdata=getXMLValue(xmlData, 'STAWIFISSID');document.getElementById('STASSID').value=myXMLdata;document.getElementById('SSIDXML').innerHTML = "SSID = " + myXMLdata;myXMLdata=getXMLValue(xmlData, 'STAWIFIPW');document.getElementById('STAPASSWORD').value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'APWIFISSID');document.getElementById('APSSID').value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'APWIFIMode');document.getElementById("APSECTYPE").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'APWIFIPW');document.getElementById("APSECKEY").value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'MESHCHANNEL');document.getElementById("MESHCHANNEL").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'MESHID');document.getElementById("MESHID").value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'HTTPPostMenu');document.getElementById("HTTPPostMenu").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'HpptPostInterval');document.getElementById("HttpPostInterval").value=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'SDLogEnable');document.getElementById("SDLogFName").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'SDLogInterval');document.getElementById("SDLogInterval").value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'UartInterval');document.getElementById("UartInterval").value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'TimeStampSource');document.getElementById("TimeStampSource").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'TCPEnable');document.getElementById("TCPSERVER_ON_CB").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'TCPServerPort');document.getElementById("TCPSERVERPORT").value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'UDPBroadcastEnable');document.getElementById("UDPBROADCAST_ON_CB").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'UDPClientPort');document.getElementById("UDPBROADPORT").value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'UART0MODE');document.getElementById("UART0ModeDD").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'UART1MODE');document.getElementById("UART1ModeDD").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'UART2MODE');document.getElementById("UART2ModeDD").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'DIMMERTYPE');document.getElementById("DimmerTypeDD").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'DIMMERINSTANCE');document.getElementById("DimmerInstanceDD").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'DIMMERSCALE');document.getElementById("DIMMERSCALE").value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'DIMMERPON');{if(parseInt(myXMLdata) <= (100/5))
+document.getElementById("DimmerPONDD").selectedIndex=parseInt(myXMLdata);else
+document.getElementById("DimmerPONDD").selectedIndex=21;}
+myXMLdata=getXMLValue(xmlData, 'DIMMERTXRATE');for(i=0; i< document.getElementById("DimmerTXDD").options.length;i++){var myTXrate=document.getElementById("DimmerTXDD").options[i].value;if(parseInt(myXMLdata)==parseInt(myTXrate))
+document.getElementById("DimmerTXDD").selectedIndex=i;}
+myXMLdata=getXMLValue(xmlData, 'TIMERMODE');document.getElementById("TimerModeDD").selectedIndex=parseInt(myXMLdata);myXMLdata=getXMLValue(xmlData, 'SDLogInterval');document.getElementById("SDLogInterval").value=myXMLdata;myXMLdata=getXMLValue(xmlData, 'CANMODE');document.getElementById("CANModeDD").selectedIndex=parseInt(myXMLdata);if(gversionSubstrings!=null){if(gversionSubstrings[1]==0)
+{$("#UART0Mode *").prop('disabled',true);}else if(gversionSubstrings[1]==1){}else if(gversionSubstrings[1]==3){$("#portsdetails *").prop('disabled',true);}else if(gversionSubstrings[1]==4){$("#UART1Mode *").prop('disabled',true);}else if(gversionSubstrings[1]==5){$("#SDLogParams *").prop('disabled',true);$("#UART0Mode *").prop('disabled',true);$("#UART1Mode *").prop('disabled',true);$("#CANMode *").prop('disabled',true);}else if(gversionSubstrings[1]==6){$("#SDLogParams *").prop('disabled',true);$("#portsdetails *").prop('disabled',true);}else if(gversionSubstrings[1]==7){$("#SDLogParams *").prop('disabled',true);$("#portsdetails *").prop('disabled',true);}}
+initialize();}}
+function initialize(){var myOptionValue;myOptionValue=document.getElementById("HTTPPostEnable").value ;
+document.getElementById("HTTPPostMenu").selectedIndex=parseInt(myOptionValue);switch(myOptionValue)
+{case "0":
+document.getElementById("HTTPIPADDR").disabled=true;document.getElementById("HTTPIPPORT").disabled=true;document.getElementById("HTTPScript").disabled=true;break;
+case "1":
+document.getElementById("HTTPIPADDR").disabled=true;document.getElementById("HTTPIPPORT").disabled=true;document.getElementById("HTTPScript").disabled=true;break;
+case "2":
+document.getElementById("HTTPIPADDR").disabled=true;document.getElementById("HTTPIPPORT").disabled=true;document.getElementById("HTTPScript").disabled=true;break;
+case "3":
+document.getElementById("HTTPIPADDR").disabled=false;document.getElementById("HTTPIPPORT").disabled=false;document.getElementById("HTTPScript").disabled=false;break;}
+myOptionValue=document.getElementById("SystemTimeInstanceValue").value ;
+document.getElementById("SystemTimeInstance").selectedIndex=parseInt(myOptionValue,16);myOptionValue=document.getElementById("CUSTOMCONFIG").value ;
+document.getElementById("CUSTOMCFG_CB").selectedIndex=parseInt(myOptionValue);myOptionValue=document.getElementById("DHCPCL").value ;
+document.getElementById("DHCPCLIENT_ON_CB").selectedIndex=parseInt(myOptionValue);myOptionValue=document.getElementById("TCPCLIENT_ON").value ;
+document.getElementById("TCPCLIENT_ON_CB").selectedIndex=parseInt(myOptionValue);myOptionValue=document.getElementById("UDPBROADCAST_ON").value ;
+document.getElementById("UDPBROADCAST_ON_CB").selectedIndex=parseInt(myOptionValue);myOptionValue=document.getElementById("UART1ModeValue").value ;
+document.getElementById("UART1ModeDD").selectedIndex=parseInt(myOptionValue,32);}
+function changeWIFINetType(){myOptionValue=document.getElementById("WIFINetType_CB").selectedIndex ;
+switch(myOptionValue)
+{case 0:
+document.getElementById('STASSID').disabled=true;document.getElementById('STAPASSWORD').disabled=true;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=true;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;	
+case 1:
+document.getElementById('STASSID').disabled=false;document.getElementById('STAPASSWORD').disabled=false;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=true;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;	
+case 2:
+document.getElementById('STASSID').disabled=true;document.getElementById('STAPASSWORD').disabled=true;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=false;document.getElementById("APSECKEY").disabled=false;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;
+case 3:
+document.getElementById('STASSID').disabled=false;document.getElementById('STAPASSWORD').disabled=false;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=false;document.getElementById("APSECKEY").disabled=false;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;
+case 4:
+document.getElementById('STASSID').disabled=true;document.getElementById('STAPASSWORD').disabled=true;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=true;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;
+case 5:
+document.getElementById('STASSID').disabled=false;document.getElementById('STAPASSWORD').disabled=false;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=true;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;
+case 6:
+document.getElementById('STASSID').disabled=true;document.getElementById('STAPASSWORD').disabled=true;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=false;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;
+case 7:
+document.getElementById('STASSID').disabled=true;document.getElementById('STAPASSWORD').disabled=true;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=false;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;
+default:	
+document.getElementById('STASSID').disabled=true;document.getElementById('STAPASSWORD').disabled=true;document.getElementById('APSSID').disabled=true;document.getElementById("APSECTYPE").disabled=true;document.getElementById("APSECKEY").disabled=true;document.getElementById("MESHCHANNEL").disabled=false;document.getElementById("MESHID").disabled=false;break;}}  
+function setpath(){var default_path=document.getElementById("newfile").files[0].name;document.getElementById("filepath").value=default_path;}
+function upload(filePath,fileName){var upload_path = "/upload/" + filePath + fileName.name;var fileInput=fileName.name;var MAX_FILE_SIZE=200*1024;var MAX_FILE_SIZE_STR = "200KB";if(fileInput.length==0){alert("No file selected!");}else if(fileName.length==0){alert("File path on server is not set!");}else{$.blockUI({message: '<h1>Downloading file...</h1>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});var xhttp=new XMLHttpRequest();xhttp.onreadystatechange=function(){if(xhttp.readyState==4){if(xhttp.status==200) {window.open("index.html", '_self');}else if(xhttp.status==0){alert("Server closed the connection abruptly!");location.reload()}else{window.open("index.html", '_self');}}};xhttp.open("POST", upload_path, true);xhttp.send(fileName);}}
+function UploadFirmware(fwType){if(confirm('This action requires a active connection to the HelmSmart Server. Please verify before proceeding')){}else{return;}
+$.blockUI({message: '<h1>Downloading firmware file from server...</h1><p><h2>please reset device when complete</h2>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});var xhttp=new XMLHttpRequest();xhttp.onreadystatechange=function(){if(xhttp.readyState==4){if(xhttp.status==200) {window.open("index.html", '_self');}else if(xhttp.status==0){alert("Server closed the connection abruptly!");location.reload()}else{window.open("index.html", '_self');}}};var commandStr = "command.cgi?fwupdate="+fwType;xhttp.open("GET", commandStr, true);xhttp.send(null);}
+function CreateConfigFiles(){$.blockUI({message: '<h1>Creating Config Files...</h1><p><h2>please wait while .xml files are saved to SD card</h2>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});var xhttp=new XMLHttpRequest();xhttp.onreadystatechange=function(){if(xhttp.readyState==4){if(xhttp.status==200) {window.open("index.html", '_self');}else if(xhttp.status==0){alert("Server closed the connection abruptly!");location.reload()}else{window.open("index.html", '_self');}}};xhttp.open("GET", 'command.cgi?SaveXML=1', true);xhttp.send(null);}
+function transferComplete(evt){$.unblockUI();window.open("index.html", '_self');}
+function transferFailed(evt){$.unblockUI();}
+function transferCanceled(evt){$.unblockUI();}	
+function ResetDevice(){$.blockUI({message: '<h1>resetting device...</h1><p><h2>please wait while reestablish network connection</h2>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});var xhttp=new XMLHttpRequest();xhttp.onreadystatechange=function(){if(xhttp.readyState==4){if(xhttp.status==200) {window.open("index.html", '_self');}else if(xhttp.status==0){alert("Server closed the connection abruptly!");location.reload()}else{setTimeout(function(){window.open("index.html", '_self');}, 5000);}}};xhttp.open("GET", 'command.cgi?reset=1', true);xhttp.send(null);}
+function SaveDeviceSettings(){if(confirm('Please reset device after settings are saved to take effect')){}else{return;}
+$.blockUI({message: '<h1>saving settings...</h1>',
+css: {border: 'none',
+padding: '15px',
+backgroundColor: '#000',
+'-webkit-border-radius': '10px',
+'-moz-border-radius': '10px',
+opacity: .5,
+color: '#fff'}});document.getElementById("configuration").submit();}
+</script>
+
+
+
+
+</head><body onload="getConfigVars();"><table style="width: 800px"><tr><td><table style="width: 800px"><table style="width: 800px"><tr><td style="width: 100px" colspan="2">
+
+
+<img alt="" height="80" id='img0' src="#" width="80" />
+
+
+</td><td style="width: 450px" colspan="2">
+
+
+<img alt="" height="77" id='img1' src="#" width="400" />
+
+
+
+</td><td style="width: 100px" colspan="2">
+
+
+
+<img alt="" height="90"  id='img2' src="#" width="150" />
+
+
+
+</td></tr></table><table style="width: 800px"><tr><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td><td style="width: 200px; height: 4px;" class="auto-style3"></td></tr><tr><td style="width: 200px" class="auto-style6"><strong><a href="index.html">Home</a></strong></td><td style="width: 200px" class="auto-style6"><strong><a href="conf.html">Config</a></strong></td><td style="width: 200px" class="auto-style6"><strong><a href="StatusN2K.html">Status CAN</a></strong></td><td style="width: 200px" class="auto-style6"><strong><a href="Status0183.html">Status 0183</a></strong></td><td style="width: 200px" class="auto-style6"><a href="Files.html"><strong>Files</strong></a></td><td style="width: 200px" class="auto-style6"><a href="PGNfilters.html"><strong>PGN Filters</strong></a></td></tr><tr><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td><td style="width: 200px" class="auto-style4">&nbsp;</td></tr><tr><td colspan="3" id="DeviceIDXMLValue" class="auto-style6"></td><td colspan="3" id="VersionXMLValue" class="auto-style6"></td></tr></table></td></tr><tr><td><form id="configuration" action="/seasmartconfig"><div class="network" id="networkstatus"style="width: 800px; height: 10px; background-color:#12365e; font-weight: bold; border-bottom: 2px solid #ccc;"></div><div><table style="width: 800px"><tr style=" background-color:#12365e;"class="auto-style10"><td colspan="2" class="auto-style10">Current Network: </td></tr><tr style=" background-color:#12365e;" class="auto-style10"><td id = "IPaddressXML" style="width: 379px">IP Address =  ------  </td><td id="SSIDXML" style="width: 350px">SSID =  SeaSmart Adhoc  </td></tr><tr style=" background-color:#12365e;"class="auto-style10"><td id="IPMaskXML" style="width: 379px">Mask = ------ </td><td id="NetTypeXML" style="width: 541px">Net Type = --- </td></tr><tr style=" background-color:#12365e;"class="auto-style10"><td id="IPGatewayXML" style="width: 379px">Gateway = -------- </td><td id="DHCPXML" style="width: 541px">DHCP = ---- </td></tr><tr style=" background-color:#12365e;"class="auto-style10"><td id="BSSIDXML" style="width: 379px">BSSID: -------- </td><td id="RSSIXML" style="width: 541px">RSSI: ---- </td></tr><tr style=" background-color:#12365e;"class="auto-style10"><td id="CELLDB" style="width: 379px">CELL DB = -------- </td><td id="CELLAI" style="width: 541px">CELL AI = ---- </td></tr></table></div><div class="customconfigdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> Boot Config</summary><div class="network" style="width: 800px; height: 30px; border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">Boot Config:</td><td style="width: 603px; height: 30px"><select id="CUSTOMCFG_CB" name="CUSTOMCFG_CB" style="width: 113px" size="1"><option value="0">Default</option><option value="1">Factory</option><option value="2">XML Override</option><option value="3">---</option><option value="4">Bypass FW Check</option></select></td></tr></table></div></details></div><div class="wifinetworkdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> Network Mode</summary><div class="wifinetwork" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><table><tr><td style="font-weight: bold; width: 200px">Network Type:</td><td><select id="WIFINetType_CB" name="WIFINetType_CB" onchange="changeWIFINetType();"><option value="0">Ethernet </option><option value="1">Station</option><option value="2">AP</option><option value="3">STA+AP</option><option value="4">MESH AP</option><option value="5">Mesh Master</option><option value="6">Mesh Root</option><option value="7">Mesh Slave</option></select></td></tr></table></div><div id="wifi_content" class="wireless" style="height: 240px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><table style="height: 240px;"><tr><td style="font-weight: bold; width: 200px; height: 30px;">STA SSID:</td><td ><input type="text" style="width: 280px;" id="STASSID" name="SSID" value="SeaSmart G3" maxlength="32" /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">STA Password</td><td><input type="text" style="width: 280px;" maxlength="64" id="STAPASSWORD" name="STAPASSWORD" value="" /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">AP SSID:</td><td ><input type="text" style="width: 280px;" id="APSSID" name="APSSID" value="SeaSmart G3" maxlength="32" /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">AP Security Type:</td><td ><select id="APSECTYPE" name="APSECTYPE" style="width: 280px"><option value="WIFI_AUTH_OPEN">Open</option><option value="WIFI_AUTH_WEP">WEP </option><option value="WIFI_AUTH_WPA_PSK">WPA Passkey</option><option value="WIFI_AUTH_WPA2_PSK">WPA2 PassKey</option><option value="WIFI_AUTH_WPA_WPA2_PSK">WPA WPA2 PassPhrase</option><option value="WIFI_AUTH_WPA2_ENTERPRISE">WPA2 Wnterprise</option><option value="WIFI_AUTH_WPA3_PSK">WPA3 PassPhrase</option><option value="WIFI_AUTH_WPS2_WPA3_PSK">WPA2 WPA3 PassPhrase</option><option value="WIFI_AUTH_WPAI_PSK">WPAI PassPhrase</option><option value="WIFI_AUTH_MAX">MAX</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">AP Security Key:</td><td><input type="text" style="width: 280px;" maxlength="45" id="APSECKEY" name="APSECKEY" value=""  /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">Mesh Channel:</td><td ><select id="MESHCHANNEL" name="MESHCHANNEL" style="width: 280px"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">---</option><option value="16">Auto</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">MESH ID</td><td><input type="text" style="width: 280px;" maxlength="10" id="MESHID" name="MESHID" value=""  /></td></tr></table></div></details></div><div class="wificontentdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> Network Configurations</summary><div id="wifi_content" class="dhcp" style="height: 240px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><table style="height: 240px;"><tr><td style="font-weight: bold; width: 200px; height: 30px;">DHCP Client:</td><td ><select id="DHCPCLIENT_ON_CB" name="DHCPCLIENT_ON_CB" onchange="changeDHCPenable();" style="width: 280px" size="1"><option value="0">Disabled</option><option value="1">Enabled</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">IP Address:</td><td><input type="text" style="width: 280px;" id="IPADDR" name="IPADDR" value= "169.254.100.100" /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">Subnet Mask:</td><td><input type="text" style="width: 280px;" id="SUBNET" name="SUBNET" value= "255.255.255.0" /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">Default Gateway:</td><td><input type="text" style="width: 280px;" id="GATEWAY" name="GATEWAY" value= "169.254.100.1" /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">Primary DNS:</td><td><input type="text" style="width: 280px;" id="DNS1" name="DNS1" value= "8.8.8.8" /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">Secondary DNS:</td><td><input type="text" style="width: 280px;" id="DNS2" name="DNS2" value= "8.8.8.8" /></td></tr></table></div></details></div><div class="helmsmartpostdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> HelmSmart Configurations</summary><div id="HTTPPostParams" class="HTTPPostParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">HTTP POST Enabled:</td><td style="width: 395px"><select id="HTTPPostMenu" name="HTTPPostMenu" style="width: 280px" size="1"><option value="0">disabled</option><option value="1">POST HelmSmart via Router</option><option value="2">POST HelmSmart via Cellular</option><option value="3">POST HelmSmart via Router (SD Cached)</option><option value="4">POST HelmSmart via Cellular (SD Cached)</option><option value="5" disabled>POST Local Server</option><option value="6" disabled>GET from HelmSmart</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;"disabled >IP Address/Port:</td><td disabled><input type="text" style="width: 140px;" id="HTTPIPADDR" name="HTTPIPADDR" value= "192.168.0.1"  disabled/>
+                      
+                          &nbsp;:&nbsp;<input type="text" style="width: 55px;" id="HTTPIPPORT" name="HTTPIPPORT" value= 80 disabled/></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;" disabled>HTTP Server Script:</td><td disabled><input type="text" style="width: 280px;" id="HTTPScript" name="HTTPScript" value= "/HelmSmart.net"  disabled/></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;" disabled>Sample Interval:</td><td disabled><input type="text" style="width: 280px;" id="UartInterval" name="UartInterval" value= 1 /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">HTTP Post Interval:</td><td ><input type="text" style="width: 280px;" id="HttpPostInterval" name="HttpPostInterval" value= 60 /></td></tr></table></div></details></div><div class="tcpudpdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> TCP/UDP Configurations</summary><div id="TCPClientParams" class="TCPClientParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">TCP Server Enabled:</td><td style="width: 319px"><select id="TCPSERVER_ON_CB" name="TCPSERVER_ON_CB" onchange="changedTCPenable();" style="width: 280px" size="1"><option value="0">disabled</option><option value="1">Enabled 1 sec</option><option value="2">Enabled 2 sec</option><option value="3">Enabled 5 sec</option><option value="4">Enabled 10 sec</option><option value="5">Enabled 30 sec</option><option value="6">Enabled 60 sec</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;" disabled>TCP Server Port:</td><td style="width: 319px"><input type="text" style="width: 280px;" id="TCPSERVERPORT" name="TCPSERVERPORT" value= 10010  /></td></tr></table></div><div id="UDPBroadcastParams" class="UDPBroadcastParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">UDP Broadcast Enabled:</td><td style="width: 295px"><select id="UDPBROADCAST_ON_CB" name="UDPBROADCAST_ON_CB" onchange="changedUDPenable();" style="width: 280px" size="1"><option value="0">disabled</option><option value="1">enabled HTTP 1 sec</option><option value="2">enabled HTTP 2 sec</option><option value="3">enabled HTTP 5 sec</option><option value="4">enabled HTTP 10 sec</option><option value="5">enabled HTTP 30 sec</option><option value="6">enabled HTTP 60 sec</option><option value="7">enabled HTTP 300 sec</option><option value="8">disabled MTU</option><option value="9">enabled MTU 1 sec</option><option value="10">enabled MTU 2 sec</option><option value="11">enabled MTU 5 sec</option><option value="12">enabled MTU 10 sec</option><option value="13">enabled MTU 30 sec</option><option value="14">enabled MTU 60 sec</option><option value="15">enabled MTU 300 sec</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">UDP Broadcast  Port:</td><td style="width: 295px"><input type="text" style="width: 280px;" id="UDPBROADPORT" name="UDPBROADPORT" value= 10020  /></td></tr></table></div></details></div><div id="sdloggingdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> SD logging Configurations</summary><div id="SDLogParams" class="SDLogParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">SD Logging 
+						Mode:</td><td style="width: 295px"><select id="SDLogFName" name="SDLogFName" style="width: 280px" size="1"><option value="0">disabled</option><option value="1">Sec</option><option value="2">Min</option><option value="3">Hour</option><option value="4">Day</option><option value="5">Month</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">SD Logging Interval:</td><td style="width: 558px"><input type="text" style="width: 280px;" id="SDLogInterval" name="SDLogInterval" value= 60  /></td></tr></table></div></details></div><div id="portsdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> Port Configurations</summary><div id="UART0Mode" class="UART0Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 0 Mode:
+              </td><td style="width: 295px"><select id="UART0ModeDD" name="UART0ModeDD" style="width: 280px" size="1"><option value="0">Disabled  </option><option value="1">Debug </option><option value="2">PushSmart</option><option value="3">N2K Raw</option><option value="4">NMEA 0183</option><option value="5">Mesh Xbee</option></select></td></tr></table></div><div id="UART1Mode" class="UART1Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 1 Mode:
+              </td><td style="width: 295px"><select id="UART1ModeDD" name="UART1ModeDD" style="width: 280px" size="1"><option value="0">Disabled  </option><option value="1">Cellular XB3 - 115600  </option><option value="2">Cellular Skywire - 57600  </option><option value="3">Mesh Xbee - 57600  </option><option value="4">---  </option><option value="5">---  </option><option value="6">Mesh Root Master  </option><option value="7">Mesh Root Slave  </option></select></td></tr></table></div><div id="UART2Mode" class="UART2Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 2 Mode:
+              </td><td style="width: 295px"><select id="UART2ModeDD" name="UART2ModeDD" style="width: 280px" size="1"><option value="0">Disabled  </option><option value="1">Debug - 57600  </option><option value="2">PushSmart - 57600  </option><option value="3">Cellular XB3 - 115600 </option><option value="4">NMEA 0183 - 4800  </option><option value="5">Mesh Xbee - 57600  </option><option value="6">Mesh Root Master </option><option value="7">Mesh Root Slave </option></select></td></tr></table></div><div id="CANMode" class="CANMode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                CAN BUS Mode:
+              </td><td style="width: 295px"><select id="CANModeDD" name="CANModeDD" style="width: 280px" size="1"><option value="0">Disabled  </option><option value="1">J1939  </option><option value="2">NMEA 2000 Instance 0</option><option value="3">NMEA 2000 Instance 1</option><option value="4">NMEA 2000 Instance 2</option><option value="5">NMEA 2000 Instance 3</option></select></td></tr></table></div></details></div><div class="dimmerdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> Dimmer/Switch Configurations</summary><div id="DimmerMode" class="DimmerMode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer/Switch Type:
+              </td><td style="width: 295px"><select id="DimmerTypeDD" name="DimmerTypeDD" style="width: 280px" size="1"><option value="0">Disabled  </option><option value="1">1 Channel slave  </option><option value="2">2 Channel slave  </option><option value="3">RGB slave </option><option value="4">RGBW slave  </option><option value="5">Switch  </option><option value="6">Switch 2P  </option><option value="7">Switch 3P  </option><option value="8">Mesh Gateway  </option><option value="9">Mesh Slave </option><option value="10">---  </option><option value="11">---  </option><option value="12">UDP Gateway </option><option value="13">UDP 1 Channel slave  </option><option value="14">UDP 2 Channel slave  </option><option value="15">UDP RGB slave </option><option value="16">UDP RGBW slave  </option><option value="17">UDP Switch 2P </option><option value="18">UDP Dimmer 2Phase </option><option value="19">UDP Dimmer 3Phase  </option><option value="20">---  </option><option value="21">---  </option><option value="22">--- </option><option value="23">---  </option><option value="24">SeaSwitch 8C </option><option value="25">SeaGauge 4C </option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer/Switch Instance:
+              </td><td style="width: 295px"><select id="DimmerInstanceDD" name="DimmerInstanceDD" style="width: 280px" size="1"><option value="0">0</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer Power On:
+              </td><td style="width: 295px"><select id="DimmerPONDD" name="DimmerPONDD" style="width: 280px" size="1"><option value="0">0%  </option><option value="5">5%  </option><option value="10">10%  </option><option value="15">15%  </option><option value="20">20%  </option><option value="25">25%  </option><option value="30">30% </option><option value="35">35%  </option><option value="40">40%  </option><option value="45">45%  </option><option value="50">50%  </option><option value="55">55%  </option><option value="60">60% </option><option value="65">65%  </option><option value="70">70%  </option><option value="75">75%  </option><option value="80">80% </option><option value="85">85%  </option><option value="90">90%  </option><option value="95">95%  </option><option value="100">100%  </option><option value="255">NVRAM</option></select></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer TX rate:
+              </td><td style="width: 295px"><select id="DimmerTXDD" name="DimmerTXDD" style="width: 280px" size="1"><option value="0">disable  </option><option value="5">5 sec  </option><option value="10">10 sec  </option><option value="15">15 sec  </option><option value="20">20 sec  </option><option value="25">25 sec  </option><option value="30">30 sec </option><option value="35">35 sec  </option><option value="40">40 sec  </option><option value="45">45 sec  </option><option value="50">50 sec  </option><option value="55">55 sec  </option><option value="60">60 sec </option></select></td></tr><tr><td style="font-weight: bold;">Dimmer Scale</td><td><input type="text" style="width: 280px;" maxlength="64" id="DIMMERSCALE" name="DIMMERSCALE" value="" /></td></tr><tr><td style="font-weight: bold; width: 200px; height: 30px;">
+                Timer Mode
+              <td style="width: 295px"><select id="TimerModeDD" name="TimerModeDD" style="width: 280px" size="1"><option value="0">Disabled  </option><option value="1">Enabled  </option><option value="2">Save to NVRAM (XML)  </option></select></td></tr></table></div></details></div><div class="timestampdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "><details><summary class="auto-style6" style="font-weight: bold;"> Timestamp Configurations</summary><div id="TimeStampParams" class="TimeStampParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;"><table ><tr><td style="font-weight: bold; width: 200px; height: 30px;">Time Stamp:</td><td style="width: 295px"><select id="TimeStampSource" name="TimeStampSource" style="width: 280px" size="1"><option value="0">disabled</option><option value="1">NTP</option><option value="2">GPS</option><option value="3">GLONASS</option><option value="4">Radio Station</option><option value="5">Cesium clock</option><option value="6">Rubidium clock</option><option value="7">Crystal clock</option><option value="8">SeaGauge</option><option value="9">GNSS</option><option value="A">HelmSmart</option><option value="B">SeaSmart RTC</option></select></td></tr></table></div></details></div><table><tr><td colspan="3" style="text-align: center;"><b> Local Device Configuration </b></td></tr><tr><td style="width: 2000px; height: 30px">                 
+                 &nbsp;
+				 <button style="width: 150px; height: 30px;" id="SaveSettings" onclick="SaveDeviceSettings();" type="button" />Save Settings</button></td><td style="width: 2000px; height: 30px">                       
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="CreateConfigXMLFiles" onclick="CreateConfigFiles();" type="button" />Create XML</button></td><td style="width: 2000px; height: 30px">          
+				&nbsp;   <button style="width: 150px; height: 30px;" id="Reset" onclick="ResetDevice();" type="button" />Reset</button></td></tr></table><div class="fwupdatedetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "></div><table><tr><td colspan="3" style="text-align: center;"><b> HelmSmart-Cloud firmware updates </b></td></tr><td style="width: 2000px; height: 30px">                         
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="UploadFirmware('firmware.bin');" type="button" />Firmware</button></td><td style="width: 2000px; height: 30px">                           
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="UploadFirmware('www_spiffs.bin');" type="button" />WWW</button></td><td style="width: 2000px; height: 30px">                        
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="UploadFirmware('calibrations_spiffs.bin');" type="button" />Calibrations</button></td></tr></table></form><table><tr><td class="auto-style2"><a href="http://www.chetcodigital.com">
+		www.chetcodigital.com</a> - <a href="http://www.seasmart.net">
+		www.seasmart.net</a> - <a href="http://www.netgauges.net">
+		www.netgauges.net</a> - <a href="http://www.digitalmarinegauges.com">
+		www.digitalmarinegauges.com</a></td></tr><tr><tr><td class="auto-style2" style="text-align: center;">
+		&nbsp; copyright 2025</td></tr><tr><td>&nbsp;</td></tr></table>
+		
+	
+	
+	
+		</body></html>
