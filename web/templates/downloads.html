@@ -53,59 +53,12 @@
         <!-- <link href="/public/app.css" rel="stylesheet"> -->
 		 <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/auth0app.js') }}" ></script> -->
 		 <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/auth0app.css') }}"/> -->
-        <script>
-        var AUTH0_CLIENT_ID = '{{env.AUTH0_CLIENT_ID}}';
-        var AUTH0_DOMAIN = '{{env.AUTH0_DOMAIN}}';
-        var AUTH0_CALLBACK_URL = '{{env.AUTH0_CALLBACK_URL if env.AUTH0_CALLBACK_URL else "https://localhost:3000/callback" }}';
-        var API_AUDIENCE = '{{env.API_ID}}';
-        </script>  
+
 
 <script language = "Javascript">
           
 var currentUser = null;
 
-$(window).bind("load", function() {
-var myusername
-
- var auth = new auth0.WebAuth({
-    domain: AUTH0_DOMAIN,
-    clientID: AUTH0_CLIENT_ID
-   });
-
-
- {% if session['username'] %}
-     myusername = "{{session['username']}}";  
-	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out</span>  </a>';
-
- $("#logout").click(function(e) {
-            e.preventDefault();
-			window.location.href = '/auth0logout';
-			 });
-
-	 {% else %}
-     myusername = ""; 
-	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="login" class="persona-button"><span>Sign in with your Email</span>  </a>';
- 
-  $("#login").click(function(e) {
-            e.preventDefault();
-			/*
-		auth.authorize({
-				audience: 'https://'+AUTH0_DOMAIN+'/userinfo', // you can also set this on the .env file and put API_AUDIENCE instead
-				scope: 'openid profile',
-				responseType: 'code',
-				redirectUri: AUTH0_CALLBACK_URL
-			  }); 
-			*/
-			window.location.href = '/login';
-          });
- {% endif %}
-
-
-
-
-
-
-});
 
 /*
 
@@ -201,6 +154,21 @@ var myusername;
 
 
 	  <body  onload="setLogin()" style="color: #FFFFFF; width: 800px; height: 600px; background-color: #336699" >
+	  
+	  
+	  <div>
+  <center>
+  {% if session['userid'] %}
+     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
+    <span>HelmSmart: {{session['username']}}</span></a>
+  {% else %}
+    <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span></a>
+  {% endif %}
+  </center>
+</div>
+	  
+	  
       <table cellpadding="2" style="width: 600px">
         <tr>
           <td colspan="3">
