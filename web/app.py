@@ -395,6 +395,16 @@ def manage():
     features = [],
   )
 
+
+@app.route('/downloads')
+def downloads():
+
+  return render_template(
+    'downloads.html',
+    features = [],
+  )
+
+
 @app.route('/alertsmart')
 def alertsmart():
   #userid=""
