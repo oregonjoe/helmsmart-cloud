@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="yes"?>
+<configrecord version="24.12.20">
+<configgroup name = "XMLACTION">
+<configitem name="LOADXML"><value>1</value></configitem>
+<configitem name="Save_NVRAM"><value>1</value></configitem>
+</configgroup>
+<configgroup name = "DEVICE">
+<configitem name="DeviceID"><value>FFFFFFFFFFFF</value></configitem>
+<configitem name="VersionInfo"><value>1.9.3.1.24</value></configitem>
+</configgroup>
+<configgroup name = "PULSE">
+<configitem name="PulseMode"><value>4</value></configitem>
+<configitem name="Pulse0Scale"><value>1500</value></configitem>
+<configitem name="Pulse1Scale"><value>1500</value></configitem>
+<configitem name="Pulse2Scale"><value>5400</value></configitem>
+<configitem name="PulseInterval"><value>1000</value></configitem>
+<configitem name="FlowPulseInterval"><value>4000</value></configitem>
+<configitem name="Pulse0Filter"><value>0</value></configitem>
+<configitem name="Pulse1Filter"><value>0</value></configitem>
+<configitem name="Pulse20Filter"><value>0</value></configitem>
+</configgroup>

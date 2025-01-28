@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="yes"?>
+<configrecord version="24.12.20">
+<configgroup name = "XMLACTION">
+<configitem name="LOADXML"><value>1</value></configitem>
+<configitem name="Save_NVRAM"><value>1</value></configitem>
+</configgroup>
+<configgroup name = "DEVICE">
+<configitem name="DeviceID"><value>FFFFFFFFFFFF</value></configitem>
+<configitem name="VersionInfo"><value>1.9.3.1.25</value></configitem>
+</configgroup>
+<configgroup name = "Network">
+<configitem name="DHCP"><value>1</value></configitem>
+<configitem name="IPAddress"><value>192.168.254.114</value></configitem>
+<configitem name="SubNet"><value>255.255.255.0</value></configitem>
+<configitem name="Gateway"><value>192.168.254.254</value></configitem>
+<configitem name="DNS1"><value>8.8.8.8</value></configitem>
+<configitem name="DNS2"><value>192.168.254.254</value></configitem>
+</configgroup>
+<configgroup name = "WIFI">
+<configitem name="WiFiType"><value>2</value></configitem>
+<configitem name="STASSID"><value>SeaGaugeG4</value></configitem>
+<configitem name="STASECTYPE"><value>3</value></configitem>
+<configitem name="STASECKEY"><value>seasmartg3</value></configitem>
+<configitem name="SAPSSID"><value>SeaGaugeG4-FFFF</value></configitem>
+<configitem name="SAPSECTYPE"><value>3</value></configitem>
+<configitem name="SAPSECKEY"><value>seasmartg3</value></configitem>
+</configgroup>
+<configgroup name = "UDP">
+<configitem name="UDPEnable"><value>0</value></configitem>
+<configitem name="UDPPort"><value>10020</value></configitem>
+<configgroup name = "TCP">
+<configitem name="TCPEnable"><value>0</value></configitem>
+<configitem name="TCPPort"><value>10020</value></configitem>
+</configgroup>
+<configgroup name = "HTTPPOST">
+<configitem name="PostType"><value>0</value></configitem>
+<configitem name="PostInterval"><value>1</value></configitem>
+</configgroup>

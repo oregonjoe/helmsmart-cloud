@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="yes"?>
+<configrecord version="24.12.20">
+<configgroup name = "XMLACTION">
+<configitem name="LOADXML"><value>1</value></configitem>
+<configitem name="Save_NVRAM"><value>1</value></configitem>
+</configgroup>
+<configgroup name = "DEVICE">
+<configitem name="DeviceID"><value>FFFFFFFFFFFF</value></configitem>
+<configitem name="VersionInfo"><value>1.9.3.1.25</value></configitem>
+</configgroup>
+<configgroup name = "RuntimePulse">
+<configitem name="PulseRTTotal00"><value>0</value></configitem>
+<configitem name="PulseRTTotal01"><value>0</value></configitem>
+<configitem name="PulseRTTotal02"><value>0</value></configitem>
+<configitem name="FuelRTTotal00"><value>0</value></configitem>
+<configitem name="FuelRTTotal01"><value>0</value></configitem>
+<configitem name="FuelRTTotal02"><value>0</value></configitem>
+<configgroup name = "RuntimePIO">
+<configitem name="PIORTTotal00"><value>0</value></configitem>
+<configitem name="PIORTTotal01"><value>0</value></configitem>
+<configitem name="PIORTTotal02"><value>0</value></configitem>
+<configitem name="PIORTTotal03"><value>0</value></configitem>
+<configitem name="PIOCycle00"><value>0</value></configitem>
+<configitem name="PIOCycle01"><value>0</value></configitem>
+<configitem name="PIOCycle02"><value>0</value></configitem>
+<configitem name="PIOCycle03"><value>0</value></configitem>
+</configgroup>

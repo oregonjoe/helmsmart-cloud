@@ -1,0 +1,61 @@
+<?xml version="1.0" standalone="yes"?>
+<configrecord version="24.12.20">
+<configgroup name = "XMLACTION">
+<configitem name="LOADXML"><value>1</value></configitem>
+<configitem name="Save_NVRAM"><value>1</value></configitem>
+</configgroup>
+<configgroup name = "DEVICE">
+<configitem name="DeviceID"><value>FFFFFFFFFFFF</value></configitem>
+<configitem name="VersionInfo"><value>1.9.3.1.24</value></configitem>
+</configgroup>
+<configgroup name = "N2KPGNLists">
+<configitem name="N2KPGN00"><value>0x01F214,0x00,0x00,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN01"><value>0x01F211,0x00,0x00,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN02"><value>0x01F201,0x00,0x02,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN03"><value>0x01F201,0x00,0x00,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN04"><value>0x01F201,0x01,0x00,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN05"><value>0x01F201,0x01,0x02,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN06"><value>0x01F211,0x01,0x00,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN07"><value>0x01F214,0x01,0x00,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN08"><value>0x01F205,0x00,0x00,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN09"><value>0x01F205,0x00,0x01,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN10"><value>0x01F205,0x01,0x01,0xFFFFFFFF</value></configitem>
+<configitem name="N2KPGN11"><value>0x01F205,0x01,0x00,0xFFFFFFFF</value></configitem>
+</configgroup>
+<configgroup name = "N2KCalibrationTables">
+<configitem name="N2KCAL00"><value>ALT_VOLTS_36MAX.xml</value></configitem>
+<configitem name="N2KCAL01"><value>FUEL_180to10.xml</value></configitem>
+<configitem name="N2KCAL02"><value>VDO_ENG_TEMP_250F.xml</value></configitem>
+<configitem name="N2KCAL03"><value>VDO_PSI_150MAX.xml</value></configitem>
+<configitem name="N2KCAL04"><value>VDO_PSI_150MAX.xml</value></configitem>
+<configitem name="N2KCAL05"><value>VDO_ENG_TEMP_250F.xml</value></configitem>
+<configitem name="N2KCAL06"><value>FUEL_180to10.xml</value></configitem>
+<configitem name="N2KCAL07"><value>ALT_VOLTS_36MAX.xml</value></configitem>
+<configitem name="N2KCAL08"><value>VDO_PSI_400MAX.xml</value></configitem>
+<configitem name="N2KCAL09"><value>VDO_TRAN_TEMP_200C.xml</value></configitem>
+<configitem name="N2KCAL10"><value>VDO_TRAN_TEMP_200C.xml</value></configitem>
+<configitem name="N2KCAL11"><value>VDO_PSI_400MAX.xml</value></configitem>
+</configgroup>
+<configgroup name = "ADCAlarms">
+<configitem name="ADCALARM00"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM01"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM02"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM03"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM04"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM05"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM06"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM07"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM08"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM09"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM10"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM11"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM12"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM13"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM14"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM15"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM16"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM17"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM18"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+<configitem name="ADCALARM19"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>
+</configgroup>
+</configrecord>
