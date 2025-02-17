@@ -503,12 +503,14 @@ function ChangedMapOptions()
 	
       
     //FireBaseURL = "https://seasmart.firebaseio.com/events/" + AccountDataFolder + "/"; 
-    FireBaseURL = "https://seasmart.firebaseio.com/events/" + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value + "/Insert/"; 
+    //FireBaseURL = "https://seasmart.firebaseio.com/events/" + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value + "/Insert/"; 
 	  //  FireBaseURL = "https://helmsmart-device-message.firebaseio.com/events/" + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value + "/Insert/"; 
 
 	   //   FireBaseURL = "events/"  + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value + "/Insert/"; 	
 		
-		FireBaseURL = "DEVICE/"  + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+		//FireBaseURL = "DEVICE/"  + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+		
+		FireBaseURL = "DEVICE/"  + "{{deviceid}}";
 	// device = new Firebase(FireBaseURL);
   //	device.on('value', function(snapshot) 
 	rootRef = firebase.database().ref(FireBaseURL);
