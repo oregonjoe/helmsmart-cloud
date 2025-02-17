@@ -2665,6 +2665,8 @@ function sharescreen(){
    
    alert("Share this locked dashboard using the following URL \n" + shareurl );
    
+   let surl = prompt("Share this locked dashboard using the following URL: \n" , shareurl );
+   
 	// Sets the new href (URL) for the current window.
 	window.location.href = "https://www.helmsmart-cloud.com/netgauges_public?deviceapikey=" + deviceapikey + "&prefkey=" + prefkey;
 
