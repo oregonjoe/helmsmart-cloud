@@ -2661,9 +2661,12 @@ function sharescreen(){
    optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
    prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
    
+   var shareurl = "https://www.helmsmart-cloud.com/netgauges_public?deviceapikey=" + deviceapikey + "&prefkey=" + prefkey;
    
-// Sets the new href (URL) for the current window.
-window.location.href = "https://www.helmsmart-cloud.com/netgauges_public?deviceapikey=" + deviceapikey + "&prefkey=" + prefkey;
+   alert("Share this locked dashboard using the following URL \n" + shareurl );
+   
+	// Sets the new href (URL) for the current window.
+	window.location.href = "https://www.helmsmart-cloud.com/netgauges_public?deviceapikey=" + deviceapikey + "&prefkey=" + prefkey;
 
 }
 
