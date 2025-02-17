@@ -786,7 +786,7 @@ var mypayload;
 
 
  
-   devicedataurl = "http://www.helmsmart.net/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + PrefID;
+   devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + PrefID;
          
    return $.ajax({
 					   //async: false,
@@ -839,7 +839,7 @@ function SetHelmSmartSwitch(switchPGN)
 
    //devicedataurl = "http://www.helmsmart.net/sendswitchpgn?gettype=devices&switch=" + switchPGN;
    //devicedataurl = "http://www.helmsmart.net/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
-   devicedataurl = "http://www.helmsmart.net/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
+   devicedataurl = "http://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
    
 
    return $.ajax({
@@ -950,7 +950,7 @@ function MapData()
 	ResolutionSecs = UpdateInterval;
 	
 	// create the search URL  
-	url = "http://www.helmsmart.net/getgpsseriesbydeviceid?";
+	url = "http://www.helmsmart-cloud.com/getgpsseriesbydeviceid?";
 		url =  url + "deviceid=" + myDeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 		url =  url + "&serieskey1=" + "deviceid:" + myDeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
 		url =  url + "&format=json"  ;
