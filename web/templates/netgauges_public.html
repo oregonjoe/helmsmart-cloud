@@ -430,7 +430,7 @@ function ChangedMapOptions()
 
     //SetServerType( 1);
 
-  getDeviceParamDetails(myuserid);
+  getDeviceParamDetails(myuserid, PrefID );
 
 
     ParameterInit = true;
@@ -577,7 +577,7 @@ function handleGetDevicePramNames(response)
    
     // load up user pameters from DB if there were any returned
     if(index > 1)        
-	 	  getDeviceParamDetails(myuserid);
+	 	  getDeviceParamDetails(myuserid, 0);
     else
     {
       InitalizePageDials();
@@ -1258,12 +1258,12 @@ var mypayload;
   //  SetServerType( 1);
 
   // go to DB and load new prefs
-   getDeviceParamDetails(myuserid);
+   getDeviceParamDetails(myuserid, 0);
 
  }
 
   
- function getDeviceParamDetails(userid)
+ function getDeviceParamDetails(userid, prefkey)
 {
 	mapInitialized =false;
 
@@ -1282,10 +1282,10 @@ var mypayload;
 
 	var devicedataurl;
 	var optionmenuindex;
-	var prefkey;
+	//var prefkey;
 
    optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
-   prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+   //prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
    
  
    devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + prefkey;
