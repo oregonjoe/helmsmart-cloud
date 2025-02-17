@@ -21324,19 +21324,19 @@ def getdevicekeys(deviceapikey):
             return deviceid, userid
 
 
-    except TypeError, e:
+    except TypeError as e:
         log.info('freeboard: TypeError in geting deviceid  %s:  ', deviceapikey)
         log.info('freeboard: TypeError in geting deviceid  %s:  ' % str(e))
             
-    except KeyError, e:
+    except KeyError as e:
         log.info('freeboard: KeyError in geting deviceid  %s:  ', deviceapikey)
         log.info('freeboard: KeyError in geting deviceid  %s:  ' % str(e))
 
-    except NameError, e:
+    except NameError as e:
         log.info('freeboard: NameError in geting deviceid  %s:  ', deviceapikey)
         log.info('freeboard: NameError in geting deviceid  %s:  ' % str(e))
             
-    except IndexError, e:
+    except IndexError as e:
         log.info('freeboard: IndexError in geting deviceid  %s:  ', deviceapikey)
         log.info('freeboard: IndexError in geting deviceid  %s:  ' % str(e))  
 
