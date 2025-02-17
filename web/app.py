@@ -21296,3 +21296,58 @@ def settimmerapi():
 
     
   return jsonify(result="OK", timmer=timmeritem)
+
+def getdevicekeys(deviceapikey):
+
+    conn = db_pool.getconn()
+
+  
+    query = "select deviceid, userid from user_devices where deviceapikey = %s"
+
+    try:
+    # first check db to see if deviceapikey is matched to device id
+
+        cursor = conn.cursor()
+        cursor.execute(query, (deviceapikey,))
+        i = cursor.fetchone()
+            
+        # see we got any matches
+        if cursor.rowcount == 0:
+            # cursor.close
+            db_pool.putconn(conn) 
+            return ""
+        
+        else:
+            deviceid = str(i[0])
+            userid = str(i[1])
+            db_pool.putconn(conn) 
+            return deviceid, userid
+
+
+    except TypeError, e:
+        log.info('freeboard: TypeError in geting deviceid  %s:  ', deviceapikey)
+        log.info('freeboard: TypeError in geting deviceid  %s:  ' % str(e))
+            
+    except KeyError, e:
+        log.info('freeboard: KeyError in geting deviceid  %s:  ', deviceapikey)
+        log.info('freeboard: KeyError in geting deviceid  %s:  ' % str(e))
+
+    except NameError, e:
+        log.info('freeboard: NameError in geting deviceid  %s:  ', deviceapikey)
+        log.info('freeboard: NameError in geting deviceid  %s:  ' % str(e))
+            
+    except IndexError, e:
+        log.info('freeboard: IndexError in geting deviceid  %s:  ', deviceapikey)
+        log.info('freeboard: IndexError in geting deviceid  %s:  ' % str(e))  
+
+
+    except:
+        log.info('freeboard: Error in geting  deviceid %s:  ', deviceapikey)
+        e = sys.exc_info()[0]
+        log.info('freeboard: Error in geting deviceid  %s:  ' % str(e))
+
+    # cursor.close
+    db_pool.putconn(conn)                       
+
+    return ""
+
