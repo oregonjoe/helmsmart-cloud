@@ -639,34 +639,7 @@ function handleGetDevicePramDetails(response)
 			
 			
 	   		
-			document.getElementById("MapOptions").selectedIndex = MapOptions; 
-			
-			
-			document.getElementById("UpdateInterval").selectedIndex = 6;
-	    	for(i=0; i< document.getElementById("UpdateInterval").options.length; i++)
-	    	{
-	    			var myUpdateInterval = document.getElementById("UpdateInterval").options[i].value;
-		    		if( parseInt(myUpdateInterval)  == UpdateInterval)
-		    			document.getElementById("UpdateInterval").selectedIndex = i;
-		    }
-			
-		
-		   
-		   document.getElementById("TrailColor").selectedIndex = 0;
-	    	for(i=0; i< document.getElementById("TrailColor").options.length; i++)
-	    	{
-	    			var myPageForeGroundColor = document.getElementById("TrailColor").options[i].value;
-		    		if(myPageForeGroundColor == PageForeGroundColor)
-		    			document.getElementById("TrailColor").selectedIndex = i;
-		    }
-			
-			document.getElementById("MapOptions").selectedIndex = 0;
-	    	for(i=0; i< document.getElementById("MapOptions").options.length; i++)
-	    	{
-	    			var myMapOptions = document.getElementById("MapOptions").options[i].value;
-		    		if(myMapOptions == MapOptions)
-		    			document.getElementById("MapOptions").selectedIndex = i;
-		    }
+
 			
 	   		 ParameterInit = true;
 
