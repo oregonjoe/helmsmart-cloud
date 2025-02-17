@@ -21350,4 +21350,4 @@ def getdevicekeys(deviceapikey):
     db_pool.putconn(conn)                       
 
     return ""
-
+     
