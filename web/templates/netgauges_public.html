@@ -57,9 +57,9 @@ color: #FFFFFF;
   	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
   
   
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">  </link> 
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">  </link> 
 
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
@@ -68,7 +68,7 @@ color: #FFFFFF;
   
   
   
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/>  
@@ -691,8 +691,8 @@ var mypayload;
 		
 		if( isNaN(gLatitude)  || isNaN(gLongitude) )
 		{
-			var pinurl = "http://maps.google.com/mapfiles/kml/shapes/info_circle.png"
-			//var pinurl = "http://maps.google.com/mapfiles/kml/paddle/ylw-blank.png"
+			var pinurl = "https://maps.google.com/mapfiles/kml/shapes/info_circle.png"
+			//var pinurl = "https://maps.google.com/mapfiles/kml/paddle/ylw-blank.png"
 			
 			myPin = new google.maps.MarkerImage(pinurl);
 			 myLatlng = new google.maps.LatLng(mylat, mylng);
@@ -786,7 +786,7 @@ var mypayload;
 
 
  
-   devicedataurl = "http://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + PrefID;
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + PrefID;
          
    return $.ajax({
 					   //async: false,
@@ -837,9 +837,9 @@ function SetHelmSmartSwitch(switchPGN)
 
 	var devicedataurl;
 
-   //devicedataurl = "http://www.helmsmart.net/sendswitchpgn?gettype=devices&switch=" + switchPGN;
-   //devicedataurl = "http://www.helmsmart.net/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
-   devicedataurl = "http://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
+   //devicedataurl = "https://www.helmsmart.net/sendswitchpgn?gettype=devices&switch=" + switchPGN;
+   //devicedataurl = "https://www.helmsmart.net/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
+   devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
    
 
    return $.ajax({
@@ -950,7 +950,7 @@ function MapData()
 	ResolutionSecs = UpdateInterval;
 	
 	// create the search URL  
-	url = "http://www.helmsmart-cloud.com/getgpsseriesbydeviceid?";
+	url = "https://www.helmsmart-cloud.com/getgpsseriesbydeviceid?";
 		url =  url + "deviceid=" + myDeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
 		url =  url + "&serieskey1=" + "deviceid:" + myDeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
 		url =  url + "&format=json"  ;
@@ -1030,7 +1030,7 @@ function initializeMaps() {
 	
 	for (i = 0; i < myPinColors.length; i++) {
 	
-		var pinurl = "http://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
+		var pinurl = "https://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
 		myPins[i] = new google.maps.MarkerImage(pinurl);
 	 
 	} 
@@ -1460,7 +1460,7 @@ var StatusString;
   	<div class="tab-pane" id="tabInfo">
 	<p id="introText">With this datapane you can view vessel instrument data from your SeaSmart device.</p>
 <div id="idMarketing">
-	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
 	
 	<p>
 		To get started  - select your registered device from the <B>Device</B> tab and then enter the sensor data on the <B> PGN </B>tab – select <B>Gauges</B> to view.
@@ -1501,9 +1501,9 @@ var StatusString;
 	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
 	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
 	<div style="margin: 15px;">
-		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
 <!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
-		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
 
 	</div>
 	<p>
