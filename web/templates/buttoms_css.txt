@@ -1,0 +1,163 @@
+https://csspro.com/css-3d-buttons/
+
+<!-- HTML !-->
+<button class="button-2" role="button">
+  <span class="text">Button 2</span>
+</button>
+
+/* CSS */
+button.button-2 {
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+  vertical-align: middle;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  text-align: inherit;
+  text-transform: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.button-2:focus {
+  outline-style: solid;
+  outline-color: transparent;
+}
+
+button.button-2 {
+  touch-action: manipulation;
+  margin: 3px;
+  cursor: pointer;
+}
+
+button.button-2 {
+  touch-action: manipulation;
+  border: 1px solid #0360df;
+  border-radius: 50px;
+  padding: 12px 16px;
+  background-color: #0360df;
+  background-image: radial-gradient(75% 50% at 50% 0%, #f4feff 12%, transparent), radial-gradient(75% 50% at 50% 85%, #8de3fc, transparent);
+  box-shadow: inset 0 0 2px 1px rgba(255, 255, 255, 0.2), 0 1px 4px 1px rgba(17, 110, 231, 0.2), 0 1px 4px 1px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  text-shadow: 0 1px 1px #116ee7;
+  transition-property: border-color, transform, background-color;
+  transition-duration: 0.2s;
+}
+
+button.button-2:hover {
+  transform: scale(1.04);
+}
+
+button.button-2:active {
+  border-color: #0048d5;
+  transform: scale(0.96);
+  background-color: #0048d5;
+}
+
+
+<!-- HTML !-->
+<button class="button-24" role="button">
+  <span class="text">Button 24</span>
+</button>
+
+/* CSS */
+.button-24 {
+  background-color: transparent;
+  background-image: linear-gradient(#fff, #f5f5fa);
+  border: 0 solid #003dff;
+  border-radius: 9999px;
+  box-shadow: rgba(37, 44, 97, .15) 0 4px 11px 0, rgba(93, 100, 148, .2) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #484c7a;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Hind, system-ui, BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  margin: 4px;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: inherit;
+  text-wrap: nowrap;
+  transition: all .2s ease-out;
+  transition-behavior: normal;
+  white-space-collapse: collapse;
+  line-height: 1.15;
+}
+
+@media (min-width: 576px) {
+  .button-24 {
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+}
+
+.button-24:after, .button-24:before, .div-flex-items-center-justify-center:after, .div-flex-items-center-justify-center:before, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:after, .span-flex-items-center-h-16-w-auto-mr-8-py-2-flex-grow-0-flex-shrink-0-fill-current:before, .svg-block-h-full:after, .svg-block-h-full:before {
+  border: 0 solid #003dff;
+  box-sizing: border-box;
+}
+
+.button-24:hover {
+  box-shadow: rgba(37, 44, 97, .15) 0 8px 22px 0, rgba(93, 100, 148, .2) 0 4px 6px 0;
+}
+
+.button-24:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+
+<!-- HTML !-->
+<button class="button-43" role="button">
+  <span class="text">Button 43</span>
+</button>
+
+/* CSS */
+.button-43 {
+  -webkit-font-smoothing: antialiased;
+  font-family: "helvetica neue", helvetica, arial, sans-serif;
+  font-size: 12px;
+  margin: 10px auto;
+  display: inline-block;
+  padding: 5px 15px;
+  background: #3b88d8;
+  background: -moz-linear-gradient(0% 100% 90deg, #377ad0, #52a8e8);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#52a8e8), to(#377ad0));
+  background: linear-gradient(top, #52a8e8 0%, #377ad0 100%);
+  border-top: 1px solid #4081af;
+  border-right: 1px solid #2e69a3;
+  border-bottom: 1px solid #20559a;
+  border-left: 1px solid #2e69a3;
+  -moz-box-shadow: inset 0 1px 0 0 #72b9eb, 0 1px 2px 0 rgba(0, 0, 0, .3);
+  -webkit-box-shadow: inset 0 1px 0 0 #72b9eb, 0 1px 2px 0 rgba(0, 0, 0, .3);
+  text-shadow: 0 -1px 1px #3275bc;
+  -webkit-background-clip: padding-box;
+  color: #eeeeee;
+  cursor: pointer;
+  border-radius: 25px;
+}
+
+.button-43:hover {
+  background: #2a81d7;
+  background: -moz-linear-gradient(0% 100% 90deg, #206bcb, #3e9ee5);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#3e9ee5), to(#206bcb));
+  background: linear-gradient(top, #3e9ee5 0%, #206bcb 100%);
+  border-top: 1px solid #2a73a6;
+  border-right: 1px solid #165899;
+  border-bottom: 1px solid #07428f;
+  border-left: 1px solid #165899;
+  -moz-box-shadow: inset 0 1px 0 0 #62b1e9;
+  -webkit-box-shadow: inset 0 1px 0 0 #62b1e9;
+  text-shadow: 0 -1px 1px #1d62ab;
+}
+
+.button-43:active {
+  background: #3282d3;
+  border: 1px solid #154c8c;
+  border-bottom: 1px solid #0e408e;
+  -moz-box-shadow: inset 0 0 6px 3px #1657b5, 0 1px 0 0 rgba(255, 255, 255, .1);
+  -webkit-box-shadow: inset 0 0 6px 3px #1657b5, 0 1px 0 0 rgba(255, 255, 255, .1);
+  text-shadow: 0 -1px 1px #2361a4;
+}
