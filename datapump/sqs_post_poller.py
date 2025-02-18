@@ -283,7 +283,7 @@ def proc(message):
         dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
         dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
-
+		dump_pcdinfirebase(device, "SIGNALK", partition, dump_json(schema, mysortedrecords))
 
         if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
         #if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)

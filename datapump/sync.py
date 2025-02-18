@@ -263,6 +263,84 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
         
         ref= firebase_admin.db.reference('/DEVICE/' + device + '/' + eventtype)
 
+        skupdates = []
+
+        json_data = json.loads(data)
+        
+        for record in json_data:
+          
+          if debug_all: log.info('sync: dump_pcdinfirebase SignalK record %s:%s', device, record)
+          
+          json_record = {}
+          if record != None:
+            json_record = record
+          
+          if debug_all: log.info('sync: dump_pcdinfirebase SignalK record %s:%s', device, json_record)
+
+
+
+          n2kpgn = int(json_record.get('pgn', 'NULL'), 16)
+          if debug_all: log.info('sync: dump_pcdinfirebase SignalK n2kpgn %s:%s', device, n2kpgn)
+          
+          n2kdescription = json_record.get('description', 'NULL')
+          if debug_all: log.info('sync: dump_pcdinfirebase SignalK n2kdescription %s:%s', device, n2kdescription)
+          
+          n2ksource = json_record.get('source', 'NULL')
+          if debug_all: log.info('sync: dump_pcdinfirebase SignalK n2ksource %s:%s', device, n2ksource)
+          
+          n2ktimestamp = json_record.get('timestamp', 'NULL')
+          if debug_all: log.info('sync: dump_pcdinfirebase SignalK n2ktimestamp %s:%s', device, n2ktimestamp)
+
+          n2kpayload = json_record.get('payload', 'NULL')
+          if debug_all: log.info('sync: dump_pcdinfirebase SignalK n2kpayload %s:%s', device, n2kpayload)
+
+          n2kkeys = n2kpayload.keys()
+          if debug_all: log.info('sync: dump_pcdinfirebase SignalK n2kkeys %s:%s', device, n2kkeys)
+
+          for n2kkey in n2kkeys:
+            n2kvalue = n2kpayload.get(n2kkey, 'NULL')
+
+            if debug_all: log.info('sync: dump_pcdinfirebase SignalK n2kvalue %s:%s', n2kkey, n2kvalue)
+            
+
+            #skupdates = []
+            skvalues= []
+
+            skcontext = "vessels.urn:mrn:imo:mmsi:338184312"
+          
+
+            #sksource = {"label":"antisense","type":"NMEA2000","pgn":127250,"src":"204"}
+            #sktimestamp = "2019-07-12T18:32:54.134Z"
+
+            sksource = {"label":"chetcodigital","type":"NMEA2000","pgn":n2kpgn,"src":n2ksource}
+            #sktimestamp = "2019-07-12T18:32:54.134Z"
+            sktimestamp = n2ktimestamp
+
+            #skvalues.append({"path":"navigation.headingMagnetic","value":1.8979})
+            #skpath =  n2kdescription + '.' + n2kkey
+            #skvalues.append({"path":skpath,"value":n2kvalue})
+            
+            skpathjson =  ""
+            #skpathjson =  createSIGKpath(n2kpgn, n2kkey, n2kpayload)
+            
+            if debug_all: log.info('sync: dump_pcdinfirebase SignalK skpathjson %s:%s', device, skpathjson)
+    
+            if skpathjson != {}:
+              skvalues.append(skpathjson)
+
+              skupdate_source = {'source': sksource, "timestamp":sktimestamp,"values":skvalues}
+              skupdates.append( skupdate_source)
+
+        skdata = {"updates":skupdates, "context":skcontext}
+
+        if debug_all: log.info('sync: dump_pcdinfirebase SignalK json %s:%s', device, skdata)
+        
+        #ref.set(json.loads(skdata))
+        ref.set(skdata)
+
+
+
+
  
       except ValueError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 SignalK ValueError in data %s:  ', data)
