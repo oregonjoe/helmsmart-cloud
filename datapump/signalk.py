@@ -1014,6 +1014,61 @@ def createSIGKpathPGN130312(n2kkey, pgn_payload):
 
 # ********************************************************************************************
 # Converts NMEA 2000 field descriptions to Signal
+# Humidity Data 0x1FD09
+# ********************************************************************************************
+def createSIGKpathPGN130313(n2kkey, pgn_payload):
+
+  try:
+
+
+    if n2kkey == 'humidity':
+      skpath = getSKHumidityInstance(pgn_payload.get('humidity_instance'))        
+      if pgn_payload.get('humidity') is not None:
+        skvalue = ( pgn_payload.get('humidity') / 100)
+        return {"path":skpath,"value":skvalue}
+      else:
+        return {}
+
+
+  except:
+    if debug_all: log.info('sync: createSIGKpathPGN130313 error %s:%s', n2kkey, pgn_payload)
+    e = sys.exc_info()[0]
+
+    if debug_all: log.info("Error: %s" % e)
+    pass
+
+  return {}
+
+
+# ********************************************************************************************
+# Converts NMEA 2000 field descriptions to Signal
+# Pressure Data 0x1FD0A
+# ********************************************************************************************
+def createSIGKpathPGN130314(n2kkey, pgn_payload):
+
+  try:
+    
+    if n2kkey == 'atmospheric_pressure':
+      skpath = 'environment.outside.pressure'
+      if pgn_payload.get('atmospheric_pressure') is not None:
+        skvalue = pgn_payload.get('atmospheric_pressure')
+        return {"path":skpath,"value":skvalue}
+      else:
+        return {}
+
+  except:
+    if debug_all: log.info('sync: createSIGKpathPGN130314 error %s:%s', n2kkey, pgn_payload)
+    e = sys.exc_info()[0]
+
+    if debug_all: log.info("Error: %s" % e)
+    pass
+
+  return {}
+
+
+
+# ********************************************************************************************
+# Converts NMEA 2000 field descriptions to Signal
 # Temperature Extended Data 0x1FD0C
 # ********************************************************************************************
 def createSIGKpathPGN130316(n2kkey, pgn_payload):
@@ -1762,6 +1817,14 @@ def createSIGKpath(pgn_number, n2kkey, pgn_payload):
     # Environmental Data
     case 130311:
       return createSIGKpathPGN130311(n2kkey, pgn_payload)
+    
+    # Humidity Data
+    case 130313:
+      return createSIGKpathPGN130313(n2kkey, pgn_payload)
+
+    # Pressure Data
+    case 130314:
+      return createSIGKpathPGN130314(n2kkey, pgn_payload)
 
     # Wind Data
     case 130306:
