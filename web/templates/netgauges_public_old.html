@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html ><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>netGauges - Live Data Dials</title>
+<style type="text/css">
+
+
+a {
+text-decoration: none;
+color: #FFFFFF;
+}
+
+
+  .auto-style2 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style3 {
+  color: #FFFFFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style5 {
+  color: #000000;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style9 {
+	color: #FFFFFF;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: x-small;
+	text-align: center;
+}
+
+  
+  </style>
+</head>
+<script type="text/javascript"  src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y">    </script>
+  <script src="{{ url_for('static', filename='js/netGaugesGlobals.js') }}" type="text/javascript"></script>
+
+  <script src="{{ url_for('static', filename='js/ParseN2KDataJSON.js') }}" type="text/javascript"></script>
+
+  <script type="text/javascript" src="{{ url_for('static', filename='js/ChangeDialStyleBootstrap.js') }}" ></script>
+
+  <script src="{{ url_for('static', filename='js/NGHTMLLayout.js') }}" type="text/javascript"></script>
+  
+  
+    <script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/GetPGNNumberFunctions.js') }}" ></script> 
+  	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
+  
+  
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">  </link> 
+
+<script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/tween-min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/SSsteelseries.js') }} " ></script>
+  
+  
+  
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/>  
+  	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+  <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+  
+	<style>
+	
+	
+	* {
+   margin: 0;
+   padding: 0;
+}
+
+
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 10px;
+			margin-left: 10px;
+			margin-right: 10px;
+			width: 920px;
+			height: 800px;
+			overflow: hidden !important;
+		}
+		
+		div:-webkit-full-screen {
+		  width: 100% !important;
+		}
+		div:-moz-full-screen {
+		  width: 100% !important;
+		}
+		div:-ms-fullscreen {
+		  width: 100% !important;
+		}
+		div:fullscreen {
+		  width: 100% !important;
+		  }
+		  
+		  .shadow {
+		-moz-box-shadow: 0 0 30px 5px #999;
+		-webkit-box-shadow: 0 0 30px 5px #999;
+		}
+
+		.shadow2 {
+			-moz-box-shadow:    3px 3px 5px 6px #ccc;
+			-webkit-box-shadow: 3px 3px 5px 6px #ccc;
+			box-shadow:         3px 3px 5px 6px #ccc;
+		}
+
+		.canvasarea  { overflow: hidden !important; }
+		
+		#CanvasArea { overflow: hidden !important; }
+		   
+		</style>		
+<!--		
+/* While in fullscreen, hide any children with class 'tohide' */
+:-webkit-full-screen .tohide {
+  display: none;
+}
+:-moz-full-screen .tohide {
+  display: none;
+}
+:-ms-fullscreen .tohide {
+  display: none;
+}
+:fullscreen .tohide {
+  display: none;
+}
+  -->
+
+  <script language = "Javascript">
+
+
+
+
+    var device;
+    var mydata = new String();
+    var myDeviceID;
+    var AccountInit = false;
+    var ParameterInit = false;
+    var myuserid;
+	var deviceAPIkeys = new Array();
+
+    var mySubStrings = new Array();
+    var myDataValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
+    var myArrayLength;
+    var vGLinkTime;
+    var vGN2KTime;
+
+    var maxclip;
+    var myHexStr = new String();
+    var myHexLBStr = new String();
+    var myTimeStr = new String();
+    var mySwitchStr = new String();
+    var myPitchRoll = new Array();
+    //  var audioElement;
+  var myoverlay = new Array();
+  var mycog = new Array();
+  var mysource = new Array();
+    var glat  = new Array();
+    var glng  = new Array();
+    var gspeed  = new Array();
+	var gcourse  = new Array();
+	var gdistance  = new Array();
+	
+	var gn2ktime = new Array();
+    var gn2kepoch = new Array();
+	var gLatitude=42.05038;
+	var gLongitude=-124.26833;
+	
+			//	if(gLatLng == "")
+			//	gLatLng = new google.maps.LatLng(42.05038, -124.26833);
+	
+	var gAlertLatitude=0.00;
+	var gAlertLongitude=0.00;
+	
+	var gAlertRadius = 1000;
+   var TotalDistance=0;	
+	
+	  var AlertID=0;
+  var device;
+  var map;
+  var alarmmap;
+  //var myLatlng;
+  //var myOldLatlng;
+  var gmarker;
+    var galarmmarker;
+  var geoRadius;
+  
+
+    var newpoly = new Array();
+  var myPolyDataValues = {};
+  var myPolyDataLabels = {};
+	var maps = new Array();
+  
+  
+  var path;
+  var markers = new Array();
+  var marker;
+  var polyindex=0;
+  var poly;
+ // var myinfoWindow = new google.maps.InfoWindow;
+   var polyOptions = {
+   strokeColor: '#40FFFF',
+   strokeOpacity: 1.0,
+   strokeWeight: 3
+   }
+
+	var myDataValues = new Array( "- - ","- - ","- - ","- - ");
+	var myDataLabels = new Array( "SOG","COG", "UnUsed", "UnUsed");
+	
+	  var myinfoWindow = new google.maps.InfoWindow;
+	
+   var myLatlng;
+   var myOldLatlng=null;
+   //var myOldLatlng = myLatlng;
+	var mapInitialized = false;
+
+  var gradientArray;
+  var myPins = new Array();
+  
+     var myPinColors = ['3E147B', '3E147B','3E147B','3E147B','3E147B','3E147B', '3E147B','3E147B','3E147B','3E147B',
+     '41137B', '47137B','4F127B','58107B','630F7B','6D0E7B', '780C7B','840A7B','90097B','9C087B',
+     'A7067B', 'B3047B','BE047B','C7027B','D1017B','D9007B', 'DF007A','E20078','E20076','E20075',
+     'E20072', 'E20070','E2006D','E2006B','E20068','E20064', 'E20061','E2005E','E2005A','E20057',
+     'E20053', 'E2004F','E2004C','E20049','E20045','E20042', 'E2003F','E1003B','E00238','E00436',
+     'DF0733', 'DF0B31','DF0E2E','DF122C','E0182A','E11F28', 'E22726','E42F25','E63922','E84320',
+     'EB4F1F', 'EE5A1D','F1661C','F3721A','F37D19','F38A19', 'F39618','F3A216','F3AD16','F3B815',
+     'F3C315', 'F3CC15','F3D515','F3DE15','F3E415','F3E915', 'F3EE15','EFEF15','E7EF16','DEEF17',
+     'D3EF18', 'C8ED19','BAE91A','ADE31C','9EDD1D','8FD71F', '7ED021','6FC924','5FC127','51BA29',
+     '42B32C', '34AC30','27A633','1BA137','109D3C','089A41', '009847','00984C','009852','009859',
+     '009961', '009C69','009E72','00A07A','00A384','00A68D', '00AA97','00ADA1','00B1A9','00B4B3',
+     '00B8BC', '00BCC5','00BECD','00C2D5','01C5DC','02C7E3', '04CAE9','04CBED','04CCF0','04CCF0',
+     '04CCF0', '04CCF0','04CCF0','04CCF0','04CCF0','04CCF0', '04CCF0','04CCF0','04CCF0','04CCF0'];
+	 
+  var myStrokeColors = ['#3E147B', '#3E147B','#3E147B','#3E147B','#3E147B','#3E147B', '#3E147B','#3E147B','#3E147B','#3E147B',
+  '#41137B', '#47137B','#4F127B','#58107B','#630F7B','#6D0E7B', '#780C7B','#840A7B','#90097B','#9C087B',
+  '#A7067B', '#B3047B','#BE047B','#C7027B','#D1017B','#D9007B', '#DF007A','#E20078','#E20076','#E20075',
+  '#E20072', '#E20070','#E2006D','#E2006B','#E20068','#E20064', '#E20061','#E2005E','#E2005A','#E20057',
+  '#E20053', '#E2004F','#E2004C','#E20049','#E20045','#E20042', '#E2003F','#E1003B','#E00238','#E00436',
+  '#DF0733', '#DF0B31','#DF0E2E','#DF122C','#E0182A','#E11F28', '#E22726','#E42F25','#E63922','#E84320',
+  '#EB4F1F', '#EE5A1D','#F1661C','#F3721A','#F37D19','#F38A19', '#F39618','#F3A216','#F3AD16','#F3B815',
+  '#F3C315', '#F3CC15','#F3D515','#F3DE15','#F3E415','#F3E915', '#F3EE15','#EFEF15','#E7EF16','#DEEF17',
+  '#D3EF18', '#C8ED19','#BAE91A','#ADE31C','#9EDD1D','#8FD71F', '#7ED021','#6FC924','#5FC127','#51BA29',
+  '#42B32C', '#34AC30','#27A633','#1BA137','#109D3C','#089A41', '#009847','#00984C','#009852','#009859',
+  '#009961', '#009C69','#009E72','#00A07A','#00A384','#00A68D', '#00AA97','#00ADA1','#00B1A9','#00B4B3',
+  '#00B8BC', '#00BCC5','#00BECD','#00C2D5','#01C5DC','#02C7E3', '#04CAE9','#04CBED','#04CCF0','#04CCF0',
+  '#04CCF0', '#04CCF0','#04CCF0','#04CCF0','#04CCF0','#04CCF0', '#04CCF0','#04CCF0','#04CCF0','#04CCF0'];	 
+
+    /* ******************  padding functions ************************************************ */
+
+    function zpad(num, len) {
+    var str = String(num),
+    diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > zpad.zeros.length)
+        zpad.zeros = new Array(diff + 1).join('0');
+    return zpad.zeros.substr(0, diff) + str;
+}
+
+function spad(num, len) {
+    var str = String(num),
+        diff = len - str.length;
+    if(diff <= 0) return str;
+      if(diff > spad.spaces.length)
+      spad.spaces= new Array(diff + 1).join(' ');
+      return spad.spaces.substr(0, diff) + str;
+      }
+	  
+function pad(number, length) {
+
+        var str = '' + number;
+        while (str.length < length) {
+            str = '0' + str;
+        }
+
+        return str;
+
+    }	  
+	  
+Date.isLeapYear = function (year) { 
+    return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
+};
+
+Date.getDaysInMonth = function (year, month) {
+    return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+};
+
+Date.prototype.isLeapYear = function () { 
+    return Date.isLeapYear(this.getFullYear()); 
+};
+
+Date.prototype.getDaysInMonth = function () { 
+    return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+};
+
+Date.prototype.addMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() + value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	  
+	  
+Date.prototype.subMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() - value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	
+
+
+Date.prototype.yyyymmdd = function() {         
+                                
+        var yyyy = this.getFullYear().toString();                                    
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+        var dd  = this.getDate().toString();             
+                            
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+   };
+   
+ Date.prototype.yyyymmddhhmm = function() {         
+                                
+        var yyyy = this.getFullYear().toString();                                    
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+        var dd  = this.getDate().toString();    
+        var hh  = this.getHours().toString(); 
+        var Min  = this.getMinutes().toString(); 		
+                            
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]) + ' ' + hh + ':' + Min;
+   };
+   
+   Date.prototype.yyyymmddhhmmss = function() {         
+                                
+        var yyyy = this.getFullYear().toString();
+        var MM = pad(this.getMonth() + 1,2);
+        var dd = pad(this.getDate(), 2);
+        var hh = pad(this.getHours(), 2);
+        var mm = pad(this.getMinutes(), 2)
+        var ss = pad(this.getSeconds(), 2)
+
+        return yyyy + '-' + MM + '-' + dd + ' ' +  hh + ':' + mm + ':' + ss;
+   };  
+   
+
+	
+    function StartUpMyScript()
+    {
+    var x
+    var i;
+    var tempXMLdata;
+    var XMLFile;
+    var DialIndex=0;
+    var CanvasIndex=0;
+
+
+
+
+
+
+
+
+
+    AccountDataFolder = "{{deviceid}}";
+	myuserid = "{{userid}}";	;
+	PrefID = "{{prefkey}}";  ;
+	
+
+
+
+    // set up Server Account Type
+
+    //SetServerType( 1);
+
+  getDeviceParamDetails(myuserid);
+
+
+    ParameterInit = true;
+    //   InitalizePageDials();
+
+
+    }
+
+    function InitalizePageDials()
+    {
+    var x
+    var i;
+    var tempXMLdata;
+    var XMLFile;
+    var DialIndex=0;
+    var CanvasIndex=0;
+
+    DialEnd = getEndDial(0, PageLayout);
+
+    // Crete the dial canvas
+    CreateCanvasArea(PageLayout);
+
+    // Initialzing gauges
+
+    // create each dial
+
+    for(DialIndex=0; DialIndex < DialEnd; DialIndex++) //
+    {           
+      CreateDialTypes(CanvasIndex++, DialIndex, DialType[DialIndex]);
+    }
+    
+
+     
+    ClockLCD = new steelseries.DisplaySingle('canvasClock', {  width: 500,height: 50, valuesNumeric: false });
+
+ 
+      
+    setClockLcdColor(ClockLCDColor)
+
+
+    CurrentDialID = 0;
+
+    //document.body.style.background = PageBackGroundColor;
+	document.getElementById("CanvasArea").style.backgroundColor = PageBackGroundColor;
+
+
+    // document.AccountFolder.value = AccountDataFolder;
+    //document.getElementById("AccountFolder").value = AccountDataFolder;
+
+   // InitializePGNNumberOptionList(0);
+    /*
+    var PGNTypeIDLength = 	document.getElementById("PGNTypeID").length;
+	
+	for(var i=0; i< PGNTypeIDLength; i++)
+	{
+		//document.getElementById("PGNTypeID").options[i].disabled = true;
+		//document.getElementById("PGNTypeID").options[i].style.color = '#0D27C3';
+		document.getElementById("PGNTypeID").options[i].disabled = true;
+		document.getElementById("PGNTypeID").options[i].style.color = '#808080';
+	}
+*/
+	//GetDialStyleInfo(0);
+// set up repeating function to GetN2KData based on UpdateInterval
+// This will get called in a infinate loop
+//
+//UpdateSeriesList();
+      
+    //FireBaseURL = "https://seasmart.firebaseio.com/events/" + AccountDataFolder + "/"; 
+    FireBaseURL = "https://seasmart.firebaseio.com/events/" + AccountDataFolder + "/Insert/"; 
+
+	 device = new Firebase(FireBaseURL);
+  	device.on('child_added', function(snapshot) {
+    ShowFirebaseData(snapshot.val());
+  }); 
+      
+    
+      
+ } // end of StartUpScript
+
+
+
+
+function handleGetDevicePramDetails(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+
+
+   	response.records.forEach(function(row){
+   	
+   		  // console.log(row);
+   		   
+  				PageLayout   = row[5];
+				DialStart  = 0;
+				MapOptions  =  parseInt(row[6]);
+				PageBackGroundColor  = "#" + row[7];
+				//PageForeGroundColor  = "#" + row[8];
+				PageForeGroundColor  =  row[8];
+				ClockLCDColor   = row[9];
+				SystemClockPGNID   = row[10];
+				UpdateInterval   = row[11];
+				DialTimeout   = row[12];
+				
+			    var myDialSettingsSubStrings = new Array();
+		//alert('got a cookies');
+		// parse the cookie string
+		
+		myDialSettingsSubStrings= row[13].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		myDialSettingsSubStrings= row[14].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPGNInstance[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		myDialSettingsSubStrings= row[15].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPGNNumber[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
+
+		myDialSettingsSubStrings= row[16].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPGNParameter[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[17].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialUnits[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[18].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialMin[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[19].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialMax[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[20].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialAlarm[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[21].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialAlarmState[index]   =  parseInt(myDialSettingsSubStrings[index]);
+				
+		myDialSettingsSubStrings= row[22].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialText[index]   = myDialSettingsSubStrings[index].replace(/\"/g, "");
+
+
+		myDialSettingsSubStrings= row[23].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialFrameType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[24].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialBackground[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[25].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialLCDColor[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[26].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPointerColor[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+		myDialSettingsSubStrings= row[27].split(",");
+		for ( index=0; index< myDialSettingsSubStrings.length; index++ )
+				DialPonterType[index]   =  parseInt(myDialSettingsSubStrings[index]);
+
+
+   		   
+	   		});
+	   		
+		
+	
+			
+	   		 ParameterInit = true;
+
+ 			InitalizePageDials();
+
+			initializeMaps(); 
+}
+
+
+
+
+
+
+  
+  
+
+ 
+function ShowFirebaseData(mydata)
+{
+
+  // console.log(mydata);
+  // console.log(mydata[0].description);
+   
+ //alert(mydata);
+  if(mydata != null)
+  {
+	UpdateMapValues(mydata)
+   ProcessPageGaugeUpdates(mydata);
+   }
+ }
+ 
+function UpdateMapValues(myNewAlertValues)
+{
+
+var currentState;
+var AlarmHigh;
+var AlarmLow;
+var mylat=0;
+var mylng=0;
+var mycog=0;
+var mysog=0;
+var mytimestamp="";
+var mypayload;
+
+
+	
+	//myMapOptions = (PageLayout & 0xF0) >> 4;
+
+ 	if(mapInitialized == false ||  PageLayout  < 11)
+		return;
+		
+		gn2kepoch.length = 0;
+        gn2ktime.length = 0;	
+		gspeed.length = 0;
+		gdistance.length = 0;
+		glat.length = 0;
+		glng.length = 0;
+
+	for(i=0; i< myNewAlertValues.length; i++)
+	{
+			if(myNewAlertValues[i].pgn == "01F801" )
+			{
+				
+				 try
+				{
+					mylat = myNewAlertValues[i].payload.lat;
+					mylng = myNewAlertValues[i].payload.lng;
+					mytimestamp = myNewAlertValues[i].timestamp;
+      
+				}
+				catch(err)
+				{
+					document.getElementById("map_status").innerHTML = "update Error";
+				}
+				
+			
+				
+			}
+			
+			if(myNewAlertValues[i].pgn == "01F802" )
+			{
+				try
+				{
+					mysog = myNewAlertValues[i].payload.speed_over_ground;
+					mycog = myNewAlertValues[i].payload.course_over_ground;
+					mytimestamp = myNewAlertValues[i].timestamp;
+				}
+				catch(err)
+				{
+					document.getElementById("map_status").innerHTML = "update Error";
+				}
+			}	
+				
+				
+			
+	}
+	
+	if(mylat != 0 && mylng !=0)
+	{
+	
+			gn2ktime[0] = mytimestamp;
+			//gn2ktime[index] = myNGTDate.toString();
+			
+			gspeed[0] = parseFloat(mysog).toFixed(2);
+			gcourse[0] = parseFloat(mycog).toFixed(2);
+			//gdistance[index] = parseFloat(mycog).toFixed(4);
+	 
+			glat[0] = parseFloat(mylat).toFixed(8);
+			glng[0] = parseFloat(mylng).toFixed(8);
+
+	}
+	
+	updateMap();
+	
+	/*
+	
+	if(mylat != 0 && mylng !=0)
+	{
+		gLatitude = mylat;
+		gLongitude = mylng;
+		
+		if( isNaN(gLatitude)  || isNaN(gLongitude) )
+		{
+			var pinurl = "https://maps.google.com/mapfiles/kml/shapes/info_circle.png"
+			//var pinurl = "https://maps.google.com/mapfiles/kml/paddle/ylw-blank.png"
+			
+			myPin = new google.maps.MarkerImage(pinurl);
+			 myLatlng = new google.maps.LatLng(mylat, mylng);
+			//gmarker = new google.maps.Marker({    position: myLatlng,   map: map,  title:"SeaSmart", icon:myPin});
+			//gmarker.setMap(map);
+			if(  gmarker != null)
+			{
+				gmarker.setIcon(myPin);
+				//gmarker.setMap(map);
+				
+			}	
+			else{
+			//gmarker.setIcon(pinurl);
+			//gmarker.setMap(map);
+			
+				gmarker = new google.maps.Marker({    position: myLatlng,   map: map,  title:"SeaSmart", icon:myPin});
+				gmarker.setMap(map);
+			}
+		
+		}
+		else
+		{
+		
+	
+			
+			 myLatlng = new google.maps.LatLng(gLatitude, gLongitude);
+			 
+				newpoly[polyindex] = new google.maps.Polyline(polyOptions);
+		newpoly[polyindex].set('myIndex', polyindex); 
+		
+		path = newpoly[polyindex].getPath();
+
+         // Because path is an MVCArray, we can simply append a new coordinate
+        // and it will automatically appear
+             if(myOldLatlng != null)
+               polyLineCount = path.push(myOldLatlng);
+             
+              polyLineCount = path.push(myLatlng);
+              newpoly[polyindex++].setMap(map); 
+			
+			
+			if(  gmarker != null)
+			{
+				gmarker.setMap(null);   
+				gmarker=null; 
+			}	
+			
+			gmarker = new google.maps.Marker({    position: myLatlng,   map: map,  title:"SeaSmart"});
+			gmarker.setMap(map);
+            //  marker.setPosition(myLatlng);
+             //            markers[i].setMap(map);         
+             myOldLatlng = myLatlng;
+		}
+	}
+	else
+	{
+	
+
+	}
+	
+		*/
+		
+		
+		
+}
+
+ 
+ 
+
+  
+ function getDeviceParamDetails(userid)
+{
+	mapInitialized =false;
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+
+
+ 
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + PrefID;
+         
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 10000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDevicePramDetails(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").innerHTML = "Search Error";
+		                           ParameterInit = true;
+
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+
+function SetHelmSmartSwitch(switchPGN)
+{
+
+        $.blockUI({ 
+     message: '<h1>Setting Switch...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+
+   //devicedataurl = "https://www.helmsmart.net/sendswitchpgn?gettype=devices&switch=" + switchPGN;
+   //devicedataurl = "https://www.helmsmart.net/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
+   devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + AccountDataFolder + "&switch=" + switchPGN;
+   
+
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 10000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleSetHelmSmartSwitch(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                 
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	
+
+function handleData(response)
+{
+
+   var index=0;
+   var mytime;
+   var myNGTDate = new Date(0);
+   var myJSONdata;
+   
+   TotalDistance=0;
+	
+	gn2kepoch.length = 0;
+    gn2ktime.length = 0;
+	glat.length = 0;
+	glng.length = 0;
+   
+	$.unblockUI();
+	
+	   if(response.status == "error")
+   {
+      document.getElementById("SearchStatus").value = "No data from search";
+      return;
+      
+     }
+	 
+	    response.results.forEach(function(myJSONdata){
+   
+			TotalDistance = TotalDistance + parseFloat(myJSONdata.distance);
+   
+           //  var row = table.insertRow(1);
+		   //   myPolyDataValues[index][16] =  parseFloat(row[3])
+		    if((myJSONdata.lat != null) && (myJSONdata.lng != null))
+            {
+            //mytime = ((parseInt(row[1]) * 86400) + parseInt(row[2]))  +  1262304000;
+            mytime = parseInt(myJSONdata.epoch);
+
+
+            //mytime = mytime + (mytimeZoneOffset * 60);
+
+            mytime = mytime * 1000;
+
+            myNGTDate.setTime(mytime );
+			
+			gn2kepoch[index] = parseInt(myJSONdata.epoch);
+
+            gn2ktime[index] = myNGTDate.toUTCString();
+			//gn2ktime[index] = myNGTDate.toString();
+			
+			gspeed[index] = parseFloat(myJSONdata.speed).toFixed(2);
+			gdistance[index] = parseFloat(myJSONdata.distance).toFixed(4);
+	 
+			glat[index] = parseFloat(myJSONdata.lat).toFixed(8);
+			glng[index++] = parseFloat(myJSONdata.lng).toFixed(8);
+			}
+			
+	   });
+	   
+	 updateMap();
+} 
+
+
+function MapData()
+{
+
+// clear out the old data arrays
+
+	var myDeviceID;
+	var GPSSource="*";
+	var ResolutionSecs = 60;
+	
+	myDeviceID = AccountDataFolder;
+	
+	  EndEpoch = (new Date).getTime();
+	  StartEpoch = EndEpoch - (60*60*24*1000);
+	  
+	  EndEpoch = Math.floor(EndEpoch/1000);
+	  StartEpoch = Math.floor(StartEpoch/1000);
+  
+	ResolutionSecs = UpdateInterval;
+	
+	// create the search URL  
+	url = "https://www.helmsmart-cloud.com/getgpsseriesbydeviceid?";
+		url =  url + "deviceid=" + myDeviceID + "&startepoch=" + StartEpoch  + "&endepoch=" + EndEpoch +  "&resolution=" + ResolutionSecs;
+		url =  url + "&serieskey1=" + "deviceid:" + myDeviceID +".sensor:position_rapid.source:" + GPSSource + ".instance:0.type:NULL.parameter:latlng.HelmSmart"; 
+		url =  url + "&format=json"  ;
+		//url =  url + "&max=" + document.getElementById("GPSLimit").options[document.getElementById("GPSLimit").selectedIndex].value; 
+		//url =  url + "&maxinterval=" + document.getElementById("MaxInterval").options[document.getElementById("MaxInterval").selectedIndex].value; 
+  
+
+		
+             
+       //    $.blockUI({ message: "<h1>Search in progress...</h1>" }); 
+
+     $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+           
+              $.ajax({
+			   //async: false,
+			   cache: false,
+			   url: url,
+			   dataType: "json",
+			   timeout: 20000,
+			   statusCode: {    
+			   	404: function() {      alert( "page not found" );    }, 
+			   	200: function() {      } 
+
+			   	
+			   	 },
+			   success: function(response) {
+			   handleData(response)
+			   },
+			   complete: function() {  
+                      // unblock when remote call returns 
+                     //  document.getElementById("SearchStatus").value = "Search Complete";
+                      //  alert( "complete" );
+                $.unblockUI();   
+            	}, 
+            	error: function(request,status,errorThrown) {  
+                      // unblock when remote call returns 
+                       document.getElementById("SearchStatus").value = "Data Series Search Error";
+                       // alert( "error" );
+                        // alert( request.status );
+						
+						// alert( status );
+						
+						// alert(errorThrown );
+
+               $.unblockUI();   
+            	} 
+
+ 		  });
+
+           
+           
+}
+function initializeMaps() {
+//	$('.form_datetime').datepicker('update', new Date());
+	 //"2015-03-27 00:00"
+	 
+	 	if( mapInitialized == true || PageLayout  < 11)
+		return;
+	 
+	 
+	      TotalDistance=0;
+	//document.getElementById("GeoReportStart").value = mynowstr;
+	
+	
+	for (i = 0; i < myPinColors.length; i++) {
+	
+		var pinurl = "https://www.googlemapsmarkers.com/v1/" + myPinColors[i] + "/"
+		myPins[i] = new google.maps.MarkerImage(pinurl);
+	 
+	} 
+	 
+			myLatlng = new google.maps.LatLng(gLatitude, gLongitude);			
+			
+			var gmapOptions = {
+            center: myLatlng,
+            zoom: 14,
+          //  mapTypeId: google.maps.MapTypeId.HYBRID 
+			mapTypeId: google.maps.MapTypeId.roadmap  
+			};
+
+            map = new google.maps.Map(document.getElementById("map_canvas"),            gmapOptions);
+			
+			//gmarker = new google.maps.Marker({    position: myLatlng,   map: map,  title:"SeaSmart"});
+			
+
+
+ //  marker = new google.maps.Marker({    position: myLatlng,   map: map,  title:"SeaSmart"});		  
+   
+  // myOldLatlng = myLatlng;
+
+   map.setCenter(myLatlng);
+
+ //  marker.setPosition(myLatlng);
+   
+	
+	for (var i = 0; i < markers.length; i++ ) {
+    markers[i].setMap(null);
+	}
+ 	 markers.length = 0;
+	markers = [];
+		 
+	 
+	 
+	 
+	 MapData();
+	 
+ }
+	 
+function updateMap() {	 
+	 var mynow = new Date();
+	// var mynowstr = mynow.toString("yyyy-MM-dd HH:mm:ss").replace(/GMT.*/g, "");
+	// var mynowstr = mynow.toISOString();
+	 var mynowstr = mynow.yyyymmddhhmmss();
+	 
+
+	// var myMapOptions=0;
+	    var labelString;
+   var i;
+   
+            var NGTDate = new Date(0);
+            vGN2KTime = NGTDate.toUTCString();
+			
+			
+	//myMapOptions = (PageLayout & 0xF0) >> 4;
+	
+	
+
+	  
+		
+	
+	
+	/*
+		for (i = 0; i < maps.length; i++) {
+			var map = new google.maps.Map(document.getElementById(maps[i].divId), {
+				center: maps[i].center,
+				zoom: maps[i].zoom,
+				mapTypeId: maps[i].mapTypeId,
+				disableDefaultUI: maps[i].disableDefaultUI
+			});
+			circleParms.map = map;
+			circleParms.center = maps[i].center;
+			circleParms.radius = maps[i].radius;
+			circleParms.draggable = false;
+			circleParms.editable = false;
+
+			var circle = new google.maps.Circle(circleParms);
+			map.fitBounds(circle.getBounds());
+			}	
+			*/
+			//var myLatlng = new google.maps.LatLng(42.05038, -124.26833);
+
+
+   
+      var mypolyOptions = {
+   strokeColor: '#40FFFF',
+   strokeOpacity: 1.0,
+   strokeWeight: 3,
+   visible:true
+   }
+		
+	//setAllMap(null);
+	//numOfpoints = glat.length-1;	  
+		  
+   for(i=0; i < glat.length; i++)
+    {
+	
+		
+    	//if( (gn2kepoch[i] - gn2kepoch[i-1]) < GPSMaxInterval*60);
+		//if((typeof newpoly[i] === 'undefined') || newpoly[i].visible == true)
+		if((typeof newpoly[polyindex] === 'undefined') || newpoly[polyindex].Show != false)
+		{
+    
+        myLatlng = new google.maps.LatLng(glat[i], glng[i]);
+        
+		TotalDistance = TotalDistance + parseFloat(gdistance[i]);
+		//labelString = gn2ktime[i] + "\n" + "speed: " + parseFloat(gspeed[i]).toFixed(2) + "\n" + "segment distance: " + parseFloat(gdistance[i]).toFixed(2) + "\n" + "total distance: " + parseFloat(TotalDistance).toFixed(2);
+		labelString = gn2ktime[i] + "\n" + "speed: " + parseFloat(gspeed[i]).toFixed(2) + "\n";
+		
+		
+		var contentString = '<font size="1"> ' +
+             '<p>TIME: ' + vGN2KTime + '</p>' +
+             '<p>' + myDataLabels[0] + parseFloat(gspeed[i]).toFixed(2)  + '</p>'+
+            // '<p>' + myDataLabels[1] + parseFloat(gcourse[i]).toFixed(2)  + '</p>'+
+            // '<p>' + myDataLabels[2] + myDataValues[2] + '</p>'+
+            // '<p>' + myDataLabels[3] + myDataValues[3] + '</p>'+
+             '</font>';
+
+ 
+
+		myinfoWindow.setContent(contentString);
+   
+   
+	
+			if(MapOptions == 1 || MapOptions == 2)
+		{
+		
+			//myIcon = Math.floor(i * (128/numOfpoints));
+			myIcon = (polyindex & 0x007F);
+			
+			
+			if(MapOptions == 2)
+				myIcon = Math.floor(gspeed[i] )
+		
+			 marker = new google.maps.Marker({
+				position: myLatlng,
+				labelContent:contentString,
+				//labelContent: gn2ktime[i] + "/r/n" + "speed: " + gspeed[i] + "/r/n" + "distance: " + gdistance[i],
+				title: labelString,
+				//title: "point: " + i + " " + gn2ktime[i],
+				icon: myPins[myIcon],
+				map: map
+			  });
+			  
+			//   google.maps.event.addListener(marker, 'click', function() { myinfoWindow.open(map,marker); });
+			   
+			  markers.push(marker);
+			  marker.setPosition(myLatlng);
+		}
+		
+		
+       
+        myPolyDataValues[polyindex] = new Array(17);
+        
+
+              myPolyDataValues[polyindex][0] = glat[i] ;
+              myPolyDataValues[polyindex][1] = glng[i] ;
+			  myPolyDataValues[polyindex][2] = parseFloat(gspeed[i]).toFixed(2) ;
+             // myPolyDataValues[polyindex][3] = parseFloat(gdistance[i]).toFixed(2) ;
+			 // myPolyDataValues[polyindex][4] = parseFloat(TotalDistance).toFixed(2);
+			  myPolyDataValues[polyindex][3] = "" ;
+			  myPolyDataValues[polyindex][4] = "";
+			  myPolyDataValues[polyindex][5] = "";
+			  myPolyDataValues[polyindex][6] = "";
+              myPolyDataValues[polyindex][7] = parseFloat(myoverlay[i]).toFixed(2) ;
+             // myPolyDataValues[i][3] =mycog[i] ;
+
+
+           for( myIndex = 6; myIndex < 16; myIndex++)
+	         {
+                myPolyDataValues[polyindex][myIndex] = "---" ;
+           }
+   
+      myPolyDataLabels[polyindex] = new Array(17);
+      
+           myPolyDataLabels[polyindex][0] ="Lat = " ;
+           myPolyDataLabels[polyindex][1] ="Lng = " ;
+		   myPolyDataLabels[polyindex][2] ="Speed = " ;
+          // myPolyDataLabels[polyindex][3] ="Delta = " ;
+		  // myPolyDataLabels[polyindex][4] ="Total = " ;
+		 //  myPolyDataLabels[polyindex][5] ="Segment = " ;
+		 //  myPolyDataLabels[polyindex][6] ="Trip = " ;
+         //  myPolyDataLabels[i][7] = "  " + document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].text + " = ";
+             
+
+             
+             
+
+           for( myIndex = 8; myIndex < 16; myIndex++)
+	         {
+                myPolyDataLabels[polyindex][myIndex] ="---" ;
+           }
+       
+      
+          myPolyDataValues[polyindex][16] = gn2ktime[i] + '  Record: ' + i;
+         myPolyDataLabels[polyindex][16] = "TIME: " ;		
+			
+						
+			// myLatlng = new google.maps.LatLng(gLatitude, gLongitude);
+		             // create plot color based on value
+			scaledData = 127;
+			
+           if(MapOptions == 3)
+		   {
+		   
+					try{
+						
+						scaledData =  Math.floor(gspeed[i] );
+						
+						if(scaledData > 127)
+						
+							scaledData = 127;
+						
+					}
+					catch(err)
+					{
+						//myOverlayscale = 1.0;
+						scaledData = 127;
+						
+					}
+
+
+				mypolyOptions.strokeColor =  myStrokeColors[scaledData]; 
+			}
+			else
+			{
+				mypolyOptions.strokeColor =  PageForeGroundColor; 
+			}
+			
+				  
+		newpoly[polyindex] = new google.maps.Polyline(mypolyOptions);
+         newpoly[polyindex].set('myIndex', polyindex); 
+       
+       
+        google.maps.event.addListener(newpoly[polyindex], 'click', function(e) { 
+                      var dindex = this.get('myIndex'); 
+                                  //  alert('you clicked polyline' + dindex);  
+                                    ShowPolyLineData(dindex);
+                                   });
+								   
+		google.maps.event.addListener(newpoly[polyindex], 'dblclick', function(e) { 
+                      var dindex = this.get('myIndex'); 
+                                  //  alert('you clicked polyline' + dindex);  
+                                    HidePolyLine(dindex);
+                                   });
+                                   
+                      newspeed =  parseFloat(gspeed[i]).toFixed(3) ;
+			  
+			  
+
+
+			  
+			  
+			   var path = newpoly[polyindex].getPath();
+
+         // Because path is an MVCArray, we can simply append a new coordinate
+        // and it will automatically appear
+             if(myOldLatlng != null)
+               polyLineCount = path.push(myOldLatlng);
+             
+              polyLineCount = path.push(myLatlng);
+              newpoly[polyindex++].setMap(map); 
+                                 
+             // marker.setPosition(myLatlng);
+                                  
+             myOldLatlng = myLatlng;
+			  
+			  
+			  
+			  
+			  
+			  
+			}
+		}
+			
+			
+			   map.setCenter(myLatlng);
+			/*
+			if(  gmarker != null)
+			{
+				gmarker.setMap(null);   
+				gmarker=null; 
+			}	
+			
+			gmarker = new google.maps.Marker({    position: myLatlng,   map: map,  title:"SeaSmart"});
+			gmarker.setMap(map);
+            //  marker.setPosition(myLatlng);
+             //            markers[i].setMap(map);         
+           //  myOldLatlng = myLatlng;
+			
+			*/
+			
+			
+			/*
+			circleParms.map = map;
+			circleParms.center = myLatlng;
+			circleParms.radius = 1000;
+			circleParms.draggable = false;
+			circleParms.editable = false;
+
+			var circle = new google.maps.Circle(circleParms);
+			map.fitBounds(circle.getBounds());
+			
+	*/
+	
+
+	
+	mapInitialized = true;
+	
+	}  
+function ShowPolyLineData (myindex){
+//   alert('you clicked polyline' + this.get('myIndex'));
+//   alert('array length = ' + myPolyDataLabels.length);
+var dindex = parseInt(myindex, 10);
+
+// alert('you clicked polyline' + index);
+
+// dindex = 9;
+document.getElementById("map_status").style.display = "block";
+
+var StatusString;
+
+     StatusString = '<font size="2"> <p>' + 'TIME: ' + myPolyDataValues[dindex][16]   + '</p><Table> <tr><td>' +
+                                   myPolyDataLabels[dindex][0] + '</td><td><b>' + myPolyDataValues[dindex][0] + '</b></td><td>' + 
+                                   myPolyDataLabels[dindex][1] + '</td><td><b>' + myPolyDataValues[dindex][1] + '</b></td><td>' + 
+                                   myPolyDataLabels[dindex][2] + '</td><td><b>' + myPolyDataValues[dindex][2] + '</b></td>' + 
+								//   myPolyDataLabels[dindex][3] + '</td><td><b>' + myPolyDataValues[dindex][3] + '</b></td><td>' + 
+                                //   myPolyDataLabels[dindex][4] + '</td><td><b>' + myPolyDataValues[dindex][4] + '</b></td></tr><tr><td>' +
+                               //    myPolyDataLabels[dindex][5] + '</td><td><b>' + myPolyDataValues[dindex][5] + '</b></td><td>' + 
+								//   myPolyDataLabels[dindex][6] + '</td><td><b>' + myPolyDataValues[dindex][6] + '</b></td></tr>' + 								   
+								//   '<tr><td colspan="8">' +
+								 //  myPolyDataLabels[dindex][7] + '<b>' + myPolyDataValues[dindex][7] + '</b></td>' +
+                               
+                              
+                                  '</tr></Table></font>';
+
+
+      try
+      {
+
+      document.getElementById("map_status").innerHTML = StatusString;
+      }
+      catch(err)
+      {
+      }
+
+
+}	 
+
+</script>
+
+
+
+
+
+<body style="width: 100%; height: 100%; margin: 0;" onload ="StartUpMyScript(); " >
+ 
+
+  
+  	<div class="container body-content">
+	
+	<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabEvents .form-control-static,
+	#tabEvents .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+
+<script>
+	$(function () {
+		$(document).ajaxComplete(function (event, xhr, settings) {
+			if (xhr.getResponseHeader('ReloadWholePage')) {
+				window.location.reload();	//Reload the whole datapane
+			}
+		});
+		
+		$('.nav-tabs a[href="#tabGauges"]').tab('show');
+
+	});
+
+
+</script>
+	
+	
+	
+  <!-- Nav tabs -->
+<ul class="nav nav-tabs" id="tab" role="tablist">
+	<li><a href="#tabInfo" role="tab" data-toggle="tab">Info</a></li>
+
+	<li><a href="#tabGauges" role="tab" data-toggle="tab">Gauges</a></li>
+
+<!--	<li><a href="#tabMap" role="tab" data-toggle="tab">Map</a></li> -->
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" id="tabArea">
+
+  <!-- tabInfo TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabInfo">
+	<p id="introText">With this datapane you can view vessel instrument data from your SeaSmart device.</p>
+<div id="idMarketing">
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	
+	<p>
+		To get started  - select your registered device from the <B>Device</B> tab and then enter the sensor data on the <B> PGN </B>tab – select <B>Gauges</B> to view.
+	</p>
+	
+	<p>
+		You can modify gauge appearance from the <B>Dials</B> tab and overall layout on <B> Page </B>tab. 
+		Name and Save your configuration from the <B>Device</B> tab for recall on any Web browser 
+	</p>
+	
+	
+	<p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your HelmSmart site where you can search for vessel position and overlay sensor data on trails.</p>
+	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
+	<ul>
+		<li>Links to your existing NMEA 2000 network</li>
+		<li>Sends positions to your yacht site</li>
+		<li>Uses you existing internet service</li>
+		<li>No need for additional data plan charges</li>
+		<li>Automatically creates logbooks and trip segments for your journeys</li>
+		<li>Monitors the battery voltage</li>
+		<li>Monitors the temperature onboard</li>
+		<li>Monitors fuel and tanks onboard</li>
+		<li>Monitors weather and wind</li>
+		<li>Tracks the yacht in case of theft</li>
+	</ul>
+	<p>Built-in data logger to SD memory</p>
+	<ul>
+		<li>Records everything when vessel is out of range</li>
+		<li>Up to a full year of storage</li>
+		<li>Automatically syncs to Boatlogger site when internet service is found</li>
+		<li>Cloud base storage and access from the HelmSmart data server</li>
+		</ul>
+	<p>Add more vessel sensors</p>
+	<ul>		
+		<li>Install additional temperature sensors to monitor e.g. engine room temperature, sea temperature, outdoor temperature etc.</li>
+		<li>12 additional customized inputs (6 digital inputs, 2 tach, and 4 analog inputs)</li>
+	</ul>
+	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
+	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
+	<div style="margin: 15px;">
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+<!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+
+	</div>
+	<p>
+		If you already have a SeaSmart and want to connect it to HelmSmart, simply login with your username and password.
+	</p>
+
+
+
+
+</div>
+	</div>
+    <!-- end tabInfo TAB> ###################################################   -->
+  
+
+
+<div class="tab-pane" id="tabGauges">
+
+  <div class="canvasarea" id="CanvasArea" style="width:100%; height:90%;  display:block; "></div>
+
+   <div id="map_status" style="width:100%; height:5%; display: none; "></div>
+
+	  <div id="linkbar" style="width:100%; height:5%; padding: 10px 10px 10px 10px;" class="auto-style9" >
+	  				<center>	<button id="btnFullScreen" class="btn btn-primary" name="btnValue" id="FullScreen"  value="FullScreen" onclick="fullscreen();" >Full Screen</button> 
+					</center>
+
+  </div>  
+  
+ 
+  
+  
+  <script>
+	/*	
+	// Get the canvas element form the page
+var canvas = document.getElementById("canvas");
+ 
+// Rresize the canvas to occupy the full page, 
+//   by getting the widow width and height and setting it to canvas
+ 
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
+
+*/
+  // Get the canvas element form the page
+//var canvas = document.queryselector('CanvasArea');
+
+ 
+function fullscreen(){
+           var el = document.getElementById('CanvasArea');
+ 
+           if(el.webkitRequestFullScreen) {
+               el.webkitRequestFullScreen();
+           }
+          else {
+             el.mozRequestFullScreen();
+          }            
+}
+
+
+	$(function () {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabGauges')
+				setTimeout(initializeMaps, 10);	//Workaround for Bootstrap tabs and google maps center bug.
+		});
+	});
+
+ 
+//canvas.addEventListener("click",fullscreen)
+</script>
+</div>
+
+
+
+
+     <!--
+	  <div class="tab-pane" id="tabMap">
+  
+ 
+	   <div id="map_canvas" style="width:800px; height:600px; padding: 10px 10px 10px 10px;"  ></div>
+		
+
+
+
+
+<script>
+	$(function () {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabMap')
+				setTimeout(initializeMaps, 10);	//Workaround for Bootstrap tabs and google maps center bug.
+		});
+	});
+</script>
+	  
+	
+	</div>	
+
+-->
+  
+    
+	</div>
+  
+  
+</div>
+  
+</body></html>

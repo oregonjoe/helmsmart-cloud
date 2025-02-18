@@ -6,7 +6,7 @@ from itertools import groupby, islice
 from datetime import datetime, timedelta
 import time
 from time import mktime
-from signalk import createSIGKpath
+
 
 import logging
 
@@ -15,8 +15,8 @@ import logging
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
-debug_all = True
-#debug_all = False
+#debug_all = True
+debug_all = False
 
 
 
@@ -161,7 +161,7 @@ def dump_json(schema, records):
   #if debug_all: log.info('data =  %s ', data)
   return json.dumps(data, cls=DateEncoder)
 
-"""
+
 # Used for PGs 130311
 def getSKTemperatureInstance(pgn_type, pgn_instance):
 
@@ -476,7 +476,7 @@ def createSIGKpath(pgn_number, n2kkey, pgn_payload):
   return skpath_json
 
 
-"""
+
 
     
 def convert_influxdbcloud_json(mytime, value, key):
