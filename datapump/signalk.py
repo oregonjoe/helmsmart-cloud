@@ -287,81 +287,65 @@ def getSKCOGInstance(pgn_instance):
 
   return path
 
-
- # Converts NMEA 2000 field descriptions to Signal 
-
-def createSIGKpath(pgn_number, n2kkey, pgn_payload):
-
-  
-  skpath_json = {}
+# ********************************************************************************************
+# Converts NMEA 2000 field descriptions to Signal
+# Environmential Data
+# ********************************************************************************************
+def createSIGKpathPGN130311(n2kkey, pgn_payload):
 
   try:
-      
-    # ********************************************************************************************
-    # Environmential Data  
-    if pgn_number == 130311:
-      #if debug_all: log.info('sync: createSIGKpath 130311 %s:%s', n2kkey, pgn_payload.get('temperature_instance'))
-      
-      if n2kkey == 'temperature':
-        skpath = getSKTemperatureInstance(pgn_payload.get('temperature_instance'), "")
-        if pgn_payload.get('temperature') is not None:
-          skvalue = pgn_payload.get('temperature')
-          skpath_json = {"path":skpath,"value":skvalue}
-        else:
-          return {}
-
-      elif n2kkey == 'atmospheric_pressure':
-        skpath = 'environment.outside.pressure'
-        if pgn_payload.get('atmospheric_pressure') is not None:
-          skvalue = pgn_payload.get('atmospheric_pressure')
-          skpath_json = {"path":skpath,"value":skvalue}
-        else:
-          return {}
-
-      elif n2kkey == 'humidity':
-        skpath = getSKHumidityInstance(pgn_payload.get('humidity_instance'))        
-        if pgn_payload.get('humidity') is not None:
-          skvalue = ( pgn_payload.get('humidity') / 100)
-          skpath_json = {"path":skpath,"value":skvalue}
-        else:
-          return {}
-
-    # ********************************************************************************************
-
-   
-
-
-    # ********************************************************************************************
-    # End of   createSIGKpath 
-    return skpath_json
-    # ********************************************************************************************
-
-  except NameError as e:
-    if debug_all: log.info('Sync: createSIGKpath SignalK NameError in data %s:  ', data)
-
-    if debug_all: log.info('Sync: createSIGKpath SignalK NameError in data %s:  ' % str(e))
-    pass
     
-  except TypeError as e:
-    if debug_all: log.info('Sync: createSIGKpath SignalK TypeError in data %s:  ', data)
+    if n2kkey == 'temperature':
+      skpath = getSKTemperatureInstance(pgn_payload.get('temperature_instance'), "")
+      if pgn_payload.get('temperature') is not None:
+        skvalue = pgn_payload.get('temperature')
+        return {"path":skpath,"value":skvalue}
+      else:
+        return {}
 
-    if debug_all: log.info('Sync: createSIGKpath SignalK TypeError in data %s:  ' % str(e))
-    pass
+    elif n2kkey == 'atmospheric_pressure':
+      skpath = 'environment.outside.pressure'
+      if pgn_payload.get('atmospheric_pressure') is not None:
+        skvalue = pgn_payload.get('atmospheric_pressure')
+        return {"path":skpath,"value":skvalue}
+      else:
+        return {}
 
-  except AttributeError as e:
-    if debug_all: log.info('Sync: createSIGKpath SignalK AttributeError in data %s:  ', data)
-
-    if debug_all: log.info('Sync: createSIGKpath SignalK AttributeError in data %s:  ' % str(e))
-    pass
+    elif n2kkey == 'humidity':
+      skpath = getSKHumidityInstance(pgn_payload.get('humidity_instance'))        
+      if pgn_payload.get('humidity') is not None:
+        skvalue = ( pgn_payload.get('humidity') / 100)
+        return {"path":skpath,"value":skvalue}
+      else:
+        return {}
 
   except:
-    if debug_all: log.info('sync: createSIGKpath SignalK error %s:%s', partition, device)
+    if debug_all: log.info('sync: createSIGKpathPGN130311 error %s:%s', n2kkey, pgn_payload)
     e = sys.exc_info()[0]
 
     if debug_all: log.info("Error: %s" % e)
     pass
 
-  return skpath_json
+  return {}
+ 
+# ********************************************************************************************
+# Parses pgn_payload looking for vales based on n2kkey and fromats into signalk string
+def createSIGKpath(pgn_number, n2kkey, pgn_payload):
+
+
+  match pgn_number:
+
+    # Environmental Data
+    case 130311:
+      return createSIGKpathPGN130311(n2kkey, pgn_payload)
+
+
+    case _:
+      return {}
+
+# ********************************************************************************************
+
+
 
 
 
