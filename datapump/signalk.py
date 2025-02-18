@@ -789,7 +789,7 @@ def createSIGKpathPGN127489(n2kkey, pgn_payload):
       skpath = 'propulsion.' + str(skEngineId) + '.fuel.rate'
       if pgn_payload.get('fuel_rate') is not None:
         skvalue = float("{0:.2f}".format(pgn_payload.get('fuel_rate') / 3600000))
-       return {"path":skpath,"value":skvalue}
+        return {"path":skpath,"value":skvalue}
       else:
         return {}
       
