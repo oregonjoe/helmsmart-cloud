@@ -85,16 +85,16 @@ def getSKTemperatureInstance(pgn_type, pgn_instance):
   elif pgn_type == 'Refridgeration': 
     path = 'environment.inside.refrigerator.' + pgninstanceString + 'temperature'
 
-  elif pgn_instance == 'Heating': 
+  elif pgn_type == 'Heating': 
     path = 'environment.inside.heating.' + pgninstanceString + 'temperature'
 
-  elif pgn_instance == 'Dew Point': 
+  elif pgn_type == 'Dew Point': 
     path = 'environment.outside.' + pgninstanceString + 'dewPointTemperature'
 
-  elif pgn_instance == 'Wind Chill A': 
+  elif pgn_type == 'Wind Chill A': 
     path = 'environment.outside.' + pgninstanceString + 'apparentWindChillTemperature'
 
-  elif pgn_instance == 'Wind Chill T': 
+  elif pgn_type == 'Wind Chill T': 
     path = 'environment.outside.' + pgninstanceString + 'theoreticalWindChillTemperature'
 
   elif pgn_type == 'Heat Index': 

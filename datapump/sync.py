@@ -80,6 +80,14 @@ from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 from influxdb.client import InfluxDBServerError
 
+from influxdb_client import InfluxDBClient
+from influxdb_client import Point, WritePrecision
+from influxdb_client.client.write_api import SYNCHRONOUS
+
+
+
+
+
 from splicer import Schema, Field
 
 
@@ -548,6 +556,249 @@ def convert_influxdbcloud_json(mytime, value, key):
 
     e = sys.exc_info()[0]
     if debug_all: log.info("Sync.py Error in convert_influxdbcloud_json: %s" % e)
+
+
+
+#083016 JLB added to convert PushSmart record to influxdb cloudJSON
+def convert_influxdb_cloud_tcpjson(value,  key):
+  ifluxjson ={}
+  
+  try:
+
+    PGN = "000000"
+    #mydtt = datetime.strptime(mytime, "%Y-%m-%d %H:%M:%S")
+
+    #dtt = mytime.timetuple()
+    #ts = int(mktime(dtt) * 1000)
+    ts = int(time.time() * 1000)
+
+    """
+    cols = []
+    cols.append('time')
+    cols.append('psvalue')
+
+    
+    vals = []
+    vals.append(ts)
+    vals.append(value)
+    ifluxjson ={"points": [vals], "name":key, "columns": cols}
+    """
+    #key = 'deviceid:{}.sensor:tcp.source:0.instance:0.type:pushsmart.parameter:raw.HelmSmart'.format(deviceid)
+
+    valuepairs = value.split(",")
+    # check if we have proper formatted pushsmart string
+    if len(valuepairs) != 5:
+      PGN = "000001"
+      values = {'raw':'***' + value}
+
+    elif valuepairs[0] != '$PCDIN':
+      PGN = "000002"
+      values = {'raw':'***' + value}
+
+    #Check PGN length is correct
+    elif len(valuepairs[1]) != 6:
+      PGN = "000003"
+      values = {'raw':'***' + value}
+
+    #check if timestamp length is correct
+    elif len(valuepairs[2]) != 8:
+      PGN = "000004"
+      values = {'raw':'***' + value}
+
+    #check if source length is correct
+    elif len(valuepairs[3]) != 2:
+      PGN = "000005"
+      values = {'raw':'***' + value}
+
+    #check if payload is terminated with * checksum
+    elif len(valuepairs[4]) < 8:    
+      PGN = "000006"
+      values = {'raw':'***' + value}
+
+    #check if payload is terminated with * checksum
+    elif (valuepairs[4][len(valuepairs[4])-3] != '*') and (valuepairs[4][len(valuepairs[4])-4] != '*'):
+    #elif valuepairs[4].find('*') == -1:    
+      PGN = "000007"
+      values = {'raw':'***' + value}
+
+    else:
+      PGN = valuepairs[1]
+      values = {'raw':value}
+
+
+      
+    #Example KEY
+    #key = 'deviceid:{}.sensor:tcp.source:0.instance:0.type:pushsmart.parameter:raw.HelmSmart'.format(deviceid)
+    tagpairs = key.split(".")
+    #log.info('freeboard: convert_influxdbcloud_json tagpairs %s:  ', tagpairs)
+
+    myjsonkeys={}
+
+    tag0 = tagpairs[0].split(":")
+    tag1 = tagpairs[1].split(":")
+    tag2 = tagpairs[2].split(":")
+    tag3 = tagpairs[3].split(":")
+    tag4 = tagpairs[4].split(":")
+    tag5 = tagpairs[5].split(":")
+
+    #"deviceid:001EC010AD69.sensor:environmental_data.source:0.instance:0.type:Outside_Temperature.parameter:temperature.HelmSmart"
+    #myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'source':tag2[1], 'instance':tag3[1], 'type':tag4[1], 'parameter':tag5[1]}
+    myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'source':tag2[1], 'instance':tag3[1], 'type':PGN, 'parameter':'raw'}
+    #log.info('freeboard: convert_influxdbcloud_json myjsonkeys %s:  ', myjsonkeys)
+
+    #values = {'value':value}
+    #values = {tag5[1]:value}
+    measurement = 'HS_'+str(tag0[1])+'_raw'
+    #ifluxjson ={"measurement":tagpairs[6], "time": ts, "tags":myjsonkeys, "fields": values}
+    ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
+    #log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
+
+
+    return ifluxjson
+
+  except AttributeError as e:
+    if debug_all: log.info('Sync: AttributeError in convert_influxdb_cloud_tcpjson %s:  ', mytime)
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.info('Sync: AttributeError in convert_influxdb_cloud_tcpjson %s:  ' % str(e))
+    
+  except TypeError as e:
+    if debug_all: log.info('Sync: TypeError in convert_influxdb_cloud_tcpjson %s:  ', mytime)
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.info('Sync: TypeError in convert_influxdb_cloud_tcpjson %s:  ' % str(e))
+    
+  except NameError as e:
+    if debug_all: log.info('Sync: NameError in convert_influxdb_cloud_tcpjson %s:  ', mytime)
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.info('Sync: NameError in convert_influxdb_cloud_tcpjson %s:  ' % str(e))
+    
+  except:
+    if debug_all: log.info('Sync: Error convert_influxdb_cloud_tcpjson %s:', mytime)
+
+    e = sys.exc_info()[0]
+    if debug_all: log.info("Sync.py Error in convert_influxdb_cloud_tcpjson: %s" % e)
+
+
+#022025 JLB added influxdb Cloud insert test
+def insert_influxdbCloud_TCPseries(deviceid, message):
+  if debug_all: log.info("start of insert_influxdbCloud_TCPseries insert...")
+
+  try:
+    
+    IFDBCToken = os.environ.get('InfluxDBCloudToken')
+    IFDBCOrg = os.environ.get('InfluxDBCloudOrg')
+    IFDBCBucket = os.environ.get('InfluxDBCloudBucket')
+    IFDBCURL = os.environ.get('InfluxDBCloudURL')
+
+    client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
+
+  except InfluxDBClientError as e:
+    if debug_all: log.info('Sync: inFlux error in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
+    
+  except TypeError as e:
+    if debug_all: log.info('Sync: TypeError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.info('Sync: TypeError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
+    
+  except KeyError as e:
+    if debug_all: log.info('Sync: KeyError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.info('Sync: KeyError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))   
+    
+  except:
+    if debug_all: log.info('Sync: Error in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
+    e = sys.exc_info()[0]
+    if debug_all: log.info("Error: %s" % e)
+    
+  if debug_all: log.info("inserted into insert_influxdbCloud_TCPseries!")
+
+
+
+  
+#101414 JLB added influxdb insert test
+def insert_influxdb_TCPseries(deviceid, message):
+  if debug_all: log.info("start of influxdb_TCPseries insert...")
+  """
+  host = 'pinheads-wedontneedroads-1.c.influxdb.com' 
+  port = 8086
+  username = 'root'
+  password = 'c73d5a8b1b07d17b'
+  database = 'pushsmart'
+  database = 'pushsmart-final'
+  key = 'deviceid:{}.sensor:tcp.source:0.instance:0.type:pushsmart.parameter:raw.HelmSmart'.format(deviceid)
+  
+
+  db = InfluxDBClient(host, port, username, password, database)
+  """
+  
+  #IFDBhost = 'hilldale-670d9ee3.influxcloud.net' 
+  #IFDBport = 8086
+  #IFDBusername = 'helmsmart'
+  #IFDBpassword = 'Salm0n16'
+  #IFDBdatabase = 'pushsmart-raw'
+
+  IFDBhost = os.environ.get('IFDBhost')
+  IFDBport = os.environ.get('IFDBport')
+  IFDBusername = os.environ.get('IFDBusername')
+  IFDBpassword = os.environ.get('IFDBpassword')
+  IFDBdatabase = os.environ.get('IFDBdatabase')
+  
+  
+  #shim = Shim(host, port, username, password, database)
+  #db = influxdb.InfluxDBClient(host, port, username, password, database)
+  dbc = InfluxDBCloud(IFDBhost, IFDBport, IFDBusername, IFDBpassword, IFDBdatabase,  ssl=True)
+  
+  key = 'deviceid:{}.sensor:tcp.source:0.instance:0.type:pushsmart.parameter:raw.HelmSmart'.format(deviceid)
+  
+  tcpmessages = message.split("\r\n")
+
+  influxdata = []
+  for record in tcpmessages:
+    
+    influxdata_record = convert_influxdb_cloud_tcpjson(record,  key)
+    
+    if influxdata_record != {}:
+      influxdata.append(influxdata_record)
+
+  #if debug_all: log.info("influxdb_TCPseries:%s", influxdata )
+  
+  try:
+    #if debug_all: log.info('Sync:  InfluxDB write points ')
+    if debug_all: log.info('Sync:  InfluxDB write TCP points %s',deviceid)
+    #if debug_all: log.info('Sync:  InfluxDB write %s:  ', mydata)
+    #db.write_points_with_precision(influxdata, time_precision='ms')
+    dbc.write_points(influxdata, time_precision='ms')
+    
+    log.info('Sync:  InfluxDB RAW TCP write points %s', len(influxdata))
+    
+  except InfluxDBClientError as e:
+    if debug_all: log.info('Sync: inFlux error in influxdb_TCPseries write %s:  ' % str(e))
+    
+  except TypeError as e:
+    if debug_all: log.info('Sync: TypeError in influxdb_TCPseries write %s:  ', influxdata)
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.info('Sync: TypeError in influxdb_TCPseries write %s:  ' % str(e))
+    
+  except KeyError as e:
+    if debug_all: log.info('Sync: KeyError in influxdb_TCPseries write %s:  ', influxdata)
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.info('Sync: KeyError in influxdb_TCPseries write %s:  ' % str(e))   
+    
+  except:
+    if debug_all: log.info('Sync: Error in influxdb_TCPseries write %s:  ', influxdata)
+    e = sys.exc_info()[0]
+    if debug_all: log.info("Error: %s" % e)
+    
+  if debug_all: log.info("inserted into influxdb_TCPseries!")    
+      
+
+
 
 
 
