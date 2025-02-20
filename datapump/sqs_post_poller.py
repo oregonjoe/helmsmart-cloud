@@ -77,7 +77,7 @@ env = xlocal()
 #@instrument
 def dump_TCPserver(message):
   
-  insert_influxdb_TCPseries( message['device_id'], message['payload'] )
+  insert_influxdbCloud_TCPseries( message['device_id'], message['payload'] )
 
 
 # JLB 081316  - added seperate influxdb-cloud record insert
