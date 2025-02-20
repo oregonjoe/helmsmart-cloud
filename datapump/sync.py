@@ -84,7 +84,7 @@ from influxdb.client import InfluxDBServerError
 #from influxdb_client import Point, WritePrecision
 #from influxdb_client.client.write_api import SYNCHRONOUS
 
-
+from influxdb_client_3 import InfluxDBClient3, Point
 
 
 
@@ -703,7 +703,8 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     #db = influxdb.InfluxDBClient(host, port, username, password, database)
     #dbc = InfluxDBCloud(IFDBhost, IFDBport, IFDBusername, IFDBpassword, IFDBdatabase,  ssl=True)
 
-    dbc = InfluxDBCloud(url=IFDBCURL, token=IFDBCToken)  
+    #dbc = InfluxDBCloud(url=IFDBCURL, token=IFDBCToken)
+    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
 
     #client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
 

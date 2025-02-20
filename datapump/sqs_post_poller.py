@@ -67,10 +67,18 @@ SCHEMA=Schema([
 ]+nmea.SCHEMA.fields)
 
 from sync import (
-  dump_pcdinfirebase, dump_json, insert_influxdb_cloud, ensure_database,PARTITION, URL
+  dump_pcdinfirebase, dump_json, insert_influxdb_cloud, insert_influxdbCloud_TCPseries, ensure_database,PARTITION, URL
 )
 
 env = xlocal()
+
+
+# JLB 022025  - added seperate influxdb record insert
+#@instrument
+def dump_TCPserver(message):
+  
+  insert_influxdb_TCPseries( message['device_id'], message['payload'] )
+
 
 # JLB 081316  - added seperate influxdb-cloud record insert
 #@instrument
@@ -260,6 +268,9 @@ def proc(message):
 
         message_payload = message_body.get('payload')
         #if debug_all: log.info('sqs_post_poller Got SQS message_payload %s: ', message_payload)
+
+        # added 022025 to put raw pushsmart data into inFluxDB for TCPserver
+        dump_TCPserver(message_body)
         
         #records = nmea.loads(json.dumps(message_payload))
         #records = nmea.loads((message_payload))
