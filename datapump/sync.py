@@ -80,9 +80,9 @@ from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 from influxdb.client import InfluxDBServerError
 
-from influxdb_client import InfluxDBClient
-from influxdb_client import Point, WritePrecision
-from influxdb_client.client.write_api import SYNCHRONOUS
+#from influxdb_client import InfluxDBClient
+#from influxdb_client import Point, WritePrecision
+#from influxdb_client.client.write_api import SYNCHRONOUS
 
 
 
