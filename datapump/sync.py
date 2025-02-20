@@ -80,9 +80,9 @@ from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 from influxdb.client import InfluxDBServerError
 
-from influxdb_client import InfluxDBClient
-from influxdb_client import Point, WritePrecision
-from influxdb_client.client.write_api import SYNCHRONOUS
+#from influxdb_client import InfluxDBClient
+#from influxdb_client import Point, WritePrecision
+#from influxdb_client.client.write_api import SYNCHRONOUS
 
 
 
@@ -692,7 +692,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     IFDBCBucket = os.environ.get('InfluxDBCloudBucket')
     IFDBCURL = os.environ.get('InfluxDBCloudURL')
 
-    client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
+    #client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
 
   except InfluxDBClientError as e:
     if debug_all: log.info('Sync: inFlux error in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
