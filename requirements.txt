@@ -21,7 +21,7 @@ python-dotenv>=0.19.2
 authlib>=1.0
 #authlib==0.14.3
 requests>=2.0
-influxdb-client-python
+#influxdb-client-python
 #git+https://github.com/influxdb/influxdb-client-python.git
 git+https://github.com/influxdb/influxdb-python.git
 git+https://github.com/googlearchive/firebase-token-generator-python.git

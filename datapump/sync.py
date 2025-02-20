@@ -692,6 +692,19 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     IFDBCBucket = os.environ.get('InfluxDBCloudBucket')
     IFDBCURL = os.environ.get('InfluxDBCloudURL')
 
+    IFDBhost = os.environ.get('IFDBhost')
+    IFDBport = os.environ.get('IFDBport')
+    IFDBusername = os.environ.get('IFDBusername')
+    IFDBpassword = os.environ.get('IFDBpassword')
+    IFDBdatabase = os.environ.get('IFDBdatabase')
+    
+    
+    #shim = Shim(host, port, username, password, database)
+    #db = influxdb.InfluxDBClient(host, port, username, password, database)
+    #dbc = InfluxDBCloud(IFDBhost, IFDBport, IFDBusername, IFDBpassword, IFDBdatabase,  ssl=True)
+
+    dbc = InfluxDBCloud(url=IFDBCURL, token=IFDBCToken)  
+
     #client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
 
   except InfluxDBClientError as e:
