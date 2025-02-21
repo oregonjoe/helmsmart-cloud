@@ -697,7 +697,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     IFDBusername = os.environ.get('IFDBusername')
     IFDBpassword = os.environ.get('IFDBpassword')
     IFDBdatabase = os.environ.get('IFDBdatabase')
-    
+    database="PushSmart_TCP"
     
     #shim = Shim(host, port, username, password, database)
     #db = influxdb.InfluxDBClient(host, port, username, password, database)
@@ -705,6 +705,43 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
 
     #dbc = InfluxDBCloud(url=IFDBCURL, token=IFDBCToken)
     client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
+
+
+    data = {
+      "point1": {
+        "deviceid": "001EC010AD69",
+        "source": "82",
+        "raw": "$PCDIN,01FD09,E7K6OT0A,82,FF410001A555FFFF*45",
+      },
+      "point2": {
+        "deviceid": "001EC010AD69",
+        "source": "82",
+        "raw": "$PCDIN,01FD07,E7K6OT05,82,FF41A76CA5550504*3C,
+      },
+      "point3": {
+        "deviceid": "001EC010AD69",
+        "source": "82",
+        "raw": "$PCDIN,01FD06,E7K6OT04,82,FFFFFFA76C0504FF*4D",
+      },
+      "point4": {
+        ",deviceid": "001EC010AD69",
+        "source": "82",
+        "raw": "$PCDIN,01FD02,E7K6OT03,82,FF240051B2F8FFFF*40",
+      },
+    }
+
+    for key in data:
+      point = (
+        Point("HS_001EC010AD69_raw")
+        .tag("deviceid", data[key]["deviceid"])
+        .field(data[key]["source"], data[key]["raw"])
+      )
+      client.write(database=database, record=point)
+
+
+
+
+    #client.write(database=database, record=point)
 
     #client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
 
