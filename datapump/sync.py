@@ -753,7 +753,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
       )
 
       
-      client.write(database=database,write_precision='s', record=point)
+      client.write(database=database, write_precision='s', record=point)
 
 
 
@@ -782,6 +782,12 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     #e = sys.exc_info()[0]
 
     if debug_all_influxdb: log.info('Sync: NameError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))   
+
+  except ValueError as e:
+    if debug_all_influxdb: log.info('Sync: ValueError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
+    #e = sys.exc_info()[0]
+
+    if debug_all_influxdb: log.info('Sync: ValueError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
     
   except:
     if debug_all_influxdb: log.info('Sync: Error in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
