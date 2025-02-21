@@ -20144,7 +20144,7 @@ def freeboard_raw():
                         startepoch, endepoch,
                         resolution) 
  
-
+    query = ('select  *  from {}').format( measurement) 
 
     log.info("freeboard_raw Query %s", query)
     #return jsonify(result="OK")
