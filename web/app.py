@@ -20209,7 +20209,7 @@ def freeboard_raw():
     #return jsonify(result="OK")
     log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
 
-    values = response.get('psraw',[])
+    values = response.select(['psraw'])
     #keys = result.keys()
     log.info("freeboard Get InfluxDB psraw values %s", values)
 
