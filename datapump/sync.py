@@ -704,7 +704,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     #dbc = InfluxDBCloud(IFDBhost, IFDBport, IFDBusername, IFDBpassword, IFDBdatabase,  ssl=True)
 
     #dbc = InfluxDBCloud(url=IFDBCURL, token=IFDBCToken)
-    #client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
+    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
 
 
     data = {
