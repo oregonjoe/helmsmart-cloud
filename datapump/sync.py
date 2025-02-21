@@ -716,7 +716,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
       "point2": {
         "deviceid": "001EC010AD69",
         "source": "82",
-        "raw": "$PCDIN,01FD07,E7K6OT05,82,FF41A76CA5550504*3C,
+        "raw": "$PCDIN,01FD07,E7K6OT05,82,FF41A76CA5550504*3C",
       },
       "point3": {
         "deviceid": "001EC010AD69",
