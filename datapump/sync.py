@@ -485,7 +485,47 @@ def createSIGKpath(pgn_number, n2kkey, pgn_payload):
 
 
 """
+def seasmart_timestamp(timestamp, EPOCH=1262304000):
+  """
+  char(6), char(2) -> datetime
+  """
+  #Get TimeStamp from PushSmart record
+  #$PCDIN,01F010,6DOB8463,A7,0007040040AE3E0A*22
+  #$PCDIN,01F010,[TIMESTAMP],A7,0007040040AE3E0A*22
+  #Timestamp is Hex32 from 1/1/2010 (EPOCH 1262304000)
 
+  #initialize pushsmart timestamp to 0
+  ps_ts = 0
+  #ps_ts = int(timestamp[:6], 32) + EPOCH
+  #return datetime.fromtimestamp(ps_ts)
+
+  #But lets trap for a Hex32 format error just to be sure
+  try:
+    #ts = int(timestamp[:6], 32) + EPOCH
+    ts = int(timestamp[:6], 32) 
+  except:
+    if debug_all: log.info("NMEA get timestamp format error - timestamp %s ", timestamp)
+    return ps_ts
+
+  #return datetime.fromtimestamp(ts +  EPOCH)
+
+  # and check that we have a date between now and 1/1/2010
+  if ts <= 0:
+    if debug_all: log.info("NMEA get timestamp error - negitive timestamp %s ", timestamp)
+    return ps_ts
+
+  #return datetime.fromtimestamp(ts +  EPOCH)  
+  # Get current time in seconds
+  current_ts = int(time.time())
+  #return datetime.fromtimestamp(ts +  EPOCH)
+  # and be sure ts is not greater then current time as check
+  if ts + EPOCH <= current_ts:
+    ps_ts = ts + EPOCH
+    return datetime.fromtimestamp(ps_ts)
+  
+  else:
+    if debug_all: log.info("NMEA get timestamp error -  timestamp greater then current %s ", timestamp)
+    return ps_ts
     
 def convert_influxdbcloud_json(mytime, value, key):
 
@@ -570,7 +610,7 @@ def convert_influxdb_cloud_tcpjson(value,  key):
 
     #dtt = mytime.timetuple()
     #ts = int(mktime(dtt) * 1000)
-    ts = int(time.time() * 1000)
+    ps_ts = int(time.time() * 1000)
 
     """
     cols = []
@@ -620,10 +660,12 @@ def convert_influxdb_cloud_tcpjson(value,  key):
     #elif valuepairs[4].find('*') == -1:    
       PGN = "000007"
       values = {'raw':'***' + value}
-
+      
+    # all good fields so go ahead and set values and timestamp
     else:
       PGN = valuepairs[1]
       values = {'raw':value}
+      ps_ts = seasmart_timestamp(valuepairs[2])
 
 
       
@@ -651,7 +693,7 @@ def convert_influxdb_cloud_tcpjson(value,  key):
     measurement = 'HS_'+str(tag0[1])+'_raw'
     #ifluxjson ={"measurement":tagpairs[6], "time": ts, "tags":myjsonkeys, "fields": values}
     #ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
-    ifluxjson ={"measurement":measurement, "time": ts,  'deviceid':tag0[1], 'source':tag2[1], "raw": value}
+    ifluxjson ={"measurement":measurement, "time":ps_ts,  'deviceid':tag0[1], 'source':tag2[1], "raw": value}
     if debug_all: log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
 
 
