@@ -789,7 +789,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
       )
       
       #client.write(database=database, write_precision="s", record=point)
-      client.write(database=database, record=point)
+      client.write(database=database, record=point, write_precision="s")
 
 
 
