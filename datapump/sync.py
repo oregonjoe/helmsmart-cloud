@@ -84,7 +84,7 @@ from influxdb.client import InfluxDBServerError
 #from influxdb_client import Point, WritePrecision
 #from influxdb_client.client.write_api import SYNCHRONOUS
 
-from influxdb_client_3 import InfluxDBClient3, Point
+from influxdb_client_3 import InfluxDBClient3, Point, WriteOptions
 
 
 
@@ -868,8 +868,8 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
       if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries point %s", point)    
       #client.write(database=database, write_precision="s", record=point)
       #client.write(database=database, record=point, write_precision="s")
-      client.write(database=database, record=point, write_precision='ms')
-      
+      #client.write(database=database, record=point, write_precision='ms')
+      client.write(record=point, write_precision="ms")     
 
 
     #client.write(database=database, record=point)
