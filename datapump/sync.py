@@ -706,6 +706,19 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     #dbc = InfluxDBCloud(url=IFDBCURL, token=IFDBCToken)
     client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
 
+
+    tcpmessages = message.split("\r\n")
+
+    influxdata = []
+    for record in tcpmessages:
+      
+      influxdata_record = convert_influxdb_cloud_tcpjson(record,  key)
+      
+      if influxdata_record != {}:
+        influxdata.append(influxdata_record)
+
+    if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries influxdata %s:", influxdata)
+
     """
     data = {
       "point1": {
