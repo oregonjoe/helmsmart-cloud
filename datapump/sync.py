@@ -604,7 +604,7 @@ def convert_influxdbcloud_json(mytime, value, key):
 
 
 #083016 JLB added to convert PushSmart record to influxdb cloudJSON
-def convert_influxdb_cloud_tcpjson(value,  deviceid):
+def convert_influxdb_cloud_tcpjson(psvalue,  deviceid):
   ifluxjson ={}
   
   try:
@@ -628,7 +628,7 @@ def convert_influxdb_cloud_tcpjson(value,  deviceid):
     ifluxjson ={"points": [vals], "name":key, "columns": cols}
     """
     #key = 'deviceid:{}.sensor:tcp.source:0.instance:0.type:pushsmart.parameter:raw.HelmSmart'.format(deviceid)
-
+    value = psvalue.strip("b\'")
     valuepairs = value.split(",")
     # check if we have proper formatted pushsmart string
     if len(valuepairs) != 5:
@@ -972,7 +972,7 @@ def insert_influxdb_TCPseries(deviceid, message):
     if debug_all: log.info('Sync:  InfluxDB write TCP points %s',deviceid)
     #if debug_all: log.info('Sync:  InfluxDB write %s:  ', mydata)
     #db.write_points_with_precision(influxdata, time_precision='ms')
-    dbc.write_points(influxdata, time_precision='ms')
+    #dbc.write_points(influxdata, time_precision='ms')
     
     log.info('Sync:  InfluxDB RAW TCP write points %s', len(influxdata))
     
