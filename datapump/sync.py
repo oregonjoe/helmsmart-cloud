@@ -632,43 +632,33 @@ def convert_influxdb_cloud_tcpjson(psvalue,  deviceid):
     valuepairs = value.split(",")
     # check if we have proper formatted pushsmart string
     if len(valuepairs) != 5:
-      PGN = "000001"
-      values = {'raw':'***' + value}
-
+      return {}
+    
     elif valuepairs[0] != '$PCDIN':
-      PGN = "000002"
-      values = {'raw':'***' + value}
+      return {}
 
     #Check PGN length is correct
     elif len(valuepairs[1]) != 6:
-      PGN = "000003"
-      values = {'raw':'***' + value}
+      return {}
 
     #check if timestamp length is correct
     elif len(valuepairs[2]) != 8:
-      PGN = "000004"
-      values = {'raw':'***' + value}
+      return {}
 
     #check if source length is correct
     elif len(valuepairs[3]) != 2:
-      PGN = "000005"
-      values = {'raw':'***' + value}
-
+      return {}
+    
     #check if payload is terminated with * checksum
     elif len(valuepairs[4]) < 8:    
-      PGN = "000006"
-      values = {'raw':'***' + value}
+      return {}
 
     #check if payload is terminated with * checksum
     elif (valuepairs[4][len(valuepairs[4])-3] != '*') and (valuepairs[4][len(valuepairs[4])-4] != '*'):
-    #elif valuepairs[4].find('*') == -1:    
-      PGN = "000007"
-      values = {'raw':'***' + value}
+      return {}
       
     # all good fields so go ahead and set values and timestamp
     else:
-      PGN = valuepairs[1]
-      values = {'raw':value}
       ps_tms = seasmart_timestamp(valuepairs[2])
 
 
