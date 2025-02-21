@@ -804,7 +804,6 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
         .tag("deviceid", data[key]["deviceid"])
         .tag("source", data[key]["source"])
         .field("psraw", data[key]["raw"])
-        .time(data[key]["time"])
       )
       
       #client.write(database=database, write_precision="s", record=point)
