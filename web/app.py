@@ -20209,9 +20209,9 @@ def freeboard_raw():
     #return jsonify(result="OK")
     log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
 
-    keys = response.raw.get('series',[])
+    values = response.get('psraw',[])
     #keys = result.keys()
-    #log.info("freeboard Get InfluxDB series keys %s", keys)
+    log.info("freeboard Get InfluxDB psraw values %s", values)
 
 
     #callback = request.args.get('callback')
@@ -20226,16 +20226,11 @@ def freeboard_raw():
     #log.info("freeboard jsonkey..%s", jsonkey )
     try:
     
-      strvalue = ""
-      value1 = '---'
-      value2 = '---'
-      value3 = '---'
-      value4 = '---'
 
-      for series in keys:
+      for series in values:
+        log.info("influxdb psraw..%s", series )
         #log.info("influxdb results..%s", series )
-        #log.info("influxdb results..%s", series )
-        strvalue ={}
+        #strvalue ={}
  
         #points = list(response.get_points())
 
@@ -20253,6 +20248,8 @@ def freeboard_raw():
         #parameter = seriesname['parameter']
         #log.info("inFluxDB_GPS_JSON values %s", series['values'] )
         #pgnpoints = series['values']
+        
+        """        
         for point in  series['values']:
           #pgnpoints = point['raw']
           fields = {}
@@ -20260,7 +20257,9 @@ def freeboard_raw():
             fields[key] = val
 
           log.info("influxdb results..%s",  fields['psraw'] ) 
-          PGNValues= PGNValues + fields['psraw'] + '\r\n'        
+          PGNValues= PGNValues + fields['psraw'] + '\r\n'
+        """
+          
         """
         for point in  series['values']:
           fields = {}
