@@ -711,6 +711,8 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
 
     if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries tcpmessages %s:", tcpmessages)
 
+
+    key = 'deviceid:{}.sensor:tcp.source:0.instance:0.type:pushsmart.parameter:raw.HelmSmart'.format(deviceid)
     
     influxdata = []
     for record in tcpmessages:
