@@ -20116,8 +20116,8 @@ def freeboard_raw():
 
 
     #dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
-    #client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
-    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg, database=IFDBCBucket)
+    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
+    #client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg, database=IFDBCBucket)
 
 
 
@@ -20144,7 +20144,9 @@ def freeboard_raw():
                         startepoch, endepoch,
                         resolution) 
  
-    query = ('select  *  from {}').format( measurement) 
+    query = ('select *  from {}').format( measurement)
+
+    query = 'SELECT * FROM PushSmart_TCP LIMIT 10"
 
     log.info("freeboard_raw Query %s", query)
     #return jsonify(result="OK")
