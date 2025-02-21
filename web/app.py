@@ -20116,8 +20116,8 @@ def freeboard_raw():
 
 
     #dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
-    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
-
+    #client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
+    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg, database=IFDBCBucket)
 
 
 
@@ -20153,7 +20153,7 @@ def freeboard_raw():
     #table = client.query(query=query, language="influxql")
 
     try:
-        response= client.query(database=database, query=query)
+        response= client.query(query=query)
         
     except TypeError as e:
         log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
