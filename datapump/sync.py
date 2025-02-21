@@ -509,14 +509,14 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000000):
     tms = ts + yms
   except:
     if debug_all: log.info("NMEA get timestamp format error - timestamp %s ", timestamp)
-    return pms_ts
+    return ps_tms
 
   #return datetime.fromtimestamp(ts +  EPOCH)
 
   # and check that we have a date between now and 1/1/2010
   if tms <= 0:
     if debug_all: log.info("NMEA get timestamp error - negitive timestamp %s ", timestamp)
-    return pms_ts
+    return ps_tms
 
   #return datetime.fromtimestamp(ts +  EPOCH)  
   # Get current time in mseconds
@@ -524,12 +524,12 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000000):
   #return datetime.fromtimestamp(ts +  EPOCH)
   # and be sure ts is not greater then current time as check
   if tms + int(EPOCH) <= current_tms:
-    ps_tms = ts + EPOCH
+    ps_tms = tms + EPOCH
     return ps_tms
   
   else:
     if debug_all: log.info("NMEA get timestamp error -  timestamp greater then current %s ", timestamp)
-    return ps_ts
+    return ps_tms
     
 def convert_influxdbcloud_json(mytime, value, key):
 
@@ -614,7 +614,7 @@ def convert_influxdb_cloud_tcpjson(value,  key):
 
     #dtt = mytime.timetuple()
     #ts = int(mktime(dtt) * 1000)
-    ps_ts = int(time.time() * 1000)
+    ps_tms = int(time.time() * 1000)
 
     """
     cols = []
@@ -669,7 +669,7 @@ def convert_influxdb_cloud_tcpjson(value,  key):
     else:
       PGN = valuepairs[1]
       values = {'raw':value}
-      ps_ts = seasmart_timestamp(valuepairs[2])
+      ps_tms = seasmart_timestamp(valuepairs[2])
 
 
       
@@ -697,7 +697,7 @@ def convert_influxdb_cloud_tcpjson(value,  key):
     measurement = 'HS_'+str(tag0[1])+'_raw'
     #ifluxjson ={"measurement":tagpairs[6], "time": ts, "tags":myjsonkeys, "fields": values}
     #ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
-    ifluxjson ={"measurement":measurement, "time":ps_ts,  'deviceid':tag0[1], 'source':tag2[1], "raw": value}
+    ifluxjson ={"measurement":measurement, "time":ps_tms,  'deviceid':tag0[1], 'source':tag2[1], "raw": value}
     if debug_all_influxdb: log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
 
 
