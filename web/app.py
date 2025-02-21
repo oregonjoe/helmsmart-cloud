@@ -20153,7 +20153,7 @@ def freeboard_raw():
     #table = client.query(query=query, language="influxql")
 
     try:
-        response= client.query(query)
+        response= client.query(database=database, query=query)
         
     except TypeError as e:
         log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
