@@ -20207,7 +20207,7 @@ def freeboard_raw():
         return 'error - no data'
       
     #return jsonify(result="OK")
-    #log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
+    log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
 
     keys = response.raw.get('series',[])
     #keys = result.keys()
@@ -20259,8 +20259,8 @@ def freeboard_raw():
           for key, val in zip(series['columns'], point):
             fields[key] = val
 
-          log.info("influxdb results..%s",  fields['raw'] ) 
-          PGNValues= PGNValues + fields['raw'] + '\r\n'        
+          log.info("influxdb results..%s",  fields['psraw'] ) 
+          PGNValues= PGNValues + fields['psraw'] + '\r\n'        
         """
         for point in  series['values']:
           fields = {}
