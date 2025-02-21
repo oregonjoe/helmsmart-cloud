@@ -796,7 +796,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
         .time(data[key]["time"])
       )
     """
-    if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries data %s:", point)
+    if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries data %s:", data)
     
     for key in data:
       point = (
