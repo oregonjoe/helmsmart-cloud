@@ -485,7 +485,7 @@ def createSIGKpath(pgn_number, n2kkey, pgn_payload):
 
 
 """
-def seasmart_timestamp(timestamp, EPOCH=1262304000):
+def seasmart_timestamp(timestamp, EPOCH=1262304000000):
   """
   char(6), char(2) -> datetime
   """
@@ -495,33 +495,37 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000):
   #Timestamp is Hex32 from 1/1/2010 (EPOCH 1262304000)
 
   #initialize pushsmart timestamp to 0
-  ps_ts = int(time.time())
+  ps_tms = int(time.time()) * 1000
   #ps_ts = int(timestamp[:6], 32) + EPOCH
   #return datetime.fromtimestamp(ps_ts)
 
   #But lets trap for a Hex32 format error just to be sure
   try:
     #ts = int(timestamp[:6], 32) + EPOCH
-    ts = int(timestamp[:6], 32) 
+    # get seconds
+    ts = int(timestamp[:6], 32) * 1000
+    # get ms
+    tms = int(timestamp[6:8], 32)
+    tms = ts + yms
   except:
     if debug_all: log.info("NMEA get timestamp format error - timestamp %s ", timestamp)
-    return ps_ts
+    return pms_ts
 
   #return datetime.fromtimestamp(ts +  EPOCH)
 
   # and check that we have a date between now and 1/1/2010
-  if ts <= 0:
+  if tms <= 0:
     if debug_all: log.info("NMEA get timestamp error - negitive timestamp %s ", timestamp)
-    return ps_ts
+    return pms_ts
 
   #return datetime.fromtimestamp(ts +  EPOCH)  
-  # Get current time in seconds
-  current_ts = int(time.time())
+  # Get current time in mseconds
+  current_tms = int(time.time()) * 1000
   #return datetime.fromtimestamp(ts +  EPOCH)
   # and be sure ts is not greater then current time as check
-  if ts + EPOCH <= current_ts:
-    ps_ts = ts + EPOCH
-    return ps_ts
+  if tms + int(EPOCH) <= current_tms:
+    ps_tms = ts + EPOCH
+    return ps_tms
   
   else:
     if debug_all: log.info("NMEA get timestamp error -  timestamp greater then current %s ", timestamp)
@@ -864,7 +868,8 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     
       #client.write(database=database, write_precision="s", record=point)
       #client.write(database=database, record=point, write_precision="s")
-
+      #client.write(database=database, record=point, write_precision="ms")
+      
       if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries point %s:", point)
 
     #client.write(database=database, record=point)
