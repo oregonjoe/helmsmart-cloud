@@ -20147,6 +20147,7 @@ def freeboard_raw():
     query = ('select *  from {}').format( measurement)
 
     query = 'SELECT * FROM PushSmart_TCP LIMIT 10'
+    query = 'SELECT * FROM "hs_ac1518efebf8_psraw" LIMIT 10'
 
     log.info("freeboard_raw Query %s", query)
     #return jsonify(result="OK")
@@ -20155,7 +20156,7 @@ def freeboard_raw():
     #table = client.query(query=query, language="influxql")
 
     try:
-        response= client.query(query=query)
+        response= client.query(query=query language="sql")
         
     except TypeError as e:
         log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
