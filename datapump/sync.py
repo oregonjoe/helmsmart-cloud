@@ -506,7 +506,7 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000000):
     ts = int(timestamp[:6], 32) * 1000
     # get ms
     tms = int(timestamp[6:8], 32)
-    tms = ts + yms
+    tms = ts + tms
   except:
     if debug_all: log.info("NMEA get timestamp format error - timestamp %s ", timestamp)
     return ps_tms
