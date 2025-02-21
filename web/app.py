@@ -20074,7 +20074,7 @@ def freeboard_raw():
 
     deviceid = getedeviceid(devicekey)
     
-    log.info("freeboard deviceid %s", deviceid)
+    log.info("freeboard_raw deviceid %s", deviceid)
 
     if deviceid == "":
         #callback = request.args.get('callback')
@@ -20091,7 +20091,7 @@ def freeboard_raw():
 
     
     measurement = "HelmSmart"
-    measurement = 'HS_' + str(deviceid) + '_raw'
+    measurement = 'HS_' + str(deviceid) + '_psraw'
 
 
     database="PushSmart_TCP"
@@ -20104,8 +20104,8 @@ def freeboard_raw():
     serieskeys=" deviceid='"
     serieskeys= serieskeys + deviceid 
 
-    log.info("freeboard Query InfluxDB-Cloud:%s", serieskeys)
-    log.info("freeboard Create InfluxDB %s", database)
+    log.info("freeboard_raw Query InfluxDB-Cloud:%s", serieskeys)
+    log.info("freeboard_raw Create InfluxDB %s", database)
 
     IFDBCToken = os.environ.get('InfluxDBCloudToken')
     IFDBCOrg = os.environ.get('InfluxDBCloudOrg')
@@ -20129,8 +20129,15 @@ def freeboard_raw():
                         startepoch, endepoch,
                         resolution) 
     """     
+    """  
+    SELECT *
+    FROM "HS_AC1518EFEBF8_psraw"
+    WHERE
+    time >= now() - interval '1 hour'
+    """  
+
       
-    query = ('select  DISTINCT(raw) AS raw  from {} '
+    query = ('select  DISTINCT(psraw) AS psraw  from {} '
                      'where {} AND time > {}s and time < {}s '
                      'group by time({}s) ') \
                 .format( measurement, serieskeys,
