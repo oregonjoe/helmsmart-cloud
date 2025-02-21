@@ -707,9 +707,10 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
 
 
-    tcpmessages = message.split("\r\n")
+    #tcpmessages = message.split("\r\n")
+    tcpmessages = message.split("\\r\\n")
 
-    if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries tcpmessages %s:", tcpmessages)
+    if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries tcpmessages %s : %s", len(tcpmessages), tcpmessages)
 
 
     key = 'deviceid:{}.sensor:tcp.source:0.instance:0.type:pushsmart.parameter:raw.HelmSmart'.format(deviceid)
