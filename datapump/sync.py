@@ -697,7 +697,7 @@ def convert_influxdb_cloud_tcpjson(value,  key):
     measurement = 'HS_'+str(tag0[1])+'_raw'
     #ifluxjson ={"measurement":tagpairs[6], "time": ts, "tags":myjsonkeys, "fields": values}
     #ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
-    ifluxjson ={"measurement":measurement, "time":ps_tms,  'deviceid':tag0[1], 'source':tag2[1], "raw": value}
+    ifluxjson ={"measurement":measurement, "time":ps_tms*1000000,  'deviceid':tag0[1], 'source':tag2[1], "raw": value}
     if debug_all: log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
 
 
@@ -753,6 +753,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     #dbc = InfluxDBCloud(url=IFDBCURL, token=IFDBCToken)
     client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
 
+    #write_api = client.write_api(write_options=SYNCHRONOUS)
     #write_options=SYNCHRONOUS
     #tcpmessages = message.split("\r\n")
     tcpmessages = message.split("\\r\\n")
@@ -854,8 +855,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
         .field("psraw", data[key]["raw"])
       )
     """
-
-     
+ 
     for key in influxdata:
       point = (
         Point(key['measurement'])
@@ -869,14 +869,15 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
       #client.write(database=database, write_precision="s", record=point)
       #client.write(database=database, record=point, write_precision="s")
       #client.write(database=database, record=point, write_precision='ms')
-      client.write(record=point, write_precision="ms")     
-
+      #client.write(database=database, record=point, write_precision="ms")     
+      client.write(database=database, record=point) 
 
     #client.write(database=database, record=point)
 
     #client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
 
-
+    client.close()
+    
 #  except influxdb_client_3.InfluxDBError as e:
 #    if debug_all_influxdb: log.info('Sync: inFlux error in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
     
