@@ -15,9 +15,9 @@ import logging
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
-debug_all = True
-#debug_all = False
-
+#debug_all = True
+debug_all = False
+debug_all_influxdb = True
 
 
 #logging.basicConfig(level=logging.INFO)
@@ -683,7 +683,7 @@ def convert_influxdb_cloud_tcpjson(value,  key):
 
 #022025 JLB added influxdb Cloud insert test
 def insert_influxdbCloud_TCPseries(deviceid, message):
-  if debug_all: log.info("start of insert_influxdbCloud_TCPseries insert...")
+  if debug_all_influxdb: log.info("start of insert_influxdbCloud_TCPseries insert...")
 
   try:
     
@@ -753,7 +753,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
       )
 
       
-      #client.write(database=database, time_precision=seconds, record=point)
+      client.write(database=database,write_precision=WritePrecision.S, record=point)
 
 
 
@@ -763,26 +763,32 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     #client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
 
   except InfluxDBClientError as e:
-    if debug_all: log.info('Sync: inFlux error in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
+    if debug_all_influxdb: log.info('Sync: inFlux error in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
     
   except TypeError as e:
-    if debug_all: log.info('Sync: TypeError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
+    if debug_all_influxdb: log.info('Sync: TypeError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
     #e = sys.exc_info()[0]
 
-    if debug_all: log.info('Sync: TypeError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
+    if debug_all_influxdb: log.info('Sync: TypeError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
     
   except KeyError as e:
-    if debug_all: log.info('Sync: KeyError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
+    if debug_all_influxdb: log.info('Sync: KeyError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
     #e = sys.exc_info()[0]
 
-    if debug_all: log.info('Sync: KeyError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))   
+    if debug_all_influxdb: log.info('Sync: KeyError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))   
+
+  except NameError as e:
+    if debug_all_influxdb: log.info('Sync: NameError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
+    #e = sys.exc_info()[0]
+
+    if debug_all_influxdb: log.info('Sync: NameError in insert_influxdbCloud_TCPseries write %s:  ' % str(e))   
     
   except:
-    if debug_all: log.info('Sync: Error in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
+    if debug_all_influxdb: log.info('Sync: Error in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
     e = sys.exc_info()[0]
-    if debug_all: log.info("Error: %s" % e)
+    if debug_all_influxdb: log.info("Error: %s" % e)
     
-  if debug_all: log.info("inserted into insert_influxdbCloud_TCPseries!")
+  if debug_all_influxdb: log.info("inserted into insert_influxdbCloud_TCPseries!")
 
 
 
