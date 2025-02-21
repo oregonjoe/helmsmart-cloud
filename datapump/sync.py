@@ -495,7 +495,7 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000):
   #Timestamp is Hex32 from 1/1/2010 (EPOCH 1262304000)
 
   #initialize pushsmart timestamp to 0
-  ps_ts = 0
+  ps_ts = int(time.time())
   #ps_ts = int(timestamp[:6], 32) + EPOCH
   #return datetime.fromtimestamp(ps_ts)
 
@@ -521,7 +521,7 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000):
   # and be sure ts is not greater then current time as check
   if ts + EPOCH <= current_ts:
     ps_ts = ts + EPOCH
-    return datetime.fromtimestamp(ps_ts)
+    return ps_ts
   
   else:
     if debug_all: log.info("NMEA get timestamp error -  timestamp greater then current %s ", timestamp)
@@ -858,6 +858,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
         .tag("deviceid", key["deviceid"])
         .tag("source", key["source"])
         .field("psraw", key["raw"])
+        .time(key["time"])
       )
 
     
