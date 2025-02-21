@@ -753,7 +753,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     #dbc = InfluxDBCloud(url=IFDBCURL, token=IFDBCToken)
     client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
 
-
+    #write_options=SYNCHRONOUS
     #tcpmessages = message.split("\r\n")
     tcpmessages = message.split("\\r\\n")
 
@@ -865,10 +865,10 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
         .time(key["time"])
       )
 
-      if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries point %s:", point)    
+      if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries point %s", point)    
       #client.write(database=database, write_precision="s", record=point)
       #client.write(database=database, record=point, write_precision="s")
-      client.write(database=database, record=point, write_precision="ms")
+      client.write(database=database, record=point, write_precision='ms')
       
 
 
