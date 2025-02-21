@@ -763,8 +763,8 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     #client = InfluxDBClient(url=IFDBCURL, token=IFDBCToken)  
 
 
-  except influxdb_client_3.InfluxDBError as e:
-    if debug_all_influxdb: log.info('Sync: inFlux error in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
+#  except influxdb_client_3.InfluxDBError as e:
+#    if debug_all_influxdb: log.info('Sync: inFlux error in insert_influxdbCloud_TCPseries write %s:  ' % str(e))
     
   except TypeError as e:
     if debug_all_influxdb: log.info('Sync: TypeError in insert_influxdbCloud_TCPseries write %s:  ', deviceid)
