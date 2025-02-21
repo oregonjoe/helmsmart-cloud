@@ -42,6 +42,8 @@ from influxdb.influxdb08 import InfluxDBClient
 from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 
+from influxdb_client_3 import InfluxDBClient3, Point, WriteOptions
+
 #import dashboard_routes
 import botocore
 import boto3
@@ -20092,18 +20094,30 @@ def freeboard_raw():
     measurement = 'HS_' + str(deviceid) + '_raw'
 
 
+    database="PushSmart_TCP"
+
+    #serieskeys=" deviceid='"
+    #serieskeys= serieskeys + deviceid + "' AND "
+    #serieskeys= serieskeys +  " sensor='tcp'  "
 
 
     serieskeys=" deviceid='"
-    serieskeys= serieskeys + deviceid + "' AND "
-    serieskeys= serieskeys +  " sensor='tcp'  "
-    #serieskeys= serieskeys +  " (type='True') " 
+    serieskeys= serieskeys + deviceid 
 
     log.info("freeboard Query InfluxDB-Cloud:%s", serieskeys)
     log.info("freeboard Create InfluxDB %s", database)
 
+    IFDBCToken = os.environ.get('InfluxDBCloudToken')
+    IFDBCOrg = os.environ.get('InfluxDBCloudOrg')
+    IFDBCBucket = os.environ.get('InfluxDBCloudBucket')
+    IFDBCURL = os.environ.get('InfluxDBCloudURL')
 
-    dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
+
+
+
+    #dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
+    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
+
 
 
 
@@ -20125,11 +20139,14 @@ def freeboard_raw():
  
 
 
-    log.info("freeboard data Query %s", query)
+    log.info("freeboard_raw Query %s", query)
     #return jsonify(result="OK")
 
+    #query = "SELECT * from home WHERE time >= -90d"
+    #table = client.query(query=query, language="influxql")
+
     try:
-        response= dbc.query(query)
+        response= client.query(query)
         
     except TypeError as e:
         log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
