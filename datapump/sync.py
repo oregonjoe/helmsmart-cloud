@@ -650,7 +650,8 @@ def convert_influxdb_cloud_tcpjson(value,  key):
     #values = {tag5[1]:value}
     measurement = 'HS_'+str(tag0[1])+'_raw'
     #ifluxjson ={"measurement":tagpairs[6], "time": ts, "tags":myjsonkeys, "fields": values}
-    ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
+    #ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
+    ifluxjson ={"measurement":measurement, "time": ts,  'deviceid':tag0[1], 'source':tag2[1], "raw": value}
     if debug_all: log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
 
 
@@ -797,8 +798,8 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
         .time(data[key]["time"])
       )
     """
-    if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries data %s:", data)
-    
+    #if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries data %s:", data)
+    """        
     for key in data:
       point = (
         Point("HS_001EC010AD69_psraw")
@@ -806,11 +807,22 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
         .tag("source", data[key]["source"])
         .field("psraw", data[key]["raw"])
       )
-      
+    """
+
+     
+    for key in influxdata:
+      point = (
+        Point(key['measurement'])
+        .tag("deviceid", key["deviceid"])
+        .tag("source", key["source"])
+        .field("psraw", key["raw"])
+      )
+
+    
       #client.write(database=database, write_precision="s", record=point)
       #client.write(database=database, record=point, write_precision="s")
 
-    if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries point %s:", point)
+      if debug_all_influxdb: log.info("insert_influxdbCloud_TCPseries point %s:", point)
 
     #client.write(database=database, record=point)
 
