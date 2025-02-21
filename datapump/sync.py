@@ -604,7 +604,7 @@ def convert_influxdbcloud_json(mytime, value, key):
 
 
 #083016 JLB added to convert PushSmart record to influxdb cloudJSON
-def convert_influxdb_cloud_tcpjson(value,  key):
+def convert_influxdb_cloud_tcpjson(value,  deviceid):
   ifluxjson ={}
   
   try:
@@ -672,7 +672,7 @@ def convert_influxdb_cloud_tcpjson(value,  key):
       ps_tms = seasmart_timestamp(valuepairs[2])
 
 
-      
+    """  
     #Example KEY
     #key = 'deviceid:{}.sensor:tcp.source:0.instance:0.type:pushsmart.parameter:raw.HelmSmart'.format(deviceid)
     tagpairs = key.split(".")
@@ -686,18 +686,19 @@ def convert_influxdb_cloud_tcpjson(value,  key):
     tag3 = tagpairs[3].split(":")
     tag4 = tagpairs[4].split(":")
     tag5 = tagpairs[5].split(":")
-
+    
+    """
     #"deviceid:001EC010AD69.sensor:environmental_data.source:0.instance:0.type:Outside_Temperature.parameter:temperature.HelmSmart"
     #myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'source':tag2[1], 'instance':tag3[1], 'type':tag4[1], 'parameter':tag5[1]}
-    myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'source':tag2[1], 'instance':tag3[1], 'type':PGN, 'parameter':'raw'}
-    if debug_all: log.info('freeboard: convert_influxdbcloud_json myjsonkeys %s:  ', myjsonkeys)
+    #myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'source':tag2[1], 'instance':tag3[1], 'type':PGN, 'parameter':'raw'}
+    #if debug_all: log.info('freeboard: convert_influxdbcloud_json myjsonkeys %s:  ', myjsonkeys)
 
     #values = {'value':value}
     #values = {tag5[1]:value}
-    measurement = 'HS_'+str(tag0[1])+'_psraw'
+    measurement = 'HS_'+str(deviceid)+'_psraw'
     #ifluxjson ={"measurement":tagpairs[6], "time": ts, "tags":myjsonkeys, "fields": values}
     #ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
-    ifluxjson ={"measurement":measurement, "time":ps_tms*1000000,  'deviceid':tag0[1], 'source':tag2[1], "raw": value}
+    ifluxjson ={"measurement":measurement, "time":ps_tms*1000000,  'deviceid':deviceid, 'source':valuepairs[3], "raw": value}
     if debug_all: log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
 
 
@@ -766,8 +767,9 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
     influxdata = []
     for record in tcpmessages:
       
-      influxdata_record = convert_influxdb_cloud_tcpjson(record,  key)
-      
+      #influxdata_record = convert_influxdb_cloud_tcpjson(record,  key)
+      influxdata_record = convert_influxdb_cloud_tcpjson(record,  deviceid)
+       
       if influxdata_record != {}:
         influxdata.append(influxdata_record)
 
