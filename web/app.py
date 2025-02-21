@@ -20147,7 +20147,7 @@ def freeboard_raw():
     query = ('select *  from {}').format( measurement)
 
     query = 'SELECT * FROM PushSmart_TCP LIMIT 10'
-    query = 'SELECT * FROM "hs_ac1518efebf8_psraw" LIMIT 10'
+    query = 'SELECT * FROM "HS_AC1518EFEBF8_psraw" LIMIT 10'
 
     log.info("freeboard_raw Query %s", query)
     #return jsonify(result="OK")
