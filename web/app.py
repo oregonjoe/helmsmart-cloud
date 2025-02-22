@@ -20229,10 +20229,10 @@ def freeboard_raw():
     
 
       for series in values:
-        log.info("influxdb psraw..%s", series )
+        log.info("influxdb psraw..%s", series.as_py() )
         #log.info("influxdb results..%s", series )
         #strvalue ={}
-        PGNValues= PGNValues + series + '\r\n'
+        PGNValues= PGNValues + series.as_py() + '\r\n'
         #points = list(response.get_points())
 
         #log.info('freeboard:  InfluxDB-Cloud points%s:', points)
