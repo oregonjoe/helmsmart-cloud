@@ -5,7 +5,7 @@ from os import environ as env, path
 import bmemcached
 import sys
 import re
-
+#import pyarrow as pa
 import json
 
 #import md5
@@ -20144,10 +20144,10 @@ def freeboard_raw():
                         startepoch, endepoch,
                         resolution) 
  
-    query = ('select *  from {}').format( measurement)
+    query = ('select *  from "{}" LIMIT 10').format( measurement)
 
-    query = 'SELECT * FROM PushSmart_TCP LIMIT 10'
-    query = 'SELECT * FROM "HS_AC1518EFEBF8_psraw" LIMIT 10'
+    #query = 'SELECT * FROM PushSmart_TCP LIMIT 10'
+    #query = 'SELECT * FROM "HS_AC1518EFEBF8_psraw" LIMIT 10'
 
     log.info("freeboard_raw Query %s", query)
     #return jsonify(result="OK")
@@ -20207,7 +20207,7 @@ def freeboard_raw():
         return 'error - no data'
       
     #return jsonify(result="OK")
-    log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
+    #log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
 
     #values = response.select(['psraw'])
     values = response.column('psraw')
@@ -20229,7 +20229,7 @@ def freeboard_raw():
     
 
       for series in values:
-        log.info("influxdb psraw..%s", series.as_py() )
+        #log.info("influxdb psraw..%s", series.as_py() )
         #log.info("influxdb results..%s", series )
         #strvalue ={}
         PGNValues= PGNValues + series.as_py() + '\r\n'
