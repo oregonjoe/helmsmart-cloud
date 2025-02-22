@@ -20146,6 +20146,10 @@ def freeboard_raw():
  
     query = ('select *  from "{}" where  time > {}s and time < {}s  LIMIT 100').format( measurement, startepoch, endepoch)
 
+    query = ('select *  from "{}" where  time > time >= now() - interval "15 minutes" LIMIT 100').format( measurement)
+
+
+
     #query = ('select *  from "{}" LIMIT 10').format( measurement)
     #query = 'SELECT * FROM PushSmart_TCP LIMIT 10'
     #query = 'SELECT * FROM "HS_AC1518EFEBF8_psraw" LIMIT 10'
