@@ -20054,11 +20054,11 @@ def freeboard_raw():
     startepoch = request.args.get('startepoch', 0)
     endepoch = request.args.get('endepoch', 0)
 
-    Interval = request.args.get('interval',"5min")
+    Interval = request.args.get('interval',"5 minutes")
     Instance = request.args.get('instance','0')
     resolution = request.args.get('resolution',"")
 
-    
+    """    
     starttime = 0
 
     if startepoch == 0:
@@ -20067,7 +20067,7 @@ def freeboard_raw():
       endepoch = epochtimes[1]
       if resolution == "":
         resolution = epochtimes[2]
-    
+    """        
     response = None
 
 
@@ -20082,14 +20082,7 @@ def freeboard_raw():
       return "invalid deviceid"
 
 
-    host = 'hilldale-670d9ee3.influxcloud.net' 
-    port = 8086
-    username = 'helmsmart'
-    password = 'Salm0n16'
-    #    database = 'pushsmart-cloud'
-    database = 'pushsmart-raw'
 
-    
     measurement = "HelmSmart"
     measurement = 'HS_' + str(deviceid) + '_psraw'
 
@@ -20146,7 +20139,7 @@ def freeboard_raw():
  
     query = ('select *  from "{}" where  time > {}s and time < {}s  LIMIT 100').format( measurement, startepoch, endepoch)
 
-    query = ('''select *  from "{}" where  time >= now() - interval '15 minutes' LIMIT 100''').format( measurement)
+    query = ('''select *  from "{}" where  time >= now() - interval '{}' LIMIT 250''').format(measurement, Interval)
 
 
 
