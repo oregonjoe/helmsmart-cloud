@@ -56,7 +56,7 @@ sqs_queue = boto3.client('sqs', region_name=os.environ.get('AWS_REGION'), aws_ac
 #queue_url = 'SQS_QUEUE_URL'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
-queue_url= os.environ.get('SQS_POSTS_URL')
+queue_url= os.environ.get('SQS_PSRAW_URL')
 
 import nmea
 from splicer import Schema
@@ -66,9 +66,6 @@ SCHEMA=Schema([
   dict(name="url",type='STRING'),
 ]+nmea.SCHEMA.fields)
 
-from sync import (
-  dump_pcdinfirebase, dump_json, insert_influxdb_cloud, insert_influxdbCloud_TCPseries, ensure_database,PARTITION, URL
-)
 
 env = xlocal()
 
@@ -77,39 +74,9 @@ env = xlocal()
 #@instrument
 def dump_TCPserver(message):
   
-  insert_influxdbCloud_TCPseries( message['device_id'], message['payload'] )
+  #insert_influxdbCloud_TCPseries( message['device_id'], message['payload'] )
+  if debug_all: log.info('sqs_psraw_poller dump_TCPserver %s:  ', message['device_id'])
 
-
-# JLB 081316  - added seperate influxdb-cloud record insert
-#@instrument
-def dump_influxdb_cloud(device, partition, records):
-
-  try:
-    
-    #if debug_all: log.info('sqs_post_poller: fact_info in dump_influxdb_cloud  %s:  ', fact_info)
-    
-    insert_influxdb_cloud(
-          #env.fact_info,
-          fact_info,
-          device,
-          [
-            [device, partition, "url"] + record
-            for record in records
-          ] 
-        )
-    
-  except TypeError as e:
-    if debug_all: log.info('sqs_post_poller TypeError in dump_influxdb_cloud  %s:  ' % str(e))
-    
-  except AttributeError as e:
-    if debug_all: log.info('sqs_post_poller AttributeError in dump_influxdb_cloud  %s:  ' % str(e))
-    
-  except NameError as e:
-    if debug_all: log.info('sqs_post_poller: NameError in dump_influxdb_cloud  %s:  ' % str(e))
-
-  except:
-    e = sys.exc_info()[0]
-    if debug_all: log.info("sqs_post_poller: in dump_influxdb_cloud SSA300 Error: %s" % str(e))
 
 def proc(message):
 
@@ -127,7 +94,7 @@ def proc(message):
     device_id = message_body.get('device_id')
 
     #if debug_all: log.info('sqs_post_poller Got SQS message %s: ', partition)
-    if debug_all: log.info('sqs_post_poller Got SQS message %s: device %s ', mpartition,device_id)
+    if debug_all: log.info('sqs_psraw_poller Got SQS message %s: device %s ', mpartition,device_id)
     #partition = message['partition'][:-4]
     #if debug_all: log.info('sqs_post_poller Got SQS message %s: ', partition)
     #if debug_all: log.info('sqs_post_poller Got SQS message %s: device %s ', partition, message['device_id'])
@@ -135,132 +102,18 @@ def proc(message):
     #if debug_all: log.info('sqs_post_poller proc Got SQS message_body %s:  ', message_body)
 
     partition = mpartition[:-4]
-    if debug_all: log.info('sqs_post_poller Got SQS message partition %s: ', partition)
+    if debug_all: log.info('sqs_psraw_poller Got SQS message partition %s: ', partition)
     
 
-      
-    if "TESTSSEA00" in partition:
-      try:
-        if debug_all: log.info('Got Alert message %s: %s ', device_id, partition)
-
-
-        try:
-          records = message['payload']
-          device = message['device_id']
-          partition = message['partition'][:-4]
-          switchdata = message.get('switchdata', {})
-          if debug_all: log.info('sqs_post_poller:SSEA00 switch %s: %s ', device, switchdata)
-
-          dimmerdata = message.get('dimmerdata', {})
-          if debug_all: log.info('sqs_post_poller:SSEA00 dimmerdata %s: %s ', device, dimmerdata)
-
-          timmerdata = message.get('timmerdata', {})
-          if debug_all: log.info('sqs_post_poller:SSEA00 timmerdata %s: %s ', device, timmerdata)       
-          
-    
-          if debug_all: log.info('sqs_post_poller got EmailAlert %s: %s', device, records)
-          #dump_firebase(device,  "Alert", partition, json.dumps(records))
-          dump_pcdinfirebase(device,  "Alert", partition, json.dumps(records))
-          
-          
-          #if debug_all: log.info('sqs_post_poller: Alert message update_firebase_index %s: %s ', device, partition)
-          #update_firebase_index(device, "Alert", partition)
-          
-          if debug_all: log.info('Inserted Alert message %s: %s ', device, partition)
-          
-        except:
-          if debug_all: log.info('sqs_post_poller:: Error in proc SSEA00 %s:', partition)
-
-          e = sys.exc_info()[0]
-          if debug_all: log.info("sqs_post_poller::  in proc SSEA00 Error: %s" % e)
-          pass
-
-
-        #if timmerdata or (timmerdata != ""  and timmerdata != None and timmerdata is not None):
-        #if timmerdata  is not {}:
-        if timmerdata :
-          #url = "https://api.telemetryapp.com/data"
-          if debug_all: log.info('sqs_post_poller:SSEA00 timmerdata  %s ', timmerdata)
-          timmerInstance  =timmerdata.get('instance',0)
-          timmerType  =timmerdata.get('type','LED Dimmer 4 Channel')
-          timmerParameter  =timmerdata.get('parameter','value0')
-          timmerArray =timmerdata.get('timmer_array',"")
-          
-          devicedataurl = "http://helmsmart-cloud.herokuapp.com/settimmerapi?deviceid=" + str(device)
-          devicedataurl = devicedataurl + "&instance=" + str(timmerInstance)
-          devicedataurl = devicedataurl + "&type=" + str(timmerType)
-          devicedataurl = devicedataurl + "&parameter=" + str(timmerParameter)
-          devicedataurl = devicedataurl + "&array=" + str(timmerArray)
-
-          if debug_all: log.info("sqs_post_poller:  in proc SSEA00 timmer: %s", devicedataurl)
-
-          
-          headers = {'content-type': 'application/json'}
-          response = requests.get(devicedataurl)
-
-        #if switchdata or (switchdata != ""  and switchdata != None and switchdata is not None):
-        #if switchdata  is not {}:
-        if switchdata :          
-          #url = "https://api.telemetryapp.com/data"
-          if debug_all: log.info('sqs_post_poller:SSEA00 switchdata  %s ', switchdata)
-          switchInstance  =switchdata.get('instance',15)
-          switchid  =switchdata.get('index',15)
-          switchvalue =switchdata.get('value',3)
-
-          devicedataurl = "http://helmsmart-cloud.herokuapp.com/setswitchapi?deviceid=" + str(device)
-          devicedataurl = devicedataurl + "&instance=" + str(switchInstance)
-          devicedataurl = devicedataurl + "&switchid=" + str(switchid)
-          devicedataurl = devicedataurl + "&switchvalue=" + str(switchvalue)
-
-          if debug_all: log.info("sqs_post_poller:  in proc SSEA00 switch: %s", devicedataurl)
-
-          
-          headers = {'content-type': 'application/json'}
-          response = requests.get(devicedataurl)
-
-
-        #if dimmerdata or (dimmerdata != ""  and dimmerdata != None and dimmerdata is not None):
-        #if dimmerdata  is not {}:
-        if dimmerdata  :                
-          if debug_all: log.info('sqs_post_poller:SSEA00 dimmer  %s ', dimmerdata)
-          dimmerInstance  =dimmerdata.get('instance',15)
-          dimmerid  =dimmerdata.get('index',15)
-          dimmervalue =dimmerdata.get('value',255)
-          dimmeroverride =dimmerdata.get('override',0)
-          
-          devicedataurl = "http://helmsmart-cloud.herokuapp.com/setdimmerapi?deviceid=" + str(device)
-          devicedataurl = devicedataurl + "&instance=" + str(dimmerInstance)
-          devicedataurl = devicedataurl + "&dimmerid=" + str(dimmerid)
-          devicedataurl = devicedataurl + "&dimmervalue=" + str(dimmervalue)
-          devicedataurl = devicedataurl + "&dimmeroverride=" + str(dimmeroverride)
-          
-          if debug_all: log.info("sqs_post_poller:  in proc SSEA00 dimmer: %s", devicedataurl)
-
-          
-          headers = {'content-type': 'application/json'}
-          response = requests.get(devicedataurl)
-
-
-
-
-
-
-        
-      except:
-        if debug_all: log.info('sqs_post_poller:: Error in proc SSEA00 %s:', partition)
-
-        e = sys.exc_info()[0]
-        if debug_all: log.info("sqs_post_poller::  in proc SSEA00 Error: %s" % str(e))
-        pass
 
 
     # ##########################################################
     # Got a message from a seasmart gateway via HTTP POST
     # ##########################################################
-    elif "SSA300" in partition:  
+    if "SSA300" in partition:  
       try:
         #if debug_all: log.info('sqs_post_poller Got PushSmart SQS message %s: ', partition)
-        if debug_all: log.info('sqs_post_poller Got PushSmart SQS message %s: %s ', partition, device_id)
+        if debug_all: log.info('sqs_psraw_poller Got PushSmart RAW SQS message %s: %s ', partition, device_id)
 
         schema = SCHEMA
         #device = message['device_id']
@@ -270,101 +123,59 @@ def proc(message):
         #if debug_all: log.info('sqs_post_poller Got SQS message_payload %s: ', message_payload)
 
         # added 022025 to put raw pushsmart data into inFluxDB for TCPserver
-        #dump_TCPserver(message_body)
+        dump_TCPserver(message_body)
         
-        #records = nmea.loads(json.dumps(message_payload))
-        #records = nmea.loads((message_payload))
-        records = nmea.loads((json.dumps(message_payload)))
-        #records = nmea.loads((json.dumps(message_payload).decode("utf-8")))
-        #records = nmea.loads(message_payload.decode("utf-8"))
-        #records = nmea.loads(json.loads(message_payload))
-        #records = nmea.loads(message_payload)
-        #if debug_all: log.info('sqs_post_poller Got SQS records %s: ', records) 
 
-        mysortedrecords = sorted(records, key=lambda t:t[1])
-        if debug_all: log.info('sqs_post_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
-
-
-        if debug_all: log.info('sqs_post_poller dump_pcdinfirebase message_payload %s: ', partition)
-        print(message_payload)
-        if debug_all: log.info('sqs_post_poller dump_pcdinfirebase %s: ', partition)
-        print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
-
-        
-        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
-        #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
-        dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
-        dump_pcdinfirebase(device_id, "SIGNALK", partition, dump_json(schema, mysortedrecords))
-
-        if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
-        #if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
-        #081316 JLB - added influxdb-cloud update
-        # write parsed nmea data to database
-        dump_influxdb_cloud(device_id, partition, records)
 
       except TypeError as e:
-        if debug_all: log.info('sqs_post_poller:proc: TypeError in proc  %s:  ', partition)
-        if debug_all: log.info('sqs_post_poller:proc: TypeError in proc  %s:  ' % str(e))
+        if debug_all: log.info('sqs_psraw_poller:proc: TypeError in proc  %s:  ', partition)
+        if debug_all: log.info('sqs_psraw_poller:proc: TypeError in proc  %s:  ' % str(e))
         
       except AttributeError as e:
-        if debug_all: log.info('sqs_post_poller:proc: AttributeError in proc  %s:  ', partition)
-        if debug_all: log.info('sqs_post_poller:proc: AttributeError in proc  %s:  ' % str(e))
+        if debug_all: log.info('sqs_psraw_poller:proc: AttributeError in proc  %s:  ', partition)
+        if debug_all: log.info('sqs_psraw_poller:proc: AttributeError in proc  %s:  ' % str(e))
         
       except NameError as e:
-        if debug_all: log.info('sqs_post_poller:proc: NameError in proc  %s:  ', partition)
-        if debug_all: log.info('sqs_post_poller:proc: NameError in proc  %s:  ' % str(e))
+        if debug_all: log.info('sqs_psraw_poller:proc: NameError in proc  %s:  ', partition)
+        if debug_all: log.info('sqs_psraw_poller:proc: NameError in proc  %s:  ' % str(e))
 
       except:
-        if debug_all: log.info('sqs_post_poller:proc: Error in proc SSA300 %s:', partition)
+        if debug_all: log.info('sqs_psraw_poller:proc: Error in proc SSA300 %s:', partition)
         e = sys.exc_info()[0]
-        if debug_all: log.info("sqs_post_poller:proc:  in proc SSA300 Error: %s" % str(e))
+        if debug_all: log.info("sqs_psraw_poller:proc:  in proc SSA300 Error: %s" % str(e))
         pass
 
-    elif "SSLOG00" in partition:
-      try:
-        # JLB 063014 - test of not posting to S3
-        #dump_s3(message)
-        if debug_all: log.info('sqs_post_poller Got Log file message  %s: %s ', partition, device_id) 
-
-        
-      except:
-        if debug_all: log.info('sqs_post_poller:: Error in proc SSLOG00 %s:', partition)
-
-        e = sys.exc_info()[0]
-        if debug_all: log.info("sqs_post_poller::  in proc SSLOG00 Error: %s" % str(e))
-        pass 
-      
 
   except AttributeError as e:
     #if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ', partition)
 
-    if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ' % str(e))
+    if debug_all: log.info('sqs_psraw_poller:: TypeError in proc  %s:  ' % str(e))
     
   except TypeError as e:
     #if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ', partition)
 
-    if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ' % str(e))
+    if debug_all: log.info('sqs_psraw_poller:: TypeError in proc  %s:  ' % str(e))
       
   except KeyError as e:
     #if debug_all: log.info('sqs_post_poller:: KeyError in proc %s:  ', partition)
 
-    if debug_all: log.info('sqs_post_poller:: KeyError in proc  %s:  ' % str(e))
+    if debug_all: log.info('sqs_psraw_poller:: KeyError in proc  %s:  ' % str(e))
 
   except NameError as e:
     #if debug_all: log.info('sqs_post_poller:: NameError in proc  %s:  ', partition)
 
-    if debug_all: log.info('sqs_post_poller:: NameError in proc  %s:  ' % str(e))
+    if debug_all: log.info('sqs_psraw_poller:: NameError in proc  %s:  ' % str(e))
       
   except:
     #if debug_all: log.info('sqs_post_poller:: Error in proc  %s:', partition)
 
     e = sys.exc_info()[0]
-    if debug_all: log.info("sqs_post_poller::  in proc Error: %s" % e)
+    if debug_all: log.info("sqs_psraw_poller::  in proc Error: %s" % e)
     pass     
 
 #reads num_receive messeges from SQS que
 def get_messages(queue_url, num_receive):
-  if debug_all: log.info('sqs_post_poller:get_messages %s', num_receive)
+  if debug_all: log.info('sqs_psraw_poller:get_messages %s', num_receive)
   try:
     
     # read message from SQS queue
@@ -377,7 +188,7 @@ def get_messages(queue_url, num_receive):
     )
 
     if "Messages" not in response:
-      if debug_all: log.info('sqs_post_poller:no messages left')
+      if debug_all: log.info('sqs_psraw_poller:no messages left')
       return []
 
     #print(response['Messages'][0])
@@ -429,7 +240,7 @@ def process_queue(config):
   #queue_url = environ.get('SQS_QUEUE_URL')
   num_receive = int(os.environ.get('NUM_MESSAGES', 10))
   
-  if debug_all: log.info('sqs_post_poller start process_queue %s: ', num_receive)
+  if debug_all: log.info('sqs_psraw_poller start process_queue %s: ', num_receive)
   # get redis que info
   #if debug_all: log.info('sqs_post_poller jobs in queue %s: ', len(q))
 
@@ -449,7 +260,7 @@ def process_queue(config):
       #for message in get_messages(queue_url, num_receive):
       message=get_messages(queue_url, num_receive)
 
-      if debug_all: log.info('sqs_post_poller process_queue %s: ', count)
+      if debug_all: log.info('sqs_psraw_poller process_queue %s: ', count)
 
       if debug_all: log.info("process_queue:  message %s: ", message)
       #if debug_all: log.info("process_queue:  message_MessageId %s: ", message['MessageId'])
@@ -461,7 +272,7 @@ def process_queue(config):
 
       if count == 0:
         # if we had messages process right away, else
-        if debug_all: log.info('sqs_post_poller process_queue sleeping: ')
+        if debug_all: log.info('sqs_psraw_poller process_queue sleeping: ')
         sleep(1)
 
     except NameError as e:
@@ -475,11 +286,11 @@ def process_queue(config):
     except:
       e = sys.exc_info()[0]
       #if debug_all: log.info('sqs_post_poller: process_queue errror' % e)
-      if debug_all: log.info('sqs_post_poller: process_queue errror  %s' % str(e))
+      if debug_all: log.info('sqs_psraw_poller: process_queue errror  %s' % str(e))
 
     #end of while loop
         
-  if debug_all: log.info('sqs_post_poller: exiting process_queue')
+  if debug_all: log.info('sqs_psraw_poller: exiting process_queue')
 
 
 def interval(delay, method, *args, **kw):
@@ -492,7 +303,7 @@ def interval(delay, method, *args, **kw):
       method(*args, **kw)
     except:
       log.exception("Error invoking %s", method)
-      if debug_all: log.info('sqs_post_poller: Error invoking method%s', method)
+      if debug_all: log.info('sqs_psraw_poller: Error invoking method%s', method)
       
     gevent.sleep(delay)
 
@@ -503,7 +314,7 @@ def transaction(func, sqs_message):
   #if debug_all: log.info('sqs_post_poller: transaction %s', sqs_message.get_body())
   try:
     
-    if debug_all: log.info('sqs_post_poller:transaction message %s', sqs_message['Body'])
+    if debug_all: log.info('sqs_psraw_poller:transaction message %s', sqs_message['Body'])
     #queue_url = environ.get('SQS_QUEUE_URL')
     #func(sqs_message.get_body())
     #func(sqs_message['Body'])
@@ -514,7 +325,7 @@ def transaction(func, sqs_message):
 
     #receipt_handle = sqs_message['ReceiptHandle']
     receipt_handle = sqs_message['ReceiptHandle']
-    if debug_all: log.info('sqs_post_poller: transaction ReceiptHandle  %s', receipt_handle)
+    if debug_all: log.info('sqs_psraw_poller: transaction ReceiptHandle  %s', receipt_handle)
 
     # Delete received message from queue
     sqs_queue.delete_message(
@@ -547,13 +358,13 @@ def best_effort(func, pushsmart_message):
   message = json.loads(pushsmart_message['Body'])
 
   #if debug_all: log.info('sqs_post_poller:best_effort message %s', pushsmart_message['Body'])
-  if debug_all: log.info('sqs_post_poller:best_effort message %s', message)
+  if debug_all: log.info('sqs_psraw_poller:best_effort message %s', message)
 
   
   try:
     func(message)
   except  Exception as e:
-    if debug_all: log.info('sqs_post_poller:best_effort error %s' % str(e))
+    if debug_all: log.info('sqs_psraw_poller:best_effort error %s' % str(e))
     
     retry_count = message.get('retries', 0) + 1
     if retry_count > env.max_retries:
@@ -562,7 +373,7 @@ def best_effort(func, pushsmart_message):
       
     else:
       log.exception('Retrying')
-      if debug_all: log.info('sqs_post_poller:best_effort retrying')
+      if debug_all: log.info('sqs_psraw_poller:best_effort retrying')
       
       retry = message.copy()
       retry['retries'] = retry_count
@@ -583,7 +394,7 @@ def best_effort(func, pushsmart_message):
 
       #print(response['MessageId'])
 
-      if debug_all: log.info("sqs_post_poller Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+      if debug_all: log.info("sqs_psraw_poller Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
       
   

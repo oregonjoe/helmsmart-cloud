@@ -603,7 +603,7 @@ def convert_influxdbcloud_json(mytime, value, key):
 
 
 
-#083016 JLB added to convert PushSmart record to influxdb cloudJSON
+#022225 JLB added to convert PushSmart record to influxdb-cloud JSON
 def convert_influxdb_cloud_tcpjson(psvalue,  deviceid):
   ifluxjson ={}
   

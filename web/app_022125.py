@@ -59,7 +59,6 @@ sqs_queue = boto3.client('sqs', region_name=os.environ.get('AWS_REGION'), aws_ac
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 queue_url = os.environ.get('SQS_POSTS_URL')
 alerts_queue_url = os.environ.get('SQS_ALERTS_URL')
-psraw_queue_url = os.environ.get('SQS_PSRAW_URL')
 #queue = boto3.connect_sqs().lookup(os.environ['SQS_QUEUE'])
 #queue = boto3.connect_sqs().lookup('SeaSmart')
 
@@ -19379,7 +19378,7 @@ def events_endpoint(device_id, partition):
 
   try:
     # ######################################################
-    # now place in PUSHSMART SQS queue
+    # now place in SQS queue
     # #######################################################
     # Send message to SQS queue
     response = sqs_queue.send_message(
@@ -19409,41 +19408,6 @@ def events_endpoint(device_id, partition):
     e = sys.exc_info()[0]
     log.info("Send SQS:device_id %s:  ", device_id)
     log.info('Send SQS: Error in que SQS %s:  ' % e)
-
-
-
-  try:
-    # ######################################################
-    # now place in PUSHSMART RAW SQS queue
-    # #######################################################
-    # Send message to SQS queue
-    response = sqs_queue.send_message(
-        QueueUrl=psraw_queue_url,
-        DelaySeconds=10,
-        #MessageAttributes={ 'Device': {  'deviceid':device_id} },
-        MessageBody=(device_json)
-    )
-
-    #print(response['MessageId'])
-
-    log.info("Send SQS PSRAW:device_id %s:  response %s: ", device_id,response['MessageId'])
-
-  except botocore.exceptions.ClientError as e:
-    log.info("Send SQS PSRAW:ClientError device_id %s:  ", device_id)
-    log.info('Send SQS PSRAW:ClientError  Error in que SQS %s:  ' % e)
-
-  except botocore.exceptions.ParamValidationError as e:
-    log.info("Send SQS PSRAW:ParamValidationError device_id %s:  ", device_id)
-    log.info('Send SQS PSRAW:ParamValidationError  Error in que SQS %s:  ' % e)
-
-  except NameError as e:
-    log.info("Send SQS PSRAW:NameError device_id %s:  ", device_id)
-    log.info('Send SQS PSRAW:NameError  Error in que SQS %s:  ' % e)    
-    
-  except:
-    e = sys.exc_info()[0]
-    log.info("Send SQS PSRAW:device_id %s:  ", device_id)
-    log.info('Send SQS PSRAW: Error in que SQS %s:  ' % e)
 
 
   # ######################################################

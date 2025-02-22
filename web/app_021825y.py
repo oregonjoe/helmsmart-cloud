@@ -5,7 +5,7 @@ from os import environ as env, path
 import bmemcached
 import sys
 import re
-#import pyarrow as pa
+
 import json
 
 #import md5
@@ -42,8 +42,6 @@ from influxdb.influxdb08 import InfluxDBClient
 from influxdb import InfluxDBClient as InfluxDBCloud
 from influxdb.client import InfluxDBClientError
 
-from influxdb_client_3 import InfluxDBClient3, Point, WriteOptions
-
 #import dashboard_routes
 import botocore
 import boto3
@@ -59,7 +57,6 @@ sqs_queue = boto3.client('sqs', region_name=os.environ.get('AWS_REGION'), aws_ac
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 queue_url = os.environ.get('SQS_POSTS_URL')
 alerts_queue_url = os.environ.get('SQS_ALERTS_URL')
-psraw_queue_url = os.environ.get('SQS_PSRAW_URL')
 #queue = boto3.connect_sqs().lookup(os.environ['SQS_QUEUE'])
 #queue = boto3.connect_sqs().lookup('SeaSmart')
 
@@ -19379,7 +19376,7 @@ def events_endpoint(device_id, partition):
 
   try:
     # ######################################################
-    # now place in PUSHSMART SQS queue
+    # now place in SQS queue
     # #######################################################
     # Send message to SQS queue
     response = sqs_queue.send_message(
@@ -19409,41 +19406,6 @@ def events_endpoint(device_id, partition):
     e = sys.exc_info()[0]
     log.info("Send SQS:device_id %s:  ", device_id)
     log.info('Send SQS: Error in que SQS %s:  ' % e)
-
-
-
-  try:
-    # ######################################################
-    # now place in PUSHSMART RAW SQS queue
-    # #######################################################
-    # Send message to SQS queue
-    response = sqs_queue.send_message(
-        QueueUrl=psraw_queue_url,
-        DelaySeconds=10,
-        #MessageAttributes={ 'Device': {  'deviceid':device_id} },
-        MessageBody=(device_json)
-    )
-
-    #print(response['MessageId'])
-
-    log.info("Send SQS PSRAW:device_id %s:  response %s: ", device_id,response['MessageId'])
-
-  except botocore.exceptions.ClientError as e:
-    log.info("Send SQS PSRAW:ClientError device_id %s:  ", device_id)
-    log.info('Send SQS PSRAW:ClientError  Error in que SQS %s:  ' % e)
-
-  except botocore.exceptions.ParamValidationError as e:
-    log.info("Send SQS PSRAW:ParamValidationError device_id %s:  ", device_id)
-    log.info('Send SQS PSRAW:ParamValidationError  Error in que SQS %s:  ' % e)
-
-  except NameError as e:
-    log.info("Send SQS PSRAW:NameError device_id %s:  ", device_id)
-    log.info('Send SQS PSRAW:NameError  Error in que SQS %s:  ' % e)    
-    
-  except:
-    e = sys.exc_info()[0]
-    log.info("Send SQS PSRAW:device_id %s:  ", device_id)
-    log.info('Send SQS PSRAW: Error in que SQS %s:  ' % e)
 
 
   # ######################################################
@@ -20090,11 +20052,11 @@ def freeboard_raw():
     startepoch = request.args.get('startepoch', 0)
     endepoch = request.args.get('endepoch', 0)
 
-    Interval = request.args.get('interval',"5 minutes")
+    Interval = request.args.get('interval',"5min")
     Instance = request.args.get('instance','0')
     resolution = request.args.get('resolution',"")
 
-    """    
+    
     starttime = 0
 
     if startepoch == 0:
@@ -20103,14 +20065,14 @@ def freeboard_raw():
       endepoch = epochtimes[1]
       if resolution == "":
         resolution = epochtimes[2]
-    """        
+    
     response = None
 
 
 
     deviceid = getedeviceid(devicekey)
     
-    log.info("freeboard_raw deviceid %s", deviceid)
+    log.info("freeboard deviceid %s", deviceid)
 
     if deviceid == "":
         #callback = request.args.get('callback')
@@ -20118,35 +20080,30 @@ def freeboard_raw():
       return "invalid deviceid"
 
 
+    host = 'hilldale-670d9ee3.influxcloud.net' 
+    port = 8086
+    username = 'helmsmart'
+    password = 'Salm0n16'
+    #    database = 'pushsmart-cloud'
+    database = 'pushsmart-raw'
 
+    
     measurement = "HelmSmart"
-    measurement = 'HS_' + str(deviceid) + '_psraw'
+    measurement = 'HS_' + str(deviceid) + '_raw'
 
 
-    database="PushSmart_TCP"
-
-    #serieskeys=" deviceid='"
-    #serieskeys= serieskeys + deviceid + "' AND "
-    #serieskeys= serieskeys +  " sensor='tcp'  "
 
 
     serieskeys=" deviceid='"
-    serieskeys= serieskeys + deviceid 
+    serieskeys= serieskeys + deviceid + "' AND "
+    serieskeys= serieskeys +  " sensor='tcp'  "
+    #serieskeys= serieskeys +  " (type='True') " 
 
-    log.info("freeboard_raw Query InfluxDB-Cloud:%s", serieskeys)
-    log.info("freeboard_raw Create InfluxDB %s", database)
-
-    IFDBCToken = os.environ.get('InfluxDBCloudToken')
-    IFDBCOrg = os.environ.get('InfluxDBCloudOrg')
-    IFDBCBucket = os.environ.get('InfluxDBCloudBucket')
-    IFDBCURL = os.environ.get('InfluxDBCloudURL')
+    log.info("freeboard Query InfluxDB-Cloud:%s", serieskeys)
+    log.info("freeboard Create InfluxDB %s", database)
 
 
-
-
-    #dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
-    #client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
-    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg, database=IFDBCBucket)
+    dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
 
 
 
@@ -20158,39 +20115,21 @@ def freeboard_raw():
                         startepoch, endepoch,
                         resolution) 
     """     
-    """  
-    SELECT *
-    FROM "HS_AC1518EFEBF8_psraw"
-    WHERE
-    time >= now() - interval '1 hour'
-    """  
-
       
-    query = ('select  DISTINCT(psraw) AS psraw  from {} '
+    query = ('select  DISTINCT(raw) AS raw  from {} '
                      'where {} AND time > {}s and time < {}s '
                      'group by time({}s) ') \
                 .format( measurement, serieskeys,
                         startepoch, endepoch,
                         resolution) 
  
-    query = ('select *  from "{}" where  time > {}s and time < {}s  LIMIT 100').format( measurement, startepoch, endepoch)
-
-    query = ('''select *  from "{}" where  time >= now() - interval '{}' LIMIT 250''').format(measurement, Interval)
-    query = ('''select *  from "{}" where  time >= now() - interval '{}' order by time desc LIMIT 250''').format(measurement, Interval)
 
 
-    #query = ('select *  from "{}" LIMIT 10').format( measurement)
-    #query = 'SELECT * FROM PushSmart_TCP LIMIT 10'
-    #query = 'SELECT * FROM "HS_AC1518EFEBF8_psraw" LIMIT 10'
-
-    log.info("freeboard_raw Query %s", query)
+    log.info("freeboard data Query %s", query)
     #return jsonify(result="OK")
 
-    #query = "SELECT * from home WHERE time >= -90d"
-    #table = client.query(query=query, language="influxql")
-
     try:
-        response= client.query(query=query, language="sql")
+        response= dbc.query(query)
         
     except TypeError as e:
         log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
@@ -20231,22 +20170,21 @@ def freeboard_raw():
         log.info('freeboard: InfluxDB Query has no data ')
         #callback = request.args.get('callback')
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
-        return ("no data available - interval = {}").format(Interval)
+        return 'error - no data'
 
 
     if not response:
         log.info('freeboard: InfluxDB Query has no data ')
         #callback = request.args.get('callback')
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
-        return ("no data available - interval = {}").format(Interval)
+        return 'error - no data'
       
     #return jsonify(result="OK")
     #log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
 
-    #values = response.select(['psraw'])
-    values = response.column('psraw')
+    keys = response.raw.get('series',[])
     #keys = result.keys()
-    log.info("freeboard Get InfluxDB psraw values %s", values)
+    #log.info("freeboard Get InfluxDB series keys %s", keys)
 
 
     #callback = request.args.get('callback')
@@ -20261,12 +20199,17 @@ def freeboard_raw():
     #log.info("freeboard jsonkey..%s", jsonkey )
     try:
     
+      strvalue = ""
+      value1 = '---'
+      value2 = '---'
+      value3 = '---'
+      value4 = '---'
 
-      for series in values:
-        #log.info("influxdb psraw..%s", series.as_py() )
+      for series in keys:
         #log.info("influxdb results..%s", series )
-        #strvalue ={}
-        PGNValues= PGNValues + series.as_py() + '\r\n'
+        #log.info("influxdb results..%s", series )
+        strvalue ={}
+ 
         #points = list(response.get_points())
 
         #log.info('freeboard:  InfluxDB-Cloud points%s:', points)
@@ -20283,18 +20226,14 @@ def freeboard_raw():
         #parameter = seriesname['parameter']
         #log.info("inFluxDB_GPS_JSON values %s", series['values'] )
         #pgnpoints = series['values']
-        
-        """        
         for point in  series['values']:
           #pgnpoints = point['raw']
           fields = {}
           for key, val in zip(series['columns'], point):
             fields[key] = val
 
-          log.info("influxdb results..%s",  fields['psraw'] ) 
-          PGNValues= PGNValues + fields['psraw'] + '\r\n'
-        """
-          
+          log.info("influxdb results..%s",  fields['raw'] ) 
+          PGNValues= PGNValues + fields['raw'] + '\r\n'        
         """
         for point in  series['values']:
           fields = {}
