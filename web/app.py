@@ -20232,7 +20232,7 @@ def freeboard_raw():
         log.info("influxdb psraw..%s", series )
         #log.info("influxdb results..%s", series )
         #strvalue ={}
- 
+         PGNValues= PGNValues + series + '\r\n'
         #points = list(response.get_points())
 
         #log.info('freeboard:  InfluxDB-Cloud points%s:', points)
