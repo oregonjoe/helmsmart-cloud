@@ -20146,7 +20146,7 @@ def freeboard_raw():
  
     query = ('select *  from "{}" where  time > {}s and time < {}s  LIMIT 100').format( measurement, startepoch, endepoch)
 
-    query = ('select *  from "{}" where  time > time >= now() - interval "15 minutes" LIMIT 100').format( measurement)
+    query = ('''select *  from "{}" where  time > time >= now() - interval '15 minutes' LIMIT 100''').format( measurement)
 
 
 
