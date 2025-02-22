@@ -20195,14 +20195,14 @@ def freeboard_raw():
         log.info('freeboard: InfluxDB Query has no data ')
         #callback = request.args.get('callback')
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
-        return 'error - no data'
+        return ("no data available - interval = {}").format(Interval)
 
 
     if not response:
         log.info('freeboard: InfluxDB Query has no data ')
         #callback = request.args.get('callback')
         #return '{0}({1})'.format(callback, {'update':'False', 'status':'missing' })
-        return 'error - no data'
+        return ("no data available - interval = {}").format(Interval)
       
     #return jsonify(result="OK")
     #log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
