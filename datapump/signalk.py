@@ -1805,7 +1805,7 @@ def createSIGKpathPGN65292(n2kkey, pgn_payload):
 
 # ********************************************************************************************
 # Parses pgn_payload looking for vales based on n2kkey and fromats into signalk string
-def parseSIGK(signalk: parseSIGK SignalK record, data):
+def parseSIGK(device, data):
   
   # **************************************************
   # For Signal K
