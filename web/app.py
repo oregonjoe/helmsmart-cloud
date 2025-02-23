@@ -20079,8 +20079,8 @@ def freeboard_tcp(apikey):
     #return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
     return 'error'
 
-
-
+@app.route('/seasmartg3_pushsmart')
+@app.route('/seagaugeg4_pushsmart')
 @app.route('/freeboard_raw')
 @cross_origin()
 def freeboard_raw():
