@@ -1805,20 +1805,25 @@ def createSIGKpathPGN65292(n2kkey, pgn_payload):
 
 # ********************************************************************************************
 # Parses pgn_payload looking for vales based on n2kkey and fromats into signalk string
-def parseSIGK(device, data):
+def parseSIGK(signalk: parseSIGK SignalK record, data):
   
   # **************************************************
   # For Signal K
   # **************************************************
 
-  try:
+ # try:
 
-    skupdates = []
+  skupdates = []
+  record = ""
+  skcontext = "vessels.urn:mrn:imo:mmsi:338184312"
+  skdata = {"updates":skupdates, "context":skcontext}
+  
+  json_data = json.loads(data)
+  
+  for record in json_data:
 
-    json_data = json.loads(data)
+    try:
     
-    for record in json_data:
-      
       if debug_all: log.info('signalk: parseSIGK SignalK record %s:%s', device, record)
       
       json_record = {}
@@ -1826,8 +1831,6 @@ def parseSIGK(device, data):
         json_record = record
       
       if debug_all: log.info('signalk: parseSIGK SignalK record %s:%s', device, json_record)
-
-
 
       n2kpgn = int(json_record.get('pgn', 'NULL'), 16)
       if debug_all: log.info('signalk: parseSIGK SignalK n2kpgn %s:%s', device, n2kpgn)
@@ -1853,22 +1856,11 @@ def parseSIGK(device, data):
         if debug_all: log.info('signalk: parseSIGK SignalK n2kvalue %s:%s', n2kkey, n2kvalue)
         
 
-        #skupdates = []
         skvalues= []
-
-        skcontext = "vessels.urn:mrn:imo:mmsi:338184312"
-      
-
-        #sksource = {"label":"antisense","type":"NMEA2000","pgn":127250,"src":"204"}
-        #sktimestamp = "2019-07-12T18:32:54.134Z"
 
         sksource = {"label":"chetcodigital","type":"NMEA2000","pgn":n2kpgn,"src":n2ksource}
         #sktimestamp = "2019-07-12T18:32:54.134Z"
         sktimestamp = n2ktimestamp
-
-        #skvalues.append({"path":"navigation.headingMagnetic","value":1.8979})
-        #skpath =  n2kdescription + '.' + n2kkey
-        #skvalues.append({"path":skpath,"value":n2kvalue})
         
         skpathjson =  createSIGKpath(n2kpgn, n2kkey, n2kpayload)
         #skpathjson =  ""
@@ -1881,47 +1873,38 @@ def parseSIGK(device, data):
           skupdate_source = {'source': sksource, "timestamp":sktimestamp,"values":skvalues}
           skupdates.append( skupdate_source)
 
-    skdata = {"updates":skupdates, "context":skcontext}
+    except ValueError as e:
+      if debug_all: log.info('signalk: parseSIGK SignalK ValueError in data %s:  ', record)
+      if debug_all: log.info('signalk: parseSIGK SignalK ValueError in data %s:  ' % str(e))
+      pass
 
-    if debug_all: log.info('signalk: parseSIGK SignalK json %s:%s', device, skdata)
-
-    return skdata
+    except NameError as e:
+      if debug_all: log.info('signalk: parseSIGK SignalK NameError in data %s:  ', record)
+      if debug_all: log.info('signalk: parseSIGK SignalK NameError in data %s:  ' % str(e))
+      pass
     
-
-
-
-
-
-  except ValueError as e:
-    if debug_all: log.info('signalk: parseSIGK SignalK ValueError in data %s:  ', data)
-
-    if debug_all: log.info('signalk: parseSIGK SignalK ValueError in data %s:  ' % str(e))
-
-    pass
-
-  except NameError as e:
-    if debug_all: log.info('signalk: parseSIGK SignalK NameError in data %s:  ', data)
-
-    if debug_all: log.info('signalk: parseSIGK SignalK NameError in data %s:  ' % str(e))
+    except TypeError as e:
+      if debug_all: log.info('signalk: parseSIGK SignalK TypeError in data %s:  ', record)
+      if debug_all: log.info('signalk: parseSIGK SignalK TypeError in data %s:  ' % str(e))
+      pass
     
-  except TypeError as e:
-    if debug_all: log.info('signalk: parseSIGK SignalK TypeError in data %s:  ', data)
+    except AttributeError as e:
+      if debug_all: log.info('signalk: parseSIGK SignalK AttributeError in data %s:  ', record)
+      if debug_all: log.info('signalk: parseSIGK SignalK AttributeError in data %s:  ' % str(e))
+      pass
+    
+    except:
+      if debug_all: log.info('signalk: parseSIGK SignalK error %s:%s', partition, device)
+      e = sys.exc_info()[0]
 
-    if debug_all: log.info('signalk: parseSIGK SignalK TypeError in data %s:  ' % str(e))
+      if debug_all: log.info("Error: %s" % str(e))
+      pass
 
-  except AttributeError as e:
-    if debug_all: log.info('signalk: parseSIGK SignalK AttributeError in data %s:  ', data)
+  skdata = {"updates":skupdates, "context":skcontext}
 
-    if debug_all: log.info('signalk: parseSIGK SignalK AttributeError in data %s:  ' % str(e))
+  if debug_all: log.info('signalk: parseSIGK SignalK json %s:%s', device, skdata)
 
-  except:
-    if debug_all: log.info('signalk: parseSIGK SignalK error %s:%s', partition, device)
-    e = sys.exc_info()[0]
-
-    if debug_all: log.info("Error: %s" % str(e))
-    pass
-
-
+  return skdata
 # ********************************************************************************************
 # Parses pgn_payload looking for vales based on n2kkey and fromats into signalk string
 def createSIGKpath(pgn_number, n2kkey, pgn_payload):
