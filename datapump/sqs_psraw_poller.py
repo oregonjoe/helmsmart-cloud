@@ -70,6 +70,25 @@ SCHEMA=Schema([
 env = xlocal()
 
 
+def ensure_database(conn, schema):
+ 
+  fact_info = [
+    (i,fact_schema(f))
+    for i,f in enumerate(schema.fields)
+    if f.type == "RECORD"
+  ]
+
+  #cursor = conn.cursor()
+
+  #execute_stmts(cursor, ensure_tables(fact_info))
+  #conn.commit()
+  #execute_stmts(cursor, ensure_data(conn))
+  #conn.commit()
+
+  return fact_info
+
+
+
 # JLB 022025  - added seperate influxdb record insert
 #@instrument
 def dump_TCPserver(message):
@@ -409,7 +428,7 @@ if __name__ == "__main__":
   
   
   conn = db_pool.getconn()
-  fact_info = ensure_database(conn, SCHEMA)
+  #fact_info = ensure_database(conn, SCHEMA)
   #db_pool.putconn(conn, close=True)  
   #if debug_all: log.info('sqs_post_poller: fact_info in main  %s:  ', fact_info)
   
@@ -417,7 +436,7 @@ if __name__ == "__main__":
     device_group = os.environ['DEVICE_GROUP'],
     db_pool = db_pool ,
     #s3_bucket = bucket(),
-    fact_info = fact_info,
+    #fact_info = fact_info,
     max_retries = os.environ.get('MAX_RETRIES',3)
   )
 
