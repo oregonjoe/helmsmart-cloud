@@ -19417,7 +19417,7 @@ def events_endpoint(device_id, partition):
     # now place in PUSHSMART RAW SQS queue
     # #######################################################
     # Send message to SQS queue
-    """
+
     response = sqs_queue.send_message(
         QueueUrl=psraw_queue_url,
         DelaySeconds=10,
@@ -19428,7 +19428,7 @@ def events_endpoint(device_id, partition):
     #print(response['MessageId'])
 
     log.info("Send SQS PSRAW:device_id %s:  response %s: ", device_id,response['MessageId'])
-    """
+
 
     
   except botocore.exceptions.ClientError as e:
