@@ -86,6 +86,10 @@ debug_memcachier = False
 #from helmsmartmodules.user_db_functions import getdashboardlists
 import helmsmartmodules.user_db_functions as user_db_functions
 
+import datapump.signalk as signalk
+from signalk import createSIGKpath, parseSIGK
+
+
 #from helmsmartmodules import user_db_functions
 import datapump.nmea as nmea
 from splicer import Schema
@@ -20322,7 +20326,15 @@ def freeboard_raw():
         log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", dump_json(schema, mysortedrecords))
         return dump_json(schema, mysortedrecords)    
 
-        
+      elif psformat == "sgk":
+        schema = SCHEMA
+        nmea_records = nmea.loads(PGNValues)
+        mysortedrecords = sorted(nmea_records, key=lambda t:t[1])
+
+        skdata = parseSIGK(deviceid, dump_json(schema, mysortedrecords))
+        log.info("freeboard_raw Get InfluxDB psraw sigk_records %s", dump_json(schema, skdata))
+        return skdata
+              
       else:    
         return PGNValues[0:5072]
 
