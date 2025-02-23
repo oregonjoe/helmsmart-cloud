@@ -87,8 +87,13 @@ debug_memcachier = False
 import helmsmartmodules.user_db_functions as user_db_functions
 
 #from helmsmartmodules import user_db_functions
-
-
+import datapump.nmea as nmea
+from splicer import Schema
+SCHEMA=Schema([
+  dict(name="device",type='STRING'),
+  dict(name="partition",type='STRING'),
+  dict(name="url",type='STRING'),
+]+nmea.SCHEMA.fields)
 
 requests_log = logging.getLogger("requests")
 #requests_log.setLevel(logging.WARNING)
@@ -20253,7 +20258,10 @@ def freeboard_raw():
 
     #values = response.select(['psraw'])
     values = response.column('psraw')
-    #log.info("freeboard Get InfluxDB psraw values %s", values)
+    log.info("freeboard_raw Get InfluxDB psraw values %s", values)
+
+    nmea_records = nmea.loads((json.dumps(values)))
+    log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", nmea_records)
      
     jsondata=[]
 
