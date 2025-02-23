@@ -1803,8 +1803,123 @@ def createSIGKpathPGN65292(n2kkey, pgn_payload):
   return {}
 
 
+# ********************************************************************************************
+# Parses pgn_payload looking for vales based on n2kkey and fromats into signalk string
+def parseSIGK(device, data):
+  
+  # **************************************************
+  # For Signal K
+  # **************************************************
+
+  try:
+
+    skupdates = []
+
+    json_data = json.loads(data)
+    
+    for record in json_data:
+      
+      if debug_all: log.info('signalk: parseSIGK SignalK record %s:%s', device, record)
+      
+      json_record = {}
+      if record != None:
+        json_record = record
+      
+      if debug_all: log.info('signalk: parseSIGK SignalK record %s:%s', device, json_record)
 
 
+
+      n2kpgn = int(json_record.get('pgn', 'NULL'), 16)
+      if debug_all: log.info('signalk: parseSIGK SignalK n2kpgn %s:%s', device, n2kpgn)
+      
+      n2kdescription = json_record.get('description', 'NULL')
+      if debug_all: log.info('signalk: parseSIGK SignalK n2kdescription %s:%s', device, n2kdescription)
+      
+      n2ksource = json_record.get('source', 'NULL')
+      if debug_all: log.info('signalk: parseSIGK SignalK n2ksource %s:%s', device, n2ksource)
+      
+      n2ktimestamp = json_record.get('timestamp', 'NULL')
+      if debug_all: log.info('signalk: parseSIGK SignalK n2ktimestamp %s:%s', device, n2ktimestamp)
+
+      n2kpayload = json_record.get('payload', 'NULL')
+      if debug_all: log.info('signalk: dump_pcdinfirebase SignalK n2kpayload %s:%s', device, n2kpayload)
+
+      n2kkeys = n2kpayload.keys()
+      if debug_all: log.info('signalk: parseSIGK SignalK n2kkeys %s:%s', device, n2kkeys)
+
+      for n2kkey in n2kkeys:
+        n2kvalue = n2kpayload.get(n2kkey, 'NULL')
+
+        if debug_all: log.info('signalk: parseSIGK SignalK n2kvalue %s:%s', n2kkey, n2kvalue)
+        
+
+        #skupdates = []
+        skvalues= []
+
+        skcontext = "vessels.urn:mrn:imo:mmsi:338184312"
+      
+
+        #sksource = {"label":"antisense","type":"NMEA2000","pgn":127250,"src":"204"}
+        #sktimestamp = "2019-07-12T18:32:54.134Z"
+
+        sksource = {"label":"chetcodigital","type":"NMEA2000","pgn":n2kpgn,"src":n2ksource}
+        #sktimestamp = "2019-07-12T18:32:54.134Z"
+        sktimestamp = n2ktimestamp
+
+        #skvalues.append({"path":"navigation.headingMagnetic","value":1.8979})
+        #skpath =  n2kdescription + '.' + n2kkey
+        #skvalues.append({"path":skpath,"value":n2kvalue})
+        
+        skpathjson =  createSIGKpath(n2kpgn, n2kkey, n2kpayload)
+        #skpathjson =  ""
+        
+        if debug_all: log.info('signalk: parseSIGK SignalK skpathjson %s:%s', device, skpathjson)
+
+        if skpathjson != {}:
+          skvalues.append(skpathjson)
+
+          skupdate_source = {'source': sksource, "timestamp":sktimestamp,"values":skvalues}
+          skupdates.append( skupdate_source)
+
+    skdata = {"updates":skupdates, "context":skcontext}
+
+    if debug_all: log.info('signalk: parseSIGK SignalK json %s:%s', device, skdata)
+
+    return skdata
+    
+
+
+
+
+
+  except ValueError as e:
+    if debug_all: log.info('signalk: parseSIGK SignalK ValueError in data %s:  ', data)
+
+    if debug_all: log.info('signalk: parseSIGK SignalK ValueError in data %s:  ' % str(e))
+
+    pass
+
+  except NameError as e:
+    if debug_all: log.info('signalk: parseSIGK SignalK NameError in data %s:  ', data)
+
+    if debug_all: log.info('signalk: parseSIGK SignalK NameError in data %s:  ' % str(e))
+    
+  except TypeError as e:
+    if debug_all: log.info('signalk: parseSIGK SignalK TypeError in data %s:  ', data)
+
+    if debug_all: log.info('signalk: parseSIGK SignalK TypeError in data %s:  ' % str(e))
+
+  except AttributeError as e:
+    if debug_all: log.info('signalk: parseSIGK SignalK AttributeError in data %s:  ', data)
+
+    if debug_all: log.info('signalk: parseSIGK SignalK AttributeError in data %s:  ' % str(e))
+
+  except:
+    if debug_all: log.info('signalk: parseSIGK SignalK error %s:%s', partition, device)
+    e = sys.exc_info()[0]
+
+    if debug_all: log.info("Error: %s" % str(e))
+    pass
 
 
 # ********************************************************************************************

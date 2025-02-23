@@ -90,13 +90,13 @@ import helmsmartmodules.user_db_functions as user_db_functions
 #import datapump.signalk.createSIGKpath as createSIGKpath
 #import datapump.signalk.parseSIGK as parseSIGK
 
-
+import datapump.nmea as nmea
 import datapump.signalk as signalk
 #from signalk import createSIGKpath, parseSIGK
 
 
 #from helmsmartmodules import user_db_functions
-import datapump.nmea as nmea
+
 from splicer import Schema
 SCHEMA=Schema([
   dict(name="device",type='STRING'),
@@ -20336,7 +20336,7 @@ def freeboard_raw():
         nmea_records = nmea.loads(PGNValues)
         mysortedrecords = sorted(nmea_records, key=lambda t:t[1])
 
-        skdata = parseSIGK(deviceid, dump_json(schema, mysortedrecords))
+        skdata = signalk.parseSIGK(deviceid, dump_json(schema, mysortedrecords))
         log.info("freeboard_raw Get InfluxDB psraw sigk_records %s", dump_json(schema, skdata))
         return skdata
               
