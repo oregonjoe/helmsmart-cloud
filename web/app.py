@@ -20269,7 +20269,7 @@ def freeboard_raw():
         #log.info("influxdb psraw..%s", series.as_py() )
 
         if psformat == "csv":
-          PGNValues= PGNValues + series.as_py() + ',\r\n'
+          PGNValues= PGNValues + '"' + series.as_py()  + '"' + ',\r\n'
         else:
           PGNValues= PGNValues + series.as_py() + '\r\n'
 
