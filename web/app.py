@@ -87,8 +87,8 @@ debug_memcachier = False
 import helmsmartmodules.user_db_functions as user_db_functions
 
 
-import datapump.signalk.createSIGKpath as createSIGKpath
-import datapump.signalk.parseSIGK as parseSIGK
+#import datapump.signalk.createSIGKpath as createSIGKpath
+#import datapump.signalk.parseSIGK as parseSIGK
 
 
 #import datapump.signalk as signalk
