@@ -20275,10 +20275,14 @@ def freeboard_raw():
 
 
       if psformat == "json":
-        return jsonify(result="OK", PGNValues=PGNValues[0:1024], measurement=measurement, interval=Interval  )
+        return jsonify(result="OK", PGNValues=PGNValues[0:5072], measurement=measurement, interval=Interval  )
 
       elif psformat == "csv":
-        return PGNValues[0:5072]
+        response = make_response(PGNValues[0:5072])
+        response.headers['Content-Type'] = 'text/csv'
+        response.headers["Content-Disposition"] = "attachment; filename=PushSmart_" + measurement + ".csv"
+        return response
+        
         
       else:    
         return PGNValues[0:5072]
