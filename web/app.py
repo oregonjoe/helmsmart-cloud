@@ -20277,6 +20277,8 @@ def freeboard_raw():
 
         if psformat == "csv":
           PGNValues= PGNValues + '"' + series.as_py()  + '"' + ',\r\n'
+        elif psformat == "psd":
+          PGNValues= PGNValues + series.as_py() + '\\r\\n'
         else:
           PGNValues= PGNValues + series.as_py() + '\r\n'
 

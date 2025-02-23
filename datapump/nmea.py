@@ -58,7 +58,8 @@ def loads(string):
 
   nmea_lines = events(string)
   if debug_all: log.info('NMEA : loads nmea_lines %s:  ' , nmea_lines)
-  
+  log.info('NMEA : loads nmea_lines %s:  ' , nmea_lines)
+   
   nmea_list = interpeted(nmea_lines)
   #return list(interpeted(events(string)))
   return list(nmea_list)
