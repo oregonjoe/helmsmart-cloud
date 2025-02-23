@@ -37,6 +37,8 @@ import logging
 # ********************************************************************
 debug_all = False
 debug_all = True
+debug_all_influxdb = True
+
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging
@@ -135,77 +137,6 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000000):
     if debug_all: log.info("NMEA get timestamp error -  timestamp greater then current %s ", timestamp)
     return ps_tms
     
-def convert_influxdbcloud_json(mytime, value, key):
-
-  try:
-
-    #mydtt = time.strptime(mytime, "%Y-%m-%d %H:%M:%S")    
-    #mydtt = datetime.strptime(mytime, "%Y-%m-%d %H:%M:%S")
-    #"2009-11-10T23:00:00Z"
-    mydtt = mytime.timetuple()
-    ts = int(mktime(mydtt) * 1000)
-    #ts = mytime.replace(' ','T')
-    #ts = ts + 'Z'
-
-
-    
-
-    tagpairs = key.split(".")
-    #if debug_all: log.info('freeboard: convert_influxdbcloud_json tagpairs %s:  ', tagpairs)
-
-    myjsonkeys={}
-    #deviceid
-    tag0 = tagpairs[0].split(":")
-    #sensor
-    tag1 = tagpairs[1].split(":")
-    #source
-    tag2 = tagpairs[2].split(":")
-    #instance
-    tag3 = tagpairs[3].split(":")
-    #type
-    tag4 = tagpairs[4].split(":")
-    #parameter
-    tag5 = tagpairs[5].split(":")
-
-    #"deviceid:001EC010AD69.sensor:environmental_data.source:0.instance:0.type:Outside_Temperature.parameter:temperature.HelmSmart"
-    #myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'source':tag2[1], 'instance':tag3[1], 'type':tag4[1], 'parameter':tag5[1]}
-    myjsonkeys = { 'deviceid':tag0[1], 'sensor':tag1[1], 'instance':tag3[1], 'type':tag4[1], 'parameter':tag5[1]}
-    #if debug_all: log.info('freeboard: convert_influxdbcloud_json tagpairs %s:  ', myjsonkeys)
-
-    #values = {'value':value}
-    values = {tag5[1]:value, 'source':tag2[1]}
-    measurement = 'HS_'+str(tag0[1])
-    #ifluxjson ={"measurement":tagpairs[6], "time": ts, "tags":myjsonkeys, "fields": values}
-    ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
-    #if debug_all: log.info('freeboard: convert_influxdbcloud_json %s:  ', ifluxjson)
-
-    return ifluxjson
-
-  except AttributeError as e:
-    if debug_all: log.info('Sync: AttributeError in convert_influxdbcloud_json %s:  ', mytime)
-    #e = sys.exc_info()[0]
-
-    if debug_all: log.info('Sync: AttributeError in convert_influxdbcloud_json %s:  ' % str(e))
-    
-  except TypeError as e:
-    if debug_all: log.info('Sync: TypeError in convert_influxdbcloud_json %s:  ', mytime)
-    #e = sys.exc_info()[0]
-
-    if debug_all: log.info('Sync: TypeError in convert_influxdbcloud_json %s:  ' % str(e))
-    
-  except NameError as e:
-    if debug_all: log.info('Sync: NameError in convert_influxdbcloud_json %s:  ', mytime)
-    #e = sys.exc_info()[0]
-
-    if debug_all: log.info('Sync: NameError in convert_influxdbcloud_json %s:  ' % str(e))
-    
-  except:
-    if debug_all: log.info('Sync: Error convert_influxdbcloud_json %s:', mytime)
-
-    e = sys.exc_info()[0]
-    if debug_all: log.info("Sync.py Error in convert_influxdbcloud_json: %s" % e)
-
-
 
 #022225 JLB added to convert PushSmart record to influxdb-cloud JSON
 def convert_influxdb_cloud_tcpjson(psvalue,  deviceid):
