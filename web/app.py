@@ -20292,9 +20292,12 @@ def freeboard_raw():
         response.headers["Content-Disposition"] = "attachment; filename=PushSmart_" + measurement + ".csv"
         return response
         
-      elif psformat == "psd":  
+      elif psformat == "psd":
+        schema = SCHEMA
         nmea_records = nmea.loads(PGNValues)
-        log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", nmea_records)
+        mysortedrecords = sorted(nmea_records, key=lambda t:t[1])
+
+        log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", dump_json(schema, mysortedrecords))
         return PGNValues[0:5072]     
 
         
