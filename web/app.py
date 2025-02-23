@@ -20259,7 +20259,9 @@ def freeboard_raw():
     #values = response.select(['psraw'])
     values = response.column('psraw')
     log.info("freeboard_raw Get InfluxDB psraw values %s", values)
+    log.info("freeboard_raw Get InfluxDB psraw json.dumps(values) %s", json.dumps(values))
 
+    
     nmea_records = nmea.loads((json.dumps(values)))
     log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", nmea_records)
      
