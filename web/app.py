@@ -20320,7 +20320,7 @@ def freeboard_raw():
         mysortedrecords = sorted(nmea_records, key=lambda t:t[1])
 
         log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", dump_json(schema, mysortedrecords))
-        return PGNValues[0:5072]     
+        return dump_json(schema, mysortedrecords)    
 
         
       else:    
