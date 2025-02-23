@@ -20079,8 +20079,8 @@ def freeboard_tcp(apikey):
     #return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
     return 'error'
 
-@app.route('/seasmartg3_pushsmart')
-@app.route('/seagaugeg4_pushsmart')
+
+@app.route('/pushsmart')
 @app.route('/freeboard_raw')
 @cross_origin()
 def freeboard_raw():
@@ -20096,7 +20096,9 @@ def freeboard_raw():
     Interval = request.args.get('interval',"5 minutes")
     Instance = request.args.get('instance','0')
     resolution = request.args.get('resolution',"")
+    psformat = request.args.get('format',"raw")
 
+    
     """    
     starttime = 0
 
@@ -20230,6 +20232,9 @@ def freeboard_raw():
         log.info("freeboard: Error: %s" % e)
         pass
 
+    #close the connection
+    client.close()
+    
     if response is None:
         log.info('freeboard: InfluxDB Query has no data ')
         #callback = request.args.get('callback')
@@ -20248,109 +20253,37 @@ def freeboard_raw():
 
     #values = response.select(['psraw'])
     values = response.column('psraw')
-    #keys = result.keys()
-    log.info("freeboard Get InfluxDB psraw values %s", values)
-
-
-    #callback = request.args.get('callback')
-    #return '{0}({1})'.format(callback, {'update':'False', 'status':'success' })
+    #log.info("freeboard Get InfluxDB psraw values %s", values)
      
     jsondata=[]
-    #jsonkey=[]
-    #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
-    #jsonkey.append(strvaluekey)
-    #print 'freeboard start processing data points:'
-    PGNValues=""
-    #log.info("freeboard jsonkey..%s", jsonkey )
+
+
+    if psformat == "csv":
+      PGNValues= measurement + ',\r\n'
+    else:
+      PGNValues=""
+
     try:
     
-
       for series in values:
         #log.info("influxdb psraw..%s", series.as_py() )
-        #log.info("influxdb results..%s", series )
-        #strvalue ={}
-        PGNValues= PGNValues + series.as_py() + '\r\n'
-        #points = list(response.get_points())
 
-        #log.info('freeboard:  InfluxDB-Cloud points%s:', points)
+        if psformat == "csv":
+          PGNValues= PGNValues + series.as_py() + ',\r\n'
+        else:
+          PGNValues= PGNValues + series.as_py() + '\r\n'
 
-        #name = series['name']
-        #name = series['tags']            
-        #log.info("inFluxDB_GPS_JSON name %s", name )
-        #seriesname = series['tags'] 
-        #seriestags = seriesname.split(".")
-        #seriessourcetag = seriestags[2]
-        #seriessource = seriessourcetag.split(":")
-        #source= seriesname['source']
-        #PGN= seriesname['type']
-        #parameter = seriesname['parameter']
-        #log.info("inFluxDB_GPS_JSON values %s", series['values'] )
-        #pgnpoints = series['values']
+
+      if psformat == "json":
+        return jsonify(result="OK", PGNValues=PGNValues[0:1024], measurement=measurement, interval=Interval  )
+
+      elif psformat == "csv":
+        return PGNValues[0:5072]
         
-        """        
-        for point in  series['values']:
-          #pgnpoints = point['raw']
-          fields = {}
-          for key, val in zip(series['columns'], point):
-            fields[key] = val
+      else:    
+        return PGNValues[0:5072]
 
-          log.info("influxdb results..%s",  fields['psraw'] ) 
-          PGNValues= PGNValues + fields['psraw'] + '\r\n'
-        """
-          
-        """
-        for point in  series['values']:
-          fields = {}
-          fields[parameter] = None
-          for key, val in zip(series['columns'], point):
-            fields[key] = val
-            
-          #strvalue = {'epoch': fields['time'], 'tag':seriesname, 'lat': fields['lat'], 'lng': fields['lng']}
-          #log.info("freeboard Get InfluxDB series points %s , %s", fields['time'], fields[parameter])
-
-          mydatetimestr = str(fields['time'])
-
-          #mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
-          mydatetime =  int(time.mktime(time.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')))
-          
-          #strvalue = {'epoch': fields['time'], 'source':tag['source'], 'value': fields[parameter]}
-          if fields[parameter] != None:
-            #strvalues = []
-            strvalue = {'epoch': mydatetime, 'tag':seriesname, 'PGN':PGN, 'value': fields[parameter]}
-            strvalues = (mydatetime, PGN,  parameter, fields[parameter] )
-
-            
-        jsondata.append(strvalues)
-        """
-        #PGNValues= PGNValues + pgnpoints['raw'] + "\r\n"
-
-        """
-        for point in points:
-          log.info('freeboard:  InfluxDB-Cloud point%s:', point)
-          if point['raw'] is not None: 
-            value1 = point['raw']
-            
-
-         
-          mydatetimestr = str(point['time'])
-
-          mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%SZ')
-
-        log.info('freeboard: freeboard returning data values tcp:%s,   ', value1)            
-        """
-      #callback = request.args.get('callback')
-      #myjsondate = mydatetime.strftime("%B %d, %Y %H:%M:%S")
-
-
-      #return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','lat':value1, 'lng':value2,})
-      #return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','raw':value1})
-      #return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','raw':jsondata})
-      #response = make_response(PGNValues)
-      #response.headers['Content-Type'] = 'text/txt'
-      #return response
-      #return jsonify(result="OK", PGNValues='$PCDIN,01F010,69BEO231,06,C6F09D42309D3926*5F\r\n$PCDIN,01F112,69BEO22M,06,EAE2090000390AFD*2A\r\n$PCDIN,01F119,69BEO23E,06,C1FF7FE9FE3BFEFF*25\r\n$PCDIN,01F11A,69BEO23D,06,C1F59D42390AFFFF*53\r\n$PCDIN,01F801,69BEO22K,06,20A80A191C2103B6*20\r\n$PCDIN,01F802,69BEO22L,06,C6FCD8BC0A00FFFF*5C\r\n')
-      #return jsonify(result="OK", PGNValues=PGNValues[0:1024])
-      return PGNValues[0:5072]
+    
       #return jsonify(results = PGNValues)
 
     except TypeError as e:
