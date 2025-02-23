@@ -20330,18 +20330,18 @@ def freeboard_raw():
         nmea_records = nmea.loads(PGNValues)
         mysortedrecords = sorted(nmea_records, key=lambda t:t[1])
 
-        log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", dump_json(schema, mysortedrecords))
+        #log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", dump_json(schema, mysortedrecords))
         return dump_json(schema, mysortedrecords)    
 
       elif psformat == "sgk":
         schema = SCHEMA
         nmea_records = nmea.loads(PGNValues)
         mysortedrecords = sorted(nmea_records, key=lambda t:t[1])
-        log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", dump_json(schema, mysortedrecords))
+        #log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", dump_json(schema, mysortedrecords))
 
 
         skdata = signalk.parseSIGK(deviceid, dump_json(schema, mysortedrecords))
-        log.info("freeboard_raw Get InfluxDB psraw sigk_records %s", skdata)
+        #log.info("freeboard_raw Get InfluxDB psraw sigk_records %s", skdata)
         return skdata
               
       else:    
