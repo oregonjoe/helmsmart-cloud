@@ -20310,6 +20310,8 @@ def freeboard_raw():
           PGNValues= PGNValues + '"' + series.as_py()  + '"' + ',\r\n'
         elif psformat == "psd":
           PGNValues= PGNValues + series.as_py() + '\\r\\n'
+        elif psformat == "sgk":
+          PGNValues= PGNValues + series.as_py() + '\\r\\n'
         else:
           PGNValues= PGNValues + series.as_py() + '\r\n'
 
@@ -20335,6 +20337,8 @@ def freeboard_raw():
         schema = SCHEMA
         nmea_records = nmea.loads(PGNValues)
         mysortedrecords = sorted(nmea_records, key=lambda t:t[1])
+        log.info("freeboard_raw Get InfluxDB psraw nmea_records %s", dump_json(schema, mysortedrecords))
+
 
         skdata = signalk.parseSIGK(deviceid, dump_json(schema, mysortedrecords))
         log.info("freeboard_raw Get InfluxDB psraw sigk_records %s", skdata)
