@@ -20337,7 +20337,7 @@ def freeboard_raw():
         mysortedrecords = sorted(nmea_records, key=lambda t:t[1])
 
         skdata = signalk.parseSIGK(deviceid, dump_json(schema, mysortedrecords))
-        log.info("freeboard_raw Get InfluxDB psraw sigk_records %s", dump_json(schema, skdata))
+        log.info("freeboard_raw Get InfluxDB psraw sigk_records %s", skdata)
         return skdata
               
       else:    
