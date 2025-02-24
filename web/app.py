@@ -20115,9 +20115,51 @@ def freeboard_tcp(apikey):
     #return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
     return 'error'
 
-@app.route('/pushsmart')
-@app.route('/pushsmart/signalk')
+
 @app.route('/signalk')
+@cross_origin()
+def signalk_hello():
+
+  hello_message = {
+      "name": "HelmSmart Signal K Server",
+      "version": "0.1.0",
+      "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+      "self": "vessels.urn:mrn:signalk:uuid:c0d79334-4e25-4245-8892-54e8ccc8021d",
+      "roles": ["master"]
+  }
+
+  return json.dumps(hello_message)   
+
+@app.route('/signalk/v1/api/self')
+@cross_origin()
+def signalk_api_self():
+
+  hello_message = {
+      "name": "HelmSmart Signal K Server",
+      "version": "0.1.0",
+      "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+      "self": "urn:mrn:signalk:uuid:your-uuid",
+      "roles": ["master"]
+  }
+
+  return json.dumps(hello_message)
+
+
+@app.route('/signalk/v1/api/vessels/self')
+@cross_origin()
+def signalk_api__vessels_self():
+
+  hello_message = {
+      "name": "HelmSmart Signal K Server",
+      "version": "0.1.0",
+      "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+      "self": "urn:mrn:signalk:uuid:your-uuid",
+      "roles": ["master"]
+  }
+
+  return json.dumps(hello_message)     
+
+@app.route('/pushsmart')
 @app.route('/freeboard_raw')
 @cross_origin()
 def freeboard_raw():
