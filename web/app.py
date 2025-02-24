@@ -20125,7 +20125,7 @@ def freeboard_raw():
     #deviceapikey =apikey
     #Interval = "1min"
      
-    devicekey = request.args.get('devicekey', '')
+    devicekey = request.args.get('devicekey', 'cd7ade4354448b169463652859657cd7')
     #deviceid = request.args.get('deviceid', '')
     startepoch = request.args.get('startepoch', 0)
     endepoch = request.args.get('endepoch', 0)
@@ -20133,7 +20133,7 @@ def freeboard_raw():
     Interval = request.args.get('interval',"5 minutes")
     Instance = request.args.get('instance','0')
     resolution = request.args.get('resolution',"")
-    psformat = request.args.get('format',"raw")
+    psformat = request.args.get('format',"sgk")
 
     
     """    
