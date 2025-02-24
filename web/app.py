@@ -20115,8 +20115,9 @@ def freeboard_tcp(apikey):
     #return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
     return 'error'
 
-
 @app.route('/pushsmart')
+@app.route('/pushsmart/signalk')
+@app.route('/signalk')
 @app.route('/freeboard_raw')
 @cross_origin()
 def freeboard_raw():
