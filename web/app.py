@@ -20145,7 +20145,7 @@ def signalk_api_self():
   return json.dumps(hello_message)
 
 
-@app.route('/signalk/v1/api/vessels/self')
+@app.route('/signalk/v1/api/vessels/self/')
 @cross_origin()
 def signalk_api__vessels_self():
 
