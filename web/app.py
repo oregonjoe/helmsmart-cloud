@@ -20135,14 +20135,63 @@ def signalk_hello():
 def signalk_api_self():
 
   hello_message = {
-      "name": "HelmSmart Signal K Server",
-      "version": "0.1.0",
-      "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-      "self": "urn:mrn:signalk:uuid:your-uuid",
-      "roles": ["master"]
+    "version": "1.0.0",
+    "self": "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c",
+    "vessels": {
+      "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c": {
+        "navigation": {
+          "speedOverGround": {
+            "value": 4.32693662,
+            "$source": "ttyUSB0.GP",
+            "sentence": "RMC",
+            "timestamp": "2017-05-16T05:15:50.007Z"
+          },
+          "position": {
+            "value": {
+              "altitude": 0.0,
+              "latitude": 37.81479,
+              "longitude": -122.44880152
+            },
+            "$source": "ttyUSB0.GP",
+            "sentence": "RMC",
+            "timestamp": "2017-05-16T05:15:50.007Z"
+          },
+          "headingMagnetic": {
+            "value": 5.55014702,
+            "$source": "ttyUSB0.II",
+            "sentence": "HDM",
+            "timestamp": "2017-05-16T05:15:54.006Z"
+          }
+        },
+        "name": "Motu",
+        "uuid": "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c"
+      }
+    },
+    "sources": {
+      "ttyUSB0": {
+        "label": "ttyUSB0",
+        "type": "NMEA0183",
+        "GP": {
+          "talker": "GP",
+          "sentences": {
+            "RMC": "2017-04-03T06:14:04.451Z"
+          }
+        },
+        "II": {
+          "talker": "II",
+          "sentences": {
+            "HDM": "2017-05-16T05:15:54.006Z"
+          }
+        }
+      }
+    }
   }
 
   return json.dumps(hello_message)
+
+
+
+
 
 
 @app.route('/signalk/v1/api/vessels/self/')
@@ -20150,14 +20199,82 @@ def signalk_api_self():
 def signalk_api__vessels_self():
 
   hello_message = {
-      "name": "HelmSmart Signal K Server",
-      "version": "0.1.0",
-      "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-      "self": "urn:mrn:signalk:uuid:your-uuid",
-      "roles": ["master"]
+    "version": "1.0.0",
+    "self": "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c",
+    "vessels": {
+      "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c": {
+        "navigation": {
+          "speedOverGround": {
+            "value": 4.32693662,
+            "$source": "ttyUSB0.GP",
+            "sentence": "RMC",
+            "timestamp": "2017-05-16T05:15:50.007Z"
+          },
+          "position": {
+            "value": {
+              "altitude": 0.0,
+              "latitude": 37.81479,
+              "longitude": -122.44880152
+            },
+            "$source": "ttyUSB0.GP",
+            "sentence": "RMC",
+            "timestamp": "2017-05-16T05:15:50.007Z"
+          },
+          "headingMagnetic": {
+            "value": 5.55014702,
+            "$source": "ttyUSB0.II",
+            "sentence": "HDM",
+            "timestamp": "2017-05-16T05:15:54.006Z"
+          }
+        },
+        "name": "Motu",
+        "uuid": "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c"
+      }
+    },
+    "sources": {
+      "ttyUSB0": {
+        "label": "ttyUSB0",
+        "type": "NMEA0183",
+        "GP": {
+          "talker": "GP",
+          "sentences": {
+            "RMC": "2017-04-03T06:14:04.451Z"
+          }
+        },
+        "II": {
+          "talker": "II",
+          "sentences": {
+            "HDM": "2017-05-16T05:15:54.006Z"
+          }
+        }
+      }
+    }
   }
 
   return json.dumps(hello_message)     
+
+
+@app.route('/signalk/v1/api/vessels/123456789/navigation/speedThroughWater')
+@cross_origin()
+def signalk_api__vessels_self():
+
+  hello_message = {
+      "value": 2.55,
+      "source": {
+          "type": "NMEA0183",
+          "src": "VHW",
+          "label": "signalk-parser-nmea0183"
+      },
+      "timestamp": "2015-08-31T05:45:36.000Z"
+  }
+
+  return json.dumps(hello_message)     
+
+
+
+
+
+
 
 @app.route('/pushsmart')
 @app.route('/freeboard_raw')
