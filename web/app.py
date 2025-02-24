@@ -20134,7 +20134,7 @@ def signalk_hello():
 @cross_origin()
 def signalk_api_self():
 
-   hello_message = {
+  hello_message = {
       "name": "HelmSmart Signal K Server",
       "version": "0.1.0",
       "mmsi": "338184312",
