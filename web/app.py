@@ -20196,7 +20196,7 @@ def signalk_api_self():
 
 @app.route('/signalk/v1/api/vessels/self/')
 @cross_origin()
-def signalk_api__vessels_self():
+def signalk_api_vessels_self():
 
   hello_message = {
     "version": "1.0.0",
@@ -20256,7 +20256,7 @@ def signalk_api__vessels_self():
 
 @app.route('/signalk/v1/api/vessels/123456789/navigation/speedThroughWater')
 @cross_origin()
-def signalk_api__vessels_self():
+def signalk_api_vessels_self_navigation():
 
   hello_message = {
       "value": 2.55,
