@@ -20155,16 +20155,8 @@ def signalk_hello():
       "endpoints": {
           "v1": {
               "version": "1.1.2",
-              "signalk-http": "http://www.helmsmart-cloud.com/signalk/v1/api/",
-              "signalk-ws": "ws://www.helmsmart-cloud.com/signalk/v1/stream"
-          },
-          "v3": {
-              "version": "3.0",
-              "signalk-http": "http://www.helmsmart-cloud.com/signalk/v3/api/",
-              "signalk-ws": "ws://www.helmsmart-cloud.com/signalk/v3/stream",
-              "signalk-tcp": "tcp://192.168.1.2:34568"
+              "signalk-http": "http://www.helmsmart-cloud.com/signalk/v1/api/"
           }
-
       }
   }
   return json.dumps(hello_message)
@@ -20181,58 +20173,12 @@ def signalk_hello():
 def signalk_api_self():
 
   hello_message = {
-    "version": "1.0.0",
-    "self": "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c",
-    "vessels": {
-      "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c": {
-        "navigation": {
-          "speedOverGround": {
-            "value": 4.32693662,
-            "$source": "ttyUSB0.GP",
-            "sentence": "RMC",
-            "timestamp": "2017-05-16T05:15:50.007Z"
-          },
-          "position": {
-            "value": {
-              "altitude": 0.0,
-              "latitude": 37.81479,
-              "longitude": -122.44880152
-            },
-            "$source": "ttyUSB0.GP",
-            "sentence": "RMC",
-            "timestamp": "2017-05-16T05:15:50.007Z"
-          },
-          "headingMagnetic": {
-            "value": 5.55014702,
-            "$source": "ttyUSB0.II",
-            "sentence": "HDM",
-            "timestamp": "2017-05-16T05:15:54.006Z"
-          }
-        },
-        "name": "Motu",
-        "uuid": "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c"
-      }
-    },
-    "sources": {
-      "ttyUSB0": {
-        "label": "ttyUSB0",
-        "type": "NMEA0183",
-        "GP": {
-          "talker": "GP",
-          "sentences": {
-            "RMC": "2017-04-03T06:14:04.451Z"
-          }
-        },
-        "II": {
-          "talker": "II",
-          "sentences": {
-            "HDM": "2017-05-16T05:15:54.006Z"
-          }
-        }
-      }
-    }
+      "name": "HelmSmart Signal K Server",
+      "version": "0.1.0",
+      "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+      "self": "vessels.urn:mrn:signalk:uuid:c0d79334-4e25-4245-8892-54e8ccc8021d",
+      "roles": ["master"]
   }
-  
   return json.dumps(hello_message)
 
 
