@@ -20116,6 +20116,21 @@ def freeboard_tcp(apikey):
     return 'error'
 
 
+@socketio.on('message')
+def handle_message(message):
+  log.info('socketio handle_message: message %s:  ' % e)
+  hello_message = {
+      "name": "HelmSmart Signal K Server",
+      "version": "0.1.0",
+      "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+      "self": "vessels.urn:mrn:signalk:uuid:c0d79334-4e25-4245-8892-54e8ccc8021d",
+      "roles": ["master"]
+  }
+  #send(message)
+  sid = request.sid
+  emit(hello_message, room=sid)
+
+"""
 @app.route('/signalk')
 @cross_origin()
 def signalk_hello():
@@ -20128,19 +20143,96 @@ def signalk_hello():
       "roles": ["master"]
   }
 
-  return json.dumps(hello_message)   
+  return json.dumps(hello_message)
+"""
+
+
+@app.route('/signalk')
+@cross_origin()
+def signalk_hello():
+
+  hello_message = {
+      "endpoints": {
+          "v1": {
+              "version": "1.1.2",
+              "signalk-http": "http://www.helmsmart-cloud.com/signalk/v1/api/",
+              "signalk-ws": "ws://www.helmsmart-cloud.com/signalk/v1/stream"
+          },
+          "v3": {
+              "version": "3.0",
+              "signalk-http": "http://www.helmsmart-cloud.com/signalk/v3/api/",
+              "signalk-ws": "ws://www.helmsmart-cloud.com/signalk/v3/stream"
+              "signalk-tcp": "tcp://192.168.1.2:34568"
+          }
+
+      }
+  }
+  return json.dumps(hello_message)
+
+
+
+
+
+
+
 
 @app.route('/signalk/v1/api/self')
 @cross_origin()
 def signalk_api_self():
 
   hello_message = {
-      "name": "HelmSmart Signal K Server",
-      "version": "0.1.0",
-      "mmsi": "338184312",
-      "self": "urn:mrn:imo:mmsi:338184312"
+    "version": "1.0.0",
+    "self": "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c",
+    "vessels": {
+      "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c": {
+        "navigation": {
+          "speedOverGround": {
+            "value": 4.32693662,
+            "$source": "ttyUSB0.GP",
+            "sentence": "RMC",
+            "timestamp": "2017-05-16T05:15:50.007Z"
+          },
+          "position": {
+            "value": {
+              "altitude": 0.0,
+              "latitude": 37.81479,
+              "longitude": -122.44880152
+            },
+            "$source": "ttyUSB0.GP",
+            "sentence": "RMC",
+            "timestamp": "2017-05-16T05:15:50.007Z"
+          },
+          "headingMagnetic": {
+            "value": 5.55014702,
+            "$source": "ttyUSB0.II",
+            "sentence": "HDM",
+            "timestamp": "2017-05-16T05:15:54.006Z"
+          }
+        },
+        "name": "Motu",
+        "uuid": "urn:mrn:signalk:uuid:705f5f1a-efaf-44aa-9cb8-a0fd6305567c"
+      }
+    },
+    "sources": {
+      "ttyUSB0": {
+        "label": "ttyUSB0",
+        "type": "NMEA0183",
+        "GP": {
+          "talker": "GP",
+          "sentences": {
+            "RMC": "2017-04-03T06:14:04.451Z"
+          }
+        },
+        "II": {
+          "talker": "II",
+          "sentences": {
+            "HDM": "2017-05-16T05:15:54.006Z"
+          }
+        }
+      }
+    }
   }
-
+  
   return json.dumps(hello_message)
 
 
@@ -20226,7 +20318,33 @@ def signalk_api_vessels_self_navigation():
 
 
 
+@app.route('/signalk/v1/stream')
+@cross_origin()
+def signalk_api_vessels_self_navigation():
 
+  hello_message = {
+    "context": "vessels",
+     "updates": [{
+        "source": {
+          "pgn": "128275",
+          "device": "/dev/actisense",
+          "timestamp": "2014-08-15-16:00:05.538",
+          "src": "115"
+        },
+        "values": [
+          {
+            "path": "navigation.logTrip",
+            "value": 43374
+          },
+          {
+            "path": "navigation.log",
+            "value": 17404540
+          }]
+       }
+       ]
+  }
+
+  return json.dumps(hello_message)     
 
 
 
