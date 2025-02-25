@@ -20147,7 +20147,7 @@ def signalk_hello():
 """
 
 
-@app.route('/signalk')
+@app.route('/:80/signalk')
 @cross_origin()
 def signalk_hello():
 
@@ -20168,7 +20168,7 @@ def signalk_hello():
 
 
 
-@app.route('/signalk/v1/api/self')
+@app.route('/:80/signalk/v1/api/self')
 @cross_origin()
 def signalk_api_self():
 
@@ -20188,7 +20188,7 @@ def signalk_api_self():
 
 
 
-@app.route('/signalk/v1/api/vessels/self/')
+@app.route('/:80/signalk/v1/api/vessels/self/')
 @cross_origin()
 def signalk_api_vessels_self():
 
@@ -20250,7 +20250,7 @@ def signalk_api_vessels_self():
 
 
 
-@app.route('/signalk/v1/stream')
+@app.route('/:80/signalk/v1/stream')
 @cross_origin()
 def signalk_api_vessels_self_navigation():
 
