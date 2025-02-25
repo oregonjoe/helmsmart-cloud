@@ -173,7 +173,7 @@ app.debug = True
 #app.secret_key = 'super secret key'
 app.secret_key = 'J0Zr27j/3yX L~SMP!jmN]CDI/,?RB'
 app.config['SESSION_TYPE'] = 'filesystem'
-
+socketio = SocketIO(app)
 
 #app.add_url_rule('/dashboard', view_func=dashboard_routes.dashboard)
 
