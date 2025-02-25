@@ -135,7 +135,7 @@ from flask import (
 
 
 
-from flask_socketio import SocketIO, emit
+#from flask_socketio import SocketIO, emit
 
 
 #from flask.ext.cors import CORS, cross_origin
