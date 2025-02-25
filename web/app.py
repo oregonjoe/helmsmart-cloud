@@ -20176,7 +20176,9 @@ def signalk_api_self():
       "name": "HelmSmart Signal K Server",
       "version": "0.1.0",
       "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
-      "self": "vessels.urn:mrn:signalk:uuid:c0d79334-4e25-4245-8892-54e8ccc8021d",
+      #"self": "vessels.urn:mrn:signalk:uuid:c0d79334-4e25-4245-8892-54e8ccc8021d",
+      "self": "urn:mrn:imo:mmsi:338184312",
+      "mmsi": "338184312",
       "roles": ["master"]
   }
   return json.dumps(hello_message)
