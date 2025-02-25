@@ -20161,7 +20161,7 @@ def signalk_hello():
           "v3": {
               "version": "3.0",
               "signalk-http": "http://www.helmsmart-cloud.com/signalk/v3/api/",
-              "signalk-ws": "ws://www.helmsmart-cloud.com/signalk/v3/stream"
+              "signalk-ws": "ws://www.helmsmart-cloud.com/signalk/v3/stream",
               "signalk-tcp": "tcp://192.168.1.2:34568"
           }
 
