@@ -20300,22 +20300,6 @@ def signalk_api_vessels_self():
   return json.dumps(hello_message)     
 
 
-@app.route('/signalk/v1/api/vessels/123456789/navigation/speedThroughWater')
-@cross_origin()
-def signalk_api_vessels_self_navigation():
-
-  hello_message = {
-      "value": 2.55,
-      "source": {
-          "type": "NMEA0183",
-          "src": "VHW",
-          "label": "signalk-parser-nmea0183"
-      },
-      "timestamp": "2015-08-31T05:45:36.000Z"
-  }
-
-  return json.dumps(hello_message)     
-
 
 
 @app.route('/signalk/v1/stream')
