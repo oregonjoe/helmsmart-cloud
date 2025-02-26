@@ -20171,7 +20171,8 @@ def signalk_hello():
       "endpoints": {
           "v1": {
               "version": "1.1.2",
-              "signalk-http": "http://www.helmsmart-cloud.com/signalk/v1/api/"
+              #"signalk-http": "http://www.helmsmart-cloud.com/signalk/v1/api/"
+              "signalk-ws": "ws://www.helmsmart-cloud.com/signalk/v1/stream"
           }
       }
   }
