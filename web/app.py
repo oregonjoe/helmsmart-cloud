@@ -174,6 +174,8 @@ app.debug = True
 app.secret_key = 'J0Zr27j/3yX L~SMP!jmN]CDI/,?RB'
 app.config['SESSION_TYPE'] = 'filesystem'
 socketio = SocketIO(app)
+#socketio = SocketIO(app,debug=True,cors_allowed_origins='*',async_mode='eventlet')
+
 
 #app.add_url_rule('/dashboard', view_func=dashboard_routes.dashboard)
 
@@ -20115,7 +20117,9 @@ def freeboard_tcp(apikey):
     #return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
     return 'error'
 
-
+@app.route('/websockettest')
+def main():
+        return render_template('websockettest.html')
 
 @socketio.on('connect')
 def handle_connect(auth):
