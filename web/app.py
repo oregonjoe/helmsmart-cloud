@@ -20116,9 +20116,25 @@ def freeboard_tcp(apikey):
     return 'error'
 
 
+
+@socketio.on('connect')
+def handle_connect(auth):
+  log.info('socketio handle_connect: message %s:  ' , auth)
+  hello_message = {
+      "name": "HelmSmart Signal K Server",
+      "version": "0.1.0",
+      "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+      "self": "vessels.urn:mrn:signalk:uuid:c0d79334-4e25-4245-8892-54e8ccc8021d",
+      "roles": ["master"]
+  }
+  #send(message)
+  sid = request.sid
+  emit(hello_message, room=sid)
+
+
 @socketio.on('message')
 def handle_message(message):
-  log.info('socketio handle_message: message %s:  ' % e)
+  log.info('socketio handle_message: message %s:  ', message)
   hello_message = {
       "name": "HelmSmart Signal K Server",
       "version": "0.1.0",
