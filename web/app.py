@@ -20320,7 +20320,7 @@ def freeboard_raw():
     Interval = request.args.get('interval',"5 minutes")
     Instance = request.args.get('instance','0')
     resolution = request.args.get('resolution',"")
-    psformat = request.args.get('format',"sgk")
+    psformat = request.args.get('format',"")
 
     
     """    
