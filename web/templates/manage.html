@@ -738,6 +738,7 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 
       <thead class="devicethead">
         <TR>
+		  <th> Device API Key</th>
           <th> Device ID</th>
 		  <th> Name</th>
 		  <th> Alert Email </th>
@@ -766,7 +767,7 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 
 			<div class="form-group">	
 			 <label class="control-label col-sm-2" for="DeviceKey">Device API</label> 
-			 <div class="col-sm-6"> 
+			 <div class="col-sm-8"> 
 			<input type="text" class="form-control text-box single-line" id="DeviceKey" placeholder="000000000000" readonly>		
 			</div>
 		</div>
@@ -774,7 +775,7 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 
 
 			<label class="control-label col-sm-2" for="DeviceTypeID">Device Type</label>
-			<div class="col-sm-4">
+			<div class="col-sm-8">
 				<select class="form-control" data-val="true" data-val-number="The field Tracker Type must be a number." data-val-required="The Tracker Type field is required." id="DeviceTypeID" name="DeviceTypeID"   onchange="ChangedDeviceTypeID(this);"  >
 				<option value="000000000000">0000000000000:Demo</option>
 
@@ -786,7 +787,7 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 		
 			<div class="form-group">	
 			 <label class="control-label col-sm-2" for="DeviceName">Device Name</label> 
-			 <div class="col-sm-6"> 
+			 <div class="col-sm-8"> 
 			<input type="text" class="form-control text-box single-line" id="DeviceName" placeholder="SeaSmart">	
 			</div>
 		</div>
@@ -794,7 +795,7 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 	
 	<div class="form-group">	
 			 <label class="control-label col-sm-2" for="AlertEmail">Alert Email</label> 
-			 <div class="col-sm-6"> 
+			 <div class="col-sm-8"> 
 			<input type="text" class="form-control text-box single-line"  type="email" id="AlertEmail" placeholder="">	
 			<span class="field-validation-valid text-danger" data-valmsg-for="AlertEmail" data-valmsg-replace="true"></span>
 			</div>
@@ -803,7 +804,7 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 		
 			<div class="form-group">	
 			 <label class="control-label col-sm-2" for="AlertSMS">Alert SMS</label> 
-			 <div class="col-sm-6"> 
+			 <div class="col-sm-8"> 
 			<input type="text" class="form-control text-box single-line"  type="tel" id="AlertSMS" placeholder="">
 			<span class="field-validation-valid text-danger" data-valmsg-for="AlertSMS" data-valmsg-replace="true"></span>
 	
