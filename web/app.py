@@ -1099,7 +1099,7 @@ def getuser_endpoint():
         sqlstr = 'select devicename, deviceid, deviceapikey from user_devices where userid = %s;'
         cursor.execute(sqlstr, (userid,))
     elif gettype == 'values':
-        sqlstr = 'select * from user_devices where userid = %s;'   
+        sqlstr = 'select * from user_devices where userid = %s order by deviceid desc;'   
         cursor.execute(sqlstr, (userid,))
     elif gettype == 'pageprefnames':
         sqlstr = 'select * from getuserpageprefnames(%s,%s);'   
