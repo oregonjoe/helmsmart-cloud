@@ -1052,6 +1052,7 @@ def sendtestsms():
 # gets user info from a userid
 # #####################################################
 @app.route('/getuser')
+@cross_origin()
 def getuser_endpoint():
 
   try:  
