@@ -239,7 +239,8 @@ $('#tab a').click(function (e) {
 	var myDeviceName = new Array();
 	var myDeviceID = new Array();
 	var myDeviceKey = new Array();
-
+	var myDeviceStatus = new Array();
+	var myDeviceApiCount = new Array();
 	
 	
 	var timezoneOffset = 0;
@@ -430,11 +431,13 @@ Date.prototype.yyyymmdd = function() {
 function modifyData(index)
 {
 
- document.getElementById("DeviceTypeID").selectedIndex = index;
+ //document.getElementById("DeviceTypeID").selectedIndex = index;
+  document.getElementById("DeviceKey").value = myDeviceKey[index];
+  document.getElementById("DeviceName").value = myDeviceID[index];
  document.getElementById("DeviceName").value = myDeviceName[index];
   document.getElementById("AlertEmail").value = myAlertEmail[index];
    document.getElementById("AlertSMS").value = myAlertSMS[index];
-   document.getElementById("DeviceKey").value = myDeviceKey[index];
+
    
    
    $('.nav-tabs a[href="#tabModify"]').tab('show');
@@ -446,10 +449,10 @@ function ChangedDeviceTypeID(sel)
 {
 
 
- document.getElementById("DeviceName").value = myDeviceName[sel.selectedIndex];
-  document.getElementById("AlertEmail").value = myAlertEmail[sel.selectedIndex];
-   document.getElementById("AlertSMS").value = myAlertSMS[sel.selectedIndex];
-   document.getElementById("DeviceKey").value = myDeviceKey[sel.selectedIndex];
+ //document.getElementById("DeviceName").value = myDeviceName[sel.selectedIndex];
+ // document.getElementById("AlertEmail").value = myAlertEmail[sel.selectedIndex];
+  // document.getElementById("AlertSMS").value = myAlertSMS[sel.selectedIndex];
+ //  document.getElementById("DeviceKey").value = myDeviceKey[sel.selectedIndex];
 }
 
 function handleUpdateDevice(response)
@@ -481,7 +484,7 @@ var table = document.getElementById("DeviceData");
 		table.deleteRow(1);
 	}
 
-	document.getElementById("DeviceTypeID").options.length = 0;
+	//document.getElementById("DeviceTypeID").options.length = 0;
 
 
    	myAlertEmail.length=0;
@@ -489,18 +492,24 @@ var table = document.getElementById("DeviceData");
 	myDeviceName.length=0;
 	myDeviceID.length=0;
 	myDeviceKey.length=0;
+	myDeviceStatus.length=0;
+	myDeviceApiCount.length=0;	
 	
   response.records.forEach(function(row){
   
   
      // document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
-	 document.getElementById("DeviceTypeID").options[index] = new Option(row[3] , row[3]);
+	// document.getElementById("DeviceTypeID").options[index] = new Option(row[3] , row[3]);
 	 
+	myDeviceKey.push(row[0]); 
+	myDeviceID.push(row[3]);
+	myDeviceName.push(row[5]);	
+	myDeviceStatus.push(row[6]);	
 	myAlertEmail.push(row[7]);
 	myAlertSMS.push(row[8]);
-	myDeviceName.push(row[5]);
-	myDeviceID.push(row[3]);
-	myDeviceKey.push(row[0]);
+	myDeviceApiCount.push(row[9]);
+
+
 	
  
 	var ssrow = table.insertRow(1);
@@ -529,20 +538,30 @@ var table = document.getElementById("DeviceData");
 		
 		// Device Status
 		var cell4 = ssrow.insertCell(4);
-		cell4.innerHTML = row[4];
+		
+		if(row[6] == 1 )
+			cell4.innerHTML = 'active;
+		else
+			cell4.innerHTML = 'disabled;
+			
 		cell4.style.textAlign = 'left';
+
+		// Device API Count
+		var cell5 = ssrow.insertCell(5);
+		cell5.innerHTML = row[9];
+		cell5.style.textAlign = 'left';
 		
 		// Modfy button
-		var cell5 = ssrow.insertCell(5);
-		cell5.innerHTML = "<button id='btnSettingsEventSave' name='btnValue' value='modify' class='btn btn-primary' onclick='modifyData(" +  index + ");'>modify</button>";
-		cell5.style.textAlign = 'left';
+		var cell6 = ssrow.insertCell(6);
+		cell6.innerHTML = "<button id='btnSettingsEventSave' name='btnValue' value='modify' class='btn btn-primary' onclick='modifyData(" +  index + ");'>modify</button>";
+		cell6.style.textAlign = 'left';
 		
 		index++;
 
   });
 
 document.getElementById("DeviceKey").value = myDeviceKey[0];
-	document.getElementById("DeviceTypeID").selectedIndex = 0;
+	document.getElementById("DeviceTypeID").myDeviceID[0];
      document.getElementById("DeviceName").value = myDeviceName[0];
   document.getElementById("AlertEmail").value = myAlertEmail[0];
    document.getElementById("AlertSMS").value = myAlertSMS[0];
@@ -609,7 +628,7 @@ function UpdateDevice()
 {
 var dIndex=0;
 
-dIndex = document.getElementById("DeviceTypeID").selectedIndex;
+//dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 
 
  $.blockUI({ 
@@ -738,12 +757,12 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 
       <thead class="devicethead">
         <TR>
-		  <th> Device API Key</th>
           <th> Device ID</th>
-		  <th> Name</th>
+		  <th> Name </th>
 		  <th> Alert Email </th>
           <th> Alert SMS</th>    
-		  <th>Status</th>
+		  <th> API Count </th> 
+		  <th> Status </th>
 			   </TR>
       </thead>
       <tbody class="devicebody"></tbody>
@@ -776,11 +795,9 @@ dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 
 			<label class="control-label col-sm-2" for="DeviceTypeID">Device Type</label>
 			<div class="col-sm-8">
-				<select class="form-control" data-val="true" data-val-number="The field Tracker Type must be a number." data-val-required="The Tracker Type field is required." id="DeviceTypeID" name="DeviceTypeID"   onchange="ChangedDeviceTypeID(this);" style="width:300px;" >
-				<option value="000000000000">0000000000000:Demo</option>
-
-			</select>
-				<span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span>
+			
+			<input type="text" class="form-control text-box single-line" id="DeviceTypeID" placeholder="000000000000" readonly style="width:300px;">	
+			
 			</div>
 		</div>
 
