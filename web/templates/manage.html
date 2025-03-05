@@ -536,20 +536,22 @@ var table = document.getElementById("DeviceData");
 		cell3.innerHTML = row[8];
 		cell3.style.textAlign = 'left';
 		
-		// Device Status
+			// Device API Count
 		var cell4 = ssrow.insertCell(4);
+		cell4.innerHTML = row[9];
+		cell4.style.textAlign = 'left';	
 		
-		if(row[6] == 1 )
-			cell4.innerHTML = 'active';
+		// Device Status
+		var cell5 = ssrow.insertCell(4);
+		
+		if(parseInt(row[4]) == 1 )
+			cell5.innerHTML = 'active';
 		else
-			cell4.innerHTML = 'disabled';
+			cell5.innerHTML = 'disabled';
 			
-		cell4.style.textAlign = 'left';
-
-		// Device API Count
-		var cell5 = ssrow.insertCell(5);
-		cell5.innerHTML = row[9];
 		cell5.style.textAlign = 'left';
+
+
 		
 		// Modfy button
 		var cell6 = ssrow.insertCell(6);
@@ -561,7 +563,7 @@ var table = document.getElementById("DeviceData");
   });
 
 document.getElementById("DeviceKey").value = myDeviceKey[0];
-	document.getElementById("DeviceTypeID").myDeviceID[0];
+	document.getElementById("DeviceTypeID").value = myDeviceID[0];
      document.getElementById("DeviceName").value = myDeviceName[0];
   document.getElementById("AlertEmail").value = myAlertEmail[0];
    document.getElementById("AlertSMS").value = myAlertSMS[0];
@@ -793,7 +795,7 @@ var dIndex=0;
 
 
 
-			<label class="control-label col-sm-2" for="DeviceTypeID">Device Type</label>
+			<label class="control-label col-sm-2" for="DeviceTypeID">Device ID</label>
 			<div class="col-sm-8">
 			
 			<input type="text" class="form-control text-box single-line" id="DeviceTypeID" placeholder="000000000000" readonly style="width:300px;">	
