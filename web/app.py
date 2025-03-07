@@ -436,6 +436,13 @@ def manage():
     features = [],
   )
 
+@app.route('/adminmanage')
+def adminmanage():
+
+  return render_template(
+    'adminmanage.html',
+    features = [],
+  )
 
 @app.route('/downloads')
 def downloads():
@@ -1383,6 +1390,8 @@ def help():
 
 def getedeviceid(deviceapikey):
 
+    deviceid = ""
+
     conn = db_pool.getconn()
 
     log.info("freeboard getedeviceid data Query %s", deviceapikey)
@@ -1415,7 +1424,13 @@ def getedeviceid(deviceapikey):
         
         else:
             deviceid = str(i[0])
-            db_pool.putconn(conn) 
+
+            cursor.execute("update user_devices set api_queries = api_queries + 1 where deviceapikey = %s" , (deviceapikey,))
+            conn.commit()
+            log.info("freeboard getedeviceid updare apiquery response ") 
+
+            db_pool.putconn(conn)
+            
             return deviceid 
 
 
@@ -1444,7 +1459,7 @@ def getedeviceid(deviceapikey):
     # cursor.close
     db_pool.putconn(conn)                       
 
-    return ""
+    return deviceid
 
 
 
@@ -1799,7 +1814,7 @@ def get_influxdbcloud_data():
     
 
     end = datetime.datetime.fromtimestamp(float(endepoch))
-    resolutionstr = "PT" + resolution + "S"
+    resolutionstr = "PT" + str(resolution) + "S"
 
     #rollup = "mean"
 
