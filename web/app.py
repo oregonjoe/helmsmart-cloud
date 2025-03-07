@@ -1828,7 +1828,7 @@ def get_influxdbcloud_data():
     seriesname = SERIES_KEY
     seriestags = seriesname.split(".")
 
-    if len(seriestags) != 6:
+    if len(seriestags) < 6:
       return jsonify( message='serieskey empty - No data to return' , status='error')
 
     seriesdeviceidtag = seriestags[0]
