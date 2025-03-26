@@ -87,7 +87,7 @@ debug_memcachier = False
 #from helmsmartmodules import user_db_functions
 #from helmsmartmodules.user_db_functions import getdashboardlists
 import helmsmartmodules.user_db_functions as user_db_functions
-import datapump.nmearemote_functions as nmearemote_functions as nmearemote_functions as nmearemote_functions
+import datapump.nmearemote_functions as nmearemote_functions
 
 #import datapump.signalk.createSIGKpath as createSIGKpath
 #import datapump.signalk.parseSIGK as parseSIGK
