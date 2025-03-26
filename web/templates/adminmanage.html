@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>manage - HelmSmart device preferences</title>
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script> -->
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+	   
+	<!--   <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }} " ></script> -->
+	   
+	   
+	   
+	<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  -->
+	 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/> 
+	
+
+	 
+	   <script src='https://cdn.firebase.com/v0/firebase.js'></script>
+	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+
+</head> 
+<body>
+
+<div>
+  <center>
+  {% if session['userid'] %}
+     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
+    <span>HelmSmart: {{session['username']}}</span></a>
+  {% else %}
+    <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span></a>
+  {% endif %}
+  </center>
+</div>
+
+	<div class="container body-content">
+		
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/support.js') }}" ></script>
+
+<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabGeoFence .form-control-static,
+	#tabGeoFence .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+
+<script>
+	$(function () {
+		$(document).ajaxComplete(function (event, xhr, settings) {
+			if (xhr.getResponseHeader('ReloadWholePage')) {
+				window.location.reload();	//Reload the whole datapane
+			}
+		});
+		
+		$('.nav-tabs a[href="#tabBasicSettings"]').tab('show');
+		//RegisterDevice();
+		//GetAlertEvents();
+		/*
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabEvents')
+			alert("events tab");
+			GetAlertEvents();
+				
+		});
+		*/
+	});
+	/*
+	//DoOnChange is used in the Edit template for EventValue
+	function DoOnChange(t) {
+		if (t.value == 0)
+			$('#' + t.id).nextAll('span:first').hide()
+		else
+			$('#' + t.id).nextAll('span:first').show()
+	}
+
+	
+	$(function () {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabEvents')
+			alert("events tab");
+			GetAlertEvents();
+				
+		});
+	});
+	
+	
+	$(document).ready(function () {
+$('.nav nav-tabs').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+ })
+ 
+
+    $('.tabs').bind('change', function (e) {
+        // e.target is the new active tab according to docs
+        // so save the reference in case it's needed later on
+       // window.activeTab = e.target;
+        // display the alert
+        alert("hello");
+        // Load data etc
+    });
+	
+$('.nav-tabs').bind('change', function (e) {
+      // e.target is the new active tab according to docs
+        // so save the reference in case it's needed later on
+       // window.activeTab = e.target;
+        // display the alert
+        alert("hello");
+        // Load data etc
+    });
+ 
+ 
+}); 
+  */
+  
+  	/*
+	$(document).ready(function () {
+$('#tab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+ })
+}); 
+  */
+  
+  
+ 
+  
+</script>
+
+
+	
+	
+
+
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="tab" role="tablist">
+	<li><a href="#tabMarketing" role="tab" data-toggle="tab">Info</a></li>
+	<!-- <li><a href="#tabLive" role="tab" data-toggle="tab">Live</a></li> -->
+
+	<li><a href="#tabBasicSettings" role="tab" data-toggle="tab">Summary</a></li>
+	<li><a href="#tabModify" role="tab" data-toggle="tab">Modify</a></li> 
+	<!--	<li><a href="#tabEvents" role="tab" data-toggle="tab">Events</a></li> -->
+	<!--	<li><a href="#tabTriggers" role="tab" data-toggle="tab">Triggers</a></li> -->
+	<!--	<li><a href="#tabGeoFence" role="tab" data-toggle="tab">GeoFence</a></li> -->
+	<!--	<li><a href="#tabGeoFenceReport" role="tab" data-toggle="tab">Report</a></li> -->
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+	<!-- Tab pane -->
+	<div class="tab-pane" id="tabMarketing">
+			<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HelmSmart Alerts</title>
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca;
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+	
+<script type="text/javascript">
+
+	var myAlertEmail  = new Array();
+	var myAlertSMS  = new Array();
+	var myDeviceName = new Array();
+	var myDeviceID = new Array();
+	var myDeviceKey = new Array();
+	var myDeviceStatus = new Array();
+	var myDeviceApiCount = new Array();
+	
+	
+	var timezoneOffset = 0;
+	
+	var index = 0;
+	var gUserID="a91140300971bfb9244989a9bffde53c";
+	//var gDeviceID="527805749392";
+	var gDeviceID="";
+	var gDeviceKey="";
+	//var gDeviceName="001EC0B415C2:SSENETG2_SeaDream";
+	var gDeviceName="";
+	//var gBLWSKey="0b4eb181bac44020803de7a35be6fe62";
+	var gBLWSKey="";
+	gEMail = "";
+	gSMSNumber="";
+	
+	var pagetype=2;
+	
+	
+  var AlertID=0;
+  var device;
+  var map;
+  //var myLatlng;
+  //var myOldLatlng;
+  var gmarker;
+  var geoRadius;
+  
+  var markers = new Array();
+  var poly;
+ // var myinfoWindow = new google.maps.InfoWindow;
+
+  var polyOptions ;
+
+  var gradientArray;
+  var myPins = new Array();
+  
+     var myPinColors = ['3E147B', '3E147B','3E147B','3E147B','3E147B','3E147B', '3E147B','3E147B','3E147B','3E147B',
+     '41137B', '47137B','4F127B','58107B','630F7B','6D0E7B', '780C7B','840A7B','90097B','9C087B',
+     'A7067B', 'B3047B','BE047B','C7027B','D1017B','D9007B', 'DF007A','E20078','E20076','E20075',
+     'E20072', 'E20070','E2006D','E2006B','E20068','E20064', 'E20061','E2005E','E2005A','E20057',
+     'E20053', 'E2004F','E2004C','E20049','E20045','E20042', 'E2003F','E1003B','E00238','E00436',
+     'DF0733', 'DF0B31','DF0E2E','DF122C','E0182A','E11F28', 'E22726','E42F25','E63922','E84320',
+     'EB4F1F', 'EE5A1D','F1661C','F3721A','F37D19','F38A19', 'F39618','F3A216','F3AD16','F3B815',
+     'F3C315', 'F3CC15','F3D515','F3DE15','F3E415','F3E915', 'F3EE15','EFEF15','E7EF16','DEEF17',
+     'D3EF18', 'C8ED19','BAE91A','ADE31C','9EDD1D','8FD71F', '7ED021','6FC924','5FC127','51BA29',
+     '42B32C', '34AC30','27A633','1BA137','109D3C','089A41', '009847','00984C','009852','009859',
+     '009961', '009C69','009E72','00A07A','00A384','00A68D', '00AA97','00ADA1','00B1A9','00B4B3',
+     '00B8BC', '00BCC5','00BECD','00C2D5','01C5DC','02C7E3', '04CAE9','04CBED','04CCF0','04CCF0',
+     '04CCF0', '04CCF0','04CCF0','04CCF0','04CCF0','04CCF0', '04CCF0','04CCF0','04CCF0','04CCF0'];
+
+    zpad.zeros = new Array(5).join('0');
+    spad.spaces = new Array(7).join(' ');
+	
+	
+	$(document).ready(function () {
+	
+	var myText;
+
+	
+    gUserID = "0";
+    {% if session['userid'] %}
+    gUserID = "{{session['userid']}}";
+    {% else %}
+    gUserID = "0";
+    {% endif %}
+
+
+    if (gUserID == null)
+    {
+    gUserID = "0";
+    }
+    else
+    {
+    getDeviceList(gUserID);
+    //getDeviceParamList(myuserid);
+    }
+	
+/*
+$('.nav-tabs').bind('change', function (e) {
+      // e.target is the new active tab according to docs
+        // so save the reference in case it's needed later on
+       // window.activeTab = e.target;
+        // display the alert
+        alert("hello change");
+        // Load data etc
+    });
+*/	
+	$('.nav-tabs').bind('click', function (e) {
+      // e.target is the new active tab according to docs
+        // so save the reference in case it's needed later on
+       // window.activeTab = e.target;
+        // display the alert
+	//	if (e.target.hash == '#tabEvents')
+			//GetAlertEvents();
+			//alert("events tab");
+			if (e.target.hash == '#tabGeoFence')
+			setTimeout(initializeMaps, 10);	//Workaround for Bootstrap tabs and google maps center bug.
+        //alert("hello click");
+        // Load data etc
+    });
+ 
+/*
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabEvents')
+			alert("events tab");
+			//GetAlertEvents();
+				
+		});
+*/
+	
+	
+}); 
+
+    /* ******************  padding functions ************************************************ */
+
+    function zpad(num, len) {
+    var str = String(num),
+    diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > zpad.zeros.length)
+        zpad.zeros = new Array(diff + 1).join('0');
+    return zpad.zeros.substr(0, diff) + str;
+}
+
+function spad(num, len) {
+    var str = String(num),
+        diff = len - str.length;
+    if(diff <= 0) return str;
+      if(diff > spad.spaces.length)
+      spad.spaces= new Array(diff + 1).join(' ');
+      return spad.spaces.substr(0, diff) + str;
+      }
+	  
+Date.isLeapYear = function (year) { 
+    return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
+};
+
+Date.getDaysInMonth = function (year, month) {
+    return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+};
+
+Date.prototype.isLeapYear = function () { 
+    return Date.isLeapYear(this.getFullYear()); 
+};
+
+Date.prototype.getDaysInMonth = function () { 
+    return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+};
+
+Date.prototype.addMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() + value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	  
+	  
+Date.prototype.subMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() - value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	
+
+
+Date.prototype.yyyymmdd = function() {         
+                                
+        var yyyy = this.getFullYear().toString();                                    
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+        var dd  = this.getDate().toString();             
+                            
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+   };
+   
+ Date.prototype.yyyymmddhhmm = function() {         
+                                
+        var yyyy = this.getFullYear().toString();                                    
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+        var dd  = this.getDate().toString();    
+        var hh  = this.getHours().toString(); 
+        var Min  = this.getMinutes().toString(); 		
+                            
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]) + ' ' + hh + ':' + Min;
+   };
+	  
+
+function modifyData(index)
+{
+
+ //document.getElementById("DeviceTypeID").selectedIndex = index;
+  document.getElementById("DeviceKey").value = myDeviceKey[index];
+  document.getElementById("DeviceName").value = myDeviceID[index];
+ document.getElementById("DeviceName").value = myDeviceName[index];
+  document.getElementById("AlertEmail").value = myAlertEmail[index];
+   document.getElementById("AlertSMS").value = myAlertSMS[index];
+
+   
+   
+   $('.nav-tabs a[href="#tabModify"]').tab('show');
+
+
+}
+
+function ChangedDeviceTypeID(sel)
+{
+
+
+ //document.getElementById("DeviceName").value = myDeviceName[sel.selectedIndex];
+ // document.getElementById("AlertEmail").value = myAlertEmail[sel.selectedIndex];
+  // document.getElementById("AlertSMS").value = myAlertSMS[sel.selectedIndex];
+ //  document.getElementById("DeviceKey").value = myDeviceKey[sel.selectedIndex];
+}
+
+function handleUpdateDevice(response)
+{
+  var index=0;
+
+  $.unblockUI();
+  
+  getDeviceList(gUserID);
+  
+  }
+
+function handleGetDeviceData(response)
+{
+  var index=0;
+
+  $.unblockUI();
+
+var table = document.getElementById("DeviceData");
+ 
+       var rowCount = table.rows.length;
+	   
+	 //  for(i=0; i<rowCount-1; i++)
+	//		table.deleteRow(i);
+			
+	while(table.rows.length > 1) {
+	
+
+		table.deleteRow(1);
+	}
+
+	//document.getElementById("DeviceTypeID").options.length = 0;
+
+
+   	myAlertEmail.length=0;
+	myAlertSMS.length=0;
+	myDeviceName.length=0;
+	myDeviceID.length=0;
+	myDeviceKey.length=0;
+	myDeviceStatus.length=0;
+	myDeviceApiCount.length=0;	
+	
+  response.records.forEach(function(row){
+  
+  
+     // document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+	// document.getElementById("DeviceTypeID").options[index] = new Option(row[3] , row[3]);
+	 
+	myDeviceKey.push(row[0]); 
+	myDeviceID.push(row[3]);
+	myDeviceName.push(row[5]);	
+	myDeviceStatus.push(row[6]);	
+	myAlertEmail.push(row[7]);
+	myAlertSMS.push(row[8]);
+	myDeviceApiCount.push(row[9]);
+
+
+	
+ 
+	var ssrow = table.insertRow(1);
+
+
+	
+		// DeviceID
+	    var cell0 = ssrow.insertCell(0);
+		cell0.innerHTML = row[3];
+		cell0.style.textAlign = 'left';
+		cell0.style.width = '150px';
+		
+		
+		// Device Name
+		 var cell1 = ssrow.insertCell(1);
+		cell1.innerHTML = row[5];
+		cell1.style.textAlign = 'left';
+		cell1.style.width = '150px';
+		
+		
+		//Alert Email
+		var cell2 = ssrow.insertCell(2);
+		cell2.innerHTML = row[7];
+		cell2.style.textAlign = 'left';
+		cell2.style.width = '150px';
+		
+		
+		// Alert SMS
+		var cell3 = ssrow.insertCell(3);
+		cell3.innerHTML = row[8];
+		cell3.style.textAlign = 'left';
+		cell3.style.width = '150px';
+		
+		
+			// Device API Count
+		var cell4 = ssrow.insertCell(4);
+		cell4.innerHTML = row[9];
+		cell4.style.textAlign = 'center';	
+		cell4.style.width = '75px';
+		
+		
+		// Device Status
+		var cell5 = ssrow.insertCell(5);
+		
+		if(parseInt(row[4]) == 1 )
+			cell5.innerHTML = 'active';
+		else
+			cell5.innerHTML = 'disabled';
+			
+		cell5.style.textAlign = 'center';
+		cell5.style.width = '75px';
+		
+
+
+		
+		// Modfy button
+		var cell6 = ssrow.insertCell(6);
+		cell6.innerHTML = "<button id='btnSettingsEventSave' name='btnValue' value='modify' class='btn btn-primary' onclick='modifyData(" +  index + ");'>modify</button>";
+		cell6.style.textAlign = 'left';
+		cell6.style.width = '150px';
+		
+		
+		index++;
+
+  });
+
+document.getElementById("DeviceKey").value = myDeviceKey[0];
+	document.getElementById("DeviceTypeID").value = myDeviceID[0];
+     document.getElementById("DeviceName").value = myDeviceName[0];
+  document.getElementById("AlertEmail").value = myAlertEmail[0];
+   document.getElementById("AlertSMS").value = myAlertSMS[0];
+    
+}
+
+
+  
+  
+  
+  
+  
+  
+function getDeviceList(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+    devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=values&userid=" + userid;
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 10000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handleGetDeviceData(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+
+
+}
+
+
+function UpdateDevice()
+{
+var dIndex=0;
+
+//dIndex = document.getElementById("DeviceTypeID").selectedIndex;
+
+
+ $.blockUI({ 
+     message: '<h1>Updating Alert Event...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } });     
+
+	 
+
+
+	  devicedataurl = "http://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + myDeviceKey[dIndex]; 
+	  devicedataurl = devicedataurl + "&devicename=" + document.getElementById("DeviceName").value; 
+	  devicedataurl = devicedataurl + "&alertemail=" +  document.getElementById("AlertEmail").value; 
+	  devicedataurl = devicedataurl + "&alertsms=" + document.getElementById("AlertSMS").value;
+
+
+
+      return $.ajax({
+      //async: false,
+      cache: false,
+      url: devicedataurl,
+      dataType: "json",
+      timeout: 10000,
+      statusCode: {
+      404: function() {      alert( "page not found" );    },
+      200: function() {      }
+      },
+      success: function(response) {
+      handleUpdateDevice(response)
+      },
+      complete: function() {
+      // unblock when remote call returns
+      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+      //   ShowGraphSmartChart(gindex);
+      //$.unblockUI();
+      },
+      error: function(request,status,errorThrown) {
+      //document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+
+      $.unblockUI();
+      }
+      });
+
+}
+  
+</script>
+
+</head>
+<body>
+	<div class="container body-content">
+		
+
+<p id="introText">With this datapane you can configure, control and monitor your 3G tracker.</p>
+<div id="idMarketing">
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" /><p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your BoatLogger yacht site where your logbooks and segments gets created automatically.</p>
+	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
+	<ul>
+		<li>Links to your existing NMEA 2000 network</li>
+		<li>Sends positions to your yacht site</li>
+		<li>Uses you existing internet service</li>
+		<li>No need for additional data plan charges</li>
+		<li>Automatically creates logbooks and trip segments for your journeys</li>
+		<li>Monitors the battery voltage</li>
+		<li>Monitors the temperature onboard</li>
+		<li>Tracks the yacht in case of theft</li>
+	</ul>
+	<p>Built-in data logger to SD memory</p>
+	<ul>
+		<li>Records everything when vessel is out of range</li>
+		<li>Up to a full year of storage</li>
+		<li>Automatically syncs to Boatlogger site when internet service is found</li>
+		<li>Cloud base storage and access from the HelmSmart data server</li>
+		</ul>
+	<p>Add more vessel sensors</p>
+	<ul>		
+		<li>Install additional temperature sensors to monitor e.g. engine room temperature, sea temperature, outdoor temperature etc.</li>
+		<li>12 additional customized inputs (6 digital inputs, 2 tach, and 4 analog inputs)</li>
+	</ul>
+	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
+	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
+	<div style="margin: 15px;">
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf, SeaSmartPro.pdf', '_blank');">Datasheet</button>
+<!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+
+	</div>
+	<p>
+		If you already have a SeaSmart and want to connect it to BoatLogger, use the
+		<a href="/TrackerDatapane?UserKey=2455&amp;userSiteKey=2455&amp;token=hStMV6FtUWufdTxP5Fo52WpXOajd7aS6fJnUcrPv1Aw%3D&amp;isOwner=True&amp;FirstTimeSetting=True">Datapane Settings</a>
+	</p>
+
+</div>
+
+
+	</div>
+
+	<script>
+		$(function () { $("[data-toggle='tooltip']").tooltip(); });
+	</script>
+
+
+</body>
+
+</html>
+
+
+	</div>
+
+
+
+		<div class='tab-pane' id="tabBasicSettings">
+			
+
+	<div class="form-group text-center text-info" style="margin-top:10px;"  >
+<div class="alertdiv" id="report_data" style="width:100%; height:10%; display: block">
+
+ <Table class="devicetable" id="DeviceData" border="0" cellspacing="5" cellpadding="5" style="width:100%; display: block">
+
+      <thead class="devicethead">
+        <TR>
+          <th> Device ID</th>
+		  <th> Name </th>
+		  <th> Alert Email </th>
+          <th> Alert SMS</th>    
+		  <th> API Count </th> 
+		  <th> Status </th>
+			   </TR>
+      </thead>
+      <tbody class="devicebody"></tbody>
+      
+    </Table>
+
+  </div>
+		</div>
+		</div>
+	
+	
+	
+		<div class="tab-pane" id="tabModify">
+		
+
+			
+<form action="/TrackerDatapane/SettingsModify" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#tabModify" id="form1" method="post">	
+	<div class="form-horizontal">
+
+<div class="form-group">
+
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="DeviceKey">Device API</label> 
+			 <div class="col-sm-8"> 
+			<input type="text" class="form-control text-box single-line" id="DeviceKey" placeholder="000000000000" readonly style="width:300px;">		
+			</div>
+		</div>
+
+
+
+			<label class="control-label col-sm-2" for="DeviceTypeID">Device ID</label>
+			<div class="col-sm-8">
+			
+			<input type="text" class="form-control text-box single-line" id="DeviceTypeID" placeholder="000000000000" readonly style="width:300px;">	
+			
+			</div>
+		</div>
+
+		
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="DeviceName">Device Name</label> 
+			 <div class="col-sm-8"> 
+			<input type="text" class="form-control text-box single-line" id="DeviceName" placeholder="SeaSmart" style="width:300px;">	
+			</div>
+		</div>
+	
+	
+	<div class="form-group">	
+			 <label class="control-label col-sm-2" for="AlertEmail">Alert Email</label> 
+			 <div class="col-sm-8"> 
+			<input type="text" class="form-control text-box single-line"  type="email" id="AlertEmail" placeholder="" style="width:300px;">	
+			<span class="field-validation-valid text-danger" data-valmsg-for="AlertEmail" data-valmsg-replace="true"></span>
+			</div>
+		</div>  
+		
+		
+			<div class="form-group">	
+			 <label class="control-label col-sm-2" for="AlertSMS">Alert SMS</label> 
+			 <div class="col-sm-8"> 
+			<input type="text" class="form-control text-box single-line"  type="tel" id="AlertSMS" placeholder="" style="width:300px;">
+			<span class="field-validation-valid text-danger" data-valmsg-for="AlertSMS" data-valmsg-replace="true"></span>
+	
+			</div>
+		</div>  
+	
+	
+					<div class="form-group" style="margin-top:25px;">
+				
+			<div class="col-sm-offset-4 col-sm-4">
+				<button id="btnSettingsEventSave" name="btnValue" value="Save" class="btn btn-primary" onclick="UpdateDevice();">Save</button>
+				<!-- <button id="btnSettingsEventDelete" name="btnValue" value="Delete" class="btn btn-primary" onclick="DeleteAlert();">Delete</button> -->
+				<button name="btnValue" value="Cancel" class="btn btn-default cancel">Cancel</button>
+			
+			</div>
+		</div>
+		
+		
+		</div>
+</form>
+		</div>
+	
+	
+	
+
+		
+
+
+
+
+</body>
+
+</html>
+

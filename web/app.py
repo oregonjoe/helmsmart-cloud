@@ -83,9 +83,11 @@ debug_info = True
 debug_memcachier = False
 
 
+#import helmsmartmodules.nmearemote_functions as nmearemote_functions
+#from helmsmartmodules import user_db_functions
 #from helmsmartmodules.user_db_functions import getdashboardlists
 import helmsmartmodules.user_db_functions as user_db_functions
-
+import datapump.nmearemote_functions as nmearemote_functions as nmearemote_functions as nmearemote_functions
 
 #import datapump.signalk.createSIGKpath as createSIGKpath
 #import datapump.signalk.parseSIGK as parseSIGK
@@ -20323,6 +20325,52 @@ def signalk_api_vessels_self_navigation():
 @app.route('/nmearemote_watch')
 @cross_origin()
 def nmearemote_watch():
+
+
+  devicekey = request.args.get('devicekey', 'cd7ade4354448b169463652859657cd7')
+  #deviceid = request.args.get('deviceid', '')
+  #startepoch = request.args.get('startepoch', 0)
+  #endepoch = request.args.get('endepoch', 0)
+
+  interval = request.args.get('interval',"1min")
+  #Instance = request.args.get('instance','0')
+  #resolution = request.args.get('resolution',"")
+  keys = request.args.get('id',"")
+
+  response = None
+
+
+  deviceid = getedeviceid(devicekey)
+
+  log.info("freeboard_raw deviceid %s", deviceid)
+
+  if deviceid == "":
+    return "invalid deviceid"
+
+
+
+  serieskeys = keys.split(",")
+
+  for idkey in serieskeys:
+    log.info("nmearemote_watch  idkey %s", idkey)
+
+
+    query = idkey_query(deviceid, idkey, interval):
+
+    log.info("nmearemote_watch query %s", query)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   jsonresults=[]
   
