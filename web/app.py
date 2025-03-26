@@ -20368,7 +20368,7 @@ def nmearemote_watch():
 
     if query == "":
       #jsonresult = {"id":idkey, "value":value, "unit":"rpm"}
-      jsonresults.append{"id":idkey, "value":"---", "unit":""})
+      jsonresults.append({"id":idkey, "value":"---", "unit":""})
 
     else:
 
