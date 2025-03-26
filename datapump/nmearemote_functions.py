@@ -21,6 +21,133 @@ logging.basicConfig(level=logging.INFO)
 log = logging
 
 
+
+def getepochtimes(Interval):
+
+
+
+    log.info('nmearemote_functions:  getepochtimes Interval %s:  ', Interval)
+
+    epochtimes=[]
+    starttime = 0
+
+    
+    try:
+        # if 0 then use current time 
+        if starttime == 0:
+            nowtime = datetime.datetime.now()
+            endepoch =  int(time.time())
+
+            if Interval== "1min":
+                resolution = 60
+                startepoch = endepoch - (resolution * 2)
+                oldtime = datetime.datetime.now() - datetime.timedelta(minutes=2)
+            elif Interval == "2min":
+                resolution = 60*2
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(minutes=3)                
+            elif Interval == "5min":
+                resolution = 60*5
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(minutes=5)
+            elif Interval== "10min":
+                resolution = 60*10
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(minutes=10)
+            elif Interval == "15min":
+                resolution = 60*15
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(minutes=15)
+            elif Interval== "30min":
+                resolution = 60*30
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(minutes=30)
+            elif Interval== "1hour":
+                resolution = 60*60
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(hours=1)
+                
+            elif Interval == "2hour":
+                resolution = 60*60*2
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(hours=2)
+
+                
+            elif Interval == "3hour":
+                resolution = 60*60*3
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(hours=3)                
+                
+            elif Interval == "4hour":
+                resolution = 60*60*4
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(hours=4)
+
+                
+            elif Interval == "6hour":
+                resolution = 60*60*6
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(hours=6)
+            elif Interval == "8hour":
+                resolution = 60*60*8
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(hours=8)
+            elif Interval == "12hour":
+                resolution = 60*60*12
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(hours=12)
+            elif Interval == "1day":
+                resolution = 60*60*24
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(days=1)
+            elif Interval == "2day":
+                resolution = 60*60*24*2
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(days=2)                
+            elif Interval== "7day":
+                resolution = 60*60*24*7
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(days=7)
+            elif Interval == "1month":
+                resolution = 60*60*24*30
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(months=1)
+            else:
+                resolution = 60
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(minutes=2)
+
+                
+        epochtimes.append(startepoch)
+        epochtimes.append(endepoch)
+        epochtimes.append(resolution)
+
+    except TypeError as e:
+        log.info('nmearemote_functions: TypeError in geting getepochtimes parameters %s:  ', Interval)
+        log.info('nmearemote_functions: TypeError in geting getepochtimes parameters %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('nmearemote_functions: KeyError in geting getepochtimes parameters %s:  ', Interval)
+        log.info('nmearemote_functions: KeyError in geting getepochtimes parameters %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('nmearemote_functions: NameError in geting getepochtimes parameters %s:  ', Interval)
+        log.info('freeboard: NameError in geting getepochtimes parameters %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('nmearemote_functions: IndexError in geting getepochtimes parameters %s:  ', Interval)
+        log.info('nmearemote_functions: IndexError in geting getepochtimes parameters %s:  ' % str(e))  
+
+
+    except:
+        log.info('nmearemote_functions: Error in geting  getepochtimes %s:  ', Interval)
+        e = sys.exc_info()[0]
+        log.info('nmearemote_functions: Error in geting getepochtimes parameters %s:  ' % str(e))
+
+    return(epochtimes)
+
+
+
 def parse_idkey(deviceid, idkey):
 
     match idkey:
