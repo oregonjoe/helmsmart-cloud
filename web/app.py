@@ -20360,53 +20360,53 @@ def nmearemote_watch():
   for idkey in serieskeys:
     log.info("nmearemote_watch  idkey %s", idkey)
 
-
+    dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
+    
     query = nmearemote_functions.idkey_query(deviceid, idkey, interval)
 
     log.info("nmearemote_watch query %s", query)
 
+    if query != "":
 
-    dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
+      try:
+          response= dbc.query(query)
 
-    try:
-        response= dbc.query(query)
+      #except InfluxDBServerError as e:
+      except InfluxDBClientError as e:
+        log.info('nmearemote_watch: Exception Client Error in InfluxDB  %s:  ' % str(e))
 
+        
+      except:
+          log.info('nmearemote_watch: Error in InfluxDB mydata append %s:', query)
+          e = sys.exc_info()[0]
+          log.info("nmearemote_watch: Error: %s" % e)
+          return jsonify(result="error")
 
-    except InfluxDBServerError as e:
-      log.info('nmearemote_watch: Exception Client Error in InfluxDB  %s:  ' % str(e))
+      if response is None:
+          log.info('nmearemote_watch: InfluxDB Query has no data ')
+          return jsonify(result="error")
 
-      
-    except:
-        log.info('nmearemote_watch: Error in InfluxDB mydata append %s:', query)
-        e = sys.exc_info()[0]
-        log.info("nmearemote_watch: Error: %s" % e)
-        return jsonify(result="error")
+        
+      if not response:
+          log.info('nmearemote_watch: InfluxDB Query has no data ')
+          return jsonify(result="error")
 
-    if response is None:
-        log.info('nmearemote_watch: InfluxDB Query has no data ')
-        return jsonify(result="error")
+      points = list(response.get_points())
 
-      
-    if not response:
-        log.info('nmearemote_watch: InfluxDB Query has no data ')
-        return jsonify(result="error")
+      for point in points:
 
-    points = list(response.get_points())
+        log.info('nmearemote_watch: InfluxDB Query point %s', point)
 
-    for point in points:
+        #idkey Engine.0.RPM
+        #jsonresult = {"id":"Engine.0.RPM","value":1200,"unit":"rpm"}
+        value = point['value']
+        jsonresult = {"id":idkey, "value":value, "unit":"rpm"}
 
-      log.info('nmearemote_watch: InfluxDB Query point %s', point)
+        log.info('nmearemote_watch: InfluxDB Query jsonresult %s', jsonresult)
+        
+        jsonresults.append(jsonresult)
 
-      #idkey Engine.0.RPM
-      #jsonresult = {"id":"Engine.0.RPM","value":1200,"unit":"rpm"}
-      value = point['value']
-      jsonresult = {"id":idkey, "value":value, "unit":"rpm"}
-
-      log.info('nmearemote_watch: InfluxDB Query jsonresult %s', jsonresult)
-      
-      jsonresults.append(jsonresult)
-
-      log.info('nmearemote_watch: InfluxDB Query jsonresults %s ', jsonresults)
+        log.info('nmearemote_watch: InfluxDB Query jsonresults %s ', jsonresults)
 
   """
   jsonresults=[]
