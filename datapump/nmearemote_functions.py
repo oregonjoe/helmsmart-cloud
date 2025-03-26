@@ -91,7 +91,7 @@ def idkey_query(deviceid, idkey, interval):
     startepoch = epochtimes[0]
     endepoch = epochtimes[1]
 
-    value, serieskeys = parse_idkey(deviceid, idkey):
+    value, serieskeys = parse_idkey(deviceid, idkey)
 
     #'select  percentile(temperature,50)
     """
