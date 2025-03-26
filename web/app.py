@@ -20320,6 +20320,15 @@ def signalk_api_vessels_self_navigation():
 
 
 
+@app.route('/nmearemote_watch')
+@cross_origin()
+def nmearemote_watch():
+
+  hello_message = {[{"id":"Engine.0.RPM","value":1200,"unit":"rpm"}] }
+
+  return json.dumps(hello_message)    
+
+
 @app.route('/pushsmart')
 @app.route('/freeboard_raw')
 @cross_origin()
