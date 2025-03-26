@@ -20327,8 +20327,18 @@ def nmearemote_watch():
   jsonresults=[]
   
   jsonresult = {"id":"Engine.0.RPM","value":1200,"unit":"rpm"}
-
   jsonresults.append(jsonresult)
+
+  jsonresult = {"id":"Engine.0.engineTemperature","value":185,"unit":"rpm"}
+  jsonresults.append(jsonresult)
+
+  jsonresult = {"id":"Engine.0.oilPressure","value":45,"unit":"psi"}
+  jsonresults.append(jsonresult)
+
+  jsonresult = {"id":"Engine.0.FuelRate","value":10.2,"unit":"gpm"}
+  jsonresults.append(jsonresult)
+
+  
 
   return json.dumps(jsonresults)    
 
