@@ -20339,7 +20339,8 @@ def nmearemote_watch():
 
   response = None
 
-
+  jsonresults=[]
+  
   deviceid = getedeviceid(devicekey)
 
   log.info("freeboard_raw deviceid %s", deviceid)
@@ -20392,11 +20393,22 @@ def nmearemote_watch():
 
     points = list(response.get_points())
 
-    log.info('nmearemote_watch: InfluxDB Query points %s', points)
+    for point in points:
 
+      log.info('nmearemote_watch: InfluxDB Query point %s', point)
 
+      #idkey Engine.0.RPM
+      #jsonresult = {"id":"Engine.0.RPM","value":1200,"unit":"rpm"}
+      value = point['value']
+      jsonresult = {"id":idkey, "value":value, "unit":"rpm"}
 
+      log.info('nmearemote_watch: InfluxDB Query jsonresult %s', jsonresult)
+      
+      jsonresults.append(jsonresult)
 
+      log.info('nmearemote_watch: InfluxDB Query jsonresults %s ', jsonresults)
+
+  """
   jsonresults=[]
   
   jsonresult = {"id":"Engine.0.RPM","value":1200,"unit":"rpm"}
@@ -20410,7 +20422,7 @@ def nmearemote_watch():
 
   jsonresult = {"id":"Engine.0.FuelRate","value":10.2,"unit":"gpm"}
   jsonresults.append(jsonresult)
-
+  """
   
 
   return json.dumps(jsonresults)    
