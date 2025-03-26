@@ -20355,7 +20355,7 @@ def nmearemote_watch():
     log.info("nmearemote_watch  idkey %s", idkey)
 
 
-    query = idkey_query(deviceid, idkey, interval):
+    query = nmearemote_functions.idkey_query(deviceid, idkey, interval)
 
     log.info("nmearemote_watch query %s", query)
 
