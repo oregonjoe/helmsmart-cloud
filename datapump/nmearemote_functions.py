@@ -160,7 +160,7 @@ def parse_idkey(deviceid, idkey):
 
         case "Engine.0.RPM":
 
-            instance = 0
+            instance = "0"
             serieskeys=" deviceid='"
             serieskeys= serieskeys + deviceid + "' AND "
             serieskeys= serieskeys +  " (sensor='engine_parameters_rapid_update') AND "
@@ -170,7 +170,7 @@ def parse_idkey(deviceid, idkey):
 
         case "Engine.0.engineTemperature":
 
-            instance = 0
+            instance = "0"
             serieskeys=" deviceid='"
             serieskeys= serieskeys + deviceid + "' AND "
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
@@ -180,7 +180,7 @@ def parse_idkey(deviceid, idkey):
         
         case "Engine.0.oilPressure":
 
-            instance = 0
+            instance = "0"
             serieskeys=" deviceid='"
             serieskeys= serieskeys + deviceid + "' AND "
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
@@ -190,7 +190,7 @@ def parse_idkey(deviceid, idkey):
 
         case "Engine.0.oilTemperature":
 
-            instance = 0
+            instance = "0"
             serieskeys=" deviceid='"
             serieskeys= serieskeys + deviceid + "' AND "
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
@@ -200,7 +200,7 @@ def parse_idkey(deviceid, idkey):
         
         case "Engine.0.FuelRate":
 
-            instance = 0
+            instance = "0"
             serieskeys=" deviceid='"
             serieskeys= serieskeys + deviceid + "' AND "
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
