@@ -178,7 +178,7 @@ def parse_idkey(deviceid, idkey):
             value = "engine_temp"
             return value, serieskeys
         
-        case "Engine.0.enginePressure":
+        case "Engine.0.oilPressure":
 
             instance = 0
             serieskeys=" deviceid='"
@@ -210,7 +210,7 @@ def parse_idkey(deviceid, idkey):
 
         # If an exact match is not confirmed, this last case will be used if provided
         case _:
-            return ""
+            return "",""
 
 
 def idkey_query(deviceid, idkey, interval):
@@ -225,6 +225,9 @@ def idkey_query(deviceid, idkey, interval):
     endepoch = epochtimes[1]
 
     value, serieskeys = parse_idkey(deviceid, idkey)
+
+    if value == "" or serieskeys == "":
+        return ""
 
     #'select  percentile(temperature,50)
     """
