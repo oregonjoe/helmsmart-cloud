@@ -20366,7 +20366,11 @@ def nmearemote_watch():
 
     log.info("nmearemote_watch query %s", query)
 
-    if query != "":
+    if query == "":
+      #jsonresult = {"id":idkey, "value":value, "unit":"rpm"}
+      jsonresults.append{"id":idkey, "value":"---", "unit":""})
+
+    else:
 
       try:
           response= dbc.query(query)
