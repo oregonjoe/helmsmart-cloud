@@ -20347,6 +20347,11 @@ def nmearemote_watch():
   if deviceid == "":
     return "invalid deviceid"
 
+  host = 'hilldale-670d9ee3.influxcloud.net' 
+  port = 8086
+  username = 'helmsmart'
+  password = 'Salm0n16'
+  database = 'pushsmart-cloud'
 
 
   serieskeys = keys.split(",")
@@ -20360,14 +20365,34 @@ def nmearemote_watch():
     log.info("nmearemote_watch query %s", query)
 
 
+    dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
+
+    try:
+        response= dbc.query(query)
 
 
+    except InfluxDBServerError as e:
+      log.info('nmearemote_watch: Exception Client Error in InfluxDB  %s:  ' % str(e))
 
+      
+    except:
+        log.info('nmearemote_watch: Error in InfluxDB mydata append %s:', query)
+        e = sys.exc_info()[0]
+        log.info("nmearemote_watch: Error: %s" % e)
+        return jsonify(result="error")
 
+    if response is None:
+        log.info('nmearemote_watch: InfluxDB Query has no data ')
+        return jsonify(result="error")
 
+      
+    if not response:
+        log.info('nmearemote_watch: InfluxDB Query has no data ')
+        return jsonify(result="error")
 
+    points = list(response.get_points())
 
-
+    log.info('nmearemote_watch: InfluxDB Query points %s', points)
 
 
 
