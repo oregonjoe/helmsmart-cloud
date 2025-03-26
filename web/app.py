@@ -20324,9 +20324,13 @@ def signalk_api_vessels_self_navigation():
 @cross_origin()
 def nmearemote_watch():
 
-  hello_message = {[{"id":"Engine.0.RPM","value":1200,"unit":"rpm"}] }
+  jsonresults=[]
+  
+  jsonresult = {"id":"Engine.0.RPM","value":1200,"unit":"rpm"}
 
-  return json.dumps(hello_message)    
+  jsonresults.append(jsonresult)
+
+  return json.dumps(jsonresults)    
 
 
 @app.route('/pushsmart')
