@@ -20404,7 +20404,7 @@ def nmearemote_watch():
         #idkey Engine.0.RPM
         #jsonresult = {"id":"Engine.0.RPM","value":1200,"unit":"rpm"}
         value = point['value']
-        jsonresult = {"id":idkey, "value":value, "unit":units.encode('utf-8')}
+        jsonresult = {"id":idkey, "value":value, "unit":units}
 
         log.info('nmearemote_watch: InfluxDB Query jsonresult %s', jsonresult)
         
