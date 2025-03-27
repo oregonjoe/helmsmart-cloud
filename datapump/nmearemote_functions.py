@@ -230,9 +230,11 @@ def idkey_query(deviceid, idkey, interval):
     endepoch = epochtimes[1]
 
     value, serieskeys, units = parse_idkey(deviceid, idkey)
+    log.info("nmearemote_functions parse_idkey data value %s, serieskeys %s, units %s", value, serieskeys, units)
 
+    
     if value == "" or serieskeys == "":
-        return ""
+        return "",""
 
     #'select  percentile(temperature,50)
     """
