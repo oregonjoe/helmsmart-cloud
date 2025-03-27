@@ -20429,7 +20429,7 @@ def nmearemote_watch():
   """
   
 
-  return json.dumps(jsonresults)    
+  return json.dumps(jsonresults, ensure_ascii=False)
 
 
 @app.route('/pushsmart')
