@@ -166,7 +166,7 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (sensor='engine_parameters_rapid_update') AND "
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "speed"
-            units = "Hz"
+            units = "1/min"
             return value, serieskeys, units
 
         case "Engine.0.engineTemperature":
