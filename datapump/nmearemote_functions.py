@@ -178,6 +178,7 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "engine_temp"
             units = "°K"
+            units = "K"
             return value, serieskeys, units
         
         case "Engine.0.oilPressure":
