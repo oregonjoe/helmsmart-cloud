@@ -178,7 +178,7 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "engine_temp"
             units = "°C"
-            units = "\u00b0C"
+            units = "\u00b0K"
             #units = chr(176).encode('utf-8') + "K"
             return value, serieskeys, units
         
