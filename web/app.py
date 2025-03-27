@@ -20362,7 +20362,7 @@ def nmearemote_watch():
 
     dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
     
-    query = nmearemote_functions.idkey_query(deviceid, idkey, interval)
+    query, units = nmearemote_functions.idkey_query(deviceid, idkey, interval)
 
     log.info("nmearemote_watch query %s", query)
 
@@ -20404,7 +20404,7 @@ def nmearemote_watch():
         #idkey Engine.0.RPM
         #jsonresult = {"id":"Engine.0.RPM","value":1200,"unit":"rpm"}
         value = point['value']
-        jsonresult = {"id":idkey, "value":value, "unit":"rpm"}
+        jsonresult = {"id":idkey, "value":value, "unit":units}
 
         log.info('nmearemote_watch: InfluxDB Query jsonresult %s', jsonresult)
         

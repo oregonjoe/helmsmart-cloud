@@ -166,7 +166,8 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (sensor='engine_parameters_rapid_update') AND "
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "speed"
-            return value, serieskeys
+            units = "Hz"
+            return value, serieskeys, units
 
         case "Engine.0.engineTemperature":
 
@@ -176,7 +177,8 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "engine_temp"
-            return value, serieskeys
+            units = "°K"
+            return value, serieskeys, units
         
         case "Engine.0.oilPressure":
 
@@ -186,7 +188,8 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "oil_pressure"
-            return value, serieskeys
+            units = "kPa"
+            return value, serieskeys, units
 
         case "Engine.0.oilTemperature":
 
@@ -196,7 +199,8 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "oil_temperature"
-            return value, serieskeys
+            units = "°K"
+            return value, serieskeys, units
         
         case "Engine.0.FuelRate":
 
@@ -206,11 +210,12 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "fuel_rate"
-            return value, serieskeys        
+            units = "l/h"
+            return value, serieskeys, units  
 
         # If an exact match is not confirmed, this last case will be used if provided
         case _:
-            return "",""
+            return "","",""
 
 
 def idkey_query(deviceid, idkey, interval):
@@ -224,7 +229,7 @@ def idkey_query(deviceid, idkey, interval):
     startepoch = epochtimes[0]
     endepoch = epochtimes[1]
 
-    value, serieskeys = parse_idkey(deviceid, idkey)
+    value, serieskeys, units = parse_idkey(deviceid, idkey)
 
     if value == "" or serieskeys == "":
         return ""
@@ -246,6 +251,6 @@ def idkey_query(deviceid, idkey, interval):
 
     log.info("nmearemote_functions parse_idkey data Query %s", query)    
 
-    return query
+    return query, units
 
  
