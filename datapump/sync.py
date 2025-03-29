@@ -3171,32 +3171,32 @@ def insert_influxdb_cloud(fact_info, device, records):
     mydataIDBC.append(ifluxjson)
     if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs %s:  ', mydataIDBC)
 
-	"""
-	# Initialize the InfluxDB client
-	client = InfluxDBClient(url=url, token=token, org=org)
+    """
+    # Initialize the InfluxDB client
+    client = InfluxDBClient(url=url, token=token, org=org)
 
-	# Create a write API instance
-	write_api = client.write_api(write_options=SYNCHRONOUS)
+    # Create a write API instance
+    write_api = client.write_api(write_options=SYNCHRONOUS)
 
-	# Create a data point
-	point = Point("temperature") \
-		.tag("location", "living_room") \
-		.field("value", 25.5) \
-		.time(datetime.utcnow(), WritePrecision.MS)
+    # Create a data point
+    point = Point("temperature") \
+            .tag("location", "living_room") \
+            .field("value", 25.5) \
+            .time(datetime.utcnow(), WritePrecision.MS)
 
-	# Write the data point
-	write_api.write(bucket=bucket, record=point)
+    # Write the data point
+    write_api.write(bucket=bucket, record=point)
 
-	# Alternatively, write multiple points
-	points = [
-		Point("temperature").tag("location", "kitchen").field("value", 22.1),
-		Point("humidity").tag("location", "living_room").field("value", 45.3)
-	]
-	write_api.write(bucket=bucket, record=points)
+    # Alternatively, write multiple points
+    points = [
+            Point("temperature").tag("location", "kitchen").field("value", 22.1),
+            Point("humidity").tag("location", "living_room").field("value", 45.3)
+    ]
+    write_api.write(bucket=bucket, record=points)
 
-	# Close the client
-	client.close()
-	"""
+    # Close the client
+    client.close()
+    """
     
     #dbc.write_points(mydataIDBC, time_precision='ms')
     #shim.write_multi(mydata)
