@@ -3242,7 +3242,7 @@ def insert_influxdb_cloud(fact_info, device, records):
           .time( ps_tms*1000000)
         )
         if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json point %s:  ', point)
-        client.write(database=database, record=point)
+        #client.write(database=database, record=point)
         
         points.append(point)
         
@@ -3260,9 +3260,9 @@ def insert_influxdb_cloud(fact_info, device, records):
     if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json points %s:  ', len(points))
     
     #client.write_points(mydataIDBC, time_precision='ms')
-    #client.write(database=database, record=mydataIDBC) 
+    client.write(database=database, record=points) 
     #shim.write_multi(mydata)
-    #if debug_all: log.info("Sync: write_points influxDB-Cloud! %s", record[DEVICE])
+    if debug_all: log.info("Sync: write_points influxDB-Cloud! %s", record[DEVICE])
 
     
   #except influxdb.InfluxDBClientError as e:   
