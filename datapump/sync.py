@@ -3229,7 +3229,6 @@ def insert_influxdb_cloud(fact_info, device, records):
         .tag("instance", tags.get('instance', 'FF'))
         .tag("type", tags.get('type', 'unknown'))
         .tag("parameter", tags.get('parameter', 'unknown'))
-        .tag("deviceid", tags.get('deviceid']))
         .field( tags.get('parameter', 'unknown'), fields[tags.get('parameter','unknown')])
         .time(key["time"])
       )
