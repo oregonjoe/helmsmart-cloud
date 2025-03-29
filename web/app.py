@@ -19450,7 +19450,23 @@ def events_endpoint(device_id, partition):
 
     #print(response['MessageId'])
 
-    log.info("Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+    log.info("Send SQS he:helmsmart-pushsmart  %s:  response %s: ", device_id,response['MessageId'])
+
+
+    # Send message to SQS queue
+    response = sqs_queue.send_message(
+        QueueUrl="https://sqs.us-west-2.amazonaws.com/291312677175/helmsmart-cloud",
+        DelaySeconds=10,
+        #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+        MessageBody=(device_json)
+    )
+
+    #print(response['MessageId'])
+
+    log.info("Send SQS helmsmart-cloud :device_id %s:  response %s: ", device_id,response['MessageId'])
+
+
+    
 
   except botocore.exceptions.ClientError as e:
     log.info("Send SQS:ClientError device_id %s:  ", device_id)

@@ -58,6 +58,10 @@ sqs_queue = boto3.client('sqs', region_name=os.environ.get('AWS_REGION'), aws_ac
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'
 queue_url= os.environ.get('SQS_POSTS_URL')
 
+queue_url= "https://sqs.us-west-2.amazonaws.com/291312677175/helmsmart-cloud"
+
+
+
 import nmea
 from splicer import Schema
 SCHEMA=Schema([
