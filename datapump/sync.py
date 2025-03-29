@@ -3218,8 +3218,11 @@ def insert_influxdb_cloud(fact_info, device, records):
         .time(key["time"])
       )
       """
-      tags = key["tags"]
-      fields = key["fields"]
+      tags = key.get("tags", "")
+      fields = key.get("fields", "")
+
+      if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tags %s:  ', tags)
+      if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json fields %s:  ', fields)
       
       point = (
         Point(key['measurement'])
