@@ -3284,6 +3284,11 @@ def insert_influxdb_cloud(fact_info, device, records):
 
     if debug_all: log.error('Sync: NameError in InfluxDB-Cloud write %s:  ' % str(e))   
     
+  except AttributeError as e:
+    if debug_all: log.error('Sync: AttributeError in InfluxDB-Cloud write %s:  ', record[DEVICE])
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.error('Sync: AttributeError in InfluxDB-Cloud write %s:  ' % str(e))
     
   except:
     if debug_all: log.error('Sync: Error in InfluxDB-Cloud write %s:  ', record[DEVICE])
