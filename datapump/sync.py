@@ -3250,7 +3250,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
     if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json points %s:  ', len(points))
     
-    dbc.write_points(mydataIDBC, time_precision='ms')
+    client.write_points(mydataIDBC, time_precision='ms')
     #shim.write_multi(mydata)
     #if debug_all: log.info("Sync: write_points influxDB-Cloud! %s", record[DEVICE])
 
@@ -3267,26 +3267,26 @@ def insert_influxdb_cloud(fact_info, device, records):
     pass
     
   except TypeError as e:
-    if debug_all: log.error('Sync: TypeError in InfluxDB-Cloud write %s:  ', mydataIDBC)
+    if debug_all: log.error('Sync: TypeError in InfluxDB-Cloud write %s:  ', record[DEVICE])
     #e = sys.exc_info()[0]
 
     if debug_all: log.error('Sync: TypeError in InfluxDB-Cloud write %s:  ' % str(e))
     
   except KeyError as e:
-    if debug_all: log.error('Sync: KeyError in InfluxDB-Cloud write %s:  ', mydataIDBC)
+    if debug_all: log.error('Sync: KeyError in InfluxDB-Cloud write %s:  ', record[DEVICE])
     #e = sys.exc_info()[0]
 
     if debug_all: log.error('Sync: KeyError in InfluxDB-Cloud write %s:  ' % str(e))
 
   except NameError as e:
-    if debug_all: log.error('Sync: NameError in InfluxDB-Cloud write %s:  ', mydataIDBC)
+    if debug_all: log.error('Sync: NameError in InfluxDB-Cloud write %s:  ', record[DEVICE])
     #e = sys.exc_info()[0]
 
     if debug_all: log.error('Sync: NameError in InfluxDB-Cloud write %s:  ' % str(e))   
     
     
   except:
-    if debug_all: log.error('Sync: Error in InfluxDB-Cloud write %s:  ', mydataIDBC)
+    if debug_all: log.error('Sync: Error in InfluxDB-Cloud write %s:  ', record[DEVICE])
     e = sys.exc_info()[0]
     if debug_all: log.error("Error: %s" % e)
     
