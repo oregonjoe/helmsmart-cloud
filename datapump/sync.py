@@ -3239,7 +3239,7 @@ def insert_influxdb_cloud(fact_info, device, records):
           .tag("type", tags.get('type', 'unknown'))
           .tag("parameter", tags.get('parameter', 'records'))
           .field( tags.get('parameter', 'records'), fields[tags.get('parameter','records')])
-          .time("time", ps_tms*1000000)
+          .time( ps_tms*1000000)
         )
         if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json point %s:  ', point)
         client.write(database=database, record=point)
