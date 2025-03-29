@@ -3238,7 +3238,7 @@ def insert_influxdb_cloud(fact_info, device, records):
           .time(key["time"])
         )
         if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json point %s:  ', point)
-        client.write(database=database, record=point)
+        #client.write(database=database, record=point)
         
         points.append(point)
         
