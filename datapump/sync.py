@@ -3205,14 +3205,32 @@ def insert_influxdb_cloud(fact_info, device, records):
     points = []
     
     for key in mydataIDBC:
-      
+
+      """      
       point = (
         Point(key['measurement'])
         .tag( key["tags"])
         .field(key["fields"])
         .time(key["time"])
       )
-
+      """
+      tags = key["tags"]
+      fields = key["fields"]
+      
+      point = (
+        Point(key['measurement'])
+        .tag("deviceid", tags['deviceid'])
+        .tag("sensor", tags['sensor'])
+        .tag("source", fields['source'])
+        .tag("instance", tags['instance'])
+        .tag("type", tags['type'])
+        .tag("parameter", tags['parameter'])
+        .tag("deviceid", tags['deviceid'])
+        .field( tags['parameter'], fields[tags['parameter']])
+        .time(key["time"])
+      )
+      if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json point %s:  ', point)
+      
       points.append(point)
 
     if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json points %s:  ', points)
