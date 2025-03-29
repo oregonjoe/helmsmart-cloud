@@ -201,7 +201,7 @@ def parse_idkey(deviceid, idkey):
             serieskeys= serieskeys +  " (sensor='engine_parameters_dynamic') AND "
             serieskeys= serieskeys +  " (instance='" + instance + "') "
             value = "oil_temperature"
-            units = chr(176) + "K"
+            units = "\u00b0K"
             return value, serieskeys, units
         
         case "Engine.0.FuelRate":

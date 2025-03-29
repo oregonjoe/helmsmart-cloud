@@ -15,8 +15,8 @@ import logging
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
-#debug_all = True
-debug_all = False
+debug_all = True
+#debug_all = False
 debug_all_influxdb = True
 
 
@@ -863,7 +863,7 @@ def insert_influxdbCloud_TCPseries(deviceid, message):
       #client.write(database=database, record=point, write_precision='ms')
       # seems to be a big problem in specifiying a time percision other then nsec
       #client.write(database=database, record=point, write_precision="ms")     
-      client.write(database=database, record=point) 
+      #client.write(database=database, record=point) 
 
     #client.write(database=database, record=point)
 
@@ -1019,7 +1019,7 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
 
       skdata = parseSIGK(device, data)
       
-      ref.set(skdata)
+      #ref.set(skdata)
 
 
     else:
@@ -1036,7 +1036,7 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
         if debug_all: log.info('sync: dump_pcdinfirebase json %s:%s', device, data)
 
         
-        ref.set(json.loads(data))
+        #ref.set(json.loads(data))
 
       except AttributeError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 AttributeError in data %s:  ', data)
@@ -3127,12 +3127,25 @@ def insert_influxdb_cloud(fact_info, device, records):
     IFDBpassword = os.environ.get('IFDBpassword')
     IFDBdatabase = os.environ.get('IFDBdatabase')
     
+	
+    IFDBCToken = os.environ.get('InfluxDBCloudToken')
+    IFDBCOrg = os.environ.get('InfluxDBCloudOrg')
+    IFDBCBucket = os.environ.get('InfluxDBCloudBucket')
+    IFDBCURL = os.environ.get('InfluxDBCloudURL')
+
+
+    database="pushsmart-live"	
+	
+	
     
     #shim = Shim(host, port, username, password, database)
     #db = influxdb.InfluxDBClient(host, port, username, password, database)
-    dbc = InfluxDBCloud(IFDBhost, IFDBport, IFDBusername, IFDBpassword, IFDBdatabase,  ssl=True)
+    #dbc = InfluxDBCloud(IFDBhost, IFDBport, IFDBusername, IFDBpassword, IFDBdatabase,  ssl=True)
     #dbc = InfluxDBCloud(IFDBhost, IFDBport, IFDBusername, IFDBpassword, IFDBdatabase,  ssl=False)
-
+    client = InfluxDBClient3(host=IFDBCURL, token=IFDBCToken, org=IFDBCOrg)
+	
+	
+	
     #if debug_all: log.info('Sync:  InfluxDB write %s:  ', mydata)
     #if debug_all: log.info('Sync:  InfluxDB-Cloud write %s points', len(mydataIDBC))
     if debug_all: log.info('Sync:  InfluxDB-Cloud write device=%s  points = %s', record[DEVICE], len(mydataIDBC))
@@ -3156,15 +3169,38 @@ def insert_influxdb_cloud(fact_info, device, records):
     
     ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
     mydataIDBC.append(ifluxjson)
-    #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs %s:  ', mydataIDBC)
+    if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs %s:  ', mydataIDBC)
 
+	"""
+	# Initialize the InfluxDB client
+	client = InfluxDBClient(url=url, token=token, org=org)
 
+	# Create a write API instance
+	write_api = client.write_api(write_options=SYNCHRONOUS)
 
+	# Create a data point
+	point = Point("temperature") \
+		.tag("location", "living_room") \
+		.field("value", 25.5) \
+		.time(datetime.utcnow(), WritePrecision.MS)
 
+	# Write the data point
+	write_api.write(bucket=bucket, record=point)
+
+	# Alternatively, write multiple points
+	points = [
+		Point("temperature").tag("location", "kitchen").field("value", 22.1),
+		Point("humidity").tag("location", "living_room").field("value", 45.3)
+	]
+	write_api.write(bucket=bucket, record=points)
+
+	# Close the client
+	client.close()
+	"""
     
-    dbc.write_points(mydataIDBC, time_precision='ms')
+    #dbc.write_points(mydataIDBC, time_precision='ms')
     #shim.write_multi(mydata)
-    if debug_all: log.info("Sync: write_points influxDB-Cloud! %s", record[DEVICE])
+    #if debug_all: log.info("Sync: write_points influxDB-Cloud! %s", record[DEVICE])
 
     
   #except influxdb.InfluxDBClientError as e:   
