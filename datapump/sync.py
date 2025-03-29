@@ -3223,25 +3223,34 @@ def insert_influxdb_cloud(fact_info, device, records):
 
       if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tags %s:  ', tags)
       if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json fields %s:  ', fields)
-      
-      point = (
-        Point(key['measurement'])
-        .tag("deviceid", tags.get('deviceid','000000000000'))
-        .tag("sensor", tags.get('sensor', 'unknown'))
-        .tag("source", tags.get('source', '0'))
-        .tag("instance", tags.get('instance', 'FF'))
-        .tag("type", tags.get('type', 'unknown'))
-        .tag("parameter", tags.get('parameter', 'records'))
-        .field( tags.get('parameter', 'records'), fields[tags.get('parameter','records')])
-        .time(key["time"])
-      )
-      if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json point %s:  ', point)
-      
-      points.append(point)
 
-    if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json points %s:  ', points)
+      try:
+        
+        point = (
+          Point(key['measurement'])
+          .tag("deviceid", tags.get('deviceid','000000000000'))
+          .tag("sensor", tags.get('sensor', 'unknown'))
+          .tag("source", tags.get('source', '0'))
+          .tag("instance", tags.get('instance', 'FF'))
+          .tag("type", tags.get('type', 'unknown'))
+          .tag("parameter", tags.get('parameter', 'records'))
+          .field( tags.get('parameter', 'records'), fields[tags.get('parameter','records')])
+          .time(key["time"])
+        )
+        if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json point %s:  ', point)
+        
+        points.append(point)
+        
+      except:
+        
+        if debug_all: log.error('Sync: Error in InfluxDB-Cloud create point %s:  ', key)
+        e = sys.exc_info()[0]
+        if debug_all: log.error("Error: %s" % e)
+        
+
+    if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json points %s:  ', len(points))
     
-    #dbc.write_points(mydataIDBC, time_precision='ms')
+    dbc.write_points(mydataIDBC, time_precision='ms')
     #shim.write_multi(mydata)
     #if debug_all: log.info("Sync: write_points influxDB-Cloud! %s", record[DEVICE])
 
