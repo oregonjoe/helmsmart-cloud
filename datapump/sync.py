@@ -1066,6 +1066,9 @@ def insert_influxdb_cloud(fact_info, device, records):
   if debug_all: log.info("start of influxdb_cloud insert %s...%s records", device, len(records))
   #if debug_all: log.info("start of influxdb_cloud insert %s...%s records", device, len(records))
   #if debug_all: log.info("start of influxdb_cloud insert %s...%s records", partition, records)
+
+
+  
   try:
     mydata = []
     mydataIDBC = []
@@ -3197,6 +3200,22 @@ def insert_influxdb_cloud(fact_info, device, records):
     # Close the client
     client.close()
     """
+    #{'measurement': 'HS_552376721143', 'time': 1743265628000, 'tags': {'deviceid': '552376721143', 'sensor': 'temperature', 'instance': '0', 'type': 'Main Cabin Temperature', 'parameter': 'actual_temperature'}, 'fields': {'actual_temperature': 280.7, 'source': 'AA'}},
+
+    points = []
+    
+    for key in mydataIDBC:
+      
+      point = (
+        Point(key['measurement'])
+        .tag( key["tags"])
+        .field(key["fields"])
+        .time(key["time"])
+      )
+
+      points.append(point)
+
+    if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json points %s:  ', points)
     
     #dbc.write_points(mydataIDBC, time_precision='ms')
     #shim.write_multi(mydata)
