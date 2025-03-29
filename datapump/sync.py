@@ -3257,7 +3257,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
     
   #except influxdb.InfluxDBClientError as e:   
-  except except InfluxDBClient3.InfluxDBError as e:
+  except InfluxDBClient3.InfluxDBError as e:
 
     if debug_all: log.error('Sync: InfluxDBServerError error in InfluxDB-Cloud write %s:  ' % str(e))
 
