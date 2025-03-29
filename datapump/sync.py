@@ -3158,6 +3158,7 @@ def insert_influxdb_cloud(fact_info, device, records):
     #Add count of number of records written to local status
     mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], int(len(mydataIDBC)),   'deviceid:' + record[DEVICE] + '.sensor:helmsmartstat.source:FF.instance:0.type:NULL.parameter:write_records.HelmSmart'   ) )         
 
+    """
     #Add count of number of records written to global status
     ts = int(time.time()) * 1000
     #if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json ts %s:  ', ts)
@@ -3172,7 +3173,10 @@ def insert_influxdb_cloud(fact_info, device, records):
     
     ifluxjson ={"measurement":measurement, "time": ts, "tags":myjsonkeys, "fields": values}
     mydataIDBC.append(ifluxjson)
-    if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs %s:  ', mydataIDBC)
+    """
+
+    
+    if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs length %s:  ', len(mydataIDBC))
 
     """
     # Initialize the InfluxDB client
@@ -3219,14 +3223,14 @@ def insert_influxdb_cloud(fact_info, device, records):
       
       point = (
         Point(key['measurement'])
-        .tag("deviceid", tags['deviceid'])
-        .tag("sensor", tags['sensor'])
-        .tag("source", fields['source'])
-        .tag("instance", tags['instance'])
-        .tag("type", tags['type'])
-        .tag("parameter", tags['parameter'])
-        .tag("deviceid", tags['deviceid'])
-        .field( tags['parameter'], fields[tags['parameter']])
+        .tag("deviceid", tags.get('deviceid','000000000000'))
+        .tag("sensor", tags.get('sensor', 'unknown'))
+        .tag("source", tags.get('source', '0'))
+        .tag("instance", tags.get('instance', 'FF'))
+        .tag("type", tags.get('type', 'unknown'))
+        .tag("parameter", tags.get('parameter', 'unknown'))
+        .tag("deviceid", tags.get('deviceid']))
+        .field( tags.get('parameter', 'unknown'), fields[tags.get('parameter','unknown')])
         .time(key["time"])
       )
       if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json point %s:  ', point)
