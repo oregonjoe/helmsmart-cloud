@@ -541,7 +541,7 @@ def insert_influxdb(deviceid, mydataIDBC):
     if debug_all: log.info('insert_influxdb_cloud: convert_influxdbcloud_json tagpairs length %s:  ', len(mydataIDBC))
 
     
-    client.write_points(mydataIDBC, time_precision='ms')
+    dbc.write_points(mydataIDBC, time_precision='ms')
 
     if debug_all: log.info("Sync: write_points influxDB! %s", deviceid)
 
