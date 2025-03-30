@@ -1281,10 +1281,14 @@ def insert_influxdb_cloud(fact_info, device, records):
               if isinstance(valuelng, (int, float, complex)) and isinstance(valuelat, (int, float, complex)):  
                 mydataIDBC.append(convert_influxdbcloud_gpsjson(record[TIMESTAMP], float(valuelat) * 1.0,  float(valuelng) * 1.0, 'deviceid:' + record[DEVICE] + '.sensor:position_rapid' + '.source:' + record[SOURCE] + '.instance:' +  str(instance) + '.type:' +  str(valuetype) + '.parameter:latlng' +  '.HelmSmart'   ) )         
 
+
+            except NameError as e:
+              if debug_all: log.info('Sync: NameError in InfluxDBC.append mydataIDBC append PGN 01F801: %s', fact)
+              if debug_all: log.info("Error: %s" % e)
  
             except:
               e = sys.exc_info()[0] 
-              if debug_all: log.info('Sync: Error in InfluxDBC.append mydataIDBC append PGN 01F801: %s',fact)
+              if debug_all: log.info('Sync: Error in InfluxDBC.append mydataIDBC append PGN 01F801: %s', fact)
               if debug_all: log.info("Error: %s" % e)
               pass
 
