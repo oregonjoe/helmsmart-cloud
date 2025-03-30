@@ -2741,6 +2741,12 @@ def insert_influxdb_cloud(fact_info, device, records):
 
     if debug_all: log.info('Sync: KeyError in InfluxDBC mydata append %s:  ' % str(e))
 
+  except AttributeError as e:
+    if debug_all: log.info('Sync: AttributeError in InfluxDBC mydata append %s:  ', record[DEVICE])
+    #e = sys.exc_info()[0]
+
+    if debug_all: log.info('Sync: AttributeError in InfluxDBC mydata append %s:  ' % str(e))    
+
   except NameError as e:
     if debug_all: log.info('Sync: Namerror in InfluxDBC mydata append %s: %s: %s: ', record[PGN], value, record[DEVICE])
     #e = sys.exc_info()[0]
