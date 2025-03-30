@@ -2708,6 +2708,20 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
 
+    if debug_all: log.info('Sync:  InfluxDB-Cloud write device=%s  points = %s', record[DEVICE], len(mydataIDBC))
+    #db.write_points_with_precision(mydata, time_precision='ms')
+
+
+    #Add count of number of records written to local status
+    mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], int(len(mydataIDBC)),   'deviceid:' + record[DEVICE] + '.sensor:helmsmartstat.source:FF.instance:0.type:NULL.parameter:write_records.HelmSmart'   ) )         
+
+
+    #insert into legacy influxdb - long term storage
+    insert_influxdb(deviceid, mydataIDBC)
+
+    #insert into InfluxDB3 short term storage
+    insert_influxdb3_cloud(deviceid, mydataIDBC)
+
   except TypeError as e:
     #if debug_all: log.info('Sync: TypeError in InfluxDBC mydata append %s:  ',  mydataIDBC)
     if debug_all: log.info('Sync: TypeError in InfluxDBC mydata append %s:%s:%s  ', record[DEVICE] , record[PGN] , fact)
@@ -2736,19 +2750,7 @@ def insert_influxdb_cloud(fact_info, device, records):
 
   #if debug_all: log.info('Sync:  InfluxDB write mydata %s:  ', mydata)
  
-  if debug_all: log.info('Sync:  InfluxDB-Cloud write device=%s  points = %s', record[DEVICE], len(mydataIDBC))
-  #db.write_points_with_precision(mydata, time_precision='ms')
 
-
-  #Add count of number of records written to local status
-  mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], int(len(mydataIDBC)),   'deviceid:' + record[DEVICE] + '.sensor:helmsmartstat.source:FF.instance:0.type:NULL.parameter:write_records.HelmSmart'   ) )         
-
-
-  #insert into legacy influxdb - long term storage
-  insert_influxdb(deviceid, mydataIDBC)
-
-  #insert into InfluxDB3 short term storage
-  insert_influxdb3_cloud(deviceid, mydataIDBC)
 
 
     
