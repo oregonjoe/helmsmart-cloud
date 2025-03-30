@@ -648,9 +648,8 @@ def insert_influxdb3_cloud(deviceid, mydataIDBC):
         
         points.append(point)
         
-      except InfluxDBClient3.InfluxDBError as e:
-
-        if debug_all: log.error('Sync: InfluxDBServerError error in InfluxDB3-Cloud write %s:  ' % str(e))
+      #except InfluxDBClient3.InfluxDBError as e:
+      # if debug_all: log.error('Sync: InfluxDBServerError error in InfluxDB3-Cloud write %s:  ' % str(e))
 
       except AttributeError as e:
         if debug_all: log.error('Sync: AttributeError in InfluxDB3-Cloud points %s:  ', key)
