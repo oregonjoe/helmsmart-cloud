@@ -518,7 +518,7 @@ def insert_influxdb(deviceid, mydataIDBC):
 
 
     #Add count of number of records written to local status
-    mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], int(len(mydataIDBC)),   'deviceid:' + deviceid + '.sensor:helmsmartstat.source:FF.instance:0.type:NULL.parameter:write_records.HelmSmart'   ) )         
+    #mydataIDBC.append(convert_influxdbcloud_json(record[TIMESTAMP], int(len(mydataIDBC)),   'deviceid:' + deviceid + '.sensor:helmsmartstat.source:FF.instance:0.type:NULL.parameter:write_records.HelmSmart'   ) )         
 
     """
     #Add count of number of records written to global status
