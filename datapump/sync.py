@@ -647,19 +647,19 @@ def convert_influxdbcloud_gpsjson(mytime, valuelat, valuelng, key):
 
     return ifluxjson
 
-  except AttributeError, e:
+  except AttributeError as e:
     if debug_all: log.info('Sync: AttributeError in convert_influxdbcloud_gpsjson %s:  ', mytime)
     #e = sys.exc_info()[0]
 
     if debug_all: log.info('Sync: AttributeError in convert_influxdbcloud_gpsjson %s:  ' % str(e))
     
-  except TypeError, e:
+  except TypeError as e:
     if debug_all: log.info('Sync: TypeError in convert_influxdbcloud_gpsjson %s:  ', mytime)
     #e = sys.exc_info()[0]
 
     if debug_all: log.info('Sync: TypeError in convert_influxdbcloud_gpsjson %s:  ' % str(e))
     
-  except NameError, e:
+  except NameError as e:
     if debug_all: log.info('Sync: NameError in convert_influxdbcloud_gpsjson %s:  ', mytime)
     #e = sys.exc_info()[0]
 
