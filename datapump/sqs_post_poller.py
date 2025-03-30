@@ -71,8 +71,11 @@ SCHEMA=Schema([
 ]+nmea.SCHEMA.fields)
 
 from sync import (
-  dump_pcdinfirebase, dump_json, insert_influxdb_cloud, insert_influxdbCloud_TCPseries, ensure_database,PARTITION, URL
+  dump_pcdinfirebase, dump_json, insert_influxdb_cloud,  ensure_database,PARTITION, URL
 )
+
+
+from helmsmart_influxdb import insert_influxdbCloud_TCPseries
 
 env = xlocal()
 
