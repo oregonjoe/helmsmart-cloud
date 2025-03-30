@@ -2717,10 +2717,10 @@ def insert_influxdb_cloud(fact_info, device, records):
 
 
     #insert into legacy influxdb - long term storage
-    insert_influxdb(deviceid, mydataIDBC)
+    insert_influxdb(record[DEVICE], mydataIDBC)
 
     #insert into InfluxDB3 short term storage
-    insert_influxdb3_cloud(deviceid, mydataIDBC)
+    insert_influxdb3_cloud(record[DEVICE], mydataIDBC)
 
   except TypeError as e:
     #if debug_all: log.info('Sync: TypeError in InfluxDBC mydata append %s:  ',  mydataIDBC)
