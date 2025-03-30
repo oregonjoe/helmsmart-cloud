@@ -2732,19 +2732,19 @@ def insert_influxdb_cloud(fact_info, device, records):
     if debug_all: log.info('Sync: TypeError in InfluxDBC mydata append %s:  ' % str(e))
     
   except KeyError as e:
-    if debug_all: log.info('Sync: KeyError in InfluxDBC mydata append %s:  ', mydataIDBC)
+    if debug_all: log.info('Sync: KeyError in InfluxDBC mydata append %s:  ', record[DEVICE])
     #e = sys.exc_info()[0]
 
     if debug_all: log.info('Sync: KeyError in InfluxDBC mydata append %s:  ' % str(e))
 
   except NameError as e:
-    if debug_all: log.info('Sync: Namerror in InfluxDBC mydata append %s: %s: %s: ', record[PGN], value, mydataIDBC)
+    if debug_all: log.info('Sync: Namerror in InfluxDBC mydata append %s: %s: %s: ', record[PGN], value, record[DEVICE])
     #e = sys.exc_info()[0]
 
     if debug_all: log.info('Sync: NameError in InfluxDBC mydata append %s:  ' % str(e))     
   except:
     #if debug_all: log.info('Sync: Error in InfluxDB mydata append %s. %s, %s, %s:  ', mydata, record[TIMESTAMP], value,'deviceid:001EC010AD69.sensor:environmental_data.instance:0.type:Outside_Temperature.parameter:temperature'  )
-    if debug_all: log.info('Sync: Error in InfluxDBC mydata append %s:', mydataIDBC)
+    if debug_all: log.info('Sync: Error in InfluxDBC mydata append %s:', record[DEVICE])
 
     e = sys.exc_info()[0]
     if debug_all: log.info("Error: %s" % e)
