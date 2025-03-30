@@ -636,7 +636,7 @@ def insert_influxdb3_cloud(deviceid, mydataIDBC):
           Point(key['measurement'])
           .tag("deviceid", tags.get('deviceid','000000000000'))
           .tag("sensor", tags.get('sensor', 'unknown'))
-          .tag("source", tags.get('source', '0'))
+          .tag("source", fields.get('source', '0'))
           .tag("instance", tags.get('instance', 'FF'))
           .tag("type", tags.get('type', 'unknown'))
           .tag("parameter", tags.get('parameter', 'records'))
