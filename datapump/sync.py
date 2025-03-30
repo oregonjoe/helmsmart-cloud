@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import time
 from time import mktime
 from signalk import createSIGKpath, parseSIGK
-from helmsmart_influxdb import insert_influxdb3_cloud, insert_influxdb,c onvert_influxdbcloud_json
+from helmsmart_influxdb import insert_influxdb3_cloud, insert_influxdb, convert_influxdbcloud_json
 
 
 import logging
