@@ -45,3 +45,4 @@ redis==5.0.1
 rq==1.15.1
 websockets==11.0.3
 Flask-SocketIO
+tzdata
