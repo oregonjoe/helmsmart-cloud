@@ -3258,7 +3258,7 @@ def getinfluxseriesmultibydeviceid():
             value8 = csv_values[2]
 
 
-          
+        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud csv_values value1 %s:value2 %s:value3 %s:value4 %s', value1,value2,value3,value4)          
           #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[3])
           #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[4])
          
