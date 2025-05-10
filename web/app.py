@@ -3231,30 +3231,30 @@ def getinfluxseriesmultibydeviceid():
           if csv_values[1] == "value1":
             value1 = csv_values[2]
 
-          if csv_values[1] == "value2":
+          else if csv_values[1] == "value2":
             value2 = csv_values[2]
 
-          if csv_values[1] == "value3":
+          else if csv_values[1] == "value3":
             value3 = csv_values[2]
 
 
-          if csv_values[1] == "value4":
+          else if csv_values[1] == "value4":
             value4 = csv_values[2]
 
 
-          if csv_values[1] == "value5":
+          else if csv_values[1] == "value5":
             value5 = csv_values[2]
 
 
-          if csv_values[1] == "value6":
+          else if csv_values[1] == "value6":
             value6 = csv_values[2]
 
 
-          if csv_values[1] == "value7":
+          else if csv_values[1] == "value7":
             value7 = csv_values[2]
 
 
-          if csv_values[1] == "value8":
+          else if csv_values[1] == "value8":
             value8 = csv_values[2]
 
 
@@ -3272,7 +3272,7 @@ def getinfluxseriesmultibydeviceid():
 
         #creeat a CSV row string
         strvalues=  strvalues + str(key) + ", " + str(mytime) + ", " + str(value1)+ ", " +str(value2)+ ", " +str(value3)+ ", " +str(value4)+ ", " +str(value5)+ ", " +str(value6)+ ", " +str(value7)+ ", " +str(value8) +   '\r\n'
-        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud strvalues%s:', strvalues)
+        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud strvalues %s:', strvalues)
       
         #create ajson row too
         jsondataarray.append({'epoch':key, 'value1':value1,'value2':value2,'value3':value3,'value4':value4,'value5':value5,'value6':value6,'value7':value7,'value8':value8})          
