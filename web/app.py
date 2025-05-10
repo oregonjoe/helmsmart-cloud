@@ -3225,7 +3225,7 @@ def getinfluxseriesmultibydeviceid():
 
         #go through the groups and find elements that match the key pairs labels and assign to values
         for csv_values in valuesgroup:       
-          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[1])
+          log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud csv_values %s:', csv_values)
           log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud csv_values[1] %s,  csv_values[2] %s:', csv_values[1], csv_values[2])
 
           if csv_values[1] == "value1":
