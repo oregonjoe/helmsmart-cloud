@@ -3231,30 +3231,30 @@ def getinfluxseriesmultibydeviceid():
           if csv_values[1] == "value1":
             value1 = csv_values[2]
 
-          else if csv_values[1] == "value2":
+          elif csv_values[1] == "value2":
             value2 = csv_values[2]
 
-          else if csv_values[1] == "value3":
+          elif csv_values[1] == "value3":
             value3 = csv_values[2]
 
 
-          else if csv_values[1] == "value4":
+          elif csv_values[1] == "value4":
             value4 = csv_values[2]
 
 
-          else if csv_values[1] == "value5":
+          elif csv_values[1] == "value5":
             value5 = csv_values[2]
 
 
-          else if csv_values[1] == "value6":
+          elif csv_values[1] == "value6":
             value6 = csv_values[2]
 
 
-          else if csv_values[1] == "value7":
+          elif csv_values[1] == "value7":
             value7 = csv_values[2]
 
 
-          else if csv_values[1] == "value8":
+          elif csv_values[1] == "value8":
             value8 = csv_values[2]
 
 
