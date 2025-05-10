@@ -3220,7 +3220,7 @@ def getinfluxseriesmultibydeviceid():
         value8 = '---'
 
         #groups.append(list(valuesgroup))
-        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', list(valuesgroup))
+        #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', list(valuesgroup))
         #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud key %s:', key)
 
         #go through the groups and find elements that match the key pairs labels and assign to values
