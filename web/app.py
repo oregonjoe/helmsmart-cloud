@@ -3200,7 +3200,7 @@ def getinfluxseriesmultibydeviceid():
     #jsondata = sorted(jsondata,key=itemgetter('epoch'))
     # sort list based on epoch time integer x[0] which is first element in list
     jsondata = sorted(jsondata, key=lambda x: x[0])
-    #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud point%s:', jsondata)
+    log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud point%s:', jsondata)
     jsondataarray = []
     groups = []
     strvalues = ""
@@ -3220,13 +3220,13 @@ def getinfluxseriesmultibydeviceid():
         value8 = '---'
 
         #groups.append(list(valuesgroup))
-        #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', list(valuesgroup))
+        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', list(valuesgroup))
         #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud key %s:', key)
 
         #go through the groups and find elements that match the key pairs labels and assign to values
         for csv_values in valuesgroup:       
           #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[1])
-          #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[2])
+          log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[2])
 
           if csv_values[1] == "value1":
             value1 = csv_values[2]
@@ -3272,11 +3272,12 @@ def getinfluxseriesmultibydeviceid():
 
         #creeat a CSV row string
         strvalues=  strvalues + str(key) + ", " + str(mytime) + ", " + str(value1)+ ", " +str(value2)+ ", " +str(value3)+ ", " +str(value4)+ ", " +str(value5)+ ", " +str(value6)+ ", " +str(value7)+ ", " +str(value8) +   '\r\n'
-
+        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud strvalues%s:', strvalues)
+      
         #create ajson row too
         jsondataarray.append({'epoch':key, 'value1':value1,'value2':value2,'value3':value3,'value4':value4,'value5':value5,'value6':value6,'value7':value7,'value8':value8})          
       
-      #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud jsondataarray%s:', jsondataarray)          
+      log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud jsondataarray%s:', jsondataarray)          
 
 
     except TypeError as e:
