@@ -2196,8 +2196,11 @@ def convertInfluxDBCloudKeys(SERIES_KEY):
             serieskeys= serieskeys +  "' AND sensor='" +  seriessensor[1]
             if seriessource[1] != "*":
                 serieskeys= serieskeys +  "' AND source='" +  seriessource[1] 
-            serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1] 
-            serieskeys= serieskeys +  "' AND type='" +  seriestype[1] 
+            serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1]
+            
+            if seriestype[1] != "*":
+              serieskeys= serieskeys +  "' AND type='" +  seriestype[1]
+              
             serieskeys= serieskeys +  "' AND parameter='lat') OR " 
 
             serieskeys=serieskeys + "( deviceid='"
@@ -2206,7 +2209,10 @@ def convertInfluxDBCloudKeys(SERIES_KEY):
             if seriessource[1] != "*":
                 serieskeys= serieskeys +  "' AND source='" +  seriessource[1] 
             serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1] 
-            serieskeys= serieskeys +  "' AND type='" +  seriestype[1] 
+
+            if seriestype[1] != "*":
+              serieskeys= serieskeys +  "' AND type='" +  seriestype[1]
+              
             serieskeys= serieskeys +  "' AND parameter='lng') "  
 
                 
@@ -2214,10 +2220,15 @@ def convertInfluxDBCloudKeys(SERIES_KEY):
             serieskeys="( deviceid='"
             serieskeys= serieskeys + seriesdeviceid[1] 
             serieskeys= serieskeys +  "' AND sensor='" +  seriessensor[1]
+            
             if seriessource[1] != "*":
-                serieskeys= serieskeys +  "' AND source='" +  seriessource[1] 
-            serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1] 
-            serieskeys= serieskeys +  "' AND type='" +  seriestype[1] 
+                serieskeys= serieskeys +  "' AND source='" +  seriessource[1]
+                
+            serieskeys= serieskeys +  "' AND instance='" +  seriesinstance[1]
+
+            if seriestype[1] != "*":
+              serieskeys= serieskeys +  "' AND type='" +  seriestype[1]
+              
             serieskeys= serieskeys +  "' AND parameter='" +  seriesparameter[1] + "'   )"
 
 
@@ -3257,8 +3268,12 @@ def getinfluxseriesmultibydeviceid():
           elif csv_values[1] == "value8":
             value8 = csv_values[2]
 
-
-        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud csv_values value1 %s:value2 %s:value3 %s:value4 %s', value1,value2,value3,value4)          
+        mytime = datetime.datetime.fromtimestamp(float(key/1000)).strftime('%Y-%m-%d, %H:%M:%SZ')
+        
+        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud csv_values value1 %s:value2 %s:value3 %s:value4 %s', value1,value2,value3,value4)
+                #creeat a CSV row string
+        strvalues=  strvalues + str(key) + ", " + str(mytime) + ", " + str(value1)+ ", " +str(value2)+ ", " +str(value3)+ ", " +str(value4)+ ", " +str(value5)+ ", " +str(value6)+ ", " +str(value7)+ ", " +str(value8) +   '\r\n'
+        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud strvalues %s:', strvalues)
           #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[3])
           #log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud valuesgroup %s:', csv_values[4])
          
@@ -3268,11 +3283,9 @@ def getinfluxseriesmultibydeviceid():
         
         # convert epoch time integer to date/time string
         #mytime = datetime.datetime.fromtimestamp(float(key/1000)).strftime('%Y-%m-%d %H:%M:%SZ')
-        mytime = datetime.datetime.fromtimestamp(float(key/1000)).strftime('%Y-%m-%d, %H:%M:%SZ')
 
-        #creeat a CSV row string
-        strvalues=  strvalues + str(key) + ", " + str(mytime) + ", " + str(value1)+ ", " +str(value2)+ ", " +str(value3)+ ", " +str(value4)+ ", " +str(value5)+ ", " +str(value6)+ ", " +str(value7)+ ", " +str(value8) +   '\r\n'
-        log.info('getinfluxseriesmultibydeviceid:  InfluxDB-Cloud strvalues %s:', strvalues)
+
+
       
         #create ajson row too
         jsondataarray.append({'epoch':key, 'value1':value1,'value2':value2,'value3':value3,'value4':value4,'value5':value5,'value6':value6,'value7':value7,'value8':value8})          
