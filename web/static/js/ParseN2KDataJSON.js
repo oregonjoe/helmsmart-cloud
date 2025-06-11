@@ -212,12 +212,12 @@ var myN2KValues = new Array();
 
 		// Rudder 0x1FD08
 		case "127245":
-		//		myN2KValues = GetPGN127245(myN2Kdata, myPGNInstance, myParameterIndex, myUnitsFlags);				
+				myN2KValues = GetPGN127245(myN2Kdata, myPGNInstance, myParameterIndex, myUnitsFlags);				
 		break
 
 		// Rate of Turn 0x1F10D
 		case "127251":
-		//		myN2KValues = GetPGN127251(myN2Kdata, myPGNInstance, myParameterIndex, myUnitsFlags);
+				myN2KValues = GetPGN127251(myN2Kdata, myPGNInstance, myParameterIndex, myUnitsFlags);
 		break
 
 		// Switch Status 0x1F20D
