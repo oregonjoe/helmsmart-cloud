@@ -3340,7 +3340,7 @@ function GetPGN127251(myN2Kdata, myPGNInstance, myParameterIndex, myUnitsFlags )
 	  {
 			try{myPGN = myN2Kdata[myIndex].pgn}catch(err){myPGN = 'FFFFFF'}; if(myPGN == "01F113")
 			{					
-					myPGNValue= myN2Kdata[myIndex].payload.rateofturn;
+					myPGNValue= myN2Kdata[myIndex].payload.rate_of_turn;
       
          			if(typeof(myPGNValue) != 'undefined' && myPGNValue != null)	
          			{	
