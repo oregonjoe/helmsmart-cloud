@@ -3353,8 +3353,10 @@ function GetPGN127251(myN2Kdata, myPGNInstance, myParameterIndex, myUnitsFlags )
 	
 						if(myPGNValue > 0x7FFFFFFF )
 							myPGNValue  = -(0xFFFFFFFF - myPGNValue);
+						
+						// alread in degrees/sec
 	
-						myPGNValue  = (myPGNValue * .00010743446497); // converted to degrees/min
+						myPGNValue  = (myPGNValue * 60); // converted to degrees/min
 						//myPGNValue  = (myPGNValue * 3.1248083 * .00000001); // converted to radians/sec
 	
 						  if(myParameterIndex == 0) // rate of turn
