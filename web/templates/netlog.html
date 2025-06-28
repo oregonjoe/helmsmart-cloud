@@ -683,7 +683,10 @@ function uploadFileInChunks(file, i){
 
 					myFileName = myFileName.substr(0,(myFileName.length - 7));
 
-					var postfilename = "https://salty-hollows-73367.herokuapp.com/https://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
+					//var postfilename = "https://salty-hollows-73367.herokuapp.com/https://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
+					
+					var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
+	
 					
 					xhr.open("POST", postfilename, true);
 					xhr.setRequestHeader("X_FILENAME", file.name);
@@ -881,7 +884,11 @@ function uploadHSFileInChunks(file, myuploadDeviceID){
 				//myFileName = myFileName.substr(0,(myFileName.length - 7));
 
 				//var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
-				var postfilename = "https://salty-hollows-73367.herokuapp.com/https://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+				//var postfilename = "https://salty-hollows-73367.herokuapp.com/https://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+				var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+					
+				
+				
 				xhr.open("POST", postfilename, true);
 				xhr.setRequestHeader("X_FILENAME", myFileName + ".txt");
 				xhr.send(e.target.result);
