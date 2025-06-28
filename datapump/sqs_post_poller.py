@@ -293,9 +293,9 @@ def proc(message):
 
 
         if debug_all: log.info('sqs_post_poller dump_pcdinfirebase message_payload %s: ', partition)
-        print(message_payload)
+        #print(message_payload)
         if debug_all: log.info('sqs_post_poller dump_pcdinfirebase %s: ', partition)
-        print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
+        #print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
 
         
         dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
@@ -332,6 +332,59 @@ def proc(message):
         # JLB 063014 - test of not posting to S3
         #dump_s3(message)
         if debug_all: log.info('sqs_post_poller Got Log file message  %s: %s ', partition, device_id) 
+
+
+        schema = SCHEMA
+        #device = message['device_id']
+        #partition = message['partition'][:-4]
+
+        message_payload = message_body.get('payload')
+        #if debug_all: log.info('sqs_post_poller Got SQS message_payload %s: ', message_payload)
+
+        # added 022025 to put raw pushsmart data into inFluxDB for TCPserver
+        #dump_TCPserver(message_body)
+        
+        #records = nmea.loads(json.dumps(message_payload))
+        #records = nmea.loads((message_payload))
+        records = nmea.loads((json.dumps(message_payload)))
+        #records = nmea.loads((json.dumps(message_payload).decode("utf-8")))
+        #records = nmea.loads(message_payload.decode("utf-8"))
+        #records = nmea.loads(json.loads(message_payload))
+        #records = nmea.loads(message_payload)
+        #if debug_all: log.info('sqs_post_poller Got SQS records %s: ', records) 
+
+        mysortedrecords = sorted(records, key=lambda t:t[1])
+        if debug_all: log.info('sqs_post_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
+
+
+        if debug_all: log.info('sqs_post_poller dump_pcdinfirebase message_payload %s: ', partition)
+        #print(message_payload)
+        if debug_all: log.info('sqs_post_poller dump_pcdinfirebase %s: ', partition)
+        #print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
+
+        
+        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
+        #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
+        dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
+        dump_pcdinfirebase(device_id, "SIGNALK", partition, dump_json(schema, mysortedrecords))
+
+        if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
+        #if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
+        #081316 JLB - added influxdb-cloud update
+        # write parsed nmea data to database
+        dump_influxdb_cloud(device_id, partition, records)
+
+      except TypeError as e:
+        if debug_all: log.info('sqs_post_poller:proc: TypeError in proc SSLOG00  %s:  ', partition)
+        if debug_all: log.info('sqs_post_poller:proc: TypeError in proc SSLOG00  %s:  ' % str(e))
+        
+      except AttributeError as e:
+        if debug_all: log.info('sqs_post_poller:proc: AttributeError in proc SSLOG00  %s:  ', partition)
+        if debug_all: log.info('sqs_post_poller:proc: AttributeError in proc SSLOG00  %s:  ' % str(e))
+        
+      except NameError as e:
+        if debug_all: log.info('sqs_post_poller:proc: NameError in proc SSLOG00  %s:  ', partition)
+        if debug_all: log.info('sqs_post_poller:proc: NameError in proc SSLOG00  %s:  ' % str(e))
 
         
       except:
