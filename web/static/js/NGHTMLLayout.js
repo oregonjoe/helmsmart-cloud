@@ -363,6 +363,18 @@ switch(parseInt(PageLayout & 0x0F))
 		'</tr>' +
 		'</table>';
 	break;
+	
+	case 13: // layout is 2X1
+	//alert('2X1');
+		CanvasArea.innerHTML ='<table>' +
+
+		'<tr>' +
+		'<td  width="25%" ><center><canvas id="canvasRadial0" onclick="SetSwitchState(0);" ondblclick="GetDialStyleInfo(0);" width="201" height="201"></canvas></center></td>' +
+		'<td  width="25%" ><center><canvas id="canvasRadial1" onclick="SetSwitchState(1);" ondblclick="GetDialStyleInfo(1);" width="201" height="201"></canvas></center></td>' +
+		'</tr>' +
+		'<tr><td colspan="2"><center><canvas id="canvasClock" onclick="GetDialStyleInfo(0);" width="201" height="101"></canvas></center></td></tr>' +
+		'</table>';
+	break;
 
 }
 }
