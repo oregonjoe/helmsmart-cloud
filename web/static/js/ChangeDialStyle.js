@@ -8,7 +8,7 @@
 //  Globals 
 //***************************************************
 var DialEnd = 1;
-var NumOfDials = new Array(1,4,8,12,16,8,8,16,16,16);
+var NumOfDials = new Array(1,4,8,12,16,8,8,16,16,16,16,16,16,2,16);
 var DialSize = new Array(400,300,200,150,200,200,200,200,200,200);
 var MaxPages = 1;
 var MaxDials = 16;
