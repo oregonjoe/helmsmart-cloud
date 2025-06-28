@@ -614,9 +614,9 @@ function uploadFileInChunks(file, i){
 					// conver csv file format to PushSmart
 					var myencoderesult = encodePCDINfromCSV(myFileName, e.target.result);
 
+					//var postfilename = "https://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName 
 					
-					
-					var postfilename = "https://salty-hollows-73367.herokuapp.com/https://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName 
+					var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName 
 					xhr.open("POST", postfilename, true);
 					xhr.setRequestHeader("X_FILENAME", file.name);
 					//xhr.send(e.target.result);
