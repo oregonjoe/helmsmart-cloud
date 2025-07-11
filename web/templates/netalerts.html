@@ -3897,6 +3897,7 @@ function SetEventsOptions(myindex){
 					
 	// set dimmer color dropdown and label				
 	document.getElementById("LEDcolorDD").selectedIndex = SliderAlertColorLookup[gDimmerValue];
+	document.getElementById('LEDcolorDD').style.backgroundColor = rgbDimmerColors[SliderAlertColorLookup[gDimmerValue]];
 	document.getElementById('dimmerColorText').value = dimmerColorDDMenuText[SliderAlertColorLookup[gDimmerValue]];
 					
 	// get default dimmer value - used with timmer event to command OFF STATE 0x65 - 0xFF means to ignore 				
@@ -3912,6 +3913,7 @@ function SetEventsOptions(myindex){
 	
 	// set defau;t color dropdown
 	document.getElementById("LEDDefaultcolorDD").selectedIndex = SliderAlertColorLookup[gDimmerDefaultValue];
+	document.getElementById('LEDDefaultcolorDD').style.backgroundColor = rgbDimmerColors[SliderAlertColorLookup[gDimmerDefaultValue]];
 	// set default color drop down tex label				
 	document.getElementById('dimmerDefaultColorText').value = dimmerColorDDMenuText[SliderAlertColorLookup[gDimmerDefaultValue]];
 					
