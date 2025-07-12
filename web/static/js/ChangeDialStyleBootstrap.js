@@ -429,6 +429,70 @@ myDialID = parseInt(myCurrentCanvas) + parseInt(DialStart);
 }
 
 
+function handleresetFuelTotal(response)
+ {
+ var index=0;
+      // document.getElementById("AddPreferenceName").value = "";
+   	$.unblockUI();
+
+}
+function resetFuelTotal(switchInstance, switchid, switchvalue )
+{
+
+        $.blockUI({ 
+     message: '<h1>resetting Fuel Total...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+
+   //devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
+   //devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
+   //devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + gDeviceKey + "&switch=" + switchPGN;
+  		    var devicedataurl = "https://www.helmsmart-cloud.com/setswitchapi?deviceid=" + gDeviceKey;
+			
+			
+				devicedataurl = devicedataurl + "&instance=" + switchInstance ;
+				devicedataurl = devicedataurl + "&switchid=" + switchid ;
+				devicedataurl = devicedataurl + "&switchvalue=" + switchvalue ; 
+
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 10000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleresetFuelTotal(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                 
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                        //  document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+
 function GetDialStyleInfo(myCurrentCanvas) {
  
 // alert("Ive been clicked");
