@@ -457,7 +457,7 @@ function resetFuelTotal(switchInstance, switchid, switchvalue )
    //devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?gettype=devices&switch=" + switchPGN;
    //devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?deviceid=001EC0B415BF&switch=" + switchPGN;
    //devicedataurl = "https://www.helmsmart-cloud.com/sendswitchpgn?deviceid=" + gDeviceKey + "&switch=" + switchPGN;
-  		    var devicedataurl = "https://www.helmsmart-cloud.com/setswitchapi?deviceid=" + gDeviceKey;
+  		    var devicedataurl = "https://www.helmsmart-cloud.com/setswitchapi?deviceid=" + myDeviceID;
 			
 			
 				devicedataurl = devicedataurl + "&instance=" + switchInstance ;
