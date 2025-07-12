@@ -547,7 +547,7 @@ function StartUpMyScript()
     if(rootRef != null)
     rootRef.off();
 	
-      
+      myDeviceID = document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
     //FireBaseURL = "https://seasmart.firebaseio.com/events/" + AccountDataFolder + "/"; 
     FireBaseURL = "https://seasmart.firebaseio.com/events/" + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value + "/Insert/"; 
 	  //  FireBaseURL = "https://helmsmart-device-message.firebaseio.com/events/" + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value + "/Insert/"; 
