@@ -438,6 +438,11 @@ function handleresetFuelTotal(response)
 }
 function resetFuelTotal(switchInstance, switchid, switchvalue )
 {
+	
+	
+	let userConfirmed = confirm("Do you want to reset fuel flow totals?");
+	if(!userConfirmed)
+		return;
 
         $.blockUI({ 
      message: '<h1>resetting Fuel Total...</h1>',    
