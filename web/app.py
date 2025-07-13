@@ -535,6 +535,14 @@ def netdimmer():
     features = [],
   )
 
+@app.route('/seagaugeg4_config')
+def seagaugeg4_config():
+
+  return render_template(
+    'seagauge_conf.html',
+    features = [],
+  )
+
 @app.route('/dashboard_api')
 def dashboardapi():
 
