@@ -372,8 +372,8 @@ switch(parseInt(PageLayout & 0x0F))
 		'<td  width="25%" ><center><canvas id="canvasRadial0" onclick="SetSwitchState(0);" ondblclick="GetDialStyleInfo(0);" width="201" height="201"></canvas></center></td>' +
 		'<td  width="25%" ><center><canvas id="canvasRadial1" onclick="SetSwitchState(1);" ondblclick="GetDialStyleInfo(1);" width="201" height="201"></canvas></center></td>' +
 		'</tr>' +
-		'<tr><td colspan="2"><center><canvas id="canvasClock" onclick="GetDialStyleInfo(0);" width="201" height="101"></canvas></center></td></tr>' +
-		'<tr><td colspan="2" width="100%  width="25%" ><center><p align="center"><a href="#" onclick="resetFuelTotal(15,15,1);" id="resetFuel" class="persona-button"><span style="display:block; width:120px">Reset Total </span></a></center></td></tr>' +
+		'<tr><td colspan="2"><center><canvas id="canvasClock" onclick="GetDialStyleInfo(4);" width="201" height="101"></canvas></center></td></tr>' +
+		'<tr><td colspan="2" width="100%  width="25%" ><center><p align="center"><a href="#" onclick="resetFuelTotal(15,15,1);" ondblclick="GetDialStyleInfo(3);" id="resetFuel" class="persona-button"><span style="display:block; width:120px">Reset Fuel Total </span></a></center></td></tr>' +
 		'</table>';
 	break;
 
