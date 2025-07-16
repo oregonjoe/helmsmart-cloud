@@ -1065,6 +1065,20 @@ def sendtestsms():
     response.headers['content-type'] = "application/json"
     return response
 
+
+# ######################################################
+# gets seagaugeg4 config.xml parameters
+# #####################################################  
+@app.route('/getseagaugeg4configxml')
+@cross_origin()
+def getseagaugeg4configxml():
+
+  sgg4config =""
+  sgg4config =sgg4config +  "<DeviceID>AC1518EF5FA0</DeviceID>" + "/r/n"
+  sgg4config =sgg4config +  "<VersionInfo>1.9.3.7.12</VersionInfo>" + "/r/n"
+
+  return sgg4config
+
 # ######################################################
 # gets user info from a userid
 # #####################################################

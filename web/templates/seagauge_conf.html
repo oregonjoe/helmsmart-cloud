@@ -170,6 +170,73 @@ var CurrentDialID;
 		logo_image.src = imgAddresses[index];
 		
 	}
+function handleGetsgg4configxml(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+
+	initializewifivars(response);
+	
+}	
+function getsgg4configxml()
+{
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+
+   //optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   //prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+   
+ 
+   //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + prefkey;
+   devicedataurl = "https://www.helmsmart-cloud.com/getseagaugeg4configxml;
+         
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetsgg4configxml(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").innerHTML = "Search Error";
+		                           ParameterInit = true;
+
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+
+}			
+			
+			
 			
 	
  function StartUpMyScript() {
@@ -1065,7 +1132,7 @@ function getConfigVars()
 	//CurrentDialID = 0;
 
 
-	newAJAXCommand('wificonfig.xml', initializewifivars, false)
+	//newAJAXCommand('wificonfig.xml', initializewifivars, false)
 
 
 }
@@ -2252,7 +2319,7 @@ function SaveDeviceSettings()
  </head>
 
    
-<body onload="loadmyimages(0);">
+<body onload="getsgg4configxml();">
  
 <table style="width: 800px">
 	<tr>
