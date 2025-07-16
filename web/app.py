@@ -1087,6 +1087,8 @@ def getseagaugeg4configxml():
     db_pool.closeall()  
 
     return jsonify( message='Could not open a connection', status='error')
+  
+  cursor = conn.cursor()
 
   #select configxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef'
   sqlstr = 'select configxml from user_sgg4configxml where deviceidkey = %s;'
