@@ -1094,7 +1094,7 @@ def getseagaugeg4configxml():
   sqlstr = 'select configxml from user_sgg4configxml where deviceidkey = %s;'
   cursor.execute(sqlstr, (deviceidkey,))
 
-  records = cursor.fetchall()
+  records = cursor.fetchone()
 
 
   log.info('getuser_endpoint: records found for userid %s:  ', records)              
