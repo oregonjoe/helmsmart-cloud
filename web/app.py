@@ -1073,128 +1073,32 @@ def sendtestsms():
 @cross_origin()
 def getseagaugeg4configxml():
 
-  sgg4config =""
-  sgg4config =sgg4config +  "<DeviceID>AC1518EF5FA0</DeviceID>" 
-  sgg4config =sgg4config +  "<VersionInfo>1.9.3.7.12</VersionInfo>"
-  sgg4config =sgg4config +  "<RSSI>-48</RSSI>"
-  sgg4config =sgg4config +  "<BSSID>E0:63:DA:18:BC:FE</BSSID>"
-  sgg4config =sgg4config +  "<CUSTOMCONFIG>0</CUSTOMCONFIG>"
-  sgg4config =sgg4config +  "<CELLDB>0</CELLDB>"
-  sgg4config =sgg4config +  "<CELLAI>0</CELLAI>"
-  sgg4config =sgg4config +  "<CELLCI>0</CELLCI>"
-  sgg4config =sgg4config +  "<WIFIType>1</WIFIType>"
-  sgg4config =sgg4config +  "<STAWIFISSID>Winchuck Mesh</STAWIFISSID>"
-  sgg4config =sgg4config +  "<STAWIFIPW>winchuck</STAWIFIPW>"
-  sgg4config =sgg4config +  "<APWIFISSID>SeaGaugeG4-5FA0</APWIFISSID>"
-  sgg4config =sgg4config +  "<APWIFIPW>seasmartg3</APWIFIPW>"
-  sgg4config =sgg4config +  "<APWIFIMode>3</APWIFIMode>"
-  sgg4config =sgg4config +  "<MESHCHANNEL>1</MESHCHANNEL>"
-  sgg4config =sgg4config +  "<MESHID>123456</MESHID>"
-  sgg4config =sgg4config +  "<CIPAddress>192.168.254.114</CIPAddress>"
-  sgg4config =sgg4config +  "<CIPMask>255.255.255.0</CIPMask>"
-  sgg4config =sgg4config +  "<CIPGW>192.168.254.254</CIPGW>"
-  sgg4config =sgg4config +  "<DHCP>0</DHCP>"
-  sgg4config =sgg4config +  "<IPAddress>192.168.254.114</IPAddress>"
-  sgg4config =sgg4config +  "<IPMask>255.255.255.0</IPMask>"
-  sgg4config =sgg4config +  "<IPGateway>192.168.254.254</IPGateway>"
-  sgg4config =sgg4config +  "<DNS1>8.8.8.8</DNS1>"
-  sgg4config =sgg4config +  "<DNS2>192.168.254.254</DNS2>"
-  sgg4config =sgg4config +  "<HpptPostInterval>242</HpptPostInterval>"
-  sgg4config =sgg4config +  "<HTTPPostMenu>1</HTTPPostMenu>"
-  sgg4config =sgg4config +  "<SSIDDefault>Winchuck Mesh</SSIDDefault>"
-  sgg4config =sgg4config +  "<NETTYPE>1</NETTYPE>"
-  sgg4config =sgg4config +  "<SECTYPEVALUE>3</SECTYPEVALUE>"
-  sgg4config =sgg4config +  "<SECKEYVALUE>winchuck</SECKEYVALUE>"
-  sgg4config =sgg4config +  "<TCPEnable>0</TCPEnable>"
-  sgg4config =sgg4config +  "<TCPServerPort>10010</TCPServerPort>"
-  sgg4config =sgg4config +  "<UDPBroadcastEnable>0</UDPBroadcastEnable>"
-  sgg4config =sgg4config +  "<UDPClientPort>10010</UDPClientPort>"
-  sgg4config =sgg4config +  "<SDLogEnable>0</SDLogEnable>"
-  sgg4config =sgg4config +  "<SDLogInterval>60</SDLogInterval>"
-  sgg4config =sgg4config +  "<UartInterval>1</UartInterval>"
-  sgg4config =sgg4config +  "<UART0MODE>1</UART0MODE>"
-  sgg4config =sgg4config +  "<UART1MODE>0</UART1MODE>"
-  sgg4config =sgg4config +  "<UART2MODE>0</UART2MODE>"
-  sgg4config =sgg4config +  "<CANMODE>0</CANMODE>"
-  sgg4config =sgg4config +  "<CANFILTERHB>4294967295</CANFILTERHB>"
-  sgg4config =sgg4config +  "<CANFILTERLB>4294967295</CANFILTERLB>"
-  sgg4config =sgg4config +  "<PULSEMODE>9</PULSEMODE>"
-  sgg4config =sgg4config +  "<PULSESCALE0>1500</PULSESCALE0>"
-  sgg4config =sgg4config +  "<PULSESCALE1>5400</PULSESCALE1>"
-  sgg4config =sgg4config +  "<PULSESCALE2>5400</PULSESCALE2>"
-  sgg4config =sgg4config +  "<PINTERVAL>1000</PINTERVAL>"
-  sgg4config =sgg4config +  "<FINTERVAL>4000</FINTERVAL>"
-  sgg4config =sgg4config +  "<PFLT0>3</PFLT0>"
-  sgg4config =sgg4config +  "<PFLT1>3</PFLT1>"
-  sgg4config =sgg4config +  "<PFLT2>3</PFLT2>"
-  sgg4config =sgg4config +  "<FUELTOTAL>0</FUELTOTAL>"
-  sgg4config =sgg4config +  "<DIMMERTYPE>0</DIMMERTYPE>"
-  sgg4config =sgg4config +  "<DIMMERINSTANCE>15</DIMMERINSTANCE>"
-  sgg4config =sgg4config +  "<DIMMERSCALE>1500</DIMMERSCALE>"
-  sgg4config =sgg4config +  "<DIMMERPON>20</DIMMERPON>"
-  sgg4config =sgg4config +  "<DIMMERTXRATE>60</DIMMERTXRATE>"
-  sgg4config =sgg4config +  "<TIMERMODE>0</TIMERMODE>"
-  sgg4config =sgg4config +  "<TimeStampSource>11</TimeStampSource>"
-  sgg4config =sgg4config +  "<PGNN0>0</PGNN0>"
-  sgg4config =sgg4config +  "<PGNN1>0</PGNN1>"
-  sgg4config =sgg4config +  "<PGNN2>0</PGNN2>"
-  sgg4config =sgg4config +  "<PGNN3>0</PGNN3>"
-  sgg4config =sgg4config +  "<PGNN4>0</PGNN4>"
-  sgg4config =sgg4config +  "<PGNN5>0</PGNN5>"
-  sgg4config =sgg4config +  "<PGNN6>0</PGNN6>"
-  sgg4config =sgg4config +  "<PGNN7>0</PGNN7>"
-  sgg4config =sgg4config +  "<PGNN8>0</PGNN8>"
-  sgg4config =sgg4config +  "<PGNN9>0</PGNN9>"
-  sgg4config =sgg4config +  "<PGNN10>0</PGNN10>"
-  sgg4config =sgg4config +  "<PGNN11>0</PGNN11>"
-  sgg4config =sgg4config +  "<PGNI0>0</PGNI0>"
-  sgg4config =sgg4config +  "<PGNI1>0</PGNI1>"
-  sgg4config =sgg4config +  "<PGNI2>0</PGNI2>"
-  sgg4config =sgg4config +  "<PGNI3>0</PGNI3>"
-  sgg4config =sgg4config +  "<PGNI4>0</PGNI4>"
-  sgg4config =sgg4config +  "<PGNI5>0</PGNI5>"
-  sgg4config =sgg4config +  "<PGNI6>0</PGNI6>"
-  sgg4config =sgg4config +  "<PGNI7>0</PGNI7>"
-  sgg4config =sgg4config +  "<PGNI8>0</PGNI8>"
-  sgg4config =sgg4config +  "<PGNI9>0</PGNI9>"
-  sgg4config =sgg4config +  "<PGNI10>0</PGNI10>"
-  sgg4config =sgg4config +  "<PGNI11>0</PGNI11>"
-  sgg4config =sgg4config +  "<PGNP0>0</PGNP0>"
-  sgg4config =sgg4config +  "<PGNP1>0</PGNP1>"
-  sgg4config =sgg4config +  "<PGNP2>0</PGNP2>"
-  sgg4config =sgg4config +  "<PGNP3>0</PGNP3>"
-  sgg4config =sgg4config +  "<PGNP4>0</PGNP4>"
-  sgg4config =sgg4config +  "<PGNP5>0</PGNP5>"
-  sgg4config =sgg4config +  "<PGNP6>0</PGNP6>"
-  sgg4config =sgg4config +  "<PGNP7>0</PGNP7>"
-  sgg4config =sgg4config +  "<PGNP8>0</PGNP8>"
-  sgg4config =sgg4config +  "<PGNP9>0</PGNP9>"
-  sgg4config =sgg4config +  "<PGNP10>0</PGNP10>"
-  sgg4config =sgg4config +  "<PGNP11>0</PGNP11>"
-  sgg4config =sgg4config +  "<PGNS0>-1</PGNS0>"
-  sgg4config =sgg4config +  "<PGNS1>-1</PGNS1>"
-  sgg4config =sgg4config +  "<PGNS2>-1</PGNS2>"
-  sgg4config =sgg4config +  "<PGNS3>-1</PGNS3>"
-  sgg4config =sgg4config +  "<PGNS4>-1</PGNS4>"
-  sgg4config =sgg4config +  "<PGNS5>-1</PGNS5>"
-  sgg4config =sgg4config +  "<PGNS6>-1</PGNS6>"
-  sgg4config =sgg4config +  "<PGNS7>-1</PGNS7>"
-  sgg4config =sgg4config +  "<PGNS8>-1</PGNS8>"
-  sgg4config =sgg4config +  "<PGNS9>-1</PGNS9>"
-  sgg4config =sgg4config +  "<PGNS10>-1</PGNS10>"
-  sgg4config =sgg4config +  "<PGNS11>-1</PGNS11>"
-  sgg4config =sgg4config +  "<CAL0>ALT_VOLTS_36MAX.xml</CAL0>"
-  sgg4config =sgg4config +  "<CAL1>FUEL_180to10.xml</CAL1>"
-  sgg4config =sgg4config +  "<CAL2>VDO_ENG_TEMP_250F.xml</CAL2>"
-  sgg4config =sgg4config +  "<CAL3>VDO_PSI_150MAX.xml</CAL3>"
-  sgg4config =sgg4config +  "<CAL4>VDO_PSI_150MAX.xml</CAL4>"
-  sgg4config =sgg4config +  "<CAL5>VDO_ENG_TEMP_250F.xml</CAL5>"
-  sgg4config =sgg4config +  "<CAL6>FUEL_180to10.xml</CAL6>"
-  sgg4config =sgg4config +  "<CAL7>ALT_VOLTS_36MAX.xml</CAL7>"
-  sgg4config =sgg4config +  "<CAL8>VDO_PSI_400MAX.xml</CAL8>"
-  sgg4config =sgg4config +  "<CAL9>VDO_TRAN_TEMP_200C.xml</CAL9>"
-  sgg4config =sgg4config +  "<CAL10>VDO_TRAN_TEMP_200C.xml</CAL10>"
-  sgg4config =sgg4config +  "<CAL11>VDO_PSI_400MAX.xml</CAL11>"
+
+  userid = request.args.get('userid', 'a91140300971bfb9244989a9bffde53c')
+  deviceidkey = request.args.get('deviceidkey', '1f389afd27e33799752b11838e7bc4ef')
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+
+    return jsonify( message='Could not open a connection', status='error')
+
+  #select configxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef'
+  sqlstr = 'select configxml from user_sgg4configxml where deviceidkey = %s;'
+  cursor.execute(sqlstr, (deviceidkey,))
+
+  records = cursor.fetchall()
+
+
+  log.info('getuser_endpoint: records found for userid %s:  ', records)              
+
+  sgg4config =records
+
 
 
   #return sgg4config
