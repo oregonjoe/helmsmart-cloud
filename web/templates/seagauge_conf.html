@@ -309,6 +309,7 @@ function changeDHCPenable()
   {
   var 	 myOptionValue;
 
+	/*
   document.getElementById("HTTPPostEnable").value = document.getElementById("HTTPPostMenu").selectedIndex;
 
   myOptionValue = document.getElementById("HTTPPostEnable").value;
@@ -345,6 +346,13 @@ function changeDHCPenable()
   break;
   }
 
+  */
+   document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  
+  
+  
   }
 
 
@@ -1722,7 +1730,7 @@ function initializewifivars(xmlData) {
   
 			
 
-
+/*
 
   myOptionValue = document.getElementById("HTTPPostEnable").value ;
   document.getElementById("HTTPPostMenu").selectedIndex = parseInt(myOptionValue);
@@ -1753,6 +1761,11 @@ function initializewifivars(xmlData) {
   break;
 
   }
+  */
+  
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
 
   //myOptionValue = document.getElementById("SwitchStatusInstanceValue").value ;
   //document.getElementById("SwitchStatusInstance").selectedIndex = parseInt(myOptionValue);
