@@ -1123,7 +1123,7 @@ def seasmartconfig():
 
   set_seasmart_network_xml(postdata)
   
-  return jsonify(result="OK", postdata = post_dict)
+  return jsonify(result="OK", postdata = postdata)
   
 # ######################################################
 # gets seagaugeg4 config.xml parameters
