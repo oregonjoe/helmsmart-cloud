@@ -1170,13 +1170,17 @@ var myerr;
 	//determine start-pos and end-pos of desired substring, and then get it
 var startStr = "<" + field + ">";
 var endStr = "</" + field + ">";
-var startPos;
-var endPos;
+var startPos=-1;
+var endPos=-1;
 
 	try{
 		
 		startPos = xmlData.indexOf(startStr) + startStr.length;
+		if startPos == -1 return "";
+		
 		endPos = xmlData.indexOf(endStr);
+		if endPos == -1 return "";
+		
 		return xmlData.substring(startPos,endPos).trim();
 	}
 	catch(err)

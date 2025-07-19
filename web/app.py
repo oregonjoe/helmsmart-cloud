@@ -1119,7 +1119,7 @@ def getseagaugeg4configxml():
 
   log.info('getuser_endpoint: records found for userid %s:  ', records)              
 
-  sgg4config =str(records[0])
+  sgg4config =str(records[0]) + str(records[1] )+ str(records[2]) + str(records[3]) + str(records[4])
 
 
 
