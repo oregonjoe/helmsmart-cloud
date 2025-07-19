@@ -1099,9 +1099,38 @@ def set_seasmart_network_xml(postdata):
   """
 
   networkxml = ""
-  networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML')        + '</DeviceID>'
-  networkxml = networkxml +  '<VersionInfo>'  +  request.args.get('VersionXML')          + '</VersionInfo>'
-  networkxml = networkxml +  '<WIFIType>'    +  request.args.get('WIFINetType_CB')  + '</WIFIType>'
+  networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
+  networkxml = networkxml +  '<VersionInfo>'  +  request.args.get('VersionXML','')          + '</VersionInfo>'
+  networkxml = networkxml +  '<WIFIType>'    +  request.args.get('WIFINetType_CB','')  + '</WIFIType>'
+  networkxml = networkxml +  '<STAWIFISSID>'    +  request.args.get('STASSID','')  + '</STAWIFISSID>'
+  networkxml = networkxml +  '<STAWIFIPW>'    +  request.args.get('STAPASSWORD','')  + '</STAWIFIPW>'
+  networkxml = networkxml +  '<APWIFISSID>'    +  request.args.get('APSSID','')  + '</APWIFISSID>'
+  networkxml = networkxml +  '<APWIFIPW>'    +  request.args.get('APSECKEY','')  + '</APWIFIPW>'
+  networkxml = networkxml +  '<APWIFIMode>'    +  request.args.get('APSECTYPE','')  + '</APWIFIMode>'
+  networkxml = networkxml +  '<MESHCHANNEL>'    +  request.args.get('MESHCHANNEL','')  + '</MESHCHANNEL>'
+  networkxml = networkxml +  '<MESHID>'    +  request.args.get('MESHID','')  + '</MESHID>'
+  networkxml = networkxml +  '<CIPAddress>'    +  request.args.get('IPaddressXML','')  + '</CIPAddress>'
+  networkxml = networkxml +  '<CIPMask>'    +  request.args.get('IPMaskXML','')  + '</CIPMask>'
+  networkxml = networkxml +  '<CIPGW>'    +  request.args.get('IPGatewayXML','')  + '</CIPGW>'
+  networkxml = networkxml +  '<DHCP>'    +  request.args.get('DHCPCLIENT_ON_CB','')  + '</DHCP>'
+  networkxml = networkxml +  '<IPAddress>'    +  request.args.get('IPADDR','')  + '</IPAddress>'
+  networkxml = networkxml +  '<IPMask>'    +  request.args.get('SUBNET','')  + '</IPMask>'
+  networkxml = networkxml +  '<IPGateway>'    +  request.args.get('GATEWAY','')  + '</IPGateway>'
+  networkxml = networkxml +  '<DNS1>'    +  request.args.get('DNS1','')  + '</DNS1>'
+  networkxml = networkxml +  '<DNS2>'    +  request.args.get('DNS2','')  + '</DNS2>'
+  networkxml = networkxml +  '<HpptPostInterval>'    +  request.args.get('HpptPostInterval','')  + '</HpptPostInterval>'
+  networkxml = networkxml +  '<HTTPPostMenu>'    +  request.args.get('HTTPPostMenu','')  + '</HTTPPostMenu>'
+  networkxml = networkxml +  '<SSIDDefault>'    +  request.args.get('SSID','')  + '</SSIDDefault>'
+  networkxml = networkxml +  '<NETTYPE>'    +  request.args.get('NetTypeXML','')  + '</NETTYPE>'
+  networkxml = networkxml +  '<SECTYPEVALUE>'    +  request.args.get('WIFINetType_CB','')  + '</SECTYPEVALUE>'
+  networkxml = networkxml +  '<SECKEYVALUE>'    +  request.args.get('STAPASSWORD','')  + '</SECKEYVALUE>'
+
+
+
+
+
+
+
  
   log.info("set_seasmart_network_xml networkxml %s", networkxml)  
   return  
