@@ -1077,7 +1077,8 @@ def seasmartconfig():
 
   log.info("seasmartconfig endpoint")
   #postdata = request.form
-  postdata = request.args.get('SSID')
+  #postdata = request.args.get('SSID')
+  postdata = request.args
 
   
   return jsonify(result="OK", postdata = postdata)
