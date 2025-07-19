@@ -1110,7 +1110,8 @@ def getseagaugeg4configxml():
   cursor = conn.cursor()
 
   #select configxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef'
-  sqlstr = 'select configxml from user_sgg4configxml where deviceidkey = %s;'
+  #sqlstr = 'select configxml from user_sgg4configxml where deviceidkey = %s;'
+  sqlstr = 'select devicexml, networkxml, pulsexml, runtimexml, pgnsxml from user_sgg4configxml where deviceidkey = %s;'
   cursor.execute(sqlstr, (deviceidkey,))
 
   records = cursor.fetchone()
