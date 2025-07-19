@@ -1102,7 +1102,7 @@ def set_seasmart_network_xml(postdata):
   networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
   networkxml = networkxml +  '<VersionInfo>'  +  request.args.get('VersionXML','')          + '</VersionInfo>'
   networkxml = networkxml +  '<WIFIType>'    +  request.args.get('WIFINetType_CB','')  + '</WIFIType>'
-  networkxml = networkxml +  '<STAWIFISSID>'    +  request.args.get('STASSID','')  + '</STAWIFISSID>'
+  networkxml = networkxml +  '<STAWIFISSID>'    +  request.args.get('SSID','')  + '</STAWIFISSID>'
   networkxml = networkxml +  '<STAWIFIPW>'    +  request.args.get('STAPASSWORD','')  + '</STAWIFIPW>'
   networkxml = networkxml +  '<APWIFISSID>'    +  request.args.get('APSSID','')  + '</APWIFISSID>'
   networkxml = networkxml +  '<APWIFIPW>'    +  request.args.get('APSECKEY','')  + '</APWIFIPW>'
