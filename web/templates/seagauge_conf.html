@@ -1176,10 +1176,10 @@ var endPos=-1;
 	try{
 		
 		startPos = xmlData.indexOf(startStr) + startStr.length;
-		if startPos == -1 return "";
+		if (startPos == -1) return "";
 		
 		endPos = xmlData.indexOf(endStr);
-		if endPos == -1 return "";
+		if (endPos == -1) return "";
 		
 		return xmlData.substring(startPos,endPos).trim();
 	}
