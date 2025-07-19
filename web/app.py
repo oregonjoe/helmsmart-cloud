@@ -1076,7 +1076,7 @@ def sendtestsms():
 def seasmartconfig():
 
   #postdata = request.form
-  postdata = request.args.get("SSID")
+  postdata = request.args.get('SSID')
 
   
   return jsonify(result="OK", postdata = postdata)
