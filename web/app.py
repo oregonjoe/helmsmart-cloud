@@ -1139,7 +1139,7 @@ def set_seasmart_network_xml(postdata):
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = " update dashboard_prefs SET networkxml =%s where  prefidkey = %s;" 
+  sqlstr = " update user_sgg4configxml SET networkxml =%s where  prefidkey = %s;" 
   cursor.execute(sqlstr, (networkxml, prefidkey, ))   
   conn.commit()
 
