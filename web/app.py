@@ -1080,8 +1080,10 @@ def seasmartconfig():
   #postdata = request.args.get('SSID')
   postdata = request.args
 
+  post_dict = postdata.to_dict()
+  log.info("seasmartconfig post_dict", post_dict)
   
-  return jsonify(result="OK", postdata = postdata)
+  return jsonify(result="OK", postdata = post_dict)
   
 # ######################################################
 # gets seagaugeg4 config.xml parameters
