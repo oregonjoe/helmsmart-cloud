@@ -1122,9 +1122,10 @@ def set_seasmart_network_xml(postdata):
   networkxml = networkxml +  '<HTTPPostMenu>'    +  request.args.get('HTTPPostMenu','')  + '</HTTPPostMenu>'
   networkxml = networkxml +  '<SSIDDefault>'    +  request.args.get('SSID','')  + '</SSIDDefault>'
   networkxml = networkxml +  '<NETTYPE>'    +  request.args.get('NetTypeXML','')  + '</NETTYPE>'
-  networkxml = networkxml +  '<SECTYPEVALUE>'    +  request.args.get('WIFINetType_CB','')  + '</SECTYPEVALUE>'
-  networkxml = networkxml +  '<SECKEYVALUE>'    +  request.args.get('STAPASSWORD','')  + '</SECKEYVALUE>'
-
+  networkxml = networkxml +  '<TCPPort>'    +  request.args.get('TCPSERVERPORT','')  + '</TCPPort>'
+  networkxml = networkxml +  '<TCPEnable>'    +  request.args.get('TCPSERVER_ON_CB','')  + '</TCPEnable>'
+  networkxml = networkxml +  '<UDPPort>'    +  request.args.get('UDPBROADPORT','')  + '</UDPPort>'
+  networkxml = networkxml +  '<UDPEnable>'    +  request.args.get('UDPBROADCAST_ON_CB','')  + '</UDPEnable>'
 
 
 
