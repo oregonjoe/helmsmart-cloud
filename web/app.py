@@ -1071,10 +1071,11 @@ def sendtestsms():
 # ######################################################
 # gets seagaugeg4 config POST parameters methods=['GET','POST'])
 # #####################################################  
-@app.route('/seasmartconfig' , methods=['POST'])
+@app.route('/seasmartconfig' , methods=['GET','POST'])
 @cross_origin()
 def seasmartconfig():
 
+  log.info("seasmartconfig endpoint")
   #postdata = request.form
   postdata = request.args.get('SSID')
 
