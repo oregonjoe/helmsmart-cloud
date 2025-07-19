@@ -1134,7 +1134,8 @@ def set_seasmart_network_xml(postdata):
 
   except:
     e = sys.exc_info()[0]
-    log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
     log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
     db_pool.closeall()  
   
