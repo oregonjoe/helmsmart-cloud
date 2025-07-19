@@ -1099,11 +1099,11 @@ def set_seasmart_network_xml(postdata):
   """
 
   networkxml = ""
-  networkxml = '<DeviceID>'     +  request.args.get('DeviceIDXML')        + '</DeviceID>'
-  networkxml = '<VersionInfo>'  +  request.args.get('VersionXML')          + '</VersionInfo>'
-  networkxml = '<WIFIType>'    +  request.args.get('WIFINetType_CB')  + '</WIFIType>'
+  networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML')        + '</DeviceID>'
+  networkxml = networkxml +  '<VersionInfo>'  +  request.args.get('VersionXML')          + '</VersionInfo>'
+  networkxml = networkxml +  '<WIFIType>'    +  request.args.get('WIFINetType_CB')  + '</WIFIType>'
  
-  log.info("set_seasmart_network_xml networkxml", networkxml)  
+  log.info("set_seasmart_network_xml networkxml %s", networkxml)  
   return  
 
 # ######################################################
@@ -1119,7 +1119,7 @@ def seasmartconfig():
   postdata = request.args
 
   #post_dict = postdata.to_dict()
-  log.info("seasmartconfig postdata", postdata)
+  log.info("seasmartconfig postdata %s", postdata)
 
   set_seasmart_network_xml(postdata)
   
