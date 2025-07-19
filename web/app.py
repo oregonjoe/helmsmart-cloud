@@ -1069,13 +1069,16 @@ def sendtestsms():
 
 
 # ######################################################
-# gets seagaugeg4 config POST parameters
+# gets seagaugeg4 config POST parameters methods=['GET','POST'])
 # #####################################################  
 @app.route('/seasmartconfig' , methods=['POST'])
 @cross_origin()
 def seasmartconfig():
 
-  postdata = request.form
+  #postdata = request.form
+  postdata = request.form.get("SSID")
+
+  
   return jsonify(result="OK", postdata = postdata)
   
 # ######################################################
