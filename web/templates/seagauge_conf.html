@@ -2351,14 +2351,7 @@ function ResetDevice()
 function SaveDeviceSettings()
 {
 
-	if (confirm('Please reset device after settings are saved to take effect')) {
-	  // Save it!
-	  //console.log('Thing was saved to the database.');
-	} else {
-	  // Do nothing!
-	  //console.log('Thing was not saved to the database.');
-	  return;
-	}
+
 
 	$.blockUI({ 
      message: '<h1>saving settings...</h1>',
@@ -2442,15 +2435,15 @@ function SaveDeviceSettings()
                          <!-- <input type="hidden" id="CUSTOMCFG" name="CUSTOMCFG" value="false" /> -->
 		<div class="network" id="networkstatus"style="width: 800px; height: 10px; background-color:#12365e; font-weight: bold; border-bottom: 2px solid #ccc;">
 			</div>
-			
+			<input type="text" 
 
 			<div>
 			
 			<table style="width: 800px">
 			
 			<tr style=" background-color:#12365e;" class="auto-style10">
-			<td id="DeviceIDXMLValue" ></td>
-			<td  id="VersionXMLValue" ></td>
+			<td> <input type="text" id="DeviceIDXMLValue" /> </td>
+			<td>  <input type="text" id="VersionXMLValue" /> </td>
 			</tr>
 			
 			
