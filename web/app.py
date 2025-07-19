@@ -1127,8 +1127,21 @@ def set_seasmart_network_xml(postdata):
   networkxml = networkxml +  '<UDPPort>'    +  request.args.get('UDPBROADPORT','')  + '</UDPPort>'
   networkxml = networkxml +  '<UDPEnable>'    +  request.args.get('UDPBROADCAST_ON_CB','')  + '</UDPEnable>'
 
+  prefidkey=1
 
+  try:  
+    conn = db_pool.getconn()
 
+  except:
+    e = sys.exc_info()[0]
+    log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = " update dashboard_prefs SET networkxml =%s where  prefidkey = %s;" 
+  cursor.execute(sqlstr, (networkxml, prefidkey, ))   
+  conn.commit()
 
 
 
