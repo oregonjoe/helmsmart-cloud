@@ -1075,7 +1075,7 @@ def sendtestsms():
 @cross_origin()
 def seasmartconfig():
 
-  postdata = request.data
+  postdata = request.form
   return jsonify(result="OK", postdata = postdata)
   
 # ######################################################
