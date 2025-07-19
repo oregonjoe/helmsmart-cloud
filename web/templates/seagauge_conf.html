@@ -1216,12 +1216,12 @@ function initializewifivars(xmlData) {
 	
 		var myXMLdata = getXMLValue(xmlData, 'DeviceID');
 		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myXMLdata;
-		document.getElementById('DeviceIDXML').innerHTML = myXMLdata;
+		document.getElementById('DeviceIDXML').value = myXMLdata;
 		document.cookie = "deviceid=" + myXMLdata;
 		
 		myXMLdata = getXMLValue(xmlData, 'VersionInfo');
 		document.getElementById('VersionXMLValue').innerHTML = "Version " + myXMLdata;
-		document.getElementById('VersionXML').innerHTML = myXMLdata;
+		document.getElementById('VersionXML').value = myXMLdata;
 		document.cookie = "version=" + myXMLdata;
 		
 		
@@ -2435,7 +2435,7 @@ function SaveDeviceSettings()
 		<!-- <form id="configuration"  method="post"> -->
 		 <form id="configuration" action="/seasmartconfig"> 
 		 
-		 
+		  <input type="hidden" id="UserIDXML" name="UserIDXML" value="false" /> 
           <input type="hidden" id="DeviceIDXML" name="DeviceIDXML" value="false" /> 
 		     <input type="hidden" id="VersionXML" name="VersionXML" value="false" /> 
 						 
