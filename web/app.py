@@ -1460,7 +1460,7 @@ def create_seasmart_network_xml(postdata):
   #root = ET.fromstring(postdata)
 
   #element = root.find('DeviceID')
-  element = get_xml_value("<DeviceID>")
+  element = get_xml_value(postdata, "<DeviceID>")
 
   
   log.info("create_seasmart_network_xml DeviceID %s", element)
