@@ -1562,7 +1562,7 @@ def set_seasmart_network_xml(postdata):
   networkxml = networkxml +  '<IPGateway>'    +  request.args.get('GATEWAY','')  + '</IPGateway>'
   networkxml = networkxml +  '<DNS1>'    +  request.args.get('DNS1','')  + '</DNS1>'
   networkxml = networkxml +  '<DNS2>'    +  request.args.get('DNS2','')  + '</DNS2>'
-  networkxml = networkxml +  '<HpptPostInterval>'    +  request.args.get('HpptPostInterval','')  + '</HpptPostInterval>'
+  networkxml = networkxml +  '<HpptPostInterval>'    +  request.args.get('HttpPostInterval','')  + '</HpptPostInterval>'
   networkxml = networkxml +  '<HTTPPostMenu>'    +  request.args.get('HTTPPostMenu','')  + '</HTTPPostMenu>'
   networkxml = networkxml +  '<SSIDDefault>'    +  request.args.get('SSID','')  + '</SSIDDefault>'
   networkxml = networkxml +  '<NETTYPE>'    +  request.args.get('NetTypeXML','')  + '</NETTYPE>'
