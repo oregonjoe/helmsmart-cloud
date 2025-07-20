@@ -1590,7 +1590,9 @@ def createSGG4XMLfile():
   userid = request.args.get('userid', 'a91140300971bfb9244989a9bffde53c')
   
   deviceidkey = request.args.get('deviceidkey', '1f389afd27e33799752b11838e7bc4ef')
-  saveXML=request.args.get('saveXML',0)
+  saveXML=request.args.get('saveXML', 0)
+
+  log.info('createSGG4XMLfile: saveXML %s:  ', saveXML)              
 
   if saveXML == 0:
     return jsonify(result="No file selected")
