@@ -8,7 +8,9 @@ import re
 #import pyarrow as pa
 import json
 
-from xml.dom import minidom
+#from xml.dom import minidom
+#from xml.etree import ElementTree
+import xml.etree.ElementTree as ET
  
 #import md5
 import hashlib
@@ -1432,10 +1434,19 @@ def create_seasmart_network_xml(postdata):
 
   log.info("create_seasmart_network_xml postdata", postdata)
 
-  dom = minidom.parse(postdata)
-  elements = dom.getElementsByTagName('DeviceID')
+  #dom = minidom.parse(postdata)
+  #elements = dom.getElementsByTagName('DeviceID')
 
-  log.info("create_seasmart_network_xml DeviceID %s", elements)
+  # Parse XML from a string
+  root = ET.fromstring(postdata)
+
+  element = root.find('DeviceID')
+
+  log.info("create_seasmart_network_xml DeviceID %s", element)
+
+  log.info("create_seasmart_network_xml DeviceID %s", element.text)
+
+    
 
 def set_seasmart_network_xml(postdata):
 
