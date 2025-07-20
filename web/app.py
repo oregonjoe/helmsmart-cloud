@@ -1578,6 +1578,77 @@ def getseagaugeg4configxml():
   #return sgg4config
   return jsonify(result="OK", sgg4config=sgg4config)
 
+
+# ######################################################
+# gets seagaugeg4 config.xml parameters
+# #####################################################  
+@app.route('/createSGG4XMLfile')
+@cross_origin()
+def createSGG4XMLfile():
+
+  prefidkey = request.args.get('prefidkey', 1)
+  userid = request.args.get('userid', 'a91140300971bfb9244989a9bffde53c')
+  
+  deviceidkey = request.args.get('deviceidkey', '1f389afd27e33799752b11838e7bc4ef')
+  saveXML=request.args.get('saveXML',0)
+
+  if saveXML == 0:
+    return jsonify(result="No file selected")
+    
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+
+    return jsonify( message='Could not open a connection', status='error')
+  
+  cursor = conn.cursor()
+
+  #select configxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef'
+  #sqlstr = 'select configxml from user_sgg4configxml where deviceidkey = %s;'
+
+  if saveXML == 1: 
+    sqlstr = 'select networkxml from user_sgg4configxml where prefidkey = %s;'
+
+  elif saveXML == 2: 
+    sqlstr = 'select devicexml from user_sgg4configxml where prefidkey = %s;'
+
+  elif saveXML == 3: 
+    sqlstr = 'select pulsexml from user_sgg4configxml where prefidkey = %s;'
+
+  elif saveXML == 4: 
+    sqlstr = 'select  pgnsxml from user_sgg4configxml where prefidkey = %s;'
+
+  elif saveXML == 5: 
+    sqlstr = 'select  runtimexmlfrom user_sgg4configxml where prefidkey = %s;'    
+  
+  cursor.execute(sqlstr, (deviceidkey,))
+
+  records = cursor.fetchone()
+
+
+  log.info('createSGG4XMLfile: records found for userid %s:  ', records)              
+
+  sgg4config =str(records[0]) 
+
+  db_pool.putconn(conn)
+
+
+  response = make_response(sgg4config)
+  #response = make_response(json.dumps(outputcsv))
+  #response = make_response(json.dumps(outputjson))
+  response.headers['Content-Type'] = 'text/csv'
+  response.headers["Content-Disposition"] = "attachment; filename=device.xml"
+  #return response
+
+  #return sgg4config
+  return jsonify(result="OK", sgg4config=sgg4config)
+
+
 # ######################################################
 # gets user info from a userid
 # #####################################################

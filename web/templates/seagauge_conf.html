@@ -2216,9 +2216,13 @@ var myOptionValue = document.getElementById("CreateConfigXMLFiles").selectedInde
         //xhttp.open("POST", upload_path, true);
         //xhttp.send(filePath);
 		if(myOptionValue == 2)
-			xhttp.open("GET", 'command.cgi?SaveXML=2', true);
+			xhttp.open("GET", 'createSGG4XMLfile?saveXML=2', true);
+		else if(myOptionValue == 3)
+			xhttp.open("GET", 'createSGG4XMLfile?saveXML=3', true);
+		else if(myOptionValue == 4)
+			xhttp.open("GET", 'createSGG4XMLfile?saveXML=4', true);
 		else 
-			xhttp.open("GET", 'command.cgi?SaveXML=1', true);
+			xhttp.open("GET", 'createSGG4XMLfile?saveXML=1', true);
 		
         //xhttp.open("GET", 'command.cgi?SaveXML=1', true);
         xhttp.send(null);
@@ -2551,7 +2555,7 @@ function SaveDeviceSettings()
 
                
 				
-				<div  id="wifi_content" class="wireless"  style="height: 240px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+				<div  id="wifi_content" class="wireless"  style="height: 280px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
 				
 				
 					<!-- <table style="height: 240px;"> -->
@@ -3424,8 +3428,10 @@ function SaveDeviceSettings()
 				 
 				  <select id="CreateConfigXMLFiles" name="CreateConfigXMLFiles"   style="width: 200px; height: 30px;" size="1"  onchange="CreateConfigFiles();">
 						  <option  hidden  value="0">Save XML </option>
-						  <option   value="1">Save XML - inactive</option>
-						  <option   value="2">Save XML - override</option>
+						  <option   value="1">Save XML - Network</option>
+						  <option   value="2">Save XML - Device</option>
+						  <option   value="3">Save XML - Pulse</option>
+						  <option   value="4">Save XML - PGNs/Alarms</option>
 				 </td> 
 			   
 			   
