@@ -254,6 +254,26 @@ mc = bmemcached.Client(mcservers, username=mcuser, password=mcpassw)
 mc.enable_retry_delay(True)  # Enabled by default. Sets retry delay to 5s.
 
 
+def get_xml_value(postdata, tag):
+
+  startStr = "<" + tag + ">";
+  endStr = "</" + tag + ">";
+  startPos = -1
+  endPos = -1
+
+  log.info("get_xml_value startStr %s  endStr %s", startStr, endStr )  
+
+  startPos = postdata.find(startStr)
+  log.info("get_xml_value startPos %s ", startPos )  
+  if startPos == -1:
+    return ""
+
+  endPos = postdata.find(endStr)
+  log.info("get_xml_value endPos %s", endPos )  
+  if endPos == -1:
+    return ""
+
+  return postdata[startPos:endPos]
 
 class DateEncoder(json.JSONEncoder):
   def default(self, obj):
@@ -1431,26 +1451,6 @@ def set_seasmart_device_xml(postdata):
   log.info("set_seasmart_device_xml networkxml %s", devicexml)  
   return  
 
-def get_xml_value(postdata, tag):
-
-  startStr = "<" + tag + ">";
-  endStr = "</" + tag + ">";
-  startPos = -1
-  endPos = -1
-
-  log.info("get_xml_value startStr %s  endStr %s", startStr, endStr )  
-
-  startPos = postdata.find(startStr)
-  log.info("get_xml_value startPos %s ", startPos )  
-  if startPos == -1:
-    return ""
-
-  endPos = postdata.find(endStr)
-  log.info("get_xml_value endPos %s", endPos )  
-  if endPos == -1:
-    return ""
-
-  return postdata[startPos:endPos]
     
 
 def create_seasmart_network_xml(postdata):
@@ -1464,14 +1464,52 @@ def create_seasmart_network_xml(postdata):
   #root = ET.fromstring(postdata)
 
   #element = root.find('DeviceID')
-  element = get_xml_value(postdata, "DeviceID")
+  #element = get_xml_value(postdata, "DeviceID")
 
   
-  log.info("create_seasmart_network_xml DeviceID %s", element)
+  #log.info("create_seasmart_network_xml DeviceID %s", element)
 
+  xmlfile = ''
+  xmlfile = xmlfile +  '<?xml version="1.0" standalone="yes"?>'
+  xmlfile = xmlfile + '<configrecord version="24.12.20">'
+  xmlfile = xmlfile + '<configgroup name = "XMLACTION">'
+  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>'
+  xmlfile = xmlfile + '</configgroup>'
+  xmlfile = xmlfile + '<configgroup name = "DEVICE">'
+  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") + '</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "VersionInfo") + '</value></configitem>'
+  xmlfile = xmlfile + '</configgroup>'
+  xmlfile = xmlfile + '<configgroup name = "Network">'
+  xmlfile = xmlfile + '<configitem name="DHCP"><value>0</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="IPAddress"><value>192.168.254.114</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="SubNet"><value>255.255.255.0</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="Gateway"><value>192.168.254.254</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="DNS1"><value>8.8.8.8</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="DNS2"><value>192.168.254.254</value></configitem>'
+  xmlfile = xmlfile + '</configgroup>'
+  xmlfile = xmlfile + '<configgroup name = "WIFI">'
+  xmlfile = xmlfile + '<configitem name="WiFiType"><value>1</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="STASSID"><value>Winchuck Mesh</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="STASECTYPE"><value>3</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="STASECKEY"><value>winchuck</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="SAPSSID"><value>SeaGaugeG4-5FA0</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="SAPSECTYPE"><value>3</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="SAPSECKEY"><value>seasmartg3</value></configitem>'
+  xmlfile = xmlfile + '</configgroup>'
+  xmlfile = xmlfile + '<configgroup name = "UDP">'
+  xmlfile = xmlfile + '<configitem name="UDPEnable"><value>0</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="UDPPort"><value>10010</value></configitem>'
+  xmlfile = xmlfile + '<configgroup name = "TCP">'
+  xmlfile = xmlfile + '<configitem name="TCPEnable"><value>0</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="TCPPort"><value>10010</value></configitem>'
+  xmlfile = xmlfile + '</configgroup>'
+  xmlfile = xmlfile + '<configgroup name = "HTTPPOST">'
+  xmlfile = xmlfile + '<configitem name="PostType"><value>1</value></configitem>'
+  xmlfile = xmlfile + '<configitem name="PostInterval"><value>242</value></configitem>'
+  xmlfile = xmlfile + '</configgroup>'
 
-
-  return   
+  return  xmlfile
 
 def set_seasmart_network_xml(postdata):
 
@@ -1694,9 +1732,9 @@ def createSGG4XMLfile():
   db_pool.putconn(conn)
 
 
-  create_seasmart_network_xml(sgg4config)
+  xmlfile = create_seasmart_network_xml(sgg4config)
 
-  response = make_response(sgg4config)
+  response = make_response(xmlfile)
   #response = make_response(json.dumps(outputcsv))
   #response = make_response(json.dumps(outputjson))
   response.headers['Content-Type'] = 'text/csv'
