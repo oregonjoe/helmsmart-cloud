@@ -1066,6 +1066,311 @@ def sendtestsms():
     return response
 
 
+def set_seasmart_pulse_xml(postdata):
+
+  log.info("set_seasmart_pulse_xml postdata", postdata)
+  
+  """
+<DeviceID>AC1518EF5FA0</DeviceID>
+<VersionInfo>1.9.3.7.12</VersionInfo>
+<PULSEMODE>4</PULSEMODE>
+<PULSESCALE0>1500</PULSESCALE0>
+<PULSESCALE1>1500</PULSESCALE1>
+<PULSESCALE2>5400</PULSESCALE2>
+<PINTERVAL>1000</PINTERVAL>
+<FINTERVAL>4000</FINTERVAL>
+<PFLT0>0</PFLT0>
+<PFLT1>0</PFLT1>
+<PFLT2>3</PFLT2>
+<FUELTOTAL>0</FUELTOTAL>
+  """
+
+  pulsexml = ""
+  pulsexml = pulsexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
+  pulsexml = pulsexml +  '<VersionInfo>'  +  request.args.get('VersionXML','')          + '</VersionInfo>'
+  pulsexml = pulsexml +  '<PULSEMODE>'    +  request.args.get('PULSEModeDD','')  + '</PULSEMODE>'
+  pulsexml = pulsexml +  '<PULSESCALE0>'    +  request.args.get('PULSE0SCALE','')  + '</PULSESCALE0>'  
+  pulsexml = pulsexml +  '<PULSESCALE1>'    +  request.args.get('PULSE1SCALE','')  + '</PULSESCALE1>'  
+  pulsexml = pulsexml +  '<PULSESCALE2>'    +  request.args.get('PULSE2SCALE','')  + '</PULSESCALE2>'  
+  #pulsexml = pulsexml +  '<PINTERVAL>'    +  request.args.get('SDLogFName','')  + '</PINTERVAL>'  
+  #pulsexml = pulsexml +  '<FINTERVAL>'    +  request.args.get('SDLogFName','')  + '</FINTERVAL>'
+  pulsexml = pulsexml +  '<PINTERVAL>'    +  '1000'  + '</PINTERVAL>'  
+  pulsexml = pulsexml +  '<FINTERVAL>'    +  '4000'  + '</FINTERVAL>'  
+  pulsexml = pulsexml +  '<PFLT0>'    +  request.args.get('PULSE0FILTER','')  + '</PFLT0>'  
+  pulsexml = pulsexml +  '<PFLT1>'    +  request.args.get('PULSE1FILTER','')  + '</PFLT1>'  
+  pulsexml = pulsexml +  '<PFLT2>'    +  request.args.get('PULSE2FILTER','')  + '</PFLT2>'  
+  pulsexml = pulsexml +  '<FUELTOTAL>'    +  request.args.get('FUELTACHTOTAL','')  + '</FUELTOTAL>'  
+
+ 
+
+
+  prefidkey=1
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = " update user_sgg4configxml SET pulsexml =%s where  prefidkey = %s;" 
+  cursor.execute(sqlstr, (pulsexml, prefidkey, ))   
+  conn.commit()
+
+
+
+ 
+  log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
+  return  
+
+
+
+
+def set_seasmart_pgn_xml(postdata):
+
+  log.info("set_seasmart_pgn_xml postdata", postdata)
+  
+  """
+<DeviceID>AC1518EF5FA0</DeviceID>
+<VersionInfo>1.9.3.7.12</VersionInfo>
+<PULSEMODE>4</PULSEMODE>
+<PULSESCALE0>1500</PULSESCALE0>
+<PULSESCALE1>1500</PULSESCALE1>
+<PULSESCALE2>5400</PULSESCALE2>
+<PINTERVAL>1000</PINTERVAL>
+<FINTERVAL>4000</FINTERVAL>
+<PFLT0>0</PFLT0>
+<PFLT1>0</PFLT1>
+<PFLT2>3</PFLT2>
+<FUELTOTAL>0</FUELTOTAL>
+  """
+
+  pgnxml = ""
+  pgnxml = pgnxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
+  pgnxml = pgnxml +  '<VersionInfo>'  +  request.args.get('VersionXML','')          + '</VersionInfo>'
+  pgnxml = pgnxml +  '<ADCAA0>'    +  request.args.get('ADCAA0','')  + '</ADCAA0>'
+  pgnxml = pgnxml +  '<ADCAA1>'    +  request.args.get('ADCAA1','')  + '</ADCAA1>'
+  pgnxml = pgnxml +  '<ADCAA2>'    +  request.args.get('ADCAA2','')  + '</ADCAA2>'
+  pgnxml = pgnxml +  '<ADCAA3>'    +  request.args.get('ADCAA3','')  + '</ADCAA3>'
+  pgnxml = pgnxml +  '<ADCAA4>'    +  request.args.get('ADCAA4','')  + '</ADCAA4>'
+  pgnxml = pgnxml +  '<ADCAA5>'    +  request.args.get('ADCAA5','')  + '</ADCAA5>'
+  pgnxml = pgnxml +  '<ADCAA6>'    +  request.args.get('ADCAA6','')  + '</ADCAA6>'
+  pgnxml = pgnxml +  '<ADCAA7>'    +  request.args.get('ADCAA7','')  + '</ADCAA7>'
+  pgnxml = pgnxml +  '<ADCAA8>'    +  request.args.get('ADCAA8','')  + '</ADCAA8>'
+  pgnxml = pgnxml +  '<ADCAA9>'    +  request.args.get('ADCAA9','')  + '</ADCAA9>'
+  pgnxml = pgnxml +  '<ADCAA10>'    +  request.args.get('ADCAA10','')  + '</ADCAA10>'
+  pgnxml = pgnxml +  '<ADCAA11>'    +  request.args.get('ADCAA11','')  + '</ADCAA11>'
+  pgnxml = pgnxml +  '<ADCAA12>'    +  request.args.get('ADCAA12','')  + '</ADCAA12>'
+  pgnxml = pgnxml +  '<ADCAA13>'    +  request.args.get('ADCAA13','')  + '</ADCAA13>'
+  pgnxml = pgnxml +  '<ADCAA14>'    +  request.args.get('ADCAA14','')  + '</ADCAA14>'
+  pgnxml = pgnxml +  '<ADCAA15>'    +  request.args.get('ADCAA15','')  + '</ADCAA15>'
+  pgnxml = pgnxml +  '<ADCAA16>'    +  request.args.get('ADCAA16','')  + '</ADCAA16>'
+  pgnxml = pgnxml +  '<ADCAA17>'    +  request.args.get('ADCAA17','')  + '</ADCAA17>'
+  pgnxml = pgnxml +  '<ADCAA18>'    +  request.args.get('ADCAA18','')  + '</ADCAA18>'
+  pgnxml = pgnxml +  '<ADCAA19>'    +  request.args.get('ADCAA19','')  + '</ADCAA19>'
+  
+  pgnxml = pgnxml +  '<ADCAH0>'    +  request.args.get('ADCAH0','')  + '</ADCAH0>'
+  pgnxml = pgnxml +  '<ADCAH1>'    +  request.args.get('ADCAH1','')  + '</ADCAH1>'
+  pgnxml = pgnxml +  '<ADCAH2>'    +  request.args.get('ADCAH2','')  + '</ADCAH2>'
+  pgnxml = pgnxml +  '<ADCAH3>'    +  request.args.get('ADCAH3','')  + '</ADCAH3>'
+  pgnxml = pgnxml +  '<ADCAH4>'    +  request.args.get('ADCAH4','')  + '</ADCAH4>'
+  pgnxml = pgnxml +  '<ADCAH5>'    +  request.args.get('ADCAH5','')  + '</ADCAH5>'
+  pgnxml = pgnxml +  '<ADCAH6>'    +  request.args.get('ADCAH6','')  + '</ADCAH6>'
+  pgnxml = pgnxml +  '<ADCAH7>'    +  request.args.get('ADCAH7','')  + '</ADCAH7>'
+  pgnxml = pgnxml +  '<ADCAH8>'    +  request.args.get('ADCAH8','')  + '</ADCAH8>'
+  pgnxml = pgnxml +  '<ADCAH9>'    +  request.args.get('ADCAH9','')  + '</ADCAH9>'
+  pgnxml = pgnxml +  '<ADCAH10>'    +  request.args.get('ADCAH10','')  + '</ADCAH10>'
+  pgnxml = pgnxml +  '<ADCAH11>'    +  request.args.get('ADCAH11','')  + '</ADCAH11>'
+  pgnxml = pgnxml +  '<ADCAH12>'    +  request.args.get('ADCAH12','')  + '</ADCAH12>'
+  pgnxml = pgnxml +  '<ADCAH13>'    +  request.args.get('ADCAH13','')  + '</ADCAH13>'
+  pgnxml = pgnxml +  '<ADCAH14>'    +  request.args.get('ADCAH14','')  + '</ADCAH14>'
+  pgnxml = pgnxml +  '<ADCAH15>'    +  request.args.get('ADCAH15','')  + '</ADCAH15>'
+  pgnxml = pgnxml +  '<ADCAH16>'    +  request.args.get('ADCAH16','')  + '</ADCAH16>'
+  pgnxml = pgnxml +  '<ADCAH17>'    +  request.args.get('ADCAH17','')  + '</ADCAH17>'
+  pgnxml = pgnxml +  '<ADCAH18>'    +  request.args.get('ADCAH18','')  + '</ADCAH18>'
+  pgnxml = pgnxml +  '<ADCAH19>'    +  request.args.get('ADCAH19','')  + '</ADCAH19>'  
+ 
+  pgnxml = pgnxml +  '<ADCAL0>'    +  request.args.get('ADCAL0','')  + '</ADCAL0>'
+  pgnxml = pgnxml +  '<ADCAL1>'    +  request.args.get('ADCAL1','')  + '</ADCAL1>'
+  pgnxml = pgnxml +  '<ADCAL2>'    +  request.args.get('ADCAL2','')  + '</ADCAL2>'
+  pgnxml = pgnxml +  '<ADCAL3>'    +  request.args.get('ADCAL3','')  + '</ADCAL3>'
+  pgnxml = pgnxml +  '<ADCAL4>'    +  request.args.get('ADCAL4','')  + '</ADCAL4>'
+  pgnxml = pgnxml +  '<ADCAL5>'    +  request.args.get('ADCAL5','')  + '</ADCAL5>'
+  pgnxml = pgnxml +  '<ADCAL6>'    +  request.args.get('ADCAL6','')  + '</ADCAL6>'
+  pgnxml = pgnxml +  '<ADCAL7>'    +  request.args.get('ADCAL7','')  + '</ADCAL7>'
+  pgnxml = pgnxml +  '<ADCAL8>'    +  request.args.get('ADCAL8','')  + '</ADCAL8>'
+  pgnxml = pgnxml +  '<ADCAL9>'    +  request.args.get('ADCAL9','')  + '</ADCAL9>'
+  pgnxml = pgnxml +  '<ADCAL10>'    +  request.args.get('ADCAL10','')  + '</ADCAL10>'
+  pgnxml = pgnxml +  '<ADCAL11>'    +  request.args.get('ADCAL11','')  + '</ADCAL11>'
+  pgnxml = pgnxml +  '<ADCAL12>'    +  request.args.get('ADCAL12','')  + '</ADCAL12>'
+  pgnxml = pgnxml +  '<ADCAL13>'    +  request.args.get('ADCAL13','')  + '</ADCAL13>'
+  pgnxml = pgnxml +  '<ADCAL14>'    +  request.args.get('ADCAL14','')  + '</ADCAL14>'
+  pgnxml = pgnxml +  '<ADCAL15>'    +  request.args.get('ADCAL15','')  + '</ADCAL15>'
+  pgnxml = pgnxml +  '<ADCAL16>'    +  request.args.get('ADCAL16','')  + '</ADCAL16>'
+  pgnxml = pgnxml +  '<ADCAL17>'    +  request.args.get('ADCAL17','')  + '</ADCAL17>'
+  pgnxml = pgnxml +  '<ADCAL18>'    +  request.args.get('ADCAL18','')  + '</ADCAL18>'
+  pgnxml = pgnxml +  '<ADCAL19>'    +  request.args.get('ADCAL19','')  + '</ADCAL19>'  
+ 
+
+  pgnxml = pgnxml +  '<ADCAM0>'    +  request.args.get('ADCAM0','')  + '</ADCAM0>'
+  pgnxml = pgnxml +  '<ADCAM1>'    +  request.args.get('ADCAM1','')  + '</ADCAM1>'
+  pgnxml = pgnxml +  '<ADCAM2>'    +  request.args.get('ADCAM2','')  + '</ADCAM2>'
+  pgnxml = pgnxml +  '<ADCAM3>'    +  request.args.get('ADCAM3','')  + '</ADCAM3>'
+  pgnxml = pgnxml +  '<ADCAM4>'    +  request.args.get('ADCAM4','')  + '</ADCAM4>'
+  pgnxml = pgnxml +  '<ADCAM5>'    +  request.args.get('ADCAM5','')  + '</ADCAM5>'
+  pgnxml = pgnxml +  '<ADCAM6>'    +  request.args.get('ADCAM6','')  + '</ADCAM6>'
+  pgnxml = pgnxml +  '<ADCAM7>'    +  request.args.get('ADCAM7','')  + '</ADCAM7>'
+  pgnxml = pgnxml +  '<ADCAM8>'    +  request.args.get('ADCAM8','')  + '</ADCAM8>'
+  pgnxml = pgnxml +  '<ADCAM9>'    +  request.args.get('ADCAM9','')  + '</ADCAM9>'
+  pgnxml = pgnxml +  '<ADCAM10>'    +  request.args.get('ADCAM10','')  + '</ADCAM10>'
+  pgnxml = pgnxml +  '<ADCAM11>'    +  request.args.get('ADCAM11','')  + '</ADCAM11>'
+  pgnxml = pgnxml +  '<ADCAM12>'    +  request.args.get('ADCAM12','')  + '</ADCAM12>'
+  pgnxml = pgnxml +  '<ADCAM13>'    +  request.args.get('ADCAM13','')  + '</ADCAM13>'
+  pgnxml = pgnxml +  '<ADCAM14>'    +  request.args.get('ADCAM14','')  + '</ADCAM14>'
+  pgnxml = pgnxml +  '<ADCAM15>'    +  request.args.get('ADCAM15','')  + '</ADCAM15>'
+  pgnxml = pgnxml +  '<ADCAM16>'    +  request.args.get('ADCAM16','')  + '</ADCAM16>'
+  pgnxml = pgnxml +  '<ADCAM17>'    +  request.args.get('ADCAM17','')  + '</ADCAM17>'
+  pgnxml = pgnxml +  '<ADCAM18>'    +  request.args.get('ADCAM18','')  + '</ADCAM18>'
+  pgnxml = pgnxml +  '<ADCAM19>'    +  request.args.get('ADCAM19','')  + '</ADCAM19>'
+
+  
+  pgnxml = pgnxml +  '<ADCAP0>'    +  request.args.get('ADCAP0','')  + '</ADCAP0>'
+  pgnxml = pgnxml +  '<ADCAP1>'    +  request.args.get('ADCAP1','')  + '</ADCAP1>'
+  pgnxml = pgnxml +  '<ADCAP2>'    +  request.args.get('ADCAP2','')  + '</ADCAP2>'
+  pgnxml = pgnxml +  '<ADCAP3>'    +  request.args.get('ADCAP3','')  + '</ADCAP3>'
+  pgnxml = pgnxml +  '<ADCAP4>'    +  request.args.get('ADCAP4','')  + '</ADCAP4>'
+  pgnxml = pgnxml +  '<ADCAP5>'    +  request.args.get('ADCAP5','')  + '</ADCAP5>'
+  pgnxml = pgnxml +  '<ADCAP6>'    +  request.args.get('ADCAP6','')  + '</ADCAP6>'
+  pgnxml = pgnxml +  '<ADCAP7>'    +  request.args.get('ADCAP7','')  + '</ADCAP7>'
+  pgnxml = pgnxml +  '<ADCAP8>'    +  request.args.get('ADCAP8','')  + '</ADCAP8>'
+  pgnxml = pgnxml +  '<ADCAP9>'    +  request.args.get('ADCAP9','')  + '</ADCAP9>'
+  pgnxml = pgnxml +  '<ADCAP10>'    +  request.args.get('ADCAP10','')  + '</ADCAP10>'
+  pgnxml = pgnxml +  '<ADCAP11>'    +  request.args.get('ADCAP11','')  + '</ADCAP11>'
+  pgnxml = pgnxml +  '<ADCAP12>'    +  request.args.get('ADCAP12','')  + '</ADCAP12>'
+  pgnxml = pgnxml +  '<ADCAP13>'    +  request.args.get('ADCAP13','')  + '</ADCAP13>'
+  pgnxml = pgnxml +  '<ADCAP14>'    +  request.args.get('ADCAP14','')  + '</ADCAP14>'
+  pgnxml = pgnxml +  '<ADCAP15>'    +  request.args.get('ADCAP15','')  + '</ADCAP15>'
+  pgnxml = pgnxml +  '<ADCAP16>'    +  request.args.get('ADCAP16','')  + '</ADCAP16>'
+  pgnxml = pgnxml +  '<ADCAP17>'    +  request.args.get('ADCAP17','')  + '</ADCAP17>'
+  pgnxml = pgnxml +  '<ADCAP18>'    +  request.args.get('ADCAP18','')  + '</ADCAP18>'
+  pgnxml = pgnxml +  '<ADCAP19>'    +  request.args.get('ADCAP19','')  + '</ADCAP19>'
+
+  pgnxml = pgnxml +  '<CALFILE0>'    +  request.args.get('CALFILE0','')  + '</CALFILE0>'
+  pgnxml = pgnxml +  '<CALFILE1>'    +  request.args.get('CALFILE1','')  + '</CALFILE1>'
+  pgnxml = pgnxml +  '<CALFILE2>'    +  request.args.get('CALFILE2','')  + '</CALFILE2>'
+  pgnxml = pgnxml +  '<CALFILE3>'    +  request.args.get('CALFILE3','')  + '</CALFILE3>'
+  pgnxml = pgnxml +  '<CALFILE4>'    +  request.args.get('CALFILE4','')  + '</CALFILE4>'
+  pgnxml = pgnxml +  '<CALFILE5>'    +  request.args.get('CALFILE5','')  + '</CALFILE5>'
+  pgnxml = pgnxml +  '<CALFILE6>'    +  request.args.get('CALFILE6','')  + '</CALFILE6>'
+  pgnxml = pgnxml +  '<CALFILE7>'    +  request.args.get('CALFILE7','')  + '</CALFILE7>'
+  pgnxml = pgnxml +  '<CALFILE8>'    +  request.args.get('CALFILE8','')  + '</CALFILE8>'
+  pgnxml = pgnxml +  '<CALFILE9>'    +  request.args.get('CALFILE9','')  + '</CALFILE9>'
+
+  
+  prefidkey=1
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = " update user_sgg4configxml SET pgnxml =%s where  prefidkey = %s;" 
+  cursor.execute(sqlstr, (pgnxml, prefidkey, ))   
+  conn.commit()
+
+
+
+ 
+  log.info("set_seasmart_device_xml pgnxml %s", pgnxml)  
+  return  
+
+
+
+def set_seasmart_device_xml(postdata):
+
+  log.info("set_seasmart_device_xml postdata", postdata)
+  
+  """
+<DeviceID>AC1518EF5FA0</DeviceID>
+<VersionInfo>1.9.3.7.12</VersionInfo>
+<SDLogEnable>0</SDLogEnable>
+<SDLogInterval>60</SDLogInterval>
+<UartInterval>2</UartInterval>
+<UART0MODE>1</UART0MODE>
+<UART1MODE>0</UART1MODE>
+<UART2MODE>2</UART2MODE>
+<CANMODE>2</CANMODE>
+<CANFILTERHB>4294967295</CANFILTERHB>
+<CANFILTERLB>4294967295</CANFILTERLB>
+<DIMMERTYPE>25</DIMMERTYPE>
+<DIMMERINSTANCE>15</DIMMERINSTANCE>
+<DIMMERSCALE>1500</DIMMERSCALE>
+<DIMMERPON>20</DIMMERPON>
+<DIMMERTXRATE>60</DIMMERTXRATE>
+<TIMERMODE>0</TIMERMODE>
+<TIMERMODE>11</TimeStampSource>
+  """
+
+  devicexml = ""
+  devicexml = devicexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
+  devicexml = devicexml +  '<VersionInfo>'  +  request.args.get('VersionXML','')          + '</VersionInfo>'
+  devicexml = devicexml +  '<SDLogEnable>'    +  request.args.get('SDLogFName','')  + '</SDLogEnable>'
+  devicexml = devicexml +  '<SDLogInterval>'    +  request.args.get('SDLogInterval','')  + '</SDLogInterval>'
+  devicexml = devicexml +  '<UartInterval>'    +  request.args.get('UartInterval','')  + '</UartInterval>'
+  devicexml = devicexml +  '<UART0MODE>'    +  request.args.get('UART0ModeDD','')  + '</UART0MODE>'
+  devicexml = devicexml +  '<UART1MODE>'    +  request.args.get('UART1ModeDD','')  + '</UART1MODE>'
+  devicexml = devicexml +  '<UART2MODE>'    +  request.args.get('UART2ModeDD','')  + '</UART2MODE>'
+  devicexml = devicexml +  '<CANMODE>'    +  request.args.get('CANModeDD','')  + '</CANMODE>'
+  #devicexml = devicexml +  '<CANFILTERHB>'    +  request.args.get('WIFINetType_CB','')  + '</CANFILTERHB>'
+  #devicexml = devicexml +  '<CANFILTERLB>'    +  request.args.get('WIFINetType_CB','')  + '</CANFILTERLB>'
+  devicexml = devicexml +  '<CANFILTERHB>'    +  '4294967295'  + '</CANFILTERHB>'
+  devicexml = devicexml +  '<CANFILTERLB>'    +  '4294967295'  + '</CANFILTERLB>'
+  devicexml = devicexml +  '<DIMMERTYPE>'    +  request.args.get('DimmerTypeDD','')  + '</DIMMERTYPE>'
+  devicexml = devicexml +  '<DIMMERINSTANCE>'    +  request.args.get('DimmerInstanceDD','')  + '</DIMMERINSTANCE>'
+  devicexml = devicexml +  '<DIMMERSCALE>'    +  request.args.get('DIMMERSCALE','')  + '</DIMMERSCALE>'
+  devicexml = devicexml +  '<DIMMERPON>'    +  request.args.get('DimmerPONDD','')  + '</DIMMERPON>'
+  devicexml = devicexml +  '<DIMMERTXRATE>'    +  request.args.get('DimmerTXDD','')  + '</DIMMERTXRATE>'
+  devicexml = devicexml +  '<TIMERMODE>'    +  request.args.get('TimerModeDD','')  + '</TIMERMODE>'
+  devicexml = devicexml +  '<TimeSource>'    +  request.args.get('TimeStampSource','')  + '</TimeSource>'
+
+ 
+
+
+  prefidkey=1
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = " update user_sgg4configxml SET devicexml =%s where  prefidkey = %s;" 
+  cursor.execute(sqlstr, (devicexml, prefidkey, ))   
+  conn.commit()
+
+
+
+ 
+  log.info("set_seasmart_device_xml networkxml %s", devicexml)  
+  return  
+
+
+
 def set_seasmart_network_xml(postdata):
 
   log.info("set_seasmart_network_xml postdata", postdata)
