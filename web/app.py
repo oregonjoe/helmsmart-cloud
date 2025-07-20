@@ -7,6 +7,8 @@ import sys
 import re
 #import pyarrow as pa
 import json
+
+from xml.dom import minidom
  
 #import md5
 import hashlib
@@ -1127,7 +1129,7 @@ def set_seasmart_pulse_xml(postdata):
   log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
   return  
 
-
+def create_seasmart_pgn_xml(postdata):
 
 
 def set_seasmart_pgn_xml(postdata):
@@ -1426,7 +1428,14 @@ def set_seasmart_device_xml(postdata):
   log.info("set_seasmart_device_xml networkxml %s", devicexml)  
   return  
 
+def create_seasmart_network_xml(postdata):
 
+  log.info("create_seasmart_network_xml postdata", postdata)
+
+  dom = minidom.parse(postdata)
+  elements = dom.getElementsByTagName('DeviceID')
+
+  log.info("create_seasmart_network_xml DeviceID %s", elements)
 
 def set_seasmart_network_xml(postdata):
 
