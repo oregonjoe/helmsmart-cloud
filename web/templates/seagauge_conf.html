@@ -1569,7 +1569,7 @@ function initializewifivars(xmlData) {
 				
 				
 				myXMLdata = getXMLValue(xmlData, 'PGNS' + channel.toString());
-				if(Number.isNAN(parseInt(myXMLdata))
+				if(Number.isNAN(parseInt(myXMLdata)))
 					document.getElementById('PGNS' + channel.toString()).value = "";
 				else
 					document.getElementById('PGNS' + channel.toString()).value = parseInt(myXMLdata);
