@@ -1132,6 +1132,7 @@ def set_seasmart_pulse_xml(postdata):
   return  
 
 def create_seasmart_pgn_xml(postdata):
+  return  
 
 
 def set_seasmart_pgn_xml(postdata):
@@ -1446,7 +1447,7 @@ def create_seasmart_network_xml(postdata):
 
   log.info("create_seasmart_network_xml DeviceID %s", element.text)
 
-    
+  return   
 
 def set_seasmart_network_xml(postdata):
 
@@ -1668,6 +1669,8 @@ def createSGG4XMLfile():
 
   db_pool.putconn(conn)
 
+
+  create_seasmart_network_xml(sgg4config)
 
   response = make_response(sgg4config)
   #response = make_response(json.dumps(outputcsv))
