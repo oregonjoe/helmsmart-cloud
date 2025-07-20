@@ -1314,17 +1314,18 @@ def set_seasmart_pgn_xml(postdata):
   pgnxml = pgnxml +  '<PGNS11>'    +  request.args.get('PGNS11','')  + '</PGNS11>'  
 
 
-  pgnxml = pgnxml +  '<CALFILE0>'    +  request.args.get('CALFILE0','')  + '</CALFILE0>'
-  pgnxml = pgnxml +  '<CALFILE1>'    +  request.args.get('CALFILE1','')  + '</CALFILE1>'
-  pgnxml = pgnxml +  '<CALFILE2>'    +  request.args.get('CALFILE2','')  + '</CALFILE2>'
-  pgnxml = pgnxml +  '<CALFILE3>'    +  request.args.get('CALFILE3','')  + '</CALFILE3>'
-  pgnxml = pgnxml +  '<CALFILE4>'    +  request.args.get('CALFILE4','')  + '</CALFILE4>'
-  pgnxml = pgnxml +  '<CALFILE5>'    +  request.args.get('CALFILE5','')  + '</CALFILE5>'
-  pgnxml = pgnxml +  '<CALFILE6>'    +  request.args.get('CALFILE6','')  + '</CALFILE6>'
-  pgnxml = pgnxml +  '<CALFILE7>'    +  request.args.get('CALFILE7','')  + '</CALFILE7>'
-  pgnxml = pgnxml +  '<CALFILE8>'    +  request.args.get('CALFILE8','')  + '</CALFILE8>'
-  pgnxml = pgnxml +  '<CALFILE9>'    +  request.args.get('CALFILE9','')  + '</CALFILE9>'
-
+  pgnxml = pgnxml +  '<CAL0>'    +  request.args.get('CALFILE0','')  + '</CAL0>'
+  pgnxml = pgnxml +  '<CAL1>'    +  request.args.get('CALFILE1','')  + '</CAL1>'
+  pgnxml = pgnxml +  '<CAL2>'    +  request.args.get('CALFILE2','')  + '</CAL2>'
+  pgnxml = pgnxml +  '<CAL3>'    +  request.args.get('CALFILE3','')  + '</CAL3>'
+  pgnxml = pgnxml +  '<CAL4>'    +  request.args.get('CALFILE4','')  + '</CAL4>'
+  pgnxml = pgnxml +  '<CAL5>'    +  request.args.get('CALFILE5','')  + '</CAL5>'
+  pgnxml = pgnxml +  '<CAL6>'    +  request.args.get('CALFILE6','')  + '</CAL6>'
+  pgnxml = pgnxml +  '<CAL7>'    +  request.args.get('CALFILE7','')  + '</CAL7>'
+  pgnxml = pgnxml +  '<CAL8>'    +  request.args.get('CALFILE8','')  + '</CAL8>'
+  pgnxml = pgnxml +  '<CALF9>'    +  request.args.get('CALFILE9','')  + '</CAL9>'
+  pgnxml = pgnxml +  '<CAL10>'    +  request.args.get('CALFILE10','')  + '</CAL10>'
+  pgnxml = pgnxml +  '<CAL11>'    +  request.args.get('CALFILE11','')  + '</CAL11>'
 
   
   prefidkey=1

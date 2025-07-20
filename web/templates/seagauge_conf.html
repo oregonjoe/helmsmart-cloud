@@ -1569,7 +1569,7 @@ function initializewifivars(xmlData) {
 				
 				
 				myXMLdata = getXMLValue(xmlData, 'PGNS' + channel.toString());
-				if(parseInt(myXMLdata) == -1)
+				if(Number.isNAN(parseInt(myXMLdata))
 					document.getElementById('PGNS' + channel.toString()).value = "";
 				else
 					document.getElementById('PGNS' + channel.toString()).value = parseInt(myXMLdata);
@@ -2554,7 +2554,7 @@ function SaveDeviceSettings()
 				
 				
 					<!-- <table style="height: 240px;"> -->
-                    <table >
+                    <table style="height: 280px;">
 					
 					 <tr>
                         <td style="font-weight: bold; width: 200px; height: 30px;">STA SSID:</td>
