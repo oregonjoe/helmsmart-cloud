@@ -1431,6 +1431,24 @@ def set_seasmart_device_xml(postdata):
   log.info("set_seasmart_device_xml networkxml %s", devicexml)  
   return  
 
+def get_xml_value(postdata, tag):
+
+  startStr = "<" + tag + ">";
+  endStr = "</" + tag + ">";
+  startPos = -1
+  endPos = -1
+
+  startPos = postdata.find(startStr)
+  if startPos == -1:
+    return""
+
+  endPos = postdata.find(endStr)
+  if endPos == -1:
+    return""
+
+  return postdata[startPos:endPos]
+    
+
 def create_seasmart_network_xml(postdata):
 
   log.info("create_seasmart_network_xml postdata %s", postdata)
@@ -1442,14 +1460,12 @@ def create_seasmart_network_xml(postdata):
   #root = ET.fromstring(postdata)
 
   #element = root.find('DeviceID')
-  element = postdata.split("<DeviceID>")
+  element = get_xml_value("<DeviceID>")
 
   
   log.info("create_seasmart_network_xml DeviceID %s", element)
 
-  xmldata = element.split("</DeviceID>")
 
-  log.info("create_seasmart_network_xml DeviceID %s", xmldata)
 
   return   
 
