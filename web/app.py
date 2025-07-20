@@ -1284,7 +1284,7 @@ def set_seasmart_pgn_xml(postdata):
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = " update user_sgg4configxml SET pgnxml =%s where  prefidkey = %s;" 
+  sqlstr = " update user_sgg4configxml SET pgnsxml =%s where  prefidkey = %s;" 
   cursor.execute(sqlstr, (pgnxml, prefidkey, ))   
   conn.commit()
 
