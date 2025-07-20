@@ -1288,7 +1288,7 @@ def set_seasmart_pgn_xml(postdata):
   cursor.execute(sqlstr, (pgnxml, prefidkey, ))   
   conn.commit()
 
-
+  db_pool.putconn(conn)
 
  
   log.info("set_seasmart_device_xml pgnxml %s", pgnxml)  
@@ -1363,7 +1363,7 @@ def set_seasmart_device_xml(postdata):
   cursor.execute(sqlstr, (devicexml, prefidkey, ))   
   conn.commit()
 
-
+  db_pool.putconn(conn)
 
  
   log.info("set_seasmart_device_xml networkxml %s", devicexml)  
@@ -1449,7 +1449,7 @@ def set_seasmart_network_xml(postdata):
   cursor.execute(sqlstr, (networkxml, prefidkey, ))   
   conn.commit()
 
-
+  db_pool.putconn(conn)
 
  
   log.info("set_seasmart_network_xml networkxml %s", networkxml)  
@@ -1516,7 +1516,7 @@ def getseagaugeg4configxml():
 
   sgg4config =str(records[0]) + str(records[1] )+ str(records[2]) + str(records[3]) + str(records[4])
 
-
+  db_pool.putconn(conn)
 
   #return sgg4config
   return jsonify(result="OK", sgg4config=sgg4config)
