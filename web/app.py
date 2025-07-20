@@ -1472,6 +1472,12 @@ def seasmartconfig():
 
   set_seasmart_network_xml(postdata)
   
+  set_seasmart_device_xml(postdata)
+  
+  set_seasmart_pulse_xml(postdata)
+
+  set_seasmart_pgn_xml(postdata)
+  
   return jsonify(result="OK", postdata = postdata)
   
 # ######################################################
