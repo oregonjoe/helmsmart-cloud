@@ -1594,7 +1594,7 @@ def createSGG4XMLfile():
 
   log.info('createSGG4XMLfile: saveXML %s:  ', saveXML)              
 
-  if saveXML == 0:
+  if int(saveXML) == 0:
     return jsonify(result="No file selected")
     
   try:  
@@ -1613,20 +1613,20 @@ def createSGG4XMLfile():
   #select configxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef'
   #sqlstr = 'select configxml from user_sgg4configxml where deviceidkey = %s;'
 
-  if saveXML == 1: 
+  if int(saveXML) == 1: 
     sqlstr = 'select networkxml from user_sgg4configxml where prefidkey = %s;'
 
-  elif saveXML == 2: 
+  elif int(saveXML) == 2: 
     sqlstr = 'select devicexml from user_sgg4configxml where prefidkey = %s;'
 
-  elif saveXML == 3: 
+  elif int(saveXML) == 3: 
     sqlstr = 'select pulsexml from user_sgg4configxml where prefidkey = %s;'
 
-  elif saveXML == 4: 
+  elif int(saveXML) == 4: 
     sqlstr = 'select  pgnsxml from user_sgg4configxml where prefidkey = %s;'
 
-  elif saveXML == 5: 
-    sqlstr = 'select  runtimexmlfrom user_sgg4configxml where prefidkey = %s;'    
+  elif int(saveXML) == 5: 
+    sqlstr = 'select  runtimexml from user_sgg4configxml where prefidkey = %s;'    
   
   cursor.execute(sqlstr, (deviceidkey,))
 
