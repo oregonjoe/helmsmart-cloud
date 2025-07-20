@@ -1821,12 +1821,12 @@ function changeWIFINetType()
   {
 		case 0:
   
-			document.getElementById('STASSID').disabled = true;
-			document.getElementById('STAPASSWORD').disabled = true;
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
   
-  			document.getElementById('APSSID').disabled = true;
-			document.getElementById("APSECTYPE").disabled = true;
-			document.getElementById("APSECKEY").disabled = true;
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
 			
 			document.getElementById("MESHCHANNEL").disabled = false;
 			document.getElementById("MESHID").disabled = false;
@@ -1837,9 +1837,9 @@ function changeWIFINetType()
 			document.getElementById('STASSID').disabled = false;
 			document.getElementById('STAPASSWORD').disabled = false;
   
-  			document.getElementById('APSSID').disabled = true;
-			document.getElementById("APSECTYPE").disabled = true;
-			document.getElementById("APSECKEY").disabled = true;
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
 			
 			document.getElementById("MESHCHANNEL").disabled = false;
 			document.getElementById("MESHID").disabled = false;
@@ -1847,10 +1847,10 @@ function changeWIFINetType()
 			
 		case 2:
   
-			document.getElementById('STASSID').disabled = true;
-			document.getElementById('STAPASSWORD').disabled = true;
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
   
-  			document.getElementById('APSSID').disabled = true;
+  			document.getElementById('APSSID').disabled = false;
 			document.getElementById("APSECTYPE").disabled = false;
 			document.getElementById("APSECKEY").disabled = false;
 			
@@ -1873,12 +1873,12 @@ function changeWIFINetType()
 
 		case 4:
   
-			document.getElementById('STASSID').disabled = true;
-			document.getElementById('STAPASSWORD').disabled = true;
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
   
-  			document.getElementById('APSSID').disabled = true;
-			document.getElementById("APSECTYPE").disabled = true;
-			document.getElementById("APSECKEY").disabled = true;
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
 			
 			document.getElementById("MESHCHANNEL").disabled = false;
 			document.getElementById("MESHID").disabled = false;			
@@ -1889,9 +1889,9 @@ function changeWIFINetType()
 			document.getElementById('STASSID').disabled = false;
 			document.getElementById('STAPASSWORD').disabled = false;
   
-  			document.getElementById('APSSID').disabled = true;
-			document.getElementById("APSECTYPE").disabled = true;
-			document.getElementById("APSECKEY").disabled = true;
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
 			
 			document.getElementById("MESHCHANNEL").disabled = false;
 			document.getElementById("MESHID").disabled = false;			
@@ -1899,11 +1899,11 @@ function changeWIFINetType()
 			
 		case 6:
   
-			document.getElementById('STASSID').disabled = true;
-			document.getElementById('STAPASSWORD').disabled = true;
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
   
-  			document.getElementById('APSSID').disabled = true;
-			document.getElementById("APSECTYPE").disabled = true;
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
 			document.getElementById("APSECKEY").disabled = false;
 			
 			document.getElementById("MESHCHANNEL").disabled = false;
@@ -1913,11 +1913,11 @@ function changeWIFINetType()
 		
 		case 7:
   
-			document.getElementById('STASSID').disabled = true;
-			document.getElementById('STAPASSWORD').disabled = true;
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
   
-  			document.getElementById('APSSID').disabled = true;
-			document.getElementById("APSECTYPE").disabled = true;
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
 			document.getElementById("APSECKEY").disabled = false;
 			
 			document.getElementById("MESHCHANNEL").disabled = false;
@@ -1925,12 +1925,12 @@ function changeWIFINetType()
 		break;
   
 		default:	
-			document.getElementById('STASSID').disabled = true;
-			document.getElementById('STAPASSWORD').disabled = true;
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
   
-  			document.getElementById('APSSID').disabled = true;
-			document.getElementById("APSECTYPE").disabled = true;
-			document.getElementById("APSECKEY").disabled = true;
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
 			
 			document.getElementById("MESHCHANNEL").disabled = false;
 			document.getElementById("MESHID").disabled = false;			
@@ -2553,7 +2553,7 @@ function SaveDeviceSettings()
 				<div  id="wifi_content" class="wireless"  style="height: 240px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
 				
 				
-           
+					<!-- <table style="height: 240px;"> -->
                     <table style="height: 240px;">
 					
 					 <tr>
