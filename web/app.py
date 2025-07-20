@@ -1376,32 +1376,57 @@ def set_seasmart_pgn_xml(postdata):
   log.info("set_seasmart_device_xml pgnxml %s", pgnxml)  
   return  
 
+def create_seasmart_device_xml(postdata):
 
+  log.info("create_seasmart_device_xml postdata %s", postdata)
+
+  #dom = minidom.parse(postdata)
+  #elements = dom.getElementsByTagName('DeviceID')
+
+  # Parse XML from a string
+  #root = ET.fromstring(postdata)
+
+  #element = root.find('DeviceID')
+  #element = get_xml_value(postdata, "DeviceID")
+
+  
+  #log.info("create_seasmart_network_xml DeviceID %s", element)
+
+  xmlfile = ''
+  
+  xmlfile = xmlfile + '<configrecord version="24.12.20">\r\n'
+  xmlfile = xmlfile + '<configgroup name = "XMLACTION">\r\n'
+  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
+  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2K_STATUS_BUFF"><value>65535</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Dimmer_Type"><value>'+  get_xml_value(postdata, "DIMMERTYPE") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Switch_PGN_Instance"><value>'+  get_xml_value(postdata, "DIMMERINSTANCE") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="CAN_Mode"><value>'+  get_xml_value(postdata, "CANMODE") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="CANFILTERHB"><value>4294967295</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="CANFILTERLB"><value>4294967295</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Uart0_Mode"><value>'+  get_xml_value(postdata, "UART0MODE") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Uart1_Mode"><value>'+  get_xml_value(postdata, "UART1MODE") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Uart2_Mode"><value>'+  get_xml_value(postdata, "UART2MODE") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="SDLogEnable"><value>'+  get_xml_value(postdata, "SDLogEnable") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="SDLogInterval"><value>'+  get_xml_value(postdata, "SDLogInterval") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Sample_Interval"><value>2</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="RTCEnable"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="TimeSource"><value>'+  get_xml_value(postdata, "TimeSource") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="HTTP_POST_BUFF"><value>4096</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="HTTP_SD_POST_BUFF"><value>4096</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="SD_LOG_BUFF"><value>4096</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+  return  xmlfile
 
 def set_seasmart_device_xml(postdata):
 
   log.info("set_seasmart_device_xml postdata", postdata)
   
-  """
-<DeviceID>AC1518EF5FA0</DeviceID>
-<VersionInfo>1.9.3.7.12</VersionInfo>
-<SDLogEnable>0</SDLogEnable>
-<SDLogInterval>60</SDLogInterval>
-<UartInterval>2</UartInterval>
-<UART0MODE>1</UART0MODE>
-<UART1MODE>0</UART1MODE>
-<UART2MODE>2</UART2MODE>
-<CANMODE>2</CANMODE>
-<CANFILTERHB>4294967295</CANFILTERHB>
-<CANFILTERLB>4294967295</CANFILTERLB>
-<DIMMERTYPE>25</DIMMERTYPE>
-<DIMMERINSTANCE>15</DIMMERINSTANCE>
-<DIMMERSCALE>1500</DIMMERSCALE>
-<DIMMERPON>20</DIMMERPON>
-<DIMMERTXRATE>60</DIMMERTXRATE>
-<TIMERMODE>0</TIMERMODE>
-<TIMERMODE>11</TimeStampSource>
-  """
 
   devicexml = ""
   devicexml = devicexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -1498,8 +1523,8 @@ def create_seasmart_network_xml(postdata):
   xmlfile = xmlfile + '<configitem name="SAPSECKEY"><value>'+  get_xml_value(postdata, "APWIFIPW") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '</configgroup>\r\n'
   xmlfile = xmlfile + '<configgroup name = "UDP">\r\n'
-  xmlfile = xmlfile + '<configitem name="UDPEnable"><value>'+  get_xml_value(postdata, "UDPEnable") + '</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="UDPPort"><value>'+  get_xml_value(postdata, "UDPPort") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="UDPEnable"><value>'+  get_xml_value(postdata, "UDPBroadcastEnable") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="UDPPort"><value>'+  get_xml_value(postdata, "UDPClientPort") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '<configgroup name = "TCP">\r\n'
   xmlfile = xmlfile + '<configitem name="TCPEnable"><value>'+  get_xml_value(postdata, "TCPEnable") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="TCPPort"><value>'+  get_xml_value(postdata, "TCPPort") + '</value></configitem>\r\n'
@@ -1569,8 +1594,8 @@ def set_seasmart_network_xml(postdata):
   networkxml = networkxml +  '<NETTYPE>'    +  request.args.get('NetTypeXML','')  + '</NETTYPE>'
   networkxml = networkxml +  '<TCPPort>'    +  request.args.get('TCPSERVERPORT','')  + '</TCPPort>'
   networkxml = networkxml +  '<TCPEnable>'    +  request.args.get('TCPSERVER_ON_CB','')  + '</TCPEnable>'
-  networkxml = networkxml +  '<UDPPort>'    +  request.args.get('UDPBROADPORT','')  + '</UDPPort>'
-  networkxml = networkxml +  '<UDPEnable>'    +  request.args.get('UDPBROADCAST_ON_CB','')  + '</UDPEnable>'
+  networkxml = networkxml +  '<UDPClientPort>'    +  request.args.get('UDPBROADPORT','')  + '</UDPClientPort>'
+  networkxml = networkxml +  '<UDPBroadcastEnable>'    +  request.args.get('UDPBROADCAST_ON_CB','')  + '</UDPBroadcastEnable>'
 
   prefidkey=1
 
@@ -1739,7 +1764,7 @@ def createSGG4XMLfile():
     filename = "network.xml"
 
   elif int(saveXML) == 2: 
-    xmlfile = create_seasmart_network_xml(sgg4config)
+    xmlfile = create_seasmart_device_xml(sgg4config)
     filename = "device.xml"
 
   elif int(saveXML) == 3: 
