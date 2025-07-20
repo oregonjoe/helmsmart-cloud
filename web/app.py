@@ -1615,18 +1615,23 @@ def createSGG4XMLfile():
 
   if int(saveXML) == 1: 
     sqlstr = 'select networkxml from user_sgg4configxml where prefidkey = %s;'
+    filename = "network.xml"
 
   elif int(saveXML) == 2: 
     sqlstr = 'select devicexml from user_sgg4configxml where prefidkey = %s;'
+    filename = "device.xml"
 
   elif int(saveXML) == 3: 
     sqlstr = 'select pulsexml from user_sgg4configxml where prefidkey = %s;'
+    filename = "pulse.xml"
 
   elif int(saveXML) == 4: 
     sqlstr = 'select  pgnsxml from user_sgg4configxml where prefidkey = %s;'
+    filename = "seagaugeg4_pgns_alarms.xml"
 
   elif int(saveXML) == 5: 
     sqlstr = 'select  runtimexml from user_sgg4configxml where prefidkey = %s;'
+    filename = "runtime_resets.xml"
     
   """
   else:
@@ -1648,7 +1653,7 @@ def createSGG4XMLfile():
   #response = make_response(json.dumps(outputcsv))
   #response = make_response(json.dumps(outputjson))
   response.headers['Content-Type'] = 'text/csv'
-  response.headers["Content-Disposition"] = "attachment; filename=device.xml"
+  response.headers["Content-Disposition"] = "attachment; filename=" + filename
   return response
 
   #return sgg4config
