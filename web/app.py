@@ -1259,6 +1259,61 @@ def set_seasmart_pgn_xml(postdata):
   pgnxml = pgnxml +  '<ADCAP18>'    +  request.args.get('ADCAP18','')  + '</ADCAP18>'
   pgnxml = pgnxml +  '<ADCAP19>'    +  request.args.get('ADCAP19','')  + '</ADCAP19>'
 
+
+  pgnxml = pgnxml +  '<PGNN0>'    +  request.args.get('PGNN0','')  + '</PGNN0>'
+  pgnxml = pgnxml +  '<PGNN1>'    +  request.args.get('PGNN1','')  + '</PGNN1>'
+  pgnxml = pgnxml +  '<PGNN2>'    +  request.args.get('PGNN2','')  + '</PGNN2>'
+  pgnxml = pgnxml +  '<PGNN3>'    +  request.args.get('PGNN3','')  + '</PGNN3>'
+  pgnxml = pgnxml +  '<PGNN4>'    +  request.args.get('PGNN4','')  + '</PGNN4>'
+  pgnxml = pgnxml +  '<PGNN5>'    +  request.args.get('PGNN5','')  + '</PGNN5>'
+  pgnxml = pgnxml +  '<PGNN6>'    +  request.args.get('PGNN6','')  + '</PGNN6>'
+  pgnxml = pgnxml +  '<PGNN7>'    +  request.args.get('PGNN7','')  + '</PGNN7>'
+  pgnxml = pgnxml +  '<PGNN8>'    +  request.args.get('PGNN8','')  + '</PGNN8>'
+  pgnxml = pgnxml +  '<PGNN9>'    +  request.args.get('PGNN9','')  + '</PGNN9>'
+  pgnxml = pgnxml +  '<PGNN10>'    +  request.args.get('PGNN10','')  + '</PGNN10>'
+  pgnxml = pgnxml +  '<PGNN11>'    +  request.args.get('PGNN11','')  + '</PGNN11>'
+
+  
+  pgnxml = pgnxml +  '<PGNI0>'    +  request.args.get('PGNI0','')  + '</PGNI0>'
+  pgnxml = pgnxml +  '<PGNI1>'    +  request.args.get('PGNI1','')  + '</PGNI1>'
+  pgnxml = pgnxml +  '<PGNI2>'    +  request.args.get('PGNI2','')  + '</PGNI2>'
+  pgnxml = pgnxml +  '<PGNI3>'    +  request.args.get('PGNI3','')  + '</PGNI3>'
+  pgnxml = pgnxml +  '<PGNI4>'    +  request.args.get('PGNI4','')  + '</PGNI4>'
+  pgnxml = pgnxml +  '<PGNI5>'    +  request.args.get('PGNI5','')  + '</PGNI5>'
+  pgnxml = pgnxml +  '<PGNI6>'    +  request.args.get('PGNI6','')  + '</PGNI6>'
+  pgnxml = pgnxml +  '<PGNI7>'    +  request.args.get('PGNI7','')  + '</PGNI7>'
+  pgnxml = pgnxml +  '<PGNI8>'    +  request.args.get('PGNI8','')  + '</PGNI8>'
+  pgnxml = pgnxml +  '<PGNI9>'    +  request.args.get('PGNI9','')  + '</PGNI9>'
+  pgnxml = pgnxml +  '<PGNI10>'    +  request.args.get('PGNI10','')  + '</PGNI10>'
+  pgnxml = pgnxml +  '<PGNI11>'    +  request.args.get('PGNI11','')  + '</PGNI11>'
+
+  pgnxml = pgnxml +  '<PGNP0>'    +  request.args.get('PGNP0','')  + '</PGNP0>'
+  pgnxml = pgnxml +  '<PGNP1>'    +  request.args.get('PGNP1','')  + '</PGNP1>'
+  pgnxml = pgnxml +  '<PGNP2>'    +  request.args.get('PGNP2','')  + '</PGNP2>'
+  pgnxml = pgnxml +  '<PGNP3>'    +  request.args.get('PGNP3','')  + '</PGNP3>'
+  pgnxml = pgnxml +  '<PGNP4>'    +  request.args.get('PGNP4','')  + '</PGNP4>'
+  pgnxml = pgnxml +  '<PGNP5>'    +  request.args.get('PGNP5','')  + '</PGNP5>'
+  pgnxml = pgnxml +  '<PGNP6>'    +  request.args.get('PGNP6','')  + '</PGNP6>'
+  pgnxml = pgnxml +  '<PGNP7>'    +  request.args.get('PGNP7','')  + '</PGNP7>'
+  pgnxml = pgnxml +  '<PGNP8>'    +  request.args.get('PGNP8','')  + '</PGNP8>'
+  pgnxml = pgnxml +  '<PGNP9>'    +  request.args.get('PGNP9','')  + '</PGNP9>'
+  pgnxml = pgnxml +  '<PGNP10>'    +  request.args.get('PGNP10','')  + '</PGNP10>'
+  pgnxml = pgnxml +  '<PGNP11>'    +  request.args.get('PGNP11','')  + '</PGNP11>'
+
+  pgnxml = pgnxml +  '<PGNS0>'    +  request.args.get('PGNS0','')  + '</PGNS0>'
+  pgnxml = pgnxml +  '<PGNS1>'    +  request.args.get('PGNS1','')  + '</PGNS1>'
+  pgnxml = pgnxml +  '<PGNS2>'    +  request.args.get('PGNS2','')  + '</PGNS2>'
+  pgnxml = pgnxml +  '<PGNS3>'    +  request.args.get('PGNS3','')  + '</PGNS3>'
+  pgnxml = pgnxml +  '<PGNS4>'    +  request.args.get('PGNS4','')  + '</PGNS4>'
+  pgnxml = pgnxml +  '<PGNS5>'    +  request.args.get('PGNS5','')  + '</PGNS5>'
+  pgnxml = pgnxml +  '<PGNS6>'    +  request.args.get('PGNS6','')  + '</PGNS6>'
+  pgnxml = pgnxml +  '<PGNS7>'    +  request.args.get('PGNS7','')  + '</PGNS7>'
+  pgnxml = pgnxml +  '<PGNS8>'    +  request.args.get('PGNS8','')  + '</PGNS8>'
+  pgnxml = pgnxml +  '<PGNS9>'    +  request.args.get('PGNS9','')  + '</PGNS9>'
+  pgnxml = pgnxml +  '<PGNS10>'    +  request.args.get('PGNS10','')  + '</PGNS10>'
+  pgnxml = pgnxml +  '<PGNS11>'    +  request.args.get('PGNS11','')  + '</PGNS11>'  
+
+
   pgnxml = pgnxml +  '<CALFILE0>'    +  request.args.get('CALFILE0','')  + '</CALFILE0>'
   pgnxml = pgnxml +  '<CALFILE1>'    +  request.args.get('CALFILE1','')  + '</CALFILE1>'
   pgnxml = pgnxml +  '<CALFILE2>'    +  request.args.get('CALFILE2','')  + '</CALFILE2>'
@@ -1269,6 +1324,7 @@ def set_seasmart_pgn_xml(postdata):
   pgnxml = pgnxml +  '<CALFILE7>'    +  request.args.get('CALFILE7','')  + '</CALFILE7>'
   pgnxml = pgnxml +  '<CALFILE8>'    +  request.args.get('CALFILE8','')  + '</CALFILE8>'
   pgnxml = pgnxml +  '<CALFILE9>'    +  request.args.get('CALFILE9','')  + '</CALFILE9>'
+
 
   
   prefidkey=1
