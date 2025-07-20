@@ -1470,44 +1470,44 @@ def create_seasmart_network_xml(postdata):
   #log.info("create_seasmart_network_xml DeviceID %s", element)
 
   xmlfile = ''
-  xmlfile = xmlfile +  '<?xml version="1.0" standalone="yes"?>'
-  xmlfile = xmlfile + '<configrecord version="24.12.20">'
-  xmlfile = xmlfile + '<configgroup name = "XMLACTION">'
-  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>'
-  xmlfile = xmlfile + '</configgroup>'
-  xmlfile = xmlfile + '<configgroup name = "DEVICE">'
-  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") + '</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "VersionInfo") + '</value></configitem>'
-  xmlfile = xmlfile + '</configgroup>'
-  xmlfile = xmlfile + '<configgroup name = "Network">'
-  xmlfile = xmlfile + '<configitem name="DHCP"><value>0</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="IPAddress"><value>192.168.254.114</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="SubNet"><value>255.255.255.0</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="Gateway"><value>192.168.254.254</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="DNS1"><value>8.8.8.8</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="DNS2"><value>192.168.254.254</value></configitem>'
-  xmlfile = xmlfile + '</configgroup>'
-  xmlfile = xmlfile + '<configgroup name = "WIFI">'
-  xmlfile = xmlfile + '<configitem name="WiFiType"><value>1</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="STASSID"><value>Winchuck Mesh</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="STASECTYPE"><value>3</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="STASECKEY"><value>winchuck</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="SAPSSID"><value>SeaGaugeG4-5FA0</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="SAPSECTYPE"><value>3</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="SAPSECKEY"><value>seasmartg3</value></configitem>'
-  xmlfile = xmlfile + '</configgroup>'
-  xmlfile = xmlfile + '<configgroup name = "UDP">'
-  xmlfile = xmlfile + '<configitem name="UDPEnable"><value>0</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="UDPPort"><value>10010</value></configitem>'
-  xmlfile = xmlfile + '<configgroup name = "TCP">'
-  xmlfile = xmlfile + '<configitem name="TCPEnable"><value>0</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="TCPPort"><value>10010</value></configitem>'
-  xmlfile = xmlfile + '</configgroup>'
-  xmlfile = xmlfile + '<configgroup name = "HTTPPOST">'
-  xmlfile = xmlfile + '<configitem name="PostType"><value>1</value></configitem>'
-  xmlfile = xmlfile + '<configitem name="PostInterval"><value>242</value></configitem>'
-  xmlfile = xmlfile + '</configgroup>'
+  xmlfile = xmlfile +  '<?xml version="1.0" standalone="yes"?>\r\n'
+  xmlfile = xmlfile + '<configrecord version="24.12.20">\r\n'
+  xmlfile = xmlfile + '<configgroup name = "XMLACTION">\r\n'
+  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
+  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "VersionInfo") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "Network">\r\n'
+  xmlfile = xmlfile + '<configitem name="DHCP"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="IPAddress"><value>192.168.254.114</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="SubNet"><value>255.255.255.0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Gateway"><value>192.168.254.254</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="DNS1"><value>8.8.8.8</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="DNS2"><value>192.168.254.254</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "WIFI">\r\n'
+  xmlfile = xmlfile + '<configitem name="WiFiType"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="STASSID"><value>Winchuck Mesh</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="STASECTYPE"><value>3</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="STASECKEY"><value>winchuck</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="SAPSSID"><value>SeaGaugeG4-5FA0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="SAPSECTYPE"><value>3</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="SAPSECKEY"><value>seasmartg3</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "UDP">\r\n'
+  xmlfile = xmlfile + '<configitem name="UDPEnable"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="UDPPort"><value>10010</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "TCP">\r\n'
+  xmlfile = xmlfile + '<configitem name="TCPEnable"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="TCPPort"><value>10010</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "HTTPPOST">\r\n'
+  xmlfile = xmlfile + '<configitem name="PostType"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PostInterval"><value>242</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
 
   return  xmlfile
 
@@ -1547,7 +1547,7 @@ def set_seasmart_network_xml(postdata):
   networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
   networkxml = networkxml +  '<VersionInfo>'  +  request.args.get('VersionXML','')          + '</VersionInfo>'
   networkxml = networkxml +  '<WIFIType>'    +  request.args.get('WIFINetType_CB','')  + '</WIFIType>'
-  networkxml = networkxml +  '<STAWIFISSID>'    +  request.args.get('SSID','')  + '</STAWIFISSID>'
+  networkxml = networkxml +  '<STAWIFISSID>'    +  request.args.get('SSID','')  + '</STAWIFISSID>\r\n'
   networkxml = networkxml +  '<STAWIFIPW>'    +  request.args.get('STAPASSWORD','')  + '</STAWIFIPW>'
   networkxml = networkxml +  '<APWIFISSID>'    +  request.args.get('APSSID','')  + '</APWIFISSID>'
   networkxml = networkxml +  '<APWIFIPW>'    +  request.args.get('APSECKEY','')  + '</APWIFIPW>'
@@ -1698,23 +1698,23 @@ def createSGG4XMLfile():
 
   if int(saveXML) == 1: 
     sqlstr = 'select networkxml from user_sgg4configxml where prefidkey = %s;'
-    filename = "network.xml"
+
 
   elif int(saveXML) == 2: 
     sqlstr = 'select devicexml from user_sgg4configxml where prefidkey = %s;'
-    filename = "device.xml"
+
 
   elif int(saveXML) == 3: 
     sqlstr = 'select pulsexml from user_sgg4configxml where prefidkey = %s;'
-    filename = "pulse.xml"
+
 
   elif int(saveXML) == 4: 
     sqlstr = 'select  pgnsxml from user_sgg4configxml where prefidkey = %s;'
-    filename = "seagaugeg4_pgns_alarms.xml"
+
 
   elif int(saveXML) == 5: 
     sqlstr = 'select  runtimexml from user_sgg4configxml where prefidkey = %s;'
-    filename = "runtime_resets.xml"
+
     
   """
   else:
@@ -1733,6 +1733,29 @@ def createSGG4XMLfile():
 
 
   xmlfile = create_seasmart_network_xml(sgg4config)
+
+  if int(saveXML) == 1: 
+    xmlfile = create_seasmart_network_xml(sgg4config)
+    filename = "network.xml"
+
+  elif int(saveXML) == 2: 
+    xmlfile = create_seasmart_network_xml(sgg4config)
+    filename = "device.xml"
+
+  elif int(saveXML) == 3: 
+    xmlfile = create_seasmart_network_xml(sgg4config)
+    filename = "pulse.xml"
+
+  elif int(saveXML) == 4: 
+    xmlfile = create_seasmart_network_xml(sgg4config)
+    filename = "seagaugeg4_pgns_alarms.xml"
+
+  elif int(saveXML) == 5: 
+    xmlfile = create_seasmart_network_xml(sgg4config)
+    filename = "runtime_resets.xml"
+
+
+  
 
   response = make_response(xmlfile)
   #response = make_response(json.dumps(outputcsv))
