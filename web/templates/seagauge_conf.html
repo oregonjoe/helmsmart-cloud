@@ -2191,41 +2191,22 @@ var myOptionValue = document.getElementById("CreateConfigXMLFiles").selectedInde
     color: '#fff'
     } });
 
-//newAJAXCommand('command.cgi?fwupdate=1');
+	if(myOptionValue == 2)
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2";
+	else if(myOptionValue == 3)
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=3";
+	else if(myOptionValue == 4)
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=4";
+	else 
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=1";
 
+	//devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2";
 
+    window.location = devicedataurl;
+	   
+    $.unblockUI();
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (xhttp.readyState == 4) {
-                if (xhttp.status == 200) {
-                    //document.open();
-                    //document.write(xhttp.responseText);
-                    //document.close();
-					window.open("index.html", '_self');
-                } else if (xhttp.status == 0) {
-                    alert("Server closed the connection abruptly!");
-                    location.reload()
-                } else {
-                    //alert(xhttp.status + " Error!\n" + xhttp.responseText);
-                    //location.reload()
-					window.open("index", '_self');
-                }
-            }
-        };
-        //xhttp.open("POST", upload_path, true);
-        //xhttp.send(filePath);
-		if(myOptionValue == 2)
-			xhttp.open("GET", 'createSGG4XMLfile?saveXML=2', true);
-		else if(myOptionValue == 3)
-			xhttp.open("GET", 'createSGG4XMLfile?saveXML=3', true);
-		else if(myOptionValue == 4)
-			xhttp.open("GET", 'createSGG4XMLfile?saveXML=4', true);
-		else 
-			xhttp.open("GET", 'createSGG4XMLfile?saveXML=1', true);
-		
-        //xhttp.open("GET", 'command.cgi?SaveXML=1', true);
-        xhttp.send(null);
+	
 
 
 }
