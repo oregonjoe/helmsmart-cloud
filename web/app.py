@@ -1649,10 +1649,10 @@ def createSGG4XMLfile():
   #response = make_response(json.dumps(outputjson))
   response.headers['Content-Type'] = 'text/csv'
   response.headers["Content-Disposition"] = "attachment; filename=device.xml"
-  #return response
+  return response
 
   #return sgg4config
-  return jsonify(result="OK", sgg4config=sgg4config)
+  #return jsonify(result="OK", sgg4config=sgg4config)
 
 
 # ######################################################
