@@ -1323,7 +1323,7 @@ def set_seasmart_pgn_xml(postdata):
   pgnxml = pgnxml +  '<CAL6>'    +  request.args.get('CALFILE6','')  + '</CAL6>'
   pgnxml = pgnxml +  '<CAL7>'    +  request.args.get('CALFILE7','')  + '</CAL7>'
   pgnxml = pgnxml +  '<CAL8>'    +  request.args.get('CALFILE8','')  + '</CAL8>'
-  pgnxml = pgnxml +  '<CALF9>'    +  request.args.get('CALFILE9','')  + '</CAL9>'
+  pgnxml = pgnxml +  '<CAL9>'    +  request.args.get('CALFILE9','')  + '</CAL9>'
   pgnxml = pgnxml +  '<CAL10>'    +  request.args.get('CALFILE10','')  + '</CAL10>'
   pgnxml = pgnxml +  '<CAL11>'    +  request.args.get('CALFILE11','')  + '</CAL11>'
 
