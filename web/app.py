@@ -268,6 +268,8 @@ def get_xml_value(postdata, tag):
   if startPos == -1:
     return ""
 
+  startPos = startPos + len(startStr)
+
   endPos = postdata.find(endStr)
   log.info("get_xml_value endPos %s", endPos )  
   if endPos == -1:
@@ -1539,34 +1541,6 @@ def create_seasmart_network_xml(postdata):
 def set_seasmart_network_xml(postdata):
 
   log.info("set_seasmart_network_xml postdata", postdata)
-  
-  """
-  <DeviceID>AC1518EF5FA0</DeviceID>
-  <VersionInfo>1.9.3.7.12</VersionInfo>
-  <WIFIType>1</WIFIType>
-  <STAWIFISSID>Winchuck Mesh</STAWIFISSID>
-  <STAWIFIPW>winchuck</STAWIFIPW>
-  <APWIFISSID>SeaGaugeG4-5FA0</APWIFISSID>
-  <APWIFIPW>seasmartg3</APWIFIPW>
-  <APWIFIMode>3</APWIFIMode>
-  <MESHCHANNEL>1</MESHCHANNEL>
-  <MESHID>123456</MESHID>
-  <CIPAddress>192.168.254.114</CIPAddress>
-  <CIPMask>255.255.255.0</CIPMask>
-  <CIPGW>192.168.254.254</CIPGW>
-  <DHCP>0</DHCP>
-  <IPAddress>192.168.254.114</IPAddress>
-  <IPMask>255.255.255.0</IPMask>
-  <IPGateway>192.168.254.254</IPGateway>
-  <DNS1>8.8.8.8</DNS1>
-  <DNS2>192.168.254.254</DNS2>
-  <HpptPostInterval>242</HpptPostInterval>
-  <HTTPPostMenu>1</HTTPPostMenu>
-  <SSIDDefault>Winchuck Mesh</SSIDDefault>
-  <NETTYPE>1</NETTYPE>
-  <SECTYPEVALUE>3</SECTYPEVALUE>
-  <SECKEYVALUE>winchuck</SECKEYVALUE>
-  """
 
   networkxml = ""
   networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
