@@ -1433,19 +1433,23 @@ def set_seasmart_device_xml(postdata):
 
 def create_seasmart_network_xml(postdata):
 
-  log.info("create_seasmart_network_xml postdata", postdata)
+  log.info("create_seasmart_network_xml postdata %s", postdata)
 
   #dom = minidom.parse(postdata)
   #elements = dom.getElementsByTagName('DeviceID')
 
   # Parse XML from a string
-  root = ET.fromstring(postdata)
+  #root = ET.fromstring(postdata)
 
-  element = root.find('DeviceID')
+  #element = root.find('DeviceID')
+  element = postdata.split("<DeviceID>")
 
+  
   log.info("create_seasmart_network_xml DeviceID %s", element)
 
-  log.info("create_seasmart_network_xml DeviceID %s", element.text)
+  xmldata = element.split("</DeviceID>")
+
+  log.info("create_seasmart_network_xml DeviceID %s", xmldata)
 
   return   
 
