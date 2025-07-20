@@ -1626,9 +1626,12 @@ def createSGG4XMLfile():
     sqlstr = 'select  pgnsxml from user_sgg4configxml where prefidkey = %s;'
 
   elif int(saveXML) == 5: 
-    sqlstr = 'select  runtimexml from user_sgg4configxml where prefidkey = %s;'    
-  
-  cursor.execute(sqlstr, (deviceidkey,))
+    sqlstr = 'select  runtimexml from user_sgg4configxml where prefidkey = %s;'
+
+  else:
+    sqlstr = 'select  runtimexml from user_sgg4configxml where prefidkey = %s;'
+    
+  cursor.execute(sqlstr, (prefidkey,))
 
   records = cursor.fetchone()
 
