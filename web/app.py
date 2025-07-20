@@ -1438,11 +1438,15 @@ def get_xml_value(postdata, tag):
   startPos = -1
   endPos = -1
 
+  log.info("get_xml_value startStr %s  endStr %s", startStr, endStr )  
+
   startPos = postdata.find(startStr)
+  log.info("get_xml_value startPos %s ", startPos )  
   if startPos == -1:
     return""
 
   endPos = postdata.find(endStr)
+  log.info("get_xml_value endPos %s", endPos )  
   if endPos == -1:
     return""
 
