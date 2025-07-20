@@ -1175,13 +1175,14 @@ var endPos=-1;
 
 	try{
 		
-		startPos = xmlData.indexOf(startStr) + startStr.length;
+		//startPos = xmlData.indexOf(startStr) + startStr.length;
+		startPos = xmlData.indexOf(startStr) ;
 		if (startPos == -1) return "";
 		
 		endPos = xmlData.indexOf(endStr);
 		if (endPos == -1) return "";
 		
-		return xmlData.substring(startPos,endPos).trim();
+		return xmlData.substring((startPos+ startStr.length),endPos).trim();
 	}
 	catch(err)
 	{
