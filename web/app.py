@@ -1218,33 +1218,54 @@ def set_seasmart_pulse_xml(postdata):
   log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
   return  
 
+
+
+
 def get_hex2_from_tag(postdata, tag):
 
-  index =int(get_xml_value(postdata, tag))
+  try:
+    
+    index =int(get_xml_value(postdata, tag))
 
-  log.info("get_hex2_from_tag index %s", index)  
+    log.info("get_hex2_from_tag index %s", index)  
 
-  #return '0x' + format(index, '02x')
-  return '0x' + '{:02X}'.format(index & ((1 << 8)-1))
+    #return '0x' + format(index, '02x')
+    return '0x' + '{:02X}'.format(index & ((1 << 8)-1))
+  
+  except:
+    return '0xFF'
 
+    
 def get_hex4_from_tag(postdata, tag):
-
-  index =int(get_xml_value(postdata, tag))  
-
-  log.info("get_hex4_from_tag index %s", index)
   
-  #return format(index, '#010x')
-  return '0x' + '{:04X}'.format(index & ((1 << 16)-1))
+  try:
 
+    log.info("get_hex4_from_tag index1 %s", get_xml_value(postdata, tag))
+    
+    index =int(get_xml_value(postdata, tag))  
+
+    log.info("get_hex4_from_tag index2 %s", index)
+    
+    #return format(index, '#010x')
+    return '0x' + '{:04X}'.format(index & ((1 << 16)-1))
+  
+  except:
+    return '0xFFFF'
+  
 def get_hex8_from_tag(postdata, tag):
-
-  index =int(get_xml_value(postdata, tag))  
-
-  log.info("get_hex8_from_tag index %s", index)
   
-  #return format(index, '#010x')
-  return '0x' + '{:08X}'.format(index & ((1 << 32)-1))
+  try:
+    
+    index =int(get_xml_value(postdata, tag))  
 
+    log.info("get_hex8_from_tag index %s", index)
+    
+    #return format(index, '#010x')
+    return '0x' + '{:08X}'.format(index & ((1 << 32)-1))
+  
+  except:
+    return '0xFFFFFFFF'
+  
 def get_pgnhex_from_tag(postdata, tag):
 
   """
@@ -1416,7 +1437,7 @@ def create_seasmart_pgn_xml(postdata):
   xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "ADCAlarms">\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM00"><value>'+ get_hex2_from_tag(postdata, "ADCAA0") + ',' +  get_hex4_from_tag(postdata, "ADCAH0") + ',' + get_hex4_from_tag(postdata, "ADCAL")+ ',' + get_hex2_from_tag(postdata, "ADCAM0") + ',' + get_hex2_from_tag(postdata, "ADCAP0") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM00"><value>'+ get_hex2_from_tag(postdata, "ADCAA0") + ',' +  get_hex4_from_tag(postdata, "ADCAH0") + ',' + get_hex4_from_tag(postdata, "ADCAL0")+ ',' + get_hex2_from_tag(postdata, "ADCAM0") + ',' + get_hex2_from_tag(postdata, "ADCAP0") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="ADCALARM01"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="ADCALARM02"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="ADCALARM03"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
