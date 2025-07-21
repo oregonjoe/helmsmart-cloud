@@ -1262,7 +1262,7 @@ def create_seasmart_pgn_xml(postdata):
   xmlfile = xmlfile + '<configitem name="N2KCAL09"><value>VDO_TRAN_TEMP_200C.xml</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="N2KCAL10"><value>VDO_TRAN_TEMP_200C.xml</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="N2KCAL11"><value>VDO_PSI_400MAX.xml</value></configitem>\r\n'
-  xmlfile = xmlfile + '</configgroup>
+  xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "ADCAlarms">\r\n'
   xmlfile = xmlfile + '<configitem name="ADCALARM00"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
