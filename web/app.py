@@ -1224,7 +1224,7 @@ def get_hex2_from_tag(postdata, tag):
 
   log.info("get_hex2_from_tag index %s", index)  
 
-  return format(index, '02X')
+  return format(index, '#04X')
 
 def get_hex8_from_tag(postdata, tag):
 
@@ -1232,7 +1232,7 @@ def get_hex8_from_tag(postdata, tag):
 
   log.info("get_hex8_from_tag index %s", index)
   
-  return format(index, '08X')
+  return format(index, '#010X')
 
 def get_pgnhex_from_tag(postdata, tag):
 
