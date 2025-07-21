@@ -180,39 +180,13 @@ function StartUpMyScript()
 
 
 
-    AccountDataFolder = GetCookie(CookiePrefix + 'Account');
-    // alert(AccountDataFolder);
-
-    if (AccountDataFolder == null)
-    {
     AccountDataFolder = "001EC0B415C2";
     AccountType = 1;
     ConfigOptions = 0;
     document.getElementById("XMLFilesSelect").selectedIndex = 0;
     document.getElementById("DeviceID").selectedIndex = 0;
 
-    }
-    else
-    {
-    var myStringArray
-    myStringArray = AccountDataFolder.split(":");
-    if(myStringArray.length != 0)
-    {
-    AccountDataFolder = myStringArray[0];
-    AccountType = myStringArray[1];
-    ConfigOptions = myStringArray[2];
-    document.getElementById("XMLFilesSelect").selectedIndex = ConfigOptions;
 
-    }
-    else
-    {
-    AccountDataFolder = "001EC0B415C2";
-    AccountType = 1;
-    ConfigOptions = 0;
-    document.getElementById("XMLFilesSelect").selectedIndex = 0;
-    document.getElementById("DeviceID").selectedIndex = 0;
-    }
-    }
 
 
     // set up Server Account Type
