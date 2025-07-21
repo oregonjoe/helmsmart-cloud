@@ -1,0 +1,16 @@
+<DeviceID>AC1518EF5FA0</DeviceID>
+<VersionInfo>1.9.3.7.12</VersionInfo>
+<PulseRTTotal00>0<PulseRTTotal00">
+<PulseRTTotal01>0<PulseRTTotal01>
+<PulseRTTotal02>0<PulseRTTotal02>
+<FuelRTTotal00>0<FuelRTTotal00>
+<FuelRTTotal01>0<FuelRTTotal01>
+<FuelRTTotal02>0<FuelRTTotal02>
+<PIORTTotal00>0<PIORTTotal00>
+<PIORTTotal01>0<PIORTTotal01>
+<PIORTTotal02>0<PIORTTotal02>
+<PIORTTotal03>0<PIORTTotal03>
+<PIOCycle00>0<PIOCycle00>
+<PIOCycle01>0<PIOCycle01>
+<PIOCycle02>0<PIOCycle02>
+<PIOCycle03>0<PIOCycle03>

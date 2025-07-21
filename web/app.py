@@ -2014,7 +2014,7 @@ def createSGG4XMLfile():
   sgg4config =str(records[0]) 
 
   db_pool.putconn(conn)
-
+  
 
   if int(saveXML) == 1: 
     xmlfile = create_seasmart_network_xml(sgg4config)
