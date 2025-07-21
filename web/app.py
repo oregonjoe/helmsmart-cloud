@@ -1218,6 +1218,130 @@ def set_seasmart_pulse_xml(postdata):
   log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
   return  
 
+def get_pgnhex_from_tag(postdata, tag):
+
+"""
+switch(PGNNumber )
+    {
+        case 0x1F201: // engine dynamic
+        return 1;
+
+        case 0x1F214: // battery status
+        return 2;    
+
+        case 0x1F211: // fluid level
+        return 3;
+
+        case 0x1F205: // Transmission dynamic
+        return 4;
+
+        case 0x1FD0A: // pressure
+        return 5;
+
+        case 0x1FD07: // temperature
+        return 6;
+
+        case 0x1FD08: // temperature
+        return 7;
+
+        case 0x1FD0C: // temperature extended
+        return 8;
+
+        case 0x1F10D: // rudder angle
+        return 9;
+
+        case 0x1F200: // rudder angle
+        return 10;
+        
+        case 0x0FEEE: // J1939 Engine temperature 65262
+        return 16;
+
+        case 0x0FEEF: // J1939 Engine pressures 65263
+        return 17;
+
+        case 0x0FEF7: // J1939 Volts 65271
+        return 18;
+
+        case 0x0FEFC: // J1939 Fluids 65276
+        return 19;
+
+        case 0x0FEF8: // J1939 Transmission 65272
+        return 20;
+
+        default:
+        return 0;
+    }
+"""
+
+  index = str(get_xml_value(postdata, tag))
+
+  if index == 0:
+    return "0x000000"
+
+  elif index ==1:
+    return "0x1F201"
+
+  elif index ==2:
+    return "0x1F214"
+
+  elif index ==3:
+    return "0x1F211"
+
+  elif index ==4:
+    return "0x1F205"
+
+  elif index ==5:
+    return "0x1FD0A"
+
+  elif index ==6:
+    return "0x1FD07"
+
+  elif index ==7:
+    return "0x1FD08"
+
+  elif index ==8:
+    return "0x1FD0C"
+
+  elif index ==9:
+    return "0x1F10D"
+
+  elif index == 10:
+    return "0x1F200"
+
+  elif index ==11:
+    return "0x000000"
+
+  elif index ==12:
+    return "0x000000"
+
+  elif index ==13:
+    return "0x000000"
+
+  elif index ==14:
+    return "0x000000"
+
+  elif index ==15:
+    return "0x000000"
+
+  elif index ==16:
+    return "0x0FEEE"
+
+  elif index ==17:
+    return "0x0FEEF"
+
+  elif index ==18:
+    return "0x0FEF7"
+
+  elif index ==19:
+    return "0x0FEFC"
+  
+  elif index == 20:
+    return "0x0FEF8"
+
+  else:
+    return "0x000000"
+
+  
 def create_seasmart_pgn_xml(postdata):
 
   log.info("create_seasmart_pgn_xml postdata %s", postdata)
@@ -1235,18 +1359,18 @@ def create_seasmart_pgn_xml(postdata):
   xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "N2KPGNLists">\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN00"><value>0x01F214,0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>0x01F211,0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN02"><value>0x01F201,0x00,0x02,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN03"><value>0x01F201,0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN04"><value>0x01F201,0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN05"><value>0x01F201,0x01,0x02,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN06"><value>0x01F211,0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN07"><value>0x01F214,0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN08"><value>0x01F205,0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN09"><value>0x01F205,0x00,0x01,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN10"><value>0x01F205,0x01,0x01,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN11"><value>0x01F205,0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN00"><value>' + get_pgnhex_from_tag(postdata, "PGNN0") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN1") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN02"><value>' + get_pgnhex_from_tag(postdata, "PGNN2") + ',0x00,0x02,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN03"><value>' + get_pgnhex_from_tag(postdata, "PGNN3") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN04"><value>' + get_pgnhex_from_tag(postdata, "PGNN4") + ',0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN05"><value>' + get_pgnhex_from_tag(postdata, "PGNN5") + ',0x01,0x02,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN06"><value>' + get_pgnhex_from_tag(postdata, "PGNN6") + ',0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN07"><value>' + get_pgnhex_from_tag(postdata, "PGNN7") + ',0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN08"><value>' + get_pgnhex_from_tag(postdata, "PGNN8") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN09"><value>' + get_pgnhex_from_tag(postdata, "PGNN9") + ',0x00,0x01,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN10"><value>' + get_pgnhex_from_tag(postdata, "PGNN10") + ',0x01,0x01,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN11"><value>' + get_pgnhex_from_tag(postdata, "PGNN11") + ',0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
   xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "N2KCalibrationTables">\r\n'
