@@ -8,10 +8,7 @@ import re
 #import pyarrow as pa
 import json
 
-#from xml.dom import minidom
-#from xml.etree import ElementTree
-import xml.etree.ElementTree as ET
- 
+
 #import md5
 import hashlib
 import base64
@@ -1091,6 +1088,74 @@ def sendtestsms():
     response.headers['content-type'] = "application/json"
     return response
 
+def create_seasmart_resets_xml(postdata):
+
+  log.info("create_seasmart_device_xml postdata %s", postdata)
+
+
+  xmlfile = ''
+  
+  xmlfile = xmlfile + '<configrecord version="24.12.20">\r\n'
+  xmlfile = xmlfile + '<configgroup name = "XMLACTION">\r\n'
+  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
+  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
+  
+  xmlfile = xmlfile + '<configgroup name = "RuntimePulse">\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseRTTotal00"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseRTTotal01"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseRTTotal02"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FuelRTTotal00"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FuelRTTotal01"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FuelRTTotal02"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "RuntimePIO">\r\n'
+  xmlfile = xmlfile + '<configitem name="PIORTTotal00"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIORTTotal01"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIORTTotal02"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIORTTotal03"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIOCycle00"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIOCycle01"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIOCycle02"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIOCycle03"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+  return  xmlfile
+
+
+def create_seasmart_pulse_xml(postdata):
+
+  log.info("create_seasmart_pulse_xml postdata %s", postdata)
+
+  xmlfile = ''
+  xmlfile = xmlfile +  '<?xml version="1.0" standalone="yes"?>\r\n'
+  xmlfile = xmlfile + '<configrecord version="24.12.20">\r\n'
+  xmlfile = xmlfile + '<configgroup name = "XMLACTION">\r\n'
+  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
+  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "VersionInfo") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+  xmlfile = xmlfile + '<configgroup name = "PULSE">\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseMode"><value>'+  get_xml_value(postdata, "PULSEMODE") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse0Scale"><value>'+  get_xml_value(postdata, "PULSESCALE0") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse1Scale"><value>'+  get_xml_value(postdata, "PULSESCALE2") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse2Scale"><value>'+  get_xml_value(postdata, "PULSESCALE2") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseInterval"><value>'+  get_xml_value(postdata, "PINTERVAL") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FlowPulseInterval"><value>'+  get_xml_value(postdata, "FINTERVAL") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse0Filter"><value>'+  get_xml_value(postdata, "PFLT0") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse1Filter"><value>'+  get_xml_value(postdata, "PFLT1") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse2Filter"><value>'+  get_xml_value(postdata, "PFLT2") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+
+  return  xmlfile
+
 
 def set_seasmart_pulse_xml(postdata):
 
@@ -1154,7 +1219,77 @@ def set_seasmart_pulse_xml(postdata):
   return  
 
 def create_seasmart_pgn_xml(postdata):
-  return  
+
+  log.info("create_seasmart_pgn_xml postdata %s", postdata)
+
+  xmlfile = ''
+  xmlfile = xmlfile +  '<?xml version="1.0" standalone="yes"?>\r\n'
+  xmlfile = xmlfile + '<configrecord version="24.12.20">\r\n'
+  xmlfile = xmlfile + '<configgroup name = "XMLACTION">\r\n'
+  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
+  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "VersionInfo") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+  xmlfile = xmlfile + '<configgroup name = "N2KPGNLists">\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN00"><value>0x01F214,0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>0x01F211,0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN02"><value>0x01F201,0x00,0x02,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN03"><value>0x01F201,0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN04"><value>0x01F201,0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN05"><value>0x01F201,0x01,0x02,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN06"><value>0x01F211,0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN07"><value>0x01F214,0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN08"><value>0x01F205,0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN09"><value>0x01F205,0x00,0x01,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN10"><value>0x01F205,0x01,0x01,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN11"><value>0x01F205,0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+  xmlfile = xmlfile + '<configgroup name = "N2KCalibrationTables">\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL00"><value>ALT_VOLTS_36MAX.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL01"><value>FUEL_180to10.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL02"><value>VDO_ENG_TEMP_250F.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL03"><value>VDO_PSI_150MAX.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL04"><value>VDO_PSI_150MAX.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL05"><value>VDO_ENG_TEMP_250F.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL06"><value>FUEL_180to10.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL07"><value>ALT_VOLTS_36MAX.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL08"><value>VDO_PSI_400MAX.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL09"><value>VDO_TRAN_TEMP_200C.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL10"><value>VDO_TRAN_TEMP_200C.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KCAL11"><value>VDO_PSI_400MAX.xml</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>
+
+  xmlfile = xmlfile + '<configgroup name = "ADCAlarms">\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM00"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM01"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM02"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM03"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM04"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM05"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM06"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM07"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM08"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM09"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM10"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM11"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM12"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM13"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM14"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM15"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM16"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM17"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM18"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM19"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+
+
+  return  xmlfile
 
 
 def set_seasmart_pgn_xml(postdata):
@@ -1382,17 +1517,6 @@ def create_seasmart_device_xml(postdata):
 
   log.info("create_seasmart_device_xml postdata %s", postdata)
 
-  #dom = minidom.parse(postdata)
-  #elements = dom.getElementsByTagName('DeviceID')
-
-  # Parse XML from a string
-  #root = ET.fromstring(postdata)
-
-  #element = root.find('DeviceID')
-  #element = get_xml_value(postdata, "DeviceID")
-
-  
-  #log.info("create_seasmart_network_xml DeviceID %s", element)
 
   xmlfile = ''
   
@@ -1483,18 +1607,6 @@ def set_seasmart_device_xml(postdata):
 def create_seasmart_network_xml(postdata):
 
   log.info("create_seasmart_network_xml postdata %s", postdata)
-
-  #dom = minidom.parse(postdata)
-  #elements = dom.getElementsByTagName('DeviceID')
-
-  # Parse XML from a string
-  #root = ET.fromstring(postdata)
-
-  #element = root.find('DeviceID')
-  #element = get_xml_value(postdata, "DeviceID")
-
-  
-  #log.info("create_seasmart_network_xml DeviceID %s", element)
 
   xmlfile = ''
   xmlfile = xmlfile +  '<?xml version="1.0" standalone="yes"?>\r\n'
@@ -1742,15 +1854,15 @@ def createSGG4XMLfile():
     filename = "device.xml"
 
   elif int(saveXML) == 3: 
-    xmlfile = create_seasmart_network_xml(sgg4config)
+    xmlfile = create_seasmart_pluse_xml(sgg4config)
     filename = "pulse.xml"
 
   elif int(saveXML) == 4: 
-    xmlfile = create_seasmart_network_xml(sgg4config)
+    xmlfile = create_seasmart_pgn_xml(sgg4config)
     filename = "seagaugeg4_pgns_alarms.xml"
 
   elif int(saveXML) == 5: 
-    xmlfile = create_seasmart_network_xml(sgg4config)
+    xmlfile = create_seasmart_resets_xml(sgg4config)
     filename = "runtime_resets.xml"
 
 
