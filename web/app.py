@@ -258,17 +258,17 @@ def get_xml_value(postdata, tag):
   startPos = -1
   endPos = -1
 
-  log.info("get_xml_value startStr %s  endStr %s", startStr, endStr )  
+  #log.info("get_xml_value startStr %s  endStr %s", startStr, endStr )  
 
   startPos = postdata.find(startStr)
-  log.info("get_xml_value startPos %s ", startPos )  
+  #log.info("get_xml_value startPos %s ", startPos )  
   if startPos == -1:
     return ""
 
   startPos = startPos + len(startStr)
 
   endPos = postdata.find(endStr)
-  log.info("get_xml_value endPos %s", endPos )  
+  #log.info("get_xml_value endPos %s", endPos )  
   if endPos == -1:
     return ""
 
@@ -1222,10 +1222,16 @@ def get_hex2_from_tag(postdata, tag):
 
   index =int(get_xml_value(postdata, tag))
 
+  log.info("get_hex2_from_tag index %s", index)  
+
+  return format(index, '02X')
+
 def get_hex8_from_tag(postdata, tag):
 
   index =int(get_xml_value(postdata, tag))  
 
+  log.info("get_hex8_from_tag index %s", index)
+  
   return format(index, '08X')
 
 def get_pgnhex_from_tag(postdata, tag):
