@@ -6,7 +6,12 @@ from itertools import groupby, islice
 from datetime import datetime, timedelta
 import time
 from time import mktime
+import botocore
+import boto3
+from botocore.exceptions import ClientError
 
+from psycopg_pool import ConnectionPool
+db_pool = ConnectionPool(os.environ.get('DATABASE_URL'), timeout=90)
 
 import logging
 
@@ -26,14 +31,33 @@ debug_all = False
 logging.basicConfig(level=logging.ERROR)
 log = logging
 
+def get_xml_value(postdata, tag):
+  
+  startStr = "<" + tag + ">";
+  endStr = "</" + tag + ">";
+  startPos = -1
+  endPos = -1
+
+  #log.info("get_xml_value startStr %s  endStr %s", startStr, endStr )  
+
+  startPos = postdata.find(startStr)
+  #log.info("get_xml_value startPos %s ", startPos )  
+  if startPos == -1:
+    return ""
+
+  startPos = startPos + len(startStr)
+
+  endPos = postdata.find(endStr)
+  #log.info("get_xml_value endPos %s", endPos )  
+  if endPos == -1:
+    return ""
+
+  return postdata[startPos:endPos]
 
 
 
 
 
-
-
- 
   log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
   return  
 
