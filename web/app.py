@@ -1822,13 +1822,13 @@ def seasmartconfig():
   #post_dict = postdata.to_dict()
   log.info("seasmartconfig postdata %s", postdata)
 
-  seagaugeg4.set_seasmart_network_xml(postdata)
+  seagaugeg4.set_seasmart_network_xml(request)
   
-  seagaugeg4.set_seasmart_device_xml(postdata)
+  seagaugeg4.set_seasmart_device_xml(request)
   
-  seagaugeg4.set_seasmart_pulse_xml(postdata)
+  seagaugeg4.set_seasmart_pulse_xml(request)
 
-  seagaugeg4.set_seasmart_pgn_xml(postdata)
+  seagaugeg4.set_seasmart_pgn_xml(request)
   
   return jsonify(result="OK", postdata = postdata)
   

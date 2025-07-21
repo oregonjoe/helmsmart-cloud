@@ -298,9 +298,9 @@ def create_seasmart_pulse_xml(postdata):
   return  xmlfile
 
 
-def set_seasmart_pulse_xml(postdata):
+def set_seasmart_pulse_xml(request):
 
-  log.info("set_seasmart_pulse_xml postdata", postdata)
+  log.info("set_seasmart_pulse_xml postdata", request.args)
   
   """
 <DeviceID>AC1518EF5FA0</DeviceID>
@@ -438,9 +438,9 @@ def create_seasmart_pgn_xml(postdata):
   return  xmlfile
 
 
-def set_seasmart_pgn_xml(postdata):
+def set_seasmart_pgn_xml(request):
 
-  log.info("set_seasmart_pgn_xml postdata", postdata)
+  log.info("set_seasmart_pgn_xml postdata", request.args)
   
   """
 <DeviceID>AC1518EF5FA0</DeviceID>
@@ -695,9 +695,9 @@ def create_seasmart_device_xml(postdata):
 
   return  xmlfile
 
-def set_seasmart_device_xml(postdata):
+def set_seasmart_device_xml(request):
 
-  log.info("set_seasmart_device_xml postdata", postdata)
+  log.info("set_seasmart_device_xml postdata", request.args)
   
 
   devicexml = ""
@@ -796,9 +796,9 @@ def create_seasmart_network_xml(postdata):
 
   return  xmlfile
 
-def set_seasmart_network_xml(postdata):
+def set_seasmart_network_xml(request):
 
-  log.info("set_seasmart_network_xml postdata", postdata)
+  log.info("set_seasmart_network_xml postdata", request.args)
 
   networkxml = ""
   networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
