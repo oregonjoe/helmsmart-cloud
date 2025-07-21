@@ -1854,7 +1854,7 @@ def createSGG4XMLfile():
     filename = "device.xml"
 
   elif int(saveXML) == 3: 
-    xmlfile = create_seasmart_pluse_xml(sgg4config)
+    xmlfile = create_seasmart_pulse_xml(sgg4config)
     filename = "pulse.xml"
 
   elif int(saveXML) == 4: 
