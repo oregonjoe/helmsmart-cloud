@@ -1234,7 +1234,7 @@ def get_hex4_from_tag(postdata, tag):
   log.info("get_hex4_from_tag index %s", index)
   
   #return format(index, '#010x')
-  return '0x' + '{:04X}'.format(index & ((1 << 14)-1))
+  return '0x' + '{:04X}'.format(index & ((1 << 16)-1))
 
 def get_hex8_from_tag(postdata, tag):
 
