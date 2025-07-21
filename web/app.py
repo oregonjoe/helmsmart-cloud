@@ -1220,58 +1220,58 @@ def set_seasmart_pulse_xml(postdata):
 
 def get_pgnhex_from_tag(postdata, tag):
 
-"""
-switch(PGNNumber )
-    {
-        case 0x1F201: // engine dynamic
-        return 1;
+  """
+  switch(PGNNumber )
+      {
+          case 0x1F201: // engine dynamic
+          return 1;
 
-        case 0x1F214: // battery status
-        return 2;    
+          case 0x1F214: // battery status
+          return 2;    
 
-        case 0x1F211: // fluid level
-        return 3;
+          case 0x1F211: // fluid level
+          return 3;
 
-        case 0x1F205: // Transmission dynamic
-        return 4;
+          case 0x1F205: // Transmission dynamic
+          return 4;
 
-        case 0x1FD0A: // pressure
-        return 5;
+          case 0x1FD0A: // pressure
+          return 5;
 
-        case 0x1FD07: // temperature
-        return 6;
+          case 0x1FD07: // temperature
+          return 6;
 
-        case 0x1FD08: // temperature
-        return 7;
+          case 0x1FD08: // temperature
+          return 7;
 
-        case 0x1FD0C: // temperature extended
-        return 8;
+          case 0x1FD0C: // temperature extended
+          return 8;
 
-        case 0x1F10D: // rudder angle
-        return 9;
+          case 0x1F10D: // rudder angle
+          return 9;
 
-        case 0x1F200: // rudder angle
-        return 10;
-        
-        case 0x0FEEE: // J1939 Engine temperature 65262
-        return 16;
+          case 0x1F200: // rudder angle
+          return 10;
+          
+          case 0x0FEEE: // J1939 Engine temperature 65262
+          return 16;
 
-        case 0x0FEEF: // J1939 Engine pressures 65263
-        return 17;
+          case 0x0FEEF: // J1939 Engine pressures 65263
+          return 17;
 
-        case 0x0FEF7: // J1939 Volts 65271
-        return 18;
+          case 0x0FEF7: // J1939 Volts 65271
+          return 18;
 
-        case 0x0FEFC: // J1939 Fluids 65276
-        return 19;
+          case 0x0FEFC: // J1939 Fluids 65276
+          return 19;
 
-        case 0x0FEF8: // J1939 Transmission 65272
-        return 20;
+          case 0x0FEF8: // J1939 Transmission 65272
+          return 20;
 
-        default:
-        return 0;
-    }
-"""
+          default:
+          return 0;
+      }
+  """
 
   index = str(get_xml_value(postdata, tag))
 
