@@ -2017,23 +2017,23 @@ def createSGG4XMLfile():
   
 
   if int(saveXML) == 1: 
-    xmlfile = create_seasmart_network_xml(sgg4config)
+    xmlfile = seagaugeg4.create_seasmart_network_xml(sgg4config)
     filename = "network.xml"
 
   elif int(saveXML) == 2: 
-    xmlfile = create_seasmart_device_xml(sgg4config)
+    xmlfile = seagaugeg4.create_seasmart_device_xml(sgg4config)
     filename = "device.xml"
 
   elif int(saveXML) == 3: 
-    xmlfile = create_seasmart_pulse_xml(sgg4config)
+    xmlfile = seagaugeg4.create_seasmart_pulse_xml(sgg4config)
     filename = "pulse.xml"
 
   elif int(saveXML) == 4: 
-    xmlfile = create_seasmart_pgn_xml(sgg4config)
+    xmlfile = seagaugeg4.create_seasmart_pgn_xml(sgg4config)
     filename = "seagaugeg4_pgns_alarms.xml"
 
   elif int(saveXML) == 5: 
-    xmlfile = create_seasmart_resets_xml(sgg4config)
+    xmlfile = seagaugeg4.create_seasmart_resets_xml(sgg4config)
     filename = "runtime_resets.xml"
 
 

@@ -54,10 +54,6 @@ def get_xml_value(postdata, tag):
 
   return postdata[startPos:endPos]
 
-
-
-
-
   log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
   return  
 
