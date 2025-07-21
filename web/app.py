@@ -1227,6 +1227,15 @@ def get_hex2_from_tag(postdata, tag):
   #return '0x' + format(index, '02x')
   return '0x' + '{:02X}'.format(index & ((1 << 8)-1))
 
+def get_hex4_from_tag(postdata, tag):
+
+  index =int(get_xml_value(postdata, tag))  
+
+  log.info("get_hex4_from_tag index %s", index)
+  
+  #return format(index, '#010x')
+  return '0x' + '{:04X}'.format(index & ((1 << 14)-1))
+
 def get_hex8_from_tag(postdata, tag):
 
   index =int(get_xml_value(postdata, tag))  
@@ -1378,17 +1387,17 @@ def create_seasmart_pgn_xml(postdata):
 
   xmlfile = xmlfile + '<configgroup name = "N2KPGNLists">\r\n'
   xmlfile = xmlfile + '<configitem name="N2KPGN00"><value>' + get_pgnhex_from_tag(postdata, "PGNN0") + ',' + get_hex2_from_tag(postdata, "PGNI0") + ',' +  get_hex2_from_tag(postdata, "PGNP0") +',' + get_hex8_from_tag(postdata, "PGNS0") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN1") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN02"><value>' + get_pgnhex_from_tag(postdata, "PGNN2") + ',0x00,0x02,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN03"><value>' + get_pgnhex_from_tag(postdata, "PGNN3") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN04"><value>' + get_pgnhex_from_tag(postdata, "PGNN4") + ',0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN05"><value>' + get_pgnhex_from_tag(postdata, "PGNN5") + ',0x01,0x02,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN06"><value>' + get_pgnhex_from_tag(postdata, "PGNN6") + ',0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN07"><value>' + get_pgnhex_from_tag(postdata, "PGNN7") + ',0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN08"><value>' + get_pgnhex_from_tag(postdata, "PGNN8") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN09"><value>' + get_pgnhex_from_tag(postdata, "PGNN9") + ',0x00,0x01,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN10"><value>' + get_pgnhex_from_tag(postdata, "PGNN10") + ',0x01,0x01,0xFFFFFFFF</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN11"><value>' + get_pgnhex_from_tag(postdata, "PGNN11") + ',0x01,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN1") + ',' + get_hex2_from_tag(postdata, "PGNI1") + ',' +  get_hex2_from_tag(postdata, "PGNP1") +',' + get_hex8_from_tag(postdata, "PGNS1") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN2") + ',' + get_hex2_from_tag(postdata, "PGNI2") + ',' +  get_hex2_from_tag(postdata, "PGNP2") +',' + get_hex8_from_tag(postdata, "PGNS2") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN3") + ',' + get_hex2_from_tag(postdata, "PGNI3") + ',' +  get_hex2_from_tag(postdata, "PGNP3") +',' + get_hex8_from_tag(postdata, "PGNS3") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN4") + ',' + get_hex2_from_tag(postdata, "PGNI4") + ',' +  get_hex2_from_tag(postdata, "PGNP4") +',' + get_hex8_from_tag(postdata, "PGNS4") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN5") + ',' + get_hex2_from_tag(postdata, "PGNI5") + ',' +  get_hex2_from_tag(postdata, "PGNP5") +',' + get_hex8_from_tag(postdata, "PGNS5") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN6") + ',' + get_hex2_from_tag(postdata, "PGNI6") + ',' +  get_hex2_from_tag(postdata, "PGNP6") +',' + get_hex8_from_tag(postdata, "PGNS6") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN7") + ',' + get_hex2_from_tag(postdata, "PGNI7") + ',' +  get_hex2_from_tag(postdata, "PGNP7") +',' + get_hex8_from_tag(postdata, "PGNS7") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN8") + ',' + get_hex2_from_tag(postdata, "PGNI8") + ',' +  get_hex2_from_tag(postdata, "PGNP8") +',' + get_hex8_from_tag(postdata, "PGNS8") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN9") + ',' + get_hex2_from_tag(postdata, "PGNI9") + ',' +  get_hex2_from_tag(postdata, "PGNP9") +',' + get_hex8_from_tag(postdata, "PGNS9") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN10") + ',' + get_hex2_from_tag(postdata, "PGNI10") + ',' +  get_hex2_from_tag(postdata, "PGNP10") +',' + get_hex8_from_tag(postdata, "PGNS10") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN11") + ',' + get_hex2_from_tag(postdata, "PGNI11") + ',' +  get_hex2_from_tag(postdata, "PGNP11") +',' + get_hex8_from_tag(postdata, "PGNS11") +'</value></configitem>\r\n'
   xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "N2KCalibrationTables">\r\n'
@@ -1407,26 +1416,26 @@ def create_seasmart_pgn_xml(postdata):
   xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "ADCAlarms">\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM00"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM01"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM02"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM03"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM04"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM05"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM06"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM07"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM08"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM09"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM10"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM11"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM12"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM13"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM14"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM15"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM16"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM17"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM18"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="ADCALARM19"><value>0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM00"><value>'+ get_hex2_from_tag(postdata, "ADCAA0") + ',' +  get_hex4_from_tag(postdata, "ADCAH0") + ',' + get_hex4_from_tag(postdata, "ADCAL")+ ',' + get_hex2_from_tag(postdata, "ADCAM0") + ',' + get_hex2_from_tag(postdata, "ADCAP0") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM01"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM02"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM03"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM04"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM05"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM06"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM07"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM08"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM09"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM10"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM11"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM12"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM13"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM14"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM15"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM16"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM17"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM18"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="ADCALARM19"><value>'0x00,0x0000,0xFFFF,0x04,0x00</value></configitem>\r\n'
   xmlfile = xmlfile + '</configgroup>\r\n'
 
 
