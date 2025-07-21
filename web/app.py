@@ -1830,7 +1830,11 @@ def seasmartconfig():
 
   seagaugeg4.set_seasmart_pgn_xml(request)
   
-  return jsonify(result="OK", postdata = postdata)
+  #return jsonify(result="OK", postdata = postdata)
+  response = make_response(render_template('seagauge_conf.html', features = []))
+  #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+  response.headers['Cache-Control'] = 'public, max-age=0'
+  return response
   
 # ######################################################
 # gets seagaugeg4 config.xml parameters
