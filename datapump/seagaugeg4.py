@@ -228,6 +228,141 @@ def get_pgnhex_from_tag(postdata, tag):
   else:
     return "0x000000"
 
+
+def create_seasmart_resets_xml(postdata):
+
+  log.info("create_seasmart_device_xml postdata %s", postdata)
+
+
+  xmlfile = ''
+  
+  xmlfile = xmlfile + '<configrecord version="24.12.20">\r\n'
+  xmlfile = xmlfile + '<configgroup name = "XMLACTION">\r\n'
+  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
+  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
+  
+  xmlfile = xmlfile + '<configgroup name = "RuntimePulse">\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseRTTotal00"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseRTTotal01"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseRTTotal02"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FuelRTTotal00"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FuelRTTotal01"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FuelRTTotal02"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "RuntimePIO">\r\n'
+  xmlfile = xmlfile + '<configitem name="PIORTTotal00"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIORTTotal01"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIORTTotal02"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIORTTotal03"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIOCycle00"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIOCycle01"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIOCycle02"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PIOCycle03"><value>0</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+  return  xmlfile
+
+
+def create_seasmart_pulse_xml(postdata):
+
+  log.info("create_seasmart_pulse_xml postdata %s", postdata)
+
+  xmlfile = ''
+  xmlfile = xmlfile +  '<?xml version="1.0" standalone="yes"?>\r\n'
+  xmlfile = xmlfile + '<configrecord version="24.12.20">\r\n'
+  xmlfile = xmlfile + '<configgroup name = "XMLACTION">\r\n'
+  xmlfile = xmlfile + '<configitem name="LOADXML"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Save_NVRAM"><value>1</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+  xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
+  xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "VersionInfo") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+  xmlfile = xmlfile + '<configgroup name = "PULSE">\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseMode"><value>'+  get_xml_value(postdata, "PULSEMODE") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse0Scale"><value>'+  get_xml_value(postdata, "PULSESCALE0") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse1Scale"><value>'+  get_xml_value(postdata, "PULSESCALE2") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse2Scale"><value>'+  get_xml_value(postdata, "PULSESCALE2") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseInterval"><value>'+  get_xml_value(postdata, "PINTERVAL") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FlowPulseInterval"><value>'+  get_xml_value(postdata, "FINTERVAL") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse0Filter"><value>'+  get_xml_value(postdata, "PFLT0") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse1Filter"><value>'+  get_xml_value(postdata, "PFLT1") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="Pulse2Filter"><value>'+  get_xml_value(postdata, "PFLT2") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '</configgroup>\r\n'
+
+
+  return  xmlfile
+
+
+def set_seasmart_pulse_xml(postdata):
+
+  log.info("set_seasmart_pulse_xml postdata", postdata)
+  
+  """
+<DeviceID>AC1518EF5FA0</DeviceID>
+<VersionInfo>1.9.3.7.12</VersionInfo>
+<PULSEMODE>4</PULSEMODE>
+<PULSESCALE0>1500</PULSESCALE0>
+<PULSESCALE1>1500</PULSESCALE1>
+<PULSESCALE2>5400</PULSESCALE2>
+<PINTERVAL>1000</PINTERVAL>
+<FINTERVAL>4000</FINTERVAL>
+<PFLT0>0</PFLT0>
+<PFLT1>0</PFLT1>
+<PFLT2>3</PFLT2>
+<FUELTOTAL>0</FUELTOTAL>
+  """
+
+  pulsexml = ""
+  pulsexml = pulsexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
+  pulsexml = pulsexml +  '<VersionInfo>'  +  request.args.get('VersionXML','')          + '</VersionInfo>'
+  pulsexml = pulsexml +  '<PULSEMODE>'    +  request.args.get('PULSEModeDD','')  + '</PULSEMODE>'
+  pulsexml = pulsexml +  '<PULSESCALE0>'    +  request.args.get('PULSE0SCALE','')  + '</PULSESCALE0>'  
+  pulsexml = pulsexml +  '<PULSESCALE1>'    +  request.args.get('PULSE1SCALE','')  + '</PULSESCALE1>'  
+  pulsexml = pulsexml +  '<PULSESCALE2>'    +  request.args.get('PULSE2SCALE','')  + '</PULSESCALE2>'  
+  #pulsexml = pulsexml +  '<PINTERVAL>'    +  request.args.get('SDLogFName','')  + '</PINTERVAL>'  
+  #pulsexml = pulsexml +  '<FINTERVAL>'    +  request.args.get('SDLogFName','')  + '</FINTERVAL>'
+  pulsexml = pulsexml +  '<PINTERVAL>'    +  '1000'  + '</PINTERVAL>'  
+  pulsexml = pulsexml +  '<FINTERVAL>'    +  '4000'  + '</FINTERVAL>'  
+  pulsexml = pulsexml +  '<PFLT0>'    +  request.args.get('PULSE0FILTER','')  + '</PFLT0>'  
+  pulsexml = pulsexml +  '<PFLT1>'    +  request.args.get('PULSE1FILTER','')  + '</PFLT1>'  
+  pulsexml = pulsexml +  '<PFLT2>'    +  request.args.get('PULSE2FILTER','')  + '</PFLT2>'  
+  pulsexml = pulsexml +  '<FUELTOTAL>'    +  request.args.get('FUELTACHTOTAL','')  + '</FUELTOTAL>'  
+
+ 
+
+
+  prefidkey=1
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = " update user_sgg4configxml SET pulsexml =%s where  prefidkey = %s;" 
+  cursor.execute(sqlstr, (pulsexml, prefidkey, ))   
+  conn.commit()
+
+
+
+ 
+  log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
+  return  
+
+
+
+
+
   
 def create_seasmart_pgn_xml(postdata):
 
