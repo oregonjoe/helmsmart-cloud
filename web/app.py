@@ -1218,6 +1218,16 @@ def set_seasmart_pulse_xml(postdata):
   log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
   return  
 
+def get_hex2_from_tag(postdata, tag):
+
+  index =int(get_xml_value(postdata, tag))
+
+def get_hex8_from_tag(postdata, tag):
+
+  index =int(get_xml_value(postdata, tag))  
+
+  return format(index, '08X')
+
 def get_pgnhex_from_tag(postdata, tag):
 
   """
@@ -1359,7 +1369,7 @@ def create_seasmart_pgn_xml(postdata):
   xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "N2KPGNLists">\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN00"><value>' + get_pgnhex_from_tag(postdata, "PGNN0") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN00"><value>' + get_pgnhex_from_tag(postdata, "PGNN0") + ',' + get_hex2_from_tag(postdata, "PGNI0") + ',' +  get_hex2_from_tag(postdata, "PGNP0") +',' + get_hex8_from_tag(postdata, "PGNS0") +'</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN1") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="N2KPGN02"><value>' + get_pgnhex_from_tag(postdata, "PGNN2") + ',0x00,0x02,0xFFFFFFFF</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="N2KPGN03"><value>' + get_pgnhex_from_tag(postdata, "PGNN3") + ',0x00,0x00,0xFFFFFFFF</value></configitem>\r\n'
