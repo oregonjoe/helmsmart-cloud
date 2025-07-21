@@ -95,6 +95,7 @@ import datapump.nmearemote_functions as nmearemote_functions
 
 import datapump.nmea as nmea
 import datapump.signalk as signalk
+import datapump.seagaugeg4 as seagaugeg4
 #from signalk import createSIGKpath, parseSIGK
 
 
@@ -1893,13 +1894,13 @@ def seasmartconfig():
   #post_dict = postdata.to_dict()
   log.info("seasmartconfig postdata %s", postdata)
 
-  set_seasmart_network_xml(postdata)
+  seagaugeg4.set_seasmart_network_xml(postdata)
   
-  set_seasmart_device_xml(postdata)
+  seagaugeg4.set_seasmart_device_xml(postdata)
   
-  set_seasmart_pulse_xml(postdata)
+  seagaugeg4.set_seasmart_pulse_xml(postdata)
 
-  set_seasmart_pgn_xml(postdata)
+  seagaugeg4.set_seasmart_pgn_xml(postdata)
   
   return jsonify(result="OK", postdata = postdata)
   
@@ -2014,8 +2015,6 @@ def createSGG4XMLfile():
 
   db_pool.putconn(conn)
 
-
-  xmlfile = create_seasmart_network_xml(sgg4config)
 
   if int(saveXML) == 1: 
     xmlfile = create_seasmart_network_xml(sgg4config)
