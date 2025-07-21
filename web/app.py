@@ -1273,7 +1273,7 @@ def get_pgnhex_from_tag(postdata, tag):
       }
   """
 
-  index = str(get_xml_value(postdata, tag))
+  index =int(get_xml_value(postdata, tag))
 
   if index == 0:
     return "0x000000"
