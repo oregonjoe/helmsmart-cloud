@@ -153,10 +153,326 @@ var CurrentDialID;
 
 	var imgAddresses=["images/CDI_Logo.jpg", "images/SeaSmartBanner.jpg", "images/SeaSmartG3Logo.jpg" ];
 	
+function StartUpMyScript()
+{
+    var x
+    var i;
+    var tempXMLdata;
+    var XMLFile;
+    var DialIndex=0;
+    var CanvasIndex=0;
 
+
+    // Initialize Device ID droup down list
+    // InitializeDeviceOptionList();
+
+    myuserid = "0";
+    {% if session['userid'] %}
+    myuserid = "{{session['userid']}}";
+    {% else %}
+    myuserid = "0";
+    {% endif %}
+
+
+
+
+
+
+
+
+    AccountDataFolder = GetCookie(CookiePrefix + 'Account');
+    // alert(AccountDataFolder);
+
+    if (AccountDataFolder == null)
+    {
+    AccountDataFolder = "001EC0B415C2";
+    AccountType = 1;
+    ConfigOptions = 0;
+    document.getElementById("XMLFilesSelect").selectedIndex = 0;
+    document.getElementById("DeviceID").selectedIndex = 0;
+
+    }
+    else
+    {
+    var myStringArray
+    myStringArray = AccountDataFolder.split(":");
+    if(myStringArray.length != 0)
+    {
+    AccountDataFolder = myStringArray[0];
+    AccountType = myStringArray[1];
+    ConfigOptions = myStringArray[2];
+    document.getElementById("XMLFilesSelect").selectedIndex = ConfigOptions;
+
+    }
+    else
+    {
+    AccountDataFolder = "001EC0B415C2";
+    AccountType = 1;
+    ConfigOptions = 0;
+    document.getElementById("XMLFilesSelect").selectedIndex = 0;
+    document.getElementById("DeviceID").selectedIndex = 0;
+    }
+    }
+
+
+    // set up Server Account Type
+
+    SetServerType( 1);
+
+    if (myuserid == null)
+    {
+    myuserid = "0";
+    }
+    else
+    {
+    getDeviceList(myuserid);
+    //getDeviceParamList(myuserid);
+    }
+
+
+
+    ParameterInit = true;
+    //   InitalizePageDials();
+
+
+}
+
+ function handleGetDeviceData(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+	  document.getElementById("DeviceID").options.length = 0;
+
+   	response.records.forEach(function(row){
+		  deviceAPIkeys[index] = row[2];
+   	      document.getElementById("DeviceID").options[index++] = new Option(row[0], row[1]);
+		  
+	   		});
+	   		
+	   		
+  		document.getElementById("DeviceID").selectedIndex = 0;
+	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    		{
+	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
+		    		if(myDeviceID == AccountDataFolder)
+		    			document.getElementById("DeviceID").selectedIndex = i;
+		    	}
+				
+          UpdateSeriesList();
+//getDeviceParamList(myuserid);
+ 
+}
+
+
+ function getDeviceList(userid)
+{
+	mapInitialized =false;
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+
+    //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid; 
 	
-	function loadmyimages(index)
-	{
+	 devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devicekeys&userid=" + userid; 
+	
+      
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDeviceData(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+function handleGetDevicePramNames(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+   // initialize the user parameter list to zero         
+	document.getElementById("XMLFilesSelect").options.length = 0;
+	document.getElementById("XMLFilesSelect").options[index++] = new Option("Use Defaults", "0");
+  document.getElementById("XMLFilesSelect").selectedIndex = 0;		
+
+  // get list of user parameters from the DB
+   	    response.records.forEach(function(row){
+   	      document.getElementById("XMLFilesSelect").options[index++] = new Option(row[2],  row[0] );
+	   		});
+	
+   // set current user parameter to the indedx stored in the cookie
+   if(document.getElementById("XMLFilesSelect").options.length >= ConfigOptions)
+	    document.getElementById("XMLFilesSelect").selectedIndex = ConfigOptions;
+   else 
+	    document.getElementById("XMLFilesSelect").selectedIndex = 0;
+   
+    // load up user pameters from DB if there were any returned
+    if(index > 1)        
+	 	  getDeviceParamDetails(myuserid);
+    else
+    {
+      //InitalizePageDials();
+    }
+ 
+}
+
+
+ function getDeviceParamList(userid)
+{
+	mapInitialized =false;
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=0";
+    
+    
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDevicePramNames(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+  // Drop down menue is auto filled from DB with user preferences
+ function selectUserPref(sel)
+ {
+  // ConfigOptions = parseInt(sel.selectedIndex);
+   // save new CongigOptions to Cookie file
+  //  SetServerType( 1);
+
+  // go to DB and load new prefs
+   getDeviceParamDetails(myuserid);
+
+ }
+
+  
+ function getDeviceParamDetails(userid)
+{
+	mapInitialized =false;
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+
+   optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+   
+ 
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&userid=" + userid + "&pagetype=0&prefkey=" + prefkey;
+         
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		//handleGetDevicePramDetails(response)
+							getsgg4configxml();
+							
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		                           ParameterInit = true;
+
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+
+function loadmyimages(index)
+{
 	
 	  // Break out if no more images
 		if (index==imgAddresses.length) { newAJAXCommand('wificonfig.xml', initializewifivars, false); return; }
@@ -2372,8 +2688,106 @@ function SaveDeviceSettings()
 </script>
  </head>
 
-   
+<!--    
 <body onload="getsgg4configxml();">
+--> 
+ <body style="width: 100%; height: 100%; margin: 0;" onload ="StartUpMyScript(); " >
+ 
+ 
+   <center>
+  {% if session['userid'] %}
+     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+    <span>HelmSmart: {{session['username']}}</span></a>
+  {% else %}
+    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span></a>
+  {% endif %}
+  </center>
+  
+  	<div class="container body-content">
+	
+	<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabEvents .form-control-static,
+	#tabEvents .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+ 
+ 
+   	<div class="tab-pane" id="tabDevice">
+	
+		<div class="form-horizontal">
+
+				<div class="form-group">	
+				<label class="control-label col-sm-2" for="AddPreferenceName">Preference Name</label> 
+				<div class="col-sm-6"> 
+				<input type="text" class="form-control" id="AddPreferenceName"  />
+				</div>
+				</div>
+		
+				<div class="form-group">
+				<label class="control-label col-sm-2" for="DeviceID">Devices</label>
+				<div class="col-sm-6">
+				<select class="form-control"  id="DeviceID" name="DeviceID" size ="1"  onchange="SetDeviceOptionList(this);">
+				<option value="000000000000">Demo Data</option>
+				</select>
+				</div>
+				</div>
+	  
+				<div class="form-group">
+				<label class="control-label col-sm-2" for="XMLFilesSelect">Preferences</label>
+				<div class="col-sm-6">
+				<select class="form-control"  id="XMLFilesSelect" onchange="selectUserPref(this);" >
+				<option value="0">Use defaults</option>
+				</select>
+				</div>
+				</div>
+  
+				<div class="form-group" style="margin-top:25px;">
+				<div class="col-sm-offset-4 col-sm-4">
+								
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="AddNewPref"  value="AddP" onclick="AddNewPref(this);" >Add</button>
+				<!-- <button id="btnShowPref" class="btn btn-primary" name="btnValue" id="ShowDefaults"  value="Show" onclick="ShowParameters(this);" >Show</button> -->
+				<button id="btnModifyPref" class="btn btn-primary" name="btnValue" id="ModifyPref"  value="Modify" onclick="ModifyPref(this);" >Modify</button>
+				<button id="btnDeletePref" class="btn btn-primary" name="btnValue" id="DeletePref"  value="Delete" onclick="DeletePref(this);" >Delete</button>
+				
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="loadDashboardFromLocalFile"  value="AddP" onclick="loadDashboardFromLocalFile(this);" >Load Local</button>
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="saveDashboard"  value="AddP" onclick="saveDashboard(this);" >Save Local</button>
+				</div>
+				</div>
+	    <div id="SearchStatus" class="auto-style9" style="width:100%;  padding: 5px 5px 5px 5px;" > </div>
+	
+		</div>
+
+	</div>
+ 
+ 
  
 <table style="width: 800px">
 	<tr>
