@@ -251,7 +251,7 @@ mc = bmemcached.Client(mcservers, username=mcuser, password=mcpassw)
 
 mc.enable_retry_delay(True)  # Enabled by default. Sets retry delay to 5s.
 
-
+"""
 def get_xml_value(postdata, tag):
 
   startStr = "<" + tag + ">";
@@ -274,6 +274,9 @@ def get_xml_value(postdata, tag):
     return ""
 
   return postdata[startPos:endPos]
+
+"""
+
 
 class DateEncoder(json.JSONEncoder):
   def default(self, obj):
@@ -1089,6 +1092,7 @@ def sendtestsms():
     response.headers['content-type'] = "application/json"
     return response
 
+"""
 def create_seasmart_resets_xml(postdata):
 
   log.info("create_seasmart_device_xml postdata %s", postdata)
@@ -1162,20 +1166,7 @@ def set_seasmart_pulse_xml(postdata):
 
   log.info("set_seasmart_pulse_xml postdata", postdata)
   
-  """
-<DeviceID>AC1518EF5FA0</DeviceID>
-<VersionInfo>1.9.3.7.12</VersionInfo>
-<PULSEMODE>4</PULSEMODE>
-<PULSESCALE0>1500</PULSESCALE0>
-<PULSESCALE1>1500</PULSESCALE1>
-<PULSESCALE2>5400</PULSESCALE2>
-<PINTERVAL>1000</PINTERVAL>
-<FINTERVAL>4000</FINTERVAL>
-<PFLT0>0</PFLT0>
-<PFLT1>0</PFLT1>
-<PFLT2>3</PFLT2>
-<FUELTOTAL>0</FUELTOTAL>
-  """
+
 
   pulsexml = ""
   pulsexml = pulsexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -1269,58 +1260,6 @@ def get_hex8_from_tag(postdata, tag):
   
 def get_pgnhex_from_tag(postdata, tag):
 
-  """
-  switch(PGNNumber )
-      {
-          case 0x1F201: // engine dynamic
-          return 1;
-
-          case 0x1F214: // battery status
-          return 2;    
-
-          case 0x1F211: // fluid level
-          return 3;
-
-          case 0x1F205: // Transmission dynamic
-          return 4;
-
-          case 0x1FD0A: // pressure
-          return 5;
-
-          case 0x1FD07: // temperature
-          return 6;
-
-          case 0x1FD08: // temperature
-          return 7;
-
-          case 0x1FD0C: // temperature extended
-          return 8;
-
-          case 0x1F10D: // rudder angle
-          return 9;
-
-          case 0x1F200: // rudder angle
-          return 10;
-          
-          case 0x0FEEE: // J1939 Engine temperature 65262
-          return 16;
-
-          case 0x0FEEF: // J1939 Engine pressures 65263
-          return 17;
-
-          case 0x0FEF7: // J1939 Volts 65271
-          return 18;
-
-          case 0x0FEFC: // J1939 Fluids 65276
-          return 19;
-
-          case 0x0FEF8: // J1939 Transmission 65272
-          return 20;
-
-          default:
-          return 0;
-      }
-  """
 
   index =int(get_xml_value(postdata, tag))
 
@@ -1469,20 +1408,7 @@ def set_seasmart_pgn_xml(postdata):
 
   log.info("set_seasmart_pgn_xml postdata", postdata)
   
-  """
-<DeviceID>AC1518EF5FA0</DeviceID>
-<VersionInfo>1.9.3.7.12</VersionInfo>
-<PULSEMODE>4</PULSEMODE>
-<PULSESCALE0>1500</PULSESCALE0>
-<PULSESCALE1>1500</PULSESCALE1>
-<PULSESCALE2>5400</PULSESCALE2>
-<PINTERVAL>1000</PINTERVAL>
-<FINTERVAL>4000</FINTERVAL>
-<PFLT0>0</PFLT0>
-<PFLT1>0</PFLT1>
-<PFLT2>3</PFLT2>
-<FUELTOTAL>0</FUELTOTAL>
-  """
+
 
   pgnxml = ""
   pgnxml = pgnxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -1878,6 +1804,8 @@ def set_seasmart_network_xml(postdata):
  
   log.info("set_seasmart_network_xml networkxml %s", networkxml)  
   return  
+"""
+
 
 # ######################################################
 # gets seagaugeg4 config POST parameters methods=['GET','POST'])
