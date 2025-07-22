@@ -2944,14 +2944,18 @@ function SaveDeviceSettings()
 				<select class="form-control"  id="XMLFilesSelect" onchange="selectUserPref(this);" >
 				<option value="0">Use defaults</option>
 				</select>
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="AddNewPref"  value="AddP" onclick="AddNewPref(this);" >Add</button>
+				<button id="btnDeletePref" class="btn btn-primary" name="btnValue" id="DeletePref"  value="Delete" onclick="DeletePref(this);" >Delete</button>
 				</div>
+				
+				
 				</div>
-  
+				<!--
 				<div class="form-group" style="margin-top:25px;">
 				<div class="col-sm-offset-4 col-sm-4">
 								
 				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="AddNewPref"  value="AddP" onclick="AddNewPref(this);" >Add</button>
-				<!-- <button id="btnShowPref" class="btn btn-primary" name="btnValue" id="ShowDefaults"  value="Show" onclick="ShowParameters(this);" >Show</button> -->
+			
 				<button id="btnModifyPref" class="btn btn-primary" name="btnValue" id="ModifyPref"  value="Modify" onclick="ModifyPref(this);" >Modify</button>
 				<button id="btnDeletePref" class="btn btn-primary" name="btnValue" id="DeletePref"  value="Delete" onclick="DeletePref(this);" >Delete</button>
 				
@@ -2959,6 +2963,7 @@ function SaveDeviceSettings()
 				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="saveDashboard"  value="AddP" onclick="saveDashboard(this);" >Save Local</button>
 				</div>
 				</div>
+				-->
 	    <div id="SearchStatus" class="auto-style9" style="width:100%;  padding: 5px 5px 5px 5px;" > </div>
 	
 		</div>
