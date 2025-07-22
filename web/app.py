@@ -2100,7 +2100,7 @@ def getuser_endpoint():
     elif gettype == 'sgg4prefs':
         #sqlstr = 'select devicexml,networkxml,pulsexml,runtimexml,pgnsxml from user_sgg4configxml where userid = %s and deviceid = %s;'
         sqlstr = 'select devicexml, networkxml, pulsexml, pgnsxml, runtimexml from user_sgg4configxml where prefidkey = %s;'    
-        cursor.execute(sqlstr, (prefkey))
+        cursor.execute(sqlstr, (prefkey,))
 
         
     else:
@@ -2141,10 +2141,15 @@ def getuser_endpoint():
     response.headers['content-type'] = "application/json"
     return response
 
+  except TypeError as e:
+      log.info('getuser_endpoint: TypeError in geting deviceid  %s:  ', deviceid)
+      log.info('getuser_endpoint: TypeError in geting deviceid  %s:  ' % str(e))
+
+        
   except:
     e = sys.exc_info()[0]
-    log.info("getuser_endpoint error - user already exixts %s", deviceid)
-    log.info('getuser_endpoint error: Error in adding device %s:  ' % e)
+    log.info("getuser_endpoint error - deviceid %s", deviceid)
+    log.info('getuser_endpoint error: Error in getting prefs %s:  ' % e)
   
   finally:
     db_pool.putconn(conn)    
