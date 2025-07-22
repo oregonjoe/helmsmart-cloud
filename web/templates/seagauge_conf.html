@@ -219,6 +219,17 @@ function StartUpMyScript()
 
 }
 
+ function SetDeviceOptionList()
+{
+	mapInitialized =false;
+   //document.getElementById("AccountFolder").value = document.getElementById("DeviceID").value;
+   AccountDataFolder = document.getElementById("DeviceID").value;
+   myDeviceID = document.getElementById("DeviceID").value;
+   
+	getDeviceParamList(myDeviceID);
+   
+}
+
  function handleGetDeviceData(response)
  {
  var index=0;
