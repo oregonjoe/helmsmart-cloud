@@ -492,7 +492,7 @@ function handleGetDevicePramNames(response)
 
    optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
    var prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
-   var prefname = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].text);
+   var prefname = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
    document.getElementById("PrefKeyXML").value = prefkey;
    document.getElementById("PrefNameXML").value = prefname;
  
