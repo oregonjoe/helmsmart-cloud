@@ -2093,7 +2093,7 @@ def getuser_endpoint():
     #select devicexml,networkxml,pulsexml,runtimexml,pgnsxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef';
     elif gettype == 'sgg4prefnames':
         #sqlstr = 'select devicexml,networkxml,pulsexml,runtimexml,pgnsxml from user_sgg4configxml where userid = %s and deviceid = %s;'
-        sqlstr = 'select prefidkey, deviceid, prefname from user_sgg4configxml where where userid = %s and deviceid = %s;'    
+        sqlstr = 'select prefidkey, deviceid, prefname from user_sgg4configxml where userid = %s and deviceid = %s;'    
         cursor.execute(sqlstr, (userid, deviceid))
 
     #select devicexml,networkxml,pulsexml,runtimexml,pgnsxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef';
