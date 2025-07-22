@@ -2090,7 +2090,11 @@ def getuser_endpoint():
         sqlstr = 'select messagekey, message_json from timmer_prefs where userid = %s and deviceid = %s;'     
         cursor.execute(sqlstr, (userid, deviceid))
 
-
+    #select devicexml,networkxml,pulsexml,runtimexml,pgnsxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef';
+    elif gettype == 'sgg4prefs':
+        #sqlstr = 'select devicexml,networkxml,pulsexml,runtimexml,pgnsxml from user_sgg4configxml where userid = %s and deviceid = %s;'
+        sqlstr = 'select devicexml, networkxml, pulsexml, pgnsxml, runtimexml from user_sgg4configxml where deviceid = %s;'    
+        cursor.execute(sqlstr, (deviceid))
 
         
     else:

@@ -242,9 +242,74 @@ function StartUpMyScript()
 		    			document.getElementById("DeviceID").selectedIndex = i;
 		    	}
 				
-          UpdateSeriesList();
-//getDeviceParamList(myuserid);
+        //  UpdateSeriesList();
+		//deviceapikey = deviceAPIkeys[document.getElementById("DeviceID").selectedIndex];
+		getDeviceParamList(myDeviceID);
  
+}
+
+function UpdateSeriesList()
+{
+    GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+}
+
+
+function GetSeriesAttributes(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+  
+  EndEpoch = (new Date).getTime();
+  StartEpoch = EndEpoch - (60*60*24*1000);
+  
+  EndEpoch = Math.floor(EndEpoch/1000);
+  StartEpoch = Math.floor(StartEpoch/1000);
+
+   var DeviceID = document.getElementById("DeviceID").value;
+  // devicedataurl = "https://www.helmsmart-cloud.com/get_tempodb_series?&deviceid=" + userid;
+  //devicedataurl = "https://www.helmsmart-cloud.com/get_influxdb_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+ devicedataurl = "https://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+
+
+         return $.ajax({
+         //async: false,
+         cache: false,
+         url: devicedataurl,
+         dataType: "json",
+         timeout: 30000,
+         statusCode: {
+         404: function() {      alert( "page not found" );    },
+         200: function() {      }
+         },
+         success: function(response) {
+         handleGetSeriesAttributes(response)
+         },
+         complete: function() {
+         // unblock when remote call returns
+         // document.getElementById("SearchStatus").value = "Search Complete";
+
+         //$.unblockUI();
+         },
+         error: function(request,status,errorThrown) {
+         document.getElementById("SearchStatus").value = "Data Series List Search Error";
+         $.unblockUI();
+         }
+         });
+
+
 }
 
 
@@ -332,7 +397,7 @@ function handleGetDevicePramNames(response)
 }
 
 
- function getDeviceParamList(userid)
+ function getDeviceParamList(deviceid)
 {
 	mapInitialized =false;
         $.blockUI({ 
@@ -350,7 +415,7 @@ function handleGetDevicePramNames(response)
 
 	var devicedataurl;
 	
-   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefnames&userid=" + userid + "&pagetype=0";
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefnames&deviceid=" + deviceid;
     
     
    return $.ajax({
