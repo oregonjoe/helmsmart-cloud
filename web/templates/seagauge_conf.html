@@ -491,8 +491,10 @@ function handleGetDevicePramNames(response)
 	var prefkey;
 
    optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
-   prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
-   
+   var prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+   var prefname = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].text);
+   document.getElementById("PrefKeyXML").value = prefkey;
+   document.getElementById("PrefNameXML").value = prefname;
  
    devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefs&userid=" + userid + "&prefkey=" + prefkey;
          
@@ -548,7 +550,7 @@ function loadmyimages(index)
 	
 function handlegetDeviceParamDetails(response)
  {
- var index=0;
+// var index=0;
  
    	$.unblockUI();
 
@@ -636,7 +638,90 @@ function getsgg4configxml()
 			
 			
 			
+function AddNewPref()
+{
+ // Guests do not get to make changes
+ if(myuserid == 0)
+ return;
+ 
+ 
+        $.blockUI({ 
+     message: '<h1>Adding Preferences...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl="";
+	var optionmenuindex;
+	var nextConfigOption;
 	
+	nextConfigOption = document.getElementById("XMLFilesSelect").options.length -2;
+
+	  UpdateInterval = document.getElementById("UpdateInterval").options[document.getElementById("UpdateInterval").selectedIndex].value;
+ 
+  devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=add_sgg4&userid=" + myuserid + "&pagetype=0&prefkey=" +  nextConfigOption + "&options="
+
+  devicedataurl =  devicedataurl + "'" + document.getElementById("AddPreferenceName").value + "'";
+  devicedataurl =  devicedataurl + "," + PageLayout;
+  devicedataurl =  devicedataurl + "," + MapOptions ;
+  devicedataurl =  devicedataurl + ",'" + PageBackGroundColor.replace("#", "") + "'";
+  devicedataurl =  devicedataurl + ",'" + PageForeGroundColor.replace("#", "") + "'";
+  devicedataurl =  devicedataurl + "," + ClockLCDColor ;
+  devicedataurl =  devicedataurl + "," + SystemClockPGNID ;
+  devicedataurl =  devicedataurl + "," + UpdateInterval ;
+  devicedataurl =  devicedataurl + "," + DialTimeout ;
+  devicedataurl =  devicedataurl + ",'" + DialType + "'";
+  devicedataurl =  devicedataurl + ",'" + DialPGNInstance + "'";
+  devicedataurl =  devicedataurl + ",'" + DialPGNNumber + "'";
+  devicedataurl =  devicedataurl + ",'" + DialPGNParameter + "'";
+  devicedataurl =  devicedataurl + ",'" + DialUnits + "'";
+  devicedataurl =  devicedataurl + ",'" + DialMin + "'";
+  devicedataurl =  devicedataurl + ",'" + DialMax + "'";
+  devicedataurl =  devicedataurl + ",'" + DialAlarm + "'";
+  devicedataurl =  devicedataurl + ",'" + DialAlarmState + "'";
+  devicedataurl =  devicedataurl + ",'" + DialText + "'";
+  devicedataurl =  devicedataurl + ",'" + DialFrameType + "'";
+  devicedataurl =  devicedataurl + ",'" + DialBackground + "'";
+  devicedataurl =  devicedataurl + ",'" + DialLCDColor + "'";
+  devicedataurl =  devicedataurl + ",'" + DialPointerColor + "'";
+  devicedataurl =  devicedataurl + ",'" + DialPonterType + "'";
+  devicedataurl =  devicedataurl + ",0,0,0,0";
+    
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleAddNewPref(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+		                          
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 	
 
 
 
@@ -2921,10 +3006,13 @@ function SaveDeviceSettings()
 		<!-- <form id="configuration"  method="post"> -->
 		 <form id="configuration" action="/seasmartconfig"> 
 		 
-		  <input type="hidden" id="UserIDXML" name="UserIDXML" value="false" /> 
-          <input type="hidden" id="DeviceIDXML" name="DeviceIDXML" value="false" /> 
-		     <input type="hidden" id="VersionXML" name="VersionXML" value="false" /> 
-						 
+			<input type="hidden" id="UserIDXML" name="UserIDXML" value="false" /> 
+			<input type="hidden" id="DeviceIDXML" name="DeviceIDXML" value="false" /> 
+			<input type="hidden" id="VersionXML" name="VersionXML" value="false" /> 
+			<input type="hidden" id="PrefNameXML" name="PrefNameXML" value="SSG4 DEFAULT" /> 	
+			<input type="hidden" id="PrefKeyXML" name="PrefKeyXML" value="0" /> 	
+
+			 
 			 <!-- <input type="hidden" id="CUSTOMCFG" name="CUSTOMCFG" value="false" /> -->			 
 		<div class="network" id="networkstatus"style="width: 800px; height: 10px; background-color:#12365e; font-weight: bold; border-bottom: 2px solid #ccc;">
 			</div>
