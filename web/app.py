@@ -1819,7 +1819,14 @@ def seasmartconfig():
   #postdata = request.args.get('SSID')
   postdata = request.args
 
-  #post_dict = postdata.to_dict()
+
+
+  prefKey = request.args.get('PrefKeyXML','')
+  prefName = request.args.get('PrefNameXML','')
+
+  log.info("seasmartconfig postdata prefKey %s  prefName %s", prefKey, prefName)
+
+    #post_dict = postdata.to_dict()
   log.info("seasmartconfig postdata %s", postdata)
 
   seagaugeg4.set_seasmart_network_xml(request)

@@ -300,7 +300,7 @@ def create_seasmart_pulse_xml(postdata):
 
 def set_seasmart_pulse_xml(request):
 
-  log.info("set_seasmart_pulse_xml postdata", request.args)
+  #log.info("set_seasmart_pulse_xml postdata", request.args)
   
   """
 <DeviceID>AC1518EF5FA0</DeviceID>
@@ -316,6 +316,9 @@ def set_seasmart_pulse_xml(request):
 <PFLT2>3</PFLT2>
 <FUELTOTAL>0</FUELTOTAL>
   """
+
+  prefidkey = request.args.get('PrefKeyXML',0)
+  prefName = request.args.get('PrefNameXML','')
 
   pulsexml = ""
   pulsexml = pulsexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -336,7 +339,7 @@ def set_seasmart_pulse_xml(request):
  
 
 
-  prefidkey=1
+
 
   try:  
     conn = db_pool.getconn()
@@ -440,7 +443,7 @@ def create_seasmart_pgn_xml(postdata):
 
 def set_seasmart_pgn_xml(request):
 
-  log.info("set_seasmart_pgn_xml postdata", request.args)
+  #log.info("set_seasmart_pgn_xml postdata", request.args)
   
   """
 <DeviceID>AC1518EF5FA0</DeviceID>
@@ -456,6 +459,9 @@ def set_seasmart_pgn_xml(request):
 <PFLT2>3</PFLT2>
 <FUELTOTAL>0</FUELTOTAL>
   """
+  prefidkey = request.args.get('PrefKeyXML',0)
+  prefName = request.args.get('PrefNameXML','')
+
 
   pgnxml = ""
   pgnxml = pgnxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -636,7 +642,7 @@ def set_seasmart_pgn_xml(request):
   pgnxml = pgnxml +  '<CAL11>'    +  request.args.get('CALFILE11','')  + '</CAL11>'
 
   
-  prefidkey=1
+
 
   try:  
     conn = db_pool.getconn()
@@ -697,8 +703,9 @@ def create_seasmart_device_xml(postdata):
 
 def set_seasmart_device_xml(request):
 
-  log.info("set_seasmart_device_xml postdata", request.args)
-  
+  #log.info("set_seasmart_device_xml postdata", request.args)
+  prefidkey = request.args.get('PrefKeyXML',0)
+  prefName = request.args.get('PrefNameXML','')
 
   devicexml = ""
   devicexml = devicexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -724,8 +731,6 @@ def set_seasmart_device_xml(request):
 
  
 
-
-  prefidkey=1
 
   try:  
     conn = db_pool.getconn()
@@ -798,7 +803,10 @@ def create_seasmart_network_xml(postdata):
 
 def set_seasmart_network_xml(request):
 
-  log.info("set_seasmart_network_xml postdata", request.args)
+  #log.info("set_seasmart_network_xml postdata", request.args)
+
+  prefidkey = request.args.get('PrefKeyXML',0)
+  prefName = request.args.get('PrefNameXML','')
 
   networkxml = ""
   networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -829,7 +837,6 @@ def set_seasmart_network_xml(request):
   networkxml = networkxml +  '<UDPClientPort>'    +  request.args.get('UDPBROADPORT','')  + '</UDPClientPort>'
   networkxml = networkxml +  '<UDPBroadcastEnable>'    +  request.args.get('UDPBROADCAST_ON_CB','')  + '</UDPBroadcastEnable>'
 
-  prefidkey=1
 
   try:  
     conn = db_pool.getconn()
