@@ -508,7 +508,8 @@ function handleGetDevicePramNames(response)
 					   	 },
 					   success: function(response) {
 					   		//handleGetDevicePramDetails(response)
-							getsgg4configxml();
+							//getsgg4configxml();
+							handlegetDeviceParamDetails(response);
 							
 					   },
 					   complete: function() {  
@@ -544,6 +545,20 @@ function loadmyimages(index)
 		logo_image.src = imgAddresses[index];
 		
 	}
+	
+function handlegetDeviceParamDetails(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+
+	var sgg4vars = response.sgg4config;
+	
+	initializewifivars(sgg4vars);
+	
+}		
+	
+	
 function handleGetsgg4configxml(response)
  {
  var index=0;
