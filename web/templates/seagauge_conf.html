@@ -678,7 +678,21 @@ function AddNewPref()
  return;
  
  
-        $.blockUI({ 
+
+	 
+	 
+	 document.getElementById("PrefUpdateXML").value = "add"
+	 
+	 var prefName = document.getElementById("AddPreferenceName").value
+	 
+	 if (prefName == "")
+	 {
+		alert("need to enter a new preference name");
+		return;
+	 }
+		
+		
+	        $.blockUI({ 
      message: '<h1>Adding Preferences...</h1>',    
      css: {             
      border: 'none',             
@@ -690,16 +704,7 @@ function AddNewPref()
      opacity: .5,             
      color: '#fff'         
      } }); 
-
-	 
-	 
-	 document.getElementById("PrefUpdateXML").value = "add"
-	 
-	 var prefName = document.getElementById("AddPreferenceName").value
-	 
-	 if (prefName == "")
-		alert("need to enter a new preference name");
-		return;
+	
 		
 		
 	 document.getElementById("PrefNameXML").value = document.getElementById("AddPreferenceName").value;
