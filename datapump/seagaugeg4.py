@@ -230,7 +230,7 @@ def get_pgnhex_from_tag(postdata, tag):
 
 def add_seagauge_xml(request):
 
-  #log.info("add_seagauge_xml postdata %s", postdata)
+  log.info("add_seagauge_xml request %s", request)
 
   userid = request.args.get('UserIDXML','')
   deviceid = request.args.get('DeviceIDXML','')
@@ -251,9 +251,17 @@ def add_seagauge_xml(request):
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = " insert into user_sgg4configxml ( useridkey, deviceid, prefname) values (%s, %s, %s);" 
+  sqlstr = "insert into user_sgg4configxml ( useridkey, deviceid, prefname) values (%s, %s, %s) returning prefidkey;" 
   cursor.execute(sqlstr, (userid, deviceid, prefname, ))   
-  conn.commit()
+  #conn.commit()
+  
+  records = cursor.fetchone()
+  log.info("add_seagauge_xml records %s", records)
+
+  prefidkey = records[0]
+  log.info("add_seagauge_xml prefidkey %s", prefidkey)
+
+  
 
   db_pool.putconn(conn)
 
