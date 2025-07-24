@@ -287,7 +287,7 @@ def delete_seagauge_xml(request):
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = " delete from user_sgg4configxml SET where  prefidkey = %s;" 
+  sqlstr = " delete from user_sgg4configxml where  prefidkey = %s;" 
   cursor.execute(sqlstr, (int(prefidkey), ))   
   conn.commit()
 
