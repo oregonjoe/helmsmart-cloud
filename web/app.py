@@ -1836,14 +1836,16 @@ def seasmartconfig():
     seagaugeg4.add_seagauge_xml(request)
 
   elif prefAction == "update":
-
-    seagaugeg4.set_seasmart_network_xml(request)
     
-    seagaugeg4.set_seasmart_device_xml(request)
+    prefidkey = request.args.get('PrefKeyXML',0)
     
-    seagaugeg4.set_seasmart_pulse_xml(request)
+    seagaugeg4.set_seasmart_network_xml(prefidkey, request)
+    
+    seagaugeg4.set_seasmart_device_xml(prefidkey, request)
+    
+    seagaugeg4.set_seasmart_pulse_xml(prefidkey, request)
 
-    seagaugeg4.set_seasmart_pgn_xml(request)
+    seagaugeg4.set_seasmart_pgn_xml(prefidkey, request)
   
   #return jsonify(result="OK", postdata = postdata)
   response = make_response(render_template('seagauge_conf.html', features = []))

@@ -261,9 +261,18 @@ def add_seagauge_xml(request):
   prefidkey = records[0]
   log.info("add_seagauge_xml prefidkey %s", prefidkey)
 
-  
+
 
   db_pool.putconn(conn)
+
+
+  seagaugeg4.set_seasmart_network_xml(prefidkey, request)
+  
+  seagaugeg4.set_seasmart_device_xml(prefidkey, request)
+  
+  seagaugeg4.set_seasmart_pulse_xml(prefidkey, request)
+
+  seagaugeg4.set_seasmart_pgn_xml(prefidkey, request)  
 
  
   #log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
@@ -375,7 +384,7 @@ def create_seasmart_pulse_xml(postdata):
   return  xmlfile
 
 
-def set_seasmart_pulse_xml(request):
+def set_seasmart_pulse_xml(prefidkey, request):
 
   #log.info("set_seasmart_pulse_xml postdata", request.args)
   
@@ -394,8 +403,8 @@ def set_seasmart_pulse_xml(request):
 <FUELTOTAL>0</FUELTOTAL>
   """
 
-  prefidkey = request.args.get('PrefKeyXML',0)
-  prefName = request.args.get('PrefNameXML','')
+  #prefidkey = request.args.get('PrefKeyXML',0)
+  #prefName = request.args.get('PrefNameXML','')
 
   pulsexml = ""
   pulsexml = pulsexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -518,7 +527,7 @@ def create_seasmart_pgn_xml(postdata):
   return  xmlfile
 
 
-def set_seasmart_pgn_xml(request):
+def set_seasmart_pgn_xml(prefidkey, request):
 
   #log.info("set_seasmart_pgn_xml postdata", request.args)
   
@@ -536,8 +545,8 @@ def set_seasmart_pgn_xml(request):
 <PFLT2>3</PFLT2>
 <FUELTOTAL>0</FUELTOTAL>
   """
-  prefidkey = request.args.get('PrefKeyXML',0)
-  prefName = request.args.get('PrefNameXML','')
+  #prefidkey = request.args.get('PrefKeyXML',0)
+  #prefName = request.args.get('PrefNameXML','')
 
 
   pgnxml = ""
@@ -778,11 +787,11 @@ def create_seasmart_device_xml(postdata):
 
   return  xmlfile
 
-def set_seasmart_device_xml(request):
+def set_seasmart_device_xml(prefidkey, request):
 
   #log.info("set_seasmart_device_xml postdata", request.args)
-  prefidkey = request.args.get('PrefKeyXML',0)
-  prefName = request.args.get('PrefNameXML','')
+  #prefidkey = request.args.get('PrefKeyXML',0)
+  #prefName = request.args.get('PrefNameXML','')
 
   devicexml = ""
   devicexml = devicexml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
@@ -878,12 +887,12 @@ def create_seasmart_network_xml(postdata):
 
   return  xmlfile
 
-def set_seasmart_network_xml(request):
+def set_seasmart_network_xml(prefidkey, request):
 
   #log.info("set_seasmart_network_xml postdata", request.args)
 
-  prefidkey = request.args.get('PrefKeyXML',0)
-  prefName = request.args.get('PrefNameXML','')
+  #prefidkey = request.args.get('PrefKeyXML',0)
+  #prefName = request.args.get('PrefNameXML','')
 
   networkxml = ""
   networkxml = networkxml +  '<DeviceID>'     +  request.args.get('DeviceIDXML','')       + '</DeviceID>'
