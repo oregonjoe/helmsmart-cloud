@@ -266,13 +266,13 @@ def add_seagauge_xml(request):
   db_pool.putconn(conn)
 
 
-  seagaugeg4.set_seasmart_network_xml(prefidkey, request)
+  set_seasmart_network_xml(prefidkey, request)
   
-  seagaugeg4.set_seasmart_device_xml(prefidkey, request)
+  set_seasmart_device_xml(prefidkey, request)
   
-  seagaugeg4.set_seasmart_pulse_xml(prefidkey, request)
+  set_seasmart_pulse_xml(prefidkey, request)
 
-  seagaugeg4.set_seasmart_pgn_xml(prefidkey, request)  
+  set_seasmart_pgn_xml(prefidkey, request)  
 
  
   #log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
