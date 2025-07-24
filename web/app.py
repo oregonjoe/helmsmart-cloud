@@ -2159,7 +2159,10 @@ def getuser_endpoint():
       log.info('getuser_endpoint: TypeError in geting deviceid  %s:  ', deviceid)
       log.info('getuser_endpoint: TypeError in geting deviceid  %s:  ' % str(e))
 
-        
+  except KeyError as e:
+      log.info('getuser_endpoint: KeyError in geting deviceid  %s:  ', deviceid)
+      log.info('getuser_endpoint: KeyError in geting deviceid  %s:  ' % str(e))
+      
   except:
     e = sys.exc_info()[0]
     log.info("getuser_endpoint error - deviceid %s", deviceid)

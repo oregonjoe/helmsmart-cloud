@@ -266,9 +266,15 @@ def delete_seagauge_xml(request):
   #log.info("add_seagauge_xml postdata %s", postdata)
 
 
-  prefkey = request.args.get('PrefKeyXML','')
+  prefidkey = request.args.get('PrefKeyXML','')
 
-  log.info("delete_seagauge_xml prefkey %s", prefkey)  
+  log.info("delete_seagauge_xml prefkey %s", prefidkey)
+
+  if prefidkey == "":
+    return
+
+  if int(prefidkey) == 0:
+    return  
 
   try:  
     conn = db_pool.getconn()
@@ -282,7 +288,7 @@ def delete_seagauge_xml(request):
   
   cursor = conn.cursor()
   sqlstr = " delete from user_sgg4configxml SET where  prefidkey = %s;" 
-  cursor.execute(sqlstr, (prefidkey, ))   
+  cursor.execute(sqlstr, (int(prefidkey), ))   
   conn.commit()
 
   db_pool.putconn(conn)
