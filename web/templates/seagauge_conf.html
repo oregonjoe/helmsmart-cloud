@@ -1689,15 +1689,21 @@ function initializewifivars(xmlData) {
 	}
 	else{
 	
-	document.getElementById('UserIDXML').value = "a91140300971bfb9244989a9bffde53c";
-	
+	//document.getElementById('UserIDXML').value = "a91140300971bfb9244989a9bffde53c";
+	document.getElementById('UserIDXML').value = myuserid;
 	
 		var myXMLdata = getXMLValue(xmlData, 'DeviceID');
+		if(myXMLdata == "")
+			myXMLdata = myDeviceID;
+		
 		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myXMLdata;
 		document.getElementById('DeviceIDXML').value = myXMLdata;
 		document.cookie = "deviceid=" + myXMLdata;
 		
 		myXMLdata = getXMLValue(xmlData, 'VersionInfo');
+		if(myXMLdata == "")
+			myXMLdata = "1.9.X.X.X";
+		
 		document.getElementById('VersionXMLValue').innerHTML = "Version " + myXMLdata;
 		document.getElementById('VersionXML').value = myXMLdata;
 		document.cookie = "version=" + myXMLdata;
