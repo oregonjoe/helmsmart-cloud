@@ -694,6 +694,14 @@ function AddNewPref()
 	 
 	 
 	 document.getElementById("PrefUpdateXML").value = "add"
+	 
+	 var prefName = document.getElementById("AddPreferenceName").value
+	 
+	 if (prefName == "")
+		alert("need to enter a new preference name");
+		return;
+		
+		
 	 document.getElementById("PrefNameXML").value = document.getElementById("AddPreferenceName").value;
 	 
 	 document.getElementById("configuration").submit();
