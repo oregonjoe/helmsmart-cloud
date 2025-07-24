@@ -2818,9 +2818,10 @@ function SaveDeviceSettings()
     color: '#fff'
     } });
 
-
+	document.getElementById("PrefUpdateXML").value = "update"
+	document.getElementById("PrefNameXML").value = document.getElementById("AddPreferenceName").value;
 		
-		document.getElementById("configuration").submit();
+	document.getElementById("configuration").submit();
 
 }
 

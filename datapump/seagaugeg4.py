@@ -228,6 +228,69 @@ def get_pgnhex_from_tag(postdata, tag):
   else:
     return "0x000000"
 
+def add_seagauge_xml(request):
+
+  #log.info("add_seagauge_xml postdata %s", postdata)
+
+  userid = request.args.get('UserIDXML','')
+  deviceid = request.args.get('DeviceIDXML','')
+  prefname = request.args.get('PrefNameXML','')
+
+  
+  log.info("add_seagauge_xml userid %s deviceid %s prefname %s", userid, deviceid, prefname)
+
+  
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = " insert into user_sgg4configxml ( useridkey, deviceid, prefname) values (%s %s %s);" 
+  cursor.execute(sqlstr, (userid, deviceid, prefname, ))   
+  conn.commit()
+
+  db_pool.putconn(conn)
+
+ 
+  #log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
+  return
+
+def delete_seagauge_xml(request):
+
+  #log.info("add_seagauge_xml postdata %s", postdata)
+
+
+  prefkey = request.args.get('PrefKeyXML','')
+
+  log.info("delete_seagauge_xml prefkey %s", prefkey)  
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = " delete from user_sgg4configxml SET where  prefidkey = %s;" 
+  cursor.execute(sqlstr, (prefidkey, ))   
+  conn.commit()
+
+  db_pool.putconn(conn)
+
+ 
+  #log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
+  return
+
 
 def create_seasmart_resets_xml(postdata):
 
@@ -338,7 +401,7 @@ def set_seasmart_pulse_xml(request):
 
  
 
-
+  log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
 
 
   try:  
@@ -357,9 +420,9 @@ def set_seasmart_pulse_xml(request):
   conn.commit()
 
 
-
+  db_pool.putconn(conn)
  
-  log.info("set_seasmart_device_xml pulsexml %s", pulsexml)  
+
   return  
 
 
@@ -642,7 +705,7 @@ def set_seasmart_pgn_xml(request):
   pgnxml = pgnxml +  '<CAL11>'    +  request.args.get('CALFILE11','')  + '</CAL11>'
 
   
-
+  log.info("set_seasmart_device_xml pgnxml %s", pgnxml)  
 
   try:  
     conn = db_pool.getconn()
@@ -662,7 +725,7 @@ def set_seasmart_pgn_xml(request):
   db_pool.putconn(conn)
 
  
-  log.info("set_seasmart_device_xml pgnxml %s", pgnxml)  
+
   return  
 
 def create_seasmart_device_xml(postdata):
@@ -730,7 +793,7 @@ def set_seasmart_device_xml(request):
   devicexml = devicexml +  '<TimeSource>'    +  request.args.get('TimeStampSource','')  + '</TimeSource>'
 
  
-
+  log.info("set_seasmart_device_xml networkxml %s", devicexml)  
 
   try:  
     conn = db_pool.getconn()
@@ -750,7 +813,7 @@ def set_seasmart_device_xml(request):
   db_pool.putconn(conn)
 
  
-  log.info("set_seasmart_device_xml networkxml %s", devicexml)  
+
   return  
 
     
@@ -838,6 +901,8 @@ def set_seasmart_network_xml(request):
   networkxml = networkxml +  '<UDPBroadcastEnable>'    +  request.args.get('UDPBROADCAST_ON_CB','')  + '</UDPBroadcastEnable>'
 
 
+  log.info("set_seasmart_network_xml networkxml %s", networkxml)  
+
   try:  
     conn = db_pool.getconn()
 
@@ -856,5 +921,5 @@ def set_seasmart_network_xml(request):
   db_pool.putconn(conn)
 
  
-  log.info("set_seasmart_network_xml networkxml %s", networkxml)  
+
   return  

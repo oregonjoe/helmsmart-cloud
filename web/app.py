@@ -1826,16 +1826,23 @@ def seasmartconfig():
 
   log.info("seasmartconfig postdata prefAction %s prefKey %s  prefName %s", prefAction, prefKey, prefName)
 
-    #post_dict = postdata.to_dict()
-  log.info("seasmartconfig postdata %s", postdata)
+  #log.info("seasmartconfig postdata %s", postdata)
 
-  seagaugeg4.set_seasmart_network_xml(request)
-  
-  seagaugeg4.set_seasmart_device_xml(request)
-  
-  seagaugeg4.set_seasmart_pulse_xml(request)
+  if prefAction == "delete":
+    delete_seagauge_xml(request)
 
-  seagaugeg4.set_seasmart_pgn_xml(request)
+  elif prefAction == "add":
+    add_seagauge_xml(request)
+
+  elif prefAction == "update":
+
+    seagaugeg4.set_seasmart_network_xml(request)
+    
+    seagaugeg4.set_seasmart_device_xml(request)
+    
+    seagaugeg4.set_seasmart_pulse_xml(request)
+
+    seagaugeg4.set_seasmart_pgn_xml(request)
   
   #return jsonify(result="OK", postdata = postdata)
   response = make_response(render_template('seagauge_conf.html', features = []))
