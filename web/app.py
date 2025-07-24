@@ -1820,11 +1820,11 @@ def seasmartconfig():
   postdata = request.args
 
 
-
+  prefAction = request.args.get('PrefUpdateXML','')
   prefKey = request.args.get('PrefKeyXML','')
   prefName = request.args.get('PrefNameXML','')
 
-  log.info("seasmartconfig postdata prefKey %s  prefName %s", prefKey, prefName)
+  log.info("seasmartconfig postdata prefAction %s prefKey %s  prefName %s", prefAction, prefKey, prefName)
 
     #post_dict = postdata.to_dict()
   log.info("seasmartconfig postdata %s", postdata)
