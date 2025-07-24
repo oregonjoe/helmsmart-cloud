@@ -1819,7 +1819,8 @@ def seasmartconfig():
   #postdata = request.args.get('SSID')
   postdata = request.args
 
-
+  log.info("seasmartconfig postdata %s", postdata)
+  
   prefAction = request.args.get('PrefUpdateXML','')
   prefKey = request.args.get('PrefKeyXML','')
   prefName = request.args.get('PrefNameXML','')
