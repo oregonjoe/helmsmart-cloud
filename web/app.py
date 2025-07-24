@@ -1829,10 +1829,10 @@ def seasmartconfig():
   #log.info("seasmartconfig postdata %s", postdata)
 
   if prefAction == "delete":
-    delete_seagauge_xml(request)
+    seagaugeg4.delete_seagauge_xml(request)
 
   elif prefAction == "add":
-    add_seagauge_xml(request)
+    seagaugeg4.add_seagauge_xml(request)
 
   elif prefAction == "update":
 
