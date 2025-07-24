@@ -253,7 +253,7 @@ def add_seagauge_xml(request):
   cursor = conn.cursor()
   sqlstr = "insert into user_sgg4configxml ( useridkey, deviceid, prefname) values (%s, %s, %s) returning prefidkey;" 
   cursor.execute(sqlstr, (userid, deviceid, prefname, ))   
-  #conn.commit()
+
   
   records = cursor.fetchone()
   log.info("add_seagauge_xml records %s", records)
@@ -261,7 +261,7 @@ def add_seagauge_xml(request):
   prefidkey = records[0]
   log.info("add_seagauge_xml prefidkey %s", prefidkey)
 
-
+  conn.commit()
 
   db_pool.putconn(conn)
 
