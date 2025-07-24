@@ -251,7 +251,7 @@ def add_seagauge_xml(request):
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = " insert into user_sgg4configxml ( useridkey, deviceid, prefname) values (%s %s %s);" 
+  sqlstr = " insert into user_sgg4configxml ( useridkey, deviceid, prefname) values (%s, %s, %s);" 
   cursor.execute(sqlstr, (userid, deviceid, prefname, ))   
   conn.commit()
 
