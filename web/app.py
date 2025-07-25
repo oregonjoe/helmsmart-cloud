@@ -2027,6 +2027,27 @@ def getcaltable():
   response.headers['Cache-Control'] = 'public, max-age=0'
   return response
 
+# ######################################################
+# gets seagaugeg4 modifycaltable parameters
+# #####################################################  
+@app.route('/getcalfilelist')
+@cross_origin()
+def getcalfilelist():
+
+
+
+  try:
+    files_and_dirs = os.listdir('static/calibrations')
+
+    log.info('getcalfilelist: files_and_dirs %s:  ', files_and_dirs)          
+    return files_and_dirs
+  
+  except FileNotFoundError:
+    return f"Error: Directory '{directory_path}' not found."
+  except Exception as e:
+    return f"An error occurred: {e}"
+
+
 
 # ######################################################
 # gets user info from a userid
