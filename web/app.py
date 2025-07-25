@@ -1897,8 +1897,10 @@ def seasmartconfig():
     seagaugeg4.set_seasmart_pgn_xml(prefidkey, request)
   
   #return jsonify(result="OK", postdata = postdata)
+  #data_for_template = ["Feature A", "Feature B", "Feature C"]
   #response = make_response(render_template('seagauge_conf.html', features = []))
-  response = make_response(render_template('seagauge_conf.html?adcCalChannel=0&adcCalFile=VDo250.xml', features = []))
+  response = make_response(render_template('seagauge_conf.html', features = ["ADC0", "VDO250.xml"]))
+  #response = make_response(render_template('seagauge_conf.html?adcCalChannel=0&adcCalFile=VDo250.xml', features = []))
   #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
   response.headers['Cache-Control'] = 'public, max-age=0'
   return response

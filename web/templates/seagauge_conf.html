@@ -169,6 +169,8 @@ function StartUpMyScript()
     var XMLFile;
     var DialIndex=0;
     var CanvasIndex=0;
+	var adcchannel;
+	
 
 
     // Initialize Device ID droup down list
@@ -183,14 +185,12 @@ function StartUpMyScript()
 
 
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-
-const adcCalChannel = urlParams.get('adcCalChannel'); // "shirt"
-const adcCalFile = urlParams.get('adcCalFile');     // "red"
 
 
 
+{% for feature in features %}
+          adcchannel =  {{ feature }}
+        {% endfor %}
 
     AccountDataFolder = "001EC0B415C2";
     AccountType = 1;
