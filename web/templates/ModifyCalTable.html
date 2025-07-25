@@ -206,6 +206,7 @@ function getCalibrationFiles(fileSource)
 function listCalibrationFiles(response)
 {
 var calibrationFileName;
+var calibrationFileKey;
 var optionFileName;
 var myFiletags = "";
 var XMLvalue;
@@ -232,8 +233,8 @@ $.unblockUI();
 	
 	response.records.forEach(function(row){
 	
-		calibrationFileName = row[0];
-	
+		calibrationFileName = row[1];
+		calibrationFileKey= row[0];
 	/*
 		XMLvalue = getXMLTag(myFiletags[index], "<ADCchannel>");
 		if(XMLvalue != null)
@@ -277,7 +278,7 @@ $.unblockUI();
 			if(calibrationFileName.includes(".xml", ""))
 			{		
 				//calibrationFileName.replace("cal\/", "");
-				document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""),calibrationFileName.replace("cal/", ""));
+				document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileKey, calibrationFileName.replace("cal/", ""));
 			}
 		}
 
