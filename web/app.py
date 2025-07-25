@@ -2058,8 +2058,9 @@ def getcalfilelist():
 
   log.info('getcalfilelist: records found for userid %s:  ', records)              
 
-  sgg4calfiles =str(records) 
-
+  #sgg4calfiles =str(records) 
+  sgg4calfiles =records
+  
   db_pool.putconn(conn)
   
   return jsonify(result="OK", sgg4calfiles=sgg4calfiles)
