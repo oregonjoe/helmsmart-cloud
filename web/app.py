@@ -2151,7 +2151,9 @@ def getcalfilexml():
   userid = request.args.get('userid', '00000000000000000000000000000000')
   filename = request.args.get('filename', 'VDO_TEMP_250FMAX.xml')
 
-  
+
+  log.info('getcalfilexml:  userid %s:  ', userid)
+   
   try:  
     conn = db_pool.getconn()
 
