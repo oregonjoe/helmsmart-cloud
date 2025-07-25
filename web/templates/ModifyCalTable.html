@@ -1008,7 +1008,7 @@ function upload(filePath, fileName, fileData) {
 	//var upload_path = "/upload/" + filePath + fileName;
 	
 	//var upload_path = "/upload/" + filePath + fileName;
-	var upload_path = "https://www.helmsmart-cloud.com/savesgg4calxml?userid=" + myuserid + "&ssg4calname=" + fileName;
+	var upload_path = "https://www.helmsmart-cloud.com/savesgg4calxml?userid=" + myuserid + "&ssg4calname=" + fileName+ "&ssg4calxml=" + fileData;
    // var fileInput = document.getElementById("newfile").files;
 	// var fileInput = filePath;
 	  var fileInput = fileName;
@@ -1044,7 +1044,7 @@ function upload(filePath, fileName, fileData) {
 		} });
 		   
 	   
-       // var file = fileInput[0];
+       /*
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4) {
@@ -1065,6 +1065,40 @@ function upload(filePath, fileName, fileData) {
         };
         xhttp.open("POST", upload_path, true);
         xhttp.send(fileData);
+		*/
+		
+		   //devicedataurl = "https://www.helmsmart-cloud.com/getseagaugeg4configxml";
+         
+			return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: upload_path,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		$.unblockUI();
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		                           //ParameterInit = true;
+
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+		
+		
+		
+		
     }
 }
 
