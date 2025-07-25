@@ -171,7 +171,7 @@ function getCalibrationFiles(fileSource)
     //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
 	//newdatafile = "/download/calibrations/";
 	newdatafile = "/download/calibrations/?MODE=" + fileSource;
-	devicedataurl = "https://www.helmsmart-cloud.com/getcalfilelist";
+	devicedataurl = "https://www.helmsmart-cloud.com/getcalfilelist?userid="+ myuserid;
 
 
      return $.ajax({

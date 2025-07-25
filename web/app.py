@@ -2082,6 +2082,7 @@ def getcaltable():
 def getcalfilelist():
 
   userid = request.args.get('userid', '00000000000000000000000000000000')
+  log.info('getcalfilelist:  userid %s:  ', userid)
   
   try:  
     conn = db_pool.getconn()
@@ -2103,7 +2104,7 @@ def getcalfilelist():
   records = cursor.fetchall()
 
 
-  log.info('getcalfilelist: records found for userid %s:  ', records)              
+  log.info('getcalfilelist: records found  %s:  ', records)              
 
   #sgg4calfiles =str(records) 
   sgg4calfiles =records
@@ -2134,7 +2135,7 @@ def getcalfilelist():
   )
 
 
-  log.info('getcalfilelist: records found for userid %s:  ', result)       
+  log.info('getcalfilelist: result %s:  ', result)       
   
   response = make_response(result)
   response.headers['content-type'] = "application/json"
