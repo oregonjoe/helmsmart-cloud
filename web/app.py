@@ -1822,11 +1822,11 @@ def savesgg4calxml():
 
   log.info("savesgg4calxml postdata %s", postdata)
   
-  userid = request.args.get('userid','')
+  useridkey = request.args.get('userid','')
   ssg4calname = "custom - " + request.args.get('ssg4calname','')
   ssg4calxml = request.data
 
-  log.info("seasmartconfig postdata userid %s prefKey %s  ssg4calname %s", userid, ssg4calname, ssg4calxml)
+  log.info("seasmartconfig postdata userid %s prefKey %s  ssg4calname %s", useridkey, ssg4calname, ssg4calxml)
 
 
   try:  
@@ -1840,8 +1840,8 @@ def savesgg4calxml():
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = "insert into sgg4calfiles ( userid, filename, filecontentsxml) values (%s, %s, %s) ;" 
-  cursor.execute(sqlstr, (userid, ssg4calname, ssg4calxml, ))  
+  sqlstr = "insert into sgg4calfiles ( useridkey, filename, filecontentsxml) values (%s, %s, %s) ;" 
+  cursor.execute(sqlstr, (useridkey, ssg4calname, ssg4calxml, ))  
   conn.commit()
 
   db_pool.putconn(conn)
