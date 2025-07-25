@@ -2034,20 +2034,35 @@ def getcaltable():
 @cross_origin()
 def getcalfilelist():
 
-
-
-  try:
-    files_and_dirs = os.listdir('static/calibrations')
-
-    log.info('getcalfilelist: files_and_dirs %s:  ', files_and_dirs)          
-    return files_and_dirs
+  userid = request.args.get('userid', '00000000000000000000000000000000')
   
-  except FileNotFoundError:
-    return f"Error: Directory '{directory_path}' not found."
-  except Exception as e:
-    return f"An error occurred: {e}"
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+
+    return jsonify( message='Could not open a connection', status='error')
+  
+  cursor = conn.cursor()
+
+  sqlstr = 'select filename from sgg4calfiles where useridkey = %s;'
+
+  cursor.execute(sqlstr, (userid,))
+
+  records = cursor.fetchone()
 
 
+  log.info('getcalfilelist: records found for userid %s:  ', records)              
+
+  sgg4calfiles =str(records[0]) 
+
+  db_pool.putconn(conn)
+  
+  return jsonify(result="OK", sgg4calfiles=sgg4calfiles)
 
 # ######################################################
 # gets user info from a userid
