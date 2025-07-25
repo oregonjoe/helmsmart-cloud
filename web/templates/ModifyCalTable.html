@@ -167,7 +167,7 @@ function getCalibrationFiles(fileSource)
 
       try
       {
-          objXml.open("GET",newdatafile   , true);
+          objXml.open("GET",devicedataurl   , true);
       }
       catch (exception)
       {
@@ -178,7 +178,7 @@ function getCalibrationFiles(fileSource)
                 xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
                 xmlDoc.async = false;
                 while(xmlDoc.readyState != 4) {};
-                xmlDoc.load(newdatafile);
+                xmlDoc.load(devicedataurl);
                // alert(xmlDoc.getElementsByTagName("Body")[0].childNodes[0].nodeValue);
                 mydata = xmlDoc.getElementsByTagName("Body")[0].childNodes[0].nodeValue;
                 //if(mydata != null)
