@@ -147,7 +147,7 @@ function getCalibrationFiles(fileSource)
     objXml = new XMLHttpRequest();
     
 		$.blockUI({ 
-		 message: '<h1>Downloading file...</h1>',
+		 message: '<h1>Getting file list...</h1>',
 		css: {
 		border: 'none',
 		padding: '15px',
@@ -205,7 +205,7 @@ var optionIndex=1;
 var Index=0;
 
 
-
+$.unblockUI();
 
 	document.getElementById("CalFilesSelectDD").length = 0;
 	document.getElementById("CalFilesSelectDD").selectedIndex = 0;
@@ -859,7 +859,7 @@ function getFile(fileName)
     //var tmp = new Date();
    // var suffix = tmp.getTime();
    
-   return;
+   
 
 	if(fileName == "")
 	{
@@ -910,8 +910,11 @@ function getFile(fileName)
 					   	 },
 					   success: function(response) {
 					   		//listCalibrationFiles(response);
+							$.unblockUI();  
 							 gFileName = fileName;
 							displayContents(response.records)
+							
+							
 					   },
 					   complete: function() {  
 		                      // unblock when remote call returns 
