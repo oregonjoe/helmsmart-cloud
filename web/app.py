@@ -1824,7 +1824,7 @@ def savesgg4calxml():
   
   useridkey = request.args.get('userid','')
   ssg4calname = "custom - " + request.args.get('ssg4calname','')
-  ssg4calxml = request.args.get('ssg4calxml','')
+  ssg4calxml = request.get_json()
 
   log.info("seasmartconfig postdata userid %s prefKey %s  ssg4calname %s", useridkey, ssg4calname, ssg4calxml)
 

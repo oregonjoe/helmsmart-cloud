@@ -1043,8 +1043,8 @@ function upload(filePath, fileName, fileData) {
 		color: '#fff'
 		} });
 		   
-	   
-       /*
+	   //fileDatajson = {filedata:fileData};
+       
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4) {
@@ -1064,11 +1064,12 @@ function upload(filePath, fileName, fileData) {
             }
         };
         xhttp.open("POST", upload_path, true);
-        xhttp.send(fileData);
-		*/
+		xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(JSON.stringify(fileData));
+		
 		
 		   //devicedataurl = "https://www.helmsmart-cloud.com/getseagaugeg4configxml";
-         
+         /*
 			return $.ajax({
 					   //async: false,
 					   cache: false,
@@ -1096,7 +1097,7 @@ function upload(filePath, fileName, fileData) {
 		            	} 
 		 		  });
 		
-		
+		*/
 		
 		
     }
