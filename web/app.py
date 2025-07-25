@@ -1823,12 +1823,31 @@ def savesgg4calxml():
   log.info("savesgg4calxml postdata %s", postdata)
   
   userid = request.args.get('userid','')
-  ssg4calname = request.args.get('ssg4calname','')
+  ssg4calname = "custom - " + request.args.get('ssg4calname','')
   ssg4calxml = request.data
 
   log.info("seasmartconfig postdata userid %s prefKey %s  ssg4calname %s", userid, ssg4calname, ssg4calxml)
 
-  response = make_response(render_template('seagauge_conf.html', features = []))
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = "insert into sgg4calfiles ( userid, filename, filecontentsxml) values (%s, %s, %s) ;" 
+  cursor.execute(sqlstr, (userid, ssg4calname, ssg4calxml, ))  
+  conn.commit()
+
+  db_pool.putconn(conn)
+
+
+  response = make_response(render_template('ModifyCalTable.html', features = []))
   #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
   response.headers['Cache-Control'] = 'public, max-age=0'
   return response
