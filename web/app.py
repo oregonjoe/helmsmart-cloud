@@ -2165,7 +2165,7 @@ def getcalfilexml():
   
   cursor = conn.cursor()
 
-  sqlstr = 'select filecontentsxml from sgg4calfiles where useridkey = %s and filename = %s;'
+  sqlstr = "select filecontentsxml from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s) and filename = %s;"
 
   cursor.execute(sqlstr, (userid, filename,))
 

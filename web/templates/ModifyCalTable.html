@@ -903,7 +903,7 @@ function getFile(fileName)
    //  alert(newdatafile);
     //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
 	
-		devicedataurl = "https://www.helmsmart-cloud.com/getcalfilexml?filename=" + fileName;
+		devicedataurl = "https://www.helmsmart-cloud.com/getcalfilexml?filename=" + fileName + "?userid="+ myuserid;
 
 
      return $.ajax({
@@ -961,7 +961,12 @@ function setChannel() {
 	window.open(myFilePath, '_self');
 
 }
+function getFile() {
 
+
+	var myFile = document.getElementById("FileNameValue").value;
+
+}
 function saveFile() {
  
  /*
@@ -1265,7 +1270,9 @@ function upload(filePath, fileName, fileData) {
 	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="SaveFile"  name="SaveFile" value="Save" class="auto-style10" />
 	</td>	
 	
-
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetFile"  name="GetFile" value="Get" class="auto-style10" />
+	</td>	
 	
 </tr>
 
@@ -1354,6 +1361,7 @@ document.getElementById('OffsetFile').addEventListener('click', offsetValues, fa
 
 document.getElementById('SaveFile').addEventListener('click', saveFile, false);
 
+document.getElementById('GetFile').addEventListener('click', getFile, false);
 
 document.getElementById('SetChannel').addEventListener('click', setChannel, false);
 
