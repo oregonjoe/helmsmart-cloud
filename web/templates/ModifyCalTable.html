@@ -964,7 +964,9 @@ function setChannel() {
 function getFile() {
 
 
-	var myFile = document.getElementById("FileNameValue").value;
+	//var myFile = document.getElementById("FileNameValue").value;
+	var fileindex =  document.getElementById("CalFilesSelectDD").selectedIndex
+	var myFile = document.getElementById("CalFilesSelectDD").options[fileindex].value;
 
 }
 function saveFile() {
