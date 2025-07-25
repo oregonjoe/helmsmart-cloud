@@ -2053,12 +2053,12 @@ def getcalfilelist():
 
   cursor.execute(sqlstr, (userid,))
 
-  records = cursor.fetchone()
+  records = cursor.fetchall()
 
 
   log.info('getcalfilelist: records found for userid %s:  ', records)              
 
-  sgg4calfiles =str(records[0]) 
+  sgg4calfiles =str(records) 
 
   db_pool.putconn(conn)
   
