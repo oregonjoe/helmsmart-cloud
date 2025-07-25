@@ -920,7 +920,9 @@ function getFile(fileName)
 					   		//listCalibrationFiles(response);
 							$.unblockUI();  
 							 gFileName = fileName;
-							displayContents(response.records[0])
+							 
+							 if(response.records != null)
+								displayContents(response.records[0])
 							
 							
 					   },

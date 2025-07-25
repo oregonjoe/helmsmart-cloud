@@ -2096,7 +2096,7 @@ def getcalfilelist():
   
   cursor = conn.cursor()
 
-  sqlstr = 'select filename from sgg4calfiles where useridkey = %s;'
+  sqlstr = 'select filename from sgg4calfiles where useridkey = "00000000000000000000000000000000" OR useridkey = %s;'
 
   cursor.execute(sqlstr, (userid,))
 
