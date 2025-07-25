@@ -2004,12 +2004,29 @@ def createSGG4XMLfile():
 @app.route('/modifycaltable')
 @cross_origin()
 def modifycaltable():
+  
+  adcindex = request.args.get('adcindex', 0)
+
+  log.info('modifycaltable: adcindex %s:  ', adcindex)        
+
+  response = make_response(render_template('ModifyCalTable.html', features = []))
+  #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+  response.headers['Cache-Control'] = 'public, max-age=0'
+  return response
+
+# ######################################################
+# gets seagaugeg4 modifycaltable parameters
+# #####################################################  
+@app.route('/getcaltable')
+@cross_origin()
+def getcaltable():
 
 
   response = make_response(render_template('ModifyCalTable.html', features = []))
   #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
   response.headers['Cache-Control'] = 'public, max-age=0'
   return response
+
 
 # ######################################################
 # gets user info from a userid
