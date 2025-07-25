@@ -2094,6 +2094,58 @@ def getcalfilelist():
   return response
 
 # ######################################################
+# gets seagaugeg4 modifycaltable parameters
+# #####################################################  
+@app.route('/getcalfilexml')
+@cross_origin()
+def getcalfilexml():
+
+  userid = request.args.get('userid', '00000000000000000000000000000000')
+  filename = request.args.get('filename', 'VDO_TEMP_250FMAX.xml')
+
+  
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+
+    return jsonify( message='Could not open a connection', status='error')
+  
+  cursor = conn.cursor()
+
+  sqlstr = 'select filecontentsxml from sgg4calfiles where useridkey = %s and filename = %s;'
+
+  cursor.execute(sqlstr, (userid, filename,))
+
+  records = cursor.fetchone()
+
+
+  log.info('getcalfilelist: records found for userid %s:  ', records)              
+
+  
+  db_pool.putconn(conn)
+  
+
+  result = json.dumps(
+    dict(
+      records=records
+    ),
+    cls=DateEncoder
+  )
+
+
+  log.info('getcalfilelist: records found for userid %s:  ', result)       
+  
+  response = make_response(result)
+  response.headers['content-type'] = "application/json"
+  return response
+
+
+# ######################################################
 # gets user info from a userid
 # #####################################################
 @app.route('/getuser')
