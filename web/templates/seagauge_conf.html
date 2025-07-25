@@ -183,7 +183,11 @@ function StartUpMyScript()
 
 
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 
+const adcCalChannel = urlParams.get('adcCalChannel'); // "shirt"
+const adcCalFile = urlParams.get('adcCalFile');     // "red"
 
 
 

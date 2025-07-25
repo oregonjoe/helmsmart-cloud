@@ -1871,6 +1871,8 @@ def seasmartconfig():
   prefAction = request.args.get('PrefUpdateXML','')
   prefKey = request.args.get('PrefKeyXML','')
   prefName = request.args.get('PrefNameXML','')
+  adcCalChannel = request.args.get('adcCalChannel','')
+  adcCalFile = request.args.get('adcCalFile','')
 
   log.info("seasmartconfig postdata prefAction %s prefKey %s  prefName %s", prefAction, prefKey, prefName)
 
@@ -1895,7 +1897,8 @@ def seasmartconfig():
     seagaugeg4.set_seasmart_pgn_xml(prefidkey, request)
   
   #return jsonify(result="OK", postdata = postdata)
-  response = make_response(render_template('seagauge_conf.html', features = []))
+  #response = make_response(render_template('seagauge_conf.html', features = []))
+  response = make_response(render_template('seagauge_conf.html?adcCalChannel=0&adcCalFile=VDo250.xml', features = []))
   #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
   response.headers['Cache-Control'] = 'public, max-age=0'
   return response
