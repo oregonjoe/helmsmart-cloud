@@ -1806,6 +1806,32 @@ def set_seasmart_network_xml(postdata):
   return  
 """
 
+# ######################################################
+# gets seagaugeg4 config POST parameters methods=['GET','POST'])
+# #####################################################  
+@app.route('/savesgg4calxml' , methods=['GET','POST'])
+@cross_origin()
+def savesgg4calxml():
+
+  log.info("savesgg4calxml endpoint")
+
+  log.info("savesgg4calxml request %s", request)
+  #postdata = request.form
+  #postdata = request.args.get('SSID')
+  postdata = request.args
+
+  log.info("savesgg4calxml postdata %s", postdata)
+  
+  userid = request.args.get('userid','')
+  ssg4calname = request.args.get('ssg4calname','')
+  ssg4calxml = request.data
+
+  log.info("seasmartconfig postdata userid %s prefKey %s  ssg4calname %s", userid, ssg4calname, ssg4calxml)
+
+  response = make_response(render_template('seagauge_conf.html', features = []))
+  #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+  response.headers['Cache-Control'] = 'public, max-age=0'
+  return response
 
 # ######################################################
 # gets seagaugeg4 config POST parameters methods=['GET','POST'])
