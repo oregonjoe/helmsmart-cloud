@@ -165,106 +165,41 @@ function getCalibrationFiles(fileSource)
 	newdatafile = "/download/calibrations/?MODE=" + fileSource;
 	devicedataurl = "https://www.helmsmart-cloud.com/getcalfilelist";
 
-      try
-      {
-          objXml.open("GET",devicedataurl   , true);
-      }
-      catch (exception)
-      {
-            var ie = (typeof window.ActiveXObject != 'undefined');
 
-            if (ie)
-            {
-                xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-                xmlDoc.async = false;
-                while(xmlDoc.readyState != 4) {};
-                xmlDoc.load(devicedataurl);
-               // alert(xmlDoc.getElementsByTagName("Body")[0].childNodes[0].nodeValue);
-                mydata = xmlDoc.getElementsByTagName("Body")[0].childNodes[0].nodeValue;
-                //if(mydata != null)
-                // ProcessPageGaugeUpdates(mydata);
-                //xmlloaded = true;
-                return;
-            }
-            else
-            {
-                //xmlDoc = document.implementation.createDocument("", "", null);
-                //xmlDoc.onload = readXML;
-                //xmlDoc.load(newdatafile);
-                //xmlloaded = true;
-                return;
-            }
-
-      }
-
-   // define the call back function to handle the result from the ObjXMl.send
-   // during an async operation
-    objXml.onreadystatechange = function () 
-    {
-
-        // 0: request not initialized 
-        // 1: server connection established
-        // 2: request received 
-        // 3: processing request 
-        // 4: request finished and response is ready
-        // All other ready states are ignored
-        // we are only intrested in event 4 which is 
-        
-      
-          if (objXml.readyState == 4) 
-          {
-            //  alert("finished " + objXml.responseText);
-            // page not found (404) so clear out data
-            if (objXml.status == 404) 
-            {
-              // Clears Dial values from Parsed PGNs
-              // create each dial
-
-           }  // end of status = 404
-    
-         // Here is a  fun one !!
-         // If XMLHTTPRequest is to a web server then the objXml.status == 200
-         // if it is to a local file system then objXml.status == 0
-         // status 200 means request completed with OK
-         // else if (objXml.status == 0)
-         else if (objXml.status == 200) 
-         {
-             // mydata = objXml.responseText;
-             if(objXml.responseText != null)
-			 {
-
-                 //ProcessPageGaugeUpdates(objXml.responseText);
-				 //displayCalibrationFiles(objXml.responseText)
-				 listCalibrationFiles(objXml.responseText)
-			}
-			
-			//$.unblockUI();
-         } // end of status = 200 routine
-		 
-			$.unblockUI();
-    } // end of readystate = 4 
-    
-// commented out section to display readystate status in browser window        
-//    else 
-//    {
-//        document.getElementById("zone").innerHTML = objXml .readyState  + "<br /> ";
-//        // insert this in body of HTML doc // 
-//        <div id="zone" style="width:100%; Height:10%;"></div>
-//    }
-
-    }; // end of onreadystatechange callback function for async get data request
-
-  // send the XMLHttpRequest async after setting up callback to process events
-  //
-  objXml.send(null);
+     return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		listCalibrationFiles(response);
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+  
+  
 
 } // end of GetN2KData function
 
-function listCalibrationFiles(files)
+function listCalibrationFiles(response)
 {
 var calibrationFileName;
 var optionFileName;
-var myFiletags = files.split(/\r\n/);
+var myFiletags = "";
 var XMLvalue;
 var optionIndex=1;
 
@@ -287,7 +222,7 @@ var optionIndex=1;
 	// Add the option to the select element
 	document.getElementById("CalFilesSelectDD").add(newOption);
 	
-	files.forEach(function(row){
+	response.records.forEach(function(row){
 		calibrationFileName = row[0];
 	});
 	

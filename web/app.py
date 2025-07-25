@@ -2063,7 +2063,35 @@ def getcalfilelist():
   
   db_pool.putconn(conn)
   
-  return jsonify(result="OK", sgg4calfiles=sgg4calfiles)
+  def type_for(type_code):
+    return {
+      23: 'INTEGER',
+      1043: 'STRING',
+      1114: 'DATETIME'    
+    }.get(type_code)
+
+
+  schema = dict(
+    fields= [
+      dict(name=c.name, type=type_for(c.type_code))
+      for c in cursor.description
+    ]
+  )
+
+  result = json.dumps(
+    dict(
+      schema=schema,
+      records=records
+    ),
+    cls=DateEncoder
+  )
+
+
+  log.info('getcalfilelist: records found for userid %s:  ', result)       
+  
+  response = make_response(result)
+  response.headers['content-type'] = "application/json"
+  return response
 
 # ######################################################
 # gets user info from a userid
