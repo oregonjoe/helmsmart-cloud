@@ -278,7 +278,7 @@ $.unblockUI();
 			if(calibrationFileName.includes(".xml", ""))
 			{		
 				//calibrationFileName.replace("cal\/", "");
-				document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileKey, calibrationFileName.replace("cal/", ""));
+				document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""), calibrationFileKey, );
 			}
 		}
 
@@ -962,7 +962,7 @@ function setChannel() {
 	window.open(myFilePath, '_self');
 
 }
-function getFile() {
+function getxmlFile() {
 
 
 	//var myFile = document.getElementById("FileNameValue").value;
@@ -1274,7 +1274,7 @@ function upload(filePath, fileName, fileData) {
 	</td>	
 	
 	<td style="width: 100px">
-	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetFile"  name="GetFile" value="Get" class="auto-style10" />
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetXMLFile"  name="GetXMLFile" value="Get" class="auto-style10" />
 	</td>	
 	
 </tr>
@@ -1364,7 +1364,7 @@ document.getElementById('OffsetFile').addEventListener('click', offsetValues, fa
 
 document.getElementById('SaveFile').addEventListener('click', saveFile, false);
 
-document.getElementById('GetFile').addEventListener('click', getFile, false);
+document.getElementById('GetFile').addEventListener('click', getXMLFile, false);
 
 document.getElementById('SetChannel').addEventListener('click', setChannel, false);
 
