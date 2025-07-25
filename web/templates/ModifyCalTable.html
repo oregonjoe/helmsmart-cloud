@@ -1064,8 +1064,8 @@ function upload(filePath, fileName, fileData) {
             }
         };
         xhttp.open("POST", upload_path, true);
-		xhttp.setRequestHeader("Content-Type", "application/json");
-        xhttp.send(JSON.stringify(fileData));
+		//xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(fileData);
 		
 		
 		   //devicedataurl = "https://www.helmsmart-cloud.com/getseagaugeg4configxml";
