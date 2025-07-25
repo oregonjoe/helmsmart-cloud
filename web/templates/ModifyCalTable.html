@@ -321,8 +321,8 @@ function ChangedCalFilesSourceDD(sel)
 function ChangedCalFilesSelectDD(sel)
 {
 
-	gFileName = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].value;
-	
+	//gFileName = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].value;
+	gFileName = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].text;
 	gCurrentFile = gFileName;
 	document.getElementById("CurrentCalFile").value = gCurrentFile;	
 	
