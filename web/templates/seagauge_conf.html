@@ -2623,8 +2623,9 @@ function handleCalFileSelect(evt) {
 
 	var myFilePath =  "download/calibrations/" + ADCindex.toString() + "/" ;
 
+		devicedataurl = "https://www.helmsmart-cloud.com/getcaltable?calFileName="+ ADCindex.toString() ;
 	//window.open('download/calibrations/', '_self');
-	window.open(myFilePath, '_self');
+	window.open(devicedataurl, '_self');
 
 }  
 
@@ -2639,11 +2640,11 @@ function handleCalFileModify(evt) {
 	//var ADCindex = parseInt(ADCchannel.match(/\d/g).join(''), 10);
 	var ADCindex = parseInt(evt);
 
-	var myFilePath =  "ModifyCalTable.html?ADC=" + ADCindex.toString()  + "&t=" + timestamp;
 
+	devicedataurl = "https://www.helmsmart-cloud.com/modifycaltable?adcindex="+ adcindex.toString() ;
 
 	//window.open('download/calibrations/', '_self');
-	window.open(myFilePath, '_self');
+	window.open(, '_self');
 	
 	//	location.reload(true)
 		
