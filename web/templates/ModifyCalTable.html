@@ -955,7 +955,9 @@ function setChannel() {
 	var currentChannel = document.getElementById("ADCChannelDD").selectedIndex;
 	
 	
-	var myFilePath =  "/download/www/calibrations/"  + currentChannel + "/" + currentFile + "?MODE=SETCAL" + "&t=" + timestamp;
+	//var myFilePath =  "/download/www/calibrations/"  + currentChannel + "/" + currentFile + "?MODE=SETCAL" + "&t=" + timestamp;
+	
+	var myFilePath = "https://www.helmsmart-cloud.com/seasmartconfig?adcCalChannel=" + currentChannel + "&adcCalFile=" + currentFile;
 
 
 	//window.open('download/calibrations/', '_self');
