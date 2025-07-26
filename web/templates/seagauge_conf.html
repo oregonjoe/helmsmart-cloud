@@ -147,7 +147,7 @@ var gversionSubstrings
 	var deviceAPIkeys = new Array();
 	
 	
-var CurrentDialID;
+	var CurrentDialID;
 
 	var DialPGNInstance = new Array(0,0,0,0,0,0,0,0); 
 
@@ -157,7 +157,8 @@ var CurrentDialID;
 	var gnumOfZones = 12;
 	var TemperatureInstanceStrings = new Array("Sea Temp", "Outside", "Inside", "Engine Room","Cabin", "Live Well", "Bait Well", "Refigeration", "Heating", "Dew Point", "Wind Chill A", "Wind Chill T", "Heat Index", "Freezer", "EGT ", "---");
 	
-	
+	var gSetADCChannel = "";
+	var gSetADCCalXMLFileName = "";
 
 	var imgAddresses=["images/CDI_Logo.jpg", "images/SeaSmartBanner.jpg", "images/SeaSmartG3Logo.jpg" ];
 	
@@ -185,12 +186,16 @@ function StartUpMyScript()
 
 
 		
-		{% if features is defined and features %}
-var myVariable = JSON.parse('{{ features | tojson }}');
-{% endif %}
+	{% if features is defined and features %}
+	
+		var setADCPameraters = JSON.parse('{{ features | tojson }}');
+		
+		gSetADCChannel = setADCPameraters[0].ADCChannel;
+		gSetADCCalXMLFileName = setADCPameraters[0].CALFile;
+		
+	{% endif %}
 
-	var myADCChannel = myVariable[0].ADCChannel;
-	var my ADCCalXML = myVariable[0].CALFile;
+
 
     AccountDataFolder = "001EC0B415C2";
     AccountType = 1;
