@@ -188,8 +188,8 @@ function StartUpMyScript()
 
 
 
-{% for feature in features %}
-          adcchannel =  {{ feature }}
+		{% for feature in features %}
+          adcjson =  {{ feature }};
         {% endfor %}
 
     AccountDataFolder = "001EC0B415C2";
