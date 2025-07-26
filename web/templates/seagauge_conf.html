@@ -184,15 +184,12 @@ function StartUpMyScript()
     {% endif %}
 
 
-
-		{% for feature in features %}
-          adcjson =  {{ feature }};
-        {% endfor %}
-
 		
 		{% if features is defined and features %}
-var myVariable = {{ features | tojson }};
+var myVariable = JSON.parse('{{ features | tojson }}');
 {% endif %}
+
+
 
     AccountDataFolder = "001EC0B415C2";
     AccountType = 1;
