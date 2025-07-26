@@ -190,8 +190,8 @@ function StartUpMyScript()
         {% endfor %}
 
 		
-		{% if feature is defined and feature %}
-var myVariable = {{ feature | tojson }};
+		{% if features is defined and features %}
+var myVariable = {{ features | tojson }};
 {% endif %}
 
     AccountDataFolder = "001EC0B415C2";
