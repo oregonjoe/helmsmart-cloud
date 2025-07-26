@@ -186,7 +186,7 @@ function StartUpMyScript()
 
 
 		{% for feature in features %}
-          adcjson =  {{ feature }};
+          adcjson =  JSON.parse("{{ feature }}");
         {% endfor %}
 
 
