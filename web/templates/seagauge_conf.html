@@ -2326,7 +2326,12 @@ function initializewifivars(xmlData) {
 	}
 		
 		
+		// set any override file names
 		
+		if(gSetADCChannel != "")
+		{
+			document.getElementById('CALFILE' + gSetADCChannel.toString()).value = gSetADCCalXMLFileName;
+		}
 		
 	//	initialize();
 		
