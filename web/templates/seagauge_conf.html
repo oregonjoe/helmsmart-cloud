@@ -189,7 +189,8 @@ function StartUpMyScript()
 var myVariable = JSON.parse('{{ features | tojson }}');
 {% endif %}
 
-
+	var myADCChannel = myVariable[0].ADCChannel;
+	var my ADCCalXML = myVariable[0].CALFile;
 
     AccountDataFolder = "001EC0B415C2";
     AccountType = 1;
