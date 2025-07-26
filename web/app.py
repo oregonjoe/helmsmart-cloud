@@ -1899,7 +1899,8 @@ def seasmartconfig():
   #return jsonify(result="OK", postdata = postdata)
   #data_for_template = ["Feature A", "Feature B", "Feature C"]
   #response = make_response(render_template('seagauge_conf.html', features = []))
-  myjson={"ADCChannel":0, "CALFile":"VDO250F.xml"}
+  #myjson={"ADCChannel":0, "CALFile":"VDO250F.xml"}
+  myjson=jsonify(ADCChannel=0, CALFile="VDO250F.xml")
   response = make_response(render_template('seagauge_conf.html', features = [myjson]))
   #response = make_response(render_template('seagauge_conf.html?adcCalChannel=0&adcCalFile=VDo250.xml', features = []))
   #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
