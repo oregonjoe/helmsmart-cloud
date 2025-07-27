@@ -85,6 +85,34 @@ color: #FFFFFF;
 			overflow: hidden !important;
 		}
 		
+				div:-webkit-full-screen {
+		  width: 100% !important;
+		}
+		div:-moz-full-screen {
+		  width: 100% !important;
+		}
+		div:-ms-fullscreen {
+		  width: 100% !important;
+		}
+		div:fullscreen {
+		  width: 100% !important;
+		  }
+		  
+		  .shadow {
+		-moz-box-shadow: 0 0 30px 5px #999;
+		-webkit-box-shadow: 0 0 30px 5px #999;
+		}
+
+		.shadow2 {
+			-moz-box-shadow:    3px 3px 5px 6px #ccc;
+			-webkit-box-shadow: 3px 3px 5px 6px #ccc;
+			box-shadow:         3px 3px 5px 6px #ccc;
+		}
+
+		.canvasarea  { overflow: hidden !important; }
+		
+		#CanvasArea { overflow: hidden !important; }
+		
   .auto-style2 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: small;
@@ -4334,13 +4362,7 @@ function SaveDeviceSettings()
 <div class="tab-pane" id="tabModifyCal">
 
 <table  cellpadding="0" cellspacing="0" style="border-collapse: collapse"  width="80%" height="100">
-<tr style="border-bottom: 2px solid #66A">
-    <td width="100%" height="77" colspan="2">
-    <p align="center">
-    	<a href="index.html">
- <img border="0"   alt=""  id='img0'  src="static/img/SeaSmartLogo.jpg"  />
-</a></td>
-  </tr>
+
   
 <tr style="border-bottom: 2px solid #66A">
     <td width="100%" height="50" colspan="2">
@@ -4553,7 +4575,7 @@ function SaveDeviceSettings()
 </div>  
 
 
-</div>  
+ 
 <!-- <div class="tab-content" id="tabArea"> ###################################################   -->
 </div>  
 <!-- <div class="container body-content">  ###################################################   -->
