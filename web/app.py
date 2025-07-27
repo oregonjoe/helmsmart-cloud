@@ -1842,14 +1842,14 @@ def savesgg4calxml():
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = "insert into sgg4calfiles ( useridkey, filename, filecontentsxml) values (%s, %s, %s) ;" 
+  sqlstr = "insert into sgg4calfiles ( useridkey, filename, filetype, filecontentsxml) values (%s, %s, 0, %s) ;" 
   cursor.execute(sqlstr, (useridkey, ssg4calname, ssg4calxml, ))  
   conn.commit()
 
   db_pool.putconn(conn)
 
 
-  response = make_response(render_template('ModifyCalTable.html', features = []))
+  response = make_response(render_template('seagauge_conf.html', features = []))
   #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
   response.headers['Cache-Control'] = 'public, max-age=0'
   return response
