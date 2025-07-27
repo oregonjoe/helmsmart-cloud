@@ -4008,6 +4008,10 @@ function deleteXMLFile() {
 	//var myFile = document.getElementById("FileNameValue").value;
 	var fileindex =  document.getElementById("CalFilesSelectDD").selectedIndex
 	var myFileKey = document.getElementById("CalFilesSelectDD").options[fileindex].value;
+	var myFileSource = document.getElementById("CalFilesSourceDD").options[fileindex].text;
+	
+	if(myFileSource == "SPIFFS")
+		return;
 	
 	
 	devicedataurl = "https://www.helmsmart-cloud.com/deletegg4calxml?ssg4calkey=" + myFileKey + "&userid="+ myuserid;
