@@ -4001,13 +4001,16 @@ function getXMLFile() {
 
 function deleteXMLFile() {
 
+	if(myuserid == "0")
+		return;
+
 
 	//var myFile = document.getElementById("FileNameValue").value;
 	var fileindex =  document.getElementById("CalFilesSelectDD").selectedIndex
-	var myFile = document.getElementById("CalFilesSelectDD").options[fileindex].value;
+	var myFileKey = document.getElementById("CalFilesSelectDD").options[fileindex].value;
 	
-	/*
-	devicedataurl = "https://www.helmsmart-cloud.com/deletegg4calxml?ssg4calkey=" + myFile + "&userid="+ myuserid;
+	
+	devicedataurl = "https://www.helmsmart-cloud.com/deletegg4calxml?ssg4calkey=" + myFileKey + "&userid="+ myuserid;
 
 		$.blockUI({ 
 		 message: '<h1>deleting file...</h1>',
@@ -4054,7 +4057,7 @@ function deleteXMLFile() {
 		            	} 
 		 		  });
   
-	*/
+	
 
 }
 
@@ -5490,7 +5493,7 @@ function upload(filePath, fileName, fileData) {
 
 <div class="tab-pane" id="tabModifyCal">
 
-<table  cellpadding="0" cellspacing="0" style="border-collapse: collapse"  width="80%" height="100">
+<table  cellpadding="0" cellspacing="0" style="border-collapse: collapse"  width="80%" height="30">
 
   
 <tr style="border-bottom: 2px solid #66A">
