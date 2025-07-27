@@ -2208,11 +2208,12 @@ def getcalfilelist():
 @cross_origin()
 def getcalfilexml():
 
-  userid = request.args.get('userid', '00000000000000000000000000000000')
-  filename = request.args.get('filename', 'VDO_TEMP_250FMAX.xml')
+  #userid = request.args.get('userid', '00000000000000000000000000000000')
+  filekey = request.args.get('filekey', 0)
+  mode = request.args.get('mode', 0)
 
-
-  log.info('getcalfilexml:  userid %s:  ', userid)
+  log.info('getcalfilexml:  filekey %s:  ', filekey)
+  log.info('getcalfilexml:  mode %s:  ', mode)
    
   try:  
     conn = db_pool.getconn()
@@ -2227,8 +2228,9 @@ def getcalfilexml():
   
   cursor = conn.cursor()
 
-  sqlstr = "select filecontentsxml, filetype from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s) and filename = %s;"
-
+  #sqlstr = "select filecontentsxml, filetype from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s) and filename = %s;"
+  sqlstr = "select filecontentsxml, filetype from sgg4calfiles where prefidkey = %s;"
+  
   cursor.execute(sqlstr, (userid, filename,))
 
   records = cursor.fetchone()
@@ -2248,11 +2250,20 @@ def getcalfilexml():
   )
 
 
-  log.info('getcalfilelist: records found for userid %s:  ', result)       
+  log.info('getcalfilelist: records found for userid %s:  ', result)
+
+  if int(mode) == 1:
+
+    response = make_response(str(records[0]) )
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers["Content-Disposition"] = "attachment; filename=" + filename
+    return response
   
-  response = make_response(result)
-  response.headers['content-type'] = "application/json"
-  return response
+  else:
+    
+    response = make_response(result)
+    response.headers['content-type'] = "application/json"
+    return response
 
 
 # ######################################################

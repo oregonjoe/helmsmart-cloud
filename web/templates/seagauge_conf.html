@@ -3253,8 +3253,8 @@ $.unblockUI();
 		document.getElementById("CalFilesSelectDD").selectedIndex = 0;
 		document.getElementById("CalFilesSourceDD").selectedIndex = 0;
 		
-		if(gFileName != "")
-			getFile(gFileName);
+		//if(gFileName != "")
+			getFile(0,0);
 
 
 }
@@ -3281,9 +3281,11 @@ function ChangedCalFilesSelectDD(sel)
 	gCurrentFile = gFileName;
 	document.getElementById("CurrentCalFile").value = gCurrentFile;	
 	
+	var FileKey = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].value;
+	
 	document.getElementById("CalFilesSourceDD").selectedIndex = sel.selectedIndex;	
 	
-	getFile(gFileName);
+	getFile(FileKey, 0);
 
 
 }
@@ -3894,7 +3896,7 @@ async function saveFile(fileHandle, data) {
 
 // Function to Get new N2K data from server or local file
 //
-function getFile(fileName)
+function getFile(fileKey, mode)
 {
     //var tmp = new Date();
    // var suffix = tmp.getTime();
@@ -3935,7 +3937,7 @@ function getFile(fileName)
    //  alert(newdatafile);
     //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
 	
-		devicedataurl = "https://www.helmsmart-cloud.com/getcalfilexml?filename=" + fileName + "&userid="+ myuserid;
+		devicedataurl = "https://www.helmsmart-cloud.com/getcalfilexml?filekey=" + fileKey + "&mode=" + mode;
 
 
      return $.ajax({
@@ -3951,7 +3953,7 @@ function getFile(fileName)
 					   success: function(response) {
 					   		//listCalibrationFiles(response);
 							$.unblockUI();  
-							 gFileName = fileName;
+							 //gFileName = fileName;
 							 
 							 if(response.records != null)
 								//displayContents(response.records[0])
@@ -3995,7 +3997,10 @@ function getXMLFile() {
 
 	//var myFile = document.getElementById("FileNameValue").value;
 	var fileindex =  document.getElementById("CalFilesSelectDD").selectedIndex
-	var myFile = document.getElementById("CalFilesSelectDD").options[fileindex].value;
+	var myFileKey = document.getElementById("CalFilesSelectDD").options[fileindex].value;
+		
+		
+	getFile(FileKey, 1);
 
 }
 
