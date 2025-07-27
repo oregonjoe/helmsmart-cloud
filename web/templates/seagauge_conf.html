@@ -3281,11 +3281,11 @@ function ChangedCalFilesSelectDD(sel)
 	gCurrentFile = gFileName;
 	document.getElementById("CurrentCalFile").value = gCurrentFile;	
 	
-	var FileKey = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].value;
+	var myFileKey = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].value;
 	
 	document.getElementById("CalFilesSourceDD").selectedIndex = sel.selectedIndex;	
 	
-	getFile(FileKey, 0);
+	getFile(myFileKey, 0);
 
 
 }
@@ -4000,7 +4000,7 @@ function getXMLFile() {
 	var myFileKey = document.getElementById("CalFilesSelectDD").options[fileindex].value;
 		
 		
-	getFile(FileKey, 1);
+	getFile(myFileKey, 1);
 
 }
 
