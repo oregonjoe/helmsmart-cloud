@@ -3334,6 +3334,47 @@ var endPos=-1;
 
 
 }
+
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLConfigValue(xmlData, field) {
+var myerr;	
+
+var startStr = '<configitem name="'+ field + '"><value>';
+
+
+//var endStr = "</" + field + ">";
+var endStr = "</value></configitem>";
+
+
+var startPos;
+var endPos;
+
+	try{
+		
+		startPos = xmlData.indexOf(startStr);
+		if(startPos == -1)
+			return null;
+		
+		startPos = startPos + startStr.length;
+		endPos = xmlData.indexOf(endStr, startPos);
+		
+		if(endPos == -1)
+			return null;
+		
+		return xmlData.substring(startPos,endPos).trim();
+		
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+	
+	
+	
+}
 	
 // Parses the xmlResponse returned by an XMLHTTPRequest object
 //	xmlData: the xmlData returned
@@ -3636,17 +3677,17 @@ var inputCell;
     for(x=rowCount-1; x>=0; x--)
     table.deleteRow(x);	
  
-	gDescription = getXMLValue(file_contents, 'DESCRIPTION');
- 	gType = getXMLValue(file_contents, 'TYPE');
-	gUnits = getXMLValue(file_contents, 'UNITS');
-	gResolution = getXMLValue(file_contents, 'RESOLUTION');
-	gMin = getXMLValue(file_contents, 'MIN');
-	gMax = getXMLValue(file_contents, 'MAX');
+	gDescription = getXMLConfigValue(file_contents, 'DESCRIPTION');
+ 	gType = getXMLConfigValue(file_contents, 'TYPE');
+	gUnits = getXMLConfigValue(file_contents, 'UNITS');
+	gResolution = getXMLConfigValue(file_contents, 'RESOLUTION');
+	gMin = getXMLConfigValue(file_contents, 'MIN');
+	gMax = getXMLConfigValue(file_contents, 'MAX');
 
  
  
 
-	var myLookupValues = getXMLValue(file_contents, 'LOOKUPVALUES');
+	var myLookupValues = getXMLConfigValue(file_contents, 'LOOKUPVALUES');
 	
 	gCalFileContents = myLookupValues;
  
