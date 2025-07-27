@@ -1858,18 +1858,13 @@ def savesgg4calxml():
 # ######################################################
 # gets seagaugeg4 config POST parameters methods=['GET','POST'])
 # #####################################################  
-@app.route('/savesgg4calxml' , methods=['GET','POST'])
+@app.route('/deletecalxml' , methods=['GET','POST'])
 @cross_origin()
-def deletegg4calxml():
+def deletecalxml():
 
   log.info("deletegg4calxml endpoint")
 
-  log.info("deletegg4calxml request %s", request)
-  #postdata = request.form
-  #postdata = request.args.get('SSID')
-  postdata = request.args
 
-  log.info("deletegg4calxml postdata %s", postdata)
   
   useridkey = request.args.get('userid','')
   ssg4calkey =  request.args.get('ssg4calkey','')

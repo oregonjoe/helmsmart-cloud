@@ -3912,16 +3912,8 @@ function getFile(fileKey, mode)
 	}
   
     
-	//gFileSource = document.getElementById("CalFilesSourceDD").options[sel.selectedIndex].value;
-	if(gFileSource == "SPIFFS")
-	{
-		newdatafile = "/download/seagaugeg4/cal/" + fileName;
-	}
-	else
-	{
-		newdatafile = "/download/calibrations/" + fileName;
-	}
 
+/*
     		$.blockUI({ 
 		 message: '<h1>Downloading file...</h1>',
 		css: {
@@ -3934,6 +3926,10 @@ function getFile(fileKey, mode)
 		opacity: .5,
 		color: '#fff'
 		} });
+		
+		*/
+		
+		
    //  alert(newdatafile);
     //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
 	
@@ -4025,7 +4021,7 @@ function deleteXMLFile() {
 		return;
 	
 	
-	devicedataurl = "https://www.helmsmart-cloud.com/deletegg4calxml?ssg4calkey=" + myFileKey + "&userid="+ myuserid;
+	devicedataurl = "https://www.helmsmart-cloud.com/deletecalxml?ssg4calkey=" + myFileKey + "&userid="+ myuserid;
 
 		$.blockUI({ 
 		 message: '<h1>deleting file...</h1>',
