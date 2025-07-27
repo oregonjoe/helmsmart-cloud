@@ -3939,8 +3939,14 @@ function getFile(fileKey, mode)
 	
 		devicedataurl = "https://www.helmsmart-cloud.com/getcalfilexml?filekey=" + fileKey + "&mode=" + mode;
 
+		if(mode == 1)
+		{
+			window.location = devicedataurl;
+		}
+		else
+		{
 
-     return $.ajax({
+			return $.ajax({
 					   //async: false,
 					   cache: false,
 					   url: devicedataurl,
@@ -3973,7 +3979,7 @@ function getFile(fileKey, mode)
 		            	} 
 		 		  });
   
-  
+			}
 	 
 
 } // end of GetN2KData function
