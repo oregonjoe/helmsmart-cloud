@@ -3261,7 +3261,7 @@ function ChangedCalFilesSelectDD(sel)
 
 
 }
-
+/*
 // Parses the xmlResponse returned by an XMLHTTPRequest object
 //	xmlData: the xmlData returned
 //  field: the field to search for
@@ -3300,6 +3300,40 @@ var endPos;
 	}
 	
 }	
+*/
+
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLValue(xmlData, field) {
+var myerr;	
+
+	
+	//determine start-pos and end-pos of desired substring, and then get it
+var startStr = "<" + field + ">";
+var endStr = "</" + field + ">";
+var startPos=-1;
+var endPos=-1;
+
+	try{
+		
+		//startPos = xmlData.indexOf(startStr) + startStr.length;
+		startPos = xmlData.indexOf(startStr) ;
+		if (startPos == -1) return "";
+		
+		endPos = xmlData.indexOf(endStr);
+		if (endPos == -1) return "";
+		
+		return xmlData.substring((startPos+ startStr.length),endPos).trim();
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+
+
+}
 	
 // Parses the xmlResponse returned by an XMLHTTPRequest object
 //	xmlData: the xmlData returned
