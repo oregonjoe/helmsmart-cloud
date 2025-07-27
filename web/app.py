@@ -1854,6 +1854,54 @@ def savesgg4calxml():
   response.headers['Cache-Control'] = 'public, max-age=0'
   return response
 
+
+# ######################################################
+# gets seagaugeg4 config POST parameters methods=['GET','POST'])
+# #####################################################  
+@app.route('/savesgg4calxml' , methods=['GET','POST'])
+@cross_origin()
+def deletegg4calxml():
+
+  log.info("deletegg4calxml endpoint")
+
+  log.info("deletegg4calxml request %s", request)
+  #postdata = request.form
+  #postdata = request.args.get('SSID')
+  postdata = request.args
+
+  log.info("deletegg4calxml postdata %s", postdata)
+  
+  useridkey = request.args.get('userid','')
+  ssg4calkey =  request.args.get('ssg4calkey','')
+
+
+  log.info("deletegg4calxml postdata userid %s ssg4calkey %s  ", useridkey, ssg4calkey)
+
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    log.info("getuser_endpoint error - db_pool.getconn ")
+    log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+  
+  cursor = conn.cursor()
+  sqlstr = "delete from sgg4calfiles where (userid = %s and prefidkey= %s);" 
+  cursor.execute(sqlstr, (useridkey, ssg4calkey, ))  
+  conn.commit()
+
+  db_pool.putconn(conn)
+
+
+  response = make_response(render_template('seagauge_conf.html', features = []))
+  #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+  response.headers['Cache-Control'] = 'public, max-age=0'
+  return response
+
+
 # ######################################################
 # gets seagaugeg4 config POST parameters methods=['GET','POST'])
 # #####################################################  
