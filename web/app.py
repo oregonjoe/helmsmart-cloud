@@ -2229,7 +2229,7 @@ def getcalfilexml():
   cursor = conn.cursor()
 
   #sqlstr = "select filecontentsxml, filetype from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s) and filename = %s;"
-  sqlstr = "select filecontentsxml, filetype from sgg4calfiles where prefidkey = %s;"
+  sqlstr = "select filecontentsxml, filetype, filename from sgg4calfiles where prefidkey = %s;"
   
   cursor.execute(sqlstr, (filekey,))
 
@@ -2256,7 +2256,7 @@ def getcalfilexml():
 
     response = make_response(str(records[0]) )
     response.headers['Content-Type'] = 'text/csv'
-    response.headers["Content-Disposition"] = "attachment; filename=" + filename
+    response.headers["Content-Disposition"] = "attachment; filename=" + str(records[2])
     return response
   
   else:
