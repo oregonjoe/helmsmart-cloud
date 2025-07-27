@@ -2231,7 +2231,7 @@ def getcalfilexml():
   #sqlstr = "select filecontentsxml, filetype from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s) and filename = %s;"
   sqlstr = "select filecontentsxml, filetype from sgg4calfiles where prefidkey = %s;"
   
-  cursor.execute(sqlstr, (userid, filename,))
+  cursor.execute(sqlstr, (filekey,))
 
   records = cursor.fetchone()
 
