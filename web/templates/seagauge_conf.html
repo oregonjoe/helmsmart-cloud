@@ -3152,6 +3152,11 @@ $.unblockUI();
 	document.getElementById("CalFilesSelectDD").length = 0;
 	document.getElementById("CalFilesSelectDD").selectedIndex = 0;
 	
+	document.getElementById("CalFilesSourceDD").length = 0;
+	document.getElementById("CalFilesSourceDD").selectedIndex = 0;
+	
+	document.getElementById("CalFilesSourceDD").options[0] = new Option("SPIFFS",0);
+	
 	//document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""),calibrationFileName.replace("cal/", ""));
 
 	
@@ -3168,6 +3173,14 @@ $.unblockUI();
 	
 		calibrationFileName = row[1];
 		calibrationFileKey= row[0];
+		
+		calibrationFileType= row[2];
+		
+		if(calibrationFileType == 1)
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SD CARD", optionIndex);
+		else
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SPIFFS", optionIndex);
+		
 	/*
 		XMLvalue = getXMLTag(myFiletags[index], "<ADCchannel>");
 		if(XMLvalue != null)
@@ -3245,9 +3258,9 @@ function displayCalibrationFiles(files)
 
 function ChangedCalFilesSourceDD(sel)
 {
-	gFileSource = document.getElementById("CalFilesSourceDD").options[sel.selectedIndex].value;
+	//gFileSource = document.getElementById("CalFilesSourceDD").options[sel.selectedIndex].value;
 	
-	getCalibrationFiles(gFileSource)
+	//getCalibrationFiles(gFileSource)
 
 }
 
@@ -3258,6 +3271,8 @@ function ChangedCalFilesSelectDD(sel)
 	gFileName = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].text;
 	gCurrentFile = gFileName;
 	document.getElementById("CurrentCalFile").value = gCurrentFile;	
+	
+	document.getElementById("CalFilesSourceDD").selectedIndex = sel.selectedIndex;	
 	
 	getFile(gFileName);
 
@@ -4195,7 +4210,7 @@ function upload(filePath, fileName, fileData) {
 	<li><a href="#tabInfo" role="tab" data-toggle="tab">Info</a></li>
 		<li><a href="#tabPref" role="tab" data-toggle="tab">Prefs</a></li>
 	<li><a href="#tabConfig" role="tab" data-toggle="tab">Config</a></li>
-	<li><a href="#tabModifyCal" role="tab" data-toggle="tab">Modify</a></li>
+	<li><a href="#tabModifyCal" role="tab" data-toggle="tab">Modify Calibration Files</a></li>
 
 </ul>
 
