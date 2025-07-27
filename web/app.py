@@ -1884,7 +1884,7 @@ def deletecalxml():
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = "delete from sgg4calfiles where (userid = %s and prefidkey= %s);" 
+  sqlstr = "delete from sgg4calfiles where (useridkey = %s and prefidkey= %s);" 
   cursor.execute(sqlstr, (useridkey, ssg4calkey, ))  
   conn.commit()
 
