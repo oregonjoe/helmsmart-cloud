@@ -5618,6 +5618,60 @@ function upload(filePath, fileName, fileData) {
   
 </table>
 
+<script type="text/javascript">
+
+document.getElementById('SDGetCalFile').addEventListener('change', handleCalFileSelect, false);
+
+
+document.getElementById('InterpolateFile').addEventListener('click', interpolateValues, false);
+document.getElementById('ScaleFile').addEventListener('click', scaleValues, false);
+document.getElementById('OffsetFile').addEventListener('click', offsetValues, false);
+
+
+//document.getElementById('GetFile').addEventListener('click', getFile, false);
+
+document.getElementById('SaveFile').addEventListener('click', saveFile, false);
+
+document.getElementById('GetXMLFile').addEventListener('click', getXMLFile, false);
+
+document.getElementById('setChannel').addEventListener('click', setChannel, false);
+
+// Add an event listener to the table
+document.getElementById("DetailData").addEventListener("click", function(event) {
+  // Check if the clicked element is a table cell
+  if (event.target.tagName === "TD") {
+    // Get the clicked cell element
+    const oldcell = event.target;
+
+    // Get the row and column indices
+    const rowIndex = oldcell.parentNode.rowIndex;
+    const colIndex = oldcell.cellIndex;
+
+    // Do something with the clicked cell data
+    //console.log("Clicked cell at row:", rowIndex, ", column:", colIndex);
+    //console.log("Cell content:", cell.textContent);
+	if(colIndex == 2)
+	{
+	
+		//alert(oldcell.textContent);
+		
+		 // const table = document.getElementById(tableId);
+		const row = document.getElementById("DetailData").rows[rowIndex-1];
+		const newcell = row.cells[3];
+		//newcell.innerHTML = oldcell.textContent;
+		newcell.innerHTML = '<input type="number" id="newValue' + rowIndex.toString().padStart(3, '0') + '" min="0" max="65536" value="' + oldcell.textContent + '">';
+		
+	}
+	
+	
+  }
+});
+
+
+
+
+
+</script>
 
 <!-- end tabConfig TAB> ###################################################   -->
 </div>  
