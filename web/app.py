@@ -1823,7 +1823,7 @@ def savesgg4calxml():
   log.info("savesgg4calxml postdata %s", postdata)
   
   useridkey = request.args.get('userid','')
-  ssg4calname = "custom - " + request.args.get('ssg4calname','')
+  ssg4calname = request.args.get('ssg4calname','')
   ssg4calxml_binary = request.data
 
   ssg4calxml = ssg4calxml_binary.decode('utf-8')
