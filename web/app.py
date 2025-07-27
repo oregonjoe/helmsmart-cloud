@@ -2109,7 +2109,7 @@ def getcalfilelist():
   
   cursor = conn.cursor()
 
-  sqlstr = "select prefidkey, filename from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s);"
+  sqlstr = "select prefidkey, filename, filetype from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s);"
 
   cursor.execute(sqlstr, (userid,))
 
@@ -2179,7 +2179,7 @@ def getcalfilexml():
   
   cursor = conn.cursor()
 
-  sqlstr = "select filecontentsxml from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s) and filename = %s;"
+  sqlstr = "select filecontentsxml, filetype from sgg4calfiles where (useridkey = '00000000000000000000000000000000' OR useridkey = %s) and filename = %s;"
 
   cursor.execute(sqlstr, (userid, filename,))
 

@@ -960,7 +960,7 @@ function InitializePage(numOfZones)
 		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"   value="select"  name="files[]"    /></td>'
 		//tablerowcontent = tablerowcontent +'<td style="width: 70px"><input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileSelectXX"   value="select"  onclick="handleCalFileSelect(XX)"   /></td>'
 		
-		tablerowcontent = tablerowcontent +'<td style="width: 70px"><input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileModifyXX"   value="modify"  onclick="handleCalFileModify(XX)"   /></td>'
+		//tablerowcontent = tablerowcontent +'<td style="width: 70px"><input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileModifyXX"   //value="modify"  onclick="handleCalFileModify(XX)"   /></td>'
 		
 		
 		for(rowindex=0; rowindex < numOfZones; rowindex++)
@@ -2709,6 +2709,7 @@ function upload(filePath, fileName) {
     }
 }
   
+ /*
 function handleCalFileSelect(evt) {
 
 
@@ -2727,6 +2728,7 @@ function handleCalFileSelect(evt) {
 	window.open(devicedataurl, '_self');
 
 }  
+*/
 
 function handleCalFileModify(evt) {
 
@@ -3645,7 +3647,7 @@ function handleCalFileSelect(evt) {
    
 }
 
-function displayContents(file_contents)
+function displayContents(response)
 {
  //var fileSize =
  
@@ -3662,6 +3664,8 @@ var cell0;
 var cell1;
 var inputCell;
 
+	var file_contents = response.records[0];
+	var file_type = response.records[1];
 
 	var table = document.getElementById("HeaderData");
 
@@ -3926,7 +3930,8 @@ function getFile(fileName)
 							 gFileName = fileName;
 							 
 							 if(response.records != null)
-								displayContents(response.records[0])
+								//displayContents(response.records[0])
+								displayContents(response)
 							
 							
 					   },
@@ -3957,18 +3962,10 @@ function setChannel() {
 	var currentFile = document.getElementById("CurrentCalFile").value;
 	var currentChannel = document.getElementById("ADCChannelDD").selectedIndex;
 	
-	
-	//var myFilePath =  "/download/www/calibrations/"  + currentChannel + "/" + currentFile + "?MODE=SETCAL" + "&t=" + timestamp;
-	
-	//var myFilePath = "https://www.helmsmart-cloud.com/seasmartconfig?adcCalChannel=" + currentChannel + "&adcCalFile=" + currentFile;
-
-	//	tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 180px;" maxlength="32" id="CALFILEXX" name="CALFILEXX" value="" readonly /></td>'
-		
-						document.getElementById('CALFILE' + currentChannel.toString()).value = currentFile;
-	//window.open('download/calibrations/', '_self');
-	//window.open(myFilePath, '_self');
+	document.getElementById('CALFILE' + currentChannel.toString()).value = currentFile;
 
 }
+
 function getXMLFile() {
 
 
@@ -3977,6 +3974,16 @@ function getXMLFile() {
 	var myFile = document.getElementById("CalFilesSelectDD").options[fileindex].value;
 
 }
+
+function deleteXMLFile() {
+
+
+	//var myFile = document.getElementById("FileNameValue").value;
+	var fileindex =  document.getElementById("CalFilesSelectDD").selectedIndex
+	var myFile = document.getElementById("CalFilesSelectDD").options[fileindex].value;
+
+}
+
 function saveFile() {
  
  /*
@@ -5548,6 +5555,10 @@ function upload(filePath, fileName, fileData) {
 	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetXMLFile"  name="GetXMLFile" value="Get" class="auto-style14" />
 	</td>	
 	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="DeleteXMLFile"  name="DeleteXMLFile" value="Delete" class="auto-style14" />
+	</td>	
+	
 </tr>
 
 
@@ -5633,7 +5644,7 @@ document.getElementById('OffsetFile').addEventListener('click', offsetValues, fa
 document.getElementById('SaveFile').addEventListener('click', saveFile, false);
 
 document.getElementById('GetXMLFile').addEventListener('click', getXMLFile, false);
-
+document.getElementById('DeleteXMLFile').addEventListener('click', deleteXMLFile, false);
 document.getElementById('setChannel').addEventListener('click', setChannel, false);
 
 // Add an event listener to the table
