@@ -3960,11 +3960,13 @@ function setChannel() {
 	
 	//var myFilePath =  "/download/www/calibrations/"  + currentChannel + "/" + currentFile + "?MODE=SETCAL" + "&t=" + timestamp;
 	
-	var myFilePath = "https://www.helmsmart-cloud.com/seasmartconfig?adcCalChannel=" + currentChannel + "&adcCalFile=" + currentFile;
+	//var myFilePath = "https://www.helmsmart-cloud.com/seasmartconfig?adcCalChannel=" + currentChannel + "&adcCalFile=" + currentFile;
 
-
+	//	tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 180px;" maxlength="32" id="CALFILEXX" name="CALFILEXX" value="" readonly /></td>'
+		
+						document.getElementById('CALFILE' + currentChannel.toString()).value = currentFile;
 	//window.open('download/calibrations/', '_self');
-	window.open(myFilePath, '_self');
+	//window.open(myFilePath, '_self');
 
 }
 function getXMLFile() {
