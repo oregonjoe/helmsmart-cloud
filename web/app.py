@@ -1842,7 +1842,7 @@ def savesgg4calxml():
     db_pool.closeall()  
   
   cursor = conn.cursor()
-  sqlstr = "insert into sgg4calfiles ( useridkey, filename, filetype, filecontentsxml) values (%s, %s, 0, %s) ;" 
+  sqlstr = "insert into sgg4calfiles ( useridkey, filename, filetype, filecontentsxml) values (%s, %s, 1, %s) ;" 
   cursor.execute(sqlstr, (useridkey, ssg4calname, ssg4calxml, ))  
   conn.commit()
 

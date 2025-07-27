@@ -3177,9 +3177,9 @@ $.unblockUI();
 		calibrationFileType= row[2];
 		
 		if(calibrationFileType == 1)
-			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SD CARD", optionIndex);
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SD CARD", row[0]);
 		else
-			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SPIFFS", optionIndex);
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SPIFFS", row[0]);
 		
 	/*
 		XMLvalue = getXMLTag(myFiletags[index], "<ADCchannel>");
@@ -3235,14 +3235,23 @@ $.unblockUI();
 	
 		//document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""),calibrationFileName.replace("cal/", ""));;
 		if(optionIndex == 0)
+		{
 			document.getElementById("CalFilesSelectDD").options[0] = new Option("Select File","");
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SPIFFS", 0);
+		}
 		else if(optionIndex == 1)
+		{
 			document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option("Select File","");
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SPIFFS", 0);
+		}
 		
 			//document.getElementById("CalFilesSelectDD").add(newOption);
 		
 		document.getElementById("CalFilesSelectDD").selectedIndex = 0;
 		gFileName = document.getElementById("CalFilesSelectDD").options[0].value;
+		
+		document.getElementById("CalFilesSelectDD").selectedIndex = 0;
+		document.getElementById("CalFilesSourceDD").selectedIndex = 0;
 		
 		if(gFileName != "")
 			getFile(gFileName);
@@ -3996,6 +4005,56 @@ function deleteXMLFile() {
 	//var myFile = document.getElementById("FileNameValue").value;
 	var fileindex =  document.getElementById("CalFilesSelectDD").selectedIndex
 	var myFile = document.getElementById("CalFilesSelectDD").options[fileindex].value;
+	
+	/*
+	devicedataurl = "https://www.helmsmart-cloud.com/deletegg4calxml?ssg4calkey=" + myFile + "&userid="+ myuserid;
+
+		$.blockUI({ 
+		 message: '<h1>deleting file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+	
+	
+     return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		//listCalibrationFiles(response);
+							$.unblockUI();  
+							
+							 
+						
+							
+							
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+  
+	*/
 
 }
 
