@@ -1921,13 +1921,15 @@ def seasmartconfig():
 
   #log.info("seasmartconfig postdata %s", postdata)
 
-  if prefAction == "delete":
+
+
+  if prefAction == "delete" and int(prefKey) != 0:
     seagaugeg4.delete_seagauge_xml(request)
 
-  elif prefAction == "add":
+  elif prefAction == "add" and int(prefKey) != 0:
     seagaugeg4.add_seagauge_xml(request)
 
-  elif prefAction == "update":
+  elif prefAction == "update" and int(prefKey) != 0:
     
     prefidkey = request.args.get('PrefKeyXML',0)
     
