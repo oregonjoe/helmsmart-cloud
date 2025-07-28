@@ -38,7 +38,7 @@ from zoneinfo import ZoneInfo
 
 #from geopy.distance import vincenty
 from geopy.distance import geodesic
-
+ 
 
 from influxdb.influxdb08 import InfluxDBClient
 
