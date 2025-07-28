@@ -345,6 +345,9 @@ function StartUpMyScript()
 		    			document.getElementById("DeviceID").selectedIndex = i;
 		    	}
 				
+		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
+		document.getElementById('DeviceIDXML').value = myDeviceID;
+				
         //  UpdateSeriesList();
 		//deviceapikey = deviceAPIkeys[document.getElementById("DeviceID").selectedIndex];
 		getDeviceParamList(myDeviceID);
@@ -806,6 +809,9 @@ function AddNewPref()
 	 document.getElementById("configuration").submit();
 	 
 
+	 
+		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
+		document.getElementById('DeviceIDXML').value = myDeviceID;
 
 
 }	 	
