@@ -27,6 +27,8 @@ import psycopg
 from calendar import timegm
 import datetime
 from datetime import timezone
+from dateutil.relativedelta import relativedelta
+
 import time
 from time import mktime
 from zoneinfo import ZoneInfo
@@ -5580,15 +5582,15 @@ def getepochtimes(Interval):
             elif Interval == "1month":
                 resolution = 60*60*24*30
                 startepoch = endepoch - (resolution * 1)
-                oldtime = datetime.datetime.now() - datetime.timedelta(months=1)
+                oldtime = datetime.datetime.now() - relativedelta(months=1)
             elif Interval == "6month":
                 resolution = 60*60*24*30*6
                 startepoch = endepoch - (resolution * 1)
-                oldtime = datetime.datetime.now() - datetime.timedelta(months=6)
+                oldtime = datetime.datetime.now() - relativedelta(months=6)
             elif Interval == "12month":
                 resolution = 60*60*24*30*12
                 startepoch = endepoch - (resolution * 1)
-                oldtime = datetime.datetime.now() - datetime.timedelta(months=12)                
+                oldtime = datetime.datetime.now() - relativedelta(months=12)                
                 
             else:
                 resolution = 60
