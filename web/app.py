@@ -1963,8 +1963,10 @@ def seasmartconfig():
 def getseagaugeg4configxml():
 
 
-  userid = request.args.get('userid', 'a91140300971bfb9244989a9bffde53c')
-  deviceidkey = request.args.get('deviceidkey', '1f389afd27e33799752b11838e7bc4ef')
+  #userid = request.args.get('userid', 'a91140300971bfb9244989a9bffde53c')
+  prefidkey = request.args.get('prefidkey', 0)
+
+  log.info('getseagaugeg4configxml: prefidkey %s:  ', prefidkey)   
 
   try:  
     conn = db_pool.getconn()
@@ -1981,8 +1983,8 @@ def getseagaugeg4configxml():
 
   #select configxml from user_sgg4configxml where deviceidkey = '1f389afd27e33799752b11838e7bc4ef'
   #sqlstr = 'select configxml from user_sgg4configxml where deviceidkey = %s;'
-  sqlstr = 'select devicexml, networkxml, pulsexml, runtimexml, pgnsxml from user_sgg4configxml where deviceidkey = %s;'
-  cursor.execute(sqlstr, (deviceidkey,))
+  sqlstr = 'select devicexml, networkxml, pulsexml, runtimexml, pgnsxml from user_sgg4configxml where prefidkey = %s;'
+  cursor.execute(sqlstr, (int(prefidkey),))
 
   records = cursor.fetchone()
 
@@ -2005,12 +2007,18 @@ def getseagaugeg4configxml():
 def createSGG4XMLfile():
 
   prefidkey = request.args.get('prefidkey', 0)
-  userid = request.args.get('userid', 'a91140300971bfb9244989a9bffde53c')
+  userid = request.args.get('userid', '00000000000000000000000000000000')
   
-  deviceidkey = request.args.get('deviceidkey', '1f389afd27e33799752b11838e7bc4ef')
+  deviceidkey = request.args.get('deviceidkey', '00000000000000000000000000000000')
   saveXML=request.args.get('saveXML', 0)
 
   log.info('createSGG4XMLfile: saveXML %s:  ', saveXML)              
+
+  if int(prefidkey) == 0:
+    return jsonify(result="Cant modify default")
+
+  if userid == '00000000000000000000000000000000':
+    return jsonify(result="only user can modify prefs")
 
   if int(saveXML) == 0:
     return jsonify(result="No file selected")
