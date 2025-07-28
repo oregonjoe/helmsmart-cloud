@@ -208,6 +208,7 @@ var gversionSubstrings
     var AccountInit = false;
     var ParameterInit = false;
     var myuserid;
+	var myVersionString = "1.9.3.7.28"
 	var deviceAPIkeys = new Array();
 	
 	
@@ -1796,17 +1797,25 @@ function initializewifivars(xmlData) {
 		if(myXMLdata == "")
 			myXMLdata = myDeviceID;
 		
-		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myXMLdata;
-		document.getElementById('DeviceIDXML').value = myXMLdata;
-		document.cookie = "deviceid=" + myXMLdata;
+		//document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myXMLdata;
+		//document.getElementById('DeviceIDXML').value = myXMLdata;
+		//document.cookie = "deviceid=" + myXMLdata;
+		
+		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
+		document.getElementById('DeviceIDXML').value = myDeviceID;
+		document.cookie = "deviceid=" + myDeviceID;
 		
 		myXMLdata = getXMLValue(xmlData, 'VersionInfo');
 		if(myXMLdata == "")
-			myXMLdata = "1.9.X.X.X";
+			myXMLdata = myVersionString;
 		
-		document.getElementById('VersionXMLValue').innerHTML = "Version " + myXMLdata;
-		document.getElementById('VersionXML').value = myXMLdata;
-		document.cookie = "version=" + myXMLdata;
+		//document.getElementById('VersionXMLValue').innerHTML = "Version " + myXMLdata;
+		//document.getElementById('VersionXML').value = myXMLdata;
+		//document.cookie = "version=" + myXMLdata;
+		
+		document.getElementById('VersionXMLValue').innerHTML = "Version " + myVersionString;
+		document.getElementById('VersionXML').value = myVersionString;
+		document.cookie = "version=" + myVersionString;
 		
 		
 		document.getElementById("DimmerInstanceDD").options.length = 0;
@@ -4471,7 +4480,7 @@ function upload(filePath, fileName, fileData) {
 		 
 			<input type="hidden" id="UserIDXML" name="UserIDXML" value="false" /> 
 			<input type="hidden" id="DeviceIDXML" name="DeviceIDXML" value="false" /> 
-			<input type="hidden" id="VersionXML" name="VersionXML" value="false" /> 
+			<input type="hidden" id="VersionXML" name="VersionXML" value="1.9.3.7.28" /> 
 			<input type="hidden" id="PrefNameXML" name="PrefNameXML" value="SSG4 DEFAULT" /> 	
 			<input type="hidden" id="PrefKeyXML" name="PrefKeyXML" value="0" /> 	
 			<input type="hidden" id="PrefUpdateXML" name="PrefUpdateXML" value="update" /> 
