@@ -1926,7 +1926,7 @@ def seasmartconfig():
   if prefAction == "delete" and int(prefKey) != 0:
     seagaugeg4.delete_seagauge_xml(request)
 
-  elif prefAction == "add" and int(prefKey) != 0:
+  elif prefAction == "add":
     seagaugeg4.add_seagauge_xml(request)
 
   elif prefAction == "update" and int(prefKey) != 0:

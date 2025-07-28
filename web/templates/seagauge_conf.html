@@ -3,7 +3,11 @@
 <html >
 <head>
 <meta content="en-us" http-equiv="Content-Language" />
-<meta http-equiv="Cache-control:max-age=2592000"  />
+<!-- <meta http-equiv="Cache-control:max-age=2592000"  /> -->
+
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title>SeaGauge G4 Configuration Page</title>
 
 
@@ -4478,7 +4482,7 @@ function upload(filePath, fileName, fileData) {
 	<tr>
 		<td>		              
 		<!-- <form id="configuration"  method="post"> -->
-		 <form id="configuration" action="/seasmartconfig"> 
+		 <form id="configuration" action="/seasmartconfig" autocomplete="off">
 		 
 			<input type="hidden" id="UserIDXML" name="UserIDXML" value="false" /> 
 			<input type="hidden" id="DeviceIDXML" name="DeviceIDXML" value="false" /> 
