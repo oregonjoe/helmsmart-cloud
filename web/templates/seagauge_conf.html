@@ -3055,6 +3055,13 @@ function SaveDeviceSettings()
 {
 
 
+    if(document.getElementById("XMLFilesSelect").selectedIndex == 0)
+	{
+	
+		alert('Cannot override default preferences \nAdd new preferance name first before saving current configuration');
+		return;
+	}
+
 
 	$.blockUI({ 
      message: '<h1>saving settings...</h1>',
