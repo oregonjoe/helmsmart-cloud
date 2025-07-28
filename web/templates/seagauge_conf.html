@@ -2921,14 +2921,15 @@ var myOptionValue = document.getElementById("CreateConfigXMLFiles").selectedInde
    var prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
 	if(myOptionValue == 2)
-		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2&prefidkey="+ prefkey;
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2&userid=" + myuserid + "&prefidkey=" + prefkey;
 	else if(myOptionValue == 3)
-		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=3&prefidkey="+ prefkey;
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=3&userid=" + myuserid + "&prefidkey=" + prefkey;
 	else if(myOptionValue == 4)
-		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=4&prefidkey="+ prefkey;
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=4&userid=" + myuserid + "&prefidkey=" + prefkey;
 	else 
-		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=1&prefidkey="+ prefkey;
-
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=1&userid=" + myuserid + "&prefidkey=" + prefkey;
+		
+		
 	//devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2";
 
     window.location = devicedataurl;
