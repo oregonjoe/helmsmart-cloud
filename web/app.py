@@ -18927,7 +18927,7 @@ def get_dbstats_html():
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[30]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[31]) * 0.001) ))  + "</td>"
 
-     elif  Interval == "6month":
+      elif  Interval == "6month":
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[0]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[1]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[2]) * 0.001) ))  + "</td>"
