@@ -5,8 +5,8 @@
 <configitem name="Save_NVRAM"><value>1</value></configitem>
 </configgroup>
 <configgroup name = "DEVICE">
-<configitem name="DeviceID"><value>FFFFFFFFFFFF</value></configitem>
-<configitem name="VersionInfo"><value>1.9.3.1.25</value></configitem>
+<configitem name="DeviceID"><value>AC1518EF5FA0</value></configitem>
+<configitem name="VersionInfo"><value>1.9.3.9.6</value></configitem>
 </configgroup>
 <configgroup name = "RuntimePulse">
 <configitem name="PulseRTTotal00"><value>0</value></configitem>
