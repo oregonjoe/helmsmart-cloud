@@ -256,7 +256,36 @@ function StartUpMyScript()
 	var adcchannel;
 	
 
+      AccountDataFolder = GetCookie(CookiePrefix + 'Account');
+      // alert('AccountDataFolder  ' + AccountDataFolder );
 
+      if (AccountDataFolder == null) {
+          AccountDataFolder = "000000000000"; 
+          AccountType = 1;
+          ConfigOptions = 0;
+          document.getElementById("XMLFilesSelect").selectedIndex = 0;
+          
+      }
+      else
+      {
+          var myStringArray
+          myStringArray = AccountDataFolder.split(":");
+          if(myStringArray.length != 0)
+          {
+              AccountDataFolder = myStringArray[0];
+              AccountType = myStringArray[1];
+              ConfigOptions = myStringArray[2];
+              document.getElementById("XMLFilesSelect").selectedIndex =0;
+          }
+          else
+          {
+              AccountDataFolder = "000000000000";
+              AccountType = 1;
+              ConfigOptions = 0;
+              document.getElementById("XMLFilesSelect").selectedIndex = 0;
+
+          }
+      }
     // Initialize Device ID droup down list
     // InitializeDeviceOptionList();
 
@@ -280,11 +309,11 @@ function StartUpMyScript()
 
 
 
-    AccountDataFolder = "001EC0B415C2";
-    AccountType = 1;
-    ConfigOptions = 0;
-    document.getElementById("XMLFilesSelect").selectedIndex = 0;
-    document.getElementById("DeviceID").selectedIndex = 0;
+    //AccountDataFolder = "001EC0B415C2";
+    //AccountType = 1;
+    //ConfigOptions = 0;
+    //document.getElementById("XMLFilesSelect").selectedIndex = 0;
+    //document.getElementById("DeviceID").selectedIndex = 0;
 	
 	document.getElementById("PrefUpdateXML").value = "default"
 
@@ -298,7 +327,7 @@ function StartUpMyScript()
 
     // set up Server Account Type
 
-   // SetServerType( 1);
+    SetServerType( 1);
 
     if (myuserid == null)
     {
@@ -564,7 +593,7 @@ function handleGetDevicePramNames(response)
  {
   // ConfigOptions = parseInt(sel.selectedIndex);
    // save new CongigOptions to Cookie file
-  //  SetServerType( 1);
+    SetServerType( 1);
 
   // go to DB and load new prefs
    getDeviceParamDetails(myuserid);
