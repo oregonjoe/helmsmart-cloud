@@ -372,13 +372,18 @@ function StartUpMyScript()
 		  
 	   		});
 	   		
-	   		
+	   	// set default DeviceID to initial index	
   		document.getElementById("DeviceID").selectedIndex = 0;
+		myDeviceID = document.getElementById("DeviceID").options[0].value;
+		
 	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
 	    		{
 	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
 		    		if(myDeviceID == AccountDataFolder)
+					{
 		    			document.getElementById("DeviceID").selectedIndex = i;
+						break;
+					}
 		    	}
 				
 		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
