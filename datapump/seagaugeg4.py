@@ -329,7 +329,7 @@ def create_seasmart_resets_xml(postdata):
   xmlfile = xmlfile + '</configgroup>\r\n'
   xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
   xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "VersionInfo") +'</value></configitem>\r\n'
   
   xmlfile = xmlfile + '<configgroup name = "RuntimePulse">\r\n'
   xmlfile = xmlfile + '<configitem name="PulseRTTotal00"><value>0</value></configitem>\r\n'
@@ -765,7 +765,7 @@ def create_seasmart_device_xml(postdata):
   xmlfile = xmlfile + '</configgroup>\r\n'
   xmlfile = xmlfile + '<configgroup name = "DEVICE">\r\n'
   xmlfile = xmlfile + '<configitem name="DeviceID"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "DeviceID") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="VersionInfo"><value>'+  get_xml_value(postdata, "VersionInfo") +'</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="N2K_STATUS_BUFF"><value>65535</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="Dimmer_Type"><value>'+  get_xml_value(postdata, "DIMMERTYPE") +'</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="Switch_PGN_Instance"><value>'+  get_xml_value(postdata, "DIMMERINSTANCE") +'</value></configitem>\r\n'
