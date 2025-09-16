@@ -996,7 +996,7 @@ function InitializePage(numOfZones)
 			 instanceOptions = instanceOptions + '<option value="' + instanceindex + '">' + instanceindex + '</option>';
 		}
 
-		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;">ADCXX</td>'
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;"><p title="PIN XX">ADCXX</p></td>'
 		tablerowcontent = tablerowcontent +' <td style="width: 60px"><select id="PGNIXX" name="PGNIXX"   style="width: 60px" size="1"  > '
 		tablerowcontent = tablerowcontent + instanceOptions + ' </select> </td>'		  
 		tablerowcontent = tablerowcontent +' <td style="width: 295px"> <select id="PGNNXX" name="PGNNXX"   style="width: 280px" size="1" onchange="SetPGNNumberOptionList(XX);"> </select></td>'  
