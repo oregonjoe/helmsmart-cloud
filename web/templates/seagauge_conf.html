@@ -245,8 +245,9 @@ var CookiePrefix = "SGG4CONFIG";
 
 	var imgAddresses=["images/CDI_Logo.jpg", "images/SeaSmartBanner.jpg", "images/SeaSmartG3Logo.jpg" ];
 	
-	var SSG4PinMap = new Array("PIN B6","PIN B16","PIN B7","PIN B17","PIN B4","PIN B14","PIN B5","PIN B15","PIN B18","PIN B8","PIN B3","PIN B13"); 
+	var SSG4PinMap = new Array("PIN B6","PIN B16","PIN B7","PIN B17","PIN B4","PIN B14","PIN B5","PIN B15","PIN B18","PIN B8","PIN B3","PIN B13","PIN B00","PIN A6","PIN A5","PIN A4","PIN B20","PIN B10","PIN B19","PIN B9"); 
 	
+		
 function StartUpMyScript()
 {
     var x
@@ -1022,7 +1023,7 @@ function InitializePage(numOfZones)
 		{
 			var tablerowid = "ADC" + rowindex + "PGNConfig";
 			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
-			var tablerow = tablerow.replaceAll('PINYY',SSG4PinMap[rowindex]);
+			tablerow = tablerow.replaceAll('PINYY',SSG4PinMap[rowindex]);
 			
 			document.getElementById(tablerowid).innerHTML =tablerow;		
 			//document.getElementById(tablerowid).addEventListener('click', handleCalFileSelect, false);
@@ -1108,7 +1109,7 @@ function InitializePage(numOfZones)
 			
 											
 		
-		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;">ADCXX</td>'
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;" title="PINZZ">ADCXX</td>'
 		tablerowcontent = tablerowcontent +' <td style="width: 290px"><select id="ADCAMXX" name="ADCAMXX"   style="width: 290px" size="1"  > '
 		tablerowcontent = tablerowcontent + alarmOptions + ' </select> </td>'		  
 		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCALXX" name="ADCALXX" value="0" /></td>'
@@ -1124,6 +1125,7 @@ function InitializePage(numOfZones)
 			
 			var tablerowid = "ADC" + rowindex + "AlarmConfig";
 			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
+			tablerow = tablerow.replaceAll('PINZZ',SSG4PinMap[rowindex]);
 			
 			document.getElementById(tablerowid).innerHTML =tablerow;		
 			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
@@ -1147,8 +1149,8 @@ function InitializePage(numOfZones)
 		{
 			var tablerowid = "ADC" + rowindex + "AlarmConfig";
 			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
-			
-			var tablerow = tablerow.replaceAll('YY',(15-rowindex));
+			tablerow = tablerow.replaceAll('PINZZ',SSG4PinMap[rowindex]);
+			tablerow = tablerow.replaceAll('YY',(15-rowindex));
 			
 			document.getElementById(tablerowid).innerHTML =tablerow;		
 			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
@@ -1173,7 +1175,7 @@ function InitializePage(numOfZones)
 			var tablerowid = "ADC" + rowindex + "AlarmConfig";
 			var tablerow1 = tablerowcontent.replaceAll('XX',rowindex);
 			var tablerow2 = tablerow1.replaceAll('YY',(rowindex-16));
-			
+			tablerow2 = tablerow2.replaceAll('PINZZ',SSG4PinMap[rowindex]);
 			document.getElementById(tablerowid).innerHTML =tablerow2;		
 			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
 
@@ -5325,7 +5327,7 @@ online. </p>
             </tr>
 			
 			<tr>
-				<td style="font-weight: bold;">Pulse0 Scale X 100</td>
+				<td style="font-weight: bold;" title="Pin A4">Pulse0 Scale X 100</td>
 				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE0SCALE" name="PULSE0SCALE" value="1500" /></td>
 				
 				<td style="width: 295px">
@@ -5340,7 +5342,7 @@ online. </p>
             </tr>
 			
 			<tr>
-				<td style="font-weight: bold;">Pulse1 Scale X 100</td>
+				<td style="font-weight: bold;" title="Pin A5">Pulse1 Scale X 100</td>
 				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE1SCALE" name="PULSE1SCALE" value="1500" /></td>
 								
 				<td style="width: 295px">
@@ -5356,7 +5358,7 @@ online. </p>
 			
 			
 			<tr>
-				<td style="font-weight: bold;">Pulse2 Scale X 100</td>
+				<td style="font-weight: bold;" title="Pin A6">Pulse2 Scale X 100</td>
 				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE2SCALE" name="PULSE2SCALE" value="1500" /></td>
 								
 				<td style="width: 295px">
