@@ -535,6 +535,8 @@ function handleGetDevicePramNames(response)
    	      document.getElementById("XMLFilesSelect").options[index++] = new Option(row[2],  row[0] );
 	   		});
 	
+	index--;
+	
    // set current user parameter to the indedx stored in the cookie
    if(document.getElementById("XMLFilesSelect").options.length >= ConfigOptions)
 	    document.getElementById("XMLFilesSelect").selectedIndex = ConfigOptions;
