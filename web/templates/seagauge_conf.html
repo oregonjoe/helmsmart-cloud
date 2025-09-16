@@ -1022,7 +1022,7 @@ function InitializePage(numOfZones)
 		{
 			var tablerowid = "ADC" + rowindex + "PGNConfig";
 			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
-			var tablerow = tablerowcontent.replaceAll('PINYY',SSG4PinMap(rowindex));
+			var tablerow = tablerowcontent.replaceAll('PINYY',SSG4PinMap[rowindex]);
 			
 			document.getElementById(tablerowid).innerHTML =tablerow;		
 			//document.getElementById(tablerowid).addEventListener('click', handleCalFileSelect, false);
