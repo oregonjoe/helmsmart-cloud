@@ -4361,56 +4361,89 @@ function upload(filePath, fileName, fileData) {
 
   <!-- tabInfo TAB> ###################################################   -->
   	<div class="tab-pane" id="tabInfo">
-	<p id="introText">With this datapane you can view vessel instrument data from your SeaSmart device.</p>
+	<p id="introText">With this virtual page you can configure your SeaGaugeG4
+device and download the config.xml files for storage on the local SD card, On
+reboot, SaeGaugeG4 will read the parameters from the CONFIG folder and configure
+the device</p>
 <div id="idMarketing">
-	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	<img src="static/img/SeaGaugeG4_200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://digitalmarinegauges.com/seagauge-g4-24-function-sensor-interface-unit-with-wifi-can-bus/', '_blank');" />
 	
-	<p>
-		To get started  - select your registered device from the <B>Device</B> tab and then enter the sensor data on the <B> PGN </B>tab – select <B>Gauges</B> to view.
-	</p>
-	
-	<p>
-		You can modify gauge appearance from the <B>Dials</B> tab and overall layout on <B> Page </B>tab. 
-		Name and Save your configuration from the <B>Device</B> tab for recall on any Web browser 
-	</p>
-	
-	
-	<p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your HelmSmart site where you can search for vessel position and overlay sensor data on trails.</p>
-	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
-	<ul>
-		<li>Links to your existing NMEA 2000 network</li>
-		<li>Sends positions to your yacht site</li>
-		<li>Uses you existing internet service</li>
-		<li>No need for additional data plan charges</li>
-		<li>Automatically creates logbooks and trip segments for your journeys</li>
-		<li>Monitors the battery voltage</li>
-		<li>Monitors the temperature onboard</li>
-		<li>Monitors fuel and tanks onboard</li>
-		<li>Monitors weather and wind</li>
-		<li>Tracks the yacht in case of theft</li>
-	</ul>
-	<p>Built-in data logger to SD memory</p>
-	<ul>
-		<li>Records everything when vessel is out of range</li>
-		<li>Up to a full year of storage</li>
-		<li>Automatically syncs to Boatlogger site when internet service is found</li>
-		<li>Cloud base storage and access from the HelmSmart data server</li>
-		</ul>
-	<p>Add more vessel sensors</p>
-	<ul>		
-		<li>Install additional temperature sensors to monitor e.g. engine room temperature, sea temperature, outdoor temperature etc.</li>
-		<li>12 additional customized inputs (6 digital inputs, 2 tach, and 4 analog inputs)</li>
-	</ul>
-	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
-	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
+	<div class=WordSection1>
+
+<p class=MsoNormal>With this virtual page you can configure your SeaGaugeG4
+device and download the config.xml files for storage on the local SD card, On
+reboot, SaeGaugeG4 will read the parameters from the CONFIG folder and configure
+the device</p>
+
+<p class=MsoNormal>Use the <b>PREFS</b> tab to select the registered device and
+select any stored preferences.</p>
+
+<p class=MsoNormal>New preferences can be added (or deleted) by specifying a <b>Preference
+Name</b></p>
+
+<p class=MsoNormal>Use the <b>CONFIG</b> tab to modify any parameters and <b>SAVE
+SETTINGS</b> to store on the HelmSmart-Cloud service</p>
+
+<p class=MsoNormal>Use the <b>SAVE XML</b> to download selected config files
+for copy to SeaGaugeG4 SD card.</p>
+
+<p class=MsoNormal>Refer to App Note <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24110201_ConfigXMLFiles.pdf">AN_SS24110201_ConfigXMLFiles.pdf</a>
+on how to load config.xml files onto SeaGaugeG4 SD card</p>
+
+<p class=MsoNormal>Use app note <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS25091301_G4ConfigSummary.pdf">AN_SS25091301_G4ConfigSummary.pdf</a>
+for details on all configuration parameters</p>
+
+<p class=MsoNormal>Use the Network section to configure Adhoc (stand alone) or
+Infrastructure (router based) network connections. See app notes <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS23073001_SeaSmartAPmode.pdf">AN_SS23073001_SeaSmartAPmode.pdf</a>
+and <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS230228_SeaSmartSTAmode.pdf">AN_SS230228_SeaSmartSTAmode.pdf</a>
+for more information.</p>
+
+<p class=MsoNormal>Once a infrastructure network is established with internet access,
+you can configure SeaGaugeG4 to HTTP post directly to HelmSmart-Cloud services..
+Refer to app note <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SSG325091302_EnablePushSmart.pdf">AN_SSG325091302_EnablePushSmart.pdf</a>
+for more details</p>
+
+<p class=MsoNormal>For information on how to configure the three pulse input
+for tachometers and flow sensors – refer to <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24102601_ConfigPulseInputs.pdf">AN_SS24102601_ConfigPulseInputs.pdf</a></p>
+
+<p class=MsoNormal>The 12 analog sensor inputs can be assigned to selected
+CAN/NMEA 2000 messages (PGNs) matching preload calibration files (<a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24092701_ConfigAnalogInputs.pdf">AN_SS24092701_ConfigAnalogInputs.pdf</a>)</p>
+
+<p class=MsoNormal>Use the <b>Modify Calibration Files</b> tab to alter
+existing calibration files or create new ones. See <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS241031_ModifyCalibrationFiles.pdf">AN_SS241031_ModifyCalibrationFiles.pdf</a>
+for details </p>
+
+<p class=MsoNormal>Up to 16 sensor alarms can be configured in the <b>ALARMS</b>
+section to trigger external relays or send selected CAN bus messages (<a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24093001_ConfigAnalogAlarms.pdf">AN_SS24093001_ConfigAnalogAlarms.pdf</a>)</p>
+
+<p class=MsoNormal>Four indicator/status inputs can be configured with runtime
+accumulators for monitoring bilges, bail wells, and alarms switches. See app
+note <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24102301_ConfigIndicatorRuntime.pdf">AN_SS24102301_ConfigIndicatorRuntime.pdf</a></p>
+
+<p class=MsoNormal>Download the data sheet to learn more or order your&nbsp;SeaGaugeG4&nbsp;directly
+online. </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
 	<div style="margin: 15px;">
-		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/SeaGauge_G4_datasheet.pdf', '_blank');">Datasheet</button>
 <!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
-		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://digitalmarinegauges.com/seagauge-g4-24-function-sensor-interface-unit-with-wifi-can-bus/', '_blank');">Order Now</button>
 
 	</div>
 	<p>
-		If you already have a SeaSmart and want to connect it to HelmSmart, simply login with your username and password.
+		If you already have a SeaGaugeG4 and want to connect it to HelmSmart, simply login with your username and password.
 	</p>
 
 
