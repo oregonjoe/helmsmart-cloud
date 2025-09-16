@@ -286,6 +286,10 @@ function StartUpMyScript()
 
           }
       }
+	  
+	  
+	  
+	  // AccountDataFolder = GetCookie(CookiePrefix + 'Account');
     // Initialize Device ID droup down list
     // InitializeDeviceOptionList();
 
@@ -593,17 +597,19 @@ function handleGetDevicePramNames(response)
 
 
 }	 
-  // Drop down menue is auto filled from DB with user preferences
- function selectUserPref(sel)
- {
-  // ConfigOptions = parseInt(sel.selectedIndex);
+ // Drop down menue is auto filled from DB with user preferences
+function selectUserPref(sel)
+{
+
+	
+    ConfigOptions = parseInt(sel.selectedIndex);
    // save new CongigOptions to Cookie file
     SetServerType( 1);
-
+	//SetCookie(CookiePrefix +'UserPreferenceIndex:' + sel.selectedIndex  , exp); 
   // go to DB and load new prefs
    getDeviceParamDetails(myuserid);
 
- }
+}
 
   
  function getDeviceParamDetails(userid)
