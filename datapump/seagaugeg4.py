@@ -130,6 +130,35 @@ def getN2KPGNPstr_from_tag(postdata, itag, ptag):
 
   return '0x' + '{:02X}'.format(parameterindex & ((1 << 8)-1))
 
+
+
+
+
+
+ def getPGNIstr_from_tag(request, itag, ptag):
+
+  instance = int( request.args.get( itag,''))
+  parameter = int( request.args.get( ptag,''))
+
+  parameterindex = parameter & 0x000F
+  pgntype = parameter & 0x00F0
+                          
+  pgninstance = instance | pgntype
+
+  return int(pgninstance)
+
+def getPGNPstr_from_tag(request, itag, ptag):
+
+  instance = int( request.args.get( itag,''))
+  parameter = int( request.args.get( ptag,''))
+
+  parameterindex = parameter & 0x000F
+  pgntype = parameter & 0x00F0
+                          
+  pgninstance = instance | pgntype
+
+  return int(parameterindex)
+
   
 def get_pgnhex_from_tag(postdata, tag):
 
@@ -700,31 +729,31 @@ def set_seasmart_pgn_xml(prefidkey, request):
   pgnxml = pgnxml +  '<PGNN11>'    +  request.args.get('PGNN11','')  + '</PGNN11>'
 
   
-  pgnxml = pgnxml +  '<PGNI0>'    +  request.args.get('PGNI0','')  + '</PGNI0>'
-  pgnxml = pgnxml +  '<PGNI1>'    +  request.args.get('PGNI1','')  + '</PGNI1>'
-  pgnxml = pgnxml +  '<PGNI2>'    +  request.args.get('PGNI2','')  + '</PGNI2>'
-  pgnxml = pgnxml +  '<PGNI3>'    +  request.args.get('PGNI3','')  + '</PGNI3>'
-  pgnxml = pgnxml +  '<PGNI4>'    +  request.args.get('PGNI4','')  + '</PGNI4>'
-  pgnxml = pgnxml +  '<PGNI5>'    +  request.args.get('PGNI5','')  + '</PGNI5>'
-  pgnxml = pgnxml +  '<PGNI6>'    +  request.args.get('PGNI6','')  + '</PGNI6>'
-  pgnxml = pgnxml +  '<PGNI7>'    +  request.args.get('PGNI7','')  + '</PGNI7>'
-  pgnxml = pgnxml +  '<PGNI8>'    +  request.args.get('PGNI8','')  + '</PGNI8>'
-  pgnxml = pgnxml +  '<PGNI9>'    +  request.args.get('PGNI9','')  + '</PGNI9>'
-  pgnxml = pgnxml +  '<PGNI10>'    +  request.args.get('PGNI10','')  + '</PGNI10>'
-  pgnxml = pgnxml +  '<PGNI11>'    +  request.args.get('PGNI11','')  + '</PGNI11>'
+  pgnxml = pgnxml +  '<PGNI0>'    +  getPGNIstr_from_tag( 'PGNI0', 'PGNP0') + '</PGNI0>'
+  pgnxml = pgnxml +  '<PGNI1>'    +  getPGNIstr_from_tag( 'PGNI1', 'PGNP1') + '</PGNI1>'
+  pgnxml = pgnxml +  '<PGNI2>'    +  getPGNIstr_from_tag( 'PGNI2', 'PGNP2') + '</PGNI2>'
+  pgnxml = pgnxml +  '<PGNI3>'    +  getPGNIstr_from_tag( 'PGNI3', 'PGNP3') + '</PGNI3>'
+  pgnxml = pgnxml +  '<PGNI4>'    +  getPGNIstr_from_tag( 'PGNI4', 'PGNP4') + '</PGNI4>'
+  pgnxml = pgnxml +  '<PGNI5>'    +  getPGNIstr_from_tag( 'PGNI5', 'PGNP5') + '</PGNI5>'
+  pgnxml = pgnxml +  '<PGNI6>'    +  getPGNIstr_from_tag( 'PGNI6', 'PGNP6') + '</PGNI6>'
+  pgnxml = pgnxml +  '<PGNI7>'    +  getPGNIstr_from_tag( 'PGNI7', 'PGNP7') + '</PGNI7>'
+  pgnxml = pgnxml +  '<PGNI8>'    +  getPGNIstr_from_tag( 'PGNI8', 'PGNP8') + '</PGNI8>'
+  pgnxml = pgnxml +  '<PGNI9>'    +  getPGNIstr_from_tag( 'PGNI9', 'PGNP9') + '</PGNI9>'
+  pgnxml = pgnxml +  '<PGNI10>'  +  getPGNIstr_from_tag( 'PGNI10', 'PGNP10')  + '</PGNI10>'
+  pgnxml = pgnxml +  '<PGNI11>'  +  getPGNIstr_from_tag( 'PGNI11', 'PGNP11')  + '</PGNI11>'
 
-  pgnxml = pgnxml +  '<PGNP0>'    +  request.args.get('PGNP0','')  + '</PGNP0>'
-  pgnxml = pgnxml +  '<PGNP1>'    +  request.args.get('PGNP1','')  + '</PGNP1>'
-  pgnxml = pgnxml +  '<PGNP2>'    +  request.args.get('PGNP2','')  + '</PGNP2>'
-  pgnxml = pgnxml +  '<PGNP3>'    +  request.args.get('PGNP3','')  + '</PGNP3>'
-  pgnxml = pgnxml +  '<PGNP4>'    +  request.args.get('PGNP4','')  + '</PGNP4>'
-  pgnxml = pgnxml +  '<PGNP5>'    +  request.args.get('PGNP5','')  + '</PGNP5>'
-  pgnxml = pgnxml +  '<PGNP6>'    +  request.args.get('PGNP6','')  + '</PGNP6>'
-  pgnxml = pgnxml +  '<PGNP7>'    +  request.args.get('PGNP7','')  + '</PGNP7>'
-  pgnxml = pgnxml +  '<PGNP8>'    +  request.args.get('PGNP8','')  + '</PGNP8>'
-  pgnxml = pgnxml +  '<PGNP9>'    +  request.args.get('PGNP9','')  + '</PGNP9>'
-  pgnxml = pgnxml +  '<PGNP10>'    +  request.args.get('PGNP10','')  + '</PGNP10>'
-  pgnxml = pgnxml +  '<PGNP11>'    +  request.args.get('PGNP11','')  + '</PGNP11>'
+  pgnxml = pgnxml +  '<PGNP0>'    +   getPGNPstr_from_tag( 'PGNI0', 'PGNP0')  + '</PGNP0>'
+  pgnxml = pgnxml +  '<PGNP1>'    +   getPGNPstr_from_tag( 'PGNI1', 'PGNP1')  + '</PGNP1>'
+  pgnxml = pgnxml +  '<PGNP2>'    +   getPGNPstr_from_tag( 'PGNI2', 'PGNP2')  + '</PGNP2>'
+  pgnxml = pgnxml +  '<PGNP3>'    +   getPGNPstr_from_tag( 'PGNI3', 'PGNP3')  + '</PGNP3>'
+  pgnxml = pgnxml +  '<PGNP4>'    +   getPGNPstr_from_tag( 'PGNI4', 'PGNP4')  + '</PGNP4>'
+  pgnxml = pgnxml +  '<PGNP5>'    +   getPGNPstr_from_tag( 'PGNI5', 'PGNP5')  + '</PGNP5>'
+  pgnxml = pgnxml +  '<PGNP6>'    +   getPGNPstr_from_tag( 'PGNI6', 'PGNP6')  + '</PGNP6>'
+  pgnxml = pgnxml +  '<PGNP7>'    +   getPGNPstr_from_tag( 'PGNI7', 'PGNP7')  + '</PGNP7>'
+  pgnxml = pgnxml +  '<PGNP8>'    +   getPGNPstr_from_tag( 'PGNI8', 'PGNP8')  + '</PGNP8>'
+  pgnxml = pgnxml +  '<PGNP9>'    +   getPGNPstr_from_tag( 'PGNI9', 'PGNP9')  + '</PGNP9>'
+  pgnxml = pgnxml +  '<PGNP10>'  +   getPGNPstr_from_tag( 'PGNI10', 'PGNP10') + '</PGNP10>'
+  pgnxml = pgnxml +  '<PGNP11>'  +   getPGNPstr_from_tag( 'PGNI11', 'PGNP11') + '</PGNP11>'
 
   pgnxml = pgnxml +  '<PGNS0>'    +  request.args.get('PGNS0','')  + '</PGNS0>'
   pgnxml = pgnxml +  '<PGNS1>'    +  request.args.get('PGNS1','')  + '</PGNS1>'
