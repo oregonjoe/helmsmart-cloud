@@ -145,7 +145,7 @@ def getPGNIstr_from_tag(request, itag, ptag):
                           
   pgninstance = instance | pgntype
 
-  return int(pgninstance)
+  return str(pgninstance)
 
 def getPGNPstr_from_tag(request, itag, ptag):
 
@@ -157,7 +157,7 @@ def getPGNPstr_from_tag(request, itag, ptag):
                           
   pgninstance = instance | pgntype
 
-  return int(parameterindex)
+  return str(parameterindex)
 
   
 def get_pgnhex_from_tag(postdata, tag):
