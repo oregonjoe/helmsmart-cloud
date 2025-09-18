@@ -59,7 +59,7 @@ def get_xml_value(postdata, tag):
 
 
 
-
+                          
 def get_hex2_from_tag(postdata, tag):
 
   try:
@@ -104,6 +104,32 @@ def get_hex8_from_tag(postdata, tag):
   
   except:
     return '0xFFFFFFFF'
+
+
+def getN2KPGNIstr_from_tag((postdata, itag, ptag):
+
+  instance = int(get_xml_value(postdata, itag))
+  parameter = int(get_xml_value(postdata, ptag))
+
+  parameterindex = parameter & 0x000F
+  pgntype = parameter & 0x00F0
+                          
+  pgninstance = instance | pgntype
+
+  return '0x' + '{:02X}'.format(pgninstance & ((1 << 8)-1)) 
+
+def getN2KPGNPstr_from_tag((postdata, itag, ptag):
+
+  instance = int(get_xml_value(postdata, itag))
+  parameter = int(get_xml_value(postdata, ptag))
+
+  parameterindex = parameter & 0x000F
+  pgntype = parameter & 0x00F0
+                          
+  pgninstance = instance | pgntype
+
+  return '0x' + '{:02X}'.format(parameterindex & ((1 << 8)-1))
+
   
 def get_pgnhex_from_tag(postdata, tag):
 
@@ -470,18 +496,18 @@ def create_seasmart_pgn_xml(postdata):
   xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "N2KPGNLists">\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN00"><value>' + get_pgnhex_from_tag(postdata, "PGNN0") + ',' + get_hex2_from_tag(postdata, "PGNI0") + ',' +  get_hex2_from_tag(postdata, "PGNP0") +',' + get_hex8_from_tag(postdata, "PGNS0") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN1") + ',' + get_hex2_from_tag(postdata, "PGNI1") + ',' +  get_hex2_from_tag(postdata, "PGNP1") +',' + get_hex8_from_tag(postdata, "PGNS1") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN2") + ',' + get_hex2_from_tag(postdata, "PGNI2") + ',' +  get_hex2_from_tag(postdata, "PGNP2") +',' + get_hex8_from_tag(postdata, "PGNS2") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN3") + ',' + get_hex2_from_tag(postdata, "PGNI3") + ',' +  get_hex2_from_tag(postdata, "PGNP3") +',' + get_hex8_from_tag(postdata, "PGNS3") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN4") + ',' + get_hex2_from_tag(postdata, "PGNI4") + ',' +  get_hex2_from_tag(postdata, "PGNP4") +',' + get_hex8_from_tag(postdata, "PGNS4") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN5") + ',' + get_hex2_from_tag(postdata, "PGNI5") + ',' +  get_hex2_from_tag(postdata, "PGNP5") +',' + get_hex8_from_tag(postdata, "PGNS5") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN6") + ',' + get_hex2_from_tag(postdata, "PGNI6") + ',' +  get_hex2_from_tag(postdata, "PGNP6") +',' + get_hex8_from_tag(postdata, "PGNS6") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN7") + ',' + get_hex2_from_tag(postdata, "PGNI7") + ',' +  get_hex2_from_tag(postdata, "PGNP7") +',' + get_hex8_from_tag(postdata, "PGNS7") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN8") + ',' + get_hex2_from_tag(postdata, "PGNI8") + ',' +  get_hex2_from_tag(postdata, "PGNP8") +',' + get_hex8_from_tag(postdata, "PGNS8") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN9") + ',' + get_hex2_from_tag(postdata, "PGNI9") + ',' +  get_hex2_from_tag(postdata, "PGNP9") +',' + get_hex8_from_tag(postdata, "PGNS9") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN10") + ',' + get_hex2_from_tag(postdata, "PGNI10") + ',' +  get_hex2_from_tag(postdata, "PGNP10") +',' + get_hex8_from_tag(postdata, "PGNS10") +'</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN11") + ',' + get_hex2_from_tag(postdata, "PGNI11") + ',' +  get_hex2_from_tag(postdata, "PGNP11") +',' + get_hex8_from_tag(postdata, "PGNS11") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN00"><value>' + get_pgnhex_from_tag(postdata, "PGNN0") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI0", "PGNP0") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI0", "PGNP0") +',' + get_hex8_from_tag(postdata, "PGNS0") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN1") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI1", "PGNP1") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI1", "PGNP1") +',' + get_hex8_from_tag(postdata, "PGNS1") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN2") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI2", "PGNP2") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI2", "PGNP2") +',' + get_hex8_from_tag(postdata, "PGNS2") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN3") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI3", "PGNP3") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI3", "PGNP3") +',' + get_hex8_from_tag(postdata, "PGNS3") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN4") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI4", "PGNP4") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI4", "PGNP4") +',' + get_hex8_from_tag(postdata, "PGNS4") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN5") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI5", "PGNP5") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI5", "PGNP5") +',' + get_hex8_from_tag(postdata, "PGNS5") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN6") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI6", "PGNP6") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI6", "PGNP6") +',' + get_hex8_from_tag(postdata, "PGNS6") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN7") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI7", "PGNP7") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI7", "PGNP7") +',' + get_hex8_from_tag(postdata, "PGNS7") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN8") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI8", "PGNP8") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI8", "PGNP8") +',' + get_hex8_from_tag(postdata, "PGNS8") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN9") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI9", "PGNP9") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI9", "PGNP9") +',' + get_hex8_from_tag(postdata, "PGNS9") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN10") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI10", "PGNP10") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI10", "PGNP10") +',' + get_hex8_from_tag(postdata, "PGNS10") +'</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="N2KPGN01"><value>' + get_pgnhex_from_tag(postdata, "PGNN11") + ',' + getN2KPGNIstr_from_tag((postdata, "PGNI11", "PGNP11") + ',' +  getN2KPGNPstr_from_tag((postdata, "PGNI11", "PGNP11")  +',' + get_hex8_from_tag(postdata, "PGNS11") +'</value></configitem>\r\n'
   xmlfile = xmlfile + '</configgroup>\r\n'
 
   xmlfile = xmlfile + '<configgroup name = "N2KCalibrationTables">\r\n'
