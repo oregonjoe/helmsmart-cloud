@@ -135,7 +135,7 @@ def getN2KPGNPstr_from_tag(postdata, itag, ptag):
 
 
 
- def getPGNIstr_from_tag(request, itag, ptag):
+def getPGNIstr_from_tag(request, itag, ptag):
 
   instance = int( request.args.get( itag,''))
   parameter = int( request.args.get( ptag,''))
