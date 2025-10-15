@@ -433,16 +433,12 @@ function GetSeriesAttributes(userid)
   StartEpoch = Math.floor(StartEpoch/1000);
 
    var DeviceID = document.getElementById("DeviceID").value;
-  // devicedataurl = "https://www.helmsmart-cloud.com/get_tempodb_series?&
-deviceid=" + userid;
-  //devicedataurl = "https://www.helmsmart-cloud.com/get_influxdb_series?&
-deviceid=" + userid+ "&
-startepoch=" + StartEpoch + "&
-endepoch=" + EndEpoch ;
- devicedataurl = "https://www.helmsmart-cloud.com/get_influxdbcloud_series?&
-deviceid=" + userid+ "&
-startepoch=" + StartEpoch + "&
-endepoch=" + EndEpoch ;
+  // devicedataurl = "https://www.helmsmart-cloud.com/get_tempodb_series?&deviceid=" + userid;
+  //devicedataurl = "https://www.helmsmart-cloud.com/get_influxdb_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+ devicedataurl = "https://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + userid+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+
+
+
 
 
          return $.ajax({
@@ -492,11 +488,9 @@ endepoch=" + EndEpoch ;
 
 	var devicedataurl;
 
-    //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&
-userid=" + userid; 
+    //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid; 
 	
-	 devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devicekeys&
-userid=" + userid; 
+	 devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devicekeys&userid=" + userid; 
 	
       
    return $.ajax({
@@ -581,9 +575,7 @@ function handleGetDevicePramNames(response)
 
 	var devicedataurl;
 	
-   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefnames&
-userid=" + myuserid + "&
-deviceid=" + deviceid;
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefnames&userid=" + myuserid + "&deviceid=" + deviceid;
     
     
    return $.ajax({
@@ -655,9 +647,7 @@ function selectUserPref(sel)
    document.getElementById("PrefKeyXML").value = prefkey;
    document.getElementById("PrefNameXML").value = prefname;
  
-   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefs&
-userid=" + userid + "&
-prefkey=" + prefkey;
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefs&userid=" + userid + "&prefkey=" + prefkey;
          
    return $.ajax({
 					   //async: false,
@@ -765,8 +755,7 @@ function getsgg4configxml()
    var optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
    var prefkey =   document.getElementById("XMLFilesSelect").options[optionmenuindex].value;
  
-   //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&
-prefidkey=" + prefkey;
+   //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&prefidkey=" + prefkey;
    var devicedataurl = "https://www.helmsmart-cloud.com/getseagaugeg4configxml?prefidkey=" + prefkey;
          
    return $.ajax({
@@ -2985,21 +2974,13 @@ var myOptionValue = document.getElementById("CreateConfigXMLFiles").selectedInde
    var prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
 
 	if(myOptionValue == 2)
-		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2&
-userid=" + myuserid + "&
-prefidkey=" + prefkey;
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2&userid=" + myuserid + "&prefidkey=" + prefkey;
 	else if(myOptionValue == 3)
-		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=3&
-userid=" + myuserid + "&
-prefidkey=" + prefkey;
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=3&userid=" + myuserid + "&prefidkey=" + prefkey;
 	else if(myOptionValue == 4)
-		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=4&
-userid=" + myuserid + "&
-prefidkey=" + prefkey;
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=4&userid=" + myuserid + "&prefidkey=" + prefkey;
 	else 
-		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=1&
-userid=" + myuserid + "&
-prefidkey=" + prefkey;
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=1&userid=" + myuserid + "&prefidkey=" + prefkey;
 		
 		
 	//devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2";
@@ -3118,8 +3099,7 @@ function ResetDevice()
 	req.addEventListener("error", transferFailed);
 	req.addEventListener("abort", transferCanceled);
 
-	//var myFilePath = "images/bg.gif&
-t=" + timestamp;
+	//var myFilePath = "images/bg.gif&t=" + timestamp;
 	var myFilePath = "images/bg.gif";
 	
 	
@@ -4035,8 +4015,7 @@ function getFile(fileKey, mode)
    //  alert(newdatafile);
     //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
 	
-		devicedataurl = "https://www.helmsmart-cloud.com/getcalfilexml?filekey=" + fileKey + "&
-mode=" + mode;
+		devicedataurl = "https://www.helmsmart-cloud.com/getcalfilexml?filekey=" + fileKey + "&mode=" + mode;
 
 		if(mode == 1)
 		{
@@ -4124,8 +4103,7 @@ function deleteXMLFile() {
 		return;
 	
 	
-	devicedataurl = "https://www.helmsmart-cloud.com/deletecalxml?ssg4calkey=" + myFileKey + "&
-userid="+ myuserid;
+	devicedataurl = "https://www.helmsmart-cloud.com/deletecalxml?ssg4calkey=" + myFileKey + "&userid="+ myuserid;
 
 		$.blockUI({ 
 		 message: '<h1>deleting file...</h1>',
@@ -4224,8 +4202,7 @@ function upload(filePath, fileName, fileData) {
 	//var upload_path = "/upload/" + filePath + fileName;
 	
 	//var upload_path = "/upload/" + filePath + fileName;
-	var upload_path = "https://www.helmsmart-cloud.com/savesgg4calxml?userid=" + myuserid + "&
-ssg4calname=" + fileName;
+	var upload_path = "https://www.helmsmart-cloud.com/savesgg4calxml?userid=" + myuserid + "&ssg4calname=" + fileName;
    // var fileInput = document.getElementById("newfile").files;
 	// var fileInput = filePath;
 	  var fileInput = fileName;
@@ -4322,12 +4299,9 @@ ssg4calname=" + fileName;
 				<td style="width: 100px" colspan="2"><img alt="" height="90"  id='img2' src="static/img/SeaSmartG3Logo.jpg" width="150" /></td>
 			</tr>	
 			<tr>
-				<td  class="auto-style4">&
-nbsp;</td>
-				<td  class="auto-style4">&
-nbsp;</td>
-				<td  class="auto-style4">&
-nbsp;</td>
+				<td  class="auto-style4">&nbsp;</td>
+				<td  class="auto-style4">&nbsp;</td>
+				<td  class="auto-style4">&nbsp;</td>
 
 			</tr>
 		</table>
@@ -4465,13 +4439,10 @@ accumulators for monitoring bilges, bait wells, and alarms switches. See app
 note <a
 href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24102301_ConfigIndicatorRuntime.pdf">AN_SS24102301_ConfigIndicatorRuntime.pdf</a></p>
 
-<p class=MsoNormal>Download the data sheet to learn more or order your&
-nbsp;SeaGaugeG4&
-nbsp;directly
+<p class=MsoNormal>Download the data sheet to learn more or order your&nbsp;SeaGaugeG4&nbsp;directly
 online. </p>
 
-<p class=MsoNormal>&
-nbsp;</p>
+<p class=MsoNormal>&nbsp;</p>
 
 </div>
 	<div style="margin: 15px;">
@@ -4572,18 +4543,12 @@ nbsp;</p>
 				<td style="width: 200px" class="auto-style6"><a href="PGNfilters.html"><strong>PGN Filters</strong></a></td>
 			</tr>
 			<tr>
-				<td style="width: 200px" class="auto-style4">&
-nbsp;</td>
-				<td style="width: 200px" class="auto-style4">&
-nbsp;</td>
-				<td style="width: 200px" class="auto-style4">&
-nbsp;</td>
-				<td style="width: 200px" class="auto-style4">&
-nbsp;</td>
-				<td style="width: 200px" class="auto-style4">&
-nbsp;</td>
-				<td style="width: 200px" class="auto-style4">&
-nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&nbsp;</td>
 			</tr>
 			<!-- <form id="configuration" action="/seasmartconfig"> -->
 			
@@ -4879,9 +4844,7 @@ nbsp;</td>
                         <td disabled>
                           <input type="text" style="width: 140px;" id="HTTPIPADDR" name="HTTPIPADDR" value= "192.168.0.1"  disabled/>
                       
-                          &
-nbsp;:&
-nbsp;<input type="text" style="width: 55px;" id="HTTPIPPORT" name="HTTPIPPORT" value= 80  disabled/>
+                          &nbsp;:&nbsp;<input type="text" style="width: 55px;" id="HTTPIPPORT" name="HTTPIPPORT" value= 80  disabled/>
                         </td>
                       </tr>
 
@@ -5574,8 +5537,7 @@ nbsp;<input type="text" style="width: 55px;" id="HTTPIPPORT" name="HTTPIPPORT" v
 				
 				<tr>
                  <td style="width: 2000px; height: 30px">                 
-                 &
-nbsp;
+                 &nbsp;
 				 <button style="width: 150px; height: 30px;" id="SaveSettings" onclick="SaveDeviceSettings();" type="button" />Save Settings</button>
 				 </td> 
 				 
@@ -5596,8 +5558,7 @@ nbsp;
 			   
 				 
 				<td  style="width: 2000px; height: 30px">          
-				&
-nbsp;   <button style="width: 150px; height: 30px;" id="Reset" onclick="ResetDevice();" type="button" />Reset</button>
+				&nbsp;   <button style="width: 150px; height: 30px;" id="Reset" onclick="ResetDevice();" type="button" />Reset</button>
 				</td>
 				</tr>
 				</table>
@@ -5611,18 +5572,15 @@ nbsp;   <button style="width: 150px; height: 30px;" id="Reset" onclick="ResetDev
 				</tr>
 				 
                  <td style="width: 2000px; height: 30px">                         
-                 &
-nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />Firmware</button>
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />Firmware</button>
 				 </td> 
 				  
 				  <td style="width: 2000px; height: 30px">                           
-                 &
-nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />WWW</button>
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />WWW</button>
 				 </td> 
 				 
 				 <td style="width: 2000px; height: 30px">                        
-                 &
-nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />Calibrations</button>
+                 &nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />Calibrations</button>
 				 </td> 
 				 
 		
@@ -5641,12 +5599,10 @@ nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick=
 	<tr>
 	<tr>
 		<td class="auto-style2" style="text-align: center;">
-		&
-nbsp; copyright 2025</td>
+		&nbsp; copyright 2025</td>
 	</tr>
 	<tr>
-		<td>&
-nbsp;</td>
+		<td>&nbsp;</td>
 	</tr>
 </table>
  <div id="SearchStatus" class="auto-style9" style="width:100%;  padding: 5px 5px 5px 5px;" > </div>
