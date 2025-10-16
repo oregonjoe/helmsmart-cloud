@@ -2233,15 +2233,15 @@ function initializewifivars(xmlData) {
 		document.getElementById("PFLT2").selectedIndex = parseInt(myXMLdata);	
 		
 		
-		myXMLdata = getXMLValue(xmlData, 'FUELTOTAL');
+		myXMLdata = getXMLValue(xmlData, 'PINTERVAL');
 		if(myXMLdata == "")
-			myXMLdata = "0"
+			myXMLdata = "1000"
 			
 		document.getElementById("PINTERVAL").value = myXMLdata;
 		
-		myXMLdata = getXMLValue(xmlData, 'FUELTOTAL');
+		myXMLdata = getXMLValue(xmlData, 'FINTERVAL');
 		if(myXMLdata == "")
-			myXMLdata = "0"
+			myXMLdata = "4000"
 			
 		document.getElementById("FINTERVAL").value = myXMLdata;
 		
