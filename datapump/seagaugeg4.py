@@ -31,7 +31,7 @@ debug_all = False
 logging.basicConfig(level=logging.ERROR)
 log = logging
 
-def get_xml_value(postdata, tag):
+def get_xml_value(postdata, tag, default=""):
   
   startStr = "<" + tag + ">";
   endStr = "</" + tag + ">";
@@ -43,14 +43,14 @@ def get_xml_value(postdata, tag):
   startPos = postdata.find(startStr)
   #log.info("get_xml_value startPos %s ", startPos )  
   if startPos == -1:
-    return ""
+    return default
 
   startPos = startPos + len(startStr)
 
   endPos = postdata.find(endStr)
   #log.info("get_xml_value endPos %s", endPos )  
   if endPos == -1:
-    return ""
+    return default
 
   return postdata[startPos:endPos]
 
@@ -428,11 +428,13 @@ def create_seasmart_pulse_xml(postdata):
   xmlfile = xmlfile + '<configitem name="Pulse0Scale"><value>'+  get_xml_value(postdata, "PULSESCALE0") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="Pulse1Scale"><value>'+  get_xml_value(postdata, "PULSESCALE2") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="Pulse2Scale"><value>'+  get_xml_value(postdata, "PULSESCALE2") + '</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="PulseInterval"><value>'+  get_xml_value(postdata, "PINTERVAL") + '</value></configitem>\r\n'
-  xmlfile = xmlfile + '<configitem name="FlowPulseInterval"><value>'+  get_xml_value(postdata, "FINTERVAL") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseInterval"><value>'+  get_xml_value(postdata, "PINTERVAL","1000") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FlowPulseInterval"><value>'+  get_xml_value(postdata, "FINTERVAL","4000") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="Pulse0Filter"><value>'+  get_xml_value(postdata, "PFLT0") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="Pulse1Filter"><value>'+  get_xml_value(postdata, "PFLT1") + '</value></configitem>\r\n'
   xmlfile = xmlfile + '<configitem name="Pulse2Filter"><value>'+  get_xml_value(postdata, "PFLT2") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="PulseInterval"><value>'+  get_xml_value(postdata, "PINTERVAL") + '</value></configitem>\r\n'
+  xmlfile = xmlfile + '<configitem name="FlowPulseInterval"><value>'+  get_xml_value(postdata, "FINTERVAL") + '</value></configitem>\r\n'  
   xmlfile = xmlfile + '</configgroup>\r\n'
 
 
@@ -470,11 +472,12 @@ def set_seasmart_pulse_xml(prefidkey, request):
   pulsexml = pulsexml +  '<PULSESCALE2>'    +  request.args.get('PULSE2SCALE','')  + '</PULSESCALE2>'  
   #pulsexml = pulsexml +  '<PINTERVAL>'    +  request.args.get('SDLogFName','')  + '</PINTERVAL>'  
   #pulsexml = pulsexml +  '<FINTERVAL>'    +  request.args.get('SDLogFName','')  + '</FINTERVAL>'
-  pulsexml = pulsexml +  '<PINTERVAL>'    +  '1000'  + '</PINTERVAL>'  
-  pulsexml = pulsexml +  '<FINTERVAL>'    +  '4000'  + '</FINTERVAL>'  
+  pulsexml = pulsexml +  '<PINTERVAL>'    +  request.args.get('PulseInterval','1000')  + '</PINTERVAL>'
+  pulsexml = pulsexml +  '<FINTERVAL>'    +  request.args.get('FlowPulseInterval','4000')  + '</FINTERVAL>'
   pulsexml = pulsexml +  '<PFLT0>'    +  request.args.get('PULSE0FILTER','')  + '</PFLT0>'  
   pulsexml = pulsexml +  '<PFLT1>'    +  request.args.get('PULSE1FILTER','')  + '</PFLT1>'  
-  pulsexml = pulsexml +  '<PFLT2>'    +  request.args.get('PULSE2FILTER','')  + '</PFLT2>'  
+  pulsexml = pulsexml +  '<PFLT2>'    +  request.args.get('PULSE2FILTER','')  + '</PFLT2>'
+
   pulsexml = pulsexml +  '<FUELTOTAL>'    +  request.args.get('FUELTACHTOTAL','')  + '</FUELTOTAL>'  
 
  

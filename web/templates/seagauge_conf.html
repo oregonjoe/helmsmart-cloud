@@ -2232,6 +2232,19 @@ function initializewifivars(xmlData) {
 		//document.getElementById("PFLT2").value = myXMLdata;	
 		document.getElementById("PFLT2").selectedIndex = parseInt(myXMLdata);	
 		
+		
+		myXMLdata = getXMLValue(xmlData, 'FUELTOTAL');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("PINTERVAL").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'FUELTOTAL');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("FINTERVAL").value = myXMLdata;
+		
 		myXMLdata = getXMLValue(xmlData, 'FUELTOTAL');
 		if(myXMLdata == "")
 			myXMLdata = "0"
@@ -4855,13 +4868,13 @@ online. </p>
                         </td>
                       </tr>
                       <tr>
-                        <td style="font-weight: bold; width: 200px; height: 30px;" disabled>Sample Interval:</td>
+                        <td style="font-weight: bold; width: 200px; height: 30px;" disabled>Sample Interval (0.5 sec):</td>
                         <td disabled>
                           <input type="text" style="width: 280px;" id="UartInterval" name="UartInterval"  value= 1 />
                         </td>
                       </tr>
                       <tr>
-                        <td style="font-weight: bold; width: 200px; height: 30px;">HTTP Post Interval:</td>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">HTTP Post Interval (min):</td>
                         <td >
                           <input type="text" style="width: 280px;" id="HttpPostInterval" name="HttpPostInterval"  value= 60 />
                         </td>
@@ -4988,7 +5001,7 @@ online. </p>
                       </tr>
                      
                        <tr>
-                        <td style="font-weight: bold; width: 200px; height: 30px;">SD Logging Interval:</td>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">SD Logging Interval (min):</td>
                         <td style="width: 558px">
                           <input type="text" style="width: 280px;" id="SDLogInterval" name="SDLogInterval" value= 1  />
                         </td>
@@ -5380,10 +5393,19 @@ online. </p>
 				
             </tr>
 			
+			
+			
+			
 			<tr>
 				<td style="font-weight: bold;">Fuel Used Total</td>
 				<td><input type="text" style="width: 280px;" maxlength="64" id="FUELTACHTOTAL" name="FUELTACHTOTAL" value="0" /></td>
             </tr>
+			
+			
+			  	<tr><td style="font-weight: bold;">RPM Interval (msec)</td><td><input type="text" style="width: 280px;" maxlength="64" id="PINTERVAL" name="PINTERVAL" value="" /></td></tr>
+						  
+				<tr><td style="font-weight: bold;">Flow Interval (msec)</td><td><input type="text" style="width: 280px;" maxlength="64" id="FINTERVAL" name="FINTERVAL" value="" /></td></tr>		  
+		
 			
           </table>
       </div>
