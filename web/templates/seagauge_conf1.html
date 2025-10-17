@@ -1,0 +1,5947 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html >
+<head>
+<meta content="en-us" http-equiv="Content-Language" />
+<!-- <meta http-equiv="Cache-control:max-age=2592000"  /> -->
+
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>SeaGauge G4 Configuration Page</title>
+
+
+<!--
+<script type="text/javascript">document.write('<link rel="icon" href="favicon.ico"  />');</script>
+<script type="text/javascript">document.write('\<script type="text/javascript" src="scripts/main_conf.js"><\/script>');</script>
+<script type="text/javascript">document.write('\<script type="text/javascript" src="scripts/mchp.js"><\/script>');</script>
+<script type="text/javascript">document.write('\<script type="text/javascript" src="scripts/jquery.js"><\/script>');</script>
+<script type="text/javascript">document.write('\<script type="text/javascript" src="scripts/jqblockUI.js"><\/script>');</script>
+<script type="text/javascript">document.write(' <link href="style/style.css" rel="stylesheet" type="text/css" />');</script>
+-->
+
+  <script src="{{ url_for('static', filename='js/ParseN2KDataJSON.js') }}" type="text/javascript"></script>
+
+  <script type="text/javascript" src="{{ url_for('static', filename='js/ChangeDialStyleBootstrap.js') }}" ></script>
+
+  <script src="{{ url_for('static', filename='js/NGHTMLLayout.js') }}" type="text/javascript"></script>
+  
+  
+    <script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/GetPGNNumberFunctions.js') }}" ></script> 
+  	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
+  
+  
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">  </link> 
+
+<script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/tween-min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/SSsteelseries.js') }} " ></script>
+  
+  
+  
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/>  
+  	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+	   <!-- <script src='https://cdn.firebase.com/v0/firebase.js'></script> -->
+	   
+	   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+
+<style type="text/css">
+
+
+a {
+text-decoration: none;
+color: #08c;
+}
+
+
+	#tabEvents .form-control-static,
+	#tabEvents .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 10px;
+			margin-left: 10px;
+			margin-right: 10px;
+			width: 980px;
+			#height: 1200px;
+			overflow: hidden !important;
+		}
+		
+				div:-webkit-full-screen {
+		  width: 100% !important;
+		}
+		div:-moz-full-screen {
+		  width: 100% !important;
+		}
+		div:-ms-fullscreen {
+		  width: 100% !important;
+		}
+		div:fullscreen {
+		  width: 100% !important;
+		  }
+		  
+		  .shadow {
+		-moz-box-shadow: 0 0 30px 5px #999;
+		-webkit-box-shadow: 0 0 30px 5px #999;
+		}
+
+		.shadow2 {
+			-moz-box-shadow:    3px 3px 5px 6px #ccc;
+			-webkit-box-shadow: 3px 3px 5px 6px #ccc;
+			box-shadow:         3px 3px 5px 6px #ccc;
+		}
+
+		.canvasarea  { overflow: hidden !important; }
+		
+		#CanvasArea { overflow: hidden !important; }
+		
+  .auto-style2 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style3 {
+  color: #FFFFFF;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style5 {
+  color: #000000;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  }
+  .auto-style9 {
+	color: #FFFFFF;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: x-small;
+	text-align: center;
+}
+
+  
+  </style>
+
+  
+<style type="text/css">
+.auto-style2 {
+	text-align: center;
+}
+.auto-style3 {
+	border-bottom-style: solid;
+	border-bottom-color: #000080;
+}
+.auto-style4 {
+	border-top-style: solid;
+	border-top-color: #000080;
+}
+.auto-style6 {
+	font-size: medium;
+	color: #12126C;
+}
+.auto-style7 {
+	text-align: right;
+}
+.auto-style8 {
+	font-size: medium;
+}
+.auto-style9 {
+	color: #12126C;
+	font-size: small;
+}
+.auto-style10 {
+	font-size: medium;
+  color: #FFFFFF;
+  border-top-style: none;
+	border-top-color: #12365e;
+  border-bottom-style: none;
+	border-bottom-color: #12365e;
+}
+
+    .auto-style11 {
+  color: #000080;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: left;
+  }
+  
+  auto-style12 {
+  color: #000080;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  text-align: center;
+  }
+</style>
+<style  type="text/css">
+ <!--
+ A{text-decoration:none}
+ .auto-style8 {
+	color: #FFFFFF;
+}
+ -->
+ </style>
+
+
+<script type="text/javascript">
+
+var gAnalogStr = "00000000";
+var chunkindex=0;
+var gversionSubstrings
+    var device;
+    var mydata = new String();
+    var myDeviceID;
+    var AccountInit = false;
+    var ParameterInit = false;
+    var myuserid;
+	var myVersionString = "1.9.3.7.28"
+	var deviceAPIkeys = new Array();
+	
+	
+	let gFileHandle;
+var gFileName =  ""
+var gCalFileContents = "";
+var gDescription = "";
+var gType = "";
+var gUnits = "";
+var gResolution = "";
+var gMin = "";
+var gMax = "";
+var gFileSource = "SPIFFS";
+var gADCchannel=0;
+var gCurrentFile = "Not_Defined.xml"
+	
+var CookiePrefix = "SGG4CONFIG";	
+	var CurrentDialID;
+
+	var DialPGNInstance = new Array(0,0,0,0,0,0,0,0); 
+
+	var DialPGNNumber = new Array("127489","127489","127489","127489","127489","127489","127489","127489"); 
+	var DialPGNSetValue = new Array("","","","","","","",""); 
+	var DialPGNParameter = new Array(0,0,0,0,0,0,0,0); 
+	var gnumOfZones = 12;
+	var TemperatureInstanceStrings = new Array("Sea Temp", "Outside", "Inside", "Engine Room","Cabin", "Live Well", "Bait Well", "Refigeration", "Heating", "Dew Point", "Wind Chill A", "Wind Chill T", "Heat Index", "Freezer", "EGT ", "---");
+	
+	var gSetADCChannel = "";
+	var gSetADCCalXMLFileName = "";
+
+	var imgAddresses=["images/CDI_Logo.jpg", "images/SeaSmartBanner.jpg", "images/SeaSmartG3Logo.jpg" ];
+	
+	var SSG4PinMap = new Array("PIN B6","PIN B16","PIN B7","PIN B17","PIN B4","PIN B14","PIN B5","PIN B15","PIN B18","PIN B8","PIN B3","PIN B13","PIN B00","PIN A6","PIN A5","PIN A4","PIN B20","PIN B10","PIN B19","PIN B9"); 
+	
+		
+function StartUpMyScript()
+{
+    var x
+    var i;
+    var tempXMLdata;
+    var XMLFile;
+    var DialIndex=0;
+    var CanvasIndex=0;
+	var adcchannel;
+	
+
+      AccountDataFolder = GetCookie(CookiePrefix + 'Account');
+      // alert('AccountDataFolder  ' + AccountDataFolder );
+
+      if (AccountDataFolder == null) {
+          AccountDataFolder = "000000000000"; 
+          AccountType = 1;
+          ConfigOptions = 0;
+          document.getElementById("XMLFilesSelect").selectedIndex = 0;
+          
+      }
+      else
+      {
+          var myStringArray
+          myStringArray = AccountDataFolder.split(":");
+          if(myStringArray.length != 0)
+          {
+              AccountDataFolder = myStringArray[0];
+              AccountType = myStringArray[1];
+              ConfigOptions = myStringArray[2];
+              document.getElementById("XMLFilesSelect").selectedIndex =0;
+          }
+          else
+          {
+              AccountDataFolder = "000000000000";
+              AccountType = 1;
+              ConfigOptions = 0;
+              document.getElementById("XMLFilesSelect").selectedIndex = 0;
+
+          }
+      }
+	  
+	  
+	  
+	  // AccountDataFolder = GetCookie(CookiePrefix + 'Account');
+    // Initialize Device ID droup down list
+    // InitializeDeviceOptionList();
+
+    myuserid = "0";
+    {% if session['userid'] %}
+    myuserid = "{{session['userid']}}";
+    {% else %}
+    myuserid = "0";
+    {% endif %}
+
+
+		
+	{% if features is defined and features %}
+	
+		var setADCPameraters = JSON.parse('{{ features | tojson }}');
+		
+		gSetADCChannel = setADCPameraters[0].ADCChannel;
+		gSetADCCalXMLFileName = setADCPameraters[0].CALFile;
+		
+	{% endif %}
+
+
+
+    //AccountDataFolder = "001EC0B415C2";
+    //AccountType = 1;
+    //ConfigOptions = 0;
+    //document.getElementById("XMLFilesSelect").selectedIndex = 0;
+    //document.getElementById("DeviceID").selectedIndex = 0;
+	
+	document.getElementById("PrefUpdateXML").value = "default"
+
+
+	var table = document.getElementById("DetailData");
+
+    var rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>0; x--)
+    table.deleteRow(x);	
+
+    // set up Server Account Type
+
+    SetServerType( 1);
+
+    if (myuserid == null)
+    {
+    myuserid = "0";
+    }
+    else
+    {
+    getDeviceList(myuserid);
+    //getDeviceParamList(myuserid);
+    }
+
+
+
+    ParameterInit = true;
+    //   InitalizePageDials();
+
+
+}
+
+ function SetDeviceOptionList()
+{
+	mapInitialized =false;
+   //document.getElementById("AccountFolder").value = document.getElementById("DeviceID").value;
+   AccountDataFolder = document.getElementById("DeviceID").value;
+   myDeviceID = document.getElementById("DeviceID").value;
+   
+	getDeviceParamList(myDeviceID);
+   
+}
+
+ function handleGetDeviceData(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+	  document.getElementById("DeviceID").options.length = 0;
+
+   	response.records.forEach(function(row){
+		  deviceAPIkeys[index] = row[2];
+   	      document.getElementById("DeviceID").options[index++] = new Option(row[0], row[1]);
+		  
+	   		});
+	   		
+	   	// set default DeviceID to initial index	
+  		document.getElementById("DeviceID").selectedIndex = 0;
+		myDeviceID = document.getElementById("DeviceID").options[0].value;
+		
+	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
+	    		{
+	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
+		    		if(myDeviceID == AccountDataFolder)
+					{
+		    			document.getElementById("DeviceID").selectedIndex = i;
+						break;
+					}
+		    	}
+				
+		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
+		document.getElementById('DeviceIDXML').value = myDeviceID;
+				
+        //  UpdateSeriesList();
+		//deviceapikey = deviceAPIkeys[document.getElementById("DeviceID").selectedIndex];
+		getDeviceParamList(myDeviceID);
+ 
+}
+
+function UpdateSeriesList()
+{
+    GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+}
+
+
+function GetSeriesAttributes(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+  
+  EndEpoch = (new Date).getTime();
+  StartEpoch = EndEpoch - (60*60*24*1000);
+  
+  EndEpoch = Math.floor(EndEpoch/1000);
+  StartEpoch = Math.floor(StartEpoch/1000);
+
+   var DeviceID = document.getElementById("DeviceID").value;
+  // devicedataurl = "https://www.helmsmart-cloud.com/get_tempodb_series?&
+deviceid=" + userid;
+  //devicedataurl = "https://www.helmsmart-cloud.com/get_influxdb_series?&
+deviceid=" + userid+ "&
+startepoch=" + StartEpoch + "&
+endepoch=" + EndEpoch ;
+ devicedataurl = "https://www.helmsmart-cloud.com/get_influxdbcloud_series?&
+deviceid=" + userid+ "&
+startepoch=" + StartEpoch + "&
+endepoch=" + EndEpoch ;
+
+
+         return $.ajax({
+         //async: false,
+         cache: false,
+         url: devicedataurl,
+         dataType: "json",
+         timeout: 30000,
+         statusCode: {
+         404: function() {      alert( "page not found" );    },
+         200: function() {      }
+         },
+         success: function(response) {
+         handleGetSeriesAttributes(response)
+         },
+         complete: function() {
+         // unblock when remote call returns
+         // document.getElementById("SearchStatus").value = "Search Complete";
+
+         //$.unblockUI();
+         },
+         error: function(request,status,errorThrown) {
+         document.getElementById("SearchStatus").value = "Data Series List Search Error";
+         $.unblockUI();
+         }
+         });
+
+
+}
+
+
+ function getDeviceList(userid)
+{
+	mapInitialized =false;
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+
+    //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&
+userid=" + userid; 
+	
+	 devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devicekeys&
+userid=" + userid; 
+	
+      
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDeviceData(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+function handleGetDevicePramNames(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+   	
+   // initialize the user parameter list to zero         
+	document.getElementById("XMLFilesSelect").options.length = 0;
+	//document.getElementById("XMLFilesSelect").options[index++] = new Option("Use Defaults", "0");
+	document.getElementById("XMLFilesSelect").options[index++] = new Option("Use Defaults", "0");
+  document.getElementById("XMLFilesSelect").selectedIndex = 0;		
+
+  // get list of user parameters from the DB
+   	    response.records.forEach(function(row){
+   	      document.getElementById("XMLFilesSelect").options[index++] = new Option(row[2],  row[0] );
+	   		});
+	
+	//index--;
+	
+   // set current user parameter to the indedx stored in the cookie
+   if(document.getElementById("XMLFilesSelect").options.length-1 >= parseInt(ConfigOptions))
+	    document.getElementById("XMLFilesSelect").selectedIndex = parseInt(ConfigOptions);
+   else 
+	    document.getElementById("XMLFilesSelect").selectedIndex = 0;
+   
+    // load up user pameters from DB if there were any returned
+    //if(index > 1)        
+	 	  getDeviceParamDetails(myuserid);
+   // else
+   // {
+      //InitalizePageDials();
+   // }
+ 
+}
+
+
+ function getDeviceParamList(deviceid)
+{
+	mapInitialized =false;
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefnames&
+userid=" + myuserid + "&
+deviceid=" + deviceid;
+    
+    
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetDevicePramNames(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+ // Drop down menue is auto filled from DB with user preferences
+function selectUserPref(sel)
+{
+
+	
+    ConfigOptions = parseInt(sel.selectedIndex);
+   // save new CongigOptions to Cookie file
+    SetServerType( 1);
+	//SetCookie(CookiePrefix +'UserPreferenceIndex:' + sel.selectedIndex  , exp); 
+  // go to DB and load new prefs
+   getDeviceParamDetails(myuserid);
+
+}
+
+  
+ function getDeviceParamDetails(userid)
+{
+	mapInitialized =false;
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+
+   optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   var prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+   var prefname = document.getElementById("XMLFilesSelect").options[optionmenuindex].text;
+   document.getElementById("PrefKeyXML").value = prefkey;
+   document.getElementById("PrefNameXML").value = prefname;
+ 
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefs&
+userid=" + userid + "&
+prefkey=" + prefkey;
+         
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		//handleGetDevicePramDetails(response)
+							//getsgg4configxml();
+							handlegetDeviceParamDetails(response);
+							
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		                           ParameterInit = true;
+
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+}	 
+
+
+function loadmyimages(index)
+{
+	
+	  // Break out if no more images
+		if (index==imgAddresses.length) { newAJAXCommand('wificonfig.xml', initializewifivars, false); return; }
+	
+		 var logo_image = document.getElementById("img"+index);
+		
+		// Monitor load or error events, moving on to next image in either case
+		logo_image.onload = logo_image.onerror = function() { loadmyimages(index+1);}
+
+		//Change source (then wait for event)
+		logo_image.src = imgAddresses[index];
+		
+	}
+	
+function handlegetDeviceParamDetails(response)
+ {
+// var index=0;
+ 
+   	$.unblockUI();
+
+	var sgg4vars = "";
+	
+	   	    response.records.forEach(function(row){
+				sgg4vars = sgg4vars +  row ;
+	   		});
+	
+	
+
+	
+	initializewifivars(sgg4vars);
+	
+	getCalibrationFiles("SPIFFS");
+	
+}		
+	
+	
+function handleGetsgg4configxml(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+
+	var sgg4vars = response.sgg4config;
+	
+	initializewifivars(sgg4vars);
+	
+}	
+function getsgg4configxml()
+{
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+
+	
+
+   //optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   //prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+   var optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   var prefkey =   document.getElementById("XMLFilesSelect").options[optionmenuindex].value;
+ 
+   //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=pageprefs&
+prefidkey=" + prefkey;
+   var devicedataurl = "https://www.helmsmart-cloud.com/getseagaugeg4configxml?prefidkey=" + prefkey;
+         
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetsgg4configxml(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          document.getElementById("SearchStatus").innerHTML = "Search Error";
+		                           ParameterInit = true;
+
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+
+
+
+}			
+			
+			
+function DeletePref()
+{
+ // Guests do not get to make changes
+ if(myuserid == 0)
+ return;
+ 
+ 
+        $.blockUI({ 
+     message: '<h1>Deleting Preferences...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	 
+	 
+	 document.getElementById("PrefUpdateXML").value = "delete"
+	 document.getElementById("PrefNameXML").value = document.getElementById("AddPreferenceName").value;
+	 
+	 document.getElementById("configuration").submit();
+	 
+
+
+
+}	
+
+			
+function AddNewPref()
+{
+ // Guests do not get to make changes
+ if(myuserid == 0)
+ return;
+ 
+ 
+
+	 
+	 
+	 document.getElementById("PrefUpdateXML").value = "add"
+	 
+	 var prefName = document.getElementById("AddPreferenceName").value
+	 
+	 if (prefName == "")
+	 {
+		alert("need to enter a new preference name");
+		return;
+	 }
+		
+		
+	        $.blockUI({ 
+     message: '<h1>Adding Preferences...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+	
+		
+		
+	 document.getElementById("PrefNameXML").value = document.getElementById("AddPreferenceName").value;
+	 
+	 document.getElementById("configuration").submit();
+	 
+
+	 
+		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
+		document.getElementById('DeviceIDXML').value = myDeviceID;
+
+
+}	 	
+
+
+
+function changedTCPenable()
+{
+
+
+  if(document.getElementById("TCPSERVER_ON_CB").selectedIndex != 0)
+	document.getElementById("UDPBROADCAST_ON_CB").selectedIndex =0;
+
+}
+
+function changedUDPenable()
+{
+
+
+  if( document.getElementById("UDPBROADCAST_ON_CB").selectedIndex != 0)
+	document.getElementById("TCPSERVER_ON_CB").selectedIndex =0;
+
+}
+
+
+function changeDHCPenable()
+{
+
+
+
+  var 	 myOptionValue;
+
+  
+  myOptionValue = document.getElementById("DHCPCLIENT_ON_CB").value;
+
+  switch(myOptionValue)
+  {
+	case "0":
+	
+		document.getElementById('DHCPXML').innerHTML = "STATIC IP";		
+		document.getElementById("IPADDR").disabled = false;
+		document.getElementById("SUBNET").disabled = false;
+		document.getElementById("GATEWAY").disabled = false;
+		document.getElementById("DNS1").disabled = false;
+		document.getElementById("DNS2").disabled = false;	
+		break;
+			  
+	case "1":
+	
+		document.getElementById('DHCPXML').innerHTML = "DHCP ENABLED";
+		document.getElementById("IPADDR").disabled = true;
+		document.getElementById("SUBNET").disabled = true;
+		document.getElementById("GATEWAY").disabled = true;
+		document.getElementById("DNS1").disabled = true;
+		document.getElementById("DNS2").disabled = true;
+		break;
+
+	}
+}
+
+
+
+
+  function ChangedHTTPPost()
+  {
+  var 	 myOptionValue;
+
+	/*
+  document.getElementById("HTTPPostEnable").value = document.getElementById("HTTPPostMenu").selectedIndex;
+
+  myOptionValue = document.getElementById("HTTPPostEnable").value;
+
+  switch(myOptionValue)
+  {
+  case "0":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+  case "1":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+
+  case "2":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+
+  case "3":
+  document.getElementById("HTTPIPADDR").disabled = false;
+  document.getElementById("HTTPIPPORT").disabled = false;
+  document.getElementById("HTTPScript").disabled = false;
+  break;
+  
+  default:
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+  }
+
+  */
+   document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  
+  
+  
+  }
+
+
+
+
+
+function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+}
+
+
+
+function InitializePage(numOfZones)
+{
+
+	var instanceOptions = "";
+	
+	if(gversionSubstrings[1]==9) // SeaGaugeG4
+	{
+	
+		for(instanceindex=0; instanceindex < 16; instanceindex++)
+		{
+			 instanceOptions = instanceOptions + '<option value="' + instanceindex + '">' + instanceindex + '</option>';
+		}
+
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;"><p title="PINYY">ADCXX</p></td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 60px"><select id="PGNIXX" name="PGNIXX"   style="width: 60px" size="1"  > '
+		tablerowcontent = tablerowcontent + instanceOptions + ' </select> </td>'		  
+		tablerowcontent = tablerowcontent +' <td style="width: 295px"> <select id="PGNNXX" name="PGNNXX"   style="width: 280px" size="1" onchange="SetPGNNumberOptionList(XX);"> </select></td>'  
+		tablerowcontent = tablerowcontent +'<td style="width: 220px"> <select id="PGNPXX" name="PGNPXX"   style="width: 220px" size="1" onchange="SetDialPGNParameter(this);"> </select></td>'
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 90px;" maxlength="32" id="PGNSXX" name="PGNSXX" value="" /></td>'
+		//tablerowcontent = tablerowcontent +' <td style="width: 100px"> <select id="CALXX" name="CALXX"   style="width: 100px" size="1" onchange="SetCalibrationOptionList(XX);"> </select></td>' 
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 180px;" maxlength="32" id="CALFILEXX" name="CALFILEXX" value="" readonly /></td>'
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="file" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileSelectXX"  value="Cal File" name="files[]"   multiple class="auto-style10" /></td>'
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"  name="CalFileSelectXX" value="select"  onclick=" window.open("download/", "_self");" class="auto-style10" /></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"  name="CalFileSelectXX" value="select"   class="auto-style10" /></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><button type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"  name="CalFileSelectXX" value="select"    onclick=" window.open("download/", "_self");" />select</button></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><button type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"  name="files[]"   multiple value="select"    onclick=" window.open("download/", "_self");" />select</button></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="file" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"   value="select"  name="files[]"    /></td>'	
+		//tablerowcontent = tablerowcontent +'<td style="width: 80px"><input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="CalFileSelectXX"   value="select"  name="files[]"    /></td>'
+		//tablerowcontent = tablerowcontent +'<td style="width: 70px"><input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileSelectXX"   value="select"  onclick="handleCalFileSelect(XX)"   /></td>'
+		
+		//tablerowcontent = tablerowcontent +'<td style="width: 70px"><input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="CalFileModifyXX"   //value="modify"  onclick="handleCalFileModify(XX)"   /></td>'
+		
+		
+		for(rowindex=0; rowindex < numOfZones; rowindex++)
+		{
+			var tablerowid = "ADC" + rowindex + "PGNConfig";
+			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
+			tablerow = tablerow.replaceAll('PINYY',SSG4PinMap[rowindex]);
+			
+			document.getElementById(tablerowid).innerHTML =tablerow;		
+			//document.getElementById(tablerowid).addEventListener('click', handleCalFileSelect, false);
+
+		}
+		
+		
+	//#define ALARM_MODE_OFF 0
+	//#define ALARM_MODE_LOW_EQUALTO 1
+	//#define ALARM_MODE_LOW_LESSTHEN 2
+	//#define ALARM_MODE_LOW_GREATERTHEN 3
+	//#define ALARM_MODE_HIGH_EQUALTO 4
+	//#define ALARM_MODE_HIGH_LESSTHEN 5
+	//#define ALARM_MODE_HIGH_GREATERTHEN 6
+	//#define ALARM_MODE_LESSTHENLOW_GREATERTHENHIGH 7
+	//#define ALARM_MODE_GREATERTHENLOW_LESSTEHNHIGH 8
+		
+			var alarmOptions = "";
+			alarmOptions = alarmOptions + '<option value="0">Disabled</option>';
+			alarmOptions = alarmOptions + '<option value="1">Equal to Low</option>';
+			alarmOptions = alarmOptions + '<option value="2">Less then Low</option>';
+			alarmOptions = alarmOptions + '<option value="3">Greater then Low</option>';
+			alarmOptions = alarmOptions + '<option value="4">Equal to High</option>';
+			alarmOptions = alarmOptions + '<option value="5">Less then High</option>';
+			alarmOptions = alarmOptions + '<option value="6">Greater then High</option>';
+			alarmOptions = alarmOptions + '<option value="7">Less the Low and Greater then High</option>';
+			alarmOptions = alarmOptions + '<option value="8">Greater then Low and Less then High</option>';
+			alarmOptions = alarmOptions + '<option value="9">Latch when greater then High</option>';
+			alarmOptions = alarmOptions + '<option value="10">Latch when less then Low</option>';
+			/*
+			var alarmActions = "";
+			alarmActions = alarmActions + '<option value="0">Disabled</option>';
+			alarmActions = alarmActions + '<option value="1">Set Alarm</option>';
+			alarmActions = alarmActions + '<option value="2">Latch High</option>';
+			alarmActions = alarmActions + '<option value="3">Latch Low</option>';
+			alarmActions = alarmActions + '<option value="4">Latch HighLOW</option>';
+			alarmActions = alarmActions + '<option value="5">Latch LowHigh</option>';
+			alarmActions = alarmActions + '<option value="6">Set PIO4</option>';
+			alarmActions = alarmActions + '<option value="7">Set PIO5</option>';
+			alarmActions = alarmActions + '<option value="8">Set PIO6</option>';
+			*/
+			var alarmActions = "";
+			alarmActions = alarmActions + '<option value="0">Set PIO7</option>';
+			alarmActions = alarmActions + '<option value="1">Set PIO6</option>';
+			alarmActions = alarmActions + '<option value="2">Set PIO5</option>';
+			alarmActions = alarmActions + '<option value="3">Set PIO4</option>';
+			alarmActions = alarmActions + '<option value="4">Disabled</option>';
+
+			
+			var alarmMessages = "";
+			alarmMessages = alarmMessages + '<option value="0">Disabled</option>';
+			alarmMessages = alarmMessages + '<option value="1">Port Eng Check</option>';
+			alarmMessages = alarmMessages + '<option value="2">Port Eng Temp</option>';
+			alarmMessages = alarmMessages + '<option value="3">Port Eng Oil</option>';
+			alarmMessages = alarmMessages + '<option value="4">Port Fuel Pressure</option>';
+			alarmMessages = alarmMessages + '<option value="5">Port Alt Volts</option>';
+			alarmMessages = alarmMessages + '<option value="6">Port EGT</option>';
+			alarmMessages = alarmMessages + '<option value="7">Port Fuel Flow</option>';
+			alarmMessages = alarmMessages + '<option value="8">Port Tran Oil</option>';									
+			alarmMessages = alarmMessages + '<option value="9">Port Tran Temp</option>';		
+
+			alarmMessages = alarmMessages + '<option value="10">Stbd Eng Check</option>';
+			alarmMessages = alarmMessages + '<option value="11">Stbd Eng Temp</option>';
+			alarmMessages = alarmMessages + '<option value="12">Stbd Eng Oil</option>';
+			alarmMessages = alarmMessages + '<option value="13">Stbd Fuel Pressure</option>';
+			alarmMessages = alarmMessages + '<option value="14">Stbd Alt Volts</option>';
+			alarmMessages = alarmMessages + '<option value="15">Stbd EGT</option>';
+			alarmMessages = alarmMessages + '<option value="16">Stbd Fuel Flow</option>';
+			alarmMessages = alarmMessages + '<option value="17">Stbd Tran Oil</option>';									
+			alarmMessages = alarmMessages + '<option value="18">Stbd Tran Oil</option>';		
+
+
+			alarmMessages = alarmMessages + '<option value="19">Cntr Eng Check</option>';
+			alarmMessages = alarmMessages + '<option value="20">Cntr Eng Temp</option>';
+			alarmMessages = alarmMessages + '<option value="21">Cntr Eng Oil</option>';
+			alarmMessages = alarmMessages + '<option value="22">Cntr Fuel Pressure</option>';
+			alarmMessages = alarmMessages + '<option value="23">Cntr Alt Volts</option>';
+			alarmMessages = alarmMessages + '<option value="24">Cntr EGT</option>';
+			alarmMessages = alarmMessages + '<option value="25">Cntr Fuel Flow</option>';
+			alarmMessages = alarmMessages + '<option value="26">Cntr Tran Oil</option>';									
+			alarmMessages = alarmMessages + '<option value="27">Cntr Tran Oil</option>';		
+
+			
+											
+		
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;" title="PINZZ">ADCXX</td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 290px"><select id="ADCAMXX" name="ADCAMXX"   style="width: 290px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmOptions + ' </select> </td>'		  
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCALXX" name="ADCALXX" value="0" /></td>'
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCAHXX" name="ADCAHXX" value="65535" /></td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAAXX" name="ADCAAXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmActions + ' </select> </td>'	
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAPXX" name="ADCAPXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmMessages + ' </select> </td>'
+		
+		
+		for(rowindex=0; rowindex < 12; rowindex++)
+		{
+			
+			var tablerowid = "ADC" + rowindex + "AlarmConfig";
+			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
+			tablerow = tablerow.replaceAll('PINZZ',SSG4PinMap[rowindex]);
+			
+			document.getElementById(tablerowid).innerHTML =tablerow;		
+			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
+
+		}
+		
+		
+		
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;" title="PINZZ">PULSEYY</td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 290px"><select id="ADCAMXX" name="ADCAMXX"   style="width: 290px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmOptions + ' </select> </td>'		  
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCALXX" name="ADCALXX" value="0" /></td>'
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCAHXX" name="ADCAHXX" value="65535" /></td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAAXX" name="ADCAAXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmActions + ' </select> </td>'	
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAPXX" name="ADCAPXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmMessages + ' </select> </td>'
+		
+		
+		for(rowindex=13; rowindex < 16; rowindex++)
+		{
+			var tablerowid = "ADC" + rowindex + "AlarmConfig";
+			var tablerow = tablerowcontent.replaceAll('XX',rowindex);
+			tablerow = tablerow.replaceAll('PINZZ',SSG4PinMap[rowindex]);
+			tablerow = tablerow.replaceAll('YY',(15-rowindex));
+			
+			document.getElementById(tablerowid).innerHTML =tablerow;		
+			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
+
+		}
+		
+
+		var tablerowcontent =  '<td style="font-weight: bold; width: 100px; height: 30px;"title="PINZZ">PIOYY</td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 290px"><select id="ADCAMXX" name="ADCAMXX"   style="width: 290px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmOptions + ' </select> </td>'		  
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCALXX" name="ADCALXX" value="0" /></td>'
+		tablerowcontent = tablerowcontent +' <td><input type="text" style="width: 110px;" maxlength="32" id="ADCAHXX" name="ADCAHXX" value="65535" /></td>'
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAAXX" name="ADCAAXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmActions + ' </select> </td>'	
+		tablerowcontent = tablerowcontent +' <td style="width: 190px"><select id="ADCAPXX" name="ADCAPXX"   style="width: 190px" size="1"  > '
+		tablerowcontent = tablerowcontent + alarmMessages + ' </select> </td>'
+		
+		
+		for(rowindex=16; rowindex < 20; rowindex++)
+		{
+			
+			var tablerowid = "ADC" + rowindex + "AlarmConfig";
+			var tablerow1 = tablerowcontent.replaceAll('XX',rowindex);
+			var tablerow2 = tablerow1.replaceAll('YY',(rowindex-16));
+			tablerow2 = tablerow2.replaceAll('PINZZ',SSG4PinMap[rowindex]);
+			document.getElementById(tablerowid).innerHTML =tablerow2;		
+			//document.getElementById(tablerowid).addEventListener('change', handleCalFileSelect, false);
+
+		}
+	
+	}
+	
+	
+	
+
+}
+
+// Sets the current dial Id
+  function setPGNDialID(sel) {
+
+	CurrentDialID = document.getElementById("PGNDialID").selectedIndex ;
+	
+	//document.getElementById("DialID").selectedIndex = CurrentDialID;
+	//document.getElementById("PGNDialID").selectedIndex = CurrentDialID;
+	//document.getElementById("PGNTimeout").selectedIndex = DialTimeout;
+	//document.getElementById("UpdateInterval").selectedIndex = UpdateInterval/1000;
+
+     //document.getElementById("PGNNumber").value = DialPGNNumber[myDialID];
+	document.getElementById("PGNN").selectedIndex =0;
+		for(i=0; i< document.getElementById("PGNN").length; i++)
+		{
+			if(document.getElementById("PGNN").options[i].value == DialPGNNumber[CurrentDialID])
+			{
+				document.getElementById("PGNN").selectedIndex = i;
+			}
+		}
+	
+	SetPGNParamatersOptionList(DialPGNNumber[CurrentDialID]);
+	SetPGNInstanceOptionList(DialPGNNumber[CurrentDialID]);
+
+
+	document.getElementById("PGNParameterID").selectedIndex = DialPGNParameter[CurrentDialID];
+	
+	
+    document.getElementById("PGNInstance").selectedIndex = DialPGNInstance[CurrentDialID];
+	
+	
+	
+}
+
+
+
+function InitializePGNNumberOptionList(numOfZones)
+{
+
+if(gversionSubstrings[1]==9) // SeaGaugeG4
+{
+	for(rowindex=0; rowindex < numOfZones; rowindex++)
+	{
+
+		var selectDDid = "PGNN" + rowindex ;
+
+				document.getElementById(selectDDid).options.length = 0;
+
+				/*
+				document.getElementById(selectDDid).options[0] = new Option("disabled", "000000");
+				document.getElementById(selectDDid).options[1] = new Option("PGN127489 - Engine Dynamic", "127489");
+				document.getElementById(selectDDid).options[2] = new Option("PGN127508 - Battery Status", "127508");
+				document.getElementById(selectDDid).options[3] = new Option("PGN127505 - Fluid Level", "127505");
+				document.getElementById(selectDDid).options[4] = new Option("PGN127493 - Transmission", "127493");
+				document.getElementById(selectDDid).options[5] = new Option("PGN130314 - Pressure", "130314");
+				document.getElementById(selectDDid).options[6] = new Option("PGN130311 - Environmental", "130311");
+				document.getElementById(selectDDid).options[7] = new Option("PGN130312 - Temperature", "130312");
+				document.getElementById(selectDDid).options[8] = new Option("PGN130316 - Temperature Extended", "130316");
+				document.getElementById(selectDDid).options[9] = new Option("PGN127245 - Rudder", "127245");
+				*/
+				document.getElementById(selectDDid).options[0] = new Option("disabled", 0);
+				document.getElementById(selectDDid).options[1] = new Option("PGN127489 - Engine Dynamic", 1);
+				document.getElementById(selectDDid).options[2] = new Option("PGN127508 - Battery Status", 2);
+				document.getElementById(selectDDid).options[3] = new Option("PGN127505 - Fluid Level", 3);
+				document.getElementById(selectDDid).options[4] = new Option("PGN127493 - Transmission", 4);
+				document.getElementById(selectDDid).options[5] = new Option("PGN130314 - Pressure", 5);
+				document.getElementById(selectDDid).options[6] = new Option("PGN130311 - Environmental", 6, false, true);
+				document.getElementById(selectDDid).options[7] = new Option("PGN130312 - Temperature", 7);
+				document.getElementById(selectDDid).options[8] = new Option("PGN130316 - Temperature Extended", 8);
+				document.getElementById(selectDDid).options[9] = new Option("PGN127245 - Rudder", 9);
+				document.getElementById(selectDDid).options[10] = new Option("PGN127288 - Engine Rapid", 10);
+				
+				document.getElementById(selectDDid).options[11] = new Option("---", 11);
+				document.getElementById(selectDDid).options[12] = new Option("---", 12);
+				document.getElementById(selectDDid).options[13] = new Option("---", 13);
+				document.getElementById(selectDDid).options[14] = new Option("---", 14);
+				document.getElementById(selectDDid).options[15] = new Option("---", 15);
+		
+				document.getElementById(selectDDid).options[16] = new Option("PGN065262 - J1939 Temperature", 16);
+				document.getElementById(selectDDid).options[17] = new Option("PGN065263 - J1939 Pressures", 17);
+				document.getElementById(selectDDid).options[18] = new Option("PGN065271 - J1939 Volts", 18);
+				document.getElementById(selectDDid).options[19] = new Option("PGN065276 - J1939 Fluids", 19);
+				document.getElementById(selectDDid).options[20] = new Option("PGN065272 - J1939 Transmission", 20);
+							
+				document.getElementById(selectDDid).selectedIndex = 0;
+	  }
+	  
+		//
+		//CurrentDialID = 0;
+}
+  
+}
+
+function SetPGNNumberOptionList(adcchannel)
+{
+var myADCID;
+
+	//myDialID = document.getElementById("PGNDialID").selectedIndex ;
+	//myADCID = sel ;
+	//alert(myDialID);
+	var PGNNumberSelectID = 'PGNN' + adcchannel;
+	
+
+	
+	var selectedIndex = document.getElementById(PGNNumberSelectID).selectedIndex
+	
+
+	var selectedPGN = document.getElementById(PGNNumberSelectID).options[selectedIndex].value;
+
+
+	
+	SetPGNParamatersOptionList(adcchannel, selectedPGN);
+	
+	SetPGNInstanceOptionList(adcchannel, selectedPGN);
+	
+/*
+   switch (selectedPGN) 
+	{
+
+
+		case "127489":
+			SetPGNParamatersOptionList(adcchannel, "127489");
+			//SetPGNInstanceOptionList("127489");
+		break
+		
+		 case "127506":
+			SetPGNParamatersOptionList(adcchannel,"127506");
+			//SetPGNInstanceOptionList("127506");
+		break
+
+		 case "127508":
+			SetPGNParamatersOptionList(adcchannel,"127508");
+			//SetPGNInstanceOptionList("127508");
+		break
+
+		 case "127505":
+			SetPGNParamatersOptionList(adcchannel,"127505");
+			//SetPGNInstanceOptionList("127505");
+		break
+
+		 case "127493":
+			SetPGNParamatersOptionList(adcchannel,"127493");
+			//SetPGNInstanceOptionList("127493");
+		break
+		
+		case "127497":
+			SetPGNParamatersOptionList(adcchannel,"127497");
+			//SetPGNInstanceOptionList("127497");
+		break
+		
+
+
+		case "130314":
+			SetPGNParamatersOptionList(adcchannel,"130314");
+			//SetPGNInstanceOptionList("130314");
+		break
+
+		case "130323":
+			SetPGNParamatersOptionList(adcchannel,"130323");
+			//SetPGNInstanceOptionList("130323");
+		break
+
+		 case "130306":
+			SetPGNParamatersOptionList(adcchannel,"130306");
+			//SetPGNInstanceOptionList("130306");
+		break
+
+
+
+
+		 case "130312":
+			SetPGNParamatersOptionList(adcchannel,"130312");
+			//SetPGNInstanceOptionList("130312");
+		break
+		
+		case "130316":
+			SetPGNParamatersOptionList(adcchannel,"130316");
+			//SetPGNInstanceOptionList("130316");
+		break
+
+		case "127245":
+			SetPGNParamatersOptionList(adcchannel,"127245");
+			//SetPGNInstanceOptionList("127245");
+		break
+
+	
+
+
+		case "":
+			SetPGNParamatersOptionList(adcchannel,"Undefined");
+			//SetPGNInstanceOptionList("Undefined");
+		break
+
+		case "Undefined":
+			SetPGNParamatersOptionList(adcchannel,"Undefined");
+			//SetPGNInstanceOptionList("Undefined");
+		break
+
+		default:
+			SetPGNParamatersOptionList(adcchannel,"Undefined");
+			//SetPGNInstanceOptionList("Undefined");
+		break
+
+
+
+		}
+		
+		*/
+
+	//alert(myDialID);
+		// reset parameter list to first value
+		//document.getElementById("PGNParameterID").selectedIndex = 0;
+
+
+
+		// reset parameter index to 0
+		//DialPGNParameter[myDialID] = 0;
+
+		//radialDial[myDialID].setUnitString("undefined");
+	
+}
+
+function SetPGNSetValue(selText)
+{
+		myDialID = document.getElementById("PGNDialID").selectedIndex ;
+
+	//alert(myDialID);
+
+	DialPGNSetValue[myDialID] = sel.options[sel.selectedIndex].value;   
+	
+	
+}
+
+function SetPGNSetValue(selText)
+{
+	
+	myDialID = document.getElementById("PGNDialID").selectedIndex ;
+
+
+	document.getElementById("DialPGNSetValue").value = DialPGNSetValue[myDialID];
+	
+}
+
+function SetPGNInstanceOptionList(adcchannel, selText)
+{
+
+//document.getElementById("PGNInstance").options.length = 0;
+
+	var index=0;
+	var PGNParameterID = 'PGNI' + adcchannel;
+	
+	document.getElementById(PGNParameterID).options.length = 0;
+	
+
+	
+	
+
+	switch (parseInt(selText))
+	{
+
+		case 6:
+		
+			for(i=0; i<16; i++)
+			document.getElementById(PGNParameterID).options[i] = new Option(i, i);
+
+		break
+		
+
+		case 7:
+		
+			for(i=0; i<16; i++)
+			document.getElementById(PGNParameterID).options[i] = new Option(i, i);
+			
+		break
+		
+		case 8:
+		
+			for(i=0; i<16; i++)
+			document.getElementById(PGNParameterID).options[i] = new Option(i, i);
+			
+		break;
+
+		default:
+
+			for(i=0; i<32; i++)
+			document.getElementById(PGNParameterID).options[i] = new Option(i, i);
+			
+		break;
+		}
+
+}
+
+function UpdateCalibrationOptionList(adcchannel, selText)
+{
+
+
+
+
+
+	var PGNCAlID = 'CAL' + adcchannel;
+	
+	//document.getElementById(PGNCAlID).options.length = 0;
+	
+}
+function SetCalibrationOptionList(adcchannel, selText)
+{
+
+
+
+
+
+	var PGNCAlID = 'CAL' + adcchannel;
+	
+	//document.getElementById(PGNCAlID).options.length = 0;
+	
+}
+
+
+function SetPGNParamatersOptionList(adcchannel, selText)
+{
+
+
+
+
+
+	var PGNParameterID = 'PGNP' + adcchannel;
+	
+	document.getElementById(PGNParameterID).options.length = 0;
+	
+	//var selectedIndex = document.getElementById(PGNNumberSelectID).selectedIndex
+
+	/*
+				document.getElementById(selectDDid).options[0] = new Option("disabled", 0);
+			document.getElementById(selectDDid).options[1] = new Option("PGN127489 - Engine Dynamic", 1);
+			document.getElementById(selectDDid).options[2] = new Option("PGN127508 - Battery Status", 2);
+			document.getElementById(selectDDid).options[3] = new Option("PGN127505 - Fluid Level", 3);
+			document.getElementById(selectDDid).options[4] = new Option("PGN127493 - Transmission", 4);
+			document.getElementById(selectDDid).options[5] = new Option("PGN130314 - Pressure", 5);
+			document.getElementById(selectDDid).options[6] = new Option("PGN130311 - Environmental", 6);
+			document.getElementById(selectDDid).options[7] = new Option("PGN130312 - Temperature", 7);
+			document.getElementById(selectDDid).options[8] = new Option("PGN130316 - Temperature Extended", 8);
+			document.getElementById(selectDDid).options[9] = new Option("PGN127245 - Rudder", "9");
+*/
+
+	switch (parseInt(selText))
+	{
+
+
+		case 1:
+			document.getElementById(PGNParameterID).options[0] = new Option("Oil Pressure", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Oil Temp", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Engine Temp", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Alt Volts", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Fuel Rate", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Engine Hours", 5);
+			document.getElementById(PGNParameterID).options[6] = new Option("Coolant Pressure", 6);
+			document.getElementById(PGNParameterID).options[7] = new Option("Fuel Pressure", 7);
+			document.getElementById(PGNParameterID).options[8] = new Option("Check Engine", 8);
+			document.getElementById(PGNParameterID).options[9] = new Option("Over Temp", 9);
+			document.getElementById(PGNParameterID).options[10] = new Option("Low Oil Pres", 10);
+			document.getElementById(PGNParameterID).options[11] = new Option("Low Oil Level", 11);
+			document.getElementById(PGNParameterID).options[12] = new Option("Low Sys Volt", 12);
+			document.getElementById(PGNParameterID).options[13] = new Option("Low Coolant Level", 13);
+		break
+
+		
+		
+		 case 2:
+			document.getElementById(PGNParameterID).options[0] = new Option("Battery Volt", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Current", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Temperature", 2);
+		break
+
+		 case 3:
+			document.getElementById(PGNParameterID).options[0] = new Option("Fuel Level", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Fresh Water Level", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Waste Water Level", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Live Well Level", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Oil Level", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Black Water Level", 80);
+			document.getElementById(PGNParameterID).options[6] = new Option("Bilge Level", 96);
+			document.getElementById(PGNParameterID).options[7] = new Option("Coolant Level", 112);
+			
+		break
+
+		 case 4:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Pressure", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Temperature", 1);
+		break
+		
+
+
+		case 5:// pressure
+			document.getElementById(PGNParameterID).options[0] = new Option("Atmospheric Pressure", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Water Pressure", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Steam Pressure", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Compresssed Air", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Hydraulic Pressure", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Fuel Filter Pressure", 80);
+			document.getElementById(PGNParameterID).options[6] = new Option("Pressure 6", 96);
+			document.getElementById(PGNParameterID).options[7] = new Option("Pressure 7", 112);
+		break
+
+
+		case 6:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Temperature", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Sea", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Outside", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Inside", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Engine Room", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Cabin", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Live Well", 80);
+			document.getElementById(PGNParameterID).options[6] = new Option("Bait Well", 96);
+			document.getElementById(PGNParameterID).options[7] = new Option("Refigeration", 112);
+			document.getElementById(PGNParameterID).options[8] = new Option("Heating", 128);
+			document.getElementById(PGNParameterID).options[9] = new Option("Dew Point", 144);
+			document.getElementById(PGNParameterID).options[10] = new Option("Wind Chill A", 160);
+			document.getElementById(PGNParameterID).options[11] = new Option("Wind Chill T", 176);
+			document.getElementById(PGNParameterID).options[12] = new Option("Heat Index", 192);
+			document.getElementById(PGNParameterID).options[13] = new Option("Freezer", 208);
+			document.getElementById(PGNParameterID).options[14] = new Option("EGT ", 224);
+			document.getElementById(PGNParameterID).options[15] = new Option("EGT  K-Type Amp", 225);
+			
+			
+		break
+
+		case 7:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Temperature", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Sea", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Outside", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Inside", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Engine Room", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Cabin", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Live Well", 80);
+			document.getElementById(PGNParameterID).options[6] = new Option("Bait Well", 96);
+			document.getElementById(PGNParameterID).options[7] = new Option("Refigeration", 112);
+			document.getElementById(PGNParameterID).options[8] = new Option("Heating", 128);
+			document.getElementById(PGNParameterID).options[9] = new Option("Dew Point", 144);
+			document.getElementById(PGNParameterID).options[10] = new Option("Wind Chill A", 160);
+			document.getElementById(PGNParameterID).options[11] = new Option("Wind Chill T", 176);
+			document.getElementById(PGNParameterID).options[12] = new Option("Heat Index", 192);
+			document.getElementById(PGNParameterID).options[13] = new Option("Freezer", 208);
+			document.getElementById(PGNParameterID).options[14] = new Option("EGT ", 224);
+			document.getElementById(PGNParameterID).options[15] = new Option("EGT  K-Type Amp", 225);
+			
+			
+			
+		break
+		
+		case 8:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Temperature", 0);
+			//document.getElementById(PGNParameterID).options[1] = new Option("Temperature K-Type", 1);
+			document.getElementById(PGNParameterID).options[0] = new Option("Sea", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Outside", 16);
+			document.getElementById(PGNParameterID).options[2] = new Option("Inside", 32);
+			document.getElementById(PGNParameterID).options[3] = new Option("Engine Room", 48);
+			document.getElementById(PGNParameterID).options[4] = new Option("Cabin", 64);
+			document.getElementById(PGNParameterID).options[5] = new Option("Live Well", 80);
+			document.getElementById(PGNParameterID).options[6] = new Option("Bait Well", 96);
+			document.getElementById(PGNParameterID).options[7] = new Option("Refigeration", 112);
+			document.getElementById(PGNParameterID).options[8] = new Option("Heating", 128);
+			document.getElementById(PGNParameterID).options[9] = new Option("Dew Point", 144);
+			document.getElementById(PGNParameterID).options[10] = new Option("Wind Chill A", 160);
+			document.getElementById(PGNParameterID).options[11] = new Option("Wind Chill T", 176);
+			document.getElementById(PGNParameterID).options[12] = new Option("Heat Index", 192);
+			document.getElementById(PGNParameterID).options[13] = new Option("Freezer", 208);
+			document.getElementById(PGNParameterID).options[14] = new Option("EGT ", 224);
+			document.getElementById(PGNParameterID).options[15] = new Option("EGT  K-Type Amp", 225);
+			
+			
+
+		break
+
+		case 9:
+			document.getElementById(PGNParameterID).options[0] = new Option("Rudder", 0);
+		
+		break
+
+
+		
+		case 10:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("---", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Boost", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Trim", 2);
+		break
+		
+
+		
+		case 16:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Coolant", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Fuel", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Oil", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Turbo", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Inner Cooler", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Thermostat", 5);
+		break
+		
+		case 17:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Fuel", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Blowby", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Oil Level", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Oil Pressure", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Coolant Pressure", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Coolant level", 5);
+		break
+		
+		case 18:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Bat Current", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Alt Current", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Charge Volts", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Bat Volts", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Keyswitch Volts", 4);
+		break
+		
+		case 19:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Washer Level", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Fuel Level", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Fuel Filter", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Oil Filter", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Cargo Temp", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Aux Fuel Level", 5);
+			//document.getElementById(PGNParameterID).options[1] = new Option("Fuel Volume", 1);
+
+		break
+		
+		
+		case 20:
+			//document.getElementById(PGNParameterID).options[0] = new Option("Gear", 0);
+			document.getElementById(PGNParameterID).options[0] = new Option("Clutch Pressure", 0);
+			document.getElementById(PGNParameterID).options[1] = new Option("Oil Level", 1);
+			document.getElementById(PGNParameterID).options[2] = new Option("Diff Pressure", 2);
+			document.getElementById(PGNParameterID).options[3] = new Option("Oil Pressure", 3);
+			document.getElementById(PGNParameterID).options[4] = new Option("Oil Temperature", 4);
+			document.getElementById(PGNParameterID).options[5] = new Option("Oil Warning", 5);
+		break
+
+		case "Undefined":
+			document.getElementById(PGNParameterID).options[0] = new Option("----", 0);
+		
+		break
+
+
+
+	   default:
+			document.getElementById(PGNParameterID).options[0] = new Option("----", 0);	
+		break
+
+	}
+
+
+}
+
+function SetDialPGNParameter(sel)
+{
+var myDialID;
+
+	//myDialID = document.getElementById("PGNDialID").selectedIndex ;
+
+	//alert(myDialID);
+
+	//DialPGNParameter[myDialID] = sel.options[sel.selectedIndex].value;
+
+
+}
+
+function getConfigVars()
+{
+
+	//InitializePage(gnumOfZones);
+	//InitializePGNNumberOptionList(gnumOfZones);
+	//document.getElementById("PGNDialID").selectedIndex = 0;
+	//CurrentDialID = 0;
+
+
+	//newAJAXCommand('wificonfig.xml', initializewifivars, false)
+
+
+}
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLValue(xmlData, field) {
+var myerr;	
+	/*
+	try {
+		if(xmlData.getElementsByTagName(field)[0].firstChild.nodeValue)
+			return xmlData.getElementsByTagName(field)[0].firstChild.nodeValue;
+		else
+			return null;
+	} catch(err) 
+	
+	{ 
+		myerr = err;
+		console.error(error);
+		return null; 
+	
+	}
+	*/
+	
+	//determine start-pos and end-pos of desired substring, and then get it
+var startStr = "<" + field + ">";
+var endStr = "</" + field + ">";
+var startPos=-1;
+var endPos=-1;
+
+	try{
+		
+		//startPos = xmlData.indexOf(startStr) + startStr.length;
+		startPos = xmlData.indexOf(startStr) ;
+		if (startPos == -1) return "";
+		
+		endPos = xmlData.indexOf(endStr);
+		if (endPos == -1) return "";
+		
+		return xmlData.substring((startPos+ startStr.length),endPos).trim();
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+
+/*
+
+	const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+	
+	var mytagvalue = xmlDoc.getElementsByTagName(field)
+	
+	return mytagvalue;
+	*/
+}
+
+
+// Parses the xmlResponse from status.xml and updates the status box
+function initializewifivars(xmlData) {
+
+
+	var myN2Kdata;
+	var PGNIndex;
+	var PGNinstance;
+	var PGNparameter;
+
+	// Check if a timeout occurred
+	if(!xmlData)
+	{
+		//var myXMLdata = getXMLValue(xmlData, 'DeviceID');
+		document.getElementById('DeviceIDXMLValue').innerHTML = "------------";
+	}
+	else{
+	
+	//document.getElementById('UserIDXML').value = "a91140300971bfb9244989a9bffde53c";
+	document.getElementById('UserIDXML').value = myuserid;
+	
+		var myXMLdata = getXMLValue(xmlData, 'DeviceID');
+		if(myXMLdata == "")
+			myXMLdata = myDeviceID;
+		
+		//document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myXMLdata;
+		//document.getElementById('DeviceIDXML').value = myXMLdata;
+		//document.cookie = "deviceid=" + myXMLdata;
+		
+		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
+		document.getElementById('DeviceIDXML').value = myDeviceID;
+		document.cookie = "deviceid=" + myDeviceID;
+		
+		myXMLdata = getXMLValue(xmlData, 'VersionInfo');
+		if(myXMLdata == "")
+			myXMLdata = myVersionString;
+		
+		//document.getElementById('VersionXMLValue').innerHTML = "Version " + myXMLdata;
+		//document.getElementById('VersionXML').value = myXMLdata;
+		//document.cookie = "version=" + myXMLdata;
+		
+		document.getElementById('VersionXMLValue').innerHTML = "Version " + myVersionString;
+		document.getElementById('VersionXML').value = myVersionString;
+		document.cookie = "version=" + myVersionString;
+		
+		
+		document.getElementById("DimmerInstanceDD").options.length = 0;
+		for(instanceindex=0; instanceindex < 250; instanceindex++)
+		{
+			document.getElementById("DimmerInstanceDD").options[instanceindex] = new Option(instanceindex, instanceindex);
+		}
+		
+		document.getElementById("DimmerInstanceDD").selectedIndex = 15;
+		
+		
+		gversionSubstrings = myXMLdata.split(".");
+	
+	
+	if(gversionSubstrings[1]==9) // SeaGaugeG4
+	
+	
+		InitializePage(gnumOfZones);
+		InitializePGNNumberOptionList(gnumOfZones);
+		
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'CELLDB');
+		document.getElementById('CELLDB').innerHTML = "CELL DB " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'CELLAI');
+		
+		if(myXMLdata == '0')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = connected" ;
+		else if(myXMLdata == '34')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = registering" ;
+		else if(myXMLdata == '35')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = connecting..." ;
+		else if(myXMLdata == '36')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = connection denied" ;
+		else if (myXMLdata == '255')
+		document.getElementById('CELLAI').innerHTML = "CELL AI = initializing..." ;		
+		else 
+		document.getElementById('CELLAI').innerHTML = "CELL AI = unknown" ;
+		
+		myXMLdata = getXMLValue(xmlData, 'CIPAddress');
+		document.getElementById('IPaddressXML').innerHTML = "IP Address " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'CIPMask');
+		document.getElementById('IPMaskXML').innerHTML = "IP Mask " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'CIPGW');
+		document.getElementById('IPGatewayXML').innerHTML = "IP Gateway " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'BSSID');
+		document.getElementById('BSSIDXML').innerHTML = "BSSID " + myXMLdata;
+			
+		myXMLdata = getXMLValue(xmlData, 'RSSI');
+		document.getElementById('RSSIXML').innerHTML = "RSSI = " + myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'DHCP');
+		
+		if(myXMLdata == "")
+			myXMLdata = "1"
+			
+		document.getElementById("DHCPCLIENT_ON_CB").selectedIndex = parseInt(myXMLdata);
+		if(parseInt(myXMLdata) == 1)
+		{
+			 document.getElementById('DHCPXML').innerHTML = "DHCP ENABLED";
+			
+			  document.getElementById("IPADDR").disabled = true;
+			  document.getElementById("SUBNET").disabled = true;
+			  document.getElementById("GATEWAY").disabled = true;
+			  document.getElementById("DNS1").disabled = true;
+			  document.getElementById("DNS2").disabled = true;
+		}
+		else
+		{
+			document.getElementById('DHCPXML').innerHTML = "STATIC IP";
+			
+						
+			  document.getElementById("IPADDR").disabled = false;
+			  document.getElementById("SUBNET").disabled = false;
+			  document.getElementById("GATEWAY").disabled = false;
+			  document.getElementById("DNS1").disabled = false;
+			  document.getElementById("DNS2").disabled = false;
+		}
+		
+		myXMLdata = getXMLValue(xmlData, 'IPAddress');		
+		if(myXMLdata == "")
+			myXMLdata = "192.168.4.1"
+			
+		document.getElementById('IPADDR').value =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'IPMask');
+		if(myXMLdata == "")
+			myXMLdata = "255.255.255.0"
+			
+		document.getElementById('SUBNET').value =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'IPGateway');
+		if(myXMLdata == "")
+			myXMLdata = "192.168.4.1"
+			
+		document.getElementById('GATEWAY').value =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'DNS1');
+		if(myXMLdata == "")
+			myXMLdata = "8.8.8.8"
+			
+		document.getElementById('DNS1').value =  myXMLdata;		
+		
+		myXMLdata = getXMLValue(xmlData, 'DNS2');
+		if(myXMLdata == "")
+			myXMLdata = "8.8.8.8"
+			
+		document.getElementById('DNS2').value =  myXMLdata;		
+		
+		myXMLdata = getXMLValue(xmlData, 'NetTypeXML');
+		if(myXMLdata == "")
+			myXMLdata = "2"
+			
+		document.getElementById('NetTypeXML').innerHTML = "Net Type = " + myXMLdata;
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'WIFIType');
+		if(myXMLdata == "")
+			myXMLdata = "2"
+			
+		document.getElementById("WIFINetType_CB").selectedIndex = parseInt(myXMLdata);	
+		
+		if(parseInt(myXMLdata) == 0)
+		{
+		
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Ethernet" ;
+		}
+		else if (parseInt(myXMLdata) == 1) //sta
+		{
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Station" ;
+			
+
+			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;		
+
+				
+		}
+		else if (parseInt(myXMLdata) == 2) //AP
+		{
+		
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Access Point" ;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;		
+		
+		}
+		else if (parseInt(myXMLdata) == 3) //AP
+		{
+		
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Station + Access Point" ;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;		
+
+		}
+		else if (parseInt(myXMLdata) == 5) //MESH
+		{
+			document.getElementById('NetTypeXML').innerHTML = "Net Type = Mesh Root" ;	
+			
+			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;	
+		
+		}
+
+		myXMLdata = getXMLValue(xmlData, 'STAWIFISSID');
+		if(myXMLdata == "")
+			myXMLdata = "SeaGaugeG4"
+			
+		document.getElementById('STASSID').value =  myXMLdata;
+		document.getElementById('SSIDXML').innerHTML = "SSID = " + myXMLdata;
+
+			
+		myXMLdata = getXMLValue(xmlData, 'STAWIFIPW');
+		if(myXMLdata == "")
+			myXMLdata = "seasmartg3"
+			
+		document.getElementById('STAPASSWORD').value =  myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'APWIFISSID');	
+		if(myXMLdata == "")
+			myXMLdata = "SeaGaugeG4-0000"
+			
+		document.getElementById('APSSID').value =  myXMLdata;
+			
+			
+		myXMLdata = getXMLValue(xmlData, 'APWIFIMode');
+		if(myXMLdata == "")
+			myXMLdata = "3"
+			
+		document.getElementById("APSECTYPE").selectedIndex = parseInt(myXMLdata);
+				
+			
+		myXMLdata = getXMLValue(xmlData, 'APWIFIPW');
+		if(myXMLdata == "")
+			myXMLdata = "seasmartg3"
+			
+		document.getElementById("APSECKEY").value = myXMLdata;	
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'MESHCHANNEL');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("MESHCHANNEL").selectedIndex = parseInt(myXMLdata);
+				
+			
+			
+		myXMLdata = getXMLValue(xmlData, 'MESHID');
+		if(myXMLdata == "")
+			myXMLdata = "000000000000"
+			
+		document.getElementById("MESHID").value = myXMLdata;
+
+		
+		myXMLdata = getXMLValue(xmlData, 'HTTPPostMenu');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("HTTPPostMenu").selectedIndex = parseInt(myXMLdata);
+		
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'HpptPostInterval');
+		if(myXMLdata == "")
+			myXMLdata = "1"
+			
+		document.getElementById("HttpPostInterval").value = parseInt(myXMLdata);	
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'SDLogEnable');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("SDLogFName").selectedIndex = parseInt(myXMLdata);
+	
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'SDLogInterval');
+		if(myXMLdata == "")
+			myXMLdata = "1"
+			
+		document.getElementById("SDLogInterval").value= myXMLdata;
+
+		
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'UartInterval');
+		if(myXMLdata == "")
+			myXMLdata = "2"
+			
+		document.getElementById("UartInterval").value= myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'TimeStampSource');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("TimeStampSource").selectedIndex = parseInt(myXMLdata);
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'TCPEnable');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("TCPSERVER_ON_CB").selectedIndex = parseInt(myXMLdata);
+	
+		myXMLdata = getXMLValue(xmlData, 'TCPServerPort');
+		if(myXMLdata == "")
+			myXMLdata = "10010"
+			
+		document.getElementById("TCPSERVERPORT").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'UDPBroadcastEnable');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("UDPBROADCAST_ON_CB").selectedIndex = parseInt(myXMLdata);
+	
+		myXMLdata = getXMLValue(xmlData, 'UDPClientPort');
+		if(myXMLdata == "")
+			myXMLdata = "10020"
+			
+		document.getElementById("UDPBROADPORT").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'UART0MODE');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("UART0ModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'UART1MODE');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("UART1ModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'UART2MODE');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("UART2ModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'PULSEMODE');
+		if(myXMLdata == "")
+			myXMLdata = "4"
+			
+		document.getElementById("PULSEModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'PULSESCALE0');
+		if(myXMLdata == "")
+			myXMLdata = "1500"
+			
+		document.getElementById("PULSE0SCALE").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'PULSESCALE1');
+		if(myXMLdata == "")
+			myXMLdata = "1500"
+			
+		document.getElementById("PULSE1SCALE").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'PULSESCALE2');
+		if(myXMLdata == "")
+			myXMLdata = "1500"
+			
+		document.getElementById("PULSE2SCALE").value = myXMLdata;
+		
+			
+		myXMLdata = getXMLValue(xmlData, 'PFLT0');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		//document.getElementById("PFLT0").value = myXMLdata;
+		document.getElementById("PFLT0").selectedIndex = parseInt(myXMLdata);		
+		
+					
+		myXMLdata = getXMLValue(xmlData, 'PFLT1');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		///document.getElementById("PFLT1").value = myXMLdata;	
+		document.getElementById("PFLT1").selectedIndex = parseInt(myXMLdata);	
+					
+		myXMLdata = getXMLValue(xmlData, 'PFLT2');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		//document.getElementById("PFLT2").value = myXMLdata;	
+		document.getElementById("PFLT2").selectedIndex = parseInt(myXMLdata);	
+		
+		myXMLdata = getXMLValue(xmlData, 'FUELTOTAL');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("FUELTACHTOTAL").value = myXMLdata;
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERTYPE');
+		if(myXMLdata == "")
+			myXMLdata = "25"
+			
+		document.getElementById("DimmerTypeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERINSTANCE');
+		document.getElementById("DimmerInstanceDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERSCALE');
+		if(myXMLdata == "")
+			myXMLdata = "1"
+			
+		document.getElementById("DIMMERSCALE").value = myXMLdata;
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERPON');
+		{
+			if(parseInt(myXMLdata) <= (100/5))
+				document.getElementById("DimmerPONDD").selectedIndex = parseInt(myXMLdata);
+			else
+				document.getElementById("DimmerPONDD").selectedIndex = 21;
+		}
+		
+		myXMLdata = getXMLValue(xmlData, 'DIMMERTXRATE');
+		
+		for(i=0; i< document.getElementById("DimmerTXDD").options.length; i++)
+	    {
+	    	var myTXrate = document.getElementById("DimmerTXDD").options[i].value;
+		    if( parseInt(myXMLdata)  == parseInt(myTXrate))
+		    	document.getElementById("DimmerTXDD").selectedIndex = i;
+		}
+			
+		
+		myXMLdata = getXMLValue(xmlData, 'TIMERMODE');
+		if(myXMLdata == "")
+			myXMLdata = "0"
+			
+		document.getElementById("TimerModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		myXMLdata = getXMLValue(xmlData, 'SDLogInterval');
+		if(myXMLdata == "")
+			myXMLdata = "1"
+			
+		document.getElementById("SDLogInterval").value= myXMLdata;
+		
+		
+		myXMLdata = getXMLValue(xmlData, 'CANMODE');
+		if(myXMLdata == "")
+			myXMLdata = "2"
+			
+		document.getElementById("CANModeDD").selectedIndex = parseInt(myXMLdata);
+		
+		
+	if(gversionSubstrings[1]==9) // seagaugeg4
+	{
+		for(var channel=0; channel< 12; channel++)
+		{
+			//if(i!= 12)
+			{
+				myXMLdata = getXMLValue(xmlData, 'PGNN'+ channel.toString());
+				
+				PGNIndex = parseInt(myXMLdata);
+				
+				
+				document.getElementById('PGNN' + channel.toString()).selectedIndex = PGNIndex;
+				
+				SetPGNParamatersOptionList(channel, myXMLdata);
+				SetPGNInstanceOptionList(channel, myXMLdata);		
+				
+				
+				PGNinstance = getXMLValue(xmlData, 'PGNI' + channel.toString());
+					
+				document.getElementById('PGNI'+channel.toString()).selectedIndex = parseInt(PGNinstance & 0x0F);
+				
+				
+				PGNparameter = getXMLValue(xmlData, 'PGNP' + channel.toString());
+				//var pgnparameterindex = parseInt(myXMLdata);
+				
+				// We use the upper byte of the instance field to temperature/preessure sensor types
+				// these PGNs only have a single parameter (temperature/pressure) but multiple types/instances
+				// if the intance is greater then 15 then we use the type field as the parameter for display in the drop down
+				if(PGNinstance < 0x10)
+				{
+					document.getElementById('PGNP' + channel.toString()).selectedIndex = parseInt(PGNparameter & 0x0F);
+				}
+				else
+				{
+				
+					document.getElementById('PGNP' + channel.toString()).selectedIndex = parseInt(((PGNinstance & 0xF0) >> 4) + (PGNparameter & 0x0F) );
+				}
+				
+				/*
+				if(pgntype != 0 ) // if type is set we use that foe the parameter list
+					document.getElementById('PGNP' + channel.toString()).selectedIndex = pgntype;
+				else
+					document.getElementById('PGNP' + channel.toString()).selectedIndex = pgnparameterindex;
+				*/
+				
+				
+				myXMLdata = getXMLValue(xmlData, 'PGNS' + channel.toString());
+				if(Number.isNaN(parseInt(myXMLdata)))
+					document.getElementById('PGNS' + channel.toString()).value = "";
+				else
+					document.getElementById('PGNS' + channel.toString()).value = parseInt(myXMLdata);
+					
+					
+				myXMLdata = getXMLValue(xmlData, 'CAL' + channel.toString());
+				
+				document.getElementById('CALFILE' + channel.toString()).value = myXMLdata;
+			}
+		
+		}
+		
+		
+		for(i=0; i< 20; i++)
+		{
+			if(i!= 12)
+			{
+				myXMLdata = getXMLValue(xmlData, 'ADCAM'+i.toString());
+				document.getElementById('ADCAM'+i.toString()).selectedIndex = parseInt(myXMLdata);
+						
+					
+				myXMLdata = getXMLValue(xmlData, 'ADCAL'+i.toString());
+				document.getElementById('ADCAL'+i.toString()).value = myXMLdata;
+				
+				myXMLdata = getXMLValue(xmlData, 'ADCAH'+i.toString());
+				document.getElementById('ADCAH'+i.toString()).value = myXMLdata;
+				
+				myXMLdata = getXMLValue(xmlData, 'ADCAA'+i.toString());
+				document.getElementById('ADCAA'+i.toString()).selectedIndex = parseInt(myXMLdata);
+				
+				myXMLdata = getXMLValue(xmlData, 'ADCAP'+i.toString());
+				document.getElementById('ADCAP'+i.toString()).selectedIndex = parseInt(myXMLdata);
+			}
+		}
+	}		
+
+		
+	if(gversionSubstrings != null)
+	{
+	
+			if(gversionSubstrings[1]==0) // seasmart wifi module
+			{
+				//  disable ALL descendants of the DIV
+				$("#PULSEMode *").prop('disabled',true);
+				//$("#UART1Mode *").prop('disabled',true);
+				$("#UART0Mode *").prop('disabled',true);
+				
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+			}
+			
+			else if(gversionSubstrings[1]==1) // SeaSmartG3 Gateway
+			{
+
+				$("#ADCChannelsDIV *").prop('disabled',true);
+				$("#ADCAlarmsDIV *").prop('disabled',true);
+				
+				
+				//$("#ADCChannelsDIV *").attr("disabled", "disabled").off('click');
+				//$("#ADCAlarmsDIV *").attr("disabled", "disabled").off('click');
+
+						
+				//$('#ADCChannelsDIV').children().off('click');
+				//$('#ADCAlarmsDIV').children().off('click');
+				
+				//document.getElementById("ADCChannelsDIV").disabled = true;
+				//document.getElementById("ADCAlarmsDIV").disabled = true;
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+			}
+			
+			else if(gversionSubstrings[1]==3) // mesh slavemodule
+			{
+				//  disable ALL descendants of the DIV
+				$("#PULSEMode *").prop('disabled',true);
+				$("#portsdetails *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+				
+			}
+			else if(gversionSubstrings[1]==4) // seagauge wifi module
+			{
+				//  disable ALL descendants of the DIV
+				$("#PULSEMode *").prop('disabled',true);
+				$("#UART1Mode *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+			}
+			else if(gversionSubstrings[1]==5) // mesh root slave
+			{
+				//  disable ALL descendants of the DIV
+				$("#SDLogParams *").prop('disabled',true);
+				$("#PULSEMode *").prop('disabled',true);
+				$("#UART0Mode *").prop('disabled',true);
+				$("#UART1Mode *").prop('disabled',true);
+				$("#CANMode *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+				
+			}
+			else if(gversionSubstrings[1]==6) // dimmer 2/3 phase switch module
+			{
+				//  disable ALL descendants of the DIV
+				$("#SDLogParams *").prop('disabled',true);
+				$("#PULSEMode *").prop('disabled',true);
+				$("#portsdetails *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+			}
+			else if(gversionSubstrings[1]==7) // dimmer slave module
+			{
+				//  disable ALL descendants of the DIV
+				$("#SDLogParams *").prop('disabled',true);
+				$("#PULSEMode *").prop('disabled',true);
+				$("#portsdetails *").prop('disabled',true);
+				$("#ADCChannels *").prop('disabled',true);
+				$("#ADCAlarms *").prop('disabled',true);
+				
+				document.getElementById("ADCChannelsDIV").style.display = 'none';
+				document.getElementById("ADCAlarmsDIV").style.display = 'none';
+				
+			}
+	}
+		
+		
+		// set any override file names
+		
+		if(gSetADCChannel !== "")
+		{
+			document.getElementById('CALFILE' + gSetADCChannel.toString()).value = gSetADCCalXMLFileName;
+		}
+		
+	//	initialize();
+		
+		
+		// WIFI_MODE_NULL 0
+// WIFI_MODE_STA 1
+// WIFI_MODE_AP 2
+// WIFI_MODE_APSTA 3
+// WIFI_MODE_MAX 4
+// WIFI_MODE_MESHMASTER 5
+// WIFI_MODE_MESHSLAVE 6
+	
+	}
+	
+}
+  function initialize()
+  {
+  var myOptionValue;
+  var myAnalogModeValue ;
+  var myAnalogModeIndex;
+  
+			
+
+/*
+
+  myOptionValue = document.getElementById("HTTPPostEnable").value ;
+  document.getElementById("HTTPPostMenu").selectedIndex = parseInt(myOptionValue);
+
+  switch(myOptionValue)
+  {
+  case "0":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+  case "1":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+
+  case "2":
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+  break;
+
+  case "3":
+  document.getElementById("HTTPIPADDR").disabled = false;
+  document.getElementById("HTTPIPPORT").disabled = false;
+  document.getElementById("HTTPScript").disabled = false;
+  break;
+
+  }
+  */
+  
+  document.getElementById("HTTPIPADDR").disabled = true;
+  document.getElementById("HTTPIPPORT").disabled = true;
+  document.getElementById("HTTPScript").disabled = true;
+
+  //myOptionValue = document.getElementById("SwitchStatusInstanceValue").value ;
+  //document.getElementById("SwitchStatusInstance").selectedIndex = parseInt(myOptionValue);
+
+  //myOptionValue = document.getElementById("BatteryStatusInstanceValue").value ;
+  //document.getElementById("BatteryStatusInstance").selectedIndex = parseInt(myOptionValue);
+
+  myOptionValue = document.getElementById("SystemTimeInstanceValue").value ;
+  //document.getElementById("SystemTimeInstance").selectedIndex = parseInt(myOptionValue);
+  document.getElementById("SystemTimeInstance").selectedIndex =  parseInt(myOptionValue, 16);
+
+  myOptionValue = document.getElementById("CUSTOMCONFIG").value ;
+  document.getElementById("CUSTOMCFG_CB").selectedIndex = parseInt(myOptionValue);
+  
+  myOptionValue = document.getElementById("DHCPCL").value ;
+  document.getElementById("DHCPCLIENT_ON_CB").selectedIndex = parseInt(myOptionValue);
+  
+   myOptionValue = document.getElementById("TCPCLIENT_ON").value ;
+  document.getElementById("TCPCLIENT_ON_CB").selectedIndex = parseInt(myOptionValue);
+  
+    myOptionValue = document.getElementById("UDPBROADCAST_ON").value ;
+  document.getElementById("UDPBROADCAST_ON_CB").selectedIndex = parseInt(myOptionValue);
+
+  //myOptionValue = document.getElementById("SDLogFNameValue").value ;
+  //document.getElementById("SDLogFName").selectedIndex = parseInt(myOptionValue);
+
+  myOptionValue = document.getElementById("UART1ModeValue").value ;
+  //document.getElementById("UART1ModeDD").selectedIndex = parseInt(myOptionValue);
+    document.getElementById("UART1ModeDD").selectedIndex = parseInt(myOptionValue, 32);
+
+	
+	
+	
+
+  }
+
+function changeWIFINetType()
+{
+
+  myOptionValue = document.getElementById("WIFINetType_CB").selectedIndex ;
+
+
+  switch(myOptionValue)
+  {
+		case 0:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;
+		 break;	
+			
+  		case 1:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;
+		break;	
+			
+		case 2:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;	
+		break;
+			
+		case 3:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = true;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+
+		case 4:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+			
+		case 5:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+			
+		case 6:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+		
+		
+		case 7:
+  
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		break;
+  
+		default:	
+			document.getElementById('STASSID').disabled = false;
+			document.getElementById('STAPASSWORD').disabled = false;
+  
+  			document.getElementById('APSSID').disabled = false;
+			document.getElementById("APSECTYPE").disabled = false;
+			document.getElementById("APSECKEY").disabled = false;
+			
+			document.getElementById("MESHCHANNEL").disabled = false;
+			document.getElementById("MESHID").disabled = false;			
+		  break;	
+			
+	}
+	
+
+}  
+
+function setpath() {
+    var default_path = document.getElementById("newfile").files[0].name;
+    document.getElementById("filepath").value = default_path;
+}
+function upload(filePath, fileName) {
+    //var filePath = document.getElementById("filepath").value;
+   // var upload_path = "/upload" + filePath;
+	var upload_path = "/upload/" + filePath + fileName.name;
+   // var fileInput = document.getElementById("newfile").files;
+	// var fileInput = filePath;
+	  var fileInput = fileName.name;
+
+    /* Max size of an individual file. Make sure this
+     * value is same as that set in file_server.c */
+    var MAX_FILE_SIZE = 200*1024;
+    var MAX_FILE_SIZE_STR = "200KB";
+
+    if (fileInput.length == 0) {
+        alert("No file selected!");
+    } 
+	else if (fileName.length == 0) 
+	{
+        alert("File path on server is not set!");
+	}
+
+	
+	else 
+	{
+       
+		$.blockUI({ 
+		 message: '<h1>Downloading file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+		   
+	   
+       // var file = fileInput[0];
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    //document.open();
+                    //document.write(xhttp.responseText);
+                    //document.close();
+					window.open("index.html", '_self');
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    //alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    //location.reload()
+					window.open("index.html", '_self');
+                }
+            }
+        };
+        xhttp.open("POST", upload_path, true);
+        xhttp.send(fileName);
+    }
+}
+  
+ /*
+function handleCalFileSelect(evt) {
+
+
+	
+	//var ADCchannel = evt.target.id;
+
+	
+	//var ADCindex = parseInt(ADCchannel)
+	//var ADCindex = parseInt(ADCchannel.match(/\d/g).join(''), 10);
+	var ADCindex = parseInt(evt);
+
+	var myFilePath =  "download/calibrations/" + ADCindex.toString() + "/" ;
+
+		devicedataurl = "https://www.helmsmart-cloud.com/getcaltable?calFileName="+ ADCindex.toString() ;
+	//window.open('download/calibrations/', '_self');
+	window.open(devicedataurl, '_self');
+
+}  
+*/
+
+function handleCalFileModify(evt) {
+
+
+	
+	//var ADCchannel = evt.target.id;
+	const timestamp = new Date().getTime();
+	
+	//var ADCindex = parseInt(ADCchannel)
+	//var ADCindex = parseInt(ADCchannel.match(/\d/g).join(''), 10);
+	var adcindex = parseInt(evt);
+
+
+	devicedataurl = "https://www.helmsmart-cloud.com/modifycaltable?adcindex="+ adcindex.toString() ;
+
+	//window.open('download/calibrations/', '_self');
+	window.open(devicedataurl, '_self');
+	
+	//	location.reload(true)
+		
+
+}  
+
+  
+function xxxhandleCalFileSelect(evt) {
+
+
+
+    var files = evt.target.files; // FileList object
+	
+	var mytarget = evt.target.id;
+	
+	//var adcchannel =  parseInt(mytarget.replace ( /[^\d.]/g, '' ), 10);
+
+	if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+    // files is a FileList of File objects. List some properties.
+    myFile = files[0];
+	var myFileSize = myFile.size;
+	//var myFileName = "/www/" + myFile.name;
+	//var myFileName = myFile.name + "/" + adcchannel.toString();
+	
+	var ADCchannel = evt.target.id;
+
+	
+	//var ADCindex = parseInt(ADCchannel)
+	var ADCindex = parseInt(ADCchannel.match(/\d/g).join(''), 10);
+	
+	var myFileName = myFile.name;
+	
+	var calrowid = "CALFILE" + ADCindex;
+	
+	document.getElementById(calrowid).value = myFileName;
+	
+   	var myFilePath =  "calibrations/" + ADCindex.toString() + "/" ;
+	upload(myFilePath, myFile);
+
+   
+}
+
+
+function UploadFirmware(fwType)
+{
+
+
+	if (confirm('This action requires a active connection to the HelmSmart Server. Please verify before proceeding')) {
+	  // Save it!
+	  //console.log('Thing was saved to the database.');
+	} else {
+	  // Do nothing!
+	  //console.log('Thing was not saved to the database.');
+	  return;
+	}
+
+
+
+
+
+	$.blockUI({ 
+     message: '<h1>Downloading firmware file from server...</h1><p><h2>please reset device when complete</h2>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+//newAJAXCommand('command.cgi?fwupdate=1');
+
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    //document.open();
+                    //document.write(xhttp.responseText);
+                    //document.close();
+					window.open("index.html", '_self');
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    //alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    //location.reload()
+					window.open("index.html", '_self');
+                }
+            }
+        };
+        //xhttp.open("POST", upload_path, true);
+        //xhttp.send(filePath);
+		var commandStr = "command.cgi?fwupdate="+fwType;
+        xhttp.open("GET", commandStr, true);
+		//xhttp.open("GET", 'command.cgi?spiffsupdate=1', true);
+        xhttp.send(null);
+
+
+}
+
+function startPressTimer() {
+  setTimeout(() => {
+    setAction('longpress');
+  }, 500);
+}
+
+
+
+function CreateConfigFiles()
+{
+
+var myOptionValue = document.getElementById("CreateConfigXMLFiles").selectedIndex ;
+
+	if(myOptionValue == 0)
+		return;
+
+
+/*
+	if(myOptionValue == 2)
+		alert("CreateConfigFiles - override");
+	else if(myOptionValue == 1)
+		alert("CreateConfigFiles - inactive");
+	else 
+		alert("CreateConfigFiles - disabled");
+*/
+
+	$.blockUI({ 
+     message: '<h1>Creating Config Files...</h1><p><h2>please wait while .xml files are saved to SD card</h2>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+	
+	
+	
+	var  optionmenuindex = document.getElementById("XMLFilesSelect").selectedIndex;
+   var prefkey = parseInt(document.getElementById("XMLFilesSelect").options[optionmenuindex].value);
+
+	if(myOptionValue == 2)
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2&
+userid=" + myuserid + "&
+prefidkey=" + prefkey;
+	else if(myOptionValue == 3)
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=3&
+userid=" + myuserid + "&
+prefidkey=" + prefkey;
+	else if(myOptionValue == 4)
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=4&
+userid=" + myuserid + "&
+prefidkey=" + prefkey;
+	else 
+		devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=1&
+userid=" + myuserid + "&
+prefidkey=" + prefkey;
+		
+		
+	//devicedataurl = "https://www.helmsmart-cloud.com/createSGG4XMLfile?saveXML=2";
+
+    window.location = devicedataurl;
+	   
+    $.unblockUI();
+
+	
+
+
+}
+
+
+function CreatXMLMD()
+{
+	alert("CreatXMLMD");
+	startPressTimer();
+}
+function CreatXMLMU()
+{
+	alert("CreatXMLMU");
+}
+function CreatXMLTS()
+{
+	alert("CreatXMLTS");
+	startPressTimer();
+}
+function CreatXMLTE()
+{
+	alert("CreatXMLTE");
+}
+
+
+
+function transferComplete(evt) {
+  //console.log("The transfer is complete.");
+  $.unblockUI();
+  	window.open("index.html", '_self');
+	//showbackgroundimage(false);
+	//gTimmerID = setInterval('pollConnectStatus()',2000);
+  
+}
+
+function transferFailed(evt) {
+  //console.log("An error occurred while transferring the file.");
+  $.unblockUI();
+  	//showbackgroundimage(true);
+	//gTimmerID = setInterval('pollConnectStatus()',2000);
+}
+
+function transferCanceled(evt) {
+  //console.log("The transfer has been canceled by the user.");
+  $.unblockUI();
+  	//showbackgroundimage(true);
+	//gTimmerID = setInterval('pollConnectStatus()',2000);
+}	
+
+
+
+function ResetDevice()
+{
+
+	$.blockUI({ 
+     message: '<h1>resetting device...</h1><p><h2>please wait while reestablish network connection</h2>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+//newAJAXCommand('command.cgi?fwupdate=1');
+
+ //setTimeout(function(){ location.reload(); }, 5000);
+//setTimeout(window.location.reload.bind(window.location), 250);
+
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+				
+				
+                    //document.open();
+                    //document.write(xhttp.responseText);
+                    //document.close();
+					window.open("index.html", '_self');
+					
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    //alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    //location.reload()
+					//window.open(index.html);
+					setTimeout(function(){ window.open("index.html", '_self'); }, 5000);
+                }
+            }
+        };
+        //xhttp.open("POST", upload_path, true);
+        //xhttp.send(filePath);
+        xhttp.open("GET", 'command.cgi?reset=1', true);
+        xhttp.send(null);
+	/*	
+		
+		
+	var req = new XMLHttpRequest();
+	
+	//req.addEventListener("progress", updateProgress);
+	req.addEventListener("load", transferComplete);
+	req.addEventListener("error", transferFailed);
+	req.addEventListener("abort", transferCanceled);
+
+	//var myFilePath = "images/bg.gif&
+t=" + timestamp;
+	var myFilePath = "images/bg.gif";
+	
+	
+	//req.open('GET', document.location, false);
+	//req.open('GET', myFilePath, false);
+	req.open("GET", 'command.cgi?reset=1', true);
+	
+	// disable browser caching in request header
+	req.setRequestHeader('Cache-Control', 'no-cache, no-store, max-age=0');
+	req.setRequestHeader('Expires', 'Thu, 1 Jan 1970 00:00:00 GMT');
+	req.setRequestHeader('Pragma', 'no-cache');
+	
+	try{
+		req.send(null);
+	}
+	catch
+	{
+		showbackgroundimage(true);
+	}
+		
+		*/
+		
+		
+
+
+}
+function SaveDeviceSettings()
+{
+
+
+    if(document.getElementById("XMLFilesSelect").selectedIndex == 0)
+	{
+	
+		alert('Cannot override default preferences \nAdd new preferance name first before saving current configuration');
+		return;
+	}
+
+
+	$.blockUI({ 
+     message: '<h1>saving settings...</h1>',
+    css: {
+    border: 'none',
+    padding: '15px',
+    backgroundColor: '#000',
+
+    '-webkit-border-radius': '10px',
+    '-moz-border-radius': '10px',
+    opacity: .5,
+    color: '#fff'
+    } });
+
+	document.getElementById("PrefUpdateXML").value = "update"
+	document.getElementById("PrefNameXML").value = document.getElementById("AddPreferenceName").value;
+		
+	document.getElementById("configuration").submit();
+
+}
+
+function getCalibrationFiles(fileSource)
+{
+
+
+ var tmp = new Date();
+    var suffix = tmp.getTime();
+
+
+  
+    objXml = new XMLHttpRequest();
+    
+		$.blockUI({ 
+		 message: '<h1>Getting file list...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+    
+   //  alert(newdatafile);
+    //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
+	//newdatafile = "/download/calibrations/";
+	newdatafile = "/download/calibrations/?MODE=" + fileSource;
+	devicedataurl = "https://www.helmsmart-cloud.com/getcalfilelist?userid="+ myuserid;
+
+
+     return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		listCalibrationFiles(response);
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+  
+  
+
+} // end of GetN2KData function
+
+function listCalibrationFiles(response)
+{
+var calibrationFileName;
+var calibrationFileKey;
+var optionFileName;
+var myFiletags = "";
+var XMLvalue;
+var optionIndex=1;
+var Index=0;
+
+
+$.unblockUI();
+
+	document.getElementById("CalFilesSelectDD").length = 0;
+	document.getElementById("CalFilesSelectDD").selectedIndex = 0;
+	
+	document.getElementById("CalFilesSourceDD").length = 0;
+	document.getElementById("CalFilesSourceDD").selectedIndex = 0;
+	
+	document.getElementById("CalFilesSourceDD").options[0] = new Option("SPIFFS",0);
+	
+	//document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""),calibrationFileName.replace("cal/", ""));
+
+	
+	// Create a new option element
+	const newOption = new Option("select a file", "hiddenValue");
+
+	// Set the hidden property to true
+	newOption.hidden = true;
+
+	// Add the option to the select element
+	document.getElementById("CalFilesSelectDD").add(newOption);
+	
+	response.records.forEach(function(row){
+	
+		calibrationFileName = row[1];
+		calibrationFileKey= row[0];
+		
+		calibrationFileType= row[2];
+		
+		if(calibrationFileType == 1)
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SD CARD", row[0]);
+		else
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SPIFFS", row[0]);
+		
+	/*
+		XMLvalue = getXMLTag(myFiletags[index], "<ADCchannel>");
+		if(XMLvalue != null)
+		{
+			gADCchannel = parseInt(XMLvalue);
+			document.getElementById("ADCChannelDD").selectedIndex = gADCchannel;
+		}
+	
+	
+		XMLvalue = getXMLTag(myFiletags[index], "<FileSource>");
+		if(XMLvalue != null)
+		{
+			gFileSource = XMLvalue;
+			
+			if(gFileSource == "SPIFFS")
+				document.getElementById("CalFilesSourceDD").selectedIndex = 0;
+			else if(gFileSource == "SDCARD")
+				document.getElementById("CalFilesSourceDD").selectedIndex = 1;
+			else 
+				document.getElementById("CalFilesSourceDD").selectedIndex = 2;	
+				
+		}
+	
+	
+	
+		
+		XMLvalue = getXMLTag(myFiletags[index], "<CurrentFilename>");
+		if(XMLvalue != null)
+		{
+
+			gCurrentFile = XMLvalue;
+			document.getElementById("CurrentCalFile").value = gCurrentFile;	
+			
+		}
+		*/
+		
+		
+		//calibrationFileName = getXMLTag(myFiletags[index], "<CalibrationFilename>");
+		if(calibrationFileName != null)
+		{
+			if(calibrationFileName.includes(".xml", ""))
+			{		
+				//calibrationFileName.replace("cal\/", "");
+				document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""), calibrationFileKey, );
+			}
+		}
+
+					
+		});
+	
+	
+	
+		//document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option(calibrationFileName.replace("cal/", ""),calibrationFileName.replace("cal/", ""));;
+		if(optionIndex == 0)
+		{
+			document.getElementById("CalFilesSelectDD").options[0] = new Option("Select File","");
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SPIFFS", 0);
+		}
+		else if(optionIndex == 1)
+		{
+			document.getElementById("CalFilesSelectDD").options[optionIndex++] = new Option("Select File","");
+			document.getElementById("CalFilesSourceDD").options[optionIndex] = new Option("SPIFFS", 0);
+		}
+		
+			//document.getElementById("CalFilesSelectDD").add(newOption);
+		
+		document.getElementById("CalFilesSelectDD").selectedIndex = 0;
+		gFileName = document.getElementById("CalFilesSelectDD").options[0].value;
+		
+		document.getElementById("CalFilesSelectDD").selectedIndex = 0;
+		document.getElementById("CalFilesSourceDD").selectedIndex = 0;
+		
+		//if(gFileName != "")
+			getFile(0,0);
+
+
+}
+function displayCalibrationFiles(files)
+{
+
+
+
+}
+
+function ChangedCalFilesSourceDD(sel)
+{
+	//gFileSource = document.getElementById("CalFilesSourceDD").options[sel.selectedIndex].value;
+	
+	//getCalibrationFiles(gFileSource)
+
+}
+
+function ChangedCalFilesSelectDD(sel)
+{
+
+	//gFileName = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].value;
+	gFileName = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].text;
+	gCurrentFile = gFileName;
+	document.getElementById("CurrentCalFile").value = gCurrentFile;	
+	
+	var myFileKey = document.getElementById("CalFilesSelectDD").options[sel.selectedIndex].value;
+	
+	document.getElementById("CalFilesSourceDD").selectedIndex = sel.selectedIndex;	
+	
+	getFile(myFileKey, 0);
+
+
+}
+/*
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLValue(xmlData, field) {
+var myerr;	
+
+var startStr = '<configitem name="'+ field + '"><value>';
+
+
+//var endStr = "</" + field + ">";
+var endStr = "</value></configitem>";
+
+
+var startPos;
+var endPos;
+
+	try{
+		
+		startPos = xmlData.indexOf(startStr);
+		if(startPos == -1)
+			return null;
+		
+		startPos = startPos + startStr.length;
+		endPos = xmlData.indexOf(endStr, startPos);
+		
+		if(endPos == -1)
+			return null;
+		
+		return xmlData.substring(startPos,endPos).trim();
+		
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+	
+}	
+*/
+
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLValue(xmlData, field) {
+var myerr;	
+
+	
+	//determine start-pos and end-pos of desired substring, and then get it
+var startStr = "<" + field + ">";
+var endStr = "</" + field + ">";
+var startPos=-1;
+var endPos=-1;
+
+	try{
+		
+		//startPos = xmlData.indexOf(startStr) + startStr.length;
+		startPos = xmlData.indexOf(startStr) ;
+		if (startPos == -1) return "";
+		
+		endPos = xmlData.indexOf(endStr);
+		if (endPos == -1) return "";
+		
+		return xmlData.substring((startPos+ startStr.length),endPos).trim();
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+
+
+}
+
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLConfigValue(xmlData, field) {
+var myerr;	
+
+var startStr = '<configitem name="'+ field + '"><value>';
+
+
+//var endStr = "</" + field + ">";
+var endStr = "</value></configitem>";
+
+
+var startPos;
+var endPos;
+
+	try{
+		
+		startPos = xmlData.indexOf(startStr);
+		if(startPos == -1)
+			return null;
+		
+		startPos = startPos + startStr.length;
+		endPos = xmlData.indexOf(endStr, startPos);
+		
+		if(endPos == -1)
+			return null;
+		
+		return xmlData.substring(startPos,endPos).trim();
+		
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+	
+	
+	
+}
+	
+// Parses the xmlResponse returned by an XMLHTTPRequest object
+//	xmlData: the xmlData returned
+//  field: the field to search for
+function getXMLTag(xmlData, field) {
+var myerr;	
+
+var startStr = field;
+
+
+//var endStr = "</" + field + ">";
+var endStr = "</";
+
+
+var startPos;
+var endPos;
+
+	try{
+		
+		startPos = xmlData.indexOf(startStr);
+		if(startPos == -1)
+			return null;
+		
+		startPos = startPos + startStr.length;
+		endPos = xmlData.indexOf(endStr, startPos);
+		
+		if(endPos == -1)
+			return null;
+		
+		return xmlData.substring(startPos,endPos).trim();
+	}
+	catch(err)
+	{
+		return null;
+		
+	}
+	
+	
+	
+}
+function scaleValues()
+{
+var myNewValue;
+var row;
+
+let value = prompt("Please enter a scale value:", ""); // The second argument is an optional default value
+
+
+const scale = Number.parseFloat(value);
+  if (Number.isNaN(scale)) {
+  
+	alert("Please enter an numerical value");
+    return 0;
+	
+  }
+  
+  	
+	
+	for(i=0; i<256; i++)
+	{
+	
+		row = document.getElementById("DetailData").rows[i];
+		
+		//myNewValue	= row.cells[3].textContent;
+		myNewValue	= parseInt(parseInt(row.cells[2].textContent) * scale);
+		
+		if (myNewValue > 65536)
+			myNewValue = 65536;
+		
+		if (myNewValue < 0)
+			myNewValue = 0;
+			
+		document.getElementById("newValue" + (i+1).toString().padStart(3, '0')).value = myNewValue;
+		
+		
+		
+	}
+
+
+}
+
+function offsetValues()
+{
+
+var myNewValue;
+var row;
+
+let value = prompt("Please enter a offset value:", ""); // The second argument is an optional default value
+
+
+const offset = Number.parseFloat(value);
+  if (Number.isNaN(offset)) {
+  
+	alert("Please enter an numerical value");
+    return 0;
+	
+  }
+  
+  	
+	
+	for(i=0; i<256; i++)
+	{
+	
+		row = document.getElementById("DetailData").rows[i];
+		
+		//myNewValue	= row.cells[3].textContent;
+		myNewValue	= parseInt(parseInt(row.cells[2].textContent) + offset);
+		
+		if (myNewValue > 65536)
+			myNewValue = 65536;
+		
+		if (myNewValue < 0)
+			myNewValue = 0;
+			
+		document.getElementById("newValue" + (i+1).toString().padStart(3, '0')).value = myNewValue;
+		
+		
+		
+	}
+
+
+}
+
+function interpolateValues()
+{
+
+var myValue1; 
+var myValue2;
+var mydiffValue = new Array();
+var myInterpolatedValue = new Array();
+var mydiffIndex = new Array();
+var myInterpolatedIndex = new Array();
+var myCount; 
+var myDiffCount = new Array();
+var myDecimal;
+var myHexIndex;
+var myRowIndex;
+
+	myCount=0;
+	
+	myValue1=0;
+	myValue2=0;
+	j=0;
+	myRowIndex=1;
+
+
+
+	var row = document.getElementById("DetailData").rows[myRowIndex-1];
+
+	// get first value in table to be sure its no empty (NULL) else we cant interpolate
+	myValue	= row.cells[2].textContent;;
+	myNewValue	= document.getElementById("newValue" + myRowIndex.toString().padStart(3, '0')).value;
+	
+	// if empty set to first value
+	if(myNewValue == "")
+	{
+		document.getElementById("newValue" + myRowIndex.toString().padStart(3, '0')).value = parseInt(row.cells[2].textContent)
+	}
+
+	myRowIndex=256;
+	var row = document.getElementById("DetailData").rows[myRowIndex-1];
+
+	// get last value in table to be sure its no empty (NULL) else we cant interpolate
+	myValue	= row.cells[2].textContent;;
+	myNewValue	= document.getElementById("newValue" + myRowIndex.toString().padStart(3, '0')).value;
+	
+	// if empty set to last value
+	if(myNewValue == "")
+	{
+		document.getElementById("newValue" + myRowIndex.toString().padStart(3, '0')).value = parseInt(row.cells[2].textContent)
+	}
+
+
+	for(i=1; i<=256; i++)
+	{
+	
+		row = document.getElementById("DetailData").rows[i];
+		
+	
+		myNewValue	= document.getElementById("newValue" + i.toString().padStart(3, '0')).value;
+	
+			if(myNewValue != "")
+			{
+				myDiffCount[myCount]	= i-1;
+				mydiffValue[myCount++]	= parseFloat(myNewValue);
+
+
+			}
+	}
+
+	i = 0;
+
+	for(i=0; i< (myCount-1); i++)
+	{
+
+		myDiffCount[i]	= myDiffCount[i+1] - myDiffCount[i];
+		mydiffValue[i]	= mydiffValue[i+1] - mydiffValue[i];
+		
+	}
+
+	myCount = -1;
+	
+	
+	for(i=1; i<=256; i++)
+	{
+		myNewValue	= document.getElementById("newValue" + i.toString().padStart(3, '0')).value;;
+		
+			if(myNewValue == "")
+			{
+				
+				myValue1 = myValue1 + (mydiffValue[myCount]/myDiffCount[myCount]);
+
+
+
+			}
+			else
+			{
+				myValue1 = parseInt(myNewValue);
+		
+				myCount++;
+
+
+			}
+
+
+			document.getElementById("newValue" + i.toString().padStart(3, '0')).value = parseInt(myValue1)
+	}
+
+
+}
+
+function handleCalFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+	
+	//var file = e.target.files[0];
+
+	if (!files.length) {
+      alert('Please select a file!');
+      return;
+    }
+
+	
+    // files is a FileList of File objects. List some properties.
+    myFile = files[0];
+	var myFileSize = myFile.size;
+	//var myFileName = "/www/" + myFile.name;
+	var myFileName = myFile.name;
+	
+	gFileName = myFile.name;
+
+   	var myFilePath =  "calibrations/";
+	
+	  var reader = new FileReader();
+  reader.onload = function(evt) {
+    var contents = evt.target.result;
+
+    // Display file content
+    displayContents(contents);
+  };
+  reader.readAsText(myFile);
+	
+	
+	// var myfilehandle = window.showOpenFilePicker();
+	
+	//upload(myFilePath, myFile);
+//	readTextFile("file:///O:/development/PlatformIO/SeaGaugeG4_CalibrationTables.txt");
+
+   
+}
+
+function displayContents(response)
+{
+ //var fileSize =
+ 
+ var gCalFileContents = "";
+var gDescription = "";
+var gType = "";
+var gUnits = "";
+var gResolution = "";
+var gMin = "";
+var gMax = "";
+
+var row;
+var cell0;
+var cell1;
+var inputCell;
+
+	var file_contents = response.records[0];
+	var file_type = response.records[1];
+
+	var table = document.getElementById("HeaderData");
+
+    var rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>=0; x--)
+    table.deleteRow(x);	
+	
+	table = document.getElementById("DetailData");
+
+    rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>=0; x--)
+    table.deleteRow(x);	
+ 
+	gDescription = getXMLConfigValue(file_contents, 'DESCRIPTION');
+ 	gType = getXMLConfigValue(file_contents, 'TYPE');
+	gUnits = getXMLConfigValue(file_contents, 'UNITS');
+	gResolution = getXMLConfigValue(file_contents, 'RESOLUTION');
+	gMin = getXMLConfigValue(file_contents, 'MIN');
+	gMax = getXMLConfigValue(file_contents, 'MAX');
+
+ 
+ 
+
+	var myLookupValues = getXMLConfigValue(file_contents, 'LOOKUPVALUES');
+	
+	gCalFileContents = myLookupValues;
+ 
+	//var myCaldata = myLookupValues.split(/\r|\n/);
+	var myCaldata = myLookupValues.split(",");
+	//var myCaldata = myLookupValues.split(",\n");
+	
+	
+	var myCaldatalength = myCaldata.length;
+
+	/*
+	var mykey="test key";
+	var myvalue = "test value"
+			
+	var table = document.getElementById("HeaderData");
+
+    var rowCount = table.rows.length;
+
+    for(x=rowCount-1; x>0; x--)
+    table.deleteRow(x);	
+			
+	*/
+			
+	table = document.getElementById("HeaderData");		
+			
+			
+	//for(rowCount=0; rowCount<7; rowCount++)			
+	{		
+	
+	        row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 			
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "FILE NAME";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" maxlength="28" id="FileNameValue" value="' + gFileName + '">';;
+			cell1.style.textAlign = 'left';	
+	
+           
+            row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 			
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "DESCRIPTION";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="DescriptionValue" value="' + gDescription + '">';
+			cell1.style.textAlign = 'left';		
+
+            row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "TYPE";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="TypeValue" value="' + gType + '">';
+			cell1.style.textAlign = 'left';		
+			
+		    row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "UNITS";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="UnitsValue" value="' + gUnits + '">';
+			cell1.style.textAlign = 'left';		
+
+
+            row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "RESOLUTION";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="ResolutionValue" value="' + gResolution + '">';
+			cell1.style.textAlign = 'left';					
+			
+			
+			row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "MIN";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="MinValue" value="' + gMin + '">';
+			cell1.style.textAlign = 'left';		
+			
+			
+			row = table.insertRow(-1);
+			row.style.verticalAlign="top"; 	
+			
+			cell0 = row.insertCell(0);
+			cell0.innerHTML = "MAX";
+			cell0.style.textAlign = 'left';		
+
+			cell1 = row.insertCell(1);
+			cell1.innerHTML = '<input type="text" id="MaxValue" value="' + gMax + '">';
+			cell1.style.textAlign = 'left';		
+			
+
+	}			
+			
+	table = document.getElementById("DetailData");
+		
+			
+	for(rowCount=0; rowCount<myCaldatalength; rowCount++)			
+	{		
+           
+            row = table.insertRow(-1);
+			
+			row.style.verticalAlign="top"; 
+			
+			mykey = myCaldata[rowCount];
+			
+			var cell0 = row.insertCell(0);
+			   cell0.innerHTML = rowCount;
+				cell0.style.textAlign = 'left';
+				  
+			var cell1 = row.insertCell(1);
+				cell1.innerHTML = parseFloat((rowCount * (3.3/256)), 2).toFixed(2);
+				cell1.style.textAlign = 'left';
+				
+			var cell2 = row.insertCell(2);
+			   cell2.innerHTML = parseInt(myCaldata[rowCount]);
+				cell2.style.textAlign = 'left';
+				   
+				  
+			var cell3 = row.insertCell(3);
+				cell3.innerHTML = '<input type="number" id="newValue' + (rowCount+1).toString().padStart(3, '0') + '" min="0" max="65536" value="">';
+				cell3.style.textAlign = 'left';
+	}
+
+
+
+
+
+}
+
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    { 
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            { 
+                var allText = rawFile.responseText;
+                prompt(allText);
+            }
+        }
+    }
+   // rawFile.send(null);
+	
+}
+
+/*
+async function saveFile(fileHandle, data) {
+  const writable = await fileHandle.createWritable();
+  await writable.write(data);
+  await writable.close();
+}
+*/
+
+// Function to Get new N2K data from server or local file
+//
+function getFile(fileKey, mode)
+{
+    //var tmp = new Date();
+   // var suffix = tmp.getTime();
+   
+   
+
+	if(fileName == "")
+	{
+		var fileName = prompt("Please enter a SD card file name:", ""); // The second argument is an optional default value
+ 
+		if(fileName == "")
+			return;
+	}
+  
+    
+
+/*
+    		$.blockUI({ 
+		 message: '<h1>Downloading file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+		
+		*/
+		
+		
+   //  alert(newdatafile);
+    //newdatafile = "http://192.168.254.114/download/calibrations/VDO_TEMP_250FMAX.xml?" + suffix;
+	
+		devicedataurl = "https://www.helmsmart-cloud.com/getcalfilexml?filekey=" + fileKey + "&
+mode=" + mode;
+
+		if(mode == 1)
+		{
+			window.location = devicedataurl;
+		}
+		else
+		{
+
+			return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		//listCalibrationFiles(response);
+							$.unblockUI();  
+							 //gFileName = fileName;
+							 
+							 if(response.records != null)
+								//displayContents(response.records[0])
+								displayContents(response)
+							
+							
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+  
+			}
+	 
+
+} // end of GetN2KData function
+
+
+function setChannel() {
+
+
+	const timestamp = new Date().getTime();
+	
+
+	var currentFile = document.getElementById("CurrentCalFile").value;
+	var currentChannel = document.getElementById("ADCChannelDD").selectedIndex;
+	
+	document.getElementById('CALFILE' + currentChannel.toString()).value = currentFile;
+
+}
+
+function getXMLFile() {
+
+
+	//var myFile = document.getElementById("FileNameValue").value;
+	var fileindex =  document.getElementById("CalFilesSelectDD").selectedIndex
+	var myFileKey = document.getElementById("CalFilesSelectDD").options[fileindex].value;
+		
+		
+	getFile(myFileKey, 1);
+
+}
+
+function deleteXMLFile() {
+
+	if(myuserid == "0")
+		return;
+
+
+	//var myFile = document.getElementById("FileNameValue").value;
+	var fileindex =  document.getElementById("CalFilesSelectDD").selectedIndex
+	var myFileKey = document.getElementById("CalFilesSelectDD").options[fileindex].value;
+	var myFileSource = document.getElementById("CalFilesSourceDD").options[fileindex].text;
+	
+	if(myFileSource == "SPIFFS")
+		return;
+	
+	
+	devicedataurl = "https://www.helmsmart-cloud.com/deletecalxml?ssg4calkey=" + myFileKey + "&
+userid="+ myuserid;
+
+		$.blockUI({ 
+		 message: '<h1>deleting file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+	
+	
+     return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		//listCalibrationFiles(response);
+							$.unblockUI();  
+							
+							 
+						
+							
+							
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                          //document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+  
+	
+
+}
+
+function saveFile() {
+ 
+ /*
+var myFileData = '<configgroup name = "CALIBRATION_TABLE"><configitem name="DESCRIPTION"><value>VDO Temperature 250F</value></configitem><configitem name="TYPE"><value>Temperature</value></configitem><configitem name="UNITS"><value>Kelvin</value></configitem><configitem name="RESOLUTION"><value>K*0.01</value></configitem><configitem name="MIN"><value>247</value></configitem><configitem name="MAX"><value>410</value></configitem><configitem name="LOOKUPVALUES"><value>';
+
+
+var gCalFileContents = "";
+var gDescription = "";
+var gType = "";
+var gUnits = "";
+var gResolution = "";
+var gMin = "";
+var gMax = "";
+*/
+	var CalLookupValues="\r\n";
+
+   	var myFilePath =  "calibrations/";
+	var myFile = "testCalFile.xml";
+	var myFile = document.getElementById("FileNameValue").value;
+
+	var myFileData = '<configgroup name = "CALIBRATION_TABLE">\r\n';
+	myFileData = myFileData  + '<configitem name="DESCRIPTION"><value>' + document.getElementById("DescriptionValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="TYPE"><value>' + document.getElementById("TypeValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="UNITS"><value>' + document.getElementById("UnitsValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="RESOLUTION"><value>' + document.getElementById("ResolutionValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="MIN"><value>' + document.getElementById("MinValue").value + '</value></configitem>\r\n';
+	myFileData = myFileData  + '<configitem name="MAX"><value>' + document.getElementById("MaxValue").value + '</value></configitem>\r\n';
+	
+	for(i=1;i<= 256; i++)
+	{
+		CalLookupValues = CalLookupValues + document.getElementById("newValue" + i.toString().padStart(3, '0')).value + ",\r\n";
+	}
+	
+	myFileData = myFileData  + '<configitem name="LOOKUPVALUES"><value>' + CalLookupValues + '</value></configitem>\r\n';
+	myFileData = myFileData  + '</configgroup>\r\n'
+	
+	upload(myFilePath, myFile, myFileData );
+	
+	
+}
+
+
+function upload(filePath, fileName, fileData) {
+    //var filePath = document.getElementById("filepath").value;
+   // var upload_path = "/upload" + filePath;
+	//var upload_path = "/upload/" + filePath + fileName;
+	
+	//var upload_path = "/upload/" + filePath + fileName;
+	var upload_path = "https://www.helmsmart-cloud.com/savesgg4calxml?userid=" + myuserid + "&
+ssg4calname=" + fileName;
+   // var fileInput = document.getElementById("newfile").files;
+	// var fileInput = filePath;
+	  var fileInput = fileName;
+
+    /* Max size of an individual file. Make sure this
+     * value is same as that set in file_server.c */
+    var MAX_FILE_SIZE = 200*1024;
+    var MAX_FILE_SIZE_STR = "200KB";
+
+    if (fileInput.length == 0) {
+        alert("No file selected!");
+    } 
+	else if (fileName.length == 0) 
+	{
+        alert("File path on server is not set!");
+	}
+
+	
+	else 
+	{
+       
+		$.blockUI({ 
+		 message: '<h1>Downloading file...</h1>',
+		css: {
+		border: 'none',
+		padding: '15px',
+		backgroundColor: '#000',
+
+		'-webkit-border-radius': '10px',
+		'-moz-border-radius': '10px',
+		opacity: .5,
+		color: '#fff'
+		} });
+		   
+	   //fileDatajson = {filedata:fileData};
+       
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+				
+				$.unblockUI();
+            }
+        };
+        xhttp.open("POST", upload_path, true);
+		//xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(fileData);
+		
+		
+
+		
+		
+    }
+}
+
+	
+</script>
+ </head>
+
+<!--    
+<body onload="getsgg4configxml();">
+--> 
+ <body style="width: 100%; height: 100%; margin: 0;" onload ="StartUpMyScript(); " >
+ 
+ 
+   <center>
+  {% if session['userid'] %}
+     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+    <span>HelmSmart: {{session['username']}}</span></a>
+  {% else %}
+    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span></a>
+  {% endif %}
+  </center>
+  
+   	<div class="container body-content"> 
+
+	
+		<table style="width: 800px">
+			<table style="width: 800px">
+			<tr>
+				<td style="width: 100px" colspan="2"><img alt="" height="80" id='img0' src="static/img/CDI_Logo.jpg" width="80" /></td>
+				<td style="width: 450px" colspan="2"><img alt="" height="77" id='img1' src="static/img/SeaSmartLogo.jpg" width="400" /></td>
+				<td style="width: 100px" colspan="2"><img alt="" height="90"  id='img2' src="static/img/SeaSmartG3Logo.jpg" width="150" /></td>
+			</tr>	
+			<tr>
+				<td  class="auto-style4">&
+nbsp;</td>
+				<td  class="auto-style4">&
+nbsp;</td>
+				<td  class="auto-style4">&
+nbsp;</td>
+
+			</tr>
+		</table>
+  
+  
+
+	
+	<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabEvents .form-control-static,
+	#tabEvents .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+ 
+ 
+<script>
+	$(function () {
+		$(document).ajaxComplete(function (event, xhr, settings) {
+			if (xhr.getResponseHeader('ReloadWholePage')) {
+				window.location.reload();	//Reload the whole datapane
+			}
+		});
+		
+		$('.nav-tabs a[href="#tabConfig"]').tab('show');
+
+	});
+
+
+</script>
+	
+	
+	
+  <!-- Nav tabs -->
+<ul class="nav nav-tabs" id="tab" role="tablist">
+	<li><a href="#tabInfo" role="tab" data-toggle="tab">Info</a></li>
+		<li><a href="#tabPref" role="tab" data-toggle="tab">Prefs</a></li>
+	<li><a href="#tabConfig" role="tab" data-toggle="tab">Config</a></li>
+	<li><a href="#tabModifyCal" role="tab" data-toggle="tab">Modify Calibration Files</a></li>
+
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content" id="tabArea">
+
+  <!-- tabInfo TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabInfo">
+	<p id="introText">With this virtual page you can configure your SeaGaugeG4
+device and download the config.xml files for storage on the local SD card, On
+reboot, SaeGaugeG4 will read the parameters from the CONFIG folder and program
+the device</p>
+<div id="idMarketing">
+	<img src="static/img/SeaGaugeG4_200W.jpg" style="float: right; margin: 5px;" onclick="window.open('https://digitalmarinegauges.com/seagauge-g4-24-function-sensor-interface-unit-with-wifi-can-bus/', '_blank');" />
+	
+	<div class=WordSection1>
+
+
+<p class=MsoNormal>Use the <b>PREFS</b> tab to select the registered device and
+any stored preferences.</p>
+
+<p class=MsoNormal>New preferences can be added (or deleted) by specifying a <b>Preference
+Name</b></p>
+
+<p class=MsoNormal>Use the <b>CONFIG</b> tab to modify any parameters and <b>SAVE
+SETTINGS</b> to store on the HelmSmart-Cloud service</p>
+
+<p class=MsoNormal>Use the <b>SAVE XML</b> to download selected config files
+for copy to SeaGaugeG4 SD card.</p>
+
+<p class=MsoNormal>Refer to App Note <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24110201_ConfigXMLFiles.pdf">AN_SS24110201_ConfigXMLFiles.pdf</a>
+on how to load config.xml files onto SeaGaugeG4 SD card</p>
+
+<p class=MsoNormal>Use app note <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS25091301_G4ConfigSummary.pdf">AN_SS25091301_G4ConfigSummary.pdf</a>
+for details on all configuration parameters</p>
+
+<p class=MsoNormal>Use the Network section to configure Adhoc (stand alone) or
+Infrastructure (router based) network connections. See app notes <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS23073001_SeaSmartAPmode.pdf">AN_SS23073001_SeaSmartAPmode.pdf</a>
+and <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS230228_SeaSmartSTAmode.pdf">AN_SS230228_SeaSmartSTAmode.pdf</a>
+for more information.</p>
+
+<p class=MsoNormal>Once a infrastructure network is established with internet access,
+you can configure SeaGaugeG4 to HTTP post directly to HelmSmart-Cloud services..
+Refer to app note <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SSG325091302_EnablePushSmart.pdf">AN_SSG325091302_EnablePushSmart.pdf</a>
+for more details</p>
+
+<p class=MsoNormal>For information on how to configure the three pulse input
+for tachometers and flow sensors – refer to <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24102601_ConfigPulseInputs.pdf">AN_SS24102601_ConfigPulseInputs.pdf</a></p>
+
+<p class=MsoNormal>The 12 analog sensor inputs can be assigned to selected
+CAN/NMEA 2000 messages (PGNs) with matching preload calibration files (<a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24092701_ConfigAnalogInputs.pdf">AN_SS24092701_ConfigAnalogInputs.pdf</a>)</p>
+
+<p class=MsoNormal>Use the <b>Modify Calibration Files</b> tab to alter
+existing calibration files or create new ones. Use the <b>GET</b> button to download any modified calibration files. See <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS241031_ModifyCalibrationFiles.pdf">AN_SS241031_ModifyCalibrationFiles.pdf</a>
+for details </p>
+
+<p class=MsoNormal>Up to 16 sensor alarms can be configured in the <b>ALARMS</b>
+section to trigger external relays or send selected CAN bus messages (<a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24093001_ConfigAnalogAlarms.pdf">AN_SS24093001_ConfigAnalogAlarms.pdf</a>)</p>
+
+<p class=MsoNormal>Four indicator/status inputs can be configured with runtime
+accumulators for monitoring bilges, bait wells, and alarms switches. See app
+note <a
+href="https://digitalmarinegauges.com/content/SeaGauge/AN_SS24102301_ConfigIndicatorRuntime.pdf">AN_SS24102301_ConfigIndicatorRuntime.pdf</a></p>
+
+<p class=MsoNormal>Download the data sheet to learn more or order your&
+nbsp;SeaGaugeG4&
+nbsp;directly
+online. </p>
+
+<p class=MsoNormal>&
+nbsp;</p>
+
+</div>
+	<div style="margin: 15px;">
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/SeaGauge_G4_datasheet.pdf', '_blank');">Datasheet</button>
+<!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('https://digitalmarinegauges.com/seagauge-g4-24-function-sensor-interface-unit-with-wifi-can-bus/', '_blank');">Order Now</button>
+
+	</div>
+	<p>
+		If you already have a SeaGaugeG4 and want to connect it to HelmSmart, simply login with your username and password.
+	</p>
+
+
+
+
+</div>
+	</div>
+    <!-- end tabInfo TAB> ###################################################   -->
+  
+    <!-- tabPrefs TAB> ###################################################   -->
+  	<div class="tab-pane" id="tabPref">
+
+ 
+ 
+ 
+
+		
+		
+
+		<div class="form-horizontal">
+
+				<div class="form-group">	
+				<label class="control-label col-sm-2" for="AddPreferenceName">Preference Name</label> 
+				<div class="col-sm-6"> 
+				<input type="text" class="form-control" id="AddPreferenceName"  />
+				</div>
+				</div>
+		
+				<div class="form-group">
+				<label class="control-label col-sm-2" for="DeviceID">Devices</label>
+				<div class="col-sm-6">
+				<select class="form-control"  id="DeviceID" name="DeviceID" size ="1"  onchange="SetDeviceOptionList(this);">
+				<option value="000000000000">Demo Data</option>
+				</select>
+				</div>
+				</div>
+	  
+				<div class="form-group">
+				<label class="control-label col-sm-2" for="XMLFilesSelect">Preferences</label>
+				<div class="col-sm-6">
+				<select class="form-control"  id="XMLFilesSelect" onchange="selectUserPref(this);" >
+				<option value="0">Use defaults</option>
+				</select>
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="AddNewPref"  value="AddP" onclick="AddNewPref(this);" >Add</button>
+				<button id="btnDeletePref" class="btn btn-primary" name="btnValue" id="DeletePref"  value="Delete" onclick="DeletePref(this);" >Delete</button>
+				</div>
+				
+				
+				</div>
+				<!--
+				<div class="form-group" style="margin-top:25px;">
+				<div class="col-sm-offset-4 col-sm-4">
+								
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="AddNewPref"  value="AddP" onclick="AddNewPref(this);" >Add</button>
+			
+				<button id="btnModifyPref" class="btn btn-primary" name="btnValue" id="ModifyPref"  value="Modify" onclick="ModifyPref(this);" >Modify</button>
+				<button id="btnDeletePref" class="btn btn-primary" name="btnValue" id="DeletePref"  value="Delete" onclick="DeletePref(this);" >Delete</button>
+				
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="loadDashboardFromLocalFile"  value="AddP" onclick="loadDashboardFromLocalFile(this);" >Load Local</button>
+				<button id="btnAddPref" class="btn btn-primary" name="btnValue" id="saveDashboard"  value="AddP" onclick="saveDashboard(this);" >Save Local</button>
+				</div>
+				</div>
+				-->
+	 
+
+	</div>
+			   <div id="SearchStatus" class="auto-style9" style="width:100%;  padding: 5px 5px 5px 5px;" > </div>
+	<!-- ######### <div class="tab-pane" id="tabPref"> ###################################################   -->
+		</div>
+		
+	<div class="tab-pane" id="tabConfig">
+	<table style="width: 800px">
+		<table style="width: 800px">
+			<tr>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+				<td style="width: 200px; height: 4px;" class="auto-style3"></td>
+			</tr>
+			<tr>
+				<td style="width: 200px" class="auto-style6"><strong><a href="index.html">Home</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="conf.html">Config</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="StatusN2K.html">Status CAN</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><strong><a href="Status0183.html">Status 0183</a></strong></td>
+				<td style="width: 200px" class="auto-style6"><a href="Files.html"><strong>Files</strong></a></td>
+				<td style="width: 200px" class="auto-style6"><a href="PGNfilters.html"><strong>PGN Filters</strong></a></td>
+			</tr>
+			<tr>
+				<td style="width: 200px" class="auto-style4">&
+nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&
+nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&
+nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&
+nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&
+nbsp;</td>
+				<td style="width: 200px" class="auto-style4">&
+nbsp;</td>
+			</tr>
+			<!-- <form id="configuration" action="/seasmartconfig"> -->
+			
+			<tr>
+			<td colspan="3" id="DeviceIDXMLValue" class="auto-style6"></td>
+			<td colspan="3" id="VersionXMLValue" class="auto-style6"></td>
+			</tr>
+			
+		</table>
+		</td>
+	</tr>
+	
+	
+	<tr>
+		<td>		              
+		<!-- <form id="configuration"  method="post"> -->
+		 <form id="configuration" action="/seasmartconfig" autocomplete="off">
+		 
+			<input type="hidden" id="UserIDXML" name="UserIDXML" value="false" /> 
+			<input type="hidden" id="DeviceIDXML" name="DeviceIDXML" value="false" /> 
+			<input type="hidden" id="VersionXML" name="VersionXML" value="1.9.3.7.28" /> 
+			<input type="hidden" id="PrefNameXML" name="PrefNameXML" value="SSG4 DEFAULT" /> 	
+			<input type="hidden" id="PrefKeyXML" name="PrefKeyXML" value="0" /> 	
+			<input type="hidden" id="PrefUpdateXML" name="PrefUpdateXML" value="update" /> 
+			 
+			 <!-- <input type="hidden" id="CUSTOMCFG" name="CUSTOMCFG" value="false" /> -->			 
+		<div class="network" id="networkstatus"style="width: 800px; height: 10px; background-color:#12365e; font-weight: bold; border-bottom: 2px solid #ccc;"></div>
+	
+			
+			<table style="width: 800px">
+			
+	
+			
+			
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td colspan="2" class="auto-style10">Current Network: </td>
+			</tr>
+			
+			<tr style=" background-color:#12365e;" class="auto-style10">
+			<td id = "IPaddressXML" style="width: 379px">IP Address =  ------  </td>
+			<td id="SSIDXML" style="width: 350px">SSID =  SeaSmart Adhoc  </td>
+			</tr>
+			
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td id="IPMaskXML" style="width: 379px">Mask = ------ </td>
+			<td id="NetTypeXML" style="width: 541px">Net Type = --- </td> 
+			</tr>
+			
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td id="IPGatewayXML" style="width: 379px">Gateway = -------- </td>
+			<td id="DHCPXML" style="width: 541px">DHCP = ---- </td> 
+			</tr>	
+
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td id="BSSIDXML" style="width: 379px">BSSID: -------- </td>
+			<td id="RSSIXML" style="width: 541px">RSSI: ---- </td> 
+			</tr>
+			
+			<tr style=" background-color:#12365e;"class="auto-style10">
+			<td id="CELLDB" style="width: 379px">CELL DB = -------- </td>
+			<td id="CELLAI" style="width: 541px">CELL AI = ---- </td> 
+			</tr>
+			
+			</table>
+			
+				
+			
+			<div class="customconfigdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Boot Config</summary>
+			<div class="network" style="width: 800px; height: 30px; border-bottom: 2px solid #ccc;">
+			<table>
+				<tr>
+			
+					<td style="font-weight: bold; width: 200px; height: 30px;">Boot Config:</td>
+                        <td style="width: 603px; height: 30px">
+		
+						  
+						   <select id="CUSTOMCFG_CB" name="CUSTOMCFG_CB"  style="width: 113px" size="1">
+						  <option  value="0">Default</option>
+						  <option  value="1">Factory</option>
+						  <option  value="2">XML Override</option>
+						  <option  value="3">---</option>
+						  <option  value="4">Bypass FW Check</option>
+						  </select>
+                         
+						  
+						  
+                     </td>
+             	</tr>
+			</table>
+			</div>
+			</details>
+			</div>
+				
+				
+			<div class="wifinetworkdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Network Mode</summary>
+			
+			       <div class="wifinetwork" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+      
+                    <table>
+                    <tr>
+                    <td style="font-weight: bold; width: 200px">Network Type:</td>
+	
+					<td>
+							<select id="WIFINetType_CB" name="WIFINetType_CB" onchange="changeWIFINetType();"  >
+                            <option value="0">Ethernet </option>
+                            <option value="1">Station</option>
+                            <option selected="selected" value="2">AP</option>
+							<option value="3">STA+AP</option>
+							<option value="4">MESH AP</option>
+                            <option value="5">Mesh Master</option>
+							<option value="6">Mesh Root</option>
+							 <option value="7">Mesh Slave</option>
+                            </select>
+                           
+					</td>
+				  </tr>
+                     </table>
+                
+                </div>
+
+               
+				
+				<div  id="wifi_content" class="wireless"  style="height: 280px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+				
+				
+					<!-- <table style="height: 240px;"> -->
+                    <table style="height: 280px;">
+					
+					 <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">STA SSID:</td>
+                        <td ><input type="text" style="width: 280px;" id="STASSID" name="SSID" value="SeaGaugeG4" maxlength="32" /></td>
+                      </tr>
+					
+					<tr>
+					<td style="font-weight: bold; width: 200px; height: 30px;">STA Password</td>
+					<td><input type="text" style="width: 280px;" maxlength="64" id="STAPASSWORD" name="STAPASSWORD" value="seeasmartg3" /></td>
+                     </tr>
+					
+					
+                    <tr>
+                    <td style="font-weight: bold; width: 200px; height: 30px;">AP SSID:</td>
+                    <td ><input type="text" style="width: 280px;" id="APSSID" name="APSSID" value="SeaGaugeG4-0000" maxlength="32" /></td>
+                    </tr>
+					  
+					  
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">AP Security Type:</td>
+                        <td >
+                          <select id="APSECTYPE" name="APSECTYPE" style="width: 280px">
+                            <option value="0">Open</option>
+                            <option value="1">WEP </option>
+                            <option value="2">WPA Passkey</option>
+                            <option selected="selected" value="3">WPA2 PassKey</option>
+                            <option value="4">WPA WPA2 PassPhrase</option>
+                            <option value="5">WPA2 Wnterprise</option>
+                            <option value="6">WPA3 PassPhrase</option>
+							<option value="7">WPA2 WPA3 PassPhrase</option>
+							<option value="8">WPAI PassPhrase</option>
+							<option value="9">MAX</option>
+                            </select>
+                   
+
+                          </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">AP Security Key:</td>
+						<td> <input type="text" style="width: 280px;" maxlength="45" id="APSECKEY" name="APSECKEY" value="seasmartg3"  /> </td>
+                      </tr>
+					  
+					   <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Mesh Channel:</td>
+                        <td >
+                          <select id="MESHCHANNEL" name="MESHCHANNEL" style="width: 280px">
+                            <option selected="selected" value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">---</option>
+							<option value="16">Auto</option>
+                            </select>
+                   
+
+                          </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">MESH ID</td>
+						<td> <input type="text" style="width: 280px;" maxlength="10" id="MESHID" name="MESHID" value="00000000"  /> </td>
+                      </tr>
+					  
+					  
+                    </table>
+					
+					
+                  </div>
+                 </details>
+				</div>
+
+			<div class="wificontentdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Network Configurations</summary>
+				
+                <div id="wifi_content" class="dhcp" style="height: 240px; padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+                  
+                    <table style="height: 240px;">
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">DHCP Client:</td>
+                        <td >
+	
+						  
+						  
+						    <select id="DHCPCLIENT_ON_CB" name="DHCPCLIENT_ON_CB"   onchange="changeDHCPenable();"   style="width: 280px" size="1">
+						  <option  value="0">Disabled</option>
+						  <option  selected="selected" value="1">Enabled</option>
+						  </select>
+                          
+						  
+						  
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">IP Address:</td>
+                        <td><input type="text" style="width: 280px;" id="IPADDR" name="IPADDR" value= "169.254.100.100" /></td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Subnet Mask:</td>
+                        <td><input type="text" style="width: 280px;" id="SUBNET" name="SUBNET" value= "255.255.255.0" /></td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Default Gateway:</td>
+                        <td><input type="text" style="width: 280px;" id="GATEWAY" name="GATEWAY" value= "169.254.100.1" /></td>
+                      </tr>
+                      <tr>
+                       <td style="font-weight: bold; width: 200px; height: 30px;">Primary DNS:</td>
+                        <td>
+                          <input type="text" style="width: 280px;" id="DNS1" name="DNS1" value= "8.8.8.8" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Secondary DNS:</td>
+                        <td>
+                          <input type="text" style="width: 280px;" id="DNS2" name="DNS2" value= "8.8.8.8" />
+                        </td>
+                      </tr>
+                    </table>
+                 
+                </div>
+           </details>
+				</div>
+				
+			<div class="helmsmartpostdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> HelmSmart Configurations</summary>
+			
+                <div id="HTTPPostParams" class="HTTPPostParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                  
+                    <table>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">HTTP POST Enabled:</td>
+                        
+                          <td style="width: 395px">
+                          <select id="HTTPPostMenu" name="HTTPPostMenu"  style="width: 280px" size="1">
+						  <option  selected="selected" value="0">disabled</option>
+						  <option  value="1">POST HelmSmart via Router</option>
+						  <option  value="2">POST HelmSmart via Cellular</option>
+						  <option  value="3">POST HelmSmart via Router (SD Cached)</option>
+						  <option  value="4">POST HelmSmart via Cellular (SD Cached)</option>
+						  <option  value="5" disabled>POST Local Server</option>
+						  <option  value="6" disabled>GET from HelmSmart</option>
+				
+						  </select>
+                        
+                         </td>
+                      </tr>
+
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;"disabled >IP Address/Port:</td>
+                        <td disabled>
+                          <input type="text" style="width: 140px;" id="HTTPIPADDR" name="HTTPIPADDR" value= "192.168.0.1"  disabled/>
+                      
+                          &
+nbsp;:&
+nbsp;<input type="text" style="width: 55px;" id="HTTPIPPORT" name="HTTPIPPORT" value= 80  disabled/>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;" disabled>HTTP Server Script:</td>
+                        <td disabled>
+                          <input type="text" style="width: 280px;" id="HTTPScript" name="HTTPScript" value= "/HelmSmart.net"  disabled/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;" disabled>Sample Interval:</td>
+                        <td disabled>
+                          <input type="text" style="width: 280px;" id="UartInterval" name="UartInterval"  value= 1 />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">HTTP Post Interval:</td>
+                        <td >
+                          <input type="text" style="width: 280px;" id="HttpPostInterval" name="HttpPostInterval"  value= 60 />
+                        </td>
+                      </tr>
+                    </table>
+                
+                </div>
+
+				</details>
+				</div>
+				
+			<div class="tcpudpdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> TCP/UDP Configurations</summary>
+                <div id="TCPClientParams" class="TCPClientParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                 
+                    <table>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">TCP Server Enabled:</td>
+                        <td style="width: 319px">
+						
+						  
+						  
+						  <select id="TCPSERVER_ON_CB" name="TCPSERVER_ON_CB"  onchange="changedTCPenable();"   style="width: 280px" size="1">
+						  <option  selected="selected" value="0">disabled</option>
+						  <option  value="1">Enabled 1 sec</option>
+						  <option  value="2">Enabled 2 sec</option>
+						  <option  value="3">Enabled 5 sec</option>
+						  <option  value="4">Enabled 10 sec</option>
+						  <option  value="5">Enabled 30 sec</option>
+						  <option  value="6">Enabled 60 sec</option>
+						  </select>
+                           
+						   
+						   
+						  
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;" disabled>TCP Server Port:</td>
+                        <td style="width: 319px" >
+                          <input type="text" style="width: 280px;" id="TCPSERVERPORT" name="TCPSERVERPORT" value= 10010  />
+                        </td>
+
+                      </tr>
+                    </table>
+                 
+                </div>
+
+                <div id="UDPBroadcastParams" class="UDPBroadcastParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                 
+                    <table>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">UDP Broadcast Enabled:</td>
+                        <td style="width: 295px">
+						  <select id="UDPBROADCAST_ON_CB" name="UDPBROADCAST_ON_CB"  onchange="changedUDPenable();"  style="width: 280px" size="1">
+						  <option  selected="selected" value="0">disabled</option>
+						  <option  value="1">enabled HTTP 1 sec</option>
+						  <option  value="2">enabled HTTP 2 sec</option>
+						  <option  value="3">enabled HTTP 5 sec</option>
+						  <option  value="4">enabled HTTP 10 sec</option>
+						  <option  value="5">enabled HTTP 30 sec</option>
+						  <option  value="6">enabled HTTP 60 sec</option>	
+						  <option  value="7">enabled HTTP 300 sec</option>
+						  <option  value="8">disabled MTU</option>
+						  <option  value="9">enabled MTU 1 sec</option>
+						  <option  value="10">enabled MTU 2 sec</option>
+						  <option  value="11">enabled MTU 5 sec</option>
+						  <option  value="12">enabled MTU 10 sec</option>
+						  <option  value="13">enabled MTU 30 sec</option>
+						  <option  value="14">enabled MTU 60 sec</option>
+						  <option  value="15">enabled MTU 300 sec</option>
+
+
+						  
+						  </select>
+                          
+						  
+						  
+						  
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">UDP Broadcast  Port:</td>
+                        <td style="width: 295px">
+                          <input type="text" style="width: 280px;" id="UDPBROADPORT" name="UDPBROADPORT" value= 10020  />
+                        </td>
+
+                      </tr>
+                    </table>
+                 
+                </div>
+		</details>
+				</div>
+
+	
+		
+			<div id="sdloggingdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> SD logging Configurations</summary>	
+				
+				
+			<div id="SDLogParams" class="SDLogParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                  
+                    <table>
+                      <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">SD Logging 
+						Mode:</td>
+                        <td style="width: 295px">
+                           <select id="SDLogFName" name="SDLogFName"   style="width: 280px" size="1">
+						  <option selected="selected" value="0">disabled</option>
+						  <option value="1">Sec</option>
+						  <option  value="2">Min</option>
+						  <option  value="3">Hour</option>
+						  <option  value="4">Day</option>
+						  <option  value="5">Month</option>
+
+						  </select>
+                           
+
+                                                 
+                         </td>
+                      </tr>
+                     
+                       <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">SD Logging Interval:</td>
+                        <td style="width: 558px">
+                          <input type="text" style="width: 280px;" id="SDLogInterval" name="SDLogInterval" value= 1  />
+                        </td>
+
+                      </tr>
+   
+ 
+                    </table>
+                 
+                </div>
+				
+		</details>
+				 </div>
+				
+		<div id="portsdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Port Configurations</summary>			
+				
+		  <div id="UART0Mode" class="UART0Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 0 Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="UART0ModeDD" name="UART0ModeDD"   style="width: 280px" size="1">
+                  <option selected="selected" value="0">Disabled  </option>
+                  <option value="1">Debug </option>
+                  <option value="2">PushSmart</option>
+                  <option value="3">N2K Raw</option>
+                  <option value="4">NMEA 0183</option>
+                  <option value="5">Mesh Xbee</option>	
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+
+
+          </table>
+       
+      </div>			
+				
+
+      <div id="UART1Mode" class="UART1Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 1 Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="UART1ModeDD" name="UART1ModeDD"   style="width: 280px" size="1">
+                  <option selected="selected" value="0">Disabled  </option>
+                  <option value="1">Cellular XB3 - 115600  </option>
+                  <option value="2">Cellular Skywire - 57600  </option>
+                  <option value="3">Mesh Xbee - 57600  </option>
+                  <option value="4">---  </option>
+				  <option value="5">---  </option>
+                  <option value="6">Mesh Root Master  </option>
+                  <option value="7">Mesh Root Slave  </option>
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+
+
+          </table>
+       
+      </div>
+	  
+	  <div id="UART2Mode" class="UART2Mode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Port 2 Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="UART2ModeDD" name="UART2ModeDD"   style="width: 280px" size="1">
+                  <option selected="selected" value="0">Disabled  </option>
+                  <option value="1">Debug - 57600  </option>
+                  <option value="2">PushSmart - 57600  </option>
+                  <option value="3">Cellular XB3 - 115600 </option>
+                  <option value="4">NMEA 0183 - 4800  </option>
+                  <option value="5">Mesh Xbee - 57600  </option>	
+				  <option value="6">Mesh Root Master </option>
+                  <option value="7">Mesh Root Slave </option>	
+				  
+				  
+				  
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+
+
+          </table>
+       
+      </div>
+	  
+	  
+	  
+	  
+	  	  <div id="CANMode" class="CANMode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                CAN BUS Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="CANModeDD" name="CANModeDD"   style="width: 280px" size="1">
+                  <option value="0">Disabled  </option>
+                  <option value="1">J1939  </option>
+				  <option selected="selected" value="2">NMEA 2000 Instance 0</option>
+				  <option value="3">NMEA 2000 Instance 1</option>
+          		  <option value="4">NMEA 2000 Instance 2</option>
+				  <option value="5">NMEA 2000 Instance 3</option>						  
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+
+
+          </table>
+       
+      </div>
+	  
+	  	</details>
+				</div>	
+				
+				
+		<div class="dimmerdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Dimmer/Switch Configurations</summary>					
+	  
+	  	  <div id="DimmerMode" class="DimmerMode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+       
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer/Switch Type:
+              </td>
+              <td style="width: 295px">
+                <select id="DimmerTypeDD" name="DimmerTypeDD"   style="width: 280px" size="1">
+                  <option value="0">Disabled  </option>
+                  <option value="1">1 Channel slave  </option>
+                  <option value="2">2 Channel slave  </option>
+                  <option value="3">RGB slave </option>
+                  <option value="4">RGBW slave  </option>
+				  <option value="5">Switch  </option>
+				  <option value="6">Switch 2P  </option>
+				  <option value="7">Switch 3P  </option>
+                  <option value="8">Mesh Gateway  </option>	
+				  <option value="9">Mesh Slave </option>
+				  <option value="10">---  </option>
+				  <option value="11">---  </option>
+                  <option value="12">UDP Gateway </option>	
+				  <option value="13">UDP 1 Channel slave  </option>
+                  <option value="14">UDP 2 Channel slave  </option>
+                  <option value="15">UDP RGB slave </option>
+                  <option value="16">UDP RGBW slave  </option>
+				  <option value="17">UDP Switch 2P </option>
+				  <option value="18">UDP Dimmer 2Phase </option>
+                  <option value="19">UDP Dimmer 3Phase  </option>
+				  <option value="20">---  </option>
+				  <option value="21">---  </option>
+                  <option value="22">--- </option>	
+				  <option value="23">---  </option>
+                  <option value="24">SeaSwitch 8C </option>
+				  <option selected="selected" value="25">SeaGauge 4C </option>
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+			 <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer/Switch Instance:
+              </td>
+              <td style="width: 295px">
+                <select id="DimmerInstanceDD" name="DimmerInstanceDD"   style="width: 280px" size="1">
+				<option value="0">0</option>
+                </select>
+               
+
+
+              </td>
+            </tr>
+			
+			<tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer Power On:
+              </td>
+              <td style="width: 295px">
+                <select id="DimmerPONDD" name="DimmerPONDD"   style="width: 280px" size="1">
+                  <option value="0">0%  </option>
+                  <option value="5">5%  </option>
+                  <option value="10">10%  </option>
+                  <option value="15">15%  </option>
+                  <option value="20">20%  </option>
+                  <option value="25">25%  </option>	
+				  <option value="30">30% </option>
+				  <option value="35">35%  </option>
+			      <option value="40">40%  </option>
+                  <option value="45">45%  </option>
+                  <option value="50">50%  </option>
+                  <option value="55">55%  </option>	
+				  <option value="60">60% </option>	  
+				  <option value="65">65%  </option>
+                  <option value="70">70%  </option>
+                  <option value="75">75%  </option>	
+				  <option value="80">80% </option>
+				  <option value="85">85%  </option>
+			      <option value="90">90%  </option>
+                  <option value="95">95%  </option>
+                  <option value="100">100%  </option>
+				  <option value="255">NVRAM</option>
+                </select>
+               
+
+
+              </td>
+            </tr>
+			
+			
+							<tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Dimmer TX rate:
+              </td>
+              <td style="width: 295px">
+                <select id="DimmerTXDD" name="DimmerTXDD"   style="width: 280px" size="1">
+                  <option value="0">disable  </option>
+                  <option value="5">5 sec  </option>
+                  <option value="10">10 sec  </option>
+                  <option value="15">15 sec  </option>
+                  <option value="20">20 sec  </option>
+                  <option value="25">25 sec  </option>	
+				  <option value="30">30 sec </option>
+				  <option value="35">35 sec  </option>
+			      <option value="40">40 sec  </option>
+                  <option value="45">45 sec  </option>
+                  <option value="50">50 sec  </option>
+                  <option value="55">55 sec  </option>	
+				  <option value="60">60 sec </option>	 
+                </select>
+               
+
+
+              </td>
+            </tr>
+			
+			
+			<tr>
+				<td style="font-weight: bold;">Dimmer Scale</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="DIMMERSCALE" name="DIMMERSCALE" value="1" /></td>
+            </tr>
+			
+			<tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                Timer Mode
+              <td style="width: 295px">
+                <select id="TimerModeDD" name="TimerModeDD"   style="width: 280px" size="1">
+                  <option selected="selected" value="0">Disabled  </option>
+                  <option value="1">Enabled  </option>	  
+				  <option value="2">Save to NVRAM (XML)  </option>	
+                </select>
+               
+
+
+              </td>
+            </tr>
+
+          </table>
+       
+      </div>
+	  
+	  	  	</details>
+				</div>	
+				
+				
+		<div class="pulsedetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Pulse Input Configurations</summary>
+			
+	  <div id="PULSEMode" class="PULSEMode" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+          <table>
+            <tr>
+              <td style="font-weight: bold; width: 200px; height: 30px;">
+                PULSE Mode:
+              </td>
+              <td style="width: 295px">
+                <select id="PULSEModeDD" name="PULSEModeDD"   style="width: 280px" size="1">
+                <option value="0">Disabled  </option>
+                <option value="1">PORT RPM  </option>
+                <option value="2">STBD RPM  </option>
+				<option value="3">CNTER RPM  </option>
+				<option selected="selected" value="4">DUAL RPM  </option>
+				<option value="5">TRIPLE RPM </option>		
+				
+					
+				<option value="6">PORT RPM-SINGLE FUEL FLOW </option>
+				<option value="7">STBD RPM-SINGLE FUEL FLOW </option>
+				<option value="8">CNTR RPM-SINGLE FUEL FLOW </option>			
+				
+				<option value="9">PORT RPM-DUEL FUEL FLOW </option>
+				<option value="10">STBD RPM-DUEL FUEL FLOW </option>
+				<option value="11">CNTR RPM-DUEL FUEL FLOW </option>					
+	
+
+				
+				<option value="12">PORT SINGLE-FUEL FLOW </option>
+				<option value="13">STBD SINGLE-FUEL FLOW </option>
+				<option value="14">CNTR SINGLE-FUEL FLOW </option>
+				
+
+				<option value="15">PORT DUAL FUEL FLOW </option>
+				<option value="16">STBD DUAL FUEL FLOW </option>
+				<option value="17">CNTR DUAL FUEL FLOW </option>	
+				
+				<option value="18">PORT FLOW - STBD FLOW </option>
+		
+                </select>
+              </td>
+			  
+			    <td style="font-weight: bold; width: 180px; height: 30px;">
+                PULSE Filter:
+              </td>
+            </tr>
+			
+			<tr>
+				<td style="font-weight: bold;" title="Pin A4">Pulse0 Scale X 100</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE0SCALE" name="PULSE0SCALE" value="1500" /></td>
+				
+				<td style="width: 295px">
+                <select id="PFLT0" name="PULSE0FILTER"   style="width: 180px" size="1">
+                <option selected="selected" value="0">Disabled  </option>
+                <option value="1">SOFT  </option>
+                <option value="2">MEDIUM  </option>
+				<option value="3">HARD</option>				
+                </select>
+				</td>
+				
+            </tr>
+			
+			<tr>
+				<td style="font-weight: bold;" title="Pin A5">Pulse1 Scale X 100</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE1SCALE" name="PULSE1SCALE" value="1500" /></td>
+								
+				<td style="width: 295px">
+                <select id="PFLT1" name="PULSE1FILTER"   style="width: 180px" size="1">
+                <option selected="selected" value="0">Disabled  </option>
+                <option value="1">SOFT  </option>
+                <option value="2">MEDIUM  </option>
+				<option value="3">HARD</option>				
+                </select>
+				</td>
+				
+            </tr>
+			
+			
+			<tr>
+				<td style="font-weight: bold;" title="Pin A6">Pulse2 Scale X 100</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="PULSE2SCALE" name="PULSE2SCALE" value="1500" /></td>
+								
+				<td style="width: 295px">
+                <select id="PFLT2" name="PULSE2FILTER"   style="width: 180px" size="1">
+                <option selected="selected"value="0">Disabled  </option>
+                <option value="1">SOFT  </option>
+                <option value="2">MEDIUM  </option>
+				<option value="3">HARD</option>				
+                </select>
+				</td>
+				
+            </tr>
+			
+			<tr>
+				<td style="font-weight: bold;">Fuel Used Total</td>
+				<td><input type="text" style="width: 280px;" maxlength="64" id="FUELTACHTOTAL" name="FUELTACHTOTAL" value="0" /></td>
+            </tr>
+			
+          </table>
+      </div>
+	  
+	  	</details>
+				</div>	
+				
+		<div id="ADCChannelsDIV" class="sgg4details" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; " >
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Analog Input Configurations</summary>
+			
+	  <div id="ADCChannels" class="ADCChannels" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+          <table>
+		  
+		  <tr>
+				<td style="font-weight: bold; width: 100px; height: 30px;">
+                Channel
+				</td>
+				<td style="font-weight: bold; width: 100px; height: 30px;">
+                Instance
+				</td>
+				<td style="font-weight: bold; width: 280px; height: 30px;">
+                PGN
+				</td>
+				<td style="font-weight: bold; width: 240px; height: 30px;">
+                Parameter
+				</td>
+				<td style="font-weight: bold; width: 160px; height: 30px;">
+                Set value
+				</td>
+				<td style="font-weight: bold; width: 180px; height: 30px;">
+                Calibration
+				</td>
+		  </tr>
+		  
+
+
+           <tr id=ADC0PGNConfig></tr>
+           <tr id=ADC1PGNConfig> </tr>
+           <tr id=ADC2PGNConfig> </tr>
+           <tr id=ADC3PGNConfig> </tr>
+           <tr id=ADC4PGNConfig> </tr>
+           <tr id=ADC5PGNConfig> </tr>
+           <tr id=ADC6PGNConfig> </tr>
+           <tr id=ADC7PGNConfig> </tr>
+           <tr id=ADC8PGNConfig> </tr>
+           <tr id=ADC9PGNConfig> </tr>
+           <tr id=ADC10PGNConfig> </tr>
+           <tr id=ADC11PGNConfig> </tr>
+		   
+          </table>
+      </div>
+	  
+	  	</details>
+				</div>	
+								
+			<div id="ADCAlarmsDIV" class="sgg4alarmdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; " >
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Analog Alarms Configurations</summary>
+			
+	  <div id="ADCAlarms" class="ADCAlarms" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+          <table>
+		  
+		  <tr>
+				<td style="font-weight: bold; width: 100px; height: 30px;">
+                Channel
+				</td>
+				<td style="font-weight: bold; width: 300px; height: 30px;">
+                Mode
+				</td>
+				<td style="font-weight: bold; width: 120px; height: 30px;">
+                Low
+				</td>
+				<td style="font-weight: bold; width: 120px; height: 30px;">
+                High
+				</td>
+				<td style="font-weight: bold; width: 120px; height: 30px;">
+                Action
+				</td>
+				<td style="font-weight: bold; width: 120px; height: 30px;">
+                Message
+				</td>
+		  </tr>
+		  
+
+
+           <tr id=ADC0AlarmConfig></tr>
+           <tr id=ADC1AlarmConfig> </tr>
+           <tr id=ADC2AlarmConfig> </tr>
+           <tr id=ADC3AlarmConfig> </tr>
+           <tr id=ADC4AlarmConfig> </tr>
+           <tr id=ADC5AlarmConfig> </tr>
+           <tr id=ADC6AlarmConfig> </tr>
+           <tr id=ADC7AlarmConfig> </tr>
+           <tr id=ADC8AlarmConfig> </tr>
+           <tr id=ADC9AlarmConfig> </tr>
+           <tr id=ADC10AlarmConfig> </tr>
+           <tr id=ADC11AlarmConfig> </tr>
+	       <!-- <tr id=ADC12AlarmConfig> </tr> -->
+           <tr id=ADC13AlarmConfig> </tr>
+           <tr id=ADC14AlarmConfig> </tr>
+           <tr id=ADC15AlarmConfig> </tr>	
+		   <tr id=ADC16AlarmConfig></tr>
+           <tr id=ADC17AlarmConfig> </tr>
+           <tr id=ADC18AlarmConfig> </tr>
+           <tr id=ADC19AlarmConfig> </tr>		   
+          </table>
+      </div>
+	  
+	  	</details>
+				</div>				
+				
+				
+		<div class="timestampdetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; ">
+			<details>
+			<summary class="auto-style6" style="font-weight: bold;"> Timestamp Configurations</summary>		
+			<div id="TimeStampParams" class="TimeStampParams" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc;">
+                  
+                    <table >
+
+                       <tr>
+                        <td style="font-weight: bold; width: 200px; height: 30px;">Time Stamp:</td>
+                 
+           				 <td style="width: 295px">
+                           <select id="TimeStampSource" name="TimeStampSource"   style="width: 280px" size="1">
+						  <option  value="0">disabled</option>
+						  <option  value="1">NTP</option>
+						  <option  value="2">GPS</option>
+						  <option  value="3">GLONASS</option>
+						  <option  value="4">Radio Station</option>
+						  <option  value="5">Cesium clock</option>
+						  <option  value="6">Rubidium clock</option>
+						  <option value="7">Crystal clock</option>
+						  <option value="8">SeaGauge</option>
+						  <option value="9">GNSS</option>
+						  <option value="A">HelmSmart</option>
+						  <option value="B">SeaSmart RTC</option>
+						  </select>
+                         </td>
+                      </tr>
+                    </table>
+                </div>
+                	</details>
+				</div>	
+				
+                <table>
+				
+				<tr>
+				<td   colspan="3" style="text-align: center;" ><b> Local Device Configuration </b> </td>
+				</tr>
+				
+				<tr>
+                 <td style="width: 2000px; height: 30px">                 
+                 &
+nbsp;
+				 <button style="width: 150px; height: 30px;" id="SaveSettings" onclick="SaveDeviceSettings();" type="button" />Save Settings</button>
+				 </td> 
+				 
+				 
+               
+			   	 <td style="width: 2000px; height: 30px">                       
+                 
+				 
+				  <select id="CreateConfigXMLFiles" name="CreateConfigXMLFiles"   style="width: 200px; height: 30px;" size="1"  onchange="CreateConfigFiles();">
+						  <option  hidden  value="0">Save XML </option>
+						  <option   value="1">Save XML - Network</option>
+						  <option   value="2">Save XML - Device</option>
+						  <option   value="3">Save XML - Pulse</option>
+						  <option   value="4">Save XML - PGNs/Alarms</option>
+						  <option   value="5">Save XML - Runtime Resets</option>
+				 </td> 
+			   
+			   
+				 
+				<td  style="width: 2000px; height: 30px">          
+				&
+nbsp;   <button style="width: 150px; height: 30px;" id="Reset" onclick="ResetDevice();" type="button" />Reset</button>
+				</td>
+				</tr>
+				</table>
+				
+				
+				 <div class="fwupdatedetails" style="padding: 15px 0px 15px 0px;  border-bottom: 2px solid #ccc; "> </div>
+				<table>
+				
+				<tr>
+				<td   colspan="3" style="text-align: center;" ><b> HelmSmart-Cloud firmware updates </b> </td>
+				</tr>
+				 
+                 <td style="width: 2000px; height: 30px">                         
+                 &
+nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />Firmware</button>
+				 </td> 
+				  
+				  <td style="width: 2000px; height: 30px">                           
+                 &
+nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />WWW</button>
+				 </td> 
+				 
+				 <td style="width: 2000px; height: 30px">                        
+                 &
+nbsp;   <button style="width: 150px; height: 30px;" id="UpdateFirmware" onclick="window.open('https://digitalmarinegauges.com/content/SeaGauge/AN_SGG425090902_FirmwareUpdateHelmSmart.pdf', '_blank');" type="button" />Calibrations</button>
+				 </td> 
+				 
+		
+				</tr>
+				</table>
+				
+             </form>
+	<table>
+	<tr>
+		<td class="auto-style2"><a href="http://www.chetcodigital.com">
+		www.chetcodigital.com</a> - <a href="http://www.seasmart.net">
+		www.seasmart.net</a> - <a href="http://www.netgauges.net">
+		www.netgauges.net</a> - <a href="http://www.digitalmarinegauges.com">
+		www.digitalmarinegauges.com</a></td>
+	</tr>
+	<tr>
+	<tr>
+		<td class="auto-style2" style="text-align: center;">
+		&
+nbsp; copyright 2025</td>
+	</tr>
+	<tr>
+		<td>&
+nbsp;</td>
+	</tr>
+</table>
+ <div id="SearchStatus" class="auto-style9" style="width:100%;  padding: 5px 5px 5px 5px;" > </div>
+
+ 	
+	</table>
+	<!-- end tabConfig TAB> ###################################################   -->
+</div>  
+
+
+<div class="tab-pane" id="tabModifyCal">
+
+<table  cellpadding="0" cellspacing="0" style="border-collapse: collapse"  width="80%" height="30">
+
+  
+<tr style="border-bottom: 2px solid #66A">
+    <td width="100%" height="25" colspan="2">
+    <p align="center">
+    Modify selected calibration table
+	
+	</td>
+  </tr>
+
+  </table>
+
+
+ <table  cellpadding="5" cellspacing="5" style="border-collapse: collapse"  style="border-bottom: 1px solid #66A" width="100%" height="60">
+  
+   <tr >
+
+	<td style="width: 300px; font-size: 12;" class="auto-style11" />
+	<p align="left">
+	Current Calibration File 
+	</td>	
+	
+	<td style="width: 100px; font-size: 12;" class="auto-style11" />
+    <p align="left">
+	ADC Channel
+	</td> 
+	
+	<td style="width: 200px; font-size: 12;" class="auto-style11" />
+    <p align="left">
+	Set Channel
+	</td>
+	
+
+
+	
+</tr>
+
+
+<tr style="border-bottom: 2px solid #66A">
+
+	<td style="width: 300px">
+		
+	<input type="text" style="margin-right: 10px; text-align:left; width: 240px; height: 30px;"  id="CurrentCalFile" name="CurrentCalFile" value="--" readonly/>		
+			
+	</td>	
+
+	
+		<td style="width: 100px">
+	<!-- <input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetFile"  name="GetFile" value="Get SD" class="auto-style10" /> -->
+	<select style="margin-right: 10px; text-align:left; width: 100px; height: 30px;"  id="ADCChannelDD" name="ADCChannelDD"   onchange="ChangedADCChannelDD(this);"  >
+				<option  value="0">ADC 0</option>
+				<option  value="1">ADC 1</option>
+				<option  value="2">ADC 2</option>
+				<option  value="3">ADC 3</option>
+				<option  value="4">ADC 4</option>
+				<option  value="5">ADC 5</option>
+				<option  value="6">ADC 6</option>	
+				<option  value="7">ADC 7</option>
+				<option  value="8">ADC 8</option>
+				<option  value="9">ADC 9</option>
+				<option  value="10">ADC 10</option>
+				<option  value="11">ADC 11</option>
+			</select>
+	</td>	
+	
+	
+
+	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="setChannel"  name="setChannel" value="Set" class="auto-style14" />
+	</td>	
+	
+
+	
+</tr> 
+  
+  
+  <tr >
+
+	<td style="width: 300px; font-size: 12;" class="auto-style11" />
+	<p align="left">
+	Choose SD card file 
+	</td>	
+	
+	<td style="width: 100px; font-size: 12;" class="auto-style11" />
+    <p align="left">
+	Source
+	</td> 
+	
+	<td style="width: 200px; font-size: 12;" class="auto-style11" />
+    <p align="left">
+	Choose local file
+	</td>
+	
+
+	
+
+	
+</tr>
+
+
+<tr style="border-bottom: 2px solid #66A">
+
+	<td style="width: 300px">
+	<!-- <input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetFile"  name="GetFile" value="Get SD" class="auto-style10" /> -->
+	<select style="margin-right: 10px; text-align:left; width: 240px; height: 30px;"  id="CalFilesSelectDD" name="CalFilesSelectDD"   onchange="ChangedCalFilesSelectDD(this);"  class="auto-style14" />
+				<option value="">choose file</option>
+
+			</select>
+	</td>	
+
+	
+		<td style="width: 100px">
+	<!-- <input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetFile"  name="GetFile" value="Get SD" class="auto-style10" /> -->
+	<select disabled style="margin-right: 10px; text-align:left; width: 100px; height: 30px;"  id="CalFilesSourceDD" name="CalFilesSourceDD"   onchange="ChangedCalFilesSourceDD(this);"  class="auto-style14" />
+				<option value="SPIFFS">SPIFFS</option>
+				<option value="SDCARD">SD Card</option>
+				<option value="UNKNOWN">UNKNOWN</option>
+			</select>
+	</td>	
+	
+	
+	<td style="width: 200px">
+    
+	<input type="file" style="margin-right: 10px; text-align:left; width: 200px; height: 30px;"  id="SDGetCalFile"  value="Choose Local" name="files[]"    class="auto-style14" />
+	</td>
+	
+	<tr >
+	<td colspan=3 class="auto-style11" />
+	<p align="left">
+	Save to SD card
+	</td>	
+
+	</tr>
+	
+	<tr >
+	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="SaveFile"  name="SaveFile" value="Save" class="auto-style14" />
+	</td>	
+	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="GetXMLFile"  name="GetXMLFile" value="Get" class="auto-style14" />
+	</td>	
+	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 80px; height: 30px;"  id="DeleteXMLFile"  name="DeleteXMLFile" value="Delete" class="auto-style14" />
+	</td>	
+	
+</tr>
+
+
+<tr style="border-bottom: 2px solid #66A">
+
+  <tr >
+
+	<td style="width: 600px; font-size: 12; text-align:center;" colspan="3"  class="auto-style12" />
+	Modify Calibration table and save back to internal SD card 
+	</td>	
+
+	
+	
+
+	
+</tr>
+
+	<td style="width: 300px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="InterpolateFile"  name="InterpolateFile" value="Interpolate" class="auto-style14" />		
+	</td>	
+	<td style="width: 100px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="ScaleFile"  name="ScaleFile" value="Scale" class="auto-style14" />		
+	</td>	
+	<td style="width: 200px">
+	<input type="button" style="margin-right: 10px; text-align:left; width: 90px; height: 30px;"  id="OffsetFile"  name="OffsetFile" value="Offset" class="auto-style14" />		
+	</td>	
+  </tr>
+ 
+  
+</table>
+  
+      <Table class="headertable" id="HeaderData" cellspacing="5" cellpadding="5" style="width:75%; border-bottom: 2px solid #66A; border-top: 2px solid #66A; display: block" class="auto-style9" >
+
+
+      <tbody class="auto-style9" ></tbody>
+      
+    </Table>
+  
+      <Table class="caltable" id="CalData" border="0" cellspacing="5" cellpadding="5" style="width:75%; display: block" class="auto-style9" >
+		<thead class="calhead">
+        <tr style="border-bottom: 2px solid #66A; border-top: 2px solid #66A" class="auto-style9" >
+			<th style="width: 100px"> Index</th>    
+			<th style="width: 150px"> Volts</th>    
+			<th style="width: 150px"> Current</th>    
+			<th style="width: 150px"> New</th>   
+		</tr>
+      </thead>
+      <tbody class="auto-style9" id="DetailData" cellspacing="0" cellpadding="0" ></tbody>
+      
+    </Table>
+  
+  <table>
+  
+  <tr>
+    <td width="100%" height="50" colspan="2">
+      <div id="linkbar" style="width:100%; height:2%; padding: 10px 10px 10px 10px;" class="auto-style9" >
+    www.chetcodigital.com www.seasmart.net www.netgauges.net www.digitalmarinegauges.com
+  </div></td>
+  </tr>
+  
+    <tr>
+    <td width="100%" height="50" colspan="2">
+      <div id="linkbar" style="width:100%; height:2%; padding: 10px 10px 10px 10px;" class="auto-style9" >
+    copyright 2025 - all rights reserved
+  </div></td>
+  </tr>
+  
+  
+</table>
+
+<script type="text/javascript">
+
+document.getElementById('SDGetCalFile').addEventListener('change', handleCalFileSelect, false);
+
+
+document.getElementById('InterpolateFile').addEventListener('click', interpolateValues, false);
+document.getElementById('ScaleFile').addEventListener('click', scaleValues, false);
+document.getElementById('OffsetFile').addEventListener('click', offsetValues, false);
+
+
+//document.getElementById('GetFile').addEventListener('click', getFile, false);
+
+document.getElementById('SaveFile').addEventListener('click', saveFile, false);
+
+document.getElementById('GetXMLFile').addEventListener('click', getXMLFile, false);
+document.getElementById('DeleteXMLFile').addEventListener('click', deleteXMLFile, false);
+document.getElementById('setChannel').addEventListener('click', setChannel, false);
+
+// Add an event listener to the table
+document.getElementById("DetailData").addEventListener("click", function(event) {
+  // Check if the clicked element is a table cell
+  if (event.target.tagName === "TD") {
+    // Get the clicked cell element
+    const oldcell = event.target;
+
+    // Get the row and column indices
+    const rowIndex = oldcell.parentNode.rowIndex;
+    const colIndex = oldcell.cellIndex;
+
+    // Do something with the clicked cell data
+    //console.log("Clicked cell at row:", rowIndex, ", column:", colIndex);
+    //console.log("Cell content:", cell.textContent);
+	if(colIndex == 2)
+	{
+	
+		//alert(oldcell.textContent);
+		
+		 // const table = document.getElementById(tableId);
+		const row = document.getElementById("DetailData").rows[rowIndex-1];
+		const newcell = row.cells[3];
+		//newcell.innerHTML = oldcell.textContent;
+		newcell.innerHTML = '<input type="number" id="newValue' + rowIndex.toString().padStart(3, '0') + '" min="0" max="65536" value="' + oldcell.textContent + '">';
+		
+	}
+	
+	
+  }
+});
+
+
+
+
+
+</script>
+
+<!-- end tabConfig TAB> ###################################################   -->
+</div>  
+
+
+ 
+<!-- <div class="tab-content" id="tabArea"> ###################################################   -->
+</div>  
+<!-- <div class="container body-content">  ###################################################   -->
+</div>  
+</body>
+</html>
