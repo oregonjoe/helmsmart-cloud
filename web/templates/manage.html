@@ -433,7 +433,7 @@ function modifyData(index)
 
  //document.getElementById("DeviceTypeID").selectedIndex = index;
   document.getElementById("DeviceKey").value = myDeviceKey[index];
-  document.getElementById("DeviceName").value = myDeviceID[index];
+  document.getElementById("DeviceTypeID").value = myDeviceID[index];
  document.getElementById("DeviceName").value = myDeviceName[index];
   document.getElementById("AlertEmail").value = myAlertEmail[index];
    document.getElementById("AlertSMS").value = myAlertSMS[index];
@@ -663,7 +663,7 @@ var dIndex=0;
 	 
 
 
-	  devicedataurl = "http://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + myDeviceKey[dIndex]; 
+	  devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + myDeviceKey[dIndex]; 
 	  devicedataurl = devicedataurl + "&devicename=" + document.getElementById("DeviceName").value; 
 	  devicedataurl = devicedataurl + "&alertemail=" +  document.getElementById("AlertEmail").value; 
 	  devicedataurl = devicedataurl + "&alertsms=" + document.getElementById("AlertSMS").value;
