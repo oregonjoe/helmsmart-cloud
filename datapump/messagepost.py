@@ -2427,12 +2427,121 @@ def SendEMAILAlert(parameters, alarmresult):
     e = sys.exc_info()[0]   
     if debug_all: log.info('SendEMAILAlert: Error %s:  ' % str(e))
 
+# ****************************************************************
+# SEND SMS ALERT
+# *************************************************************************
+def SendAWSSMSAlert(parameters, alarmresult):
+
+  alarmstatus = alarmresult.get('status', "")
+
+  if alarmstatus != "active":
+    if debug_all: log.info('SendAWSSMSAlert: Email alarm is not active - returning ')
+    return
+
+  alertesms = ""
+  
+  try:    
+
+    # extract the series alarm paramterts
+    series_parameters = parameters.get('series_1',"")
+
+    email_body = alarmresult['message']
+
+    if debug_all: log.info('SendAWSSMSAlert: SMS query %s: %s ', parameters['deviceid'], email_body)
+    
+    if email_body != "":
+        #alertemail = parameters['email']
+        alertesms = ""
+        
+        conn = db_pool.getconn()
+
+        #query = "select alertemail, smsnumber from user_devices where deviceid = %s"
+        query = "select smsnumber, devicename from user_devices where deviceid = %s"
+        
+        if debug_all: log.info('SendAWSSMSAlert: Email query  %s ', query)
+        
+        try:
+            # first check db to see if user id is matched to device id
+            cursor = conn.cursor()
+            cursor.execute(query, (parameters['deviceid'],))
+            records = cursor.fetchall()
+
+            if cursor.rowcount == 0:
+                if debug_all: log.info('SendAWSSMSAlert: Email query -> no records found')
+                return
+              
+            if debug_info: log.info('SendAWSSMSAlert: records is %s:  ', records)
+
+            for row in records:     
+                if debug_info: log.info('SendAAWSSMSAlert: row is %s:  ', row)
+                alertesms = str(row[0])
+                devicename = str(row[1])
+                #smsnumber = str(row[1]) 
+                if debug_info: log.info('SendAWSSMSAlert: alertesms is %s: devicename %s ', alertesms, devicename)
+                if alertesms != "" and alertesms != "None" and alertesms is not None:
+                  try:
+                    # Find your Account SID and Auth Token at twilio.com/console
+                    # and set the environment variables. See http://twil.io/secure
+                    #account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+                    #auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+                    
+                    if debug_info: log.info('SendAWSSMSAlert: good alertesms is %s: devicename %s ', alertesms, devicename)
+                    #client = smsClient(account_sid, auth_token)
+                    #message = client.messages.create(  body=email_body, from_='+18449794144', to='+15416612051')
+
+                    response = sms_ses_client(PhoneNumber = '15416612051', Message='email_body')
+
+                    """
+                    if message.error_message:
+                      raise Exception(f"Failed to send : {message.error_message}")
+                    else:
+                      log.info("SendSMSAlert twilio send message.sid %s:  ", message.sid)
+                    """
+
+                  except TypeError as e:
+                    if debug_all: log.info("SendAWSSMSAlert  alertemail %s:  ", alertesms)
+                    if debug_all: log.info('SendAWSSMSAlert   TYPE Error %s:  ' % e)                     
+                  except NameError as e:
+                    if debug_all: log.info("SendAWSSMSAlert  alertemail %s:  ", alertesms)
+                    if debug_all: log.info('SendAWSSMSAlert   NAME Error %s:  ' % e)
+                  except:
+                    e = sys.exc_info()[0]   
+                    if debug_all: log.info('SendAWSSMSAlert:  Error %s:  ' % str(e))
+                    
+                else:
+                  if debug_info: log.info('SendAWSSMSAlert: no alertesms number found - returnig : devicename %s ', devicename)
+                  
+        except TypeError as e:
+          if debug_all: log.info("SendAWSSMSAlert  alertesms %s:  ", alertesms)
+          if debug_all: log.info('SendAWSSMSAlert   TYPE Error %s:  ' % e)     
+        except NameError as e:
+          if debug_all: log.info("SendAWSSMSAlert  alertesms %s:  ", alertesms)
+          if debug_all: log.info('SendAWSSMSAlert   NAME Error %s:  ' % e)                        
+        except:
+            alertemail = ''
+            smsnumber = ''
+            e = sys.exc_info()[0]   
+            if debug_all: log.info('SendAWSSMSAlert: Error %s:  ' % str(e))      
+
+        finally:
+            db_pool.putconn(conn)
+
+  except TypeError as e:
+    if debug_all: log.info("SendAWSSMSAlert alertemail %s:  ", alertesms)
+    if debug_all: log.info('SendAWSSMSAlert  TYPE Error %s:  ' % e)
+  except NameError as e:
+    if debug_all: log.info("SendAWSSMSAlert alertemail %s:  ", alertesms)
+    if debug_all: log.info('SendAWSSMSAlert  NAME Error %s:  ' % e)
+    
+  except:
+    e = sys.exc_info()[0]   
+    if debug_all: log.info('SendAWSSMSAlert: Error %s:  ' % str(e))
     
 
 # ****************************************************************
 # SEND SMS ALERT
 # *************************************************************************
-def SendSMSAlert(parameters, alarmresult):
+def SendTwilioSMSAlert(parameters, alarmresult):
 
   alarmstatus = alarmresult.get('status', "")
 
@@ -3377,7 +3486,8 @@ def process_message(alert_message):
           if series_parameters['alarmmode'] == 'alarmsms' or series_parameters['alarmmode'] == 'alarmemailsms':
   
             if debug_all: log.info('Posting to EmailAlertPost-Cloud: sending out sms deviceid= %s', parameters['deviceid'])
-            SendSMSAlert(parameters, alarmresult)          
+            #SendSMSAlert(parameters, alarmresult)
+            SendAWSSMSAlert(parameters, alarmresult)
 
           # ################################################################
           #Finally we will put a alert message in the SQS que for the main app to process using the SSEA00 partition
