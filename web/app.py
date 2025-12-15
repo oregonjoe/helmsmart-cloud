@@ -20729,7 +20729,7 @@ def updatedevice_endpoint():
   alertsms = request.args.get('alertsms', '')
   devicename = request.args.get('devicename', 'SeaSmart')
 
-
+  log.info("Update Device  - update user_devices SET devicename = %s, alertemail = %s, smsnumber = %s WHERE deviceapikey =  %s", devicename, alertemail, alertsms, deviceapikey)
  
   query  = "update user_devices SET devicename = %s, alertemail = %s, smsnumber = %s WHERE deviceapikey =  %s"
   
