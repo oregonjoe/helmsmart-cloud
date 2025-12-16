@@ -47,6 +47,49 @@ from influxdb.client import InfluxDBClientError
 
 from influxdb_client_3 import InfluxDBClient3, Point, WriteOptions
 
+
+#from flask_awscognito import AWSCognitoAuthentication
+
+from flask_cognito_lib import CognitoAuth
+from flask_cognito_lib.decorators import (
+    auth_required,
+    cognito_login,
+    cognito_login_callback,
+    cognito_logout,
+)
+
+AWS_DEFAULT_REGION = os.environ["AWS_REGION"]
+AWS_COGNITO_DOMAIN = os.environ["AWS_COGNITO_DOMAIN"]
+AWS_COGNITO_USER_POOL_ID = os.environ["AWS_COGNITO_USER_POOL_ID"]
+AWS_COGNITO_USER_POOL_CLIENT_ID = os.environ["AWS_COGNITO_USER_POOL_CLIENT_ID"]
+AWS_COGNITO_USER_POOL_CLIENT_SECRET = os.environ["AWS_COGNITO_USER_POOL_CLIENT_SECRET"]
+AWS_COGNITO_REDIRECT_URL = os.environ["AWS_COGNITO_REDIRECT_URL"]
+
+
+app.config["AWS_DEFAULT_REGION"]
+app.config["AWS_COGNITO_DOMAIN"]
+app.config["AWS_COGNITO_USER_POOL_ID"]
+app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"]
+app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"]
+app.config["AWS_COGNITO_REDIRECT_URL"]
+
+
+
+#aws_auth = AWSCognitoAuthentication(app)
+"""
+from jwt.algorithms import RSAAlgorithm
+from flask_jwt_extended import (
+    JWTManager,
+    set_access_cookies,
+    verify_jwt_in_request_optional,
+    get_jwt_identity,
+)
+"""
+
+cognito = CognitoAuth(app)
+
+
+
 #import dashboard_routes
 import botocore
 import boto3
@@ -474,6 +517,12 @@ def manage_details():
     'manage_details.html',
     features = [],
   )
+
+
+@app.route('/aws_login')
+@cognito_login
+def aws_login():
+  pass
 
 
 @app.route('/adminmanage')
