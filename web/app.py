@@ -258,7 +258,7 @@ from flask_jwt_extended import (
 )
 """
 
-#cognito = CognitoAuth(app)
+cognito = CognitoAuth(app)
 
 
 
