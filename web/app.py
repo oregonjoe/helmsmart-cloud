@@ -58,35 +58,7 @@ from flask_cognito_lib.decorators import (
     cognito_logout,
 )
 
-AWS_DEFAULT_REGION = os.environ["AWS_REGION"]
-AWS_COGNITO_DOMAIN = os.environ["AWS_COGNITO_DOMAIN"]
-AWS_COGNITO_USER_POOL_ID = os.environ["AWS_COGNITO_USER_POOL_ID"]
-AWS_COGNITO_USER_POOL_CLIENT_ID = os.environ["AWS_COGNITO_USER_POOL_CLIENT_ID"]
-AWS_COGNITO_USER_POOL_CLIENT_SECRET = os.environ["AWS_COGNITO_USER_POOL_CLIENT_SECRET"]
-AWS_COGNITO_REDIRECT_URL = os.environ["AWS_COGNITO_REDIRECT_URL"]
 
-
-app.config["AWS_DEFAULT_REGION"]
-app.config["AWS_COGNITO_DOMAIN"]
-app.config["AWS_COGNITO_USER_POOL_ID"]
-app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"]
-app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"]
-app.config["AWS_COGNITO_REDIRECT_URL"]
-
-
-
-#aws_auth = AWSCognitoAuthentication(app)
-"""
-from jwt.algorithms import RSAAlgorithm
-from flask_jwt_extended import (
-    JWTManager,
-    set_access_cookies,
-    verify_jwt_in_request_optional,
-    get_jwt_identity,
-)
-"""
-
-cognito = CognitoAuth(app)
 
 
 
@@ -256,6 +228,38 @@ oauth.register(
 )
 
 # end of auth0 init
+
+
+AWS_DEFAULT_REGION = os.environ["AWS_REGION"]
+AWS_COGNITO_DOMAIN = os.environ["AWS_COGNITO_DOMAIN"]
+AWS_COGNITO_USER_POOL_ID = os.environ["AWS_COGNITO_USER_POOL_ID"]
+AWS_COGNITO_USER_POOL_CLIENT_ID = os.environ["AWS_COGNITO_USER_POOL_CLIENT_ID"]
+AWS_COGNITO_USER_POOL_CLIENT_SECRET = os.environ["AWS_COGNITO_USER_POOL_CLIENT_SECRET"]
+AWS_COGNITO_REDIRECT_URL = os.environ["AWS_COGNITO_REDIRECT_URL"]
+
+
+app.config["AWS_DEFAULT_REGION"]
+app.config["AWS_COGNITO_DOMAIN"]
+app.config["AWS_COGNITO_USER_POOL_ID"]
+app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"]
+app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"]
+app.config["AWS_COGNITO_REDIRECT_URL"]
+
+
+
+#aws_auth = AWSCognitoAuthentication(app)
+"""
+from jwt.algorithms import RSAAlgorithm
+from flask_jwt_extended import (
+    JWTManager,
+    set_access_cookies,
+    verify_jwt_in_request_optional,
+    get_jwt_identity,
+)
+"""
+
+cognito = CognitoAuth(app)
+
 
 
 """
