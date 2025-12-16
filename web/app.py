@@ -467,6 +467,15 @@ def manage():
     features = [],
   )
 
+@app.route('/manage_details')
+def manage_details():
+
+  return render_template(
+    'manage_details.html',
+    features = [],
+  )
+
+
 @app.route('/adminmanage')
 def adminmanage():
 
