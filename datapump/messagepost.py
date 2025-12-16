@@ -2474,9 +2474,14 @@ def SendAWSSMSAlert(parameters, alarmresult):
 
             for row in records:     
                 if debug_info: log.info('SendAAWSSMSAlert: row is %s:  ', row)
+                
+                #get the phone number
                 alertesms = str(row[0])
+
+                #get the device name
                 devicename = str(row[1])
-                #smsnumber = str(row[1]) 
+                
+
                 if debug_info: log.info('SendAWSSMSAlert: alertesms is %s: devicename %s ', alertesms, devicename)
                 if alertesms != "" and alertesms != "None" and alertesms is not None:
                   try:
@@ -2490,7 +2495,7 @@ def SendAWSSMSAlert(parameters, alarmresult):
                     #message = client.messages.create(  body=email_body, from_='+18449794144', to='+15416612051')
 
                     #response = sms_ses_client(PhoneNumber = '15416612051', Message='email_body')
-                    response = sms_ses_client.publish(PhoneNumber = '15416612051', Message='email_body',  MessageAttributes={  'AWS.SNS.SMS.SMSType': {  'DataType': 'String',  'StringValue': 'Transactional'  } })
+                    response = sms_ses_client.publish(PhoneNumber = alertesms, Message=alarmresult['message'],  MessageAttributes={  'AWS.SNS.SMS.SMSType': {  'DataType': 'String',  'StringValue': 'Transactional'  } })
                     
                     """
                     if message.error_message:
