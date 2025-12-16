@@ -2489,8 +2489,9 @@ def SendAWSSMSAlert(parameters, alarmresult):
                     #client = smsClient(account_sid, auth_token)
                     #message = client.messages.create(  body=email_body, from_='+18449794144', to='+15416612051')
 
-                    response = sms_ses_client(PhoneNumber = '15416612051', Message='email_body')
-
+                    #response = sms_ses_client(PhoneNumber = '15416612051', Message='email_body')
+                    response = sms_ses_client.publish(PhoneNumber = '15416612051', Message='email_body',  MessageAttributes={  'AWS.SNS.SMS.SMSType': {  'DataType': 'String',  'StringValue': 'Transactional'  } })
+                    
                     """
                     if message.error_message:
                       raise Exception(f"Failed to send : {message.error_message}")
