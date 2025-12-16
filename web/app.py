@@ -515,6 +515,7 @@ def manage():
   )
 
 @app.route('/manage_details')
+@cognito_login_callback
 def manage_details():
 
   return render_template(
