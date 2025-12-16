@@ -519,7 +519,7 @@ def manage():
 def manage_details():
 
   return render_template(
-    'manage_details.html',
+    'manage.html',
     features = [],
   )
 
