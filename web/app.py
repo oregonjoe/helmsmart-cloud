@@ -548,8 +548,15 @@ def manage():
 def manage():
   
   log.info('manage_details: response request.args %s:  ', session)
+
+
+  tokens = session.json()
+  access_token = tokens.get("access_token")
+  user_info = access_token.get("user_info")
+
+  
   user = session.get('user')
-  return jsonify({'access_token': session, 'user': user})
+  return jsonify({'access_token': access_token, 'user_info': user_info})
   
   access_token = aws_auth.get_access_token(request.args)
   #claims = aws_auth.claims
