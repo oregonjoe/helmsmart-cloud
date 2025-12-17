@@ -531,20 +531,20 @@ def manage_details():
   #user_info = aws_auth.get_user_info(access_token)
 
   try:
-        response = cognito_client.admin_get_user(
-            UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-            Username='123456'
-        )
-        # Extract and print user attributes
-        user_attributes = response['UserAttributes']
-        print(f"Attributes for user '{username}':")
-        for attribute in user_attributes:
-            print(f"- {attribute['Name']}: {attribute['Value']}")
-        return response
-    except:
-        e = sys.exc_info()[0]
-        print(f"Error getting user data: {e}")
-        return None
+    response = cognito_client.admin_get_user(
+        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+        Username='123456'
+    )
+    # Extract and print user attributes
+    user_attributes = response['UserAttributes']
+    print(f"Attributes for user '{username}':")
+    for attribute in user_attributes:
+        print(f"- {attribute['Name']}: {attribute['Value']}")
+    return response
+  except:
+    e = sys.exc_info()[0]
+    print(f"Error getting user data: {e}")
+    return None
 
   
   return jsonify({'access_token': access_token, 'user_info': request.args})
