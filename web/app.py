@@ -237,14 +237,14 @@ app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"] = environ.get("AWS_COGNITO_USER_PO
 app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET")
 app.config["AWS_COGNITO_REDIRECT_URL"] = environ.get("AWS_COGNITO_REDIRECT_URL")
 """
-"""
+
 app.config["AWS_REGION"]
 app.config["AWS_COGNITO_DOMAIN"]
 app.config["AWS_COGNITO_USER_POOL_ID"]
 app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"]
 app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"]
 app.config["AWS_COGNITO_REDIRECT_URL"]
-"""
+
 
 
 #aws_auth = AWSCognitoAuthentication(app)
@@ -257,14 +257,14 @@ from flask_jwt_extended import (
     get_jwt_identity,
 )
 """
-"""
+
 cognito = CognitoAuth(app)
 
 aws_auth = AWSCognitoAuthentication(app)
 
 cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
 
-"""
+
 
 
 
@@ -546,7 +546,7 @@ def manage():
   )
   """
 
-"""  
+
 @app.route('/manage_details')
 @cognito_login_callback
 def manage_details():
@@ -606,13 +606,13 @@ def manage_details():
   return jsonify({'access_token': access_token, 'user_info': response})
 
 
-"""
+
 @app.route('/aws_login')
-#@cognito_login
+@cognito_login
 def aws_login():
 
-  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/manage')
-  #return redirect(aws_auth.get_sign_in_url())
+  #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/manage')
+  return redirect(aws_auth.get_sign_in_url())
   #pass
 
 @app.route('/authorize')
