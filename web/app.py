@@ -257,12 +257,30 @@ from flask_jwt_extended import (
     get_jwt_identity,
 )
 """
-
+"""
 cognito = CognitoAuth(app)
 
 aws_auth = AWSCognitoAuthentication(app)
 
 cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
+
+"""
+
+
+
+#from authlib.integrations.flask_client import OAuth
+
+
+oauth_aws = OAuth(app)
+
+oauth_aws.register(
+  name='oidc',
+  authority='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_wECVQzcbs',
+  client_id='7brk233gasbns1ee67i86el2c8',
+  client_secret=environ.get("AUTH0_CLIENT_SECRET"),
+  server_metadata_url='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_wECVQzcbs/.well-known/openid-configuration',
+  client_kwargs={'scope': 'phone openid email'}
+)
 
 """
 mcservers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
@@ -589,8 +607,26 @@ def manage_details():
 @app.route('/aws_login')
 #@cognito_login
 def aws_login():
-  return redirect(aws_auth.get_sign_in_url())
+
+  return oauth.oidc.authorize_redirect('https://www.helmsmart-cloud.com/manage')
+  #return redirect(aws_auth.get_sign_in_url())
   #pass
+
+@app.route('/authorize')
+def authorize():
+    token = oauth.oidc.authorize_access_token()
+    user = token['userinfo']
+    session['user'] = user
+    return redirect(url_for('aws_details'))
+
+@app.route('/aws_details')
+def aws_details():
+    user = session.get('user')
+    if user:
+        return  f'Hello, {user["email"]}. <a href="/logout">Logout</a>'
+    else:
+        return f'Welcome! Please <a href="/login">Login</a>.'
+
 
 
 @app.route('/adminmanage')
