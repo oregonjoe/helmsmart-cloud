@@ -539,13 +539,15 @@ def manage_details():
 
     log.info('manage_details: response get_user %s:  ', response)
 
-    """
+
 
     # The response contains the 'Username' field
-    username = response['Username']
-    print(f"Username: {username}")
+    #username = response['Username']
+    username = response.get('Username',"")
+    log.info('manage_details: username %s:  ', username)
+    #print(f"Username: {username}")
 
-    """
+
     
     response = cognito_client.admin_get_user(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
