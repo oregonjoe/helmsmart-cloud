@@ -550,7 +550,8 @@ def manage():
   log.info('manage_details: response request.args %s:  ', session)
 
 
-  tokens = session.json()
+  #tokens = session.json()
+  tokens = session
   access_token = tokens.get("access_token")
   user_info = access_token.get("user_info")
 
