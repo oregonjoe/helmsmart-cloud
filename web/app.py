@@ -549,7 +549,7 @@ def manage():
   
   log.info('manage_details: response request.args %s:  ', request.args)
 
-  return jsonify({'access_token': request.args})
+  #return jsonify({'access_token': request.args})
   
   access_token = aws_auth.get_access_token(request.args)
   #claims = aws_auth.claims
