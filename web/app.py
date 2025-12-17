@@ -544,7 +544,7 @@ def manage():
 
 
 @app.route('/manage')
-@cognito_login_callback
+#@cognito_login_callback
 def manage():
   
   log.info('manage_details: response request.args %s:  ', request.args)
@@ -609,7 +609,7 @@ def manage():
 
 
 @app.route('/aws_login')
-@cognito_login
+#@cognito_login
 def aws_login():
 
   #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/manage')
