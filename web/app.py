@@ -547,9 +547,9 @@ def manage():
 @cognito_login_callback
 def manage():
   
-  log.info('manage_details: response request.args %s:  ', request.args)
-
-  #return jsonify({'access_token': request.args})
+  log.info('manage_details: response request.args %s:  ', session)
+  user = session.get('user')
+  return jsonify({'access_token': session})
   
   access_token = aws_auth.get_access_token(request.args)
   #claims = aws_auth.claims
