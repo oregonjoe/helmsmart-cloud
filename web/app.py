@@ -551,12 +551,14 @@ def manage():
 
 
   #tokens = session.json()
-  tokens = session
-  access_token = tokens.get("access_token")
-  user_info = access_token.get("user_info")
+  #tokens = session
+  #access_token = tokens.get("access_token")
+  #user_info = access_token.get("user_info")
 
+  token = oauth_aws.oidc.authorize_access_token()
+  userinfo = token['userinfo']
+    
   
-  user = session.get('user')
   return jsonify({'access_token': access_token, 'user_info': user_info})
   
   access_token = aws_auth.get_access_token(request.args)
