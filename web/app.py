@@ -554,11 +554,11 @@ def aws_alerts_logout():
 #@cognito_login_callback
 def aws_alerts_get_user_data():
   
-  log.info('manage_details: request.args %s:  ', request.args)
+  #log.info('manage_details: request.args %s:  ', request.args)
   #log.info('manage_details: session %s:  ', session)
   
-  access_token = aws_auth.get_access_token(request.args)
-  return jsonify({'access_token': access_token})
+  #access_token = aws_auth.get_access_token(request.args)
+  #return jsonify({'access_token': access_token})
   #tokens = session.json()
   #tokens = session
   #access_token = tokens.get("access_token")
@@ -655,9 +655,9 @@ def aws_login():
   
   session.clear()
   
-  #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data')
+  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data')
   #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data', authorize_params={'prompt': 'login'} )
-  return redirect(aws_auth.get_sign_in_url())
+  #return redirect(aws_auth.get_sign_in_url())
   pass
 
 @app.route('/authorize')
