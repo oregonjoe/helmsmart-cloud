@@ -532,6 +532,7 @@ def manage_details():
 
   try:
 
+    """
     response = client.get_user(
         AccessToken=access_token
     )
@@ -541,6 +542,7 @@ def manage_details():
     username = response['Username']
     print(f"Username: {username}")
 
+    """
     
     response = cognito_client.admin_get_user(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
