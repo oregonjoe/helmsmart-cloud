@@ -279,9 +279,11 @@ oauth_aws.register(
   client_id='7brk233gasbns1ee67i86el2c8',
   client_secret=environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"),
   server_metadata_url='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_wECVQzcbs/.well-known/openid-configuration',
+  max_age: 0,
   client_kwargs={'scope': 'phone openid email'}
 )
 
+#max_age: 0
 """
 mcservers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
 mcuser = os.environ.get('MEMCACHIER_USERNAME', '')
