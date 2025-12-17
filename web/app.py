@@ -541,7 +541,8 @@ def manage_details():
         for attribute in user_attributes:
             print(f"- {attribute['Name']}: {attribute['Value']}")
         return response
-    except Exception as e:
+    except:
+        e = sys.exc_info()[0]
         print(f"Error getting user data: {e}")
         return None
 
