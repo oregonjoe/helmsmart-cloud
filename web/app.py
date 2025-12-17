@@ -229,7 +229,7 @@ oauth.register(
 
 # end of auth0 init
 
-
+app.config["AWS_DEFAULT_REGION"] = environ.get("AWS_REGION")
 app.config["AWS_REGION"] = environ.get("AWS_REGION")
 app.config["AWS_COGNITO_DOMAIN"] = environ.get("AWS_COGNITO_DOMAIN")
 app.config["AWS_COGNITO_USER_POOL_ID"] = environ.get("AWS_COGNITO_USER_POOL_ID")
