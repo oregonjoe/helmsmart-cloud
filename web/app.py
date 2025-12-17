@@ -562,9 +562,11 @@ def manage():
   userinfo = access_token['userinfo']
   
   useremail = userinfo['email']
+
+  username = userinfo['cognito:username']
   
   #return jsonify({'access_token': access_token, 'user_info': userinfo})
-  return jsonify({'user_info': userinfo, 'useremail': useremail})
+  return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
   
   #access_token = aws_auth.get_access_token(request.args)
   #claims = aws_auth.claims
