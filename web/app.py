@@ -535,6 +535,9 @@ def manage_details():
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
         Username='123456'
     )
+
+    log.info('manage_details: response admin_get_user %s:  ' response)
+    
     # Extract and print user attributes
     user_attributes = response['UserAttributes']
     print(f"Attributes for user '{username}':")
@@ -542,6 +545,9 @@ def manage_details():
         print(f"- {attribute['Name']}: {attribute['Value']}")
     #return response
     return jsonify({'access_token': access_token, 'response': response})
+
+  except NameError as e:
+    log.info('manage_details: NameError in  admin_get_user %s:  ' % str(e))
   
   except:
     e = sys.exc_info()[0]
