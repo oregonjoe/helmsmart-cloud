@@ -532,7 +532,7 @@ def manage():
   #claims = aws_auth.claims # also available through g.cognito_claims
   #return jsonify({'claims': claims})
 
-  token = oauth.oidc.authorize_access_token()
+  token = oauth_aws.oidc.authorize_access_token()
   user = token['userinfo']
   session['user'] = user
 
