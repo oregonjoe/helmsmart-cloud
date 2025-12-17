@@ -507,13 +507,18 @@ def netlog():
   )
 
 @app.route('/manage')
+@aws_auth.authentication_required
 def manage():
+  claims = aws_auth.claims # also available through g.cognito_claims
+  return jsonify({'claims': claims})
 
+  """
   return render_template(
     'manage.html',
     features = [],
   )
-
+  """
+  
 @app.route('/manage_details')
 #@cognito_login_callback
 def manage_details():
