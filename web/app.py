@@ -555,16 +555,18 @@ def manage():
   #access_token = tokens.get("access_token")
   #user_info = access_token.get("user_info")
 
-  token = oauth_aws.oidc.authorize_access_token()
+  access_token = oauth_aws.oidc.authorize_access_token()
 
-  log.info('manage_details: token %s:  ', token)
+  log.info('manage_details: token %s:  ', access_token)
     
-  userinfo = token['userinfo']
-    
+  userinfo = access_token['userinfo']
   
-  return jsonify({'access_token': token, 'user_info': userinfo})
+  useremail = userinfo['email']
   
-  access_token = aws_auth.get_access_token(request.args)
+  #return jsonify({'access_token': access_token, 'user_info': userinfo})
+  return jsonify({'user_info': userinfo, 'useremail': useremail})
+  
+  #access_token = aws_auth.get_access_token(request.args)
   #claims = aws_auth.claims
 
   #user_info = aws_auth.get_user_info(access_token)
