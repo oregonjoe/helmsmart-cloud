@@ -526,6 +526,7 @@ def netlog():
     features = [],
   )
 
+"""
 @app.route('/manage')
 #@aws_auth.authentication_required
 def manage():
@@ -539,17 +540,12 @@ def manage():
   return jsonify({'access_token': token, 'user': user})
 
 
-  """
-  return render_template(
-    'manage.html',
-    features = [],
-  )
-  """
+"""
 
 
-@app.route('/manage_details')
+@app.route('/manage')
 @cognito_login_callback
-def manage_details():
+def manage():
 
   access_token = aws_auth.get_access_token(request.args)
   claims = aws_auth.claims
