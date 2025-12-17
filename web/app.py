@@ -550,10 +550,10 @@ def manage_details():
     log.info('manage_details: response admin_get_user %s:  ',  response)
     
     # Extract and print user attributes
-    user_attributes = response['UserAttributes']
-    print(f"Attributes for user '{username}':")
-    for attribute in user_attributes:
-        print(f"- {attribute['Name']}: {attribute['Value']}")
+    #user_attributes = response['UserAttributes']
+    #print(f"Attributes for user '{username}':")
+    #for attribute in user_attributes:
+    #    print(f"- {attribute['Name']}: {attribute['Value']}")
     #return response
     return jsonify({'access_token': access_token, 'response': response})
 
@@ -566,7 +566,7 @@ def manage_details():
     return jsonify({'status': 'Error'})
 
   
-  return jsonify({'access_token': access_token, 'user_info': request.args})
+  return jsonify({'access_token': access_token, 'user_info': response})
 
   """
   return render_template(
