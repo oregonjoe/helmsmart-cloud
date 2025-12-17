@@ -533,7 +533,7 @@ def manage_details():
   try:
 
 
-    response = client.get_user(
+    response = cognito_client.get_user(
         AccessToken=access_token
     )
 
