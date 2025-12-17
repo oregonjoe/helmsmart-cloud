@@ -515,7 +515,7 @@ def manage():
   )
 
 @app.route('/manage_details')
-@cognito_login_callback
+#@cognito_login_callback
 def manage_details():
 
   #access_token = aws_auth.get_access_token(request.args)
@@ -528,10 +528,10 @@ def manage_details():
 
 
 @app.route('/aws_login')
-@cognito_login
+#@cognito_login
 def aws_login():
-  #return redirect(aws_auth.get_sign_in_url())
-  pass
+  return redirect(aws_auth.get_sign_in_url())
+  #pass
 
 
 @app.route('/adminmanage')
