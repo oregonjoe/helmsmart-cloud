@@ -608,13 +608,13 @@ def manage_details():
 #@cognito_login
 def aws_login():
 
-  return oauth.oidc.authorize_redirect('https://www.helmsmart-cloud.com/manage')
+  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/manage')
   #return redirect(aws_auth.get_sign_in_url())
   #pass
 
 @app.route('/authorize')
 def authorize():
-    token = oauth.oidc.authorize_access_token()
+    token = oauth_aws.oidc.authorize_access_token()
     user = token['userinfo']
     session['user'] = user
     return redirect(url_for('aws_details'))
