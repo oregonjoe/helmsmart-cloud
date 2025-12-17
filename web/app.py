@@ -228,7 +228,7 @@ oauth.register(
 )
 
 # end of auth0 init
-
+"""
 app.config["AWS_DEFAULT_REGION"] = environ.get("AWS_REGION")
 app.config["AWS_REGION"] = environ.get("AWS_REGION")
 app.config["AWS_COGNITO_DOMAIN"] = environ.get("AWS_COGNITO_DOMAIN")
@@ -236,7 +236,7 @@ app.config["AWS_COGNITO_USER_POOL_ID"] = environ.get("AWS_COGNITO_USER_POOL_ID")
 app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID")
 app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET")
 app.config["AWS_COGNITO_REDIRECT_URL"] = environ.get("AWS_COGNITO_REDIRECT_URL")
-
+"""
 """
 app.config["AWS_REGION"]
 app.config["AWS_COGNITO_DOMAIN"]
@@ -257,14 +257,14 @@ from flask_jwt_extended import (
     get_jwt_identity,
 )
 """
-
+"""
 cognito = CognitoAuth(app)
 
 aws_auth = AWSCognitoAuthentication(app)
 
 cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
 
-
+"""
 
 
 
@@ -529,8 +529,15 @@ def netlog():
 @app.route('/manage')
 #@aws_auth.authentication_required
 def manage():
-  claims = aws_auth.claims # also available through g.cognito_claims
-  return jsonify({'claims': claims})
+  #claims = aws_auth.claims # also available through g.cognito_claims
+  #return jsonify({'claims': claims})
+
+  token = oauth.oidc.authorize_access_token()
+  user = token['userinfo']
+  session['user'] = user
+
+  return jsonify({'access_token': token, 'user': user})
+
 
   """
   return render_template(
@@ -538,7 +545,8 @@ def manage():
     features = [],
   )
   """
-  
+
+"""  
 @app.route('/manage_details')
 @cognito_login_callback
 def manage_details():
@@ -597,13 +605,8 @@ def manage_details():
   
   return jsonify({'access_token': access_token, 'user_info': response})
 
-  """
-  return render_template(
-    'manage.html',
-    features = [],
-  )
-  """
 
+"""
 @app.route('/aws_login')
 #@cognito_login
 def aws_login():
