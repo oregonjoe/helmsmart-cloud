@@ -257,14 +257,14 @@ from flask_jwt_extended import (
     get_jwt_identity,
 )
 """
-"""
+
 cognito = CognitoAuth(app)
 
 aws_auth = AWSCognitoAuthentication(app)
 
 cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
 
-"""
+
 
 
 
@@ -527,7 +527,7 @@ def netlog():
   )
 
 @app.route('/manage')
-@aws_auth.authentication_required
+#@aws_auth.authentication_required
 def manage():
   claims = aws_auth.claims # also available through g.cognito_claims
   return jsonify({'claims': claims})
@@ -540,7 +540,7 @@ def manage():
   """
   
 @app.route('/manage_details')
-#@cognito_login_callback
+@cognito_login_callback
 def manage_details():
 
   access_token = aws_auth.get_access_token(request.args)
