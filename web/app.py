@@ -546,11 +546,14 @@ def manage():
 @app.route('/manage')
 @cognito_login_callback
 def manage():
-
+  
+  log.info('manage_details: response request.args %s:  ', request.args)
+  
   access_token = aws_auth.get_access_token(request.args)
-  claims = aws_auth.claims
+  #claims = aws_auth.claims
 
   #user_info = aws_auth.get_user_info(access_token)
+  log.info('manage_details: response request.args %s:  ', request.args)
 
   try:
 
