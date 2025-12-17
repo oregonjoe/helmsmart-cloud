@@ -543,7 +543,12 @@ def manage():
 
 
 """
+@app.route('/aws_alerts_logout')
+#@cognito_login_callback
+def aws_alerts_logout():
 
+  session.pop('user', None)
+  return redirect(url_for('manage'))  
 
 @app.route('/aws_alerts_get_user_data')
 #@cognito_login_callback
@@ -568,8 +573,10 @@ def aws_alerts_get_user_data():
   username = userinfo['cognito:username']
   
   #return jsonify({'access_token': access_token, 'user_info': userinfo})
-  return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
-  
+  #return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
+  log.info('manage_details: username %s:  ', username)
+
+  return redirect(url_for('aws_alerts_logout'))    
   #access_token = aws_auth.get_access_token(request.args)
   #claims = aws_auth.claims
 
@@ -653,6 +660,13 @@ def aws_details():
         return f'Welcome! Please <a href="/login">Login</a>.'
 
 
+@app.route('/manage')
+def manage():
+
+  return render_template(
+    'manage.html',
+    features = [],
+  )
 
 @app.route('/adminmanage')
 def adminmanage():
