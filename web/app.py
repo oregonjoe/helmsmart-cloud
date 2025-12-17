@@ -580,7 +580,7 @@ def aws_alerts_get_user_data():
         Username=username
     )
 
-    log.info('manage_details: response admin_get_user %s:  ',  response)
+    log.info('manage_details: response admin_user_global_sign_out %s:  ',  response)
 
   else:
     response = "No user was selected"  
@@ -653,7 +653,8 @@ def aws_login():
   
   session.clear()
   
-  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data')
+  #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data')
+  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data', authorize_params={'prompt': 'login'} )
   #return redirect(aws_auth.get_sign_in_url())
   pass
 
