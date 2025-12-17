@@ -59,7 +59,7 @@ from flask_cognito_lib.decorators import (
 )
 
 
-
+from flask_awscognito import AWSCognitoAuthentication
 
 
 #import dashboard_routes
@@ -260,7 +260,7 @@ from flask_jwt_extended import (
 
 cognito = CognitoAuth(app)
 
-
+aws_auth = AWSCognitoAuthentication(app)
 
 """
 mcservers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
@@ -518,6 +518,9 @@ def manage():
 @cognito_login_callback
 def manage_details():
 
+  #access_token = aws_auth.get_access_token(request.args)
+  #return jsonify({'access_token': access_token})
+
   return render_template(
     'manage.html',
     features = [],
@@ -527,6 +530,7 @@ def manage_details():
 @app.route('/aws_login')
 @cognito_login
 def aws_login():
+  #return redirect(aws_auth.get_sign_in_url())
   pass
 
 
