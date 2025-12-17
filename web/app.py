@@ -262,6 +262,8 @@ cognito = CognitoAuth(app)
 
 aws_auth = AWSCognitoAuthentication(app)
 
+cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
+
 """
 mcservers = os.environ.get('MEMCACHIER_SERVERS', '').split(',')
 mcuser = os.environ.get('MEMCACHIER_USERNAME', '')
@@ -527,6 +529,21 @@ def manage_details():
   claims = aws_auth.claims
 
   #user_info = aws_auth.get_user_info(access_token)
+
+  try:
+        response = cognito_client.admin_get_user(
+            UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+            Username='123456'
+        )
+        # Extract and print user attributes
+        user_attributes = response['UserAttributes']
+        print(f"Attributes for user '{username}':")
+        for attribute in user_attributes:
+            print(f"- {attribute['Name']}: {attribute['Value']}")
+        return response
+    except Exception as e:
+        print(f"Error getting user data: {e}")
+        return None
 
   
   return jsonify({'access_token': access_token, 'user_info': request.args})
