@@ -559,7 +559,7 @@ def manage():
   userinfo = token['userinfo']
     
   
-  return jsonify({'access_token': access_token, 'user_info': user_info})
+  return jsonify({'access_token': token, 'user_info': user_info})
   
   access_token = aws_auth.get_access_token(request.args)
   #claims = aws_auth.claims
