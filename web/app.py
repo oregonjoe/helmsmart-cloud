@@ -531,6 +531,17 @@ def manage_details():
   #user_info = aws_auth.get_user_info(access_token)
 
   try:
+
+    response = client.get_user(
+        AccessToken=access_token
+    )
+
+    log.info('manage_details: response get_user %s:  ' response)
+    # The response contains the 'Username' field
+    username = response['Username']
+    print(f"Username: {username}")
+
+    
     response = cognito_client.admin_get_user(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
         Username='123456'
