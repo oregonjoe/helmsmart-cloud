@@ -532,12 +532,15 @@ def manage_details():
 
   try:
 
-    """
+
     response = client.get_user(
         AccessToken=access_token
     )
 
     log.info('manage_details: response get_user %s:  ', response)
+
+    """
+
     # The response contains the 'Username' field
     username = response['Username']
     print(f"Username: {username}")
