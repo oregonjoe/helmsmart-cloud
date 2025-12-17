@@ -570,13 +570,26 @@ def aws_alerts_get_user_data():
   
   useremail = userinfo['email']
 
-  username = userinfo['cognito:username']
-  
-  #return jsonify({'access_token': access_token, 'user_info': userinfo})
-  #return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
+  username = userinfo.get('cognito:username', "")
   log.info('manage_details: username %s:  ', username)
 
-  return redirect(url_for('aws_alerts_logout'))    
+  if  username != "":
+    
+    response = cognito_client.admin_user_global_sign_out(
+        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+        Username=username
+    )
+
+    log.info('manage_details: response admin_get_user %s:  ',  response)
+
+  else:
+    response = "No user was selected"  
+  
+  #return jsonify({'access_token': access_token, 'user_info': userinfo})
+  return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
+
+
+  #return redirect(url_for('aws_alerts_logout'))    
   #access_token = aws_auth.get_access_token(request.args)
   #claims = aws_auth.claims
 
