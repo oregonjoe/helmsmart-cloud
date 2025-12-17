@@ -548,13 +548,17 @@ def manage_details():
     #print(f"Username: {username}")
 
 
-    
-    response = cognito_client.admin_get_user(
-        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        Username='123456'
-    )
+    if  username != "":
+      
+      response = cognito_client.admin_get_user(
+          UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+          Username=username
+      )
 
-    log.info('manage_details: response admin_get_user %s:  ',  response)
+      log.info('manage_details: response admin_get_user %s:  ',  response)
+
+    else:
+      response = "No user was selected"
     
     # Extract and print user attributes
     #user_attributes = response['UserAttributes']
