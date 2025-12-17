@@ -547,7 +547,7 @@ def manage():
 #@cognito_login_callback
 def manage():
   
-  log.info('manage_details: response request.args %s:  ', session)
+  log.info('manage_details: session %s:  ', session)
 
 
   #tokens = session.json()
@@ -556,6 +556,9 @@ def manage():
   #user_info = access_token.get("user_info")
 
   token = oauth_aws.oidc.authorize_access_token()
+
+  log.info('manage_details: token %s:  ', token)
+    
   userinfo = token['userinfo']
     
   
