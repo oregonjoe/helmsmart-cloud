@@ -540,11 +540,13 @@ def manage_details():
     print(f"Attributes for user '{username}':")
     for attribute in user_attributes:
         print(f"- {attribute['Name']}: {attribute['Value']}")
-    return response
+    #return response
+    return jsonify({'access_token': access_token, 'response': response})
+  
   except:
     e = sys.exc_info()[0]
     print(f"Error getting user data: {e}")
-    return None
+    return jsonify({'status': 'Error'})
 
   
   return jsonify({'access_token': access_token, 'user_info': request.args})
