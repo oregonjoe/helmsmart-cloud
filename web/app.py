@@ -526,10 +526,10 @@ def manage_details():
   access_token = aws_auth.get_access_token(request.args)
   claims = aws_auth.claims
 
-  user_info = aws_auth.get_user_info(access_token)
+  #user_info = aws_auth.get_user_info(access_token)
 
   
-  return jsonify({'access_token': access_token, 'user_info': user_info})
+  return jsonify({'access_token': access_token, 'user_info': request.args})
 
   """
   return render_template(
