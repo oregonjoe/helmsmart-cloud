@@ -536,7 +536,7 @@ def manage_details():
         AccessToken=access_token
     )
 
-    log.info('manage_details: response get_user %s:  ' response)
+    log.info('manage_details: response get_user %s:  ', response)
     # The response contains the 'Username' field
     username = response['Username']
     print(f"Username: {username}")
@@ -547,7 +547,7 @@ def manage_details():
         Username='123456'
     )
 
-    log.info('manage_details: response admin_get_user %s:  ' response)
+    log.info('manage_details: response admin_get_user %s:  ',  response)
     
     # Extract and print user attributes
     user_attributes = response['UserAttributes']
