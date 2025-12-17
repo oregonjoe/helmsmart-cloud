@@ -543,9 +543,9 @@ def manage():
 """
 
 
-@app.route('/manage')
+@app.route('/aws_alerts_get_user_data')
 #@cognito_login_callback
-def manage():
+def aws_alerts_get_user_data():
   
   log.info('manage_details: session %s:  ', session)
 
@@ -628,8 +628,10 @@ def manage():
 @app.route('/aws_login')
 #@cognito_login
 def aws_login():
-
-  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/manage')
+  
+  session.clear()
+  
+  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data')
   #return redirect(aws_auth.get_sign_in_url())
   pass
 
