@@ -653,9 +653,9 @@ def aws_login():
   
   session.clear()
   
-  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data')
+  #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data')
   #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data', authorize_params={'prompt': 'login'} )
-  #return redirect(aws_auth.get_sign_in_url())
+  return redirect(aws_auth.get_sign_in_url())
   pass
 
 @app.route('/authorize')
