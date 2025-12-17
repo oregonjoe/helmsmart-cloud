@@ -519,7 +519,8 @@ def manage():
 def manage_details():
 
   access_token = aws_auth.get_access_token(request.args)
-  return jsonify({'access_token': access_token})
+  claims = aws_auth.claims
+  return jsonify({'access_token': access_token, 'claims': claims})
 
   """
   return render_template(
