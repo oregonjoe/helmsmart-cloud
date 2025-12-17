@@ -234,7 +234,7 @@ app.config["AWS_REGION"] = environ.get("AWS_REGION")
 app.config["AWS_COGNITO_DOMAIN"] = environ.get("AWS_COGNITO_DOMAIN")
 app.config["AWS_COGNITO_USER_POOL_ID"] = environ.get("AWS_COGNITO_USER_POOL_ID")
 app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID")
-app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET")
+#app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET")
 app.config["AWS_COGNITO_REDIRECT_URL"] = environ.get("AWS_COGNITO_REDIRECT_URL")
 
 """
@@ -518,14 +518,15 @@ def manage():
 #@cognito_login_callback
 def manage_details():
 
-  #access_token = aws_auth.get_access_token(request.args)
-  #return jsonify({'access_token': access_token})
+  access_token = aws_auth.get_access_token(request.args)
+  return jsonify({'access_token': access_token})
 
+  """
   return render_template(
     'manage.html',
     features = [],
   )
-
+  """
 
 @app.route('/aws_login')
 #@cognito_login
