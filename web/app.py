@@ -554,7 +554,7 @@ def aws_home():
 
     
     if user:
-        return  'Hello, ' + user + '  <a href="/aws_alerts_logout">Logout</a>'
+        return  'Hello user = ' + user + '  <a href="/aws_alerts_logout">Logout</a>'
     else:
         return 'Welcome! Please <a href="/aws_login">Login</a>.'
 
