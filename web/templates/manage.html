@@ -658,6 +658,19 @@ function LogoutDevice()
 
 }
 
+function AWSUpdateDevice()
+{
+
+	LogoutDevice();
+	
+   //const clientId = '7brk233gasbns1ee67i86el2c8';
+   //const logoutUri = "https://www.helmsmart-cloud.com/aws_alerts_logout"; // e.g., 'http://localhost:3000/logout'
+   //const cognitoDomain = "https://us-west-2wecvqzcbs.auth.us-west-2.amazoncognito.com";
+    
+    window.location.href = "https://www.helmsmart-cloud.com/aws_login"
+
+}
+
 function UpdateDevice()
 {
 var dIndex=0;
@@ -867,6 +880,8 @@ var dIndex=0;
 					<div class="form-group" style="margin-top:25px;">
 				
 			<div class="col-sm-offset-4 col-sm-4">
+			
+				<button id="btnSettingsEventSave" name="btnValue" value="Update" class="btn btn-primary" onclick="AWSUpdateDevice();">Update</button>
 				<button id="btnSettingsEventSave" name="btnValue" value="Save" class="btn btn-primary" onclick="UpdateDevice();">Save</button>
 				<!-- <button id="btnSettingsEventDelete" name="btnValue" value="Delete" class="btn btn-primary" onclick="DeleteAlert();">Delete</button> -->
 				<button name="btnValue" value="Cancel" class="btn btn-default cancel">Cancel</button>
