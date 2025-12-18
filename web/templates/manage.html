@@ -640,6 +640,18 @@ function getDeviceList(userid)
 }
 
 
+function LogoutDevice()
+{
+
+    const clientId = '7brk233gasbns1ee67i86el2c8';
+    const logoutUri = "https://www.helmsmart-cloud.com/aws_alerts_logout"; // e.g., 'http://localhost:3000/logout'
+    const cognitoDomain = "https://us-west-2wecvqzcbs.auth.us-west-2.amazoncognito.com/";
+    
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+
+
+}
+
 function UpdateDevice()
 {
 var dIndex=0;
@@ -852,6 +864,8 @@ var dIndex=0;
 				<button id="btnSettingsEventSave" name="btnValue" value="Save" class="btn btn-primary" onclick="UpdateDevice();">Save</button>
 				<!-- <button id="btnSettingsEventDelete" name="btnValue" value="Delete" class="btn btn-primary" onclick="DeleteAlert();">Delete</button> -->
 				<button name="btnValue" value="Cancel" class="btn btn-default cancel">Cancel</button>
+				
+				<button id="btnSettingsEventlogout" name="btnValue" value="Logout" class="btn btn-primary" onclick="LogoutDevice();">Logout</button>
 			
 			</div>
 		</div>
