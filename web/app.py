@@ -273,7 +273,7 @@ cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
 
 oauth_aws = OAuth(app)
 
-"""
+
 oauth_aws.register(
   name='oidc',
   authority='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_wECVQzcbs',
@@ -283,6 +283,7 @@ oauth_aws.register(
   max_age=0,
   client_kwargs={'scope': 'phone openid email'}
 )
+
 """
 
 oauth_aws.register(
@@ -295,6 +296,7 @@ oauth_aws.register(
   client_kwargs={'scope': 'phone openid email'}
 )
 
+"""
 
 
 #max_age: 0
@@ -611,7 +613,8 @@ def aws_alerts_get_user_data():
     
     response = cognito_client.admin_user_global_sign_out(
         #UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        UserPoolId="us-west-2_znf559qHG",
+        #UserPoolId="us-west-2_znf559qHG",
+        UserPoolId="us-west-2_wECVQzcbs",
         Username=username
     )
 
