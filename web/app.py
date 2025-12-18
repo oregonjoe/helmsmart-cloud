@@ -606,7 +606,7 @@ def aws_alerts_get_user_data():
   username = userinfo.get('cognito:username', "")
   log.info('manage_details: username %s:  ', username)
 
-  """
+
   if  username != "":
     
     response = cognito_client.admin_user_global_sign_out(
@@ -618,7 +618,7 @@ def aws_alerts_get_user_data():
 
   else:
     response = "No user was selected"
-  """
+
   
   session['user'] = username
   return redirect(url_for('aws_home'))    
