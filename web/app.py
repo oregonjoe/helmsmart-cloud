@@ -581,7 +581,20 @@ def aws_alerts_logout():
 
   session.pop('user', None)
   session.clear
-  return redirect(url_for('manage'))  
+
+  response = make_response(redirect(url_for('manage')))
+  #cookie_name = app.config.get('SESSION_COOKIE_NAME', 'session')
+  
+  cookie_name = 'session'
+  
+  response.delete_cookie(
+          cookie_name, 
+          path='/', # Match the original cookie path
+          httponly=True # It's good practice to keep the HttpOnly flag consistent
+      )
+
+  return response
+  #return redirect(url_for('manage'))  
 
 @app.route('/aws_alerts_get_user_data')
 #@cognito_login_callback
