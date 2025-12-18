@@ -545,7 +545,12 @@ def manage():
 """
 @app.route('/aws_home')
 def aws_home():
+  
+    log.info('aws_home: session %s:  ', session)
+    
     user = session.get('user')
+
+    
     if user:
         return  'Hello, {user["email"]}. <a href="/aws_alerts_logout">Logout</a>'
     else:
