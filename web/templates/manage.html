@@ -610,9 +610,9 @@ function getDeviceList(useremail)
 
 	var devicedataurl;
 	
-	const encodedEmail = encodeURIComponent(useremail);
+	var encodedEmail = encodeURIComponent(useremail);
 	
-    devicedataurl = 'https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
+    devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
 
     return $.ajax({
     //async: false,
