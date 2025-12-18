@@ -675,10 +675,10 @@ function AWSUpdateDevice()
    const cognitoDomain = "https://us-west-2wecvqzcbs.auth.us-west-2.amazoncognito.com";
     
     //window.location.href = "https://www.helmsmart-cloud.com/aws_login"
-	window.location.href = `${cognitoDomain}/oauth2/authorize?response_type=code&client_id=${clientId}&state=0&redirect_uri=${encodeURIComponent(redirectUri)}`;
+	//window.location.href = `${cognitoDomain}/oauth2/authorize?response_type=code&client_id=${clientId}&state=0&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
 	//window.location.href = `${cognitoDomain}/login?response_type=code&client_id=${clientId}&state=0&scope=aws.cognito.signin.user.admin+email+openid+phone&redirect_uri=${encodeURIComponent(redirectUri)}`;
-	
+	window.location.href = `${cognitoDomain}/login?response_type=token&client_id=${clientId}&state=0&scope=aws.cognito.signin.user.admin+email+openid+phone&redirect_uri=${encodeURIComponent(redirectUri)}`;
 }
 
 function UpdateDevice()
