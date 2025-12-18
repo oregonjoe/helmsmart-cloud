@@ -273,6 +273,7 @@ cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
 
 oauth_aws = OAuth(app)
 
+"""
 oauth_aws.register(
   name='oidc',
   authority='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_wECVQzcbs',
@@ -282,6 +283,19 @@ oauth_aws.register(
   max_age=0,
   client_kwargs={'scope': 'phone openid email'}
 )
+"""
+
+oauth_aws.register(
+  name='oidc',
+  authority='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_znf559qHG',
+  client_id='46b1d86tgbv072ikdg4qh11ddo',
+  client_secret=environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"),
+  server_metadata_url='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_znf559qHG/.well-known/openid-configuration',
+  max_age=0,
+  client_kwargs={'scope': 'phone openid email'}
+)
+
+
 
 #max_age: 0
 """
