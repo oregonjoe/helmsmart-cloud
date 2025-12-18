@@ -58,7 +58,8 @@
 
   <center>
   {% if session['aws_email'] %}
-     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
+  
+     <a href="javascript:void(0);" onclick="LogoutDevice();" id="logout" class="persona-button">
     <span>HelmSmart: {{session['aws_email']}}</span></a>
   {% else %}
     <a href="http://www.helmsmart-cloud.com/aws_login" id="awslogin" class="persona-button">
