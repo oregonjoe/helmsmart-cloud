@@ -48,7 +48,7 @@
 
 <div>
 
-<span>email: {{session['aws_useremail']}}</span>
+<span>email: {{session['aws_email']}}</span>
 <span>aws_userid: {{session['aws_userid']}}</span>
 <span>aws_phone: {{session['aws_phone']}}</span>
 <span>aws_clientid: {{session['aws_clientid']}}</span>
@@ -57,9 +57,9 @@
 
 
   <center>
-  {% if session['aws_useremail'] %}
+  {% if session['aws_email'] %}
      <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart: {{session['aws_useremail']}}</span></a>
+    <span>HelmSmart: {{session['aws_email']}}</span></a>
   {% else %}
     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
