@@ -595,7 +595,8 @@ def aws_alerts_get_user_data():
 
   else:
     response = "No user was selected"  
-  
+
+  """
   #return jsonify({'access_token': access_token, 'user_info': userinfo})
   #return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
 
@@ -645,6 +646,7 @@ def aws_alerts_get_user_data():
     #return response
     #return jsonify({'access_token': access_token, 'response': response})
 
+    """
     session['user'] = username
     return redirect(url_for('aws_home'))
 
