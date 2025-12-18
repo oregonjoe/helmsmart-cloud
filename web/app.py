@@ -280,7 +280,7 @@ oauth_aws.register(
   client_id='7brk233gasbns1ee67i86el2c8',
   client_secret=environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"),
   server_metadata_url='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_wECVQzcbs/.well-known/openid-configuration',
-  max_age=0,
+  #max_age=0,
   client_kwargs={'scope': 'phone openid email'}
 )
 
@@ -608,7 +608,7 @@ def aws_alerts_get_user_data():
   username = userinfo.get('cognito:username', "")
   log.info('manage_details: username %s:  ', username)
 
-
+  """
   if  username != "":
     
     response = cognito_client.admin_user_global_sign_out(
@@ -622,7 +622,7 @@ def aws_alerts_get_user_data():
 
   else:
     response = "No user was selected"
-
+  """
   
   session['user'] = username
   return redirect(url_for('aws_home'))    
