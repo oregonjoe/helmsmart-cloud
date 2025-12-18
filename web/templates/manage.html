@@ -47,6 +47,15 @@
 <body>
 
 <div>
+
+<span>email: {{session['aws_useremail']}}</span>
+<span>aws_userid: {{session['aws_userid']}}</span>
+<span>aws_phone: {{session['aws_phone']}}</span>
+<span>aws_clientid: {{session['aws_clientid']}}</span>
+<span>aws_domain: {{session['aws_domain']}}</span>
+
+
+
   <center>
   {% if session['aws_useremail'] %}
      <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
