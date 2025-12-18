@@ -310,7 +310,7 @@ $('#tab a').click(function (e) {
 
 	
     gUserID = "0";
-    {% if session['asw_email'] %}
+    {% if session['aws_email'] %}
     gUserID = "{{session['aws_email']}}";
     {% else %}
     gUserID = "0";
