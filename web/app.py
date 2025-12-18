@@ -594,7 +594,10 @@ def aws_alerts_get_user_data():
     log.info('manage_details: response admin_user_global_sign_out %s:  ',  response)
 
   else:
-    response = "No user was selected"  
+    response = "No user was selected"
+
+  session['user'] = username
+  return redirect(url_for('aws_home'))    
 
   """
   #return jsonify({'access_token': access_token, 'user_info': userinfo})
@@ -647,8 +650,7 @@ def aws_alerts_get_user_data():
     #return jsonify({'access_token': access_token, 'response': response})
 
     """
-    session['user'] = username
-    return redirect(url_for('aws_home'))
+
 
   
   except NameError as e:
