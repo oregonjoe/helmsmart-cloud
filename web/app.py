@@ -652,7 +652,7 @@ def aws_alerts_get_user_data():
     """
 
 
-  
+  """  
   except NameError as e:
     log.info('manage_details: NameError in  admin_get_user %s:  ' % str(e))
     return jsonify({'status': 'NameError'})
@@ -664,7 +664,7 @@ def aws_alerts_get_user_data():
 
   
   #return jsonify({'access_token': access_token, 'user_info': response})
-
+  """
 
 
 @app.route('/aws_login')
