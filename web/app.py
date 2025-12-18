@@ -608,6 +608,19 @@ def aws_alerts_get_user_data():
   username = userinfo.get('cognito:username', "")
   log.info('manage_details: username %s:  ', username)
 
+
+  aws_phone = userinfo['phone_number']
+
+  aws_phone = userinfo.get('phone_number', "")
+  log.info('manage_details: aws_phone %s:  ', aws_phone)
+
+
+  aws_clientid = userinfo.get('aud', "")
+  log.info('manage_details: aws_clientid %s:  ', aws_clientid)
+
+  aws_domain = userinfo.get('iss', "")
+  log.info('manage_details: aws_domain %s:  ', aws_domain)
+  
   """
   if  username != "":
     
@@ -624,7 +637,11 @@ def aws_alerts_get_user_data():
     response = "No user was selected"
   """
   
-  session['user'] = username
+  session['aws_userid'] = username
+  session['aws_email'] = useremail
+  session['aws_phone'] = aws_phone
+  session['aws_clientid'] = aws_clientid
+  session['aws_domain'] = aws_domain
   #return redirect(url_for('aws_home'))
   return redirect(url_for('manage'))    
 
