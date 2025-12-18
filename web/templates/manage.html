@@ -48,9 +48,9 @@
 
 <div>
   <center>
-  {% if session['useremail'] %}
+  {% if session['aws_useremail'] %}
      <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart: {{session['useremail']}}</span></a>
+    <span>HelmSmart: {{session['aws_useremail']}}</span></a>
   {% else %}
     <a href="http://www.helmsmart-cloud.com" id="login" class="persona-button">
       <span>HelmSmart: Guest</span></a>
