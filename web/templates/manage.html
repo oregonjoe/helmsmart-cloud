@@ -649,6 +649,8 @@ function getDeviceList(useremail)
 function LogoutDevice()
 {
 
+	document.cookie = "session=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+
     const clientId = '7brk233gasbns1ee67i86el2c8';
     const logoutUri = "https://www.helmsmart-cloud.com/aws_alerts_logout"; // e.g., 'http://localhost:3000/logout'
     const cognitoDomain = "https://us-west-2wecvqzcbs.auth.us-west-2.amazoncognito.com";
