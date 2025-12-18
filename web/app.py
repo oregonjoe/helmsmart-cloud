@@ -543,6 +543,15 @@ def manage():
 
 
 """
+@app.route('/aws_home')
+def aws_home():
+    user = session.get('user')
+    if user:
+        return  f'Hello, {user["email"]}. <a href="/aws_logout">Logout</a>'
+    else:
+        return f'Welcome! Please <a href="/aws_login">Login</a>.'
+
+
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
 def aws_alerts_logout():
@@ -588,7 +597,7 @@ def aws_alerts_get_user_data():
     response = "No user was selected"  
   
   #return jsonify({'access_token': access_token, 'user_info': userinfo})
-  return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
+  #return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
 
 
   #return redirect(url_for('aws_alerts_logout'))    
@@ -634,10 +643,15 @@ def aws_alerts_get_user_data():
     #for attribute in user_attributes:
     #    print(f"- {attribute['Name']}: {attribute['Value']}")
     #return response
-    return jsonify({'access_token': access_token, 'response': response})
+    #return jsonify({'access_token': access_token, 'response': response})
 
+    session['user'] = username
+    return redirect(url_for('aws_home'))
+
+  
   except NameError as e:
     log.info('manage_details: NameError in  admin_get_user %s:  ' % str(e))
+    return jsonify({'status': 'NameError'})
   
   except:
     e = sys.exc_info()[0]
@@ -645,7 +659,7 @@ def aws_alerts_get_user_data():
     return jsonify({'status': 'Error'})
 
   
-  return jsonify({'access_token': access_token, 'user_info': response})
+  #return jsonify({'access_token': access_token, 'user_info': response})
 
 
 
