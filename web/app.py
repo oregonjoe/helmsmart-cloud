@@ -564,6 +564,7 @@ def aws_home():
 def aws_alerts_logout():
 
   session.pop('user', None)
+  session.clear
   return redirect(url_for('manage'))  
 
 @app.route('/aws_alerts_get_user_data')
