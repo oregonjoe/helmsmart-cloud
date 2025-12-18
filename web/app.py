@@ -2751,7 +2751,7 @@ def getdevicesbyemail_endpoint():
   try:
     # first check db to see if user id is matched to device id
     cursor = conn.cursor()
-    cursor.execute(query, (userid,))
+    cursor.execute(query, (useremail,))
     i = cursor.fetchone()
     # if not then just exit
     if cursor.rowcount == 0:
@@ -2803,15 +2803,23 @@ def getdevicesbyemail_endpoint():
   except TypeError as e:
       log.info('getdevicesbyemail_endpoint: TypeError in geting deviceid  %s:  ', useremail)
       log.info('getdevicesbyemail_endpoint: TypeError in geting deviceid  %s:  ' % str(e))
+      return jsonify(result="TypeError")
 
   except KeyError as e:
       log.info('getdevicesbyemail_endpoint: KeyError in geting deviceid  %s:  ', useremail)
       log.info('getdevicesbyemail_endpoint: KeyError in geting deviceid  %s:  ' % str(e))
+      return jsonify(result="KeyError")
+    
+  except NameError as e:
+      log.info('getdevicesbyemail_endpoint: NameError in geting deviceid  %s:  ', useremail)
+      log.info('getdevicesbyemail_endpoint: NameError in geting deviceid  %s:  ' % str(e))
+      return jsonify(result="NameError")
       
   except:
     e = sys.exc_info()[0]
     log.info("getdevicesbyemail_endpoint error - deviceid %s", useremail)
     log.info('getdevicesbyemail_endpoint error: Error in getting prefs %s:  ' % e)
+    return jsonify(result="ERROR")
   
   finally:
     db_pool.putconn(conn)    
