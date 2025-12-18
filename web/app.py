@@ -550,6 +550,8 @@ def aws_home():
     
     user = session.get('user')
 
+    log.info('aws_home: user %s:  ', user)
+
     
     if user:
         return  'Hello, {user["email"]}. <a href="/aws_alerts_logout">Logout</a>'
