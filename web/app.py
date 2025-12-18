@@ -625,7 +625,8 @@ def aws_alerts_get_user_data():
   """
   
   session['user'] = username
-  return redirect(url_for('aws_home'))    
+  #return redirect(url_for('aws_home'))
+  return redirect(url_for('manage'))    
 
   """
   #return jsonify({'access_token': access_token, 'user_info': userinfo})
