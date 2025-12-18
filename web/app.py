@@ -2567,7 +2567,7 @@ def getuser_endpoint():
 
   except:
     e = sys.exc_info()[0]
-    log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
+    #log.info("getuser_endpoint error - db_pool.getconn %s", deviceid)
     log.info('getuser_endpoint error: db_pool.getconn %s:  ' % e)
     db_pool.closeall()  
 
@@ -2714,6 +2714,104 @@ def getuser_endpoint():
     e = sys.exc_info()[0]
     log.info("getuser_endpoint error - deviceid %s", deviceid)
     log.info('getuser_endpoint error: Error in getting prefs %s:  ' % e)
+  
+  finally:
+    db_pool.putconn(conn)    
+
+# ######################################################
+# gets user info from a userid
+# #####################################################
+@app.route('/getdevicesbyemail')
+@cross_origin()
+def getdevicesbyemail_endpoint():
+
+  try:  
+    conn = db_pool.getconn()
+
+  except:
+    e = sys.exc_info()[0]
+    #log.info("getdevicesbyemail_endpoint error - db_pool.getconn %s", deviceid)
+    log.info('getdevicesbyemail_endpoint error: db_pool.getconn %s:  ' % e)
+    db_pool.closeall()  
+
+    return jsonify( message='Could not open a connection', status='error')
+
+
+  gettype = request.args.get('gettype', 'devices')
+  useremail = request.args.get('useremail', 'guest@helmsmart.com')
+  deviceid = request.args.get('deviceid', '000000000000')
+  pagetype = request.args.get('pagetype', 0)
+  prefkey = request.args.get('prefkey', 0)
+
+  query = "select devicename from user_devices where useremail = %s"
+
+  log.info('getdevicesbyemail_endpoint: useremail %s:  ', useremail)
+  
+  
+  try:
+    # first check db to see if user id is matched to device id
+    cursor = conn.cursor()
+    cursor.execute(query, (userid,))
+    i = cursor.fetchone()
+    # if not then just exit
+    if cursor.rowcount == 0:
+        log.info('getdevicesbyemail_endpoint: No devices found for useremail %s:  ', useremail)
+        return jsonify( message='No Userid  match', status='error')
+
+
+    log.info('getuser_endpoint: devices found for useremail %s:  ', useremail)
+
+    
+    sqlstr = 'select * from user_devices where useremail = %s order by deviceid desc;'   
+    cursor.execute(sqlstr, (useremail,))
+        
+    records = cursor.fetchall()
+
+
+    log.info('getdevicesbyemail_endpoint: records found for useremail %s:  ', records)    
+
+    def type_for(type_code):
+      return {
+        23: 'INTEGER',
+        1043: 'STRING',
+        1114: 'DATETIME'    
+      }.get(type_code)
+
+
+    schema = dict(
+      fields= [
+        dict(name=c.name, type=type_for(c.type_code))
+        for c in cursor.description
+      ]
+    )
+
+    result = json.dumps(
+      dict(
+        schema=schema,
+        records=records
+      ),
+      cls=DateEncoder
+    )
+
+
+    log.info('getdevicesbyemail_endpoint: result found for useremail %s:  ', result)
+    
+    response = make_response(result)
+    response.headers['content-type'] = "application/json"
+    return response
+
+  except TypeError as e:
+      log.info('getdevicesbyemail_endpoint: TypeError in geting deviceid  %s:  ', useremail)
+      log.info('getdevicesbyemail_endpoint: TypeError in geting deviceid  %s:  ' % str(e))
+
+  except KeyError as e:
+      log.info('getdevicesbyemail_endpoint: KeyError in geting deviceid  %s:  ', useremail)
+      log.info('getdevicesbyemail_endpoint: KeyError in geting deviceid  %s:  ' % str(e))
+      
+  except:
+    e = sys.exc_info()[0]
+    log.info("getdevicesbyemail_endpoint error - deviceid %s", useremail)
+    log.info('getdevicesbyemail_endpoint error: Error in getting prefs %s:  ' % e)
   
   finally:
     db_pool.putconn(conn)    

@@ -256,6 +256,7 @@ $('#tab a').click(function (e) {
 	
 	var index = 0;
 	var gUserID="a91140300971bfb9244989a9bffde53c";
+	var gUserEmail="guest@helmsmart.com";
 	//var gDeviceID="527805749392";
 	var gDeviceID="";
 	var gDeviceKey="";
@@ -309,23 +310,14 @@ $('#tab a').click(function (e) {
 	var myText;
 
 	
-    gUserID = "0";
+
     {% if session['aws_email'] %}
-    gUserID = "{{session['aws_email']}}";
-    {% else %}
-    gUserID = "0";
+		gUserEmail = "{{session['aws_email']}}";
     {% endif %}
 
 
-    if (gUserID == null)
-    {
-    gUserID = "0";
-    }
-    else
-    {
-    getDeviceList(gUserID);
-    //getDeviceParamList(myuserid);
-    }
+    getDeviceList(gUserEmail);
+
 	
 /*
 $('.nav-tabs').bind('change', function (e) {
@@ -470,7 +462,7 @@ function handleUpdateDevice(response)
 
   $.unblockUI();
   
-  getDeviceList(gUserID);
+  getDeviceList(gUserEmail);
   
   }
 
@@ -600,7 +592,7 @@ document.getElementById("DeviceKey").value = myDeviceKey[0];
   
   
   
-function getDeviceList(userid)
+function getDeviceList(useremail)
 {
 
         $.blockUI({ 
@@ -618,7 +610,7 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=values&userid=" + userid;
+    devicedataurl = "https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=" + useremail;
 
     return $.ajax({
     //async: false,
