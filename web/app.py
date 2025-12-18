@@ -603,11 +603,12 @@ def aws_alerts_get_user_data():
     
   userinfo = access_token['userinfo']
   
-  useremail = userinfo['email']
 
   username = userinfo.get('cognito:username', "")
   log.info('manage_details: username %s:  ', username)
-
+  
+  useremail = userinfo.get('email', "")
+  log.info('manage_details: username %s:  ', useremail)
 
   aws_phone = userinfo['phone_number']
 
