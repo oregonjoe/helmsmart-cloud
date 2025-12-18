@@ -663,6 +663,9 @@ function AWSUpdateDevice()
 
 	//LogoutDevice();
 	
+	//window.location.href = "https://<your_user_pool_domain>/oauth2/authorize?..."
+
+	
 	//https://<your_user_pool_domain>/oauth2/authorize?response_type=code&client_id=<your_client_id>&redirect_uri=<your_redirect_uri>&login_hint=<desired_username>
 	//https://us-west-2wecvqzcbs.auth.us-west-2.amazoncognito.com/login?client_id=7brk233gasbns1ee67i86el2c8&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone&redirect_uri=https%3A%2F%2Fwww.helmsmart-cloud.com%2Faws_alerts_get_user_data
 	
@@ -671,10 +674,10 @@ function AWSUpdateDevice()
    const redirectUri = "https://www.helmsmart-cloud.com/aws_alerts_get_user_data"; // e.g., 'http://localhost:3000/logout'
    const cognitoDomain = "https://us-west-2wecvqzcbs.auth.us-west-2.amazoncognito.com";
     
-    window.location.href = "https://www.helmsmart-cloud.com/aws_login"
-	//window.location.href = `${cognitoDomain}/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    //window.location.href = "https://www.helmsmart-cloud.com/aws_login"
+	window.location.href = `${cognitoDomain}/oauth2/authorize?response_type=code&client_id=${clientId}&state=0&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
-	//window.location.href = `${cognitoDomain}/login?response_type=code&client_id=${clientId}&scope=aws.cognito.signin.user.admin+email+openid+phone&redirect_uri=${encodeURIComponent(redirectUri)}`;
+	//window.location.href = `${cognitoDomain}/login?response_type=code&client_id=${clientId}&state=0&scope=aws.cognito.signin.user.admin+email+openid+phone&redirect_uri=${encodeURIComponent(redirectUri)}`;
 	
 }
 
