@@ -697,7 +697,7 @@ def aws_alerts_get_user_data():
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("manage_details: User or User Pool not found.")
     
-  except cognito_client.exceptions.ParamValidationError:
+  except cognito_client.exceptions.InvalidParameterException:
     log.info("manage_details: ParamValidationError")
     e = sys.exc_info()[0]
     log.info('manage_details: Error ParamValidationError in geting adding phone number %s:  ' % str(e))  
