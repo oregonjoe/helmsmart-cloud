@@ -694,13 +694,13 @@ def aws_alerts_get_user_data():
 
   
   
-  """
+  
   if  username != "":
     
     response = cognito_client.admin_user_global_sign_out(
         #UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
         #UserPoolId="us-west-2_znf559qHG",
-        UserPoolId="us-west-2_wECVQzcbs",
+        UserPoolId="us-west-2_KKR4LIvxS",
         Username=username
     )
 
@@ -708,7 +708,7 @@ def aws_alerts_get_user_data():
 
   else:
     response = "No user was selected"
-  """
+  
   """
   try:
     response = cognito_client.admin_update_user_attributes(
