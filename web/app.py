@@ -682,9 +682,14 @@ def aws_alerts_get_user_data():
     log.info('manage_details: Error admin_initiate_auth access_token %s:  ', access_token)  
     #return access_token
 
+  except cognito_client.exceptions.NotAuthorizedException:
+    log.info("manage_details: NotAuthorizedException")
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error NotAuthorizedException in admin_initiate_auth %s:  ' % str(e)) 
+
   except Exception as e:
     log.info('manage_details: Error admin_initiate_auth %s:  ' % str(e))  
-    return None  
+    #return None  
 
 
   
