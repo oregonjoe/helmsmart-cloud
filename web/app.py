@@ -10,6 +10,7 @@ import json
 
 
 #import md5
+import hmac
 import hashlib
 import base64
 from operator import itemgetter
