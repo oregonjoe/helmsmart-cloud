@@ -582,7 +582,7 @@ def aws_cognito_user_added():
 
 
   username = request.args.get('username', "")
-  useremail = request.args.get('useremail', "")
+  useremail = request.args.get('email', "")
   
   log.info('aws_cognito_user_added: username %s:  ', username)
 
