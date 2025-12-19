@@ -673,6 +673,7 @@ def aws_alerts_get_user_data():
         AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
         AuthParameters={
             'USERNAME': username,
+            'PASSWORD': 'Sa!m0n2025'
             # Password may not be required if the user has a confirmed status and you are using a trusted backend.
         }
     )
@@ -693,7 +694,7 @@ def aws_alerts_get_user_data():
 
 
   
-  
+  """  
   
   if  username != "":
     
@@ -708,6 +709,7 @@ def aws_alerts_get_user_data():
 
   else:
     response = "No user was selected"
+  """
   
   """
   try:
