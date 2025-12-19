@@ -660,11 +660,33 @@ def aws_alerts_get_user_data():
   aws_domain = userinfo.get('iss', "")
   log.info('manage_details: aws_domain %s:  ', aws_domain)
 
+  """
   response = cognito_client.get_user(
       AccessToken=access_token
   )
+  """
+  
+  try:
+    response = cognito_client.admin_initiate_auth(
+        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+        ClientId=environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"),
+        AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
+        AuthParameters={
+            'USERNAME': username,
+            # Password may not be required if the user has a confirmed status and you are using a trusted backend.
+        }
+    )
 
-  log.info('manage_details: response get_user %s:  ', response)
+    log.info('manage_details: response get_user %s:  ', response)
+    access_token = response['AuthenticationResult']['AccessToken']
+    log.info('manage_details: Error admin_initiate_auth access_token %s:  ', access_token)  
+    #return access_token
+
+  except Exception as e:
+    log.info('manage_details: Error admin_initiate_auth %s:  ' % str(e))  
+    return None  
+
+
   
   
   """
