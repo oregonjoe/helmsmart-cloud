@@ -675,6 +675,28 @@ def aws_alerts_get_user_data():
   else:
     response = "No user was selected"
   """
+
+  try:
+    response = cognito_client.admin_update_user_attributes(
+        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+        Username=username,
+        UserAttributes=[
+            {
+                'Name': 'phone_number',
+                'Value': 15416612051
+            }
+        ]
+    )
+    
+    log.info("manage_details:Successfully updated phone number for user %s:", username)
+    # Note: The phone number will be unverified by default.
+    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
+
+  except client.exceptions.ResourceNotFoundException:
+    log.info("User or User Pool not found.")
+  except Exception as e:
+    log.info("An error occurred: {e}")
+  
   
   session['aws_userid'] = username
   session['aws_email'] = useremail
