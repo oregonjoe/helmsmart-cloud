@@ -585,11 +585,16 @@ def aws_cognito_user_added():
   useremail = request.args.get('useremail', "")
   
   log.info('aws_cognito_user_added: username %s:  ', username)
-  
+
+   """ 
   return render_template(
+    'adminmanage.html',
     username=username,
     useremail=useremail
   )
+  """
+   
+  return jsonify({'username': username, 'useremail': useremail})
 
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
