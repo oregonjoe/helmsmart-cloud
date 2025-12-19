@@ -575,6 +575,22 @@ def aws_home():
         return 'Welcome! Please <a href="/aws_login">Login</a>.'
 
 
+@app.route('/aws_cognito_user_added')
+def aws_cognito_user_added():
+
+  log.info('aws_cognito_user_added:start  ')  
+
+
+  username = request.args.get('username', "")
+  useremail = request.args.get('useremail', "")
+  
+  log.info('aws_cognito_user_added: username %s:  ', username)
+  
+  return render_template(
+    username=username,
+    useremail=useremail
+  )
+
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
 def aws_alerts_logout():
