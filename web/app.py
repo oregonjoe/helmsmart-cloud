@@ -586,14 +586,13 @@ def aws_cognito_user_added():
   
   log.info('aws_cognito_user_added: username %s:  ', username)
 
-   """ 
+  """ 
   return render_template(
     'adminmanage.html',
     username=username,
     useremail=useremail
   )
   """
-   
   return jsonify({'username': username, 'useremail': useremail})
 
 @app.route('/aws_alerts_logout')
