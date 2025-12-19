@@ -659,6 +659,13 @@ def aws_alerts_get_user_data():
 
   aws_domain = userinfo.get('iss', "")
   log.info('manage_details: aws_domain %s:  ', aws_domain)
+
+  response = cognito_client.get_user(
+      AccessToken=access_token
+  )
+
+  log.info('manage_details: response get_user %s:  ', response)
+  
   
   """
   if  username != "":
