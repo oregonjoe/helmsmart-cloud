@@ -276,10 +276,10 @@ oauth_aws = OAuth(app)
 
 oauth_aws.register(
   name='oidc',
-  authority='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_wECVQzcbs',
-  client_id='7brk233gasbns1ee67i86el2c8',
+  authority=environ.get("AWS_COGNITO_ISSUER_URL"),
+  client_id=environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"),
   client_secret=environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"),
-  server_metadata_url='https://cognito-idp.us-west-2.amazonaws.com/us-west-2_wECVQzcbs/.well-known/openid-configuration',
+  server_metadata_url=environ.get("AWS_COGNITO_ISSUER_URL") + '/.well-known/openid-configuration',
   #max_age=0,
   client_kwargs={'scope': 'phone openid email'}
 )
