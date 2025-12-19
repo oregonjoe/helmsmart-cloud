@@ -687,8 +687,10 @@ def aws_alerts_get_user_data():
             }
         ]
     )
-    
-    log.info("manage_details:Successfully updated phone number for user %s:", username)
+
+    log.info("manage_details:Successfully updated phone number for user %s:", username)   
+    log.info("manage_details:updated phone number response %s:", response)
+
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
 
@@ -696,11 +698,13 @@ def aws_alerts_get_user_data():
     log.info("manage_details: User or User Pool not found.")
     
   except cognito_client.exceptions.ParamValidationError:
-    log.info("manage_details: User or User Pool not found.")
+    log.info("manage_details: ParamValidationError")
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error ParamValidationError in geting adding phone number %s:  ' % str(e))  
+        
+  except AttributeError as e:
+    log.info('manage_details: AttributeError Error in geting adding phone number  ' % str(e))
     
-  except Exception as e:
-    log.info('manage_details: Error in geting adding phone number  ' % str(e))  
-
   except:
     e = sys.exc_info()[0]
     log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
