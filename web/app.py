@@ -380,6 +380,22 @@ class DateEncoder(json.JSONEncoder):
 #def hello_world():
 #    return "<p>Hello, Joe World 4!</p>"
 
+def get_secret_hash(username, client_id, client_secret):
+    """
+    Calculates the SECRET_HASH for AWS Cognito authentication.
+
+    :param username: The username of the user.
+    :param client_id: The App Client ID from the Cognito User Pool.
+    :param client_secret: The App Client Secret from the Cognito User Pool.
+    :return: The Base64-encoded SECRET_HASH.
+    """
+    msg = username + client_id
+    dig = hmac.new(client_secret.encode('utf-8'), 
+                  msg.encode('utf-8'), 
+                  hashlib.sha256).digest()
+    return base64.b64encode(dig).decode('utf-8')
+
+
 def dump_json(schema, records):
   field_pos = list(enumerate(schema.fields[3:]))
   
@@ -665,6 +681,9 @@ def aws_alerts_get_user_data():
       AccessToken=access_token
   )
   """
+
+  # Calculate the hash
+  secret_hash_value = get_secret_hash(username, environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"), environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"))
   
   try:
     response = cognito_client.admin_initiate_auth(
@@ -673,7 +692,7 @@ def aws_alerts_get_user_data():
         AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
         AuthParameters={
             'USERNAME': username,
-            'PASSWORD': 'Sa!m0n2025'
+            'SECRET_HASH': secret_hash_value
             # Password may not be required if the user has a confirmed status and you are using a trusted backend.
         }
     )
