@@ -692,7 +692,7 @@ def aws_alerts_get_user_data():
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
 
-  except client.exceptions.ResourceNotFoundException:
+  except cognito_client.exceptions.ResourceNotFoundException:
     log.info("User or User Pool not found.")
   except Exception as e:
     log.info("An error occurred: {e}")
