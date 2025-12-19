@@ -634,7 +634,12 @@ def aws_alerts_get_user_data():
 
   log.info('manage_details: token %s:  ', access_token)
     
-  userinfo = access_token['userinfo']
+  userinfo = access_token.get('userinfo', "")
+
+  if userinfo == "":
+    log.info('manage_details: token no userinfo present:  ')
+    return redirect(url_for('manage')) 
+    
   
 
   username = userinfo.get('cognito:username', "")
@@ -643,7 +648,7 @@ def aws_alerts_get_user_data():
   useremail = userinfo.get('email', "")
   log.info('manage_details: username %s:  ', useremail)
 
-  aws_phone = userinfo['phone_number']
+  #aws_phone = userinfo['phone_number']
 
   aws_phone = userinfo.get('phone_number', "")
   log.info('manage_details: aws_phone %s:  ', aws_phone)
