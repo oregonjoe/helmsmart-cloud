@@ -743,7 +743,7 @@ def aws_alerts_get_user_data():
     
   try:
     verification_code = '12345'
-    response = cognito_client.verify_user_attribute((
+    response = cognito_client.verify_user_attribute(
             AccessToken=access_token,
             AttributeName='phone_number'.
             Code=verification_code
