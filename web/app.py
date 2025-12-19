@@ -709,7 +709,8 @@ def aws_alerts_get_user_data():
     e = sys.exc_info()[0]
     log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
   """
-
+  log.info("manage_details: Getting verify code")
+  
   try:
     response = cognito_client.get_user_attribute_verification_code(
             AccessToken=access_token,
@@ -726,18 +727,18 @@ def aws_alerts_get_user_data():
     log.info("manage_details: User or User Pool not found.")
     
   except cognito_client.exceptions.InvalidParameterException:
-    log.info("manage_details: ParamValidationError")
+    log.info("manage_details: InvalidParameterException")
     e = sys.exc_info()[0]
-    log.info('manage_details: Error ParamValidationError in geting adding phone number %s:  ' % str(e))  
+    log.info('manage_details: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
         
   except AttributeError as e:
-    log.info('manage_details: AttributeError Error in geting adding phone number  ' % str(e))
+    log.info('manage_details: AttributeError Error in getting verify code  ' % str(e))
     
   except:
     e = sys.exc_info()[0]
-    log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
+    log.info('manage_details: Error in verify in getting verify code %s:  ' % str(e))  
 
-
+    log.info("manage_details: Got verify code")
 
 ############################################################
     
@@ -761,16 +762,18 @@ def aws_alerts_get_user_data():
   except cognito_client.exceptions.ExpiredCodeException:
     log.info("manage_details: Verification code expired.")
     e = sys.exc_info()[0]
-    log.info('manage_details: Error ParamValidationError in geting adding phone number %s:  ' % str(e))  
+    log.info('manage_details: Error ExpiredCodeException in verify phone number %s:  ' % str(e))  
         
   except AttributeError as e:
-    log.info('manage_details: AttributeError Error in geting adding phone number  ' % str(e))
+    log.info('manage_details: AttributeError Error in verify phone number  ' % str(e))
     
   except:
     e = sys.exc_info()[0]
-    log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))
+    log.info('manage_details: Error in verify phone number %s:  ' % str(e))
 
     
+  log.info("manage_details: phone number verified")
+
   
   session['aws_userid'] = username
   session['aws_email'] = useremail
