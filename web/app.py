@@ -675,7 +675,7 @@ def aws_alerts_get_user_data():
   else:
     response = "No user was selected"
   """
-
+  """
   try:
     response = cognito_client.admin_update_user_attributes(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
@@ -708,10 +708,69 @@ def aws_alerts_get_user_data():
   except:
     e = sys.exc_info()[0]
     log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
+  """
+
+  try:
+    response = cognito_client.get_user_attribute_verification_code(
+            AccessToken=access_token,
+            AttributeName='phone_number'
+    )
+
+    log.info("manage_details:Successfully verification code for user %s:", username)   
+    log.info("manage_details:verification code response %s:", response)
+
+    # Note: The phone number will be unverified by default.
+    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
+
+  except cognito_client.exceptions.ResourceNotFoundException:
+    log.info("manage_details: User or User Pool not found.")
     
+  except cognito_client.exceptions.InvalidParameterException:
+    log.info("manage_details: ParamValidationError")
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error ParamValidationError in geting adding phone number %s:  ' % str(e))  
+        
+  except AttributeError as e:
+    log.info('manage_details: AttributeError Error in geting adding phone number  ' % str(e))
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
 
 
 
+############################################################
+    
+  try:
+    verification_code = '12345'
+    response = cognito_client.verify_user_attribute((
+            AccessToken=access_token,
+            AttributeName='phone_number'.
+            Code=verification_code
+    )
+
+    log.info("manage_details:Phone number successfully verified. user %s:", username)   
+    log.info("manage_details:verification code response %s:", response)
+
+    # Note: The phone number will be unverified by default.
+    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
+
+  except cognito_client.exceptions.CodeMismatchException:
+    log.info("manage_details: Invalid verification code provided, please try again..")
+    
+  except cognito_client.exceptions.ExpiredCodeException:
+    log.info("manage_details: Verification code expired.")
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error ParamValidationError in geting adding phone number %s:  ' % str(e))  
+        
+  except AttributeError as e:
+    log.info('manage_details: AttributeError Error in geting adding phone number  ' % str(e))
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))
+
+    
   
   session['aws_userid'] = username
   session['aws_email'] = useremail
