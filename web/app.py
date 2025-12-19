@@ -693,10 +693,17 @@ def aws_alerts_get_user_data():
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
 
   except cognito_client.exceptions.ResourceNotFoundException:
-    log.info("User or User Pool not found.")
+    log.info("manage_details: User or User Pool not found.")
   except Exception as e:
-    log.info("An error occurred: {e}")
-  
+    log.info('manage_details: Error in geting adding phone number  ' % str(e))  
+
+  except:
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
+    
+
+
+
   
   session['aws_userid'] = username
   session['aws_email'] = useremail
