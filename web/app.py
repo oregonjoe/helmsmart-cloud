@@ -683,7 +683,7 @@ def aws_alerts_get_user_data():
         UserAttributes=[
             {
                 'Name': 'phone_number',
-                'Value': 15416612051
+                'Value': '15416612051'
             }
         ]
     )
@@ -694,6 +694,10 @@ def aws_alerts_get_user_data():
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("manage_details: User or User Pool not found.")
+    
+  except cognito_client.exceptions.ParamValidationError:
+    log.info("manage_details: User or User Pool not found.")
+    
   except Exception as e:
     log.info('manage_details: Error in geting adding phone number  ' % str(e))  
 
