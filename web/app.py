@@ -683,7 +683,7 @@ def aws_alerts_get_user_data():
         UserAttributes=[
             {
                 'Name': 'phone_number',
-                'Value': '15416612051'
+                'Value': '+15416612051'
             }
         ]
     )
