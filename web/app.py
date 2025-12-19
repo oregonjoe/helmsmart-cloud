@@ -730,12 +730,7 @@ def aws_alerts_get_user_data():
     log.info("manage_details: InvalidParameterException")
     e = sys.exc_info()[0]
     log.info('manage_details: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
-  """    
-  except cognito_client.exceptions.ParamValidationError:
-    log.info("manage_details: ParamValidationError")
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error ParamValidationError in getting verify code %s:  ' % str(e))  
-  """        
+
   except AttributeError as e:
     log.info('manage_details: AttributeError Error in getting verify code  ' % str(e))
     
@@ -768,13 +763,7 @@ def aws_alerts_get_user_data():
     log.info("manage_details: Verification code expired.")
     e = sys.exc_info()[0]
     log.info('manage_details: Error ExpiredCodeException in verify phone number %s:  ' % str(e))  
-
-  """
-  except cognito_client.exceptions.ParamValidationError:
-    log.info("manage_details: ParamValidationError")
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error ParamValidationError in  verify phone %s:  ' % str(e))  
-  """        
+      
   except AttributeError as e:
     log.info('manage_details: AttributeError Error in verify phone number  ' % str(e))
     
