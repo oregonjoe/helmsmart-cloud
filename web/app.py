@@ -696,10 +696,10 @@ def aws_alerts_get_user_data():
         #AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
         AuthFlow='REFRESH_TOKEN_AUTH', # A simple admin-only flow
         AuthParameters={
-            'REFRESH_TOKEN':refresh_token
+            'REFRESH_TOKEN':refresh_token,
             #'USERNAME': username,
             #'PASSWORD': 'Sa!m0n2025',
-            #'SECRET_HASH': secret_hash_value
+            'SECRET_HASH': secret_hash_value
             # Password may not be required if the user has a confirmed status and you are using a trusted backend.
         }
     )
