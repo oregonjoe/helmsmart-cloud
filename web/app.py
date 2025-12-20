@@ -654,14 +654,35 @@ def aws_alerts_get_user_data():
 
   response = cognito_client.get_user(  AccessToken=access_token  )
 
+
+
   log.info('manage_details: get_user %s:  ', response)
 
+
+  username = response.get('Username', "")
+  log.info('manage_details: username %s:  ', username)
+  
+
   # Extract the email from the UserAttributes list
-  email = None
+  useremail = None
   for attribute in response['UserAttributes']:
       if attribute['Name'] == 'email':
           useremail = attribute['Value']
           break
+
+  log.info('manage_details: useremail %s:  ', useremail)
+
+  # Extract the email from the UserAttributes list
+  aws_phone = None
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'phone_number':
+          aws_phone = attribute['Value']
+          break
+
+  log.info('manage_details: aws_phone %s:  ', aws_phone)
+
+  
+        
   """    
   userinfo = tokens.get('userinfo', "")
 
@@ -853,8 +874,8 @@ def aws_alerts_get_user_data():
   session['aws_userid'] = username
   session['aws_email'] = useremail
   session['aws_phone'] = aws_phone
-  session['aws_clientid'] = aws_clientid
-  session['aws_domain'] = aws_domain
+  session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_ID")
+  session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
   #return redirect(url_for('aws_home'))
   return redirect(url_for('manage'))    
 
