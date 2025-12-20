@@ -598,21 +598,108 @@ def aws_cognito_user_added():
   log.info('aws_cognito_user_added:start  ')  
 
 
-  username = request.args.get('username', "")
+  deviceid = request.args.get('username', '000000000000')
   useremail = request.args.get('email', "")
-  devicename = request.args.get('device', "")
+  devicename = request.args.get('device',  'SeaSmart')
+  status = 1
   
   log.info('aws_cognito_user_added: username %s useremail %s devicename %s:  ', username, useremail, devicename)
 
   #http://www.helmsmart-cloud.com/addnewdevice?deviceid=ECE33401D7DC&useremail=joe@chetcodigital.com&name=SGG4ENET-D7DC
-  """ 
-  return render_template(
-    'adminmanage.html',
-    username=username,
-    useremail=useremail
-  )
-  """
-  return jsonify({'username': username, 'useremail': useremail})
+  conn = db_pool.getconn()
+
+
+  userid=hash_string(useremail)
+  log.info("aws_cognito_user_added- userid %s", userid)
+  #deviceapikey=hash_string(userid+deviceid+"083019")
+  deviceapikey=hash_string(userid+deviceid+"013024")
+  log.info("aws_cognito_user_added - deviceapikey %s", deviceapikey)
+  
+  try:
+    
+    query  = "select userid from user_devices where useremail = %s"
+    cursor = conn.cursor()
+
+    cursor = conn.cursor()
+    cursor.execute(query, ( useremail,))
+    i = cursor.fetchone()       
+
+    #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
+    if cursor.rowcount == 0:
+      log.info("aws_cognito_user_added - userid does not exist so adding userid and deviceapikey", deviceapikey)
+      userstatus = "user does not exist - adding"
+      
+      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename) Values (%s, %s, %s, %s, %s, %s)"
+
+      # add new device record to DB
+      cursor = conn.cursor()
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, status,  devicename))
+
+      conn.commit()
+        
+      if cursor.rowcount == 0:
+        userstatus = " Could not add user deviceid " + str(deviceid)
+        return jsonify( message='Could not add device', status='error')
+      
+      userstatus = "new userid and deviceapikey added"
+      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+
+    #userid exists so look up if deviceapikey has already been added
+    else:
+      userid= str(i[0])
+      log.info("aws_cognito_user_added Device status userid  %s  exists", userid )
+
+      query  = "select deviceapikey from user_devices where userid = %s and deviceid = %s"
+      cursor = conn.cursor()
+
+      cursor = conn.cursor()
+      cursor.execute(query, ( userid, deviceid))
+      i = cursor.fetchone()       
+
+      #no existing deviceapikey so add new one 
+      if cursor.rowcount == 0:
+      
+        log.info("aws_cognito_user_added - udeviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
+        userstatus = "deviceapikey does not exist - adding"
+        
+        query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename) Values (%s, %s, %s, %s, %s, %s)"
+
+        # add new device record to DB
+        cursor = conn.cursor()
+        cursor.execute(query, (deviceapikey, userid, useremail, deviceid, status,  devicename))
+
+        conn.commit()
+          
+        if cursor.rowcount == 0:
+          userstatus = " Could not add user deviceid " + str(deviceid)
+          return jsonify( message='Could not add device', status='error')
+        
+        userstatus = "deviceapikey new deviceapikey added"
+        return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )     
+
+      #deviceapikey already exists so just return it
+      else:
+        deviceapikey= str(i[0])
+        log.info("Add aws_cognito_user_added status - deviceapikey already exixts %s", deviceapikey)
+        userstatus = "user deviceid " + str(deviceid) + " already exists"
+        
+        return jsonify( message='user deviceidapikey already exists' , deviceapikey=deviceapikey, userstatus = userstatus )
+
+  except TypeError as e:
+    log.info("aws_cognito_user_added Device error -:TypeError deviceid %s ", deviceid)
+    log.info('aws_cognito_user_added Device error -:TypeError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("aws_cognito_user_added Device error - Error in adding device %s", deviceid)
+    log.info('aws_cognito_user_added Device error: Error in adding device %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+  
+  finally:
+    db_pool.putconn(conn)
+    
+  #return jsonify({'username': username, 'useremail': useremail})
 
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
