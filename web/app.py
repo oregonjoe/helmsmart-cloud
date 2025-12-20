@@ -651,7 +651,7 @@ def aws_alerts_get_user_data():
   #tokens = oauth_aws.oidc.authorize_access_token()
 
   #log.info('manage_details: token %s:  ', tokens)
-    
+  """    
   userinfo = tokens.get('userinfo', "")
 
   if userinfo == "":
@@ -680,6 +680,7 @@ def aws_alerts_get_user_data():
   aws_domain = userinfo.get('iss', "")
   log.info('manage_details: aws_domain %s:  ', aws_domain)
 
+  """
   """
   response = cognito_client.get_user(
       AccessToken=access_token
@@ -780,7 +781,7 @@ def aws_alerts_get_user_data():
             AttributeName='phone_number'
     )
 
-    log.info("manage_details:Successfully verification code for user %s:", username)   
+    #log.info("manage_details:Successfully verification code for user %s:", username)   
     log.info("manage_details:verification code response %s:", response)
 
     # Note: The phone number will be unverified by default.
@@ -813,7 +814,7 @@ def aws_alerts_get_user_data():
             Code=verification_code
     )
 
-    log.info("manage_details:Phone number successfully verified. user %s:", username)   
+    #log.info("manage_details:Phone number successfully verified. user %s:", username)   
     log.info("manage_details:verification code response %s:", response)
 
     # Note: The phone number will be unverified by default.
