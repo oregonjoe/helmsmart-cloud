@@ -657,9 +657,9 @@ def aws_alerts_get_user_data():
     log.info('manage_details: token no userinfo present:  ')
     return redirect(url_for('manage')) 
     
-  access_token = tokens.get('access_token', "")
+  refresh_token = tokens.get('refresh_token', "")
 
-  log.info('manage_details: token %s:  ', access_token) 
+  log.info('manage_details: refresh_token %s:  ', refresh_token) 
 
   username = userinfo.get('cognito:username', "")
   log.info('manage_details: username %s:  ', username)
@@ -685,7 +685,7 @@ def aws_alerts_get_user_data():
   )
   """
 
-  """
+  
   # Calculate the hash
   secret_hash_value = get_secret_hash(username, environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"), environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"))
   
@@ -693,11 +693,13 @@ def aws_alerts_get_user_data():
     response = cognito_client.admin_initiate_auth(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
         ClientId=environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"),
-        AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
+        #AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
+        AuthFlow='REFRESH_TOKEN_AUTH', # A simple admin-only flow
         AuthParameters={
-            'USERNAME': username,
-            'PASSWORD': 'Sa!m0n2025',
-            'SECRET_HASH': secret_hash_value
+            'REFRESH_TOKEN':refresh_token
+            #'USERNAME': username,
+            #'PASSWORD': 'Sa!m0n2025',
+            #'SECRET_HASH': secret_hash_value
             # Password may not be required if the user has a confirmed status and you are using a trusted backend.
         }
     )
@@ -716,7 +718,7 @@ def aws_alerts_get_user_data():
     log.info('manage_details: Error admin_initiate_auth %s:  ' % str(e))  
     #return None  
 
-  """
+  
   
   """  
   
