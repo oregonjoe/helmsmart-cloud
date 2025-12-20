@@ -600,9 +600,11 @@ def aws_cognito_user_added():
 
   username = request.args.get('username', "")
   useremail = request.args.get('email', "")
+  devicename = request.args.get('device', "")
   
-  log.info('aws_cognito_user_added: username %s:  ', username)
+  log.info('aws_cognito_user_added: username %s useremail %s devicename %s:  ', username, useremail, devicename)
 
+  #http://www.helmsmart-cloud.com/addnewdevice?deviceid=ECE33401D7DC&useremail=joe@chetcodigital.com&name=SGG4ENET-D7DC
   """ 
   return render_template(
     'adminmanage.html',
