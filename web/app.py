@@ -831,6 +831,7 @@ def aws_alerts_get_user_data():
     e = sys.exc_info()[0]
     log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
   """
+  """
   log.info("manage_details: Getting verify code")
   
   try:
@@ -861,7 +862,7 @@ def aws_alerts_get_user_data():
     log.info('manage_details: Error in verify in getting verify code %s:  ' % str(e))  
 
     log.info("manage_details: Got verify code")
-
+    """
 ############################################################
     
   try:
