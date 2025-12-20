@@ -603,7 +603,7 @@ def aws_cognito_user_added():
   devicename = request.args.get('device',  'SeaSmart')
   status = 1
   
-  log.info('aws_cognito_user_added: username %s useremail %s devicename %s:  ', username, useremail, devicename)
+  log.info('aws_cognito_user_added: deviceid %s useremail %s devicename %s:  ', deviceid, useremail, devicename)
 
   #http://www.helmsmart-cloud.com/addnewdevice?deviceid=ECE33401D7DC&useremail=joe@chetcodigital.com&name=SGG4ENET-D7DC
   conn = db_pool.getconn()
