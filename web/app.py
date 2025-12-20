@@ -637,7 +637,7 @@ def aws_alerts_logout():
 #@cognito_login_callback
 def aws_alerts_get_user_data():
   
-  #log.info('manage_details: request.args %s:  ', request.args)
+  log.info('manage_details: request.args %s:  ', request.args)
   log.info('manage_details: session %s:  ', session)
   
   #access_token = aws_auth.get_access_token(request.args)
