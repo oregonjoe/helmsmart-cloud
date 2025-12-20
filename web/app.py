@@ -681,6 +681,32 @@ def aws_alerts_get_user_data():
 
   log.info('manage_details: aws_phone %s:  ', aws_phone)
 
+  # Extract the email from the UserAttributes list
+  aws_name = None
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'name':
+          aws_name = attribute['Value']
+          break
+
+  log.info('manage_details: aws_phone %s:  ', aws_name)
+
+  # Extract the email from the UserAttributes list
+  aws_email_verified = 'false'
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'email_verified':
+          aws_email_verified = attribute['Value']
+          break
+
+  log.info('manage_details: aws_email_verified %s:  ', aws_email_verified)
+
+  # Extract the email from the UserAttributes list
+  aws_phone_verified = 'false'
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'phone_number_verified':
+          aws_email_verified = attribute['Value']
+          break
+
+  log.info('manage_details: aws_email_verified %s:  ', aws_phone_verified)
   
         
   """    
@@ -874,6 +900,11 @@ def aws_alerts_get_user_data():
   session['aws_userid'] = username
   session['aws_email'] = useremail
   session['aws_phone'] = aws_phone
+  session['aws_name'] = aws_name
+  session['aws_email_verified'] = aws_email_verified
+  session['aws_phone_verified'] = aws_phone_verified
+
+  
   session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_ID")
   session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
   #return redirect(url_for('aws_home'))
