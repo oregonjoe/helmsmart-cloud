@@ -647,17 +647,19 @@ def aws_alerts_get_user_data():
   #access_token = tokens.get("access_token")
   #user_info = access_token.get("user_info")
 
-  access_token = oauth_aws.oidc.authorize_access_token()
+  tokens = oauth_aws.oidc.authorize_access_token()
 
-  log.info('manage_details: token %s:  ', access_token)
+  log.info('manage_details: token %s:  ', tokens)
     
-  userinfo = access_token.get('userinfo', "")
+  userinfo = tokens.get('userinfo', "")
 
   if userinfo == "":
     log.info('manage_details: token no userinfo present:  ')
     return redirect(url_for('manage')) 
     
-  
+  access_token = tokens.get('access_token', "")
+
+  log.info('manage_details: token %s:  ', access_token) 
 
   username = userinfo.get('cognito:username', "")
   log.info('manage_details: username %s:  ', username)
@@ -683,6 +685,7 @@ def aws_alerts_get_user_data():
   )
   """
 
+  """
   # Calculate the hash
   secret_hash_value = get_secret_hash(username, environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"), environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"))
   
@@ -713,7 +716,7 @@ def aws_alerts_get_user_data():
     log.info('manage_details: Error admin_initiate_auth %s:  ' % str(e))  
     #return None  
 
-
+  """
   
   """  
   
