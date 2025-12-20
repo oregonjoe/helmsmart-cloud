@@ -651,6 +651,17 @@ def aws_alerts_get_user_data():
   #tokens = oauth_aws.oidc.authorize_access_token()
 
   #log.info('manage_details: token %s:  ', tokens)
+
+  response = cognito_client.get_user(  AccessToken=access_token  )
+
+  log.info('manage_details: get_user %s:  ', response)
+
+  # Extract the email from the UserAttributes list
+  email = None
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'email':
+          useremail = attribute['Value']
+          break
   """    
   userinfo = tokens.get('userinfo', "")
 
