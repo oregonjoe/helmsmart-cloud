@@ -648,9 +648,9 @@ def aws_alerts_get_user_data():
   #access_token = tokens.get("access_token")
   #user_info = access_token.get("user_info")
 
-  tokens = oauth_aws.oidc.authorize_access_token()
+  #tokens = oauth_aws.oidc.authorize_access_token()
 
-  log.info('manage_details: token %s:  ', tokens)
+  #log.info('manage_details: token %s:  ', tokens)
     
   userinfo = tokens.get('userinfo', "")
 
