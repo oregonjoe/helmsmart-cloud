@@ -686,7 +686,7 @@ def aws_alerts_get_user_data():
   )
   """
 
-  
+  """  
   # Calculate the hash
   secret_hash_value = get_secret_hash(username, environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"), environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"))
   
@@ -719,7 +719,7 @@ def aws_alerts_get_user_data():
     log.info('manage_details: Error admin_initiate_auth %s:  ' % str(e))  
     #return None  
 
-  
+  """  
   
   """  
   
