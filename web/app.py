@@ -703,7 +703,7 @@ def aws_alerts_get_user_data():
   aws_phone_verified = 'false'
   for attribute in response['UserAttributes']:
       if attribute['Name'] == 'phone_number_verified':
-          aws_email_verified = attribute['Value']
+          aws_phone_verified = attribute['Value']
           break
 
   log.info('manage_details: aws_email_verified %s:  ', aws_phone_verified)
@@ -865,7 +865,7 @@ def aws_alerts_get_user_data():
 ############################################################
     
   try:
-    verification_code = '12345'
+    verification_code = '775872'
     response = cognito_client.verify_user_attribute(
             AccessToken=access_token,
             AttributeName='phone_number',
