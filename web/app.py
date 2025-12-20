@@ -693,12 +693,12 @@ def aws_alerts_get_user_data():
     response = cognito_client.admin_initiate_auth(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
         ClientId=environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"),
-        #AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
-        AuthFlow='REFRESH_TOKEN_AUTH', # A simple admin-only flow
+        AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
+        #AuthFlow='REFRESH_TOKEN_AUTH', # A simple admin-only flow
         AuthParameters={
-            'REFRESH_TOKEN':refresh_token,
-            #'USERNAME': username,
-            #'PASSWORD': 'Sa!m0n2025',
+            #'REFRESH_TOKEN':refresh_token,
+            'USERNAME': username,
+            'PASSWORD': 'Sa!m0n2025',
             'SECRET_HASH': secret_hash_value
             # Password may not be required if the user has a confirmed status and you are using a trusted backend.
         }
