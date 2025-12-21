@@ -634,17 +634,17 @@ def aws_cognito_user_added():
   
   try:
     
-    query  = "select userid from user_devices where useremail = %s"
+    query  = "select deviceapikey from user_devices where useremail = %s and deviceid = %s"
     cursor = conn.cursor()
 
     cursor = conn.cursor()
-    cursor.execute(query, ( useremail,))
+    cursor.execute(query, ( useremail, deviceid))
     i = cursor.fetchone()       
 
     #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
     if cursor.rowcount == 0:
-      log.info("aws_cognito_user_added - userid does not exist so adding userid and deviceapikey", deviceapikey)
-      userstatus = "user does not exist - adding"
+      log.info("aws_cognito_user_added - deviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
+      userstatus = "dvice does not exist - adding"
       
       query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber) Values (%s, %s, %s, %s, %s, %s, %s, %s)"
 
@@ -663,8 +663,13 @@ def aws_cognito_user_added():
       userstatus = "new userid and deviceapikey added"
       return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
 
-
-
+    #userid exists so look up if deviceapikey has already been added
+    else:
+      userid= str(i[0])
+      log.info("Add Device status userid  %s  already exists", userid )
+      userstatus = "user already exists"
+      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+    
   except TypeError as e:
     log.info("aws_cognito_user_added Device error -:TypeError deviceid %s ", deviceid)
     log.info('aws_cognito_user_added Device error -:TypeError  Error %s:  ' % e)
