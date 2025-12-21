@@ -722,6 +722,86 @@ def aws_alerts_logout():
   return response
   #return redirect(url_for('manage'))  
 
+@app.route('/aws_delete_user')
+def aws_delete_user():
+
+  log.info('aws_delete_user: started')
+
+  returncode="ERROR"
+  
+  deviceapikey = request.args.get('deviceapikey',"")
+  #useremail = request.args.get('useremail', '')
+  deviceid = request.args.get('deviceid', "")
+  #devicename = request.args.get('name', '')
+
+  log.info('aws_delete_user: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
+
+  if deviceapikey == "" or deviceid == "":
+    return jsonify( message='aws_delete_user', status='error')     
+
+  try:
+    
+    response = cognito_client.admin_delete_user(
+        UserPoolId=UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+        Username=deviceid
+    )
+
+
+    log.info("aws_delete_user:admin_delete_user response %s:", response)
+
+  except cognito_client.exceptions.ResourceNotFoundException:
+    log.info("aws_delete_user: User or User Pool not found.")
+    return jsonify( message='aws_delete_user', status='error')  
+
+  except cognito_client.exceptions.InvalidParameterException:
+    log.info("aws_delete_user: InvalidParameterException")
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error InvalidParameterException in getting verify code %s:  ' % str(e))
+    return jsonify( message='aws_delete_user', status='error')  
+
+  except AttributeError as e:
+    log.info('aws_delete_user: AttributeError Error in getting verify code  ' % str(e))
+    return jsonify( message='aws_delete_user', status='error')  
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_delete_user: Error in verify in getting verify code %s:  ' % str(e))  
+    return jsonify( message='aws_delete_user', status='error')  
+
+    log.info("aws_delete_user: AWS user deleted")
+
+
+
+  conn = db_pool.getconn()
+ 
+  query  = "delete from user_devices where deviceapikey = %s AND deviceid = %s  "
+  
+  try:
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, (deviceapikey, deviceid))
+
+    conn.commit()
+    #i = cursor.fetchone()
+    # if not then just exit
+    #if cursor.rowcount == 0:
+      
+    if cursor.rowcount == 0:
+          return jsonify( message='aws_delete_user Could not delete device', status='error')      
+    else:
+          return jsonify( message='aws_delete_user deleted', status='success') 
+  
+   except:
+    e = sys.exc_info()[0]
+    log.info('aws_delete_user : Error db delete %s:  ' % e)
+    return jsonify( message='aws_delete_user', status='error')     
+
+  finally:
+    db_pool.putconn(conn)   
+
+  return jsonify( message='aws_delete_user', status='error')     
+
+
 @app.route('/aws_alerts_get_user_data')
 #@cognito_login_callback
 def aws_alerts_get_user_data():
@@ -952,8 +1032,10 @@ def aws_alerts_get_user_data():
 
     log.info("manage_details: Got verify code")
     """
+
+  
 ############################################################
-    
+  """
   try:
     verification_code = '775872'
     response = cognito_client.verify_user_attribute(
@@ -985,7 +1067,7 @@ def aws_alerts_get_user_data():
 
     
   log.info("manage_details: phone number verified")
-
+  """
   
   session['aws_userid'] = username
   session['aws_email'] = useremail
