@@ -742,7 +742,7 @@ def aws_delete_user():
   try:
     
     response = cognito_client.admin_delete_user(
-        UserPoolId=UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
         Username=deviceid
     )
 
