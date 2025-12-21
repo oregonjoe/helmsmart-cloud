@@ -217,7 +217,7 @@ $('#tab a').click(function (e) {
 	<!-- <li><a href="#tabLive" role="tab" data-toggle="tab">Live</a></li> -->
 
 	<li><a href="#tabBasicSettings" role="tab" data-toggle="tab">Summary</a></li>
-	<!-- <li><a href="#tabModify" role="tab" data-toggle="tab">Modify</a></li> -->
+	<li><a href="#tabModify" role="tab" data-toggle="tab">Modify</a></li> 
 	<!--	<li><a href="#tabEvents" role="tab" data-toggle="tab">Events</a></li> -->
 	<!--	<li><a href="#tabTriggers" role="tab" data-toggle="tab">Triggers</a></li> -->
 	<!--	<li><a href="#tabGeoFence" role="tab" data-toggle="tab">GeoFence</a></li> -->
@@ -287,9 +287,10 @@ $('#tab a').click(function (e) {
 	var gAWSDomain = "";
 	var gAWSClientID = "";
 	var gAWSUsername = "";
+	var gAWSPhone="";
 	
-	gAWSEmailVerified = false;
-	gAWSPhoneVerified = false;
+	gAWSEmailVerified = "false";
+	gAWSPhoneVerified = "false";
 	
 	
 	var pagetype=2;
@@ -349,6 +350,10 @@ $('#tab a').click(function (e) {
 
     {% if session['aws_email'] %}
 		gUserEmail = "{{session['aws_email']}}";
+    {% endif %}
+	
+	{% if session['aws_email'] %}
+		gAWSPhone = "{{session['aws_phone']}}";
     {% endif %}
 	
 	{% if session['aws_email_verified'] %}
@@ -487,12 +492,12 @@ function modifyData(index)
    document.getElementById("AlertSMS").value = myAlertSMS[index];
 
   
-   		if(gAWSPhoneVerified == false)
+   		if(gAWSPhoneVerified == "false")
 		{
 			document.getElementById("AlertSMS").style.color = "red";
 		}
 			
-      	if(gAWSEmailVerified == false)
+      	if(gAWSEmailVerified == "false")
 		{
 			document.getElementById("AlertEmail").style.color = "red";
 		}
@@ -592,7 +597,7 @@ var table = document.getElementById("DeviceData");
 		cell2.innerHTML = row[7];
 		cell2.style.textAlign = 'left';
 		cell2.style.width = '150px';
-		if(gAWSEmailVerified == true)
+		if(gAWSEmailVerified == "true")
 			cell2.style.color = red;
 		
 		// Alert SMS
@@ -600,7 +605,7 @@ var table = document.getElementById("DeviceData");
 		cell3.innerHTML = row[8];
 		cell3.style.textAlign = 'left';
 		cell3.style.width = '150px';
-		if(gAWSPhoneVerified == true)
+		if(gAWSPhoneVerified == "true")
 			cell3.style.color = red;
 		
 			// Device API Count
