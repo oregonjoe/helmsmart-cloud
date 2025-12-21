@@ -489,7 +489,8 @@ if (answer) {
 	var newSMSnumber = prompt("Please enter your SMS phone number:", document.getElementById("AlertSMS").value);
 	if (newSMSnumber != null && newSMSnumber != "") {
 	
-	
+		const regex = /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+		var validatedSMSnumber =  regex.test(newSMSnumber);
 		// Code to run with the user's input
 	}
 
