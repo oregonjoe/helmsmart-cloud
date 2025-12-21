@@ -599,12 +599,27 @@ def aws_cognito_user_added():
 
 
   deviceid = request.args.get('username', '000000000000')
+  deviceid = deviceid.upper()
   useremail = request.args.get('email', "")
+  useremailverified = request.args.get('emailverified', "")
+  userphone = request.args.get('phone', "")
+  userphoneverified = request.args.get('phoneverified', "")
   devicename = request.args.get('device',  'SeaSmart')
   status = 1
-  
-  log.info('aws_cognito_user_added: deviceid %s useremail %s devicename %s:  ', deviceid, useremail, devicename)
 
+  log.info('aws_cognito_user_added: deviceid %s  devicename %s:  ', deviceid, devicename)
+  log.info('aws_cognito_user_added: useremail %s useremailverified %s:  ', useremail, useremailverified)
+  log.info('aws_cognito_user_added: userphone %s userphoneverified %s:  ', userphone, userphoneverified)
+
+  smsemail = None
+  if useremailverified == "true":
+    smsemail = useremail
+
+  smsphone = None
+  if userphoneverified == "true":
+    smsphone = userphone
+
+  
   #http://www.helmsmart-cloud.com/addnewdevice?deviceid=ECE33401D7DC&useremail=joe@chetcodigital.com&name=SGG4ENET-D7DC
   conn = db_pool.getconn()
 
@@ -629,11 +644,11 @@ def aws_cognito_user_added():
       log.info("aws_cognito_user_added - userid does not exist so adding userid and deviceapikey", deviceapikey)
       userstatus = "user does not exist - adding"
       
-      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename) Values (%s, %s, %s, %s, %s, %s)"
+      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber) Values (%s, %s, %s, %s, %s, %s, %s, %s)"
 
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, status,  devicename))
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, status,  devicename, smsemail, smsphone))
 
       conn.commit()
         
