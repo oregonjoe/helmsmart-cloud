@@ -764,8 +764,11 @@ def aws_delete_device():
 
     log.info("aws_delete_device:admin_delete_user response %s:", response)
 
-    HTTPstatus = response.status_code
+    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
     log.info("aws_delete_device:admin_delete_user HTTPstatus %s:", HTTPstatus)
+
+    if HTTPstatus != 200:
+      return jsonify( message='aws_delete_user admin_delete_user', status='error') 
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_delete_device: User or User Pool not found.")
