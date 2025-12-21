@@ -41,6 +41,12 @@
 		.tab-content {
 			margin-top: 15px;
 		}
+		
+		.row-disabled {
+			  background-color: #e0e0e0; /* Gray out the row for visual feedback */
+			  pointer-events: none; /* Prevents all mouse events */
+			  opacity: 0.6; /* Optional: adds a faded look */
+}
 	</style>
 
 </head> 
@@ -278,7 +284,7 @@ $('#tab a').click(function (e) {
 	
 	var gAWSDomain = "";
 	var gAWSClientID = "";
-	
+	var gAWSUsername = "";
 	
 	
 	var pagetype=2;
@@ -332,11 +338,15 @@ $('#tab a').click(function (e) {
 	{% endif %}
 		
 
+    {% if session['aws_userid'] %}
+		gAWSUsername = "{{session['aws_userid']}}";
+    {% endif %}
+
     {% if session['aws_email'] %}
 		gUserEmail = "{{session['aws_email']}}";
     {% endif %}
-
-
+	
+	
     getDeviceList(gUserEmail);
 
 	
@@ -593,16 +603,31 @@ var table = document.getElementById("DeviceData");
 		cell6.style.textAlign = 'left';
 		cell6.style.width = '150px';
 		
+		//disable row
+		if(	myDeviceID[index] != gAWSUsername )
+		{
+			rowElement.classList.add('row-disabled');
+		}
 		
 		index++;
+		
+		
 
   });
 
+  
+  //gAWSUsername
+  
+  
+  
 document.getElementById("DeviceKey").value = myDeviceKey[0];
 	document.getElementById("DeviceTypeID").value = myDeviceID[0];
      document.getElementById("DeviceName").value = myDeviceName[0];
   document.getElementById("AlertEmail").value = myAlertEmail[0];
    document.getElementById("AlertSMS").value = myAlertSMS[0];
+   
+   
+   
     
 }
 
