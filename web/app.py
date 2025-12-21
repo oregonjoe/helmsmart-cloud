@@ -791,7 +791,7 @@ def aws_delete_user():
     else:
           return jsonify( message='aws_delete_user deleted', status='success') 
   
-   except:
+  except:
     e = sys.exc_info()[0]
     log.info('aws_delete_user : Error db delete %s:  ' % e)
     return jsonify( message='aws_delete_user', status='error')     
