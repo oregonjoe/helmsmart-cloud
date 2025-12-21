@@ -636,7 +636,7 @@ var table = document.getElementById("DeviceData");
 		cell6.style.width = '150px';
 		
 		//disable row
-		if(	myDeviceID[index] != gAWSUsername )
+		if(	myDeviceID[index].toUpperCase() != gAWSUsername.toUpperCase() )
 		{
 			ssrow.classList.add('row-disabled');
 		}
