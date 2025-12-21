@@ -479,6 +479,23 @@ Date.prototype.yyyymmdd = function() {
         return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]) + ' ' + hh + ':' + Min;
    };
 	  
+function updateSMS()
+{
+
+var answer = confirm("Do you want to update you SMS phone number?");
+
+if (answer) {
+
+	var newSMSnumber = prompt("Please enter your SMS phone number:", document.getElementById("AlertSMS").value);
+	if (newSMSnumber != null && newSMSnumber != "") {
+	
+	
+		// Code to run with the user's input
+	}
+
+}
+
+}
 
 function modifyData(index)
 {
@@ -1046,7 +1063,7 @@ var dIndex=0;
 			<div class="form-group">	
 			 <label class="control-label col-sm-2" for="AlertSMS">Alert SMS</label> 
 			 <div class="col-sm-8"> 
-			<input type="text" class="form-control text-box single-line"  type="tel" id="AlertSMS" placeholder="" style="width:300px;">
+			<input type="text" class="form-control text-box single-line"  type="tel" id="AlertSMS" placeholder="" style="width:300px;" onclick="updateSMS();>
 			<span class="field-validation-valid text-danger" data-valmsg-for="AlertSMS" data-valmsg-replace="true"></span>
 	
 			</div>
