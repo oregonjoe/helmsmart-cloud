@@ -733,7 +733,7 @@ function AWSDeleteDevice(index)
 	
 	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/awsdeletedevice?deviveapikey=" + myDeviceKey[index] + "&devicid=" + myDeviceID[index];
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_delete_device?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index];
 	//devicedataurl = "https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=joe@seagauge.com";
 
     return $.ajax({

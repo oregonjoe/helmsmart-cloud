@@ -722,10 +722,10 @@ def aws_alerts_logout():
   return response
   #return redirect(url_for('manage'))  
 
-@app.route('/aws_delete_user')
-def aws_delete_user():
+@app.route('/aws_delete_device')
+def aws_delete_device():
 
-  log.info('aws_delete_user: started')
+  log.info('aws_delete_device: started')
 
   returncode="ERROR"
   
@@ -734,7 +734,7 @@ def aws_delete_user():
   deviceid = request.args.get('deviceid', "")
   #devicename = request.args.get('name', '')
 
-  log.info('aws_delete_user: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
+  log.info('aws_delete_device: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
 
   if deviceapikey == "" or deviceid == "":
     return jsonify( message='aws_delete_user', status='error')     
@@ -747,28 +747,28 @@ def aws_delete_user():
     )
 
 
-    log.info("aws_delete_user:admin_delete_user response %s:", response)
+    log.info("aws_delete_device:admin_delete_user response %s:", response)
 
   except cognito_client.exceptions.ResourceNotFoundException:
-    log.info("aws_delete_user: User or User Pool not found.")
+    log.info("aws_delete_device: User or User Pool not found.")
     return jsonify( message='aws_delete_user', status='error')  
 
   except cognito_client.exceptions.InvalidParameterException:
-    log.info("aws_delete_user: InvalidParameterException")
+    log.info("aws_delete_device: InvalidParameterException")
     e = sys.exc_info()[0]
     log.info('manage_details: Error InvalidParameterException in getting verify code %s:  ' % str(e))
     return jsonify( message='aws_delete_user', status='error')  
 
   except AttributeError as e:
-    log.info('aws_delete_user: AttributeError Error in getting verify code  ' % str(e))
+    log.info('aws_delete_device: AttributeError Error in getting verify code  ' % str(e))
     return jsonify( message='aws_delete_user', status='error')  
     
   except:
     e = sys.exc_info()[0]
-    log.info('aws_delete_user: Error in verify in getting verify code %s:  ' % str(e))  
+    log.info('aws_delete_device: Error in verify in getting verify code %s:  ' % str(e))  
     return jsonify( message='aws_delete_user', status='error')  
 
-    log.info("aws_delete_user: AWS user deleted")
+    log.info("aws_delete_device: AWS user deleted")
 
 
 
@@ -787,19 +787,19 @@ def aws_delete_user():
     #if cursor.rowcount == 0:
       
     if cursor.rowcount == 0:
-          return jsonify( message='aws_delete_user Could not delete device', status='error')      
+          return jsonify( message='aws_delete_device Could not delete device', status='error')      
     else:
-          return jsonify( message='aws_delete_user deleted', status='success') 
+          return jsonify( message='aws_delete_device deleted', status='success') 
   
   except:
     e = sys.exc_info()[0]
     log.info('aws_delete_user : Error db delete %s:  ' % e)
-    return jsonify( message='aws_delete_user', status='error')     
+    return jsonify( message='aws_delete_device', status='error')     
 
   finally:
     db_pool.putconn(conn)   
 
-  return jsonify( message='aws_delete_user', status='error')     
+  return jsonify( message='aws_delete_device', status='error')     
 
 
 @app.route('/aws_alerts_get_user_data')
