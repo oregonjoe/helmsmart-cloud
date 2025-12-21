@@ -288,6 +288,9 @@ $('#tab a').click(function (e) {
 	var gAWSClientID = "";
 	var gAWSUsername = "";
 	
+	gAWSEmailVerified = false;
+	gAWSPhoneVerified = false;
+	
 	
 	var pagetype=2;
 	
@@ -348,6 +351,16 @@ $('#tab a').click(function (e) {
 		gUserEmail = "{{session['aws_email']}}";
     {% endif %}
 	
+	{% if session['aws_email_verified'] %}
+		gAWSEmailVerified = "{{session['aws_email_verified']}}";
+    {% endif %}
+
+    {% if session['aws_phone_verified'] %}
+		gAWSPhoneVerified = "{{sessionaws_phone_verifiedaws_email']}}";
+    {% endif %}
+	
+	
+
 	
     getDeviceList(gUserEmail);
 
@@ -473,7 +486,16 @@ function modifyData(index)
   document.getElementById("AlertEmail").value = myAlertEmail[index];
    document.getElementById("AlertSMS").value = myAlertSMS[index];
 
-   
+  
+   		if(gAWSPhoneVerified == false)
+		{
+			document.getElementById("AlertSMS").style.color = "red";
+		}
+			
+      	if(gAWSEmailVerified == false)
+		{
+			document.getElementById("AlertEmail").style.color = "red";
+		}
    
    $('.nav-tabs a[href="#tabModify"]').tab('show');
 
@@ -570,14 +592,16 @@ var table = document.getElementById("DeviceData");
 		cell2.innerHTML = row[7];
 		cell2.style.textAlign = 'left';
 		cell2.style.width = '150px';
-		
+		if(gAWSEmailVerified == true)
+			cell2.style.color = red;
 		
 		// Alert SMS
 		var cell3 = ssrow.insertCell(3);
 		cell3.innerHTML = row[8];
 		cell3.style.textAlign = 'left';
 		cell3.style.width = '150px';
-		
+		if(gAWSPhoneVerified == true)
+			cell3.style.color = red;
 		
 			// Device API Count
 		var cell4 = ssrow.insertCell(4);
@@ -706,6 +730,14 @@ function handleDeleteDevice(response)
 
 function AWSDeleteDevice(index)
 {
+
+// The confirm() method pauses script execution until a button is clicked
+  let isConfirmed = confirm("Are you sure you want to delete device? Click OK or Cancel.");
+
+  if (!isConfirmed) {
+    return;
+  } 
+
 
         $.blockUI({ 
      message: '<h1>Search in progress...</h1>',    
