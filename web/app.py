@@ -1070,6 +1070,8 @@ def aws_alerts_get_user_data():
   
   session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_ID")
   session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
+  session['aws_access_token'] = access_token
+  
   #return redirect(url_for('aws_home'))
   return redirect(url_for('manage'))    
 
