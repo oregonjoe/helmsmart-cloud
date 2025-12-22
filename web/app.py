@@ -1323,26 +1323,26 @@ def updatesmsnumber(deviceapikey, smsnumber):
     conn.commit()
       
     if cursor.rowcount == 0:
-      userstatus = " Could not add user smsnumber " + str(deviceid)
+      userstatus = " Could not add user smsnumber " + str(deviceapikey)
       return jsonify( message='Could not add smsnumber', status='error')
 
     userstatus = "new  smsnumber added"
     return jsonify( message='Added smsnumber' , deviceapikey=deviceapikey, userstatus = userstatus )
 
   except TypeError as e:
-    log.info("updatesmsnumber Device error -:TypeError deviceid %s ", deviceid)
+    log.info("updatesmsnumber Device error -:TypeError deviceid %s ", deviceapikey)
     log.info('updatesmsnumber Device error -:TypeError  Error %s:  ' % e)
     return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
 
   except NameError as e:
-    log.info("updatesmsnumber Device error -:NameError deviceid %s ", deviceid)
+    log.info("updatesmsnumber Device error -:NameError deviceid %s ", deviceapikey)
     log.info('updatesmsnumber Device error -:NameError  Error %s:  ' % e)
     return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
 
 
   except:
     e = sys.exc_info()[0]
-    log.info("updatesmsnumber Device error - Error in adding device %s", deviceid)
+    log.info("updatesmsnumber Device error - Error in adding device %s", deviceapikey)
     log.info('updatesmsnumber Device error: Error in adding device %s:  ' % e)
     return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
   
