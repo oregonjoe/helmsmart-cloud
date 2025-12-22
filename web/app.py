@@ -1325,13 +1325,19 @@ def updatesmsnumber(deviceapikey, smsnumber):
   except TypeError as e:
     log.info("updatesmsnumber Device error -:TypeError deviceid %s ", deviceid)
     log.info('updatesmsnumber Device error -:TypeError  Error %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
+
+  except NameError as e:
+    log.info("updatesmsnumber Device error -:NameError deviceid %s ", deviceid)
+    log.info('updatesmsnumber Device error -:NameError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
+
 
   except:
     e = sys.exc_info()[0]
     log.info("updatesmsnumber Device error - Error in adding device %s", deviceid)
     log.info('updatesmsnumber Device error: Error in adding device %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
   
   finally:
     db_pool.putconn(conn)
