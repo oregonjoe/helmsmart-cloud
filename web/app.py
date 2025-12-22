@@ -1150,7 +1150,8 @@ def aws_cognito_validate_sms_number():
   log.info('aws_cognito_validate_sms_number: request.args %s:  ', request.args)
   log.info('aws_cognito_validate_sms_number: session %s:  ', session)
   
-  access_token = aws_auth.get_access_token(request.args)
+  #access_token = aws_auth.get_access_token(request.args)
+  access_token = tokens.get("access_token")
   log.info('aws_cognito_validate_sms_number: access_token %s:  ', access_token) 
 
   returncode="ERROR"
@@ -1181,31 +1182,60 @@ def aws_cognito_validate_sms_number():
 
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
-    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    #return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
 
   except cognito_client.exceptions.ResourceNotFoundException:
-    log.info("manage_details: User or User Pool not found.")
+    log.info("aws_cognito_validate_sms_number: User or User Pool not found.")
     return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
     
   except cognito_client.exceptions.InvalidParameterException:
-    log.info("manage_details: ParamValidationError")
+    log.info("aws_cognito_validate_sms_number: ParamValidationError")
     e = sys.exc_info()[0]
-    log.info('manage_details: Error ParamValidationError in geting adding phone number %s:  ' % str(e))
+    log.info('aws_cognito_validate_sms_number: Error ParamValidationError in geting adding phone number %s:  ' % str(e))
     return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
         
   except AttributeError as e:
-    log.info('manage_details: AttributeError Error in geting adding phone number  ' % str(e))
+    log.info('aws_cognito_validate_sms_number: AttributeError Error in geting adding phone number  ' % str(e))
     return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
     
   except:
     e = sys.exc_info()[0]
-    log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))
+    log.info('aws_cognito_validate_sms_number: Error in geting adding phone number %s:  ' % str(e))
     return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
   
 
+  log.info("aws_cognito_validate_sms_number: Getting verify code")
+  
+  try:
+    response = cognito_client.get_user_attribute_verification_code(
+            AccessToken=access_token,
+            AttributeName='phone_number'
+    )
 
+    #log.info("manage_details:Successfully verification code for user %s:", username)   
+    log.info("aws_cognito_validate_sms_number:verification code response %s:", response)
 
+    # Note: The phone number will be unverified by default.
+    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
 
+  except cognito_client.exceptions.ResourceNotFoundException:
+    log.info("aws_cognito_validate_sms_number: User or User Pool not found.")
+
+  except cognito_client.exceptions.InvalidParameterException:
+    log.info("aws_cognito_validate_sms_number: InvalidParameterException")
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_validate_sms_number: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
+
+  except AttributeError as e:
+    log.info('manage_details: AttributeError Error in getting verify code  ' % str(e))
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_validate_sms_number: Error in verify in getting verify code %s:  ' % str(e))  
+
+    log.info("aws_cognito_validate_sms_number: Got verify code")
+
+  return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
 
 @app.route('/aws_login')
 #@cognito_login
