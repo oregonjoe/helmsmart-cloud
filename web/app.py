@@ -1171,7 +1171,7 @@ def aws_cognito_validate_sms_number():
 
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
-      return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("manage_details: User or User Pool not found.")
