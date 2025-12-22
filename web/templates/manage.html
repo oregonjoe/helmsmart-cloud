@@ -517,7 +517,7 @@ function handleupdateSMS(response)
 	
 	var userid  = document.getElementById("DeviceTypeID").value;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_validate_sms_number?userid=" + userid + "&smscode=" + newSMSverificationcode;
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_confirm_sms_number?userid=" + userid + "&smscode=" + newSMSverificationcode;
 
 
     return $.ajax({
@@ -590,7 +590,7 @@ if (answer) {
 	
 	var userid  = document.getElementById("DeviceTypeID").value;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_validate_sms_number?userid=" + userid + "&smsnumber=" + newSMSnumber;
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_update_sms_number?userid=" + userid + "&smsnumber=" + newSMSnumber;
 
 
     return $.ajax({
