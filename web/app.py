@@ -1140,7 +1140,7 @@ def aws_alerts_get_user_data():
   #return jsonify({'access_token': access_token, 'user_info': response})
   """
 
-@app.route('/aws_cognito_validate_sms_number)
+@app.route('/aws_cognito_validate_sms_number')
 def aws_cognito_validate_sms_number():
 
   log.info('aws_cognito_validate_sms_number: started')
