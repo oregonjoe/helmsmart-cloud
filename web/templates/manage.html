@@ -482,16 +482,73 @@ Date.prototype.yyyymmdd = function() {
 function updateSMS()
 {
 
-var answer = confirm("Do you want to update you SMS phone number?");
+var answer = confirm("Do you want to update your SMS phone number?");
 
 if (answer) {
 
 	var newSMSnumber = prompt("Please enter your SMS phone number:", document.getElementById("AlertSMS").value);
 	if (newSMSnumber != null && newSMSnumber != "") {
 	
-		const regex = /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+		//const regex = /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+		regex = /^\d{11}$/;
 		var validatedSMSnumber =  regex.test(newSMSnumber);
-		// Code to run with the user's input
+		
+		if(validatedSMSnumber == false)
+		{
+			alert("Invalid format - use 11 digit international format");
+			return
+		}
+		
+		
+	$.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+	var userid  = document.getElementById("DeviceTypeID");
+	
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_validate_sms_number?userid=" + userid + "&smsnumber=+" + newSMSnumber;
+
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 10000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handlevalidateSMSnumber(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+		
+		
+		
+		
+		
 	}
 
 }
