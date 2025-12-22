@@ -1151,7 +1151,7 @@ def aws_cognito_validate_sms_number():
   log.info('aws_cognito_validate_sms_number: session %s:  ', session)
   
   #access_token = aws_auth.get_access_token(request.args)
-  access_token = session.get("access_token")
+  access_token = session.get("aws_access_token")
   log.info('aws_cognito_validate_sms_number: access_token %s:  ', access_token) 
 
   returncode="ERROR"
