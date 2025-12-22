@@ -1300,6 +1300,7 @@ def aws_cognito_confirm_sms_number():
 
 def updatesmsnumber(deviceapikey, smsnumber):
 
+  log.info('updatesmsnumber: devicekey %s smsnumber %s' , devicekey, smsnumber)
   conn = db_pool.getconn()
   
   try:
@@ -1322,14 +1323,14 @@ def updatesmsnumber(deviceapikey, smsnumber):
     return jsonify( message='Added smsnumber' , deviceapikey=deviceapikey, userstatus = userstatus )
 
   except TypeError as e:
-    log.info("aws_cognito_user_added Device error -:TypeError deviceid %s ", deviceid)
-    log.info('aws_cognito_user_added Device error -:TypeError  Error %s:  ' % e)
+    log.info("updatesmsnumber Device error -:TypeError deviceid %s ", deviceid)
+    log.info('updatesmsnumber Device error -:TypeError  Error %s:  ' % e)
     return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
 
   except:
     e = sys.exc_info()[0]
-    log.info("aws_cognito_user_added Device error - Error in adding device %s", deviceid)
-    log.info('aws_cognito_user_added Device error: Error in adding device %s:  ' % e)
+    log.info("updatesmsnumber Device error - Error in adding device %s", deviceid)
+    log.info('updatesmsnumber Device error: Error in adding device %s:  ' % e)
     return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
   
   finally:
