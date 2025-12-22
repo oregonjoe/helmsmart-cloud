@@ -76,8 +76,16 @@
      <a href="javascript:void(0);" onclick="LogoutDevice();" id="logout" class="persona-button">
     <span>HelmSmart: {{session['aws_email']}}</span></a>
   {% else %}
+
+  
     <a href="http://www.helmsmart-cloud.com/aws_login" id="awslogin" class="persona-button">
-      <span>HelmSmart: Guest</span></a>
+      <span>Manage: Guest - login</span></a>
+	  
+	  <div>
+	  <a href="http://www.helmsmart-cloud.com/" id="hshome" class="persona-button">
+      <span>Helmsmart: Home</span></a>
+	  </div>
+	  
   {% endif %}
   </center>
 </div>
