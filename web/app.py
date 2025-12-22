@@ -1152,7 +1152,7 @@ def aws_cognito_validate_sms_number():
 
   log.info('aws_cognito_validate_sms_number: userid %s smsnumber %s' , userid, smsnumber)
 
-
+  return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
 
 
 @app.route('/aws_login')
