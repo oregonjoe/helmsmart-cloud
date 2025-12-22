@@ -1318,7 +1318,7 @@ def updatesmsnumber(deviceapikey, smsnumber):
 
     # add new device record to DB
     cursor = conn.cursor()
-    cursor.execute(query, (deviceapikey, smsnumber))
+    cursor.execute(query, (smsnumber, deviceapikey))
 
     conn.commit()
       
