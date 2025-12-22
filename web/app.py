@@ -1298,7 +1298,7 @@ def aws_cognito_confirm_sms_number():
 
   return jsonify( message='aws_cognito_confirm_sms_number ', status='success')
 
-def updatesmsnumber(deviceapikey, smsnumber)
+def updatesmsnumber(deviceapikey, smsnumber):
 
   conn = db_pool.getconn()
   
