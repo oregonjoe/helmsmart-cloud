@@ -650,12 +650,12 @@ function modifyData(index)
   
    		if(gAWSPhoneVerified == "false")
 		{
-			document.getElementById("AlertSMS").style.color = "red";
+			document.getElementById("AlertSMS").style.color = "#75051A";
 		}
 			
       	if(gAWSEmailVerified == "false")
 		{
-			document.getElementById("AlertEmail").style.color = "red";
+			document.getElementById("AlertEmail").style.color = "#75051A";
 		}
    
    $('.nav-tabs a[href="#tabModify"]').tab('show');
@@ -753,16 +753,18 @@ var table = document.getElementById("DeviceData");
 		cell2.innerHTML = row[7];
 		cell2.style.textAlign = 'left';
 		cell2.style.width = '150px';
+		cell2.style.color = '#75051A';
 		if(gAWSEmailVerified == "true")
-			cell2.style.color = 'red';
+			cell2.style.color = '#057552';
 		
 		// Alert SMS
 		var cell3 = ssrow.insertCell(3);
 		cell3.innerHTML = row[8];
 		cell3.style.textAlign = 'left';
 		cell3.style.width = '150px';
+		cell2.style.color = '#75051A';
 		if(gAWSPhoneVerified == "true")
-			cell3.style.color = 'red';
+			cell3.style.color = '#057552';
 		
 			// Device API Count
 		var cell4 = ssrow.insertCell(4);
