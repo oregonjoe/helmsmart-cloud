@@ -1315,19 +1315,12 @@ def updatesmsnumber(deviceapikey, smsnumber):
     conn.commit()
       
     if cursor.rowcount == 0:
-      userstatus = " Could not add user deviceid " + str(deviceid)
-      return jsonify( message='Could not add device', status='error')
+      userstatus = " Could not add user smsnumber " + str(deviceid)
+      return jsonify( message='Could not add smsnumber', status='error')
 
-    userstatus = "new userid and deviceapikey added"
-    return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+    userstatus = "new  smsnumber added"
+    return jsonify( message='Added smsnumber' , deviceapikey=deviceapikey, userstatus = userstatus )
 
-    #userid exists so look up if deviceapikey has already been added
-    else:
-      userid= str(i[0])
-      log.info("Add Device status userid  %s  already exists", userid )
-      userstatus = "user already exists"
-      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
-    
   except TypeError as e:
     log.info("aws_cognito_user_added Device error -:TypeError deviceid %s ", deviceid)
     log.info('aws_cognito_user_added Device error -:TypeError  Error %s:  ' % e)
