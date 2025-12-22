@@ -956,7 +956,7 @@ def aws_alerts_get_user_data():
   else:
     response = "No user was selected"
   """
-  
+  """ 
   
   try:
     response = cognito_client.admin_update_user_attributes(
@@ -990,8 +990,8 @@ def aws_alerts_get_user_data():
   except:
     e = sys.exc_info()[0]
     log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
-  
   """
+  
   log.info("manage_details: Getting verify code")
   
   try:
@@ -1022,7 +1022,7 @@ def aws_alerts_get_user_data():
     log.info('manage_details: Error in verify in getting verify code %s:  ' % str(e))  
 
     log.info("manage_details: Got verify code")
-    """
+    
 
   
 ############################################################
