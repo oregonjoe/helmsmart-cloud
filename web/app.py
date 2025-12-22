@@ -1276,7 +1276,7 @@ def aws_cognito_confirm_sms_number():
     if HTTPstatus != 200:
       return jsonify( message='aws_cognito_confirm_sms_number ', status='error')
     
-    updatesmsnumber(deviceapikey, smsnumber)
+    updatesmsnumber(devicekey, smsnumber)
 
   except cognito_client.exceptions.CodeMismatchException:
     log.info("aws_cognito_confirm_sms_number: Invalid verification code provided, please try again..")
@@ -1294,7 +1294,7 @@ def aws_cognito_confirm_sms_number():
     
   except:
     e = sys.exc_info()[0]
-    log.info('aws_cognito_confirm_sms_number: Error in verify phone number %s:  ' % str(e))
+    log.info('aws_cognito_confirm_sms_number: Error in verify phone number   ' % str(e))
 
     
   log.info("aws_cognito_confirm_sms_number: phone number verified")
