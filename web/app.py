@@ -1146,10 +1146,12 @@ def aws_cognito_validate_sms_number():
   log.info('aws_cognito_validate_sms_number: started')
 
   returncode="ERROR"
+  prefix = "+"
 
   userid = request.args.get('userid',"")
   smsnumber = request.args.get('smsnumber',"")
-
+  smsnumber = prefix + smsnumber
+  
   log.info('aws_cognito_validate_sms_number: userid %s smsnumber %s' , userid, smsnumber)
 
 
