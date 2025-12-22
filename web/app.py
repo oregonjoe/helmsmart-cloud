@@ -1271,7 +1271,7 @@ def aws_cognito_confirm_sms_number():
     log.info("aws_cognito_confirm_sms_number:verify_user_attribute response %s:", response)
 
     HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
-    log.info("aws_delete_device:admin_delete_user HTTPstatus %s:", HTTPstatus)
+    log.info("aws_cognito_confirm_sms_number:admin_delete_user HTTPstatus %s:", HTTPstatus)
 
     if HTTPstatus != 200:
       return jsonify( message='aws_cognito_confirm_sms_number ', status='error')
@@ -1288,6 +1288,9 @@ def aws_cognito_confirm_sms_number():
       
   except AttributeError as e:
     log.info('aws_cognito_confirm_sms_number: AttributeError Error in verify phone number  ' % str(e))
+
+  except NameError as e:
+    log.info('aws_cognito_confirm_sms_number: NameError Error in verify phone number  ' % str(e))
     
   except:
     e = sys.exc_info()[0]
