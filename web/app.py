@@ -866,7 +866,7 @@ def aws_alerts_get_user_data():
           aws_phone_verified = attribute['Value']
           break
 
-  log.info('manage_details: aws_email_verified %s:  ', aws_phone_verified)
+  log.info('manage_details: phone_number_verified %s:  ', aws_phone_verified)
   
         
   """    
@@ -957,7 +957,7 @@ def aws_alerts_get_user_data():
     response = "No user was selected"
   """
   
-  """
+  
   try:
     response = cognito_client.admin_update_user_attributes(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
@@ -990,7 +990,7 @@ def aws_alerts_get_user_data():
   except:
     e = sys.exc_info()[0]
     log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
-  """
+  
   """
   log.info("manage_details: Getting verify code")
   
@@ -1168,8 +1168,8 @@ def aws_cognito_validate_sms_number():
         ]
     )
 
-    log.info("manage_details:Successfully updated phone number for user %s:", userid)   
-    log.info("manage_details:updated phone number response %s:", response)
+    log.info("aws_cognito_validate_sms_number:Successfully updated phone number for user %s:", userid)   
+    log.info("aws_cognito_validate_sms_number:updated phone number response %s:", response)
 
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
