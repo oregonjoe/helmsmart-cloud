@@ -513,11 +513,15 @@ function handleupdateSMS(response)
      color: '#fff'         
      } }); 
 
+	 
+
+	 
+	 
 	var devicedataurl;
 	
 	var userid  = document.getElementById("DeviceTypeID").value;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_confirm_sms_number?userid=" + userid + "&smscode=" + newSMSverificationcode;
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_confirm_sms_number?userid=" + userid + "&smscode=" + newSMSverificationcode+ "&devicekey=" + document.getElementById("DeviceKey").value + "&smsnumber=" + document.getElementById("AlertSMS").value;
 
 
     return $.ajax({
@@ -571,6 +575,10 @@ if (answer) {
 			alert("Invalid format - use 11 digit international format");
 			return
 		}
+		
+		
+
+   document.getElementById("AlertSMS").value = newSMSnumber;
 		
 		
 	$.blockUI({ 

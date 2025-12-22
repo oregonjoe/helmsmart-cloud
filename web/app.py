@@ -1250,13 +1250,13 @@ def aws_cognito_confirm_sms_number():
   access_token = session.get("aws_access_token")
   log.info('aws_cognito_confirm_sms_number: access_token %s:  ', access_token) 
 
-  returncode="ERROR"
-  prefix = "+"
-
   userid = request.args.get('userid',"")
   smscode = request.args.get('smscode',"")
-  
-  log.info('aws_cognito_confirm_sms_number: userid %s smsnumber %s' , userid, smscode)
+  devicekey = request.args.get('devicekey',"")
+  smsnumber = request.args.get('smsnumber',"")
+
+  log.info('aws_cognito_confirm_sms_number: devicekey %s smsnumber %s' , devicekey, smsnumber)
+  log.info('aws_cognito_confirm_sms_number: userid %s smscode %s' , userid, smscode)
 
 
   try:
@@ -1268,10 +1268,15 @@ def aws_cognito_confirm_sms_number():
     )
 
     #log.info("manage_details:Phone number successfully verified. user %s:", username)   
-    log.info("aws_cognito_confirm_sms_number:verification code response %s:", response)
+    log.info("aws_cognito_confirm_sms_number:verify_user_attribute response %s:", response)
 
-    # Note: The phone number will be unverified by default.
-    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
+    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
+    log.info("aws_delete_device:admin_delete_user HTTPstatus %s:", HTTPstatus)
+
+    if HTTPstatus != 200:
+      return jsonify( message='aws_cognito_confirm_sms_number ', status='error')
+    
+    updatesmsnumber(deviceapikey, smsnumber)
 
   except cognito_client.exceptions.CodeMismatchException:
     log.info("aws_cognito_confirm_sms_number: Invalid verification code provided, please try again..")
@@ -1293,8 +1298,49 @@ def aws_cognito_confirm_sms_number():
 
   return jsonify( message='aws_cognito_confirm_sms_number ', status='success')
 
+def updatesmsnumber(deviceapikey, smsnumber)
 
+  conn = db_pool.getconn()
+  
+  try:
+    
+    cursor = conn.cursor()
+    #update user_devices SET smsnumber = %s where deviceapikey = %s;
+    query  = "update user_devices set smsnumber = %s where deviceapikey = %s;"
 
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, (deviceapikey, smsnumber))
+
+    conn.commit()
+      
+    if cursor.rowcount == 0:
+      userstatus = " Could not add user deviceid " + str(deviceid)
+      return jsonify( message='Could not add device', status='error')
+
+    userstatus = "new userid and deviceapikey added"
+    return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+
+    #userid exists so look up if deviceapikey has already been added
+    else:
+      userid= str(i[0])
+      log.info("Add Device status userid  %s  already exists", userid )
+      userstatus = "user already exists"
+      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+    
+  except TypeError as e:
+    log.info("aws_cognito_user_added Device error -:TypeError deviceid %s ", deviceid)
+    log.info('aws_cognito_user_added Device error -:TypeError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("aws_cognito_user_added Device error - Error in adding device %s", deviceid)
+    log.info('aws_cognito_user_added Device error: Error in adding device %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+  
+  finally:
+    db_pool.putconn(conn)
 
 @app.route('/aws_login')
 #@cognito_login
