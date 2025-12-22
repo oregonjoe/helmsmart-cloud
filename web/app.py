@@ -1227,7 +1227,7 @@ def aws_cognito_update_sms_number():
     log.info('aws_cognito_update_sms_number: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
 
   except AttributeError as e:
-    log.info('aws_cognito_update_sms_number: AttributeError Error in getting verify code  ' % str(e))
+    log.info('aws_cognito_update_sms_number: AttributeError Error in getting verify code %s ' % str(e))
     
   except:
     e = sys.exc_info()[0]
@@ -1287,14 +1287,18 @@ def aws_cognito_confirm_sms_number():
     log.info('aws_cognito_confirm_sms_number: Error ExpiredCodeException in verify phone number %s:  ' % str(e))  
       
   except AttributeError as e:
-    log.info('aws_cognito_confirm_sms_number: AttributeError Error in verify phone number  ' % str(e))
+    log.info('aws_cognito_confirm_sms_number: AttributeError Error in verify phone number %s  ' % str(e))
 
   except NameError as e:
-    log.info('aws_cognito_confirm_sms_number: NameError Error in verify phone number  ' % str(e))
+    log.info('aws_cognito_confirm_sms_number: NameError Error in verify phone number  %s' % str(e))
     
+  except TypeError as e:
+    log.info('aws_cognito_confirm_sms_number: NameError Error in verify phone number  %s' % str(e))
+    
+
   except:
     e = sys.exc_info()[0]
-    log.info('aws_cognito_confirm_sms_number: Error in verify phone number   ' % str(e))
+    log.info('aws_cognito_confirm_sms_number: Error in verify phone number  %s ' % str(e))
 
     
   log.info("aws_cognito_confirm_sms_number: phone number verified")
@@ -1303,7 +1307,7 @@ def aws_cognito_confirm_sms_number():
 
 def updatesmsnumber(deviceapikey, smsnumber):
 
-  log.info('updatesmsnumber: devicekey %s smsnumber %s' , devicekey, smsnumber)
+  log.info('updatesmsnumber: devicekey %s smsnumber %s' , deviceapikey, smsnumber)
   conn = db_pool.getconn()
   
   try:
