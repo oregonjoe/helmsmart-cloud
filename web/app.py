@@ -991,7 +991,7 @@ def aws_alerts_get_user_data():
     e = sys.exc_info()[0]
     log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
   """
-  
+  """
   log.info("manage_details: Getting verify code")
   
   try:
@@ -1022,7 +1022,7 @@ def aws_alerts_get_user_data():
     log.info('manage_details: Error in verify in getting verify code %s:  ' % str(e))  
 
     log.info("manage_details: Got verify code")
-    
+  """    
 
   
 ############################################################
@@ -1144,6 +1144,12 @@ def aws_alerts_get_user_data():
 def aws_cognito_validate_sms_number():
 
   log.info('aws_cognito_validate_sms_number: started')
+
+  log.info('aws_cognito_validate_sms_number: request.args %s:  ', request.args)
+  log.info('aws_cognito_validate_sms_number: session %s:  ', session)
+  
+  access_token = aws_auth.get_access_token(request.args)
+  log.info('aws_cognito_validate_sms_number: access_token %s:  ', access_token) 
 
   returncode="ERROR"
   prefix = "+"
