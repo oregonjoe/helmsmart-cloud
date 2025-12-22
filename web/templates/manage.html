@@ -515,7 +515,7 @@ if (answer) {
 
 	var devicedataurl;
 	
-	var userid  = document.getElementById("DeviceTypeID");
+	var userid  = document.getElementById("DeviceTypeID").value;
 	
     devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_validate_sms_number?userid=" + userid + "&smsnumber=+" + newSMSnumber;
 
