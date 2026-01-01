@@ -591,6 +591,13 @@ def aws_home():
     else:
         return 'Welcome! Please <a href="/aws_login">Login</a>.'
 
+@app.route('/auth_payment_completed')
+def auth_payment_completed():
+
+  log.info('auth_payment_completed:start  ')
+
+  return jsonify( request = request  )
+
 
 @app.route('/aws_cognito_user_added')
 def aws_cognito_user_added():
