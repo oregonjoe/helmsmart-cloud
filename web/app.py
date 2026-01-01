@@ -585,7 +585,7 @@ def aws_home():
 
     log.info('aws_home: user %s:  ', user)
 
-    
+      
     if user:
         return  'Hello user = ' + user + '  <a href="/aws_alerts_logout">Logout</a>'
     else:
