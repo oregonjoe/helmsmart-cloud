@@ -595,6 +595,7 @@ def aws_home():
 def auth_payment_completed():
 
   log.info('auth_payment_completed:start  ')
+  log.info('auth_payment_completed:request %s  ' , request)
 
   return jsonify( request = request  )
 
