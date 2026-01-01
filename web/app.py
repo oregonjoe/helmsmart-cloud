@@ -591,7 +591,7 @@ def aws_home():
     else:
         return 'Welcome! Please <a href="/aws_login">Login</a>.'
 
-@app.route('/auth_payment_completed')
+@app.route('/auth_payment_completed' , methods=['GET','POST'])
 def auth_payment_completed():
 
   log.info('auth_payment_completed:start  ')
