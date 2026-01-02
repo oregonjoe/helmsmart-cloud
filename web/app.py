@@ -606,7 +606,11 @@ def auth_payment_completed():
 
     #mPayment = json.loads(request.form)
     #log.info("auth_payment_completed mPayment %s",mPayment)
-    mPaymentDeviceID = data_dict['x_po_num']
+    #mPaymentDeviceID = data_dict['x_invoice_num']
+    mPaymentDeviceID = data_dict.get('x_invoice_num', "")
+
+    if mPaymentDeviceID == "":
+      return jsonify( message='Add user auth_payment_completed error - x_invoice_num failed' , )
 
     #jsonData = request.get_json()
     log.info('auth_payment_completed:mPaymentDeviceID %s  ' , mPaymentDeviceID)
