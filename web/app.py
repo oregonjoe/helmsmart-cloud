@@ -625,7 +625,7 @@ def auth_payment_completed():
                 #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
             ]
       )
-
+ 
       errorcheck = response.get('x-amzn-ErrorType', 'noerror')
       log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
 
