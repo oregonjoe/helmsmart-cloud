@@ -595,15 +595,20 @@ def aws_home():
 def auth_payment_completed():
 
   log.info('auth_payment_completed:start  ')
-  
-  dataList=list(request.form)[0]
-  log.info('auth_payment_completed:dataList %s  ' , dataList)
 
-  jsonData = request.get_json()
-  log.info('auth_payment_completed:jsonData %s  ' , jsonData)
-  
-  return jsonify( request = request.args  )
+  try:  
+    dataList=list(request.form)
+    log.info('auth_payment_completed:dataList %s  ' , dataList)
 
+    jsonData = request.get_json()
+    log.info('auth_payment_completed:jsonData %s  ' , jsonData)
+    
+    return jsonify( request = dataList  )
+  
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_user_added Device error: Error in adding device %s:  ' % e)
+    return jsonify( message='Add user auth_payment_completed error - failed' , )
 
 @app.route('/aws_cognito_user_added')
 def aws_cognito_user_added():
