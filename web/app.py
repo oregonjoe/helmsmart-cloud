@@ -1449,6 +1449,16 @@ def aws_details():
         return f'Welcome! Please <a href="/login">Login</a>.'
 
 
+
+@app.route('/newalertsuseradded')
+def newalertsuseradded():
+
+  return render_template(
+    'newalertsuseradded.html',
+    features = [],
+  )
+
+
 @app.route('/manage')
 def manage():
 
