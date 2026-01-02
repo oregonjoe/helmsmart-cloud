@@ -626,6 +626,9 @@ def auth_payment_completed():
             ]
       )
 
+      errorcheck = response['x-amzn-ErrorType']
+      log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
+      
       return jsonify( json.dumps(response) )
 
     except cognito_client.exceptions.UsernameExistsException:
