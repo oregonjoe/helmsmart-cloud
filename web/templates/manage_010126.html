@@ -235,8 +235,7 @@ $('#tab a').click(function (e) {
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" id="tab" role="tablist">
-	<li><a href="#tabMarketing" role="tab" data-toggle="tab">P</a><a href="#tabMarketing">urchase 
-	Sub</a>scription</li>
+	<li><a href="#tabMarketing" role="tab" data-toggle="tab">Info</a></li>
 	<!-- <li><a href="#tabLive" role="tab" data-toggle="tab">Live</a></li> -->
 
 	<li><a href="#tabBasicSettings" role="tab" data-toggle="tab">Summary</a></li>
@@ -1102,61 +1101,44 @@ var dIndex=0;
 	<div class="container body-content">
 		
 
-<p id="introText">With this datapane you can sign up for the HelmSmart-Cloud 
-Alert service</p>
+<p id="introText">With this datapane you can configure, control and monitor your 3G tracker.</p>
 <div id="idMarketing">
-	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" /><p>
-	SeaGaugeG4 and SeaSmartG3 devices can send data directly to HelmSmart-Cloud 
-	services using any internet connection where it is stored in real time for 
-	off-line analytics,</p>
-	<p>Stored data can be time series graphed and overlayed on google maps.</p>
-	<p>You can also create customized real-time dashboards and virtual 
-	insturmentation pages.</p>
-	<p>HelmSmart-Cloud also offers a seperate real-time Alerts module which 
-	analyzes incoming sensor data with configured alert thresholds to generate 
-	Alerts via configured Emails and SMS trigger. It is also possible to have 
-	alerts trigger on-board relay drivers (SeaGaugeG4) and embedded PWM lighting 
-	controllers (SeaSmartG3)</p>
-	<p>The HelmSmart-Cloud Alert service is a paid subscription. You can 
-	purchase monthly or yearly service plans.</p>
-	<p>Subscription plans do not auto renew and you must repurchase plans at end 
-	of term to continue service.</p>
-	<p>Use the <strong>PURCHASE</strong> buttons below to select your desired 
-	plan and enter payment information</p>
-	<p>When entering your purchase information, you must specify the <strong>
-	DeviceID</strong> in the Invoice Number field as shown.</p>
-	<p>
-	<img alt="" height="305" src="static/img/InvoiceNumberFields_800W.jpg" width="800"></p>
-	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-	<p>By purchasing a subscription plan you agree to have configured alert 
-	messages sent to provided email and phone numbers for duration of 
-	subscription. You can disable messages by removing email or phone number 
-	from alert configuration.</p>
-	<p>Yearly subscriptions are offered at a 10% discount from monthly plans</p>
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" /><p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your BoatLogger yacht site where your logbooks and segments gets created automatically.</p>
+	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
+	<ul>
+		<li>Links to your existing NMEA 2000 network</li>
+		<li>Sends positions to your yacht site</li>
+		<li>Uses you existing internet service</li>
+		<li>No need for additional data plan charges</li>
+		<li>Automatically creates logbooks and trip segments for your journeys</li>
+		<li>Monitors the battery voltage</li>
+		<li>Monitors the temperature onboard</li>
+		<li>Tracks the yacht in case of theft</li>
+	</ul>
+	<p>Built-in data logger to SD memory</p>
+	<ul>
+		<li>Records everything when vessel is out of range</li>
+		<li>Up to a full year of storage</li>
+		<li>Automatically syncs to Boatlogger site when internet service is found</li>
+		<li>Cloud base storage and access from the HelmSmart data server</li>
+		</ul>
+	<p>Add more vessel sensors</p>
+	<ul>		
+		<li>Install additional temperature sensors to monitor e.g. engine room temperature, sea temperature, outdoor temperature etc.</li>
+		<li>12 additional customized inputs (6 digital inputs, 2 tach, and 4 analog inputs)</li>
+	</ul>
+	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
+	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
 	<div style="margin: 15px;">
-	
-	
-	<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
-  <input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
-  
-  <button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" >Order Now</button>
-</form>
-	
-	
 		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf, SeaSmartPro.pdf', '_blank');">Datasheet</button>
 <!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
 		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
 
 	</div>
 	<p>
-		If you already have purchased a Helmsmart-Cloud Alerts Subcription&nbsp; use the
-		Summary tab to view your enabled devices and configure email and SMS 
-		phone numbers for receiving Alerts.</p>
-	<p>
-		To configure actual sensor alerts for each device - use the
-		<a href="netalerts.html">ALERTS</a> button o the main
-		<a href="index.html">HelmSmart-Cloud</a> home page</p>
+		If you already have a SeaSmart and want to connect it to BoatLogger, use the
+		<a href="/TrackerDatapane?UserKey=2455&amp;userSiteKey=2455&amp;token=hStMV6FtUWufdTxP5Fo52WpXOajd7aS6fJnUcrPv1Aw%3D&amp;isOwner=True&amp;FirstTimeSetting=True">Datapane Settings</a>
+	</p>
 
 </div>
 
