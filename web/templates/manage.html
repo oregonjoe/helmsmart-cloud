@@ -1140,18 +1140,16 @@ Alert service</p>
 	<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
   <input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
   
-  <button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" >Order Monthly</button>
+ <input type="image" src="{{ url_for('static', filename='img/OrderMonthly.jpg' ) }}" />
 </form>
 	
 		<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
   <input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
   
-  <button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" >Order Yearly&nbsp;&nbsp;</button>
+  <input type="image" src="{{ url_for('static', filename='img/OrderYearly.jpg' ) }}" />
 </form>
 	
-		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf, SeaSmartPro.pdf', '_blank');">Datasheet</button>
-<!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
-		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+
 
 	</div>
 	<p>
@@ -1161,7 +1159,7 @@ Alert service</p>
 	<p>
 		To configure actual sensor alerts for each device - use the
 		<a href="https://www.helmsmart-cloud.com/alertsmart"> ALERTS</a> button on the main
-		<a href="https://www.helmsmart-cloud.com/index"> HelmSmart-Cloud</a> home page</p>
+		<a href="https://www.helmsmart-cloud.com/"> HelmSmart-Cloud</a> home page</p>
 
 </div>
 
