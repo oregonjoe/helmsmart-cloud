@@ -615,9 +615,9 @@ def auth_payment_completed():
       
       response = cognito_client.admin_create_user(
           UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-          Username=mPaymentDeviceID
+          Username=mPaymentDeviceID,
           UserAttributes=[
-                {'Name': 'email', 'Value': 'joe@seagauge.com'},
+                {'Name': 'email', 'Value': 'joe@seagauge.com'}
                 #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
             ]
       )
