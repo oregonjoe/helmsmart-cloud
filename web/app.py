@@ -610,6 +610,24 @@ def auth_payment_completed():
 
     #jsonData = request.get_json()
     log.info('auth_payment_completed:mPaymentDeviceID %s  ' , mPaymentDeviceID)
+
+    try:
+      
+      response = cognito_client.admin_create_user(
+          UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+          Username=mPaymentDeviceID
+          UserAttributes=[
+                {'Name': 'email', 'Value': 'joe@seagauge.com'},
+                #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
+            ]
+      )
+
+      return jsonify( json.dumps(response) )
+
+    except:
+      e = sys.exc_info()[0]
+      log.info('aws_cognito_user_added aws error: Error in adding user %s:  ' % e)
+      return jsonify( message='Add user auth_payment_completed aws error - failed' , )
     
     return jsonify( json.dumps(data_dict, indent=4) )
 
