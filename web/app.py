@@ -628,6 +628,10 @@ def auth_payment_completed():
 
       return jsonify( json.dumps(response) )
 
+    except cognito_client.exceptions.UsernameExistsException:
+      log.info("auth_payment_completed: UsernameExistsException")
+      return jsonify( message='Username  already Exists', status='error')
+  
     except TypeError as e:
       log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
       return jsonify( message='Add user auth_payment_completed aws Type error - failed' , )
