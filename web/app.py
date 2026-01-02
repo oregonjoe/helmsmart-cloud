@@ -600,8 +600,14 @@ def auth_payment_completed():
     dataList=list(request.form)
     log.info('auth_payment_completed:dataList %s  ' , dataList)
 
-    jsonData = request.get_json()
-    log.info('auth_payment_completed:jsonData %s  ' , jsonData)
+    log.info("auth_payment_completed request.form.to_dict %s", request.form.to_dict(flat=False))
+
+    mPayment = json.loads(request.form)
+    log.info("auth_payment_completed mPayment %s",mPayment)
+    mPaymentDeviceID = mPayment.get('x_po_num', "")
+
+    #jsonData = request.get_json()
+    log.info('auth_payment_completed:mPaymentDeviceID %s  ' , mPaymentDeviceID)
     
     return jsonify( request = dataList  )
   
