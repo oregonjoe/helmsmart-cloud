@@ -626,15 +626,22 @@ def auth_payment_completed():
             ]
       )
 
-      errorcheck = response['x-amzn-ErrorType']
+      errorcheck = response.get('x-amzn-ErrorType', 'noerror')
       log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
+
+      if errorcheck != 'noerror':
+        return jsonify( message='x-amzn-ErrorType', status=errorcheck)
       
       return jsonify( json.dumps(response) )
 
     except cognito_client.exceptions.UsernameExistsException:
       log.info("auth_payment_completed: UsernameExistsException")
       return jsonify( message='Username  already Exists', status='error')
-  
+    
+    except KeyError as e:
+      log.info('auth_payment_completed error -:KeyError  Error %s:  ' % e)
+      return jsonify( message='Add user auth_payment_completed aws Key error - failed' , )
+    
     except TypeError as e:
       log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
       return jsonify( message='Add user auth_payment_completed aws Type error - failed' , )
