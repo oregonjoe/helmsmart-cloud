@@ -628,6 +628,10 @@ def auth_payment_completed():
 
       return jsonify( json.dumps(response) )
 
+    except TypeError as e:
+      log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
+      return jsonify( message='Add user auth_payment_completed aws Type error - failed' , )
+    
     except:
       e = sys.exc_info()[0]
       log.info('aws_cognito_user_added aws error: Error in adding user %s:  ' % e)
@@ -637,7 +641,7 @@ def auth_payment_completed():
 
   except TypeError as e:
     log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
-    return jsonify( message='Add user auth_payment_completed Typeerror - failed' , )
+    return jsonify( message='Add user auth_payment_completed Type error - failed' , )
   
   except:
     e = sys.exc_info()[0]
