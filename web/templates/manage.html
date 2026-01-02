@@ -95,15 +95,6 @@
 
 
 
-<div>
-<center>
-<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
-  <input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
-  <input type="image" src="{{ url_for('static', filename='img/ADDtoCART_400W.jpg' ) }}" />
-</form>
-</center>
-</div>
-
 	<div class="container body-content">
 		
 
@@ -1136,20 +1127,27 @@ Alert service</p>
 	<p>Yearly subscriptions are offered at a 10% discount from monthly plans</p>
 	<div style="margin: 15px;">
 	
+	<table>
+	<tr>
+	<td>
 	
 	<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
-  <input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
+	<input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
   
- <input type="image" src="{{ url_for('static', filename='img/OrderMonthly.jpg' ) }}" />
-</form>
-	
-		<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
-  <input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
-  
-  <input type="image" src="{{ url_for('static', filename='img/OrderYearly.jpg' ) }}" />
-</form>
-	
-
+	<input type="image" src="{{ url_for('static', filename='img/OrderMonthly.jpg' ) }}" />
+	</form>
+	</td>
+	<td>
+		
+			<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
+	  <input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
+	  
+	  <input type="image" src="{{ url_for('static', filename='img/OrderYearly.jpg' ) }}" />
+	</form>
+		
+	</td>
+	</tr>
+	</table>
  
 	</div>
 	<p>
