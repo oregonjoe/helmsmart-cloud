@@ -632,7 +632,8 @@ def auth_payment_completed():
       if errorcheck != 'noerror':
         return jsonify( message='x-amzn-ErrorType', status=errorcheck)
       
-      return jsonify( json.dumps(response) )
+      #return jsonify( json.dumps(response) )
+      return redirect(url_for('newalertsuseradded'))  
 
     except cognito_client.exceptions.UsernameExistsException:
       log.info("auth_payment_completed: UsernameExistsException")
