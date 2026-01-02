@@ -600,16 +600,18 @@ def auth_payment_completed():
     dataList=list(request.form)
     log.info('auth_payment_completed:dataList %s  ' , dataList)
 
-    #log.info("auth_payment_completed request.form.to_dict %s", request.form.to_dict(flat=False))
 
-    mPayment = json.loads(request.form)
-    log.info("auth_payment_completed mPayment %s",mPayment)
-    mPaymentDeviceID = mPayment.get('x_po_num', "")
+    data_dict = request.form.to_dict(flat=True)
+    log.info("auth_payment_completed data_dict %s",data_dict)
+
+    #mPayment = json.loads(request.form)
+    #log.info("auth_payment_completed mPayment %s",mPayment)
+    mPaymentDeviceID = data_dict['x_po_num']
 
     #jsonData = request.get_json()
     log.info('auth_payment_completed:mPaymentDeviceID %s  ' , mPaymentDeviceID)
     
-    return jsonify( request = dataList  )
+    return jsonify( json.dumps(data_dict, indent=4) )
 
   except TypeError as e:
     log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
