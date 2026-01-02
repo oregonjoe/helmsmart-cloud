@@ -595,8 +595,13 @@ def aws_home():
 def auth_payment_completed():
 
   log.info('auth_payment_completed:start  ')
-  log.info('auth_payment_completed:request %s  ' , request.args)
+  
+  dataList=list(request.form)[0]
+  log.info('auth_payment_completed:dataList %s  ' , dataList)
 
+  jsonData = request.get_json()
+  log.info('auth_payment_completed:jsonData %s  ' , jsonData)
+  
   return jsonify( request = request.args  )
 
 
