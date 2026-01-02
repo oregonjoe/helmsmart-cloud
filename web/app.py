@@ -612,8 +612,24 @@ def auth_payment_completed():
     if mPaymentDeviceID == "":
       return jsonify( message='Add user auth_payment_completed error - x_invoice_num failed' , )
 
-    #jsonData = request.get_json()
     log.info('auth_payment_completed:mPaymentDeviceID %s  ' , mPaymentDeviceID)
+
+
+    mPaymentEmail = data_dict.get('x_email', "")
+
+    if mPaymentEmail == "":
+      return jsonify( message='Add user auth_payment_completed error - x_email failed' , )
+
+    log.info('auth_payment_completed:mPaymentEmail %s  ' , mPaymentEmail)
+
+    
+
+    mPaymentDeviceName = data_dict.get('x_description', "")
+
+    if mPaymentDeviceName == "":
+      return jsonify( message='Add user auth_payment_completed error - x_description failed' , )
+
+    log.info('auth_payment_completed:mPaymentDeviceName %s  ' , mPaymentDeviceName)
 
     try:
       
@@ -621,7 +637,8 @@ def auth_payment_completed():
           UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
           Username=mPaymentDeviceID,
           UserAttributes=[
-                {'Name': 'email', 'Value': 'joe@seagauge.com'}
+                {'Name': 'email', 'Value': mPaymentEmail},
+                {'Name': 'name', 'Value': mPaymentDeviceName}
                 #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
             ]
       )
