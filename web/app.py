@@ -708,8 +708,8 @@ def auth_payment_completed():
 
     mPaymentPhone = data_dict.get('x_phone', "")
 
-    if mPaymentPhone == "":
-      return jsonify( message='Add user auth_payment_completed error - x_phone failed' , )
+    if mPaymentPhone != "":
+      mPaymentPhone = '+' + mPaymentPhone
 
     log.info('auth_payment_completed:mPaymentPhone %s  ' , mPaymentPhone)
 
