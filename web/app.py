@@ -742,7 +742,7 @@ def auth_payment_completed():
       log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
 
       if errorcheck != 'noerror':
-              log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
+        log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
         return jsonify( message='x-amzn-ErrorType', status=errorcheck)
 
 
