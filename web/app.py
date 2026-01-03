@@ -755,9 +755,10 @@ def auth_payment_completed():
       #return jsonify( json.dumps(response) )
       return redirect(url_for('newalertsuseradded'))  
 
-    except cognito_client.exceptions.InvalidParameterException:
+    except cognito_client.exceptions.InvalidParameterException as e:
       log.info("auth_payment_completed: InvalidParameterException")
-      #log.info('auth_payment_completed error -InvalidParameterException  Error %s:  ' % e)
+      #print(f"Invalid parameter: {e.response['Error']['Message']}")
+      log.info('auth_payment_completed error -InvalidParameterException  Error %s:  ' e.response['Error']['Message'])
       return jsonify( message='Error Invalid Parameter', status='error')
 
     except cognito_client.exceptions.UsernameExistsException:
