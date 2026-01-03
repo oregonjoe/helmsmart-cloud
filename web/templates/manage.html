@@ -657,6 +657,174 @@ if (answer) {
 
 }
 
+
+function handlevalidateAlertEmail(response)
+{
+  var index=0;
+
+  $.unblockUI();
+  
+}
+ 
+
+function handleupdateAlertEmail(response)
+{
+  var index=0;
+
+  $.unblockUI();
+  
+  var smsresponse = response;
+  //getDeviceList(gUserEmail);
+  
+  var newSMSverificationcode = prompt("Please enter your Alert Email verification code:", "");
+  
+  
+  	$.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	 
+	var encodedSMSnumber = encodeURIComponent(document.getElementById("AlertEmail").value);
+	 
+	 
+	var devicedataurl;
+	
+	var userid  = document.getElementById("DeviceTypeID").value;
+	
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_confirm_sms_email?userid=" + userid + "&smscode=" + newSMSverificationcode+ "&devicekey=" + document.getElementById("DeviceKey").value + "&smsemail=" + encodedSMSnumber;
+
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 10000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handlevalidateAlertEmail(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+		
+		
+		
+  
+  
+  
+}
+
+function updateAlertEmail()
+{
+
+var answer = confirm("Do you want to update your Alert Email?");
+
+if (answer) {
+
+	var newAlertEmail = prompt("Please enter your Alert Email:", document.getElementById("AlertEmail").value);
+	if (newAlertEmail != null && newAlertEmail != "") {
+	
+	
+		//^\+?(\d{1,3})?[-.\s]?(\(?\d{3}\)?[-.\s]?)?(\d[-.\s]?){6,9}\d$
+		//const regex = /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+		//regex = /^\d{11}$/;
+		/*
+		regex = /^\+[1-9]\d{1,14}$/;
+		var validatedSMSnumber =  regex.test(newAlertEmail);
+		
+		if(validatedSMSnumber == false)
+		{
+			alert("Invalid format - use 11 digit international format");
+			return
+		}
+		*/
+		
+		
+	var encodedAlertEmail = encodeURIComponent(newAlertEmail);
+	
+	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
+	
+    //devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedSMSnumber}`;
+
+   document.getElementById("AlertEmail").value = newAlertEmail;
+		
+		
+	$.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+	var userid  = document.getElementById("DeviceTypeID").value;
+	
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_update_sms_email?userid=" + userid + "&smsemail=" + encodedAlertEmail;
+
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 10000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handleupdateAlertEmail(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+		
+		
+		
+		
+		
+	}
+
+}
+
+}
+
 function modifyData(index)
 {
 

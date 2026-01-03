@@ -1497,6 +1497,217 @@ def updatesmsnumber(deviceapikey, smsnumber):
   finally:
     db_pool.putconn(conn)
 
+
+
+@app.route('/aws_cognito_update_sms_email')
+def aws_cognito_update_sms_email():
+
+  log.info('aws_cognito_update_sms_email: started')
+
+  log.info('aws_cognito_update_sms_email: request.args %s:  ', request.args)
+  log.info('aws_cognito_update_sms_email: session %s:  ', session)
+  
+  #access_token = aws_auth.get_access_token(request.args)
+  access_token = session.get("aws_access_token")
+  log.info('aws_cognito_update_sms_email: access_token %s:  ', access_token) 
+
+  returncode="ERROR"
+
+  userid = request.args.get('userid',"")
+  smsemail = request.args.get('smsemail',"")
+
+  
+  log.info('aws_cognito_update_sms_email: userid %s smsnumber %s' , userid, smsemail)
+
+
+  
+  try:
+    response = cognito_client.admin_update_user_attributes(
+        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+        Username=userid,
+        UserAttributes=[
+            {
+                'Name': 'email',
+                'Value': smsemail
+            }
+        ]
+    )
+
+    log.info("aws_cognito_update_sms_email:Successfully updated phone number for user %s:", userid)   
+    log.info("aws_cognito_update_sms_email:updated phone number response %s:", response)
+
+    # Note: The phone number will be unverified by default.
+    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
+    #return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+
+  except cognito_client.exceptions.ResourceNotFoundException:
+    log.info("aws_cognito_update_sms_email: User or User Pool not found.")
+    return jsonify( message='aws_cognito_validate_sms_email ', status='success') 
+    
+  except cognito_client.exceptions.InvalidParameterException:
+    log.info("aws_cognito_update_sms_email: ParamValidationError")
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_update_sms_email: Error ParamValidationError in geting adding smsemail %s:  ' % str(e))
+    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+        
+  except AttributeError as e:
+    log.info('aws_cognito_update_sms_number: AttributeError Error in geting adding smsemail  ' % str(e))
+    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_update_sms_email: Error in geting adding smsemail %s:  ' % str(e))
+    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+  
+
+  log.info("aws_cognito_update_sms_email: Getting verify code")
+  
+  try:
+    response = cognito_client.get_user_attribute_verification_code(
+            AccessToken=access_token,
+            AttributeName='email'
+    )
+
+    #log.info("manage_details:Successfully verification code for user %s:", username)   
+    log.info("aws_cognito_update_sms_email:verification code response %s:", response)
+
+    # Note: The phone number will be unverified by default.
+    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
+
+  except cognito_client.exceptions.ResourceNotFoundException:
+    log.info("aws_cognito_update_sms_email: User or User Pool not found.")
+
+  except cognito_client.exceptions.InvalidParameterException:
+    log.info("aws_cognito_update_sms_email: InvalidParameterException")
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_update_sms_email: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
+
+  except AttributeError as e:
+    log.info('aws_cognito_update_sms_email: AttributeError Error in getting verify code %s ' % str(e))
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_update_sms_email: Error in verify in getting verify code %s:  ' % str(e))  
+
+    log.info("aws_cognito_update_sms_email: Got verify code")
+
+  return jsonify( message='aws_cognito_update_sms_email ', status='success')
+
+
+@app.route('/aws_cognito_confirm_sms_email')
+def aws_cognito_confirm_sms_email():
+
+  log.info('aws_cognito_confirm_sms_email: started')
+
+  log.info('aws_cognito_confirm_sms_email: request.args %s:  ', request.args)
+  log.info('aws_cognito_confirm_sms_email: session %s:  ', session)
+  
+  #access_token = aws_auth.get_access_token(request.args)
+  access_token = session.get("aws_access_token")
+  log.info('aws_cognito_confirm_sms_email: access_token %s:  ', access_token) 
+
+  userid = request.args.get('userid',"")
+  smscode = request.args.get('smscode',"")
+  devicekey = request.args.get('devicekey',"")
+  smsemail = request.args.get('smsemail',"")
+
+  log.info('aws_cognito_confirm_sms_email: devicekey %s smsemail %s' , devicekey, smsemail)
+  log.info('aws_cognito_confirm_sms_email: userid %s smscode %s' , userid, smscode)
+
+
+  try:
+
+    response = cognito_client.verify_user_attribute(
+            AccessToken=access_token,
+            AttributeName='email',
+            Code=smscode
+    )
+
+    #log.info("manage_details:Phone number successfully verified. user %s:", username)   
+    log.info("aws_cognito_confirm_sms_email:verify_user_attribute response %s:", response)
+
+    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
+    log.info("aws_cognito_confirm_sms_email:verify_user_attribute HTTPstatus %s:", HTTPstatus)
+
+    if HTTPstatus != 200:
+      return jsonify( message='aws_cognito_confirm_sms_email ', status='error')
+    
+    updatesmsnumber(devicekey, smsnumber)
+
+  except cognito_client.exceptions.CodeMismatchException:
+    log.info("aws_cognito_confirm_sms_email: Invalid verification code provided, please try again..")
+    
+  except cognito_client.exceptions.ExpiredCodeException:
+    log.info("aws_cognito_confirm_sms_email: Verification code expired.")
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_confirm_sms_email: Error ExpiredCodeException in verify smsemail %s:  ' % str(e))  
+      
+  except AttributeError as e:
+    log.info('aws_cognito_confirm_sms_email: AttributeError Error in verify smsemail %s  ' % str(e))
+
+  except NameError as e:
+    log.info('aws_cognito_confirm_sms_email: NameError Error in verify smsemail  %s' % str(e))
+    
+  except TypeError as e:
+    log.info('aws_cognito_confirm_sms_email: NameError Error in verify smsemail  %s' % str(e))
+    
+
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_confirm_sms_email: Error in verify smsemail  %s ' % str(e))
+
+    
+  log.info("aws_cognito_confirm_sms_email: smsemail verified")
+
+  return jsonify( message='aws_cognito_confirm_sms_email ', status='success')
+
+def updatesmsemail(deviceapikey, smsemail):
+
+  log.info('updatesmsemail: devicekey %s smsemail %s' , deviceapikey, smsemail)
+  conn = db_pool.getconn()
+  
+  try:
+    
+    cursor = conn.cursor()
+    #update user_devices SET smsnumber = %s where deviceapikey = %s;
+    query  = "update user_devices set alertemail = %s where deviceapikey = %s;"
+
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, (smsemail, deviceapikey))
+
+    conn.commit()
+      
+    if cursor.rowcount == 0:
+      userstatus = " Could not add user smsemail " + str(deviceapikey)
+      return jsonify( message='Could not add smsemail', status='error')
+
+    userstatus = "new  smsemail added"
+    return jsonify( message='Added smsemail' , deviceapikey=deviceapikey, userstatus = userstatus )
+
+  except TypeError as e:
+    log.info("updatesmsemail Device error -:TypeError deviceid %s ", deviceapikey)
+    log.info('updatesmsemail Device error -:TypeError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsemail" )
+
+  except NameError as e:
+    log.info("updatesmsemail Device error -:NameError deviceid %s ", deviceapikey)
+    log.info('updatesmsemail Device error -:NameError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsemail" )
+
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("updatesmsemail Device error - Error in adding device %s", deviceapikey)
+    log.info('updatesmsemail Device error: Error in adding device %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsemail" )
+  
+  finally:
+    db_pool.putconn(conn)
+
+
+
+
 @app.route('/aws_login')
 #@cognito_login
 def aws_login():
