@@ -576,82 +576,6 @@ def manage():
 
 
 """
-  
-def aws_add_device(deviceid, devicename, useremail, , smsemail, smsphone ):
-
-  log.info('aws_add_device:start  ')  
-
-  status = 1
-
-  log.info('aws_add_device: deviceid %s  devicename %s:  ', deviceid, devicename)
-  log.info('aws_add_device: useremail %s   ', useremail)
-  log.info('aws_add_device: smsemail %s   ', smsemail)
-  log.info('aws_add_device: smsphone %s   ', smsphone)
-
-  conn = db_pool.getconn()
-
-
-  userid=hash_string(useremail)
-  log.info("aws_add_device- userid %s", userid)
-  #deviceapikey=hash_string(userid+deviceid+"083019")
-  deviceapikey=hash_string(userid+deviceid+"013024")
-  log.info("aws_add_device - deviceapikey %s", deviceapikey)
-  
-  try:
-    
-    query  = "select deviceapikey from user_devices where useremail = %s and deviceid = %s"
-    cursor = conn.cursor()
-
-    cursor = conn.cursor()
-    cursor.execute(query, ( useremail, deviceid))
-    i = cursor.fetchone()       
-
-    #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
-    if cursor.rowcount == 0:
-      log.info("aws_add_device - deviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
-      userstatus = "dvice does not exist - adding"
-      
-      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber) Values (%s, %s, %s, %s, %s, %s, %s, %s)"
-
-
-
-      # add new device record to DB
-      cursor = conn.cursor()
-      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, status,  devicename, smsemail, smsphone))
-
-      conn.commit()
-        
-      if cursor.rowcount == 0:
-        userstatus = " Could not add user deviceid " + str(deviceid)
-        return jsonify( message='Could not add device', status='error')
-      
-      userstatus = "new userid and deviceapikey added"
-      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
-
-    #userid exists so look up if deviceapikey has already been added
-    else:
-      userid= str(i[0])
-      log.info("Add Device status userid  %s  already exists", userid )
-      userstatus = "user already exists"
-      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
-    
-  except TypeError as e:
-    log.info("aws_add_device Device error -:TypeError deviceid %s ", deviceid)
-    log.info('aws_add_device Device error -:TypeError  Error %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
-
-  except:
-    e = sys.exc_info()[0]
-    log.info("aws_add_device Device error - Error in adding device %s", deviceid)
-    log.info('aws_add_device Device error: Error in adding device %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
-  
-  finally:
-    db_pool.putconn(conn)
-
-
-
-
 @app.route('/aws_home')
 def aws_home():
   
@@ -727,8 +651,7 @@ def auth_payment_completed():
       response = cognito_client.admin_create_user(
           UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
           Username=mPaymentDeviceID,
-          DesiredDeliveryMediums=['EMAIL',],
-          #DesiredDeliveryMediums=['SMS'|'EMAIL',],
+          DesiredDeliveryMediums=['SMS'|'EMAIL',],
           UserAttributes=[
                 {'Name': 'email', 'Value': mPaymentEmail},
                 {'Name': 'phone_number', 'Value': mPaymentPhone},
@@ -743,14 +666,7 @@ def auth_payment_completed():
 
       if errorcheck != 'noerror':
         return jsonify( message='x-amzn-ErrorType', status=errorcheck)
-
-
-      ######### add new device to helmsmart database #############
       
-      aws_add_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone )
-        
-     ###############################################
-        
       #return jsonify( json.dumps(response) )
       return redirect(url_for('newalertsuseradded'))  
 
@@ -812,8 +728,69 @@ def aws_cognito_user_added():
   log.info('aws_cognito_user_added: smsemail %s smsphone %s:  ', smsemail, smsphone)
 
   
-  aws_add_device(deviceid, devicename, useremail,  smsemail, smsphone )
+  #http://www.helmsmart-cloud.com/addnewdevice?deviceid=ECE33401D7DC&useremail=joe@chetcodigital.com&name=SGG4ENET-D7DC
+  conn = db_pool.getconn()
 
+
+  userid=hash_string(useremail)
+  log.info("aws_cognito_user_added- userid %s", userid)
+  #deviceapikey=hash_string(userid+deviceid+"083019")
+  deviceapikey=hash_string(userid+deviceid+"013024")
+  log.info("aws_cognito_user_added - deviceapikey %s", deviceapikey)
+  
+  try:
+    
+    query  = "select deviceapikey from user_devices where useremail = %s and deviceid = %s"
+    cursor = conn.cursor()
+
+    cursor = conn.cursor()
+    cursor.execute(query, ( useremail, deviceid))
+    i = cursor.fetchone()       
+
+    #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
+    if cursor.rowcount == 0:
+      log.info("aws_cognito_user_added - deviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
+      userstatus = "dvice does not exist - adding"
+      
+      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber) Values (%s, %s, %s, %s, %s, %s, %s, %s)"
+
+
+
+      # add new device record to DB
+      cursor = conn.cursor()
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, status,  devicename, smsemail, smsphone))
+
+      conn.commit()
+        
+      if cursor.rowcount == 0:
+        userstatus = " Could not add user deviceid " + str(deviceid)
+        return jsonify( message='Could not add device', status='error')
+      
+      userstatus = "new userid and deviceapikey added"
+      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+
+    #userid exists so look up if deviceapikey has already been added
+    else:
+      userid= str(i[0])
+      log.info("Add Device status userid  %s  already exists", userid )
+      userstatus = "user already exists"
+      return jsonify( message='Added user deviceid' , deviceapikey=deviceapikey, userstatus = userstatus )
+    
+  except TypeError as e:
+    log.info("aws_cognito_user_added Device error -:TypeError deviceid %s ", deviceid)
+    log.info('aws_cognito_user_added Device error -:TypeError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("aws_cognito_user_added Device error - Error in adding device %s", deviceid)
+    log.info('aws_cognito_user_added Device error: Error in adding device %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+  
+  finally:
+    db_pool.putconn(conn)
+    
+  #return jsonify({'username': username, 'useremail': useremail})
 
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
