@@ -742,6 +742,7 @@ def auth_payment_completed():
       log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
 
       if errorcheck != 'noerror':
+              log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
         return jsonify( message='x-amzn-ErrorType', status=errorcheck)
 
 
@@ -753,6 +754,11 @@ def auth_payment_completed():
         
       #return jsonify( json.dumps(response) )
       return redirect(url_for('newalertsuseradded'))  
+
+    except cognito_client.exceptions.InvalidParameterException:
+      log.info("auth_payment_completed: InvalidParameterException")
+      log.info('auth_payment_completed error -InvalidParameterException  Error %s:  ' % e)
+      return jsonify( message='Error Invalid Parameter', status=e)
 
     except cognito_client.exceptions.UsernameExistsException:
       log.info("auth_payment_completed: UsernameExistsException")
