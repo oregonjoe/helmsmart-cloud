@@ -528,14 +528,14 @@ function handleupdateSMS(response)
      } }); 
 
 	 
-
+	var encodedSMSnumber = encodeURIComponent(document.getElementById("AlertSMS").value);
 	 
 	 
 	var devicedataurl;
 	
 	var userid  = document.getElementById("DeviceTypeID").value;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_confirm_sms_number?userid=" + userid + "&smscode=" + newSMSverificationcode+ "&devicekey=" + document.getElementById("DeviceKey").value + "&smsnumber=" + document.getElementById("AlertSMS").value;
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_confirm_sms_number?userid=" + userid + "&smscode=" + newSMSverificationcode+ "&devicekey=" + document.getElementById("DeviceKey").value + "&smsnumber=" + encodedSMSnumber;
 
 
     return $.ajax({

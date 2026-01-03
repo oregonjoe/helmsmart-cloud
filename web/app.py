@@ -993,7 +993,7 @@ def aws_alerts_get_user_data():
           aws_name = attribute['Value']
           break
 
-  log.info('manage_details: aws_phone %s:  ', aws_name)
+  log.info('manage_details: aws_name %s:  ', aws_name)
 
   # Extract the email from the UserAttributes list
   aws_email_verified = 'false'
