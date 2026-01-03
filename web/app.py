@@ -1306,7 +1306,7 @@ def aws_cognito_update_sms_number():
   userid = request.args.get('userid',"")
   smsnumber = request.args.get('smsnumber',"")
 
-  if !smsnumber.startswith("+"):
+  if smsnumber.startswith("+") == False:
     smsnumber = prefix + smsnumber
   
   log.info('aws_cognito_update_sms_number: userid %s smsnumber %s' , userid, smsnumber)
