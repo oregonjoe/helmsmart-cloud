@@ -697,7 +697,7 @@ def auth_payment_completed():
         return jsonify( message='Add User Error - payment declined - invalid CVC code ' )
       
       mPaymentReasonText = data_dict.get('x_response_reason_text', "")
-      return jsonify( message='Add User Error - payment declined - code = %s reason = %s' , mPaymentReasonCode, mPaymentReasonText )
+      return jsonify( message='Add User Error - payment declined',  code =mPaymentReasonCode, reason = mPaymentReasonText )
 
     
     mPaymentDeviceID = data_dict.get('x_invoice_num', "")
