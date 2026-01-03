@@ -577,7 +577,7 @@ def manage():
 
 """
   
-def aws_add_device(deviceid, devicename, useremail, , smsemail, smsphone ):
+def aws_add_device(deviceid, devicename, useremail, smsemail, smsphone ):
 
   log.info('aws_add_device:start  ')  
 
