@@ -593,7 +593,11 @@ if (answer) {
 			return
 		}
 		
-		
+			var encodedSMSnumber = encodeURIComponent(newSMSnumber);
+	
+	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
+	
+    //devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedSMSnumber}`;
 
    document.getElementById("AlertSMS").value = newSMSnumber;
 		
@@ -615,7 +619,7 @@ if (answer) {
 	
 	var userid  = document.getElementById("DeviceTypeID").value;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_update_sms_number?userid=" + userid + "&smsnumber=" + newSMSnumber;
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_update_sms_number?userid=" + userid + "&smsnumber=" + encodedSMSnumber;
 
 
     return $.ajax({
