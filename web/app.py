@@ -683,7 +683,7 @@ def auth_payment_completed():
     #mPayment = json.loads(request.form)
     #log.info("auth_payment_completed mPayment %s",mPayment)
     #mPaymentDeviceID = data_dict['x_invoice_num']
-   mPaymentResponseCode = data_dict.get('x_response_code', "")
+    mPaymentResponseCode = data_dict.get('x_response_code', "")
 
     if mPaymentResponseCode == "":
       return jsonify( message='Add user auth_payment_completed error - x_response_code failed' , )
