@@ -972,13 +972,13 @@ var table = document.getElementById("DeviceData");
 		var cell4 = ssrow.insertCell(4);
 		cell4.innerHTML = row[11];
 		cell4.style.textAlign = 'center';	
-		cell4.style.width = '75px';
+		cell4.style.width = '150px';
 		
 		//Subscritpion expires
 		var cell5 = ssrow.insertCell(5);
 		cell5.innerHTML = row[14];
 		cell5.style.textAlign = 'center';	
-		cell5.style.width = '75px';
+		cell5.style.width = '150px';
 		
 		
 			// Device API Count
@@ -1003,10 +1003,10 @@ var table = document.getElementById("DeviceData");
 
 		
 		// Modfy button
-		var cell6 = ssrow.insertCell(6);
-		cell6.innerHTML = "<button id='btnSettingsEventSave' name='btnValue' value='modify' class='btn btn-primary' onclick='modifyData(" +  index + ");'>modify</button>";
-		cell6.style.textAlign = 'left';
-		cell6.style.width = '150px';
+		var cell8 = ssrow.insertCell(6);
+		cell8.innerHTML = "<button id='btnSettingsEventSave' name='btnValue' value='modify' class='btn btn-primary' onclick='modifyData(" +  index + ");'>modify</button>";
+		cell8.style.textAlign = 'left';
+		cell8.style.width = '150px';
 		
 		//disable row
 		if(	myDeviceID[index].toUpperCase() != gAWSUsername.toUpperCase() )
