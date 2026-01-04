@@ -576,6 +576,35 @@ def manage():
 
 
 """
+
+def aws_check_user_exists(username):
+
+  log.info('aws_check_user_exists:start  ')
+  
+  UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+  
+  try:
+    
+    cognito_client.admin_get_user(
+          UserPoolId=UserPoolId,
+          Username=username
+      )
+
+    log.info('aws_check_user_exists  - user already exist')      
+    return True
+
+    
+  except client.exceptions.ResourceNotFoundException:
+    log.info('aws_check_user_exists  - user dosnt exist')
+    return False
+
+    
+  except ClientError as e:
+    log.info('aws_check_user_exists error:  %s:  ' % e)
+    return False
+
+
+
   
 def aws_add_device(deviceid, devicename, useremail, smsemail, smsphone ):
 
@@ -645,6 +674,116 @@ def aws_add_device(deviceid, devicename, useremail, smsemail, smsphone ):
     log.info("aws_add_device Device error - Error in adding device %s", deviceid)
     log.info('aws_add_device Device error: Error in adding device %s:  ' % e)
     return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add deviceapikey" )
+  
+  finally:
+    db_pool.putconn(conn)
+
+
+def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID ):
+
+  log.info('aws_update_device:start  ')  
+
+  devicestatus = 1
+
+  log.info('aws_update_device: deviceid %s  devicename %s:  ', deviceid, devicename)
+  log.info('aws_update_device: useremail %s   ', useremail)
+  log.info('aws_update_device: smsemail %s   ', smsemail)
+  log.info('aws_update_device: smsphone %s   ', smsphone)
+  log.info('aws_update_device: subscriptionkey %s   ', subscriptionKey)
+  log.info('aws_update_device: transactionID %s   ', transactionID)
+
+
+  starttime = datetime.datetime.now()
+  #startepoch =  int(time.time())
+
+  if subscriptionKey == environ.get("SubscriptionKeyMonth"):
+    endtime = datetime.datetime.now()  + relativedelta(months=1)
+  elif subscriptionKey == environ.get("SubscriptionKeyYear"):
+    endtime = datetime.datetime.now()  + relativedelta(months=1)
+  else:
+    endtime = starttime
+
+    
+  conn = db_pool.getconn()
+  
+  try:
+    
+    query  = "select deviceapikey from user_devices where useremail = %s and deviceid = %s"
+    cursor = conn.cursor()
+
+    cursor = conn.cursor()
+    cursor.execute(query, ( useremail, deviceid))
+    i = cursor.fetchone()       
+
+    #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
+    if cursor.rowcount == 0:
+
+      userid=hash_string(useremail)
+      log.info("aws_update_device- userid %s", userid)
+      deviceapikey=hash_string(userid+deviceid+"013024")
+      log.info("aws_update_device - deviceapikey %s", deviceapikey)
+      
+      log.info("aws_update_device - deviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
+      userstatus = "device does not exist - adding"
+
+      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber, subscriptionid, transactionid, subscriptionstartdate, subscriptionenddate) "
+      query  = query + "Values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+
+      # add new device record to DB
+      cursor = conn.cursor()
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, subscriptionKey, transactionID, starttime, endtime))
+
+      conn.commit()
+        
+      if cursor.rowcount == 0:
+        db_pool.putconn(conn)
+        log.info("aws_update_device ADD DB ERROR deviceid %s ", deviceid)
+        return False
+        
+      db_pool.putconn(conn)
+      log.info("aws_update_device ADD SUCCESS deviceid %s ", deviceid)
+      return True
+
+    #deviceid exists so look up if deviceapikey has already been added
+    else:
+      deviceapikey= str(i[0])
+      log.info("Update Device status deviceapikey  %s  already exists", deviceapikey )
+
+      query  = "update user_devices SET "
+      query  = query + "devicename = %s, "
+      query  = query + "alertemail = %s, "
+      query  = query + "smsnumber = %s, "
+      query  = query + "subscriptionid = %s, "
+      query  = query + "transactionid = %s, "
+      query  = query + "subscriptionstartdate = %s, "
+      query  = query + "subscriptionenddate = %s, "
+      query  = query + "WHERE deviceapikey =  %s"
+      
+      # add new device record to DB
+      cursor = conn.cursor()
+      cursor.execute(query, (devicename, smsemail, smsphone,, subscriptionKey, transactionID, starttime, endtime, deviceapikey))
+
+      conn.commit()
+
+      if cursor.rowcount == 0:
+        log.info("aws_update_device UPDATE DB ERROR deviceid %s ", deviceid)
+        db_pool.putconn(conn)
+        return False
+      
+      db_pool.putconn(conn)
+      log.info("aws_update_device UPDATE SUCCESS deviceid %s ", deviceid)
+      return True
+    
+  except TypeError as e:
+    log.info("aws_update_device Device error -:TypeError deviceid %s ", deviceid)
+    log.info('aws_update_device Device error -:TypeError  Error %s:  ' % e)
+    return False
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("aws_update_device Device error - Error in update device %s", deviceid)
+    log.info('aws_update_device Device error: Error in update device %s:  ' % e)
+    return False
   
   finally:
     db_pool.putconn(conn)
@@ -731,63 +870,160 @@ def auth_payment_completed():
 
     log.info('auth_payment_completed:mPaymentDeviceName %s  ' , mPaymentDeviceName)
 
-    try:
-      
-      response = cognito_client.admin_create_user(
-          UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-          Username=mPaymentDeviceID,
-          DesiredDeliveryMediums=['EMAIL',],
-          #DesiredDeliveryMediums=['SMS'|'EMAIL',],
-          UserAttributes=[
-                {'Name': 'email', 'Value': mPaymentEmail},
-                {'Name': 'phone_number', 'Value': mPaymentPhone},
-                {'Name': 'name', 'Value': mPaymentDeviceName}
-                #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
-            ]
-         
-      )
- 
-      errorcheck = response.get('x-amzn-ErrorType', 'noerror')
-      log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
+    mPaymentSubscription = data_dict.get('x_catalog_link_id', "")
 
-      if errorcheck != 'noerror':
+    if mPaymentSubscription == "":
+      return jsonify( message='Add user auth_payment_completed error - x_catalog_link_id failed' , )
+
+    log.info('auth_payment_completed:mPaymentSubscription %s  ' , mPaymentSubscription)
+
+    mPaymentTransaction = data_dict.get('x_trans_id', "")
+
+    if mPaymentTransaction == "":
+      return jsonify( message='Add user auth_payment_completed error - x_trans_id failed' , )
+
+    log.info('auth_payment_completed:mPaymentTransaction %s  ' , mPaymentTransaction)
+
+    #########################################################
+    ## check if user already exists
+    #########################################################
+    
+    device_alreay_exists = aws_check_user_exists(mPaymentDeviceID)
+
+    #########################################################
+
+    # if does not exist then add new device
+
+    if device_alreay_exists == False:
+      
+      #########################################################
+      ## adding new device
+      #########################################################
+      log.info("auth_payment_completed: adding new device")
+      
+      try:
+        
+        response = cognito_client.admin_create_user(
+            UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+            Username=mPaymentDeviceID,
+            DesiredDeliveryMediums=['EMAIL',],
+            #DesiredDeliveryMediums=['SMS'|'EMAIL',],
+            UserAttributes=[
+                  {'Name': 'email', 'Value': mPaymentEmail},
+                  {'Name': 'phone_number', 'Value': mPaymentPhone},
+                  {'Name': 'name', 'Value': mPaymentDeviceName}
+                  #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
+              ]
+           
+        )
+   
+        errorcheck = response.get('x-amzn-ErrorType', 'noerror')
         log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
-        return jsonify( message='x-amzn-ErrorType', status=errorcheck)
+
+        if errorcheck != 'noerror':
+          log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
+          return jsonify( message='x-amzn-ErrorType', status=errorcheck)
 
 
-      ######### add new device to helmsmart database #############
+        ######### add new device to helmsmart database #############
+        
+        aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
+          
+       ###############################################
+          
+        #return jsonify( json.dumps(response) )
+        return redirect(url_for('newalertsuseradded'))  
+
+      except cognito_client.exceptions.InvalidParameterException as e:
+        log.info("auth_payment_completed: InvalidParameterException")
+        #print(f"Invalid parameter: {e.response['Error']['Message']}")
+        log.info('auth_payment_completed error -InvalidParameterException  Error %s:  ' , e.response['Error']['Message'])
+        return jsonify( message='Error Invalid Parameter', status=e.response['Error']['Message'])
+
+      except cognito_client.exceptions.UsernameExistsException:
+        log.info("auth_payment_completed: UsernameExistsException")
+        return jsonify( message='Username  already Exists', status='error')
       
-      aws_add_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone )
-        
-     ###############################################
-        
-      #return jsonify( json.dumps(response) )
-      return redirect(url_for('newalertsuseradded'))  
+      except KeyError as e:
+        log.info('auth_payment_completed error -:KeyError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Key error - failed' , )
+      
+      except TypeError as e:
+        log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Type error - failed' , )
+      
+      except:
+        e = sys.exc_info()[0]
+        log.info('aws_cognito_user_added aws error: Error in adding user %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws error - failed' , )
+      
+      return jsonify( json.dumps(data_dict, indent=4) )
 
-    except cognito_client.exceptions.InvalidParameterException as e:
-      log.info("auth_payment_completed: InvalidParameterException")
-      #print(f"Invalid parameter: {e.response['Error']['Message']}")
-      log.info('auth_payment_completed error -InvalidParameterException  Error %s:  ' , e.response['Error']['Message'])
-      return jsonify( message='Error Invalid Parameter', status=e.response['Error']['Message'])
+    else:
+      
+      #########################################################
+      ## updating existing device
+      #########################################################
+      log.info("auth_payment_completed: updating existing device")
+       
+      try:
+        
+        response = cognito_client.admin_update_user_attributes(
+            UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+            Username=mPaymentDeviceID,
 
-    except cognito_client.exceptions.UsernameExistsException:
-      log.info("auth_payment_completed: UsernameExistsException")
-      return jsonify( message='Username  already Exists', status='error')
+            UserAttributes=[
+                  {'Name': 'email', 'Value': mPaymentEmail},
+                  {'Name': 'phone_number', 'Value': mPaymentPhone},
+                  {'Name': 'name', 'Value': mPaymentDeviceName}
+                  #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
+              ]
+           
+        )
+   
+        errorcheck = response.get('x-amzn-ErrorType', 'noerror')
+        log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
+
+        if errorcheck != 'noerror':
+          log.info('auth_payment_completed:errorcheck %s  ' , errorcheck)
+          return jsonify( message='x-amzn-ErrorType', status=errorcheck)
+
+
+        ######### add new device to helmsmart database #############
+        
+        aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
+          
+       ###############################################
+          
+        #return jsonify( json.dumps(response) )
+        return redirect(url_for('newalertsuseradded'))  
+
+      except cognito_client.exceptions.InvalidParameterException as e:
+        log.info("auth_payment_completed: InvalidParameterException")
+        #print(f"Invalid parameter: {e.response['Error']['Message']}")
+        log.info('auth_payment_completed error -InvalidParameterException  Error %s:  ' , e.response['Error']['Message'])
+        return jsonify( message='Error Invalid Parameter', status=e.response['Error']['Message'])
+
+      except cognito_client.exceptions.UsernameExistsException:
+        log.info("auth_payment_completed: UsernameExistsException")
+        return jsonify( message='Username  already Exists', status='error')
+      
+      except KeyError as e:
+        log.info('auth_payment_completed error -:KeyError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Key error - failed' , )
+      
+      except TypeError as e:
+        log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Type error - failed' , )
+      
+      except:
+        e = sys.exc_info()[0]
+        log.info('aws_cognito_user_added aws error: Error in adding user %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws error - failed' , )
+      
+      return jsonify( json.dumps(data_dict, indent=4) )
+
     
-    except KeyError as e:
-      log.info('auth_payment_completed error -:KeyError  Error %s:  ' % e)
-      return jsonify( message='Add user auth_payment_completed aws Key error - failed' , )
-    
-    except TypeError as e:
-      log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
-      return jsonify( message='Add user auth_payment_completed aws Type error - failed' , )
-    
-    except:
-      e = sys.exc_info()[0]
-      log.info('aws_cognito_user_added aws error: Error in adding user %s:  ' % e)
-      return jsonify( message='Add user auth_payment_completed aws error - failed' , )
-    
-    return jsonify( json.dumps(data_dict, indent=4) )
 
   except TypeError as e:
     log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
