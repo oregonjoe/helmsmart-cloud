@@ -712,9 +712,12 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
   if subscriptionKey == environ.get("SubscriptionKeyMonth"):
     endtime = datetime.datetime.now()  + relativedelta(months=1)
+    SubscriptionType = "HelmSmart - Monthly"
   elif subscriptionKey == environ.get("SubscriptionKeyYear"):
-    endtime = datetime.datetime.now()  + relativedelta(months=1)
+    SubscriptionType = "HelmSmart - Yearly"
+    endtime = datetime.datetime.now()  + relativedelta(months=12)
   else:
+    SubscriptionType = "HelmSmart - Invalid"
     endtime = starttime
 
   log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
@@ -749,7 +752,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, subscriptionKey, transactionID, starttime, endtime))
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime))
 
       conn.commit()
         
@@ -781,7 +784,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (devicename, smsemail, smsphone, subscriptionKey, transactionID, starttime, endtime, deviceapikey))
+      cursor.execute(query, (devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime, deviceapikey))
 
       conn.commit()
 
@@ -1029,12 +1032,12 @@ def auth_payment_completed():
           return jsonify( message='x-amzn-ErrorType', status=errorcheck)
 
 
-        ######### add new device to helmsmart database #############
+        ######### add update device to helmsmart database #############
         
         deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
           
         if deviceupdate_check == True:
-          return redirect(url_for('newalertsuseradded'))
+          return redirect(url_for('manage'))
 
         else:
           return jsonify( message='aws_update_device error - failed'  )
