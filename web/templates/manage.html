@@ -280,6 +280,9 @@ $('#tab a').click(function (e) {
 	var myDeviceStatus = new Array();
 	var myDeviceApiCount = new Array();
 	
+	var mySubscriptionType= new Array();	
+	var mySubscriptionExpires= new Array();
+	
 	
 	var timezoneOffset = 0;
 	
@@ -901,6 +904,8 @@ var table = document.getElementById("DeviceData");
 	myDeviceKey.length=0;
 	myDeviceStatus.length=0;
 	myDeviceApiCount.length=0;	
+	mySubscriptionType.length=0;	
+	mySubscriptionExpires.length=0;	
 	
   response.records.forEach(function(row){
   
@@ -915,8 +920,8 @@ var table = document.getElementById("DeviceData");
 	myAlertEmail.push(row[7]);
 	myAlertSMS.push(row[8]);
 	myDeviceApiCount.push(row[9]);
-
-
+	mySubscriptionType.push(row[11]);
+	mySubscriptionExpires.push(row[14]);
 	
  
 	var ssrow = table.insertRow(1);
@@ -963,23 +968,36 @@ var table = document.getElementById("DeviceData");
 				cell3.style.color = '#057552';
 		}
 		
-			// Device API Count
+		//Subscritpion Type
 		var cell4 = ssrow.insertCell(4);
-		cell4.innerHTML = row[9];
+		cell4.innerHTML = row[11];
 		cell4.style.textAlign = 'center';	
 		cell4.style.width = '75px';
 		
+		//Subscritpion expires
+		var cell5 = ssrow.insertCell(5);
+		cell5.innerHTML = row[14];
+		cell5.style.textAlign = 'center';	
+		cell5.style.width = '75px';
+		
+		
+			// Device API Count
+		var cell6 = ssrow.insertCell(6);
+		cell6.innerHTML = row[9];
+		cell6.style.textAlign = 'center';	
+		cell6.style.width = '75px';
+		
 		
 		// Device Status
-		var cell5 = ssrow.insertCell(5);
+		var cell7 = ssrow.insertCell(7);
 		
 		if(parseInt(row[4]) == 1 )
-			cell5.innerHTML = 'active';
+			cell7.innerHTML = 'active';
 		else
-			cell5.innerHTML = 'disabled';
+			cell7.innerHTML = 'disabled';
 			
-		cell5.style.textAlign = 'center';
-		cell5.style.width = '75px';
+		cell7.style.textAlign = 'center';
+		cell7.style.width = '75px';
 		
 
 
@@ -1402,6 +1420,8 @@ Alert service</p>
 		  <th> Name </th>
 		  <th> Alert Email </th>
           <th> Alert SMS</th>    
+		  <th> Subscription</th>  
+		  <th> Expires</th>  
 		  <th> API Count </th> 
 		  <th> Status </th>
 			   </TR>
