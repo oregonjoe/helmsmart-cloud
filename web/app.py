@@ -717,7 +717,9 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   else:
     endtime = starttime
 
-    
+  log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
+
+  
   conn = db_pool.getconn()
   
   try:
@@ -742,6 +744,8 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
       query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber, subscriptionid, transactionid, subscriptionstartdate, subscriptionenddate) "
       query  = query + "Values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+
+      log.info("aws_update_device update query %s ", query)
 
       # add new device record to DB
       cursor = conn.cursor()
@@ -770,8 +774,10 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       query  = query + "subscriptionid = %s, "
       query  = query + "transactionid = %s, "
       query  = query + "subscriptionstartdate = %s, "
-      query  = query + "subscriptionenddate = %s, "
+      query  = query + "subscriptionenddate = %s "
       query  = query + "WHERE deviceapikey =  %s"
+
+      log.info("aws_update_device update query %s ", query)
       
       # add new device record to DB
       cursor = conn.cursor()
@@ -787,6 +793,21 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       db_pool.putconn(conn)
       log.info("aws_update_device UPDATE SUCCESS deviceid %s ", deviceid)
       return True
+
+  except psycopg.SyntaxError as e:
+      log.info('aws_update_device: SyntaxError in  update deviceid %s:  ', deviceid)
+      log.info('aws_update_device: SyntaxError in  update deviceid  %s:  ' % str(e))
+      return False
+
+  except psycopg.ProgrammingError as e:
+      log.info('aws_update_device: ProgrammingError in  update deviceid %s:  ', deviceid)
+      log.info('aws_update_device: ProgrammingError in  update deviceid  %s:  ' % str(e))
+      return False
+
+  except psycopg.DataError as e:
+      log.info('aws_update_device: DataError in  update deviceid %s:  ', deviceid)
+      log.info('aws_update_device: DataError in  update deviceid  %s:  ' % str(e))
+      return False
     
   except TypeError as e:
     log.info("aws_update_device Device error -:TypeError deviceid %s ", deviceid)
