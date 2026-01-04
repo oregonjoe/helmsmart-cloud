@@ -860,7 +860,7 @@ def auth_payment_completed():
     mPaymentResponseCode = data_dict.get('x_response_code', "")
 
     if mPaymentResponseCode == "":
-      return jsonify( message='Add user auth_payment_completed error - x_response_code failed' , )
+      return jsonify( message='Add user auth_payment_completed error - x_response_code failed'  )
 
     log.info('auth_payment_completed:mPaymentResponseCode %s  ' , mPaymentResponseCode)
 
@@ -877,7 +877,7 @@ def auth_payment_completed():
     mPaymentDeviceID = data_dict.get('x_invoice_num', "")
 
     if mPaymentDeviceID == "":
-      return jsonify( message='Add user auth_payment_completed error - x_invoice_num failed' , )
+      return jsonify( message='Add user auth_payment_completed error - x_invoice_num failed' )
 
     log.info('auth_payment_completed:mPaymentDeviceID %s  ' , mPaymentDeviceID)
 
@@ -885,7 +885,7 @@ def auth_payment_completed():
     mPaymentEmail = data_dict.get('x_email', "")
 
     if mPaymentEmail == "":
-      return jsonify( message='Add user auth_payment_completed error - x_email failed' , )
+      return jsonify( message='Add user auth_payment_completed error - x_email failed'  )
 
     log.info('auth_payment_completed:mPaymentEmail %s  ' , mPaymentEmail)
 
@@ -901,21 +901,21 @@ def auth_payment_completed():
     mPaymentDeviceName = data_dict.get('x_description', "")
 
     if mPaymentDeviceName == "":
-      return jsonify( message='Add user auth_payment_completed error - x_description failed' , )
+      return jsonify( message='Add user auth_payment_completed error - x_description failed'  )
 
     log.info('auth_payment_completed:mPaymentDeviceName %s  ' , mPaymentDeviceName)
 
     mPaymentSubscription = data_dict.get('x_catalog_link_id', "")
 
     if mPaymentSubscription == "":
-      return jsonify( message='Add user auth_payment_completed error - x_catalog_link_id failed' , )
+      return jsonify( message='Add user auth_payment_completed error - x_catalog_link_id failed'  )
 
     log.info('auth_payment_completed:mPaymentSubscription %s  ' , mPaymentSubscription)
 
     mPaymentTransaction = data_dict.get('x_trans_id', "")
 
     if mPaymentTransaction == "":
-      return jsonify( message='Add user auth_payment_completed error - x_trans_id failed' , )
+      return jsonify( message='Add user auth_payment_completed error - x_trans_id failed'  )
 
     log.info('auth_payment_completed:mPaymentTransaction %s  ' , mPaymentTransaction)
 
@@ -962,35 +962,40 @@ def auth_payment_completed():
 
         ######### add new device to helmsmart database #############
         
-        aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
-          
+        deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
+
+        if deviceupdate_check == True:
+          return redirect(url_for('newalertsuseradded'))
+
+        else:
+          return jsonify( message='aws_add_device error - failed'  )          
        ###############################################
           
         #return jsonify( json.dumps(response) )
         return redirect(url_for('newalertsuseradded'))  
 
       except cognito_client.exceptions.InvalidParameterException as e:
-        log.info("auth_payment_completed: InvalidParameterException")
+        log.info("auth_payment_completed - add device: InvalidParameterException")
         #print(f"Invalid parameter: {e.response['Error']['Message']}")
-        log.info('auth_payment_completed error -InvalidParameterException  Error %s:  ' , e.response['Error']['Message'])
+        log.info('auth_payment_completed  - add device error -InvalidParameterException  Error %s:  ' , e.response['Error']['Message'])
         return jsonify( message='Error Invalid Parameter', status=e.response['Error']['Message'])
 
       except cognito_client.exceptions.UsernameExistsException:
-        log.info("auth_payment_completed: UsernameExistsException")
+        log.info("auth_payment_completed - add device: UsernameExistsException")
         return jsonify( message='Username  already Exists', status='error')
       
       except KeyError as e:
-        log.info('auth_payment_completed error -:KeyError  Error %s:  ' % e)
-        return jsonify( message='Add user auth_payment_completed aws Key error - failed' , )
+        log.info('auth_payment_completed error  - add device:KeyError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Key error - failed' )
       
       except TypeError as e:
-        log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
-        return jsonify( message='Add user auth_payment_completed aws Type error - failed' , )
+        log.info('auth_payment_completed error  - add device:TypeError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Type error - failed'  )
       
       except:
         e = sys.exc_info()[0]
-        log.info('aws_cognito_user_added aws error: Error in adding user %s:  ' % e)
-        return jsonify( message='Add user auth_payment_completed aws error - failed' , )
+        log.info('aws_cognito_user_added aws error  - add device: Error in adding user %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws error - failed'  )
       
       return jsonify( json.dumps(data_dict, indent=4) )
 
@@ -1026,48 +1031,57 @@ def auth_payment_completed():
 
         ######### add new device to helmsmart database #############
         
-        aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
+        deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
           
-       ###############################################
-          
-        #return jsonify( json.dumps(response) )
-        return redirect(url_for('newalertsuseradded'))  
+        if deviceupdate_check == True:
+          return redirect(url_for('newalertsuseradded'))
+
+        else:
+          return jsonify( message='aws_update_device error - failed'  )
+        
+       ###############################################      
 
       except cognito_client.exceptions.InvalidParameterException as e:
-        log.info("auth_payment_completed: InvalidParameterException")
+        log.info("auth_payment_completed - update device: InvalidParameterException")
         #print(f"Invalid parameter: {e.response['Error']['Message']}")
         log.info('auth_payment_completed error -InvalidParameterException  Error %s:  ' , e.response['Error']['Message'])
         return jsonify( message='Error Invalid Parameter', status=e.response['Error']['Message'])
 
       except cognito_client.exceptions.UsernameExistsException:
-        log.info("auth_payment_completed: UsernameExistsException")
+        log.info("auth_payment_completed - update device : UsernameExistsException")
         return jsonify( message='Username  already Exists', status='error')
       
       except KeyError as e:
-        log.info('auth_payment_completed error -:KeyError  Error %s:  ' % e)
-        return jsonify( message='Add user auth_payment_completed aws Key error - failed' , )
+        log.info('auth_payment_completed error  - update device:KeyError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Key error - failed'  )
+
+      except ValueError as e:
+        log.info('auth_payment_completed error  - update device:ValueError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Value error - failed'  )
       
       except TypeError as e:
-        log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
-        return jsonify( message='Add user auth_payment_completed aws Type error - failed' , )
+        log.info('auth_payment_completed error  - update device:TypeError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws Type error - failed'  )
       
       except:
         e = sys.exc_info()[0]
-        log.info('aws_cognito_user_added aws error: Error in adding user %s:  ' % e)
-        return jsonify( message='Add user auth_payment_completed aws error - failed' , )
+        log.info('aws_cognito_user_added aws error  - update device: Error in adding user %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws error - failed'  )
       
       return jsonify( json.dumps(data_dict, indent=4) )
 
-    
+  except ValueError as e:
+    log.info('auth_payment_completed error -:ValueError  Error %s:  ' % e)
+    return jsonify( message='Add user auth_payment_completed Value error - failed' )    
 
   except TypeError as e:
     log.info('auth_payment_completed error -:TypeError  Error %s:  ' % e)
-    return jsonify( message='Add user auth_payment_completed Type error - failed' , )
+    return jsonify( message='Add user auth_payment_completed Type error - failed'  )
   
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_user_added Device error: Error in adding device %s:  ' % e)
-    return jsonify( message='Add user auth_payment_completed error - failed' , )
+    return jsonify( message='Add user auth_payment_completed error - failed'  )
 
 @app.route('/aws_cognito_user_added')
 def aws_cognito_user_added():
