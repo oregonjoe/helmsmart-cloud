@@ -581,7 +581,10 @@ def aws_check_user_exists(username):
 
   log.info('aws_check_user_exists:start  ')
   
-  UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+  UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID")
+  
+  log.info('aws_check_user_exists   UserPoolId %s: username %s:  ' , UserPoolId, username)
+
   
   try:
     
@@ -596,6 +599,10 @@ def aws_check_user_exists(username):
     
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info('aws_check_user_exists  - user dosnt exist')
+    return False
+  
+  except cognito_client.exceptions.ParamValidationError:
+    log.info('aws_check_user_exists  - ParamValidationError')
     return False
 
   except cognito_client.exceptions.UsernameExistsException:
