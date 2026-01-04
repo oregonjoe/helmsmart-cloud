@@ -754,11 +754,11 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       conn.commit()
         
       if cursor.rowcount == 0:
-        db_pool.putconn(conn)
+        #db_pool.putconn(conn)
         log.info("aws_update_device ADD DB ERROR deviceid %s ", deviceid)
         return False
         
-      db_pool.putconn(conn)
+      #db_pool.putconn(conn)
       log.info("aws_update_device ADD SUCCESS deviceid %s ", deviceid)
       return True
 
@@ -787,10 +787,10 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
       if cursor.rowcount == 0:
         log.info("aws_update_device UPDATE DB ERROR deviceid %s ", deviceid)
-        db_pool.putconn(conn)
+        #db_pool.putconn(conn)
         return False
       
-      db_pool.putconn(conn)
+      #db_pool.putconn(conn)
       log.info("aws_update_device UPDATE SUCCESS deviceid %s ", deviceid)
       return True
 
