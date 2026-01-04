@@ -968,7 +968,7 @@ def auth_payment_completed():
         deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
 
         if deviceupdate_check == True:
-          return redirect(url_for('newalertsuseradded'))
+          return redirect(url_for('user_subscription_added'))
 
         else:
           return jsonify( message='aws_add_device error - failed'  )          
@@ -1037,7 +1037,7 @@ def auth_payment_completed():
         deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
           
         if deviceupdate_check == True:
-          return redirect(url_for('manage'))
+          return redirect(url_for('user_subscription_updated'))
 
         else:
           return jsonify( message='aws_update_device error - failed'  )
@@ -2025,11 +2025,19 @@ def aws_details():
 
 
 
-@app.route('/newalertsuseradded')
-def newalertsuseradded():
+@app.route('/user_subscription_updated')
+def user_subscription_updated():
 
   return render_template(
-    'newalertsuseradded.html',
+    'user_subscription_updated.html',
+    features = [],
+  )
+
+@app.route('/user_subscription_added')
+def user_subscription_added():
+
+  return render_template(
+    'user_subscription_added.html',
     features = [],
   )
 
