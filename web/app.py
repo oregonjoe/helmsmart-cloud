@@ -594,16 +594,23 @@ def aws_check_user_exists(username):
     return True
 
     
-  except client.exceptions.ResourceNotFoundException:
+  except cognito_client.exceptions.ResourceNotFoundException:
     log.info('aws_check_user_exists  - user dosnt exist')
     return False
 
-    
+  except cognito_client.exceptions.UsernameExistsException:
+    log.info("aws_check_user_exists: UsernameExistsException")
+    return True
+  
   except ClientError as e:
     log.info('aws_check_user_exists error:  %s:  ' % e)
     return False
 
-
+  except:
+    e = sys.exc_info()[0]
+    log.info("aws_check_user_exists Error in checking username %s", username)
+    log.info('aws_check_user_exists Error in checking username %s:  ' % e)
+    return False
 
   
 def aws_add_device(deviceid, devicename, useremail, smsemail, smsphone ):
