@@ -22477,7 +22477,7 @@ def deletedevice_endpoint():
     db_pool.putconn(conn)
 
 
-def check_device_subscription_active(deviceid):
+def check_device_subscription_active(device_id):
 
   log.info("check_device_subscription_active device_id %s:  ", device_id)
 
