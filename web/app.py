@@ -1288,16 +1288,15 @@ def aws_alerts_get_user_data():
 
   session.clear
   
-  userinfo = []
-  userinfo['email'] = useremail
-  userinfo['name'] = username
 
-
+  #user_info_json = json.dumps(userinfo)
+  #log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
   
-  user_info_json = json.dumps(userinfo)
-  log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
-  
-  session['profile'] =json.loads(user_info_json)
+  #session['profile'] =json.loads(user_info_json)
+  session['profile']=[]
+  session['profile']['email'] = useremail
+  session['profile']['name'] = username
+  session.modified = True
   log.info('aws_alerts_get_admin_data: TypeError in session user_info %s:  ', session)
   
   session['username'] = useremail
