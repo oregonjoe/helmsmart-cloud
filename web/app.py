@@ -1308,7 +1308,8 @@ def aws_alerts_get_admin_data():
   log.info('aws_alerts_get_admin_data: request.args %s:  ', request.args)
   log.info('aws_alerts_get_admin_data: session %s:  ', session)
   
-  access_token = aws_auth.get_access_token(request.args)
+  #access_token = aws_auth.get_access_token(request.args)
+  access_token = aws_auth.get_access_token()
   log.info('aws_alerts_get_admin_data: access_token %s:  ', access_token) 
   #return jsonify({'access_token': access_token})
   #tokens = session.json()
