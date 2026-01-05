@@ -22522,10 +22522,36 @@ def check_device_subscription_active(device_id):
 
         if nowday < date_object:
           log.info("check_device_subscription_active device found device_id subscription active")
+
+          try:
+            query  = "update user_devices SET devicestatus=1 where deveviceid=%s"
+            cursor = conn.cursor()
+            cursor.execute(query, (device_id, ))
+
+            conn.commit()
+            
+          except:
+            e = sys.exc_info()[0]
+            log.info("check_device_subscription_active: DB update error device_id %s ", device_id)
+            log.info('check_device_subscription_active: DB update error %s:  ' % e)
+          
           return True
 
         else:
           log.info("check_device_subscription_active device found device_id subscription inactive")
+
+          try:
+            query  = "update user_devices SET devicestatus=0 where deveviceid=%s"
+            cursor = conn.cursor()
+            cursor.execute(query, (device_id, ))
+
+            conn.commit()
+            
+          except:
+            e = sys.exc_info()[0]
+            log.info("check_device_subscription_active: DB update error device_id %s ", device_id)
+            log.info('check_device_subscription_active: DB update error %s:  ' % e)
+          
           return False
 
       else:
@@ -22601,7 +22627,7 @@ def events_endpoint(device_id, partition):
   ## use deviceid to see if its in the database and enabled
   ##################################################################
   deviceid_enabled = mc.get(device_id + '_enabled' )
-  log.info('events_endpoint - subscription check device_id %s deviceid_enabled %s :  ', device_id, deviceid_enabled)
+  log.info('events_endpoint - start subscription check device_id %s deviceid_enabled %s :  ', device_id, deviceid_enabled)
   
   if deviceid_enabled != "" and deviceid_enabled != None and deviceid_enabled is not None:
     
