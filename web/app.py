@@ -1293,7 +1293,7 @@ def aws_alerts_get_user_data():
   #log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
   
   #session['profile'] =json.loads(user_info_json)
-  session['profile']=[]
+  session['profile']={}
   session['profile']['email'] = useremail
   session['profile']['name'] = username
   session.modified = True
