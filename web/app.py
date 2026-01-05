@@ -22511,10 +22511,13 @@ def check_device_subscription_active(device_id):
 
       if subscription_end_date != "" and subscription_end_date != None and subscription_end_date is not None:      
 
+        date_object = datetime.datetime.strptime(subscription_end_date, "%Y-%m-%d").date()
+        log.info("check_device_subscription_active device found device_id %s: date_object %s ", device_id, date_object)
+        
         nowday = date.today()
         log.info("check_device_subscription_active device found device_id %s: todaydate %s ", device_id, nowday)
 
-        if nowday < subscription_end_date:
+        if nowday < date_object:
           log.info("check_device_subscription_active device found device_id subscription active")
 
         else:
