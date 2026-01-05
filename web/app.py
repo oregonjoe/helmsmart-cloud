@@ -239,32 +239,12 @@ app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"] = environ.get("AWS_COGNITO_USER_PO
 app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET")
 app.config["AWS_COGNITO_REDIRECT_URL"] = environ.get("AWS_COGNITO_REDIRECT_URL")
 
-"""
-app.config["AWS_REGION"]
-app.config["AWS_COGNITO_DOMAIN"]
-app.config["AWS_COGNITO_USER_POOL_ID"]
-app.config["AWS_COGNITO_USER_POOL_CLIENT_ID"]
-app.config["AWS_COGNITO_USER_POOL_CLIENT_SECRET"]
-app.config["AWS_COGNITO_REDIRECT_URL"]
-"""
-
-
-#aws_auth = AWSCognitoAuthentication(app)
-"""
-from jwt.algorithms import RSAAlgorithm
-from flask_jwt_extended import (
-    JWTManager,
-    set_access_cookies,
-    verify_jwt_in_request_optional,
-    get_jwt_identity,
-)
-"""
+aws_auth = AWSCognitoAuthentication(app)
 
 cognito = CognitoAuth(app)
 
-aws_auth = AWSCognitoAuthentication(app)
-
 cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
+
 
 
 
@@ -278,12 +258,12 @@ oauth_aws = OAuth(app)
 
 oauth_aws.register(
   name='oidc',
-  authority=environ.get("AWS_COGNITO_ISSUER_URL"),
-  client_id=environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"),
-  client_secret=environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"),
-  server_metadata_url=environ.get("AWS_COGNITO_ISSUER_URL") + '/.well-known/openid-configuration',
+  authority=environ.get("AWS_COGNITO_ADMIN_ISSUER_URL"),
+  client_id=environ.get("AWS_COGNITO_ADMIN_POOL_CLIENT_ID"),
+  client_secret=environ.get("AWS_COGNITO_ADMIN_POOL_CLIENT_SECRET"),
+  server_metadata_url=environ.get("AWS_COGNITO_ADMIN_ISSUER_URL") + '/.well-known/openid-configuration',
   #max_age=0,
-  client_kwargs={'scope': 'phone openid email'}
+  client_kwargs={'scope': 'aws.cognito.signin.user.admin phone openid email'}
 )
 
 """
@@ -1832,7 +1812,17 @@ def updatesmsemail(deviceapikey, smsemail):
   finally:
     db_pool.putconn(conn)
 
+@app.route('/aws_admin_login')
+#@cognito_login
+def aws_admin_login():
+  
+  session.clear()
 
+  return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_admin_data')
+  #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data?login_hint=someone')
+  #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data', authorize_params={'prompt': 'login'} )
+  #return redirect(aws_auth.get_sign_in_url())
+  pass
 
 
 @app.route('/aws_login')
