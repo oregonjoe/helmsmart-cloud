@@ -1284,7 +1284,8 @@ def aws_alerts_get_user_data():
   
         
 
-  
+  session.clear
+  session['username'] = useremail
   session['aws_userid'] = username
   session['aws_email'] = useremail
   session['aws_phone'] = aws_phone
@@ -1351,7 +1352,7 @@ def aws_alerts_get_admin_data():
   
         
   session.clear
-  
+  session['username'] = useremail
   session['aws_userid'] = username
   session['aws_email'] = useremail
   session['aws_phone'] = aws_phone
