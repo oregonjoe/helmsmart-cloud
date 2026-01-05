@@ -407,7 +407,7 @@ def dump_json(schema, records):
 def index():
 
     log.info("index.html: Start")
-    log.info("index.html: session", %s)
+    #log.info("index.html: session %s", session)
       
     try:
       
