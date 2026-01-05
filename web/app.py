@@ -22483,7 +22483,7 @@ def check_device_subscription_active(device_id):
 
   conn = db_pool.getconn()
   
-   query  = "select  subscriptionenddate from user_devices where  deviceid = %s "
+  query  = "select  subscriptionenddate from user_devices where  deviceid = %s "
   
   try:
     # add new device record to DB
@@ -22506,6 +22506,7 @@ def check_device_subscription_active(device_id):
       subscription_end_date= str(i[0])
       log.info("check_device_subscription_active device found device_id %s: enddate %s ", device_id, subscription_end_date)
 
+      starttime = datetime.datetime.now()
       
       return True
   
