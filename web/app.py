@@ -22486,6 +22486,7 @@ def check_device_subscription_active(device_id):
   
   #query  = "select  subscriptionenddate, devicestatus from user_devices where  deviceid = %s "
   query  = "select  COALESCE(subscriptionenddate, None), devicestatus from user_devices where  deviceid = %s "
+  query  = "select  COALESCE(subscriptionenddate, '2026-01-01'), devicestatus from user_devices where  deviceid = %s "
   
   try:
     # add new device record to DB
