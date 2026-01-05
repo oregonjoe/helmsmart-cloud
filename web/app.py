@@ -1293,7 +1293,7 @@ def aws_alerts_get_user_data():
   session['aws_phone_verified'] = aws_phone_verified
 
   
-  session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_ID")
+  session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID")
   session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
   session['aws_access_token'] = access_token
 
