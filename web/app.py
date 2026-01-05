@@ -253,10 +253,10 @@ cognito_client = boto3.client('cognito-idp',  region_name="us-west-2"  )
 #from authlib.integrations.flask_client import OAuth
 
 
-oauth_aws = OAuth(app)
+oauth_aws_admin = OAuth(app)
 
 
-oauth_aws.register(
+oauth_aws_admin.register(
   name='oidc',
   authority=environ.get("AWS_COGNITO_ADMIN_ISSUER_URL"),
   client_id=environ.get("AWS_COGNITO_ADMIN_POOL_CLIENT_ID"),
@@ -1309,26 +1309,26 @@ def aws_alerts_get_admin_data():
   log.info('aws_alerts_get_admin_data: session %s:  ', session)
   
   #access_token = aws_auth.get_access_token(request.args)
-  access_token = aws_auth.get_access_token()
-  log.info('aws_alerts_get_admin_data: access_token %s:  ', access_token) 
+  #access_token = aws_auth.get_access_token()
+  #log.info('aws_alerts_get_admin_data: access_token %s:  ', access_token) 
   #return jsonify({'access_token': access_token})
   #tokens = session.json()
   #tokens = session
   #access_token = tokens.get("access_token")
   #user_info = access_token.get("user_info")
 
-  #tokens = oauth_aws.oidc.authorize_access_token()
+  tokens = oauth_aws_admin.oidc.authorize_access_token()
 
-  #log.info('manage_details: token %s:  ', tokens)
+  log.info('manage_details: token %s:  ', tokens)
 
-  response = cognito_client.get_user(  AccessToken=access_token  )
-
-
-
-  log.info('aws_alerts_get_admin_data: get_user %s:  ', response)
+  #response = cognito_client.get_user(  AccessToken=access_token  )
 
 
-  username = response.get('Username', "")
+
+  #log.info('aws_alerts_get_admin_data: get_user %s:  ', response)
+
+  username = token['userinfo']
+  #username = tokens.get('Username', "")
   log.info('aws_alerts_get_admin_data: username %s:  ', username)
   
 
