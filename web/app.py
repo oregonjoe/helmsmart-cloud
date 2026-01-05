@@ -1231,11 +1231,11 @@ def aws_delete_device():
 #@cognito_login_callback
 def aws_alerts_get_user_data():
   
-  log.info('manage_details: request.args %s:  ', request.args)
-  log.info('manage_details: session %s:  ', session)
+  log.info('aws_alerts_get_user_data: request.args %s:  ', request.args)
+  log.info('aws_alerts_get_user_data: session %s:  ', session)
   
   access_token = aws_auth.get_access_token(request.args)
-  log.info('manage_details: access_token %s:  ', access_token) 
+  log.info('aws_alerts_get_user_data: access_token %s:  ', access_token) 
   #return jsonify({'access_token': access_token})
   #tokens = session.json()
   #tokens = session
@@ -1250,11 +1250,11 @@ def aws_alerts_get_user_data():
 
 
 
-  log.info('manage_details: get_user %s:  ', response)
+  log.info('aws_alerts_get_user_data: get_user %s:  ', response)
 
 
   username = response.get('Username', "")
-  log.info('manage_details: username %s:  ', username)
+  log.info('aws_alerts_get_user_data: username %s:  ', username)
   
 
   # Extract the email from the UserAttributes list
@@ -1264,7 +1264,7 @@ def aws_alerts_get_user_data():
           useremail = attribute['Value']
           break
 
-  log.info('manage_details: useremail %s:  ', useremail)
+  log.info('aws_alerts_get_user_data: useremail %s:  ', useremail)
 
   # Extract the email from the UserAttributes list
   aws_phone = None
@@ -1273,7 +1273,7 @@ def aws_alerts_get_user_data():
           aws_phone = attribute['Value']
           break
 
-  log.info('manage_details: aws_phone %s:  ', aws_phone)
+  log.info('aws_alerts_get_user_data: aws_phone %s:  ', aws_phone)
 
   # Extract the email from the UserAttributes list
   aws_name = None
@@ -1282,7 +1282,7 @@ def aws_alerts_get_user_data():
           aws_name = attribute['Value']
           break
 
-  log.info('manage_details: aws_name %s:  ', aws_name)
+  log.info('aws_alerts_get_user_data: aws_name %s:  ', aws_name)
 
   # Extract the email from the UserAttributes list
   aws_email_verified = 'false'
@@ -1291,7 +1291,7 @@ def aws_alerts_get_user_data():
           aws_email_verified = attribute['Value']
           break
 
-  log.info('manage_details: aws_email_verified %s:  ', aws_email_verified)
+  log.info('aws_alerts_get_user_data: aws_email_verified %s:  ', aws_email_verified)
 
   # Extract the email from the UserAttributes list
   aws_phone_verified = 'false'
@@ -1300,199 +1300,10 @@ def aws_alerts_get_user_data():
           aws_phone_verified = attribute['Value']
           break
 
-  log.info('manage_details: phone_number_verified %s:  ', aws_phone_verified)
+  log.info('aws_alerts_get_user_data: phone_number_verified %s:  ', aws_phone_verified)
   
         
-  """    
-  userinfo = tokens.get('userinfo', "")
 
-  if userinfo == "":
-    log.info('manage_details: token no userinfo present:  ')
-    return redirect(url_for('manage')) 
-    
-  refresh_token = tokens.get('refresh_token', "")
-
-  log.info('manage_details: refresh_token %s:  ', refresh_token) 
-
-  username = userinfo.get('cognito:username', "")
-  log.info('manage_details: username %s:  ', username)
-  
-  useremail = userinfo.get('email', "")
-  log.info('manage_details: username %s:  ', useremail)
-
-  #aws_phone = userinfo['phone_number']
-
-  aws_phone = userinfo.get('phone_number', "")
-  log.info('manage_details: aws_phone %s:  ', aws_phone)
-
-
-  aws_clientid = userinfo.get('aud', "")
-  log.info('manage_details: aws_clientid %s:  ', aws_clientid)
-
-  aws_domain = userinfo.get('iss', "")
-  log.info('manage_details: aws_domain %s:  ', aws_domain)
-
-  """
-  """
-  response = cognito_client.get_user(
-      AccessToken=access_token
-  )
-  """
-
-  """  
-  # Calculate the hash
-  secret_hash_value = get_secret_hash(username, environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"), environ.get("AWS_COGNITO_USER_POOL_CLIENT_SECRET"))
-  
-  try:
-    response = cognito_client.admin_initiate_auth(
-        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        ClientId=environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID"),
-        AuthFlow='ADMIN_NO_SRP_AUTH', # A simple admin-only flow
-        #AuthFlow='REFRESH_TOKEN_AUTH', # A simple admin-only flow
-        AuthParameters={
-            #'REFRESH_TOKEN':refresh_token,
-            'USERNAME': username,
-            'PASSWORD': 'Sa!m0n2025',
-            'SECRET_HASH': secret_hash_value
-            # Password may not be required if the user has a confirmed status and you are using a trusted backend.
-        }
-    )
-
-    log.info('manage_details: response get_user %s:  ', response)
-    access_token = response['AuthenticationResult']['AccessToken']
-    log.info('manage_details: Error admin_initiate_auth access_token %s:  ', access_token)  
-    #return access_token
-
-  except cognito_client.exceptions.NotAuthorizedException:
-    log.info("manage_details: NotAuthorizedException")
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error NotAuthorizedException in admin_initiate_auth %s:  ' % str(e)) 
-
-  except Exception as e:
-    log.info('manage_details: Error admin_initiate_auth %s:  ' % str(e))  
-    #return None  
-
-  """  
-  
-  """  
-  
-  if  username != "":
-    
-    response = cognito_client.admin_user_global_sign_out(
-        #UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        #UserPoolId="us-west-2_znf559qHG",
-        UserPoolId="us-west-2_KKR4LIvxS",
-        Username=username
-    )
-
-    log.info('manage_details: response admin_user_global_sign_out %s:  ',  response)
-
-  else:
-    response = "No user was selected"
-  """
-  """ 
-  
-  try:
-    response = cognito_client.admin_update_user_attributes(
-        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        Username=username,
-        UserAttributes=[
-            {
-                'Name': 'phone_number',
-                'Value': '+15416612051'
-            }
-        ]
-    )
-
-    log.info("manage_details:Successfully updated phone number for user %s:", username)   
-    log.info("manage_details:updated phone number response %s:", response)
-
-    # Note: The phone number will be unverified by default.
-    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
-
-  except cognito_client.exceptions.ResourceNotFoundException:
-    log.info("manage_details: User or User Pool not found.")
-    
-  except cognito_client.exceptions.InvalidParameterException:
-    log.info("manage_details: ParamValidationError")
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error ParamValidationError in geting adding phone number %s:  ' % str(e))  
-        
-  except AttributeError as e:
-    log.info('manage_details: AttributeError Error in geting adding phone number  ' % str(e))
-    
-  except:
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error in geting adding phone number %s:  ' % str(e))  
-  """
-  """
-  log.info("manage_details: Getting verify code")
-  
-  try:
-    response = cognito_client.get_user_attribute_verification_code(
-            AccessToken=access_token,
-            AttributeName='phone_number'
-    )
-
-    #log.info("manage_details:Successfully verification code for user %s:", username)   
-    log.info("manage_details:verification code response %s:", response)
-
-    # Note: The phone number will be unverified by default.
-    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
-
-  except cognito_client.exceptions.ResourceNotFoundException:
-    log.info("manage_details: User or User Pool not found.")
-
-  except cognito_client.exceptions.InvalidParameterException:
-    log.info("manage_details: InvalidParameterException")
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
-
-  except AttributeError as e:
-    log.info('manage_details: AttributeError Error in getting verify code  ' % str(e))
-    
-  except:
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error in verify in getting verify code %s:  ' % str(e))  
-
-    log.info("manage_details: Got verify code")
-  """    
-
-  
-############################################################
-  """
-  try:
-    verification_code = '775872'
-    response = cognito_client.verify_user_attribute(
-            AccessToken=access_token,
-            AttributeName='phone_number',
-            Code=verification_code
-    )
-
-    #log.info("manage_details:Phone number successfully verified. user %s:", username)   
-    log.info("manage_details:verification code response %s:", response)
-
-    # Note: The phone number will be unverified by default.
-    # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
-
-  except cognito_client.exceptions.CodeMismatchException:
-    log.info("manage_details: Invalid verification code provided, please try again..")
-    
-  except cognito_client.exceptions.ExpiredCodeException:
-    log.info("manage_details: Verification code expired.")
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error ExpiredCodeException in verify phone number %s:  ' % str(e))  
-      
-  except AttributeError as e:
-    log.info('manage_details: AttributeError Error in verify phone number  ' % str(e))
-    
-  except:
-    e = sys.exc_info()[0]
-    log.info('manage_details: Error in verify phone number %s:  ' % str(e))
-
-    
-  log.info("manage_details: phone number verified")
-  """
   
   session['aws_userid'] = username
   session['aws_email'] = useremail
@@ -1506,76 +1317,103 @@ def aws_alerts_get_user_data():
   session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
   session['aws_access_token'] = access_token
 
-  log.info('manage_details: exit session %s:  ', session)
+  log.info('aws_alerts_get_user_data: exit session %s:  ', session)
   #return redirect(url_for('aws_home'))
   return redirect(url_for('manage'))    
 
-  """
-  #return jsonify({'access_token': access_token, 'user_info': userinfo})
-  #return jsonify({'user_info': userinfo, 'useremail': useremail, 'username':username})
-
-
-  #return redirect(url_for('aws_alerts_logout'))    
-  #access_token = aws_auth.get_access_token(request.args)
-  #claims = aws_auth.claims
-
-  #user_info = aws_auth.get_user_info(access_token)
-  log.info('manage_details: response request.args %s:  ', request.args)
-
-  try:
-
-
-    response = cognito_client.get_user(
-        AccessToken=access_token
-    )
-
-    log.info('manage_details: response get_user %s:  ', response)
-
-
-
-    # The response contains the 'Username' field
-    #username = response['Username']
-    username = response.get('Username',"")
-    log.info('manage_details: username %s:  ', username)
-    #print(f"Username: {username}")
-
-
-    if  username != "":
-      
-      response = cognito_client.admin_get_user(
-          UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-          Username=username
-      )
-
-      log.info('manage_details: response admin_get_user %s:  ',  response)
-
-    else:
-      response = "No user was selected"
-    
-    # Extract and print user attributes
-    #user_attributes = response['UserAttributes']
-    #print(f"Attributes for user '{username}':")
-    #for attribute in user_attributes:
-    #    print(f"- {attribute['Name']}: {attribute['Value']}")
-    #return response
-    #return jsonify({'access_token': access_token, 'response': response})
-
-    """
-
-
-  """  
-  except NameError as e:
-    log.info('manage_details: NameError in  admin_get_user %s:  ' % str(e))
-    return jsonify({'status': 'NameError'})
+@app.route('/aws_alerts_get_admin_data')
+#@cognito_login_callback
+def aws_alerts_get_admin_data():
   
-  except:
-    e = sys.exc_info()[0]
-    print(f"Error getting user data: {e}")
-    return jsonify({'status': 'Error'})
+  log.info('aws_alerts_get_admin_data: request.args %s:  ', request.args)
+  log.info('aws_alerts_get_admin_data: session %s:  ', session)
+  
+  access_token = aws_auth.get_access_token(request.args)
+  log.info('aws_alerts_get_admin_data: access_token %s:  ', access_token) 
+  #return jsonify({'access_token': access_token})
+  #tokens = session.json()
+  #tokens = session
+  #access_token = tokens.get("access_token")
+  #user_info = access_token.get("user_info")
+
+  #tokens = oauth_aws.oidc.authorize_access_token()
+
+  #log.info('manage_details: token %s:  ', tokens)
+
+  response = cognito_client.get_user(  AccessToken=access_token  )
+
+
+
+  log.info('aws_alerts_get_admin_data: get_user %s:  ', response)
+
+
+  username = response.get('Username', "")
+  log.info('aws_alerts_get_admin_data: username %s:  ', username)
+  
+
+  # Extract the email from the UserAttributes list
+  useremail = None
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'email':
+          useremail = attribute['Value']
+          break
+
+  log.info('aws_alerts_get_admin_data: useremail %s:  ', useremail)
+
+  # Extract the email from the UserAttributes list
+  aws_phone = None
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'phone_number':
+          aws_phone = attribute['Value']
+          break
+
+  log.info('aws_alerts_get_admin_data: aws_phone %s:  ', aws_phone)
+
+  # Extract the email from the UserAttributes list
+  aws_name = None
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'name':
+          aws_name = attribute['Value']
+          break
+
+  log.info('aws_alerts_get_admin_data: aws_name %s:  ', aws_name)
+
+  # Extract the email from the UserAttributes list
+  aws_email_verified = 'false'
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'email_verified':
+          aws_email_verified = attribute['Value']
+          break
+
+  log.info('aws_alerts_get_admin_data: aws_email_verified %s:  ', aws_email_verified)
+
+  # Extract the email from the UserAttributes list
+  aws_phone_verified = 'false'
+  for attribute in response['UserAttributes']:
+      if attribute['Name'] == 'phone_number_verified':
+          aws_phone_verified = attribute['Value']
+          break
+
+  log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
+  
+        
 
   
-  #return jsonify({'access_token': access_token, 'user_info': response})
-  """
+  session['aws_userid'] = username
+  session['aws_email'] = useremail
+  session['aws_phone'] = aws_phone
+  session['aws_name'] = aws_name
+  session['aws_email_verified'] = aws_email_verified
+  session['aws_phone_verified'] = aws_phone_verified
+
+  
+  session['aws_clientid'] = environ.get("AWS_COGNITO_ADMIN_POOL_ID")
+  session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
+  session['aws_access_token'] = access_token
+
+  log.info('aws_alerts_get_admin_data: exit session %s:  ', session)
+  #return redirect(url_for('aws_home'))
+  return redirect(url_for('manage')) 
 
 @app.route('/aws_cognito_update_sms_number')
 def aws_cognito_update_sms_number():
