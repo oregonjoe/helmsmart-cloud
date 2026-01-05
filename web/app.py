@@ -1317,9 +1317,9 @@ def aws_alerts_get_admin_data():
   #access_token = tokens.get("access_token")
   #user_info = access_token.get("user_info")
 
-  tokens = oauth_aws_admin.oidc.authorize_access_token()
+  token = oauth_aws_admin.oidc.authorize_access_token()
 
-  log.info('manage_details: token %s:  ', tokens)
+  log.info('manage_details: token %s:  ', token)
 
   #response = cognito_client.get_user(  AccessToken=access_token  )
 
