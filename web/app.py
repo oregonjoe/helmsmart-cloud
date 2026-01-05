@@ -22474,7 +22474,14 @@ def deletedevice_endpoint():
     
 
   finally:
-    db_pool.putconn(conn)   
+    db_pool.putconn(conn)
+
+
+def check_device_subscription_active(deviceid):
+
+  log.info("check_device_subscription_active device_id %s:  ", device_id)
+
+  return True
 
 # **********************************************************************
 #
@@ -22486,6 +22493,7 @@ def deletedevice_endpoint():
 @app.route('/devices/<device_id>/PushCache/<partition>', methods=['POST'])
 @cross_origin()
 def events_endpoint(device_id, partition):
+
 
 
   try:
@@ -22532,7 +22540,27 @@ def events_endpoint(device_id, partition):
     log.info('Que SQS: Error in que SQS %s:  ' % e)
 
 
+  ##################################################################
+  ## use deviceid to see if its in the database and enabled
+  ##################################################################
+  deviceid_enabled = mc.get(device_id + '_enabled' )
+  
+  if deviceid_enabled != "" and deviceid_enabled != None and deviceid_enabled is not None:
+    
+    device_subscription_active = deviceid_enabled
+    device_subscription_active =
+    log.info('events_endpoint - device_id %s device_subscription_active %s :  ', device_id, device_subscription_active)
+    
+  else:
+  
+    device_subscription_active = check_device_subscription_active(device_id)
+    log.info('events_endpoint - device_id %s device_subscription_active %s :  ', device_id, device_subscription_active)
 
+    mc.set(deviceid + '_enabled' , device_subscription_active, time=600)
+    
+  ##################################################################
+
+    
   try:
     # ######################################################
     # now place in PUSHSMART SQS queue
