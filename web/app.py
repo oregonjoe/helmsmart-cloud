@@ -22485,7 +22485,7 @@ def check_device_subscription_active(device_id):
   conn = db_pool.getconn()
   
   #query  = "select  subscriptionenddate, devicestatus from user_devices where  deviceid = %s "
-  query  = "select  COALESCE(subscriptionenddate, ''), devicestatus from user_devices where  deviceid = %s "
+  query  = "select  COALESCE(subscriptionenddate, None), devicestatus from user_devices where  deviceid = %s "
   
   try:
     # add new device record to DB
