@@ -1577,6 +1577,15 @@ function getDeviceList(userid)
       <span>HelmSmart: Guest</span></a>
   {% endif %}
   </center>
+  
+  
+   {% if session['aws_name'] %}
+     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+    <span>HelmSmart: {{session['aws_name']}}</span></a>
+  
+  {% endif %}
+  
+  
 </div>
 
 
