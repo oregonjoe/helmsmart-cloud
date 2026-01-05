@@ -22601,6 +22601,7 @@ def events_endpoint(device_id, partition):
   ## use deviceid to see if its in the database and enabled
   ##################################################################
   deviceid_enabled = mc.get(device_id + '_enabled' )
+  log.info('events_endpoint - subscription check device_id %s deviceid_enabled %s :  ', device_id, deviceid_enabled)
   
   if deviceid_enabled != "" and deviceid_enabled != None and deviceid_enabled is not None:
     
