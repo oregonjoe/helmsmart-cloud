@@ -1579,10 +1579,10 @@ function getDeviceList(userid)
   </center>
   
   
-   {% if session['aws_name'] %}
+   {% if session['aws_userid'] %}
      <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart: {{session['aws_name']}}</span></a>
-  
+    <span>HelmSmart: {{session['aws_userid']}}</span></a>
+    
   {% endif %}
   
   

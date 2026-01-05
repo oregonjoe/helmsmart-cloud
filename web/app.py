@@ -1297,7 +1297,7 @@ def aws_alerts_get_user_data():
   session['profile']['email'] = useremail
   session['profile']['name'] = username
   session.modified = True
-  log.info('aws_alerts_get_user_data: TypeError in session user_info %s:  ', session)
+  log.info('aws_alerts_get_user_data: session user_info %s:  ', session)
   
   session['username'] = useremail
   session['aws_userid'] = username
