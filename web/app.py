@@ -29,6 +29,7 @@ from calendar import timegm
 import datetime
 from datetime import timezone
 from dateutil.relativedelta import relativedelta
+from datetime import date
 
 import time
 from time import mktime
@@ -22488,7 +22489,7 @@ def check_device_subscription_active(device_id):
   try:
     # add new device record to DB
     cursor = conn.cursor()
-    cursor.execute(query, (deviceid, ))
+    cursor.execute(query, (device_id, ))
 
     conn.commit()
 
@@ -22506,7 +22507,8 @@ def check_device_subscription_active(device_id):
       subscription_end_date= str(i[0])
       log.info("check_device_subscription_active device found device_id %s: enddate %s ", device_id, subscription_end_date)
 
-      starttime = datetime.datetime.now()
+      starttime = date.today()
+      log.info("check_device_subscription_active device found device_id %s: enddate %s ", device_id, starttime)
       
       return True
   
