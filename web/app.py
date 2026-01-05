@@ -22523,8 +22523,9 @@ def check_device_subscription_active(device_id):
         if nowday < date_object:
           log.info("check_device_subscription_active device found device_id subscription active")
 
+
           try:
-            query  = "update user_devices SET devicestatus=1 where deveviceid=%s"
+            query  = "update user_devices SET devicestatus=1 where deviceid=%s"
             cursor = conn.cursor()
             cursor.execute(query, (device_id, ))
 
@@ -22541,7 +22542,7 @@ def check_device_subscription_active(device_id):
           log.info("check_device_subscription_active device found device_id subscription inactive")
 
           try:
-            query  = "update user_devices SET devicestatus=0 where deveviceid=%s"
+            query  = "update user_devices SET devicestatus=0 where deviceid=%s"
             cursor = conn.cursor()
             cursor.execute(query, (device_id, ))
 
