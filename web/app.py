@@ -1361,7 +1361,7 @@ def aws_alerts_get_admin_data():
 
   
   session['aws_clientid'] = environ.get("AWS_COGNITO_ADMIN_POOL_ID")
-  session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
+  session['aws_domain'] = environ.get("AWS_COGNITO_ADMIN_DOMAIN")
   #session['aws_access_token'] = token
   session['aws_access_token'] = ""
 

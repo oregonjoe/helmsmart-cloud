@@ -1189,11 +1189,26 @@ function LogoutDevice()
     //const logoutUri = "https://www.helmsmart-cloud.com/aws_alerts_logout"; // e.g., 'http://localhost:3000/logout'
     //const cognitoDomain = "https://us-west-2wecvqzcbs.auth.us-west-2.amazoncognito.com";
 	
+	//const clientId = '1cnj67tecv5hppk2b8k2gifbi0';
+	//const cognitoDomain = "https://us-west-2kkr4livxs.auth.us-west-2.amazoncognito.com";
+	
 	const clientId = '1cnj67tecv5hppk2b8k2gifbi0';
+	const cognitoDomain = "https://us-west-2kkr4livxs.auth.us-west-2.amazoncognito.com";
+	
+	
+	
+		//gAWSDomain = "{{session['aws_domain']}}";
+	
+		
+	
+		//gAWSClientID = "{{session['aws_clientid']}}";
+	
+	
+	
     const logoutUri = "https://www.helmsmart-cloud.com/aws_alerts_logout"; // e.g., 'http://localhost:3000/logout'
-    const cognitoDomain = "https://us-west-2kkr4livxs.auth.us-west-2.amazoncognito.com";
+
     
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+    window.location.href = `${gAWSDomain}/logout?client_id=${gAWSClientID}&logout_uri=${encodeURIComponent(logoutUri)}`;
 
 
 }
