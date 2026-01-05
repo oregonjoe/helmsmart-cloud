@@ -22507,8 +22507,15 @@ def check_device_subscription_active(device_id):
       subscription_end_date= str(i[0])
       log.info("check_device_subscription_active device found device_id %s: enddate %s ", device_id, subscription_end_date)
 
-      starttime = date.today()
-      log.info("check_device_subscription_active device found device_id %s: enddate %s ", device_id, starttime)
+      nowday = date.today()
+      log.info("check_device_subscription_active device found device_id %s: todaydate %s ", device_id, nowday)
+
+      if nowday < subscription_end_date:
+        log.info("check_device_subscription_active device found device_id subscription active")
+
+      else:
+        log.info("check_device_subscription_active device found device_id subscription inactive")
+        
       
       return True
   
