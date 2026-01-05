@@ -22481,6 +22481,39 @@ def check_device_subscription_active(device_id):
 
   log.info("check_device_subscription_active device_id %s:  ", device_id)
 
+  conn = db_pool.getconn()
+  
+   query  = "select  subscriptionenddate from user_devices where  deviceid = %s "
+  
+  try:
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, (deviceid, ))
+
+    conn.commit()
+
+    i = cursor.fetchone()
+    # if not then just exit
+    #if cursor.rowcount == 0:
+      
+    if cursor.rowcount == 0:
+      log.info("check_device_subscription_active device not found device_id %s:  ", device_id)
+      return False
+    
+    else:
+      
+      # Get subscription end date
+      subscription_end_date= str(i[0])
+      log.info("check_device_subscription_active device found device_id %s: enddate %s ", device_id, subscription_end_date)
+
+      
+      return True
+  
+    
+
+  finally:
+    db_pool.putconn(conn)  
+
   return True
 
 # **********************************************************************
