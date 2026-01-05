@@ -407,7 +407,7 @@ def dump_json(schema, records):
 def index():
 
     log.info("index.html: Start")
-
+    log.info("index.html: session", %s)
       
     try:
       
@@ -1233,6 +1233,8 @@ def aws_alerts_get_user_data():
   log.info('aws_alerts_get_user_data: get_user %s:  ', response)
 
 
+
+
   username = response.get('Username', "")
   log.info('aws_alerts_get_user_data: username %s:  ', username)
   
@@ -1285,6 +1287,19 @@ def aws_alerts_get_user_data():
         
 
   session.clear
+  
+  userinfo = []
+  userinfo['email'] = useremail
+  userinfo['name'] = username
+
+
+  
+  user_info_json = json.dumps(userinfo)
+  log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
+  
+  session['profile'] =json.loads(user_info_json)
+  log.info('aws_alerts_get_admin_data: TypeError in session user_info %s:  ', session)
+  
   session['username'] = useremail
   session['aws_userid'] = username
   session['aws_email'] = useremail
@@ -1308,7 +1323,7 @@ def aws_alerts_get_admin_data():
   
   #log.info('aws_alerts_get_admin_data: request.args %s:  ', request.args)
   #log.info('aws_alerts_get_admin_data: session %s:  ', session)
-  
+  session.clear
   #access_token = aws_auth.get_access_token(request.args)
   #access_token = aws_auth.get_access_token()
   #log.info('aws_alerts_get_admin_data: access_token %s:  ', access_token) 
@@ -1332,6 +1347,13 @@ def aws_alerts_get_admin_data():
   #username = tokens.get('Username', "")
   log.info('aws_alerts_get_admin_data: userinfo %s:  ', userinfo)
 
+
+  user_info_json = json.dumps(userinfo)
+  log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
+  
+  session['profile'] =json.loads(user_info_json)
+  log.info('aws_alerts_get_admin_data: TypeError in session user_info %s:  ', session)
+
   username = userinfo.get("cognito:username","")
   log.info('aws_alerts_get_admin_data: username %s:  ', username)
   
@@ -1351,7 +1373,7 @@ def aws_alerts_get_admin_data():
   log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
   
         
-  session.clear
+
   session['username'] = useremail
   session['aws_userid'] = username
   session['aws_email'] = useremail
