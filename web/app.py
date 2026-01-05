@@ -1350,7 +1350,7 @@ def aws_alerts_get_admin_data():
   log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
   
         
-
+  session.clear
   
   session['aws_userid'] = username
   session['aws_email'] = useremail
@@ -1362,7 +1362,8 @@ def aws_alerts_get_admin_data():
   
   session['aws_clientid'] = environ.get("AWS_COGNITO_ADMIN_POOL_ID")
   session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
-  session['aws_access_token'] = token
+  #session['aws_access_token'] = token
+  session['aws_access_token'] = ""
 
   log.info('aws_alerts_get_admin_data: exit session %s:  ', session)
   #return redirect(url_for('aws_home'))
