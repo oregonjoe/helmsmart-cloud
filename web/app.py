@@ -22522,19 +22522,23 @@ def check_device_subscription_active(device_id):
 
         if nowday < date_object:
           log.info("check_device_subscription_active device found device_id subscription active")
+          return True
 
         else:
           log.info("check_device_subscription_active device found device_id subscription inactive")
-          
+          return False
+
+      else:
+        log.info("check_device_subscription_active device found device_id subscription unknown")          
       
-      return True
+        return False
   
     
 
   finally:
     db_pool.putconn(conn)  
 
-  return True
+
 
 # **********************************************************************
 #
