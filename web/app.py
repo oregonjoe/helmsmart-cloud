@@ -22484,7 +22484,8 @@ def check_device_subscription_active(device_id):
 
   conn = db_pool.getconn()
   
-  query  = "select  subscriptionenddate, devicestatus from user_devices where  deviceid = %s "
+  #query  = "select  subscriptionenddate, devicestatus from user_devices where  deviceid = %s "
+  query  = "select  COALESCE(subscriptionenddate, ""), devicestatus from user_devices where  deviceid = %s "
   
   try:
     # add new device record to DB
@@ -22510,7 +22511,7 @@ def check_device_subscription_active(device_id):
       log.info("check_device_subscription_active device found device_id %s: enddate %s devicestatus %s", device_id, subscription_end_date, devicestatus)
 
       #if subscription_end_date != "" and subscription_end_date != None and subscription_end_date is not None:
-      if subscription_end_date  is not  None :      
+      if subscription_end_date  != "" :      
 
         date_object = datetime.datetime.strptime(subscription_end_date, "%Y-%m-%d").date()
         log.info("check_device_subscription_active device found device_id %s: date_object %s ", device_id, date_object)
