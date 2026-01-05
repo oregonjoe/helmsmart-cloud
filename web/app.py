@@ -1305,8 +1305,8 @@ def aws_alerts_get_user_data():
 #@cognito_login_callback
 def aws_alerts_get_admin_data():
   
-  log.info('aws_alerts_get_admin_data: request.args %s:  ', request.args)
-  log.info('aws_alerts_get_admin_data: session %s:  ', session)
+  #log.info('aws_alerts_get_admin_data: request.args %s:  ', request.args)
+  #log.info('aws_alerts_get_admin_data: session %s:  ', session)
   
   #access_token = aws_auth.get_access_token(request.args)
   #access_token = aws_auth.get_access_token()
@@ -1319,7 +1319,7 @@ def aws_alerts_get_admin_data():
 
   token = oauth_aws_admin.oidc.authorize_access_token()
 
-  log.info('manage_details: token %s:  ', token)
+  log.info('aws_alerts_get_admin_data: token %s:  ', token)
 
   #response = cognito_client.get_user(  AccessToken=access_token  )
 
@@ -1327,54 +1327,26 @@ def aws_alerts_get_admin_data():
 
   #log.info('aws_alerts_get_admin_data: get_user %s:  ', response)
 
-  username = token['userinfo']
+  userinfo = token['userinfo']
   #username = tokens.get('Username', "")
+  log.info('aws_alerts_get_admin_data: userinfo %s:  ', userinfo)
+
+  username = userinfo.get("cognito:username","")
   log.info('aws_alerts_get_admin_data: username %s:  ', username)
   
-
-  # Extract the email from the UserAttributes list
-  useremail = None
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'email':
-          useremail = attribute['Value']
-          break
-
+  useremail = userinfo.get("email","")
   log.info('aws_alerts_get_admin_data: useremail %s:  ', useremail)
 
-  # Extract the email from the UserAttributes list
-  aws_phone = None
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'phone_number':
-          aws_phone = attribute['Value']
-          break
-
+  aws_phone = userinfo.get("phone_number","")
   log.info('aws_alerts_get_admin_data: aws_phone %s:  ', aws_phone)
 
-  # Extract the email from the UserAttributes list
-  aws_name = None
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'name':
-          aws_name = attribute['Value']
-          break
-
+  aws_name = userinfo.get("name","SeaGaugeG4")
   log.info('aws_alerts_get_admin_data: aws_name %s:  ', aws_name)
 
-  # Extract the email from the UserAttributes list
-  aws_email_verified = 'false'
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'email_verified':
-          aws_email_verified = attribute['Value']
-          break
-
+  aws_email_verified = userinfo.get("email_verified","")
   log.info('aws_alerts_get_admin_data: aws_email_verified %s:  ', aws_email_verified)
 
-  # Extract the email from the UserAttributes list
-  aws_phone_verified = 'false'
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'phone_number_verified':
-          aws_phone_verified = attribute['Value']
-          break
-
+  aws_phone_verified = userinfo.get("phone_number_verified","")
   log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
   
         
@@ -1390,7 +1362,7 @@ def aws_alerts_get_admin_data():
   
   session['aws_clientid'] = environ.get("AWS_COGNITO_ADMIN_POOL_ID")
   session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
-  session['aws_access_token'] = access_token
+  session['aws_access_token'] = token
 
   log.info('aws_alerts_get_admin_data: exit session %s:  ', session)
   #return redirect(url_for('aws_home'))
