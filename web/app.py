@@ -22555,7 +22555,7 @@ def events_endpoint(device_id, partition):
     device_subscription_active = check_device_subscription_active(device_id)
     log.info('events_endpoint - subscription check device_id %s device_subscription_active %s :  ', device_id, device_subscription_active)
 
-    mc.set(deviceid + '_enabled' , device_subscription_active, time=600)
+    mc.set(device_id + '_enabled' , device_subscription_active, time=600)
     
   ##################################################################
 
