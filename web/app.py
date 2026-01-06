@@ -674,11 +674,11 @@ def aws_add_device(deviceid, devicename, useremail, smsemail, smsphone ):
     db_pool.putconn(conn)
 
 
-def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID ):
+def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
 
   log.info('aws_update_device:start  ')  
 
-  devicestatus = 1
+  #devicestatus = 1
 
   log.info('aws_update_device: deviceid %s  devicename %s:  ', deviceid, devicename)
   log.info('aws_update_device: useremail %s   ', useremail)
@@ -686,8 +686,11 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   log.info('aws_update_device: smsphone %s   ', smsphone)
   log.info('aws_update_device: subscriptionkey %s   ', subscriptionKey)
   log.info('aws_update_device: transactionID %s   ', transactionID)
+  log.info('aws_update_device: devicestatus %s   ', devicestatus)
+  log.info('aws_update_device: email_verified %s   ', email_verified)
+  log.info('aws_update_device: phone_verified %s   ', phone_verified)
 
-
+  
   starttime = datetime.datetime.now()
   #startepoch =  int(time.time())
 
@@ -697,8 +700,11 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   elif subscriptionKey == environ.get("SubscriptionKeyYear"):
     SubscriptionType = "HelmSmart - Yearly"
     endtime = datetime.datetime.now()  + relativedelta(months=12)
+  elif subscriptionKey == environ.get("SubscriptionKeyWeekly"):
+    SubscriptionType = "HelmSmart - Yearly"
+    endtime = datetime.datetime.now()  + relativedelta(weeks=1)
   else:
-    SubscriptionType = "HelmSmart - Invalid"
+    SubscriptionType = "HelmSmart - Expired"
     endtime = starttime
 
   log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
@@ -726,14 +732,14 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       log.info("aws_update_device - deviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
       userstatus = "device does not exist - adding"
 
-      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber, subscriptionid, transactionid, subscriptionstartdate, subscriptionenddate) "
+      query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber, subscriptionid, transactionid, subscriptionstartdate, subscriptionenddate, email_verified,phone_verified) "
       query  = query + "Values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
       log.info("aws_update_device update query %s ", query)
 
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime))
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime, email_verified, phone_verified))
 
       conn.commit()
         
@@ -759,13 +765,16 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       query  = query + "transactionid = %s, "
       query  = query + "subscriptionstartdate = %s, "
       query  = query + "subscriptionenddate = %s "
+      query  = query + "devicestatus = %s "
+      query  = query + "email_verified = %s "
+      query  = query + "phone_verified = %s "
       query  = query + "WHERE deviceapikey =  %s"
 
       log.info("aws_update_device update query %s ", query)
       
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime, deviceapikey))
+      cursor.execute(query, (devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime, email_verified, phone_verified, deviceapikey))
 
       conn.commit()
 
@@ -945,8 +954,8 @@ def auth_payment_completed():
 
 
         ######### add new device to helmsmart database #############
-        
-        deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
+        #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
+        deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction, 1, False, False   )
 
         if deviceupdate_check == True:
           return redirect(url_for('user_subscription_added'))
@@ -1014,8 +1023,8 @@ def auth_payment_completed():
 
 
         ######### add update device to helmsmart database #############
-        
-        deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction   )
+         #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):       
+        deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction, 1, False, False   )
           
         if deviceupdate_check == True:
           return redirect(url_for('user_subscription_updated'))
@@ -1071,7 +1080,7 @@ def auth_payment_completed():
 def aws_cognito_user_added():
 
   log.info('aws_cognito_user_added:start  ')  
-
+  log.info('aws_cognito_user_added:request  %s', request)  
 
   deviceid = request.args.get('username', '000000000000')
   deviceid = deviceid.upper()
@@ -1097,8 +1106,9 @@ def aws_cognito_user_added():
   log.info('aws_cognito_user_added: smsemail %s smsphone %s:  ', smsemail, smsphone)
 
   
-  aws_add_device(deviceid, devicename, useremail,  smsemail, smsphone )
-
+  #aws_add_device(deviceid, devicename, useremail,  smsemail, smsphone )
+  #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
+  aws_update_device(deviceid, devicename, useremail,  smsemail, smsphone, 'HelmSmart - Expired', '0000000000', 0, useremailverified, userphoneverified )
 
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
