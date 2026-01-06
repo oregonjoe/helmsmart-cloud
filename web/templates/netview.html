@@ -264,6 +264,8 @@ $('#tab a').click(function (e) {
 	var gDeviceKey="";
 	//var gDeviceName="001EC0B415C2:SSENETG2_SeaDream";
 	var gDeviceName="";
+	
+	var gAWSuserid = "";
 
 var	gLogType = 0;
 	
@@ -307,12 +309,17 @@ var	gLogType = 0;
 	
     gUserID = "0";
     {% if session['userid'] %}
-    gUserID = "{{session['userid']}}";
+		gUserID = "{{session['userid']}}";
     {% else %}
-    gUserID = "0";
+		gUserID = "0";
     {% endif %}
 
 
+	{% if session['aws_userid'] %}
+		gAWSuserid = {{session['aws_userid']}};
+	{% endif %}
+	
+	
     if (gUserID == null)
     {
     gUserID = "0";
@@ -1395,7 +1402,23 @@ function handleGetDeviceData(response)
   response.records.forEach(function(row){
  
      // myDeviceIDs[index]=row[0];
+	 var dduserid = row[0];
+	 
       document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+	  
+	  if (gAWSuserid != "")
+	  {
+		if(dduserid != gAWSuserid)
+		{
+			document.getElementById("DeviceTypeID").options[index].disabled = true;
+			
+		}
+	  
+	  }
+	  
+	    index++;
+	  
+	
 
   });
 
@@ -1579,11 +1602,7 @@ function getDeviceList(userid)
   </center>
   
   
-   {% if session['aws_userid'] %}
-     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart: {{session['aws_userid']}}</span></a>
-    
-  {% endif %}
+
   
   
 </div>
