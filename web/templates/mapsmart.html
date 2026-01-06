@@ -150,6 +150,7 @@
   var  myuserid;
 
   var url;
+  var gAWSuserid = "";
 
   var    myNavKey = 'Navionics_webapi_00313'
 
@@ -405,10 +406,24 @@
 
    	response.records.forEach(function(row){
    	
-   	document.getElementById("DeviceID").options[index++] = new Option(row[1], row[0]);
+	var dduserid = row[0];
+	
+   	document.getElementById("DeviceID").options[index] = new Option(row[0] + ":" + row[1], row[0]);
 
+	
+		if (gAWSuserid != "")
+		{
+			if(dduserid != gAWSuserid.toString())
+			{
+				document.getElementById("DeviceTypeID").options[index].disabled = true;
+			
+			}
+	  
+		}
+	  
+	    index++;
    
-	   		});
+	 });
 			
 			
 	if(response.records.length == 0)
@@ -3472,6 +3487,10 @@ function DeletePref()
    {% else %}
      myuserid = "0"; 
    {% endif %}
+   
+   	{% if session['aws_userid'] %}
+		gAWSuserid = {{session['aws_userid']}};
+	{% endif %}
 
       if (myuserid == null)
       {

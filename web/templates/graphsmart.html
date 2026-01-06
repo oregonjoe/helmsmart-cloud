@@ -151,7 +151,7 @@
     var OverlayChartSubTitle;
 
     var numOfChartsDrawn = 0;
-
+	var gAWSuserid = "";
 
     var DDListPGNNumber = new Array();
     var DDListPGNSource = new Array();
@@ -786,9 +786,24 @@ function SetAttributeList4( sel)
    index = 0;
    	response.records.forEach(function(row){
    	
-   	    document.getElementById("DeviceID").options[index++] = new Option(row[1], row[0]);
+		var dduserid = row[0];
+	 
+   	    document.getElementById("DeviceID").options[index] = new Option(row[0] + ":" + row[1], row[0]);
 
-	   		});
+			  if (gAWSuserid != "")
+			  {
+				if(dduserid != gAWSuserid.toString())
+				{
+					document.getElementById("DeviceTypeID").options[index].disabled = true;
+					
+				}
+			  
+			  }
+	  
+			index++;
+	  
+		
+	   	});
 	   		
       document.getElementById("DeviceID").selectedIndex = 0;  
 	   	   		
@@ -3543,6 +3558,11 @@ function myonload()
    {% else %}
      myuserid = "0"; 
    {% endif %}
+   
+   	{% if session['aws_userid'] %}
+		gAWSuserid = {{session['aws_userid']}};
+	{% endif %}
+   
 
       if (myuserid == null)
       {
