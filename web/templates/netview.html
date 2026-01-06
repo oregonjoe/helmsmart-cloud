@@ -1404,11 +1404,11 @@ function handleGetDeviceData(response)
      // myDeviceIDs[index]=row[0];
 	 var dduserid = row[0];
 	 
-      document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+      document.getElementById("DeviceTypeID").options[index] = new Option(row[0] + ":" + row[1], row[0]);
 	  
 	  if (gAWSuserid != "")
 	  {
-		if(dduserid != gAWSuserid)
+		if(dduserid != gAWSuserid.toString())
 		{
 			document.getElementById("DeviceTypeID").options[index].disabled = true;
 			
