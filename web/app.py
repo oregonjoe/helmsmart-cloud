@@ -586,6 +586,10 @@ def aws_check_user_exists(username):
     log.info('aws_check_user_exists  - ParamValidationError')
     return False
 
+  except cognito_client.exceptions.UserNotFoundException:
+    log.info('aws_check_user_exists  - UserNotFoundException')
+    return False  
+
   except cognito_client.exceptions.UsernameExistsException:
     log.info("aws_check_user_exists: UsernameExistsException")
     return True
@@ -976,10 +980,18 @@ def auth_payment_completed():
       except cognito_client.exceptions.UsernameExistsException:
         log.info("auth_payment_completed - add device: UsernameExistsException")
         return jsonify( message='Username  already Exists', status='error')
+
+      except cognito_client.exceptions.UserNotFoundException:
+        log.info("auth_payment_completed - add device: UserNotFoundException")
+        return jsonify( message='Username not found', status='error')
       
       except KeyError as e:
         log.info('auth_payment_completed error  - add device:KeyError  Error %s:  ' % e)
         return jsonify( message='Add user auth_payment_completed aws Key error - failed' )
+
+      except AttributeError as e:
+        log.info('auth_payment_completed error  - add device:AttributeError  Error %s:  ' % e)
+        return jsonify( message='Add user auth_payment_completed aws AttributeError error - failed' )
       
       except TypeError as e:
         log.info('auth_payment_completed error  - add device:TypeError  Error %s:  ' % e)
