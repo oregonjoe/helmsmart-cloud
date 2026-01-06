@@ -22465,14 +22465,16 @@ def events_endpoint(device_id, partition):
     log.info('events_endpoint - subscription check device_id %s device_subscription_active %s :  ', device_id, device_subscription_active)
 
     mc.set(device_id + '_enabled' , device_subscription_active, time=120)
+    
+  ##################################################################
+  # if subcription is inactive - just exit and do not process any data
+  ##################################################################
+  if device_subscription_active == False:
+    epochtime =  int(time.time())
 
-    # if subcription is inactive - just exit and do not process any data
-    if device_subscription_active == False:
-      epochtime =  int(time.time())
-
-      log.info('events_endpoint device_id %s is subscription_inactive :  ', device_id)
-      
-      return jsonify(result="OK", epochtime=epochtime)
+    log.info('events_endpoint device_id %s is subscription_inactive : exiting ', device_id)
+    
+    return jsonify(result="OK", epochtime=epochtime)
     
   ##################################################################
 
