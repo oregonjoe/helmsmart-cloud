@@ -399,6 +399,7 @@
  function handleGetDeviceData(response)
  {
  var index=0;
+  var ddselectedIndex=0;
  
    	$.unblockUI();
    	
@@ -418,6 +419,10 @@
 				document.getElementById("DeviceID").options[index].disabled = true;
 			
 			}
+			else
+			{
+				ddselectedIndex = index;
+			}
 	  
 		}
 	  
@@ -432,7 +437,8 @@
           document.getElementById("SearchStatus").value = "Get Data succcessful ";  	  
 
 
-  		document.getElementById("DeviceID").selectedIndex = 0;
+  		document.getElementById("DeviceID").selectedIndex = ddselectedIndex;
+		
 	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
 	    		{
 	    			myDeviceID = document.getElementById("DeviceID").options[i].value;

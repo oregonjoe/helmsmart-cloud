@@ -784,9 +784,12 @@ function SetAttributeList4( sel)
   document.getElementById("SearchStatus").value = "Getting Devices ...";
   
    index = 0;
+   var ddselectedIndex=0;
+   
    	response.records.forEach(function(row){
    	
 		var dduserid = row[0];
+		
 	 
    	    document.getElementById("DeviceID").options[index] = new Option(row[0] + ":" + row[1], row[0]);
 
@@ -795,7 +798,10 @@ function SetAttributeList4( sel)
 				if(dduserid != gAWSuserid.toString())
 				{
 					document.getElementById("DeviceID").options[index].disabled = true;
-					
+				}
+				else
+				{
+					ddselectedIndex = index;
 				}
 			  
 			  }
@@ -805,9 +811,10 @@ function SetAttributeList4( sel)
 		
 	   	});
 	   		
-      document.getElementById("DeviceID").selectedIndex = 0;  
+      
 	   	   		
-  		document.getElementById("DeviceID").selectedIndex = 0;
+  		document.getElementById("DeviceID").selectedIndex = ddselectedIndex;
+		
 	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
 	    		{
 	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
