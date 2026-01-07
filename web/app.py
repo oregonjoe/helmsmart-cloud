@@ -581,10 +581,6 @@ def aws_check_user_exists(username):
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info('aws_check_user_exists  - user dosnt exist')
     return False
-  
-  except cognito_client.exceptions.ParamValidationError:
-    log.info('aws_check_user_exists  - ParamValidationError')
-    return False
 
   except cognito_client.exceptions.UserNotFoundException:
     log.info('aws_check_user_exists  - UserNotFoundException')
