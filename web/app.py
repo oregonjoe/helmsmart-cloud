@@ -1409,8 +1409,11 @@ def aws_alerts_get_admin_data():
   aws_phone_verified = userinfo.get("phone_number_verified","")
   log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
   
-        
+  # force the memory cache flag to enable Posts from device for 60 minutes even if current subscription is expired
+  #mc.set(device_id + '_enabled' , device_subscription_active, time=60*60)        
+  mc.set(device_id + '_enabled' , device_subscription_active, time=2*60)
 
+  
   session['username'] = useremail
   session['aws_userid'] = username
   session['aws_email'] = useremail
@@ -1418,6 +1421,9 @@ def aws_alerts_get_admin_data():
   session['aws_name'] = aws_name
   session['aws_email_verified'] = aws_email_verified
   session['aws_phone_verified'] = aws_phone_verified
+
+  #set a session variable to show this is a admin login
+   session['aws_account_type'] = 'admin'
 
   
   session['aws_clientid'] = environ.get("AWS_COGNITO_ADMIN_POOL_CLIENT_ID")
