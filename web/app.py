@@ -1410,15 +1410,40 @@ def aws_alerts_get_admin_data():
     aws_phone_verified = userinfo.get("phone_number_verified","")
     log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
 
-    response = cognito_client.admin_get_user(
-          UserPoolId=environ.get("AWS_COGNITO_ADMIN_POOL_ID"),
-          Username=username
-      )
+    account_timeout = 60
+
+    try:
+
+      response = cognito_client.admin_get_user(
+            UserPoolId=environ.get("AWS_COGNITO_ADMIN_POOL_ID"),
+            Username=username
+        )
+      
+      log.info('aws_alerts_get_admin_data: response %s:  ', response)
+
+
+      # Extract the email from the UserAttributes list
+
+      for attribute in response['UserAttributes']:
+          if attribute['Name'] == 'custom:account_timeout':
+              account_timeout = attribute['Value']
+              break
+
+    except AttributeError as e:
+      log.info('aws_alerts_get_admin_data:admin_get_user  AttributeError Error  %s ' % str(e))
+      
+    except TypeError as e:
+      log.info('aws_alerts_get_admin_data: admin_get_user TypeError Error in  %s ' % str(e))
+      
+    except:
+      e = sys.exc_info()[0]
+      log.info('aws_alerts_get_admin_data: admin_get_user Error in verify in %s:  ' % str(e))          
+
+    log.info('aws_alerts_get_user_data: account_timeout %s:  ', account_timeout)
     
-    log.info('aws_alerts_get_admin_data: response %s:  ', response)    
     # force the memory cache flag to enable Posts from device for 60 minutes even if current subscription is expired
     #mc.set(device_id + '_enabled' , device_subscription_active, time=60*60)        
-    mc.set(username + '_enabled' , True, time=60*60)
+    mc.set(username + '_enabled' , True, time=account_timeout*60)
 
     
     session['username'] = useremail
