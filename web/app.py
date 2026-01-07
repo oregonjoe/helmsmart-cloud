@@ -1411,7 +1411,7 @@ def aws_alerts_get_admin_data():
   
   # force the memory cache flag to enable Posts from device for 60 minutes even if current subscription is expired
   #mc.set(device_id + '_enabled' , device_subscription_active, time=60*60)        
-  mc.set(device_id + '_enabled' , device_subscription_active, time=2*60)
+  mc.set(username + '_enabled' , device_subscription_active, time=2*60)
 
   
   session['username'] = useremail
