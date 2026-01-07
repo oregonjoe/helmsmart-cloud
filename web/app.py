@@ -1369,71 +1369,85 @@ def aws_alerts_get_admin_data():
   #tokens = session
   #access_token = tokens.get("access_token")
   #user_info = access_token.get("user_info")
+  try:
+    
+    token = oauth_aws_admin.oidc.authorize_access_token()
 
-  token = oauth_aws_admin.oidc.authorize_access_token()
+    #log.info('aws_alerts_get_admin_data: token %s:  ', token)
 
-  #log.info('aws_alerts_get_admin_data: token %s:  ', token)
-
-  #response = cognito_client.get_user(  AccessToken=access_token  )
-
-
-
-  #log.info('aws_alerts_get_admin_data: get_user %s:  ', response)
-
-  userinfo = token['userinfo']
-  #username = tokens.get('Username', "")
-  log.info('aws_alerts_get_admin_data: userinfo %s:  ', userinfo)
+    #response = cognito_client.get_user(  AccessToken=access_token  )
 
 
-  user_info_json = json.dumps(userinfo)
-  log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
-  
-  session['profile'] =json.loads(user_info_json)
-  log.info('aws_alerts_get_admin_data: TypeError in session user_info %s:  ', session)
 
-  username = userinfo.get("cognito:username","")
-  log.info('aws_alerts_get_admin_data: username %s:  ', username)
-  
-  useremail = userinfo.get("email","")
-  log.info('aws_alerts_get_admin_data: useremail %s:  ', useremail)
+    #log.info('aws_alerts_get_admin_data: get_user %s:  ', response)
 
-  aws_phone = userinfo.get("phone_number","")
-  log.info('aws_alerts_get_admin_data: aws_phone %s:  ', aws_phone)
+    userinfo = token['userinfo']
+    #username = tokens.get('Username', "")
+    log.info('aws_alerts_get_admin_data: userinfo %s:  ', userinfo)
 
-  aws_name = userinfo.get("name","SeaGaugeG4")
-  log.info('aws_alerts_get_admin_data: aws_name %s:  ', aws_name)
 
-  aws_email_verified = userinfo.get("email_verified","")
-  log.info('aws_alerts_get_admin_data: aws_email_verified %s:  ', aws_email_verified)
+    user_info_json = json.dumps(userinfo)
+    log.info('aws_alerts_get_admin_data: in user_info %s:  ', user_info_json)
+    
+    session['profile'] =json.loads(user_info_json)
+    log.info('aws_alerts_get_admin_data: in session user_info %s:  ', session)
 
-  aws_phone_verified = userinfo.get("phone_number_verified","")
-  log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
-  
-  # force the memory cache flag to enable Posts from device for 60 minutes even if current subscription is expired
-  #mc.set(device_id + '_enabled' , device_subscription_active, time=60*60)        
-  mc.set(username + '_enabled' , True, time=60*60)
+    username = userinfo.get("cognito:username","")
+    log.info('aws_alerts_get_admin_data: username %s:  ', username)
+    
+    useremail = userinfo.get("email","")
+    log.info('aws_alerts_get_admin_data: useremail %s:  ', useremail)
 
-  
-  session['username'] = useremail
-  session['aws_userid'] = username
-  session['aws_email'] = useremail
-  session['aws_phone'] = aws_phone
-  session['aws_name'] = aws_name
-  session['aws_email_verified'] = aws_email_verified
-  session['aws_phone_verified'] = aws_phone_verified
+    aws_phone = userinfo.get("phone_number","")
+    log.info('aws_alerts_get_admin_data: aws_phone %s:  ', aws_phone)
 
-  #set a session variable to show this is a admin login
-  session['aws_account_type'] = 'admin'
+    aws_name = userinfo.get("name","SeaGaugeG4")
+    log.info('aws_alerts_get_admin_data: aws_name %s:  ', aws_name)
 
-  
-  session['aws_clientid'] = environ.get("AWS_COGNITO_ADMIN_POOL_CLIENT_ID")
-  session['aws_domain'] = environ.get("AWS_COGNITO_ADMIN_DOMAIN")
-  #session['aws_access_token'] = token
-  session['aws_access_token'] = ""
+    aws_email_verified = userinfo.get("email_verified","")
+    log.info('aws_alerts_get_admin_data: aws_email_verified %s:  ', aws_email_verified)
 
-  log.info('aws_alerts_get_admin_data: exit session %s:  ', session)
-  #return redirect(url_for('aws_home'))
-  return redirect(url_for('manage')) 
+    aws_phone_verified = userinfo.get("phone_number_verified","")
+    log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
+    
+    # force the memory cache flag to enable Posts from device for 60 minutes even if current subscription is expired
+    #mc.set(device_id + '_enabled' , device_subscription_active, time=60*60)        
+    mc.set(username + '_enabled' , True, time=60*60)
+
+    
+    session['username'] = useremail
+    session['aws_userid'] = username
+    session['aws_email'] = useremail
+    session['aws_phone'] = aws_phone
+    session['aws_name'] = aws_name
+    session['aws_email_verified'] = aws_email_verified
+    session['aws_phone_verified'] = aws_phone_verified
+
+    #set a session variable to show this is a admin login
+    session['aws_account_type'] = 'admin'
+
+    
+    session['aws_clientid'] = environ.get("AWS_COGNITO_ADMIN_POOL_CLIENT_ID")
+    session['aws_domain'] = environ.get("AWS_COGNITO_ADMIN_DOMAIN")
+    #session['aws_access_token'] = token
+    session['aws_access_token'] = ""
+
+    log.info('aws_alerts_get_admin_data: exit session %s:  ', session)
+    #return redirect(url_for('aws_home'))
+    return redirect(url_for('manage'))
+
+  except AttributeError as e:
+    log.info('aws_alerts_get_admin_data: AttributeError Error  %s ' % str(e))
+    
+  except TypeError as e:
+    log.info('aws_alerts_get_admin_data: TypeError Error in  %s ' % str(e))
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_alerts_get_admin_data: Error in verify in %s:  ' % str(e))  
+
+  finally:
+    return redirect(url_for('manage'))
 
 @app.route('/aws_cognito_update_sms_number')
 def aws_cognito_update_sms_number():
