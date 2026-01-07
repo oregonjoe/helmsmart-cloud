@@ -1409,7 +1409,13 @@ def aws_alerts_get_admin_data():
 
     aws_phone_verified = userinfo.get("phone_number_verified","")
     log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
+
+    response = cognito_client.admin_get_user(
+          UserPoolId=environ.get("AWS_COGNITO_ADMIN_POOL_ID"),
+          Username=username
+      )
     
+    log.info('aws_alerts_get_admin_data: response %s:  ', response)    
     # force the memory cache flag to enable Posts from device for 60 minutes even if current subscription is expired
     #mc.set(device_id + '_enabled' , device_subscription_active, time=60*60)        
     mc.set(username + '_enabled' , True, time=60*60)
