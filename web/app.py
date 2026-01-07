@@ -787,7 +787,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       log.info("aws_update_device UPDATE SUCCESS deviceid %s ", deviceid)
       return True
 
-  except psycopg.SyntaxError as e:
+  except psycopg.Error as e:
       log.info('aws_update_device: SyntaxError in  update deviceid %s:  ', deviceid)
       log.info('aws_update_device: SyntaxError in  update deviceid  %s:  ' % str(e))
       return False
