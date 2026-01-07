@@ -1410,8 +1410,13 @@ def aws_alerts_get_admin_data():
     aws_phone_verified = userinfo.get("phone_number_verified","")
     log.info('aws_alerts_get_admin_data: phone_number_verified %s:  ', aws_phone_verified)
 
+    # set default account timeout to 60 min
+    # When admin logs in, it resets the subscription so that any device data being posted to HelmSmart is
+    # enable for account_timeout * 60 sec regardless of the current subscription status.
+    
     account_timeout = 60
 
+    # get the custom:account_timeout from asw cognito
     try:
 
       response = cognito_client.admin_get_user(
@@ -1426,7 +1431,7 @@ def aws_alerts_get_admin_data():
 
       for attribute in response['UserAttributes']:
           if attribute['Name'] == 'custom:account_timeout':
-              account_timeout = attribute['Value']
+              account_timeout = int(attribute['Value'])
               break
 
     except AttributeError as e:
@@ -1439,11 +1444,11 @@ def aws_alerts_get_admin_data():
       e = sys.exc_info()[0]
       log.info('aws_alerts_get_admin_data: admin_get_user Error in verify in %s:  ' % str(e))          
 
-    log.info('aws_alerts_get_user_data: account_timeout %s:  ', account_timeout)
+    log.info('aws_alerts_get_admin_data: account_timeout %s:  ', account_timeout)
     
     # force the memory cache flag to enable Posts from device for 60 minutes even if current subscription is expired
     #mc.set(device_id + '_enabled' , device_subscription_active, time=60*60)        
-    mc.set(username + '_enabled' , True, time=account_timeout*60)
+    mc.set(username + '_enabled' , True, time=int(account_timeout*60))
 
     
     session['username'] = useremail
