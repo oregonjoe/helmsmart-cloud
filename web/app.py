@@ -733,7 +733,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       userstatus = "device does not exist - adding"
 
       query  = "insert into user_devices ( deviceapikey, userid, useremail, deviceid, devicestatus, devicename, alertemail, smsnumber, subscriptionid, transactionid, subscriptionstartdate, subscriptionenddate, email_verified,phone_verified) "
-      query  = query + "Values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+      query  = query + "Values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s, %s)"
 
       log.info("aws_update_device update query %s ", query)
 
@@ -774,7 +774,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime, email_verified, phone_verified, deviceapikey))
+      cursor.execute(query, (devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime, devicestatus, email_verified, phone_verified, deviceapikey))
 
       conn.commit()
 
