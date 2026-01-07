@@ -315,6 +315,7 @@ $('#tab a').click(function (e) {
 	var gAWSClientID = "";
 	var gAWSUsername = "";
 	var gAWSPhone="";
+	var gAWSAccountType = "User";
 	
 	gAWSEmailVerified = "false";
 	gAWSPhoneVerified = "false";
@@ -382,6 +383,12 @@ $('#tab a').click(function (e) {
 	{% if session['aws_email'] %}
 		gAWSPhone = "{{session['aws_phone']}}";
     {% endif %}
+	
+	{% if session['aws_account_type'] %}
+		gAWSAccountType = "{{session['aws_account_type']}}";
+    {% endif %}
+	
+	
 	
 	{% if session['aws_email_verified'] %}
 		gAWSEmailVerified = "{{session['aws_email_verified']}}";
