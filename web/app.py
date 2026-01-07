@@ -2074,6 +2074,23 @@ def seagaugeg4_config():
     features = [],
   )
 
+@app.route('/privacypolicy')
+def privacypolicy():
+
+  return render_template(
+    'privacypolicy.html',
+    features = [],
+  )
+
+@app.route('/termsofuse')
+def termsofuse():
+
+  return render_template(
+    'termsofuse.html',
+    features = [],
+  )
+
+
 @app.route('/dashboard_api')
 def dashboardapi():
 
