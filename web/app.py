@@ -764,9 +764,9 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       query  = query + "subscriptionid = %s, "
       query  = query + "transactionid = %s, "
       query  = query + "subscriptionstartdate = %s, "
-      query  = query + "subscriptionenddate = %s "
-      query  = query + "devicestatus = %s "
-      query  = query + "email_verified = %s "
+      query  = query + "subscriptionenddate = %s, "
+      query  = query + "devicestatus = %s, "
+      query  = query + "email_verified = %s, "
       query  = query + "phone_verified = %s "
       query  = query + "WHERE deviceapikey =  %s"
 
