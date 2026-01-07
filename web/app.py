@@ -1423,7 +1423,7 @@ def aws_alerts_get_admin_data():
   session['aws_phone_verified'] = aws_phone_verified
 
   #set a session variable to show this is a admin login
-   session['aws_account_type'] = 'admin'
+  session['aws_account_type'] = 'admin'
 
   
   session['aws_clientid'] = environ.get("AWS_COGNITO_ADMIN_POOL_CLIENT_ID")
