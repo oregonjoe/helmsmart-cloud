@@ -843,6 +843,8 @@ def auth_payment_completed():
 
   log.info('auth_payment_completed:start  ')
 
+  device_alreay_exists = False
+  
   try:  
     dataList=list(request.form)
     log.info('auth_payment_completed:dataList %s  ' , dataList)
@@ -919,8 +921,26 @@ def auth_payment_completed():
     #########################################################
     ## check if user already exists
     #########################################################
-    
-    device_alreay_exists = aws_check_user_exists(mPaymentDeviceID)
+    try:
+      
+      device_alreay_exists = aws_check_user_exists(mPaymentDeviceID)
+
+    except KeyError as e:
+      log.info('auth_payment_completed error  - aws_check_user_exists:KeyError  Error %s:  ' % e)
+      return jsonify( message='Add user auth_payment_completed aws Key error - failed' )
+
+    except AttributeError as e:
+      log.info('auth_payment_completed error  - aws_check_user_exists:AttributeError  Error %s:  ' % e)
+      return jsonify( message='Add user auth_payment_completed aws AttributeError error - failed' )
+
+    except TypeError as e:
+      log.info('auth_payment_completed error  - aws_check_user_exists:TypeError  Error %s:  ' % e)
+      return jsonify( message='Add user auth_payment_completed aws Type error - failed'  )
+
+    except:
+      e = sys.exc_info()[0]
+      log.info('auth_payment_completed aws error  - aws_check_user_exists: Error in adding user %s:  ' % e)
+      return jsonify( message='Add user auth_payment_completed aws error - failed'  )
 
     #########################################################
 
@@ -999,7 +1019,7 @@ def auth_payment_completed():
       
       except:
         e = sys.exc_info()[0]
-        log.info('aws_cognito_user_added aws error  - add device: Error in adding user %s:  ' % e)
+        log.info('auth_payment_completed aws error  - add device: Error in adding user %s:  ' % e)
         return jsonify( message='Add user auth_payment_completed aws error - failed'  )
       
       return jsonify( json.dumps(data_dict, indent=4) )
