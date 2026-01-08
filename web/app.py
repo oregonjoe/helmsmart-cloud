@@ -1266,7 +1266,7 @@ def aws_cancel_subscription():
 
   query  = "update user_devices SET "
   query  = query + "subscriptionid = %s, "
-  query  = query + "subscriptionenddate = %s, "
+  query  = query + "subscriptionenddate = %s "
   query  = query + "WHERE deviceapikey =  %s"
 
   log.info("aws_cancel_subscription update query %s ", query)
@@ -1284,8 +1284,23 @@ def aws_cancel_subscription():
     if cursor.rowcount == 0:
           return jsonify( message='aws_cancel_subscription Could not delete device', status='error')      
     else:
-          return jsonify( message='aws_cancel_subscription cancled', status='success') 
-  
+          return jsonify( message='aws_cancel_subscription cancled', status='success')
+        
+  except psycopg.Error as e:
+      log.info('aws_update_device: SyntaxError in  update deviceid %s:  ', deviceid)
+      log.info('aws_update_device: SyntaxError in  update deviceid  %s:  ' % str(e))
+      return jsonify( message='aws_cancel_subscription', status='error')     
+
+  except psycopg.ProgrammingError as e:
+      log.info('aws_update_device: ProgrammingError in  update deviceid %s:  ', deviceid)
+      log.info('aws_update_device: ProgrammingError in  update deviceid  %s:  ' % str(e))
+      return jsonify( message='aws_cancel_subscription', status='error')     
+
+  except psycopg.DataError as e:
+      log.info('aws_update_device: DataError in  update deviceid %s:  ', deviceid)
+      log.info('aws_update_device: DataError in  update deviceid  %s:  ' % str(e))
+      return jsonify( message='aws_cancel_subscription', status='error')     
+    
   except:
     e = sys.exc_info()[0]
     log.info('aws_cancel_subscription : Error db delete %s:  ' % e)
