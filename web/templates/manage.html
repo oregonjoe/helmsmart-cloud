@@ -1151,7 +1151,7 @@ function AWSDeleteDevice(index)
 	confirm_message = confirm_message + "You must purchase a new subscription to restore live data uploads  \n ";
 
 
-  let isConfirmed = confirm(confirm_message);
+  var isConfirmed = confirm(confirm_message);
 
 
   if (!isConfirmed) {
@@ -1254,7 +1254,7 @@ function AWSCancelSubscription(index)
     return;
   } 
 
-  let isConfirmed = confirm("Are you still sure? This can not be undone");
+  var isConfirmed = confirm("Are you still sure? This can not be undone");
 
 
   if (!isConfirmed) {
