@@ -4144,20 +4144,13 @@ def getdevicesbyemail_endpoint():
 @cross_origin()
 def getalldevices():
 
-   try:  
-    conn = db_pool.getconn()
 
-  except:
-    e = sys.exc_info()[0]
-    #log.info("getdevicesbyemail_endpoint error - db_pool.getconn %s", deviceid)
-    log.info('getdevicesbyemail_endpoint error: db_pool.getconn %s:  ' % e)
-    db_pool.closeall()  
 
-    return jsonify( message='Could not open a connection', status='error')
-  
+
   
   try:
-
+    
+    conn = db_pool.getconn()
     cursor = conn.cursor()
     sqlstr = 'select * from user_devices order by deviceid desc;'   
     cursor.execute(sqlstr,)
