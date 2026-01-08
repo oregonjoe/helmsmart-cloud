@@ -701,7 +701,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
     SubscriptionType = "HelmSmart - Yearly"
     endtime = datetime.datetime.now()  + relativedelta(months=12)
   elif subscriptionKey == environ.get("SubscriptionKeyWeekly"):
-    SubscriptionType = "HelmSmart - Yearly"
+    SubscriptionType = "HelmSmart - Weekly"
     endtime = datetime.datetime.now()  + relativedelta(weeks=1)
   else:
     SubscriptionType = "HelmSmart - Expired"
