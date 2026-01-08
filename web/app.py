@@ -2157,6 +2157,14 @@ def termsofuse():
     features = [],
   )
 
+@app.route('/optoutpolicy')
+def optoutpolicy():
+
+  return render_template(
+    'optoutpolicy.html',
+    features = [],
+  )
+
 
 @app.route('/dashboard_api')
 def dashboardapi():
