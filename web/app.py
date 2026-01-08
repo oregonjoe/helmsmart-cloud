@@ -4137,6 +4137,77 @@ def getdevicesbyemail_endpoint():
     db_pool.putconn(conn)    
 
 
+# ######################################################
+# gets user info from a userid
+# #####################################################
+@app.route('/getalldevices')
+@cross_origin()
+def getalldevices():
+
+ 
+  
+  
+  try:
+
+    
+    sqlstr = 'select * from user_devices order by deviceid desc;'   
+    cursor.execute(sqlstr,)
+        
+    records = cursor.fetchall()
+
+
+    log.info('getalldevices: records found for useremail %s:  ', records)    
+
+    def type_for(type_code):
+      return {
+        23: 'INTEGER',
+        1043: 'STRING',
+        1114: 'DATETIME'    
+      }.get(type_code)
+
+
+    schema = dict(
+      fields= [
+        dict(name=c.name, type=type_for(c.type_code))
+        for c in cursor.description
+      ]
+    )
+
+    result = json.dumps(
+      dict(
+        schema=schema,
+        records=records
+      ),
+      cls=DateEncoder
+    )
+
+
+    log.info('getalldevices: result found for useremail %s:  ', result)
+    
+    response = make_response(result)
+    response.headers['content-type'] = "application/json"
+    return response
+
+  except TypeError as e:
+      log.info('getalldevices: TypeError in geting deviceid  %s:  ' % str(e))
+      return jsonify(result="TypeError")
+
+  except KeyError as e:
+      log.info('getallsevices_endpoint: KeyError in geting deviceid  %s:  ' % str(e))
+      return jsonify(result="KeyError")
+    
+  except NameError as e:
+      log.info('getalldevices: NameError in geting deviceid  %s:  ' % str(e))
+      return jsonify(result="NameError")
+      
+  except:
+    e = sys.exc_info()[0]
+    log.info('getalldevices error: Error in getting prefs %s:  ' % e)
+    return jsonify(result="ERROR")
+  
+  finally:
+    db_pool.putconn(conn)    
+
     
 
 @app.route('/prefs' , methods=['GET','POST'])

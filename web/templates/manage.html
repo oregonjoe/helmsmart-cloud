@@ -1038,10 +1038,13 @@ var table = document.getElementById("DeviceData");
 		cell8.style.textAlign = 'left';
 		cell8.style.width = '150px';
 		
-		//disable row
-		if(	myDeviceID[index].toUpperCase() != gAWSUsername.toUpperCase() )
+		if( gAWSAccountType != 'admin' &&  gAWSUsername != '000000000000')
 		{
-			ssrow.classList.add('row-disabled');
+			//check to disable row
+			if(	myDeviceID[index].toUpperCase() != gAWSUsername.toUpperCase() )
+			{
+				ssrow.classList.add('row-disabled');
+			}
 		}
 		
 		index++;
@@ -1095,8 +1098,18 @@ function getDeviceList(useremail)
 	
 	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
 	
-    devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
-	//devicedataurl = "https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=joe@seagauge.com";
+	if( gAWSAccountType == 'admin' &&  gAWSUsername == '000000000000')
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getalldevices`;
+	}
+	else
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
+	}
+	
+  
+	
+	
 
     return $.ajax({
     //async: false,
