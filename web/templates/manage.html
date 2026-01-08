@@ -64,6 +64,16 @@
 		  word-wrap: break-word;     /* Older alias for compatibility */
 		  white-space: normal;       /* Ensures default wrapping behavior is maintained */
 		}
+		
+		wrap-table {
+		table-layout: fixed; /* Fixes column widths */
+		width: 100%;         /* Sets overall table width */
+	  }
+	  .wrap-table td, .wrap-table th {
+		overflow-wrap: break-word; /* Breaks long words if necessary */
+		word-wrap: break-word;
+		width: 33%; /* Example column width */
+	  }
 		  
 	</style>
 
@@ -1601,7 +1611,8 @@ Alert service</p>
 	<div class="form-group text-center text-info" style="margin-top:10px;"  >
 <div class="alertdiv" id="report_data" style="width:100%; height:10%; display: block">
 
- <Table class="devicetable" id="DeviceData" border="0" cellspacing="5" cellpadding="5" style="width:100%; display: block">
+
+ <Table class="wrap-table" id="DeviceData" border="0" cellspacing="5" cellpadding="5" style="width:100%; display: block">
 
       <thead class="devicethead">
         <TR>
