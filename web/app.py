@@ -1244,6 +1244,58 @@ def aws_delete_device():
 
   return jsonify( message='aws_delete_device', status='error')     
 
+@app.route('/aws_cancel_subscription')
+def aws_cancel_subscription():
+
+  log.info('aws_cancel_subscription: started')
+
+  returncode="ERROR"
+  
+  deviceapikey = request.args.get('deviceapikey',"")
+  #useremail = request.args.get('useremail', '')
+  deviceid = request.args.get('deviceid', "")
+  #devicename = request.args.get('name', '')
+
+  log.info('aws_cancel_subscription: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
+
+  if deviceapikey == "" or deviceid == "":
+    return jsonify( message='aws_cancel_subscription', status='error')     
+
+
+  conn = db_pool.getconn()
+
+  query  = "update user_devices SET "
+  query  = query + "subscriptionid = %s, "
+  query  = query + "subscriptionenddate = %s, "
+  query  = query + "WHERE deviceapikey =  %s"
+
+  log.info("aws_cancel_subscription update query %s ", query)
+  
+  try:
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, ('HelmSmart - Expired', '2026-01-01', deviceapikey, ))
+
+    conn.commit()
+    #i = cursor.fetchone()
+    # if not then just exit
+    #if cursor.rowcount == 0:
+      
+    if cursor.rowcount == 0:
+          return jsonify( message='aws_cancel_subscription Could not delete device', status='error')      
+    else:
+          return jsonify( message='aws_cancel_subscription cancled', status='success') 
+  
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_cancel_subscription : Error db delete %s:  ' % e)
+    return jsonify( message='aws_delete_device', status='error')     
+
+  finally:
+    db_pool.putconn(conn)   
+
+  return jsonify( message='aws_cancel_subscription', status='error')
+
 
 @app.route('/aws_alerts_get_user_data')
 #@cognito_login_callback
