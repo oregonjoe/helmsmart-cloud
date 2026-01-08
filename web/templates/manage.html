@@ -1149,10 +1149,16 @@ function AWSDeleteDevice(index)
 	confirm_message = confirm_message + "until you re-add device by purchasing a new subscription \n ";
 	confirm_message = confirm_message + " \n ";
 	confirm_message = confirm_message + "You must purchase a new subscription to restore live data uploads  \n ";
-	confirm_message = confirm_message + " \n ";
-	confirm_message = confirm_message + "Press OK to continue or Cancel to go back. ";
+
 
   let isConfirmed = confirm(confirm_message);
+
+
+  if (!isConfirmed) {
+    return;
+  } 
+  
+  let isConfirmed = confirm("Are you still sure? This can not be undone");
 
 
   if (!isConfirmed) {
@@ -1240,8 +1246,7 @@ function AWSCancelSubscription(index)
 	confirm_message = confirm_message + "You can still access any previous stored data using your current login\n ";
 	confirm_message = confirm_message + " \n ";
 	confirm_message = confirm_message + "You must purchase a new subscription to restore live data uploads\n";
-	confirm_message = confirm_message + " \n ";
-	confirm_message = confirm_message + "Press OK to continue or Cancel to go back. ";
+
 
   let isConfirmed = confirm(confirm_message);
 
@@ -1249,7 +1254,13 @@ function AWSCancelSubscription(index)
     return;
   } 
 
+  let isConfirmed = confirm("Are you still sure? This can not be undone");
 
+
+  if (!isConfirmed) {
+    return;
+  } 
+  
         $.blockUI({ 
      message: '<h1>Search in progress...</h1>',    
      css: {             
