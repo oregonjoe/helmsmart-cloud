@@ -1129,14 +1129,13 @@ function AWSDeleteDevice(index)
 // The confirm() method pauses script execution until a button is clicked
  	var confirm_message = "Are you sure you want to delete device? \n";
 	confirm_message = confirm_message + " \n ";
-	confirm_message = confirm_message + "Subscription fees are not refundable \n";
-	confirm_message = confirm_message + "and you will no longer be able to upload \n";
-	confirm_message = confirm_message + "live data from your connected device. \n";
+	confirm_message = confirm_message + "Subscription fees are not refundable and you will no longer \n";
+	confirm_message = confirm_message + "be able to upload live data from your connected device.\n";
+	confirm_message = confirm_message + " \n";
 	confirm_message = confirm_message + "You will also loose access to any previous stored data\n ";
 	confirm_message = confirm_message + "until you re-add device by purchasing a new subscription \n ";
 	confirm_message = confirm_message + " \n ";
-	confirm_message = confirm_message + "You must purchase a new subscription  \n ";
-	confirm_message = confirm_message + "to restore live data uploads \n ";
+	confirm_message = confirm_message + "You must purchase a new subscription to restore live data uploads  \n ";
 	confirm_message = confirm_message + " \n ";
 	confirm_message = confirm_message + "Press OK to continue or Cancel to go back. ";
 
@@ -1221,15 +1220,13 @@ function AWSCancelSubscription(index)
 // The confirm() method pauses script execution until a button is clicked
 
 	var confirm_message = "Are you sure you want to cancel your subscription? \n";
+	confirm_message = confirm_message + " \n";
+	confirm_message = confirm_message + "Subscription fees are not refundable and you will no longer \n";
+	confirm_message = confirm_message + "be able to upload live data from your connected device \n";
+	confirm_message = confirm_message + " \n";
+	confirm_message = confirm_message + "You can still access any previous stored data using your current login\n ";
 	confirm_message = confirm_message + " \n ";
-	confirm_message = confirm_message + "Subscription fees are not refundable \n";
-	confirm_message = confirm_message + "and you will no longer be able to upload \n";
-	confirm_message = confirm_message + "live data from your connected device \n";
-	confirm_message = confirm_message + "You can still access any previous stored data \n ";
-	confirm_message = confirm_message + "using your current login credentials \n ";
-	confirm_message = confirm_message + " \n ";
-	confirm_message = confirm_message + "You must purchase a new subscription  \n ";
-	confirm_message = confirm_message + "to restore live data uploads \n ";
+	confirm_message = confirm_message + "You must purchase a new subscription to restore live data uploads\n";
 	confirm_message = confirm_message + " \n ";
 	confirm_message = confirm_message + "Press OK to continue or Cancel to go back. ";
 
