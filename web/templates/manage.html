@@ -1008,7 +1008,7 @@ var table = document.getElementById("DeviceData");
 		 var cell1 = ssrow.insertCell(1);
 		cell1.innerHTML = row[5];
 		cell1.style.textAlign = 'left';
-		cell1.style.width = '140px';
+		cell1.style.width = '160px';
 		cell1.classList.add('truncate-text'); 
 		cell1.classList.add('auto-style7'); 		
 		
@@ -1016,7 +1016,7 @@ var table = document.getElementById("DeviceData");
 		var cell2 = ssrow.insertCell(2);
 		cell2.innerHTML = row[7];
 		cell2.style.textAlign = 'left';
-		cell2.style.width = '140px';
+		cell2.style.width = '160px';
 		cell2.classList.add('truncate-text'); 
 		cell2.classList.add('auto-style7'); 
 		
@@ -1081,7 +1081,7 @@ var table = document.getElementById("DeviceData");
 		var cell8 = ssrow.insertCell(8);
 		cell8.innerHTML = "<button id='btnSettingsEventSave' name='btnValue' value='modify' class='btn btn-primary' onclick='modifyData(" +  index + ");'>modify</button>";
 		cell8.style.textAlign = 'left';
-		cell8.style.width = '120px';
+		cell8.style.width = '100px';
 		cell8.classList.add('auto-style7'); 
 		
 		if( gAWSAccountType != 'admin' &&  gAWSUsername != '000000000000')
@@ -1648,14 +1648,15 @@ Alert service</p>
       <thead >
         <TR>
           <th style="width:110px; height:30px;" >Device ID</th>
-		  <th style="width:140px; height:30px;" >Name</th>
-		  <th style="width:140px; height:30px;" >Email</th>
+		  <th style="width:160px; height:30px;" >Name</th>
+		  <th style="width:160px; height:30px;" >Email</th>
           <th style="width:100px; height:30px;" >SMS</th>    
 		  <th style="width:80px; height:30px;" >Subscription</th>  
 		  <th style="width:80px; height:30px;" >Expires</th>  
 		  <th style="width:60px; height:30px;" >API</th> 
 		  <th style="width:60px; height:30px;" >Status</th>
-			   </TR>
+		  <th style="width:100px; height:30px;" >&nbsp;</th>
+		</TR>
       </thead>
       <tbody class="wrap-table" ></tbody>
       
