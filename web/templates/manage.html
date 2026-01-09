@@ -76,6 +76,20 @@
 		word-wrap: break-word;
 		width: 33%; /* Example column width */
 	  }
+	  
+	  table {
+    width: 100%; /* Important for fixed layout to work correctly */
+    table-layout: fixed; /* Forces fixed column widths */
+    border-collapse: collapse;
+}
+	  
+	  
+	  truncate-text {
+    overflow: hidden;
+    white-space: nowrap; /* Prevents text from wrapping */
+    text-overflow: ellipsis; /* Displays "..." for overflowing text */
+}
+	  
 		  
 	</style>
 
@@ -987,6 +1001,7 @@ var table = document.getElementById("DeviceData");
 		cell1.innerHTML = row[5];
 		cell1.style.textAlign = 'left';
 		cell1.style.width = '200px';
+		cell1.classList.add('truncate-text'); 
 		
 		
 		//Alert Email
@@ -994,6 +1009,7 @@ var table = document.getElementById("DeviceData");
 		cell2.innerHTML = row[7];
 		cell2.style.textAlign = 'left';
 		cell2.style.width = '150px';
+		cell2.classList.add('truncate-text'); 
 		
 		if(	myDeviceID[index].toUpperCase() == gAWSUsername.toUpperCase() )
 		{
