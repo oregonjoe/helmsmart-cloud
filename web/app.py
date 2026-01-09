@@ -605,7 +605,7 @@ def aws_add_device(deviceid, devicename, useremail, smsemail, smsphone ):
 
   log.info('aws_add_device:start  ')  
 
-  status = 1
+  status = 0
 
   log.info('aws_add_device: deviceid %s  devicename %s:  ', deviceid, devicename)
   log.info('aws_add_device: useremail %s   ', useremail)
@@ -22400,7 +22400,7 @@ def addnewdevice_endpoint():
   useremail = request.args.get('useremail', '')
   deviceid = request.args.get('deviceid', '000000000000')
   devicename = request.args.get('name', 'SeaSmart')
-  status = 1
+  status = 0
 
   userid=hash_string(useremail)
   log.info("addnewdevice- userid %s", userid)
@@ -22708,7 +22708,15 @@ def events_endpoint(device_id, partition):
 
 
   ##################################################################
-  ## use deviceid to see if its in the database and enabled
+  ## set token to active because we just got some new data
+  ##################################################################
+  #refresh token to expire in 10 minutes
+  #mc.set(device_id + '_active' , True, time=600)
+  #log.info('events_endpoint - set device is active token %s deviceid %s :  ', device_id, )
+  
+
+  ##################################################################
+  ## use deviceid to see if its in the database subscription and enabled
   ##################################################################
   deviceid_enabled = mc.get(device_id + '_enabled' )
   log.info('events_endpoint - start subscription check device_id %s deviceid_enabled %s :  ', device_id, deviceid_enabled)
@@ -22723,7 +22731,8 @@ def events_endpoint(device_id, partition):
     device_subscription_active = check_device_subscription_active(device_id)
     log.info('events_endpoint - subscription check device_id %s device_subscription_active %s :  ', device_id, device_subscription_active)
 
-    mc.set(device_id + '_enabled' , device_subscription_active, time=120)
+    #refresh token to expire in 10 minutes
+    mc.set(device_id + '_enabled' , device_subscription_active, time=600)
     
   ##################################################################
   # if subcription is inactive - just exit and do not process any data
@@ -22736,6 +22745,10 @@ def events_endpoint(device_id, partition):
     return jsonify(result="OK", epochtime=epochtime)
     
   ##################################################################
+
+
+
+
 
     
   try:
