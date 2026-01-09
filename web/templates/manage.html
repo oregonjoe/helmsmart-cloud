@@ -1002,6 +1002,7 @@ var table = document.getElementById("DeviceData");
 		cell0.innerHTML = row[3];
 		cell0.style.textAlign = 'left';
 		cell0.style.width = '110px';
+		cell0.style.height = '25px';		
 		cell0.classList.add('auto-style7'); 		
 		
 		// Device Name
@@ -1009,6 +1010,7 @@ var table = document.getElementById("DeviceData");
 		cell1.innerHTML = row[5];
 		cell1.style.textAlign = 'left';
 		cell1.style.width = '160px';
+		cell1.style.height = '25px';		
 		cell1.classList.add('truncate-text'); 
 		cell1.classList.add('auto-style7'); 		
 		
@@ -1017,6 +1019,7 @@ var table = document.getElementById("DeviceData");
 		cell2.innerHTML = row[7];
 		cell2.style.textAlign = 'left';
 		cell2.style.width = '160px';
+		cell2.style.height = '25px';		
 		cell2.classList.add('truncate-text'); 
 		cell2.classList.add('auto-style7'); 
 		
@@ -1032,6 +1035,7 @@ var table = document.getElementById("DeviceData");
 		cell3.innerHTML = row[8];
 		cell3.style.textAlign = 'left';
 		cell3.style.width = '100px';
+		cell3.style.height = '25px';		
 		cell3.classList.add('auto-style7'); 
 
 		
@@ -1047,6 +1051,7 @@ var table = document.getElementById("DeviceData");
 		cell4.innerHTML = row[11];
 		cell4.style.textAlign = 'center';	
 		cell4.style.width = '80px';
+		cell4.style.height = '25px';		
 		cell4.classList.add('auto-style7'); 
 		
 		//Subscritpion expires
@@ -1054,6 +1059,7 @@ var table = document.getElementById("DeviceData");
 		cell5.innerHTML = row[14];
 		cell5.style.textAlign = 'center';	
 		cell5.style.width = '80px';
+		cell5.style.height = '25px';		
 		cell5.classList.add('auto-style7'); 		
 		
 			// Device API Count
@@ -1061,6 +1067,7 @@ var table = document.getElementById("DeviceData");
 		cell6.innerHTML = row[9];
 		cell6.style.textAlign = 'center';	
 		cell6.style.width = '60px';
+		cell6.style.height = '25px';		
 		cell6.classList.add('auto-style7'); 		
 		
 		// Device Status
@@ -1073,6 +1080,7 @@ var table = document.getElementById("DeviceData");
 			
 		cell7.style.textAlign = 'center';
 		cell7.style.width = '60px';
+		cell7.style.height = '25px';
 		cell7.classList.add('auto-style7'); 		
 
 
@@ -1085,7 +1093,8 @@ var table = document.getElementById("DeviceData");
 		cell8.style.height = '25px';
 		cell8.classList.add('auto-style7'); 
 		
-		if( gAWSAccountType != 'admin' &&  gAWSUsername != '000000000000')
+		//if( gAWSAccountType != 'admin' &&  gAWSUsername != '000000000000')
+		if( gAWSAccountType != 'admin' )
 		{
 			//check to disable row
 			if(	myDeviceID[index].toUpperCase() != gAWSUsername.toUpperCase() )
@@ -1093,6 +1102,16 @@ var table = document.getElementById("DeviceData");
 				ssrow.classList.add('row-disabled');
 			}
 		}
+		
+		if( gAWSAccountType == 'admin' &&  gAWSUsername != '000000000000')
+		{
+			//check to disable row
+			if(	myDeviceID[index].toUpperCase() != gAWSUsername.toUpperCase() )
+			{
+				ssrow.classList.add('row-disabled');
+			}
+		}
+		
 		
 		index++;
 		
