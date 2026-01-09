@@ -1538,7 +1538,7 @@ def aws_alerts_get_admin_data():
     session['deviceapikey'] = deviceapikey
   
     session['username'] = useremail
-    session['aws_userid'] = username
+    session['aws_userid'] = username.toUpper()
     session['aws_email'] = useremail
     session['aws_phone'] = aws_phone
     session['aws_name'] = aws_name
