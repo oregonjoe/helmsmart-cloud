@@ -22578,70 +22578,67 @@ def check_device_subscription_active(device_id):
 
     conn.commit()
 
-    i = cursor.fetchone()
-    # if not then just exit
-    #if cursor.rowcount == 0:
+    #i = cursor.fetchone()
+    records = cursor.fetchall()
       
     if cursor.rowcount == 0:
       log.info("check_device_subscription_active device not found device_id %s:  ", device_id)
       return False
     
     else:
-      
-      # Get subscription end date
-      subscription_end_date= str(i[0])
-      devicestatus= str(i[1])
-      
-      log.info("check_device_subscription_active device found device_id %s: enddate %s devicestatus %s", device_id, subscription_end_date, devicestatus)
 
-      #if subscription_end_date != "" and subscription_end_date != None and subscription_end_date is not None:
-      if subscription_end_date:      
-
-        date_object = datetime.datetime.strptime(subscription_end_date, "%Y-%m-%d").date()
-        log.info("check_device_subscription_active device found device_id %s: date_object %s ", device_id, date_object)
+      for row in records:     
+        # Get subscription end date
+        subscription_end_date= str(row[0])
+        devicestatus= str(row[1])
         
-        nowday = date.today()
-        log.info("check_device_subscription_active device found device_id %s: todaydate %s ", device_id, nowday)
+        log.info("check_device_subscription_active device found device_id %s: enddate %s devicestatus %s", device_id, subscription_end_date, devicestatus)
 
-        if nowday < date_object:
-          log.info("check_device_subscription_active device found device_id subscription active")
+        #if subscription_end_date != "" and subscription_end_date != None and subscription_end_date is not None:
+        if subscription_end_date:      
 
-
-          try:
-            query  = "update user_devices SET devicestatus=1 where deviceid=%s"
-            cursor = conn.cursor()
-            cursor.execute(query, (device_id, ))
-
-            conn.commit()
-            
-          except:
-            e = sys.exc_info()[0]
-            log.info("check_device_subscription_active: DB update error device_id %s ", device_id)
-            log.info('check_device_subscription_active: DB update error %s:  ' % e)
+          date_object = datetime.datetime.strptime(subscription_end_date, "%Y-%m-%d").date()
+          log.info("check_device_subscription_active device found device_id %s: date_object %s ", device_id, date_object)
           
-          return True
+          nowday = date.today()
+          log.info("check_device_subscription_active device found device_id %s: todaydate %s ", device_id, nowday)
 
-        else:
-          log.info("check_device_subscription_active device found device_id subscription inactive")
+          if nowday < date_object:
+            log.info("check_device_subscription_active device found device_id subscription active")
 
-          try:
-            query  = "update user_devices SET devicestatus=0 where deviceid=%s"
-            cursor = conn.cursor()
-            cursor.execute(query, (device_id, ))
 
-            conn.commit()
+            try:
+              query  = "update user_devices SET devicestatus=1 where deviceid=%s"
+              cursor = conn.cursor()
+              cursor.execute(query, (device_id, ))
+
+              conn.commit()
+              
+            except:
+              e = sys.exc_info()[0]
+              log.info("check_device_subscription_active: DB update error device_id %s ", device_id)
+              log.info('check_device_subscription_active: DB update error %s:  ' % e)
             
-          except:
-            e = sys.exc_info()[0]
-            log.info("check_device_subscription_active: DB update error device_id %s ", device_id)
-            log.info('check_device_subscription_active: DB update error %s:  ' % e)
-          
-          return False
+            return True
 
-      else:
-        log.info("check_device_subscription_active device found device_id subscription unknown")          
+
+      log.info("check_device_subscription_active device found device_id subscription inactive")
+
+      try:
+        query  = "update user_devices SET devicestatus=0 where deviceid=%s"
+        cursor = conn.cursor()
+        cursor.execute(query, (device_id, ))
+
+        conn.commit()
+        
+      except:
+        e = sys.exc_info()[0]
+        log.info("check_device_subscription_active: DB update error device_id %s ", device_id)
+        log.info('check_device_subscription_active: DB update error %s:  ' % e)
       
-        return False
+      return False
+
+
   
     
 
@@ -22724,15 +22721,18 @@ def events_endpoint(device_id, partition):
   if deviceid_enabled != "" and deviceid_enabled != None and deviceid_enabled is not None:
     
     device_subscription_active = deviceid_enabled
-    log.info('events_endpoint - subscription check device_id %s device_subscription_active %s :  ', device_id, device_subscription_active)
+    log.info('events_endpoint - subscription key exists device_id %s device_subscription_active %s :  ', device_id, device_subscription_active)
     
   else:
-  
+    
+    log.info('events_endpoint - subscription key missing device_id %s  ', device_id)
+    
     device_subscription_active = check_device_subscription_active(device_id)
+    
     log.info('events_endpoint - subscription check device_id %s device_subscription_active %s :  ', device_id, device_subscription_active)
 
     #refresh token to expire in 10 minutes
-    mc.set(device_id + '_enabled' , device_subscription_active, time=600)
+    mc.set(device_id + '_enabled' , device_subscription_active, time=120)
     
   ##################################################################
   # if subcription is inactive - just exit and do not process any data
