@@ -1403,6 +1403,16 @@ def aws_alerts_get_user_data():
   session['profile']['name'] = username
   session.modified = True
   log.info('aws_alerts_get_user_data: session user_info %s:  ', session)
+
+
+  userid=hash_string(useremail)
+  log.info("aws_alerts_get_user_data- userid %s", userid)
+  
+  deviceapikey=hash_string(userid+username+"013024")
+  log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
+  
+  session['userid'] = userid
+  session['deviceapikey'] = deviceapikey
   
   session['username'] = useremail
   session['aws_userid'] = username
@@ -1517,7 +1527,16 @@ def aws_alerts_get_admin_data():
     #mc.set(device_id + '_enabled' , device_subscription_active, time=60*60)        
     mc.set(username + '_enabled' , True, time=int(account_timeout*60))
 
+
+    userid=hash_string(useremail)
+    log.info("aws_alerts_get_admin_data - userid %s", userid)
     
+    deviceapikey=hash_string(userid+username+"013024")
+    log.info("aws_alerts_get_admin_data - deviceapikey %s", deviceapikey)
+    
+    session['userid'] = userid
+    session['deviceapikey'] = deviceapikey
+  
     session['username'] = useremail
     session['aws_userid'] = username
     session['aws_email'] = useremail
