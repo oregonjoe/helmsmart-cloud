@@ -310,11 +310,13 @@ var	gLogType = 0;
     gUserID = "0";
     {% if session['userid'] %}
 		gUserID = "{{session['userid']}}";
-	{% else if session['aws_email'] %}
+	 {% endif %}	
+		
+	{% if session['aws_email'] %}
 		gUserID = "{{session['aws_email']}}";
     {% else %}
 		gUserID = "0";
-    {% endif %}
+   
 
 
 	{% if session['aws_userid'] %}
