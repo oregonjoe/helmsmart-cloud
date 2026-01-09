@@ -314,8 +314,7 @@ var	gLogType = 0;
 		
 	{% if session['aws_email'] %}
 		gUserID = "{{session['aws_email']}}";
-    {% else %}
-		gUserID = "0";
+	{% endif %}
    
 
 
