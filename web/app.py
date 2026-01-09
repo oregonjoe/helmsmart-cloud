@@ -696,15 +696,15 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
   if subscriptionKey == environ.get("SubscriptionKeyMonth"):
     endtime = datetime.datetime.now()  + relativedelta(months=1)
-    SubscriptionType = "HelmSmart - Monthly"
+    SubscriptionType = "HS-Monthly"
   elif subscriptionKey == environ.get("SubscriptionKeyYear"):
-    SubscriptionType = "HelmSmart - Yearly"
+    SubscriptionType = "HS-Yearly"
     endtime = datetime.datetime.now()  + relativedelta(months=12)
   elif subscriptionKey == environ.get("SubscriptionKeyWeekly"):
-    SubscriptionType = "HelmSmart - Weekly"
+    SubscriptionType = "HS-Weekly"
     endtime = datetime.datetime.now()  + relativedelta(weeks=1)
   else:
-    SubscriptionType = "HelmSmart - Expired"
+    SubscriptionType = "HS-Invalid"
     endtime = starttime
 
   log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
@@ -1136,7 +1136,7 @@ def aws_cognito_user_added():
   
   #aws_add_device(deviceid, devicename, useremail,  smsemail, smsphone )
   #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
-  aws_update_device(deviceid, devicename, useremail,  smsemail, smsphone, 'HelmSmart - Expired', '0000000000', 0, useremailverified, userphoneverified )
+  aws_update_device(deviceid, devicename, useremail,  smsemail, smsphone, 'HS-Invalid', '0000000000', 0, useremailverified, userphoneverified )
 
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
@@ -1274,7 +1274,7 @@ def aws_cancel_subscription():
   try:
     # add new device record to DB
     cursor = conn.cursor()
-    cursor.execute(query, ('HelmSmart - Expired', '2026-01-01', deviceapikey, ))
+    cursor.execute(query, ('HS-Cancled', '2026-01-01', deviceapikey, ))
 
     conn.commit()
     #i = cursor.fetchone()
