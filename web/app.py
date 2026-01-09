@@ -1415,7 +1415,7 @@ def aws_alerts_get_user_data():
   session['deviceapikey'] = deviceapikey
   
   session['username'] = useremail
-  session['aws_userid'] = username
+  session['aws_userid'] = username.upper()
   session['aws_email'] = useremail
   session['aws_phone'] = aws_phone
   session['aws_name'] = aws_name
