@@ -1001,14 +1001,14 @@ var table = document.getElementById("DeviceData");
 	    var cell0 = ssrow.insertCell(0);
 		cell0.innerHTML = row[3];
 		cell0.style.textAlign = 'left';
-		cell0.style.width = '100px';
+		cell0.style.width = '110px';
 		cell0.classList.add('auto-style7'); 		
 		
 		// Device Name
 		 var cell1 = ssrow.insertCell(1);
 		cell1.innerHTML = row[5];
 		cell1.style.textAlign = 'left';
-		cell1.style.width = '100px';
+		cell1.style.width = '140px';
 		cell1.classList.add('truncate-text'); 
 		cell1.classList.add('auto-style7'); 		
 		
@@ -1016,7 +1016,7 @@ var table = document.getElementById("DeviceData");
 		var cell2 = ssrow.insertCell(2);
 		cell2.innerHTML = row[7];
 		cell2.style.textAlign = 'left';
-		cell2.style.width = '100px';
+		cell2.style.width = '140px';
 		cell2.classList.add('truncate-text'); 
 		cell2.classList.add('auto-style7'); 
 		
@@ -1046,21 +1046,21 @@ var table = document.getElementById("DeviceData");
 		var cell4 = ssrow.insertCell(4);
 		cell4.innerHTML = row[11];
 		cell4.style.textAlign = 'center';	
-		cell4.style.width = '200px';
+		cell4.style.width = '80px';
 		cell4.classList.add('auto-style7'); 
 		
 		//Subscritpion expires
 		var cell5 = ssrow.insertCell(5);
 		cell5.innerHTML = row[14];
 		cell5.style.textAlign = 'center';	
-		cell5.style.width = '180px';
+		cell5.style.width = '80px';
 		cell5.classList.add('auto-style7'); 		
 		
 			// Device API Count
 		var cell6 = ssrow.insertCell(6);
 		cell6.innerHTML = row[9];
 		cell6.style.textAlign = 'center';	
-		cell6.style.width = '75px';
+		cell6.style.width = '60px';
 		cell6.classList.add('auto-style7'); 		
 		
 		// Device Status
@@ -1072,7 +1072,7 @@ var table = document.getElementById("DeviceData");
 			cell7.innerHTML = 'disabled';
 			
 		cell7.style.textAlign = 'center';
-		cell7.style.width = '75px';
+		cell7.style.width = '60px';
 		cell7.classList.add('auto-style7'); 		
 
 
@@ -1081,7 +1081,7 @@ var table = document.getElementById("DeviceData");
 		var cell8 = ssrow.insertCell(8);
 		cell8.innerHTML = "<button id='btnSettingsEventSave' name='btnValue' value='modify' class='btn btn-primary' onclick='modifyData(" +  index + ");'>modify</button>";
 		cell8.style.textAlign = 'left';
-		cell8.style.width = '150px';
+		cell8.style.width = '120px';
 		cell8.classList.add('auto-style7'); 
 		
 		if( gAWSAccountType != 'admin' &&  gAWSUsername != '000000000000')
@@ -1647,11 +1647,11 @@ Alert service</p>
 
       <thead >
         <TR>
-          <th style="width:120px; height:30px;" >Device ID</th>
-		  <th style="width:120px; height:30px;" >Name</th>
-		  <th style="width:120px; height:30px;" >Email</th>
+          <th style="width:110px; height:30px;" >Device ID</th>
+		  <th style="width:140px; height:30px;" >Name</th>
+		  <th style="width:140px; height:30px;" >Email</th>
           <th style="width:100px; height:30px;" >SMS</th>    
-		  <th style="width:100px; height:30px;" >Subscription</th>  
+		  <th style="width:80px; height:30px;" >Subscription</th>  
 		  <th style="width:80px; height:30px;" >Expires</th>  
 		  <th style="width:60px; height:30px;" >API</th> 
 		  <th style="width:60px; height:30px;" >Status</th>
