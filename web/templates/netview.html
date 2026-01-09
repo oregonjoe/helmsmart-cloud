@@ -316,7 +316,7 @@ var	gLogType = 0;
 
 
 	{% if session['aws_userid'] %}
-		gAWSuserid = {{session['aws_userid']}};
+		gAWSuserid = "{{session['aws_userid']}}";
 	{% endif %}
 	
 	
