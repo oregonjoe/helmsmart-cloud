@@ -994,7 +994,7 @@ var table = document.getElementById("DeviceData");
 		cell0.innerHTML = row[3];
 		cell0.style.textAlign = 'left';
 		cell0.style.width = '100px';
-		
+		cell0.classList.add('auto-style6'); 		
 		
 		// Device Name
 		 var cell1 = ssrow.insertCell(1);
@@ -1002,7 +1002,7 @@ var table = document.getElementById("DeviceData");
 		cell1.style.textAlign = 'left';
 		cell1.style.width = '100px';
 		cell1.classList.add('truncate-text'); 
-		
+		cell1.classList.add('auto-style6'); 		
 		
 		//Alert Email
 		var cell2 = ssrow.insertCell(2);
@@ -1010,6 +1010,7 @@ var table = document.getElementById("DeviceData");
 		cell2.style.textAlign = 'left';
 		cell2.style.width = '100px';
 		cell2.classList.add('truncate-text'); 
+		cell2.classList.add('auto-style6'); 
 		
 		if(	myDeviceID[index].toUpperCase() == gAWSUsername.toUpperCase() )
 		{
@@ -1023,6 +1024,8 @@ var table = document.getElementById("DeviceData");
 		cell3.innerHTML = row[8];
 		cell3.style.textAlign = 'left';
 		cell3.style.width = '100px';
+		cell3.classList.add('auto-style6'); 
+
 		
 		if(	myDeviceID[index].toUpperCase() == gAWSUsername.toUpperCase() )
 		{
@@ -1036,20 +1039,21 @@ var table = document.getElementById("DeviceData");
 		cell4.innerHTML = row[11];
 		cell4.style.textAlign = 'center';	
 		cell4.style.width = '200px';
+		cell4.classList.add('auto-style6'); 
 		
 		//Subscritpion expires
 		var cell5 = ssrow.insertCell(5);
 		cell5.innerHTML = row[14];
 		cell5.style.textAlign = 'center';	
 		cell5.style.width = '180px';
-		
+		cell5.classList.add('auto-style6'); 		
 		
 			// Device API Count
 		var cell6 = ssrow.insertCell(6);
 		cell6.innerHTML = row[9];
 		cell6.style.textAlign = 'center';	
 		cell6.style.width = '75px';
-		
+		cell6.classList.add('auto-style6'); 		
 		
 		// Device Status
 		var cell7 = ssrow.insertCell(7);
@@ -1061,7 +1065,7 @@ var table = document.getElementById("DeviceData");
 			
 		cell7.style.textAlign = 'center';
 		cell7.style.width = '75px';
-		
+		cell7.classList.add('auto-style6'); 		
 
 
 		
@@ -1070,6 +1074,7 @@ var table = document.getElementById("DeviceData");
 		cell8.innerHTML = "<button id='btnSettingsEventSave' name='btnValue' value='modify' class='btn btn-primary' onclick='modifyData(" +  index + ");'>modify</button>";
 		cell8.style.textAlign = 'left';
 		cell8.style.width = '150px';
+		cell8.classList.add('auto-style6'); 
 		
 		if( gAWSAccountType != 'admin' &&  gAWSUsername != '000000000000')
 		{
