@@ -3496,7 +3496,7 @@ function DeletePref()
    {% endif %}
    
    	{% if session['aws_userid'] %}
-		gAWSuserid = {{session['aws_userid']}};
+		gAWSuserid = "{{session['aws_userid']}}";
 	{% endif %}
 
       if (myuserid == null)

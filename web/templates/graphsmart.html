@@ -3568,7 +3568,7 @@ function myonload()
    {% endif %}
    
    	{% if session['aws_userid'] %}
-		gAWSuserid = {{session['aws_userid']}};
+		gAWSuserid = "{{session['aws_userid']}}";
 	{% endif %}
    
 
