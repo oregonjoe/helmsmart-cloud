@@ -159,6 +159,7 @@ color: #FFFFFF;
     var ParameterInit = false;
     var myuserid;
 	var deviceAPIkeys = new Array();
+	var gAWSuserid = "";
 
     var mySubStrings = new Array();
     var myDataValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
@@ -424,6 +425,9 @@ function StartUpMyScript()
 
 
 
+	{% if session['aws_userid'] %}
+		gAWSuserid = "{{session['aws_userid']}}";
+	{% endif %}
 
 
 
@@ -467,6 +471,8 @@ function StartUpMyScript()
     // set up Server Account Type
 
     SetServerType( 1);
+	
+	
 
     if (myuserid == null)
     {
@@ -577,12 +583,27 @@ function StartUpMyScript()
  
    	$.unblockUI();
    	
-	  document.getElementById("DeviceID").options.length = 0;
+	document.getElementById("DeviceID").options.length = 0;
 
-   	response.records.forEach(function(row){
+	response.records.forEach(function(row){
+	
 		  deviceAPIkeys[index] = row[2];
-   	      document.getElementById("DeviceID").options[index++] = new Option(row[0], row[1]);
+		  var dduserid = row[0];	
+			 
+   	      document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
 		  
+			if (gAWSuserid != "")
+			{
+				if(dduserid != gAWSuserid.toString())
+				{
+					document.getElementById("DeviceID").options[index].disabled = true;
+					document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+				}
+				  
+			}
+				  
+			index++;
+			
 	   		});
 	   		
 	   		

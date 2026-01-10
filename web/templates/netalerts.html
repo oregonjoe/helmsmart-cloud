@@ -409,6 +409,9 @@ $('#tab a').click(function (e) {
 	gEMail = "";
 	gSMSNumber="";
 	
+	var gAWSuserid = "";
+		
+	
 	var pagetype=2;
 	
 	
@@ -939,7 +942,9 @@ var rgbAlertColorIndex = [
     gUserID = "0";
     {% endif %}  	
 	
-
+	{% if session['aws_userid'] %}
+		gAWSuserid = "{{session['aws_userid']}}";
+	{% endif %}
 
     if (gUserID == null)
     {
@@ -4887,8 +4892,23 @@ function handleGetDeviceData(response)
 
   response.records.forEach(function(row){
  
+ 	 var dduserid = row[0];	
+	 
      // myDeviceIDs[index]=row[0];
-      document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+      document.getElementById("DeviceTypeID").options[index] = new Option(row[0] + ":" + row[1], row[0]);
+	  
+	  if (gAWSuserid != "")
+	  {
+		if(dduserid != gAWSuserid.toString())
+		{
+			document.getElementById("DeviceTypeID").options[index].disabled = true;
+			document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
+		}
+	  
+	  }
+	  
+	   index++;
+	  
 
   });
 
