@@ -1110,7 +1110,8 @@ def aws_cognito_user_added():
   log.info('aws_cognito_user_added:start  ')  
   log.info('aws_cognito_user_added:request  %s', request)  
 
-  deviceid = request.args.get('username', '000000000000')
+  deviceidstr = request.args.get('username', '000000000000').split(':')
+  deviceid = deviceidstr[0]
   deviceid = deviceid.upper()
   useremail = request.args.get('email', "")
   useremailverified = request.args.get('emailverified', "")
@@ -1340,9 +1341,11 @@ def aws_alerts_get_user_data():
 
 
 
-  username = response.get('Username', "")
+  usernamestr = response.get('Username', "")
+  log.info('aws_alerts_get_user_data: usernamestr %s:  ', usernamestr)
+  usernames = usernamestr.split(':')
+  username = usernames[0]
   log.info('aws_alerts_get_user_data: username %s:  ', username)
-  
 
   # Extract the email from the UserAttributes list
   useremail = None
@@ -1469,8 +1472,12 @@ def aws_alerts_get_admin_data():
     session['profile'] =json.loads(user_info_json)
     log.info('aws_alerts_get_admin_data: in session user_info %s:  ', session)
 
-    username = userinfo.get("cognito:username","")
-    log.info('aws_alerts_get_admin_data: username %s:  ', username)
+    usernamestr = userinfo.get("cognito:username","")
+    log.info('aws_alerts_get_admin_data: usernamestr %s:  ', usernamestr)
+
+    usernames = usernamestr.split(':')
+    username = usernames[0]
+    log.info('aws_alerts_get_admin_data: username %s:  ', username)    
     
     useremail = userinfo.get("email","")
     log.info('aws_alerts_get_admin_data: useremail %s:  ', useremail)
