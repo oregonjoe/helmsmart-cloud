@@ -1016,12 +1016,24 @@ var table = document.getElementById("DeviceData");
 		
 		//Alert Email
 		var cell2 = ssrow.insertCell(2);
-		cell2.innerHTML = row[7];
+		
+		if( gAWSAccountType == 'admin' && gAWSUsername == '000000000000')
+		{
+			cell2.innerHTML = row[2];
+		}
+		else
+		{
+			cell2.innerHTML = row[7];
+		}
+		
+		
 		cell2.style.textAlign = 'left';
 		cell2.style.width = '160px';
 		cell2.style.height = '25px';		
 		cell2.classList.add('truncate-text'); 
 		cell2.classList.add('auto-style7'); 
+		
+		if( gAWSAccountType == 'admin' && gAWSUsername == '000000000000')
 		
 		if(	myDeviceID[index].toUpperCase() == gAWSUsername.toUpperCase() )
 		{
