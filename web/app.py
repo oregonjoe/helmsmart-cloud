@@ -1653,12 +1653,16 @@ def aws_cognito_update_sms_number():
   
   log.info('aws_cognito_update_sms_number: userid %s smsnumber %s' , userid, smsnumber)
 
+  awsusername = request.args.get('awsusername', "")
+  log.info('aws_cognito_update_sms_number: awsusername %s:', awsusername)
 
+  if awsusername == "" :
+    return jsonify( message='aws_cognito_update_sms_number', status='error')    
   
   try:
     response = cognito_client.admin_update_user_attributes(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        Username=userid,
+        Username=awsusername,
         UserAttributes=[
             {
                 'Name': 'phone_number',
@@ -1861,12 +1865,16 @@ def aws_cognito_update_sms_email():
   
   log.info('aws_cognito_update_sms_email: userid %s smsnumber %s' , userid, smsemail)
 
+  awsusername = request.args.get('awsusername', "")
+  log.info('aws_cognito_update_sms_email: awsusername %s:', awsusername)
 
+  if awsusername == "" :
+    return jsonify( message='aws_cognito_update_sms_email', status='error')  
   
   try:
     response = cognito_client.admin_update_user_attributes(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        Username=userid,
+        Username=awsusername,
         UserAttributes=[
             {
                 'Name': 'email',

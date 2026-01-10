@@ -698,7 +698,7 @@ if (answer) {
 	
 	var userid  = document.getElementById("DeviceTypeID").value;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_update_sms_number?userid=" + userid + "&smsnumber=" + encodedSMSnumber;
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_update_sms_number?userid=" + userid + "&smsnumber=" + encodedSMSnumber + "&awsusername=" + gAWSUsername;
 
 
     return $.ajax({
@@ -866,7 +866,7 @@ if (answer) {
 	
 	var userid  = document.getElementById("DeviceTypeID").value;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_update_sms_email?userid=" + userid + "&smsemail=" + encodedAlertEmail;
+    devicedataurl = "https://www.helmsmart-cloud.com/aws_cognito_update_sms_email?userid=" + userid + "&smsemail=" + encodedAlertEmail + "&awsusername=" + gAWSUsername;
 
 
     return $.ajax({
