@@ -1135,12 +1135,23 @@ def aws_cognito_user_added():
   if userphoneverified == "true":
     smsphone = userphone
 
+  if useremail == 'undefined':
+    useremail = None
+
+  if userphone == 'undefined':
+    userphone = None
 
   if useremailverified is None:
     useremailverified = False
 
 
   if userphoneverified is None:
+    userphoneverified = False
+
+  if useremailverified == 'undefined':
+    useremailverified = False
+
+  if userphoneverified == 'undefined':
     userphoneverified = False
     
   log.info('aws_cognito_user_added: useremail %s useremailverified %s:  ', useremail, useremailverified)
