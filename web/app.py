@@ -1199,11 +1199,18 @@ def aws_delete_device():
   if deviceapikey == "" or deviceid == "":
     return jsonify( message='aws_delete_user', status='error')     
 
+
+  awsusername = request.args.get('awsusername', "")
+  log.info('aws_delete_device: awsusername %s:', awsusername)
+
+  if awsusername == "" :
+    return jsonify( message='aws_delete_user', status='error')     
+  
   try:
     
     response = cognito_client.admin_delete_user(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        Username=deviceid
+        Username=awsusername
     )
 
 
@@ -1363,8 +1370,8 @@ def aws_alerts_get_user_data():
 
 
 
-  usernamestr = response.get('Username', "")
-  log.info('aws_alerts_get_user_data: usernamestr %s:  ', usernamestr)
+  aws_username = response.get('Username', "")
+  log.info('aws_alerts_get_user_data: aws_username %s:  ', aws_username)
   usernames = usernamestr.split(':')
   username = usernames[0]
   log.info('aws_alerts_get_user_data: username %s:  ', username)
@@ -1438,6 +1445,8 @@ def aws_alerts_get_user_data():
   
   session['userid'] = userid
   session['deviceapikey'] = deviceapikey
+
+  session['aws_username'] = aws_username
   
   session['username'] = useremail
   session['aws_userid'] = username.upper()

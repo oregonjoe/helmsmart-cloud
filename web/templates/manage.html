@@ -363,8 +363,10 @@ $('#tab a').click(function (e) {
 	gEMail = "";
 	gSMSNumber="";
 	
+	var gAWSAccessToken="";
 	var gAWSDomain = "";
 	var gAWSClientID = "";
+	var gAWSUseid = "";
 	var gAWSUsername = "";
 	var gAWSPhone="";
 	var gAWSAccountType = "User";
@@ -415,6 +417,11 @@ $('#tab a').click(function (e) {
 	
 	var myText;
 
+	{% if session['aws_username'] %}
+		gAWSUsername = "{{session['aws_username']}}";
+	{% endif %}
+	
+	
 	{% if session['aws_domain'] %}
 		gAWSDomain = "{{session['aws_domain']}}";
 	{% endif %}
@@ -425,7 +432,7 @@ $('#tab a').click(function (e) {
 		
 
     {% if session['aws_userid'] %}
-		gAWSUsername = "{{session['aws_userid']}}";
+		gAWSuserid = "{{session['aws_userid']}}";
     {% endif %}
 
     {% if session['aws_email'] %}
@@ -1017,7 +1024,7 @@ var table = document.getElementById("DeviceData");
 		//Alert Email
 		var cell2 = ssrow.insertCell(2);
 		
-		if( gAWSAccountType == 'admin' && gAWSUsername == '000000000000')
+		if( gAWSAccountType == 'admin' && gAWSuserid == '000000000000')
 		{
 			cell2.innerHTML = row[2];
 		}
@@ -1033,9 +1040,9 @@ var table = document.getElementById("DeviceData");
 		cell2.classList.add('truncate-text'); 
 		cell2.classList.add('auto-style7'); 
 		
-		if( gAWSAccountType == 'admin' && gAWSUsername == '000000000000')
+		if( gAWSAccountType == 'admin' && gAWSuserid == '000000000000')
 		
-		if(	myDeviceID[index].toUpperCase() == gAWSUsername.toUpperCase() )
+		if(	myDeviceID[index].toUpperCase() == gAWSuserid.toUpperCase() )
 		{
 			cell2.style.color = '#75051A';
 			if(gAWSEmailVerified == "true")
@@ -1051,7 +1058,7 @@ var table = document.getElementById("DeviceData");
 		cell3.classList.add('auto-style7'); 
 
 		
-		if(	myDeviceID[index].toUpperCase() == gAWSUsername.toUpperCase() )
+		if(	myDeviceID[index].toUpperCase() == gAWSuserid.toUpperCase() )
 		{
 			cell3.style.color = '#75051A';
 			if(gAWSPhoneVerified == "true")
@@ -1105,20 +1112,20 @@ var table = document.getElementById("DeviceData");
 		cell8.style.height = '25px';
 		cell8.classList.add('auto-style7'); 
 		
-		//if( gAWSAccountType != 'admin' &&  gAWSUsername != '000000000000')
+		//if( gAWSAccountType != 'admin' &&  gAWSuserid != '000000000000')
 		if( gAWSAccountType != 'admin' )
 		{
 			//check to disable row
-			if(	myDeviceID[index].toUpperCase() != gAWSUsername.toUpperCase() )
+			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
 			{
 				ssrow.classList.add('row-disabled');
 			}
 		}
 		
-		if( gAWSAccountType == 'admin' &&  gAWSUsername != '000000000000')
+		if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
 		{
 			//check to disable row
-			if(	myDeviceID[index].toUpperCase() != gAWSUsername.toUpperCase() )
+			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
 			{
 				ssrow.classList.add('row-disabled');
 			}
@@ -1176,7 +1183,7 @@ function getDeviceList(useremail)
 	
 	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
 	
-	if( gAWSAccountType == 'admin' &&  gAWSUsername == '000000000000')
+	if( gAWSAccountType == 'admin' &&  gAWSuserid == '000000000000')
 	{
 		devicedataurl = `https://www.helmsmart-cloud.com/getalldevices`;
 	}
@@ -1282,8 +1289,8 @@ function AWSDeleteDevice(index)
 	//var deviceID = encodeURIComponent(gDeviceID);
 	
 	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
-	
-    devicedataurl = "https://www.helmsmart-cloud.com/aws_delete_device?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index];
+	devicedataurl = "https://www.helmsmart-cloud.com/aws_delete_device?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index] + "&awsusername=" + gAWSUsername;
+    //devicedataurl = "https://www.helmsmart-cloud.com/aws_delete_device?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index] + "&accesstokem=" + gAWSAccessToken;
 	//devicedataurl = "https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=joe@seagauge.com";
 
     return $.ajax({
