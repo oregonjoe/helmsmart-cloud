@@ -1367,103 +1367,124 @@ def aws_alerts_get_user_data():
 
   log.info('aws_alerts_get_user_data: get_user %s:  ', response)
 
+  try:
 
 
+    aws_username = response.get('Username', "")
+    log.info('aws_alerts_get_user_data: aws_username %s:  ', aws_username)
+    usernames = aws_username.split(':')
+    username = usernames[0]
+    log.info('aws_alerts_get_user_data: username %s:  ', username)
 
-  aws_username = response.get('Username', "")
-  log.info('aws_alerts_get_user_data: aws_username %s:  ', aws_username)
-  usernames = usernamestr.split(':')
-  username = usernames[0]
-  log.info('aws_alerts_get_user_data: username %s:  ', username)
+    # Extract the email from the UserAttributes list
+    useremail = None
+    for attribute in response['UserAttributes']:
+        if attribute['Name'] == 'email':
+            useremail = attribute['Value']
+            break
 
-  # Extract the email from the UserAttributes list
-  useremail = None
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'email':
-          useremail = attribute['Value']
-          break
+    log.info('aws_alerts_get_user_data: useremail %s:  ', useremail)
 
-  log.info('aws_alerts_get_user_data: useremail %s:  ', useremail)
+    # Extract the email from the UserAttributes list
+    aws_phone = None
+    for attribute in response['UserAttributes']:
+        if attribute['Name'] == 'phone_number':
+            aws_phone = attribute['Value']
+            break
 
-  # Extract the email from the UserAttributes list
-  aws_phone = None
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'phone_number':
-          aws_phone = attribute['Value']
-          break
+    log.info('aws_alerts_get_user_data: aws_phone %s:  ', aws_phone)
 
-  log.info('aws_alerts_get_user_data: aws_phone %s:  ', aws_phone)
+    # Extract the email from the UserAttributes list
+    aws_name = None
+    for attribute in response['UserAttributes']:
+        if attribute['Name'] == 'name':
+            aws_name = attribute['Value']
+            break
 
-  # Extract the email from the UserAttributes list
-  aws_name = None
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'name':
-          aws_name = attribute['Value']
-          break
+    log.info('aws_alerts_get_user_data: aws_name %s:  ', aws_name)
 
-  log.info('aws_alerts_get_user_data: aws_name %s:  ', aws_name)
+    # Extract the email from the UserAttributes list
+    aws_email_verified = 'false'
+    for attribute in response['UserAttributes']:
+        if attribute['Name'] == 'email_verified':
+            aws_email_verified = attribute['Value']
+            break
 
-  # Extract the email from the UserAttributes list
-  aws_email_verified = 'false'
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'email_verified':
-          aws_email_verified = attribute['Value']
-          break
+    log.info('aws_alerts_get_user_data: aws_email_verified %s:  ', aws_email_verified)
 
-  log.info('aws_alerts_get_user_data: aws_email_verified %s:  ', aws_email_verified)
+    # Extract the email from the UserAttributes list
+    aws_phone_verified = 'false'
+    for attribute in response['UserAttributes']:
+        if attribute['Name'] == 'phone_number_verified':
+            aws_phone_verified = attribute['Value']
+            break
 
-  # Extract the email from the UserAttributes list
-  aws_phone_verified = 'false'
-  for attribute in response['UserAttributes']:
-      if attribute['Name'] == 'phone_number_verified':
-          aws_phone_verified = attribute['Value']
-          break
+    log.info('aws_alerts_get_user_data: phone_number_verified %s:  ', aws_phone_verified)
+    
+          
 
-  log.info('aws_alerts_get_user_data: phone_number_verified %s:  ', aws_phone_verified)
-  
-        
+    session.clear
+    
 
-  session.clear
-  
-
-  #user_info_json = json.dumps(userinfo)
-  #log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
-  
-  #session['profile'] =json.loads(user_info_json)
-  session['profile']={}
-  session['profile']['email'] = useremail
-  session['profile']['name'] = username
-  session.modified = True
-  log.info('aws_alerts_get_user_data: session user_info %s:  ', session)
+    #user_info_json = json.dumps(userinfo)
+    #log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
+    
+    #session['profile'] =json.loads(user_info_json)
+    session['profile']={}
+    session['profile']['email'] = useremail
+    session['profile']['name'] = username
+    session.modified = True
+    log.info('aws_alerts_get_user_data: session user_info %s:  ', session)
 
 
-  userid=hash_string(useremail)
-  log.info("aws_alerts_get_user_data- userid %s", userid)
-  
-  deviceapikey=hash_string(userid+username+"013024")
-  log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
-  
-  session['userid'] = userid
-  session['deviceapikey'] = deviceapikey
+    userid=hash_string(useremail)
+    log.info("aws_alerts_get_user_data- userid %s", userid)
+    
+    deviceapikey=hash_string(userid+username+"013024")
+    log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
+    
+    session['userid'] = userid
+    session['deviceapikey'] = deviceapikey
 
-  session['aws_username'] = aws_username
-  
-  session['username'] = useremail
-  session['aws_userid'] = username.upper()
-  session['aws_email'] = useremail
-  session['aws_phone'] = aws_phone
-  session['aws_name'] = aws_name
-  session['aws_email_verified'] = aws_email_verified
-  session['aws_phone_verified'] = aws_phone_verified
+    session['aws_username'] = aws_username
+    
+    session['username'] = useremail
+    session['aws_userid'] = username.upper()
+    session['aws_email'] = useremail
+    session['aws_phone'] = aws_phone
+    session['aws_name'] = aws_name
+    session['aws_email_verified'] = aws_email_verified
+    session['aws_phone_verified'] = aws_phone_verified
 
-  
-  session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID")
-  session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
-  session['aws_access_token'] = access_token
+    
+    session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID")
+    session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
+    session['aws_access_token'] = access_token
 
-  log.info('aws_alerts_get_user_data: exit session %s:  ', session)
-  #return redirect(url_for('aws_home'))
-  return redirect(url_for('manage'))    
+    log.info('aws_alerts_get_user_data: exit session %s:  ', session)
+    #return redirect(url_for('aws_home'))
+    return redirect(url_for('manage'))    
+
+  except cognito_client.exceptions.ResourceNotFoundException:
+    log.info("aws_alerts_get_user_data: User or User Pool not found.")
+    return jsonify( message='aws_delete_user', status='error')  
+
+  except cognito_client.exceptions.InvalidParameterException:
+    log.info("aws_alerts_get_user_data: InvalidParameterException")
+    e = sys.exc_info()[0]
+    log.info('manage_details: Error InvalidParameterException in getting verify code %s:  ' % str(e))
+    return jsonify( message='aws_delete_user', status='error')  
+
+  except AttributeError as e:
+    log.info('aws_alerts_get_user_data: AttributeError Error in getting verify code  ' % str(e))
+    return jsonify( message='aws_delete_user', status='error')  
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_alerts_get_user_data: Error in verify in getting verify code %s:  ' % str(e))  
+    return jsonify( message='aws_alerts_get_user_data', status='error')  
+
+
 
 @app.route('/aws_alerts_get_admin_data')
 #@cognito_login_callback
