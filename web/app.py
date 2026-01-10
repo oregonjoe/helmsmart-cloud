@@ -1114,9 +1114,9 @@ def aws_cognito_user_added():
   deviceid = deviceidstr[0]
   deviceid = deviceid.upper()
   useremail = request.args.get('email', "")
-  useremailverified = request.args.get('emailverified', "")
+  useremailverified = request.args.get('emailverified', "False")
   userphone = request.args.get('phone', "")
-  userphoneverified = request.args.get('phoneverified', "")
+  userphoneverified = request.args.get('phoneverified', "False")
   devicename = request.args.get('device',  'SeaSmart')
   status = 1
 
