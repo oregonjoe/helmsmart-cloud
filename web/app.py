@@ -1110,6 +1110,9 @@ def aws_cognito_user_added():
   log.info('aws_cognito_user_added:start  ')  
   log.info('aws_cognito_user_added:request  %s', request)  
 
+  userphoneverified = None
+  useremailverified = None
+
   deviceidstr = request.args.get('username', '000000000000').split(':')
   deviceid = deviceidstr[0]
   deviceid = deviceid.upper()
@@ -1131,9 +1134,17 @@ def aws_cognito_user_added():
   smsphone = None
   if userphoneverified == "true":
     smsphone = userphone
-    
-  log.info('aws_cognito_user_added: smsemail %s smsphone %s:  ', smsemail, smsphone)
 
+
+  if useremailverified is None:
+    useremailverified = False
+
+
+  if userphoneverified is None:
+    userphoneverified = False
+    
+  log.info('aws_cognito_user_added: useremail %s useremailverified %s:  ', useremail, useremailverified)
+  log.info('aws_cognito_user_added: userphone %s userphoneverified %s:  ', userphone, userphoneverified)
   
   #aws_add_device(deviceid, devicename, useremail,  smsemail, smsphone )
   #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
