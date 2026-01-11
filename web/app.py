@@ -1801,14 +1801,14 @@ def aws_cognito_confirm_sms_number():
 
 def updatesmsnumber(deviceapikey, smsnumber):
 
-  log.info('updatesmsnumber: devicekey %s smsnumber %s' , deviceapikey, smsnumber)
+  log.info('updatesmsnumber: devicekey %s smsnumber %s, phone_verified=TRUE ' , deviceapikey, smsnumber)
   conn = db_pool.getconn()
   
   try:
     
     cursor = conn.cursor()
     #update user_devices SET smsnumber = %s where deviceapikey = %s;
-    query  = "update user_devices set smsnumber = %s where deviceapikey = %s;"
+    query  = "update user_devices set smsnumber = %s, phone_verified=TRUE where deviceapikey = %s;"
 
     # add new device record to DB
     cursor = conn.cursor()
@@ -2020,7 +2020,7 @@ def updatesmsemail(deviceapikey, smsemail):
     
     cursor = conn.cursor()
     #update user_devices SET smsnumber = %s where deviceapikey = %s;
-    query  = "update user_devices set alertemail = %s where deviceapikey = %s;"
+    query  = "update user_devices set alertemail = %s, email_verified = TRUE where deviceapikey = %s;"
 
     # add new device record to DB
     cursor = conn.cursor()
