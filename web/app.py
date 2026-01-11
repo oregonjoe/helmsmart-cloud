@@ -1982,7 +1982,7 @@ def aws_cognito_confirm_sms_email():
     if HTTPstatus != 200:
       return jsonify( message='aws_cognito_confirm_sms_email ', status='error')
     
-    updatesmsnumber(devicekey, smsnumber)
+    updatesmsemail(devicekey, smsemail)
 
   except cognito_client.exceptions.CodeMismatchException:
     log.info("aws_cognito_confirm_sms_email: Invalid verification code provided, please try again..")
