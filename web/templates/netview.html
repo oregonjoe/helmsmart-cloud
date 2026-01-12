@@ -1440,9 +1440,9 @@ function handleGetDeviceData(response)
   response.records.forEach(function(row){
  
      // myDeviceIDs[index]=row[0];
-	 var dduserid = row[0];
+	 var dduserid = row[3];
 	 
-      document.getElementById("DeviceTypeID").options[index] = new Option(row[0] + ":" + row[1], row[0]);
+      document.getElementById("DeviceTypeID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
 	  
 	  if (gAWSuserid != "")
 	  {
