@@ -273,7 +273,7 @@ $('#tab a').click(function (e) {
 	var gAWSUsername = "";
 	var gAWSPhone="";
 	var gAWSAccountType = "User";	
-	
+	var gUserEmail = 'guest@helmsmart.com';
 	
 	
 
@@ -334,7 +334,13 @@ $('#tab a').click(function (e) {
     {% if session['aws_userid'] %}
 		gAWSuserid = "{{session['aws_userid']}}";
     {% endif %}
+	
 
+	
+    {% if session['userid'] %}
+		gUserEmail = "{{session['userid']}}";
+    {% endif %}
+	
     {% if session['aws_email'] %}
 		gUserEmail = "{{session['aws_email']}}";
     {% endif %}
