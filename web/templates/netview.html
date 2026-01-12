@@ -337,8 +337,8 @@ $('#tab a').click(function (e) {
 	
 
 	
-    {% if session['userid'] %}
-		gUserEmail = "{{session['userid']}}";
+    {% if session['username'] %}
+		gUserEmail = "{{session['username']}}";
     {% endif %}
 	
     {% if session['aws_email'] %}
