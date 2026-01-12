@@ -160,6 +160,7 @@ color: #FFFFFF;
     var myuserid;
 	var deviceAPIkeys = new Array();
 	var gAWSuserid = "";
+	var gAWSUsername = ""
 
     var mySubStrings = new Array();
     var myDataValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
@@ -430,7 +431,9 @@ function StartUpMyScript()
 	{% endif %}
 
 
-
+	{% if session['aws_username'] %}
+		gAWSUsername = "{{session['aws_username']}}";
+	{% endif %}
 
 
     AccountDataFolder = GetCookie(CookiePrefix + 'Account');
@@ -2452,18 +2455,26 @@ var StatusString;
 </script>
 
 
-
+	{% if session['aws_userid'] %}
+		gAWSuserid = "{{session['aws_userid']}}";
+	{% endif %}
+	
+const username = sessionStorage.getItem('username'); // Get item from session storage
 
 
 <body style="width: 100%; height: 100%; margin: 0;" onload ="StartUpMyScript(); " >
  
   <center>
+  {% if session['aws_userid'] %}
+     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+    <span>HelmSmart User: {{session['aws_userid']}}</span></a>
+  
   {% if session['userid'] %}
      <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart: {{session['username']}}</span></a>
+    <span>HelmSmart Email: {{session['username']}}</span></a>
   {% else %}
     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-      <span>HelmSmart: Guest</span></a>
+      <span>HelmSmart Guest: click to login</span></a>
   {% endif %}
   </center>
   

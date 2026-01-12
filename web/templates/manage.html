@@ -122,37 +122,27 @@
 -->
 
 
-  <center>
-  {% if session['aws_email'] %}
+	<center>
   
-    <div>
-	  <a width="250" href="http://www.helmsmart-cloud.com/" id="hshome" >
-      <span width="250"><h2><b>Helmsmart:  Home </b></h2></span></a>
-	  </div>
-  
-     <a width="250" href="javascript:void(0);" onclick="LogoutDevice();" id="logout" class="persona-button">
-    <span width="250">HelmSmart: {{session['aws_email']}}</span></a>
-  {% else %}
-
-  	  <div>
-	  <a width="250" href="http://www.helmsmart-cloud.com/" id="hshome" >
-      <span width="250"><h2><b>Helmsmart:  Home </b></h2></span></a>
-	  </div>
-  
-	<div>
-		<a width="250" href="http://www.helmsmart-cloud.com/aws_login" id="awslogin" class="persona-button">
-      <span width="250">Manage: Guest - login</span></a>
-	  </div>
+		<div>
+		  <a width="250" href="http://www.helmsmart-cloud.com/" id="hshome" >
+		  <span width="250"><h2><b>Helmsmart:  Home </b></h2></span></a>
+		  </div>
+		  
+	  {% if session['aws_userid'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart User: {{session['aws_userid']}}</span></a>
 	  
-
-	  
-  {% endif %}
-  
-  
-
-  
-  
+	  {% elif session['userid'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart Email: {{session['username']}}</span></a>
+	  {% else %}
+		<a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		  <span>HelmSmart Guest: click to login</span></a>
+	  {% endif %}
   </center>
+  
+
 </div>
 
 
