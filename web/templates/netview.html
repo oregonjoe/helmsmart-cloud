@@ -266,12 +266,22 @@ $('#tab a').click(function (e) {
 	var gDeviceName="";
 	
 	var gAWSuserid = "";
-
-var	gLogType = 0;
+	var gAWSAccessToken="";
+	var gAWSDomain = "";
+	var gAWSClientID = "";
+	var gAWSUseid = "";
+	var gAWSUsername = "";
+	var gAWSPhone="";
+	var gAWSAccountType = "User";	
 	
-  var AlertID=0;
-  var device;
-  var firebase;
+	
+	
+
+	var	gLogType = 0;
+	
+	var AlertID=0;
+	var device;
+	var firebase;
     var rootRef;;
   
 
@@ -307,20 +317,45 @@ var	gLogType = 0;
 	
 	   //InitalizeFirebase();
 	
-    gUserID = "0";
-    {% if session['userid'] %}
-		gUserID = "{{session['userid']}}";
-	 {% endif %}	
-		
-	//{% if session['aws_email'] %}
-	//	gUserID = "{{session['aws_email']}}";
-	//{% endif %}
-   
-
-
-	{% if session['aws_userid'] %}
-		gAWSuserid = "{{session['aws_userid']}}";
+	{% if session['aws_username'] %}
+		gAWSUsername = "{{session['aws_username']}}";
 	{% endif %}
+	
+	
+	{% if session['aws_domain'] %}
+		gAWSDomain = "{{session['aws_domain']}}";
+	{% endif %}
+		
+	{% if session['aws_clientid'] %}
+		gAWSClientID = "{{session['aws_clientid']}}";
+	{% endif %}
+		
+
+    {% if session['aws_userid'] %}
+		gAWSuserid = "{{session['aws_userid']}}";
+    {% endif %}
+
+    {% if session['aws_email'] %}
+		gUserEmail = "{{session['aws_email']}}";
+    {% endif %}
+	
+	{% if session['aws_email'] %}
+		gAWSPhone = "{{session['aws_phone']}}";
+    {% endif %}
+	
+	{% if session['aws_account_type'] %}
+		gAWSAccountType = "{{session['aws_account_type']}}";
+    {% endif %}
+	
+	
+	
+	{% if session['aws_email_verified'] %}
+		gAWSEmailVerified = "{{session['aws_email_verified']}}";
+    {% endif %}
+
+    {% if session['aws_phone_verified'] %}
+		gAWSPhoneVerified = "{{session['aws_phone_verified']}}";
+    {% endif %}
 	
 	
     if (gUserID == null)
@@ -329,7 +364,7 @@ var	gLogType = 0;
     }
     else
     {
-    getDeviceList(gUserID);
+    getDeviceList(gUserEmail);
     //getDeviceParamList(myuserid);
     }
 	
@@ -1540,7 +1575,7 @@ function handleGetDeviceData(response)
   
   
   
-function getDeviceList(userid)
+function getDeviceList(useremail)
 {
 
         $.blockUI({ 
@@ -1558,7 +1593,24 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
+    //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
+	
+	
+	var encodedEmail = encodeURIComponent(useremail);
+	
+	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
+	
+	if( gAWSAccountType == 'admin' &&  gAWSuserid == '000000000000')
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getalldevices`;
+	}
+	else
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
+	}	
+	
+	
+	
 
     return $.ajax({
     //async: false,
