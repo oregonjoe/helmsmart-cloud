@@ -160,8 +160,14 @@ color: #FFFFFF;
     var myuserid;
 	var deviceAPIkeys = new Array();
 	var gAWSuserid = "";
-	var gAWSUsername = ""
-	var gAWSAccountType = "User";
+	var gAWSAccessToken="";
+	var gAWSDomain = "";
+	var gAWSClientID = "";
+	var gAWSUseid = "";
+	var gAWSUsername = "";
+	var gAWSPhone="";
+	var gAWSAccountType = "User";	
+	var gUserEmail = 'guest@helmsmart.com';
 
     var mySubStrings = new Array();
     var myDataValues = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
@@ -2498,13 +2504,12 @@ var StatusString;
 
 
 
-
 <body style="width: 100%; height: 100%; margin: 0;" onload ="StartUpMyScript(); " >
  
   <center>
-	  {% if session['aws_userid'] %}
+	  {% if session['aws_email'] %}
 		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-		<span>HelmSmart User: {{session['aws_userid']}}</span></a>
+		<span>HelmSmart User: {{session['aws_email']}}</span></a>
 	  
 	  {% elif session['username'] %}
 		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">

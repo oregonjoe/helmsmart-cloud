@@ -345,7 +345,7 @@ $('#tab a').click(function (e) {
 		gUserEmail = "{{session['aws_email']}}";
     {% endif %}
 	
-	{% if session['aws_email'] %}
+	{% if session['aws_phone'] %}
 		gAWSPhone = "{{session['aws_phone']}}";
     {% endif %}
 	
@@ -1694,13 +1694,17 @@ function getDeviceList(useremail)
 
 <div>
   <center>
-  {% if session['userid'] %}
-     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart: {{session['username']}}</span></a>
-  {% else %}
-    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-      <span>HelmSmart: Guest</span></a>
-  {% endif %}
+	  {% if session['aws_email'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart User: {{session['aws_email']}}</span></a>
+	  
+	  {% elif session['username'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart Email: {{session['username']}}</span></a>
+	  {% else %}
+		<a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		  <span>HelmSmart Guest: click to login</span></a>
+	  {% endif %}
   </center>
   
   

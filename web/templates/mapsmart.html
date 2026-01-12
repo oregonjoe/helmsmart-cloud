@@ -150,7 +150,15 @@
   var  myuserid;
 
   var url;
-  var gAWSuserid = "";
+	var gAWSuserid = "";
+	var gAWSAccessToken="";
+	var gAWSDomain = "";
+	var gAWSClientID = "";
+	var gAWSUseid = "";
+	var gAWSUsername = "";
+	var gAWSPhone="";
+	var gAWSAccountType = "User";	
+	var gUserEmail = 'guest@helmsmart.com';
 
   var    myNavKey = 'Navionics_webapi_00313'
 
@@ -407,29 +415,37 @@
 
    	response.records.forEach(function(row){
    	
-	var dduserid = row[0];
-	
-   	document.getElementById("DeviceID").options[index] = new Option(row[0] + ":" + row[1], row[0]);
-
-	
-		if (gAWSuserid != "")
-		{
-			if(dduserid != gAWSuserid.toString())
-			{
-				document.getElementById("DeviceID").options[index].disabled = true;
-				document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+		  var dduserid = row[3];	
+			 
+   	      //document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
+		  document.getElementById("DeviceID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
+		  
+			  if (gAWSuserid != "")
+			  {
+			  
+				  if (gAWSAccountType != 'admin' )
+				  {
+						if(dduserid != gAWSuserid.toString())
+						{
+							document.getElementById("DeviceID").options[index].disabled = true;
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+						}
+				  
+				  }
+				  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+				  {
+						if(dduserid != gAWSuserid.toString())
+						{
+							document.getElementById("DeviceID").options[index].disabled = true;
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+						}
+					
+				  }
+			  }
+					  
+			index++;
 			
-			}
-			else
-			{
-				ddselectedIndex = index;
-			}
-	  
-		}
-	  
-	    index++;
-   
-	 });
+	   		});
 			
 			
 	if(response.records.length == 0)
@@ -2650,7 +2666,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
  }
 
   
- function getDeviceList(userid)
+ function getDeviceList(useremail)
 {
 
         $.blockUI({ 
@@ -2667,8 +2683,22 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
    } });
 
    var devicedataurl;
-   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
+   //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
 
+   	var encodedEmail = encodeURIComponent(useremail);
+	
+	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
+	
+	if( gAWSAccountType == 'admin' &&  gAWSuserid == '000000000000')
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getalldevices`;
+	}
+	else
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
+	}
+   
+   
    return $.ajax({
    //async: false,
    cache: false,
@@ -3489,15 +3519,33 @@ function DeletePref()
  
      // Initialize the User ID from the Session variable
       myuserid = "0";
-  {% if session['userid'] %}
-     myuserid = "{{session['userid']}}";  
-   {% else %}
-     myuserid = "0"; 
-   {% endif %}
-   
-   	{% if session['aws_userid'] %}
+    myuserid = "0";
+    {% if session['userid'] %}
+    myuserid = "{{session['userid']}}";
+    {% else %}
+    myuserid = "0";
+    {% endif %}
+
+	{% if session['aws_account_type'] %}
+		gAWSAccountType = "{{session['aws_account_type']}}";
+    {% endif %}
+
+	{% if session['aws_userid'] %}
 		gAWSuserid = "{{session['aws_userid']}}";
 	{% endif %}
+
+
+	{% if session['aws_username'] %}
+		gAWSUsername = "{{session['aws_username']}}";
+	{% endif %}
+	
+    {% if session['username'] %}
+		gUserEmail = "{{session['username']}}";
+    {% endif %}
+	
+    {% if session['aws_email'] %}
+		gUserEmail = "{{session['aws_email']}}";
+    {% endif %}
 
       if (myuserid == null)
       {
@@ -3505,7 +3553,7 @@ function DeletePref()
       }
      else
      {
- 	    getDeviceList(myuserid);
+ 	    getDeviceList(gUserEmail);
  	    getDeviceParamList(myuserid);
      }
  
@@ -3549,15 +3597,17 @@ function DeletePref()
  <!-- <body onload="initialize()"> -->
     <body onload="myonload();"  >
       <center>
-        {% if session['userid'] %}
-        <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-          <span>HelmSmart: {{session['username']}}</span>
-        </a>
-        {% else %}
-        <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-          <span>HelmSmart: Guest</span>
-        </a>
-        {% endif %}
+	  {% if session['aws_email'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart User: {{session['aws_email']}}</span></a>
+	  
+	  {% elif session['username'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart Email: {{session['username']}}</span></a>
+	  {% else %}
+		<a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		  <span>HelmSmart Guest: click to login</span></a>
+	  {% endif %}
       </center>
   
   	<div class="container body-content">
