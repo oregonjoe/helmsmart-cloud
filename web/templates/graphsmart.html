@@ -3591,6 +3591,15 @@ function myonload()
          // initializes the drop down menu
     document.getElementById("SearchTick").selectedIndex = 5;
 
+	
+	myuserid = "0";
+    {% if session['userid'] %}
+    myuserid = "{{session['userid']}}";
+    {% else %}
+    myuserid = "0";
+    {% endif %}
+	
+	
       // Initialize the User ID from the Session variable
 	{% if session['aws_username'] %}
 		gAWSUsername = "{{session['aws_username']}}";
