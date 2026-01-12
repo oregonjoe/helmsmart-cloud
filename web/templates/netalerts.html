@@ -4921,7 +4921,7 @@ function handleGetDeviceData(response)
 		  var dduserid = row[3];	
 			 
    	      //document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
-		  document.getElementById("DeviceID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
+		  document.getElementById("DeviceTypeID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
 		  
 			  if (gAWSuserid != "")
 			  {
@@ -4930,8 +4930,8 @@ function handleGetDeviceData(response)
 				  {
 						if(dduserid != gAWSuserid.toString())
 						{
-							document.getElementById("DeviceID").options[index].disabled = true;
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+							document.getElementById("DeviceTypeID").options[index].disabled = true;
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
 						}
 				  
 				  }
@@ -4939,8 +4939,8 @@ function handleGetDeviceData(response)
 				  {
 						if(dduserid != gAWSuserid.toString())
 						{
-							document.getElementById("DeviceID").options[index].disabled = true;
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+							document.getElementById("DeviceTypeID").options[index].disabled = true;
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
 						}
 					
 				  }
