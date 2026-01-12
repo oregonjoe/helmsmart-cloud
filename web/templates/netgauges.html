@@ -2455,27 +2455,22 @@ var StatusString;
 </script>
 
 
-	{% if session['aws_userid'] %}
-		gAWSuserid = "{{session['aws_userid']}}";
-	{% endif %}
-	
-const username = sessionStorage.getItem('username'); // Get item from session storage
 
 
 <body style="width: 100%; height: 100%; margin: 0;" onload ="StartUpMyScript(); " >
  
   <center>
-  {% if session['aws_userid'] %}
-     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart User: {{session['aws_userid']}}</span></a>
-  
-  {% if session['userid'] %}
-     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart Email: {{session['username']}}</span></a>
-  {% else %}
-    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-      <span>HelmSmart Guest: click to login</span></a>
-  {% endif %}
+	  {% if session['aws_userid'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart User: {{session['aws_userid']}}</span></a>
+	  
+	  {% elif session['username'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart Email: {{session['username']}}</span></a>
+	  {% else %}
+		<a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		  <span>HelmSmart Guest: click to login</span></a>
+	  {% endif %}
   </center>
   
   	<div class="container body-content">
