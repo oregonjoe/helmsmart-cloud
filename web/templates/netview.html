@@ -1446,13 +1446,28 @@ function handleGetDeviceData(response)
 	  
 	  if (gAWSuserid != "")
 	  {
-		if(dduserid != gAWSuserid.toString())
-		{
-			document.getElementById("DeviceTypeID").options[index].disabled = true;
-			document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
-		}
 	  
+		  if (gAWSAccountType != 'admin' )
+		  {
+				if(dduserid != gAWSuserid.toString())
+				{
+					document.getElementById("DeviceTypeID").options[index].disabled = true;
+					document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
+				}
+		  
+		  }
+		  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+		  {
+				if(dduserid != gAWSuserid.toString())
+				{
+					document.getElementById("DeviceTypeID").options[index].disabled = true;
+					document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
+				}
+			
+		  }
 	  }
+	  
+	  
 	  
 	    index++;
 	  
@@ -1460,6 +1475,32 @@ function handleGetDeviceData(response)
 
   });
 
+  
+  
+  
+  
+  if( gAWSAccountType != 'admin' )
+		{
+			//check to disable row
+			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
+			{
+				ssrow.classList.add('row-disabled');
+			}
+		}
+		
+		if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+		{
+			//check to disable row
+			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
+			{
+				ssrow.classList.add('row-disabled');
+			}
+		}
+  
+  
+  
+  
+  
 
   document.getElementById("DeviceTypeID").selectedIndex = 0;
   gDeviceKey = document.getElementById("DeviceTypeID").options[0].value;
