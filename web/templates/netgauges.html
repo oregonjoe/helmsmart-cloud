@@ -438,7 +438,11 @@ function StartUpMyScript()
 		gAWSUsername = "{{session['aws_username']}}";
 	{% endif %}
 	
-	{% if session['aws_email'] %}
+    {% if session['username'] %}
+		gUserEmail = "{{session['username']}}";
+    {% endif %}
+	
+    {% if session['aws_email'] %}
 		gUserEmail = "{{session['aws_email']}}";
     {% endif %}
 
