@@ -408,6 +408,8 @@ def index():
 
     log.info("index.html: Start")
     #log.info("index.html: session %s", session)
+        notification = request.get_json()
+    log.info("ses-events: notification %s",notification)
       
     try:
       
@@ -573,8 +575,14 @@ def confirm_sns_subscription(subscribe_url):
 @app.route('/ses-events', methods=['POST'])
 def handle_ses_event():
     # SNS sends notifications as JSON in the request body
-    notification = request.get_json()
-    log.info("ses-events: notification %s",notification)
+    try:
+      notification = request.get_json()
+      log.info("ses-events: notification %s", notification)
+
+    except:
+      e = sys.exc_info()[0]
+      log.info('handle_ses_event  error:  %s:  ' % e)
+      return jsonify( message='handle_ses_event error - failed'  )
 
     # Handle the SNS subscription confirmation handshake
     if notification.get('Type') == 'SubscriptionConfirmation':
