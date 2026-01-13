@@ -409,13 +409,13 @@ $('#tab a').click(function (e) {
 	
 	myuserid = "0";
     {% if session['userid'] %}
-    myuserid = "{{session['userid']}}";
+		myuserid = "{{session['userid']}}";
     {% else %}
     myuserid = "0";
     {% endif %}
 	
-    {% if session['email'] %}
-    gUserEmail = "{{session['email']}}";
+    {% if session['username'] %}
+		gUserEmail = "{{session['username']}}";
 	{% endif %}
 	
 	{% if session['aws_username'] %}
