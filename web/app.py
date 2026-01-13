@@ -409,7 +409,7 @@ def index():
     log.info("index.html: Start")
     #log.info("index.html: session %s", session)
     #notification = request.get_json()
-    log.info("ses-events: notification %s",notification)
+    #log.info("ses-events: notification %s",notification)
       
     try:
       
