@@ -4,6 +4,132 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>Our Opt-in/Opt-out Policy</title>
+
+	<title>netView - HelmSmart NMEA 2000 bus data</title>
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script> -->
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+	   
+	<!--   <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }} " ></script> -->
+	   
+	   
+	   
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/> 
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+
+	 
+	   <!-- <script src='https://cdn.firebase.com/v0/firebase.js'></script> -->
+	   
+	   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+	   
+	<style>
+	
+
+	
+	td { white-space: nowrap; }
+	
+	.nowrap { white-space: nowrap; }
+	
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+
+
+<style type="text/css">
+	.map_container{
+		 position: relative;
+		 width: 100%;
+		 /*padding-bottom: 56.25%;*/ /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
+	}
+	.map_container .map_canvas{
+		height:120px;
+		width:180px;
+	}
+
+	.map_container .map_edit_canvas{
+		width:100%;
+		height:280px;
+		margin-left:10px;
+		border:1px solid gray;
+	}
+
+	.ajaxBtn {
+		width:44px;
+	}
+</style>
+
+		
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/support.js') }}" ></script>
+
+<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabGeoFence .form-control-static,
+	#tabGeoFence .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+
+	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca;
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+
 <style type="text/css">
  p.MsoNormal
 	{margin-top:0in;
