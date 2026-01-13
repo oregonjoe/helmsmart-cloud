@@ -1458,7 +1458,7 @@ def aws_alerts_get_user_data():
 
     #set a session variable to show this is a admin login
 
-    if len(usernames = aws_username.split(':')) > 1:
+    if len(aws_username.split(':')) > 1:
       session['aws_account_type'] = 'sub user'
     else:
       session['aws_account_type'] = 'primary user'
