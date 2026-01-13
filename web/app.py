@@ -1229,7 +1229,16 @@ def aws_cognito_user_added():
   
   #aws_add_device(deviceid, devicename, useremail,  smsemail, smsphone )
   #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
-  aws_update_device(deviceid, devicename, useremail,  smsemail, smsphone, 'HS-Invalid', '0000000000', 0, useremailverified, userphoneverified )
+  deviceupdate_check = aws_update_device(deviceid, devicename, useremail,  smsemail, smsphone, 'HS-Invalid', '0000000000', 0, useremailverified, userphoneverified )
+
+
+  if deviceupdate_check == True:
+    #return redirect(url_for('user_subscription_updated'))
+    return redirect(url_for('manage'))
+
+  else:
+    return jsonify( message='aws_update_device error - failed'  )
+
 
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
