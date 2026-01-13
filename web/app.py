@@ -610,6 +610,10 @@ def handle_ses_event():
     elif notification.get('Type') == 'Notification':
         message = json.loads(notification.get('Message'))
         # The 'Message' is a JSON string containing the SES event details
+        log.info("Notification detected message:%s,", message)
+
+        notificationType = json.loads(message.get('notificationType'))
+        log.info("notificationType detected message:%s,", notificationType)
         
         # Extract relevant information (e.g., recipient email, bounce type)
         bounce_type = message['bounce']['bounceType']
@@ -625,6 +629,7 @@ def handle_ses_event():
             # Use the 'Permanent' type to identify hard bounces that should never be retried
             if bounce_type == 'Permanent':
                 # remove from mailing list
+                log.info("Permanent Bounce detected for:%s, Type: %s", email_address, bounce_type)
                 pass
 
         return 'Bounce notification received and processed', 200
