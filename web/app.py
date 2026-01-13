@@ -1473,21 +1473,27 @@ def aws_alerts_get_user_data():
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_alerts_get_user_data: User or User Pool not found.")
-    return jsonify( message='aws_delete_user', status='error')  
+    return jsonify( message='aws_alerts_get_user_data', status='error')  
 
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_alerts_get_user_data: InvalidParameterException")
     e = sys.exc_info()[0]
-    log.info('manage_details: Error InvalidParameterException in getting verify code %s:  ' % str(e))
-    return jsonify( message='aws_delete_user', status='error')  
+    log.info('aws_alerts_get_user_data: Error InvalidParameterException  %s:  ' % str(e))
+    return jsonify( message='aws_alerts_get_user_data', status='error')
+
+  except cognito_client.exceptions.FlaskAWSCognitoError:
+    log.info("aws_alerts_get_user_data: FlaskAWSCognitoError")
+    e = sys.exc_info()[0]
+    log.info('aws_alerts_get_user_data: Error FlaskAWSCognitoError  %s:  ' % str(e))
+    return jsonify( message='aws_alerts_get_user_data', status='error')  
 
   except AttributeError as e:
-    log.info('aws_alerts_get_user_data: AttributeError Error in getting verify code  ' % str(e))
-    return jsonify( message='aws_delete_user', status='error')  
+    log.info('aws_alerts_get_user_data: AttributeError Error   ' % str(e))
+    return jsonify( message='aws_alerts_get_user_data', status='error')  
     
   except:
     e = sys.exc_info()[0]
-    log.info('aws_alerts_get_user_data: Error in verify in getting verify code %s:  ' % str(e))  
+    log.info('aws_alerts_get_user_data: Error  %s:  ' % str(e))  
     return jsonify( message='aws_alerts_get_user_data', status='error')  
 
 
