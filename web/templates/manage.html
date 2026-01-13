@@ -1239,6 +1239,14 @@ function handleDeleteDevice(response)
 function AWSDeleteDevice(index)
 {
 
+
+	if(gAWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not delete a primary account")
+		return;
+	}
+
+
 // The confirm() method pauses script execution until a button is clicked
  	var confirm_message = "Are you sure you want to delete device? \n";
 	confirm_message = confirm_message + " \n ";
@@ -1335,6 +1343,13 @@ function handleCancelSubscription(response)
 
 function AWSCancelSubscription(index)
 {
+
+	if(gAWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not cancel a subscription")
+		return;
+	}
+
 
 // The confirm() method pauses script execution until a button is clicked
 
