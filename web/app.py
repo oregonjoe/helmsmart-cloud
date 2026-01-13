@@ -576,7 +576,8 @@ def confirm_sns_subscription(subscribe_url):
 def handle_ses_event():
     # SNS sends notifications as JSON in the request body
     try:
-        notification = request.get_json()
+        #notification = request.get_json()
+        notification = request.data
         log.info("ses-events: notification %s", notification)
 
     except:
