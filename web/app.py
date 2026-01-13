@@ -582,14 +582,20 @@ def handle_ses_event():
         # Check if data was successfully parsed and is a dictionary
         if notification is None:
             log.info("ses-events: notification is NONE")
-            return jsonify( message='handle_ses_event error - failed'  )
+            #return jsonify( message='handle_ses_event error - failed'  )
+            return 'Unknown SNS message type', 400
       
         log.info("ses-events: notification %s", notification)
 
     except:
         e = sys.exc_info()[0]
         log.info('handle_ses_event  error:  %s:  ' % e)
-        return jsonify( message='handle_ses_event error - failed'  )
+        #return jsonify( message='handle_ses_event error - failed'  )
+        return 'Unknown SNS message type', 400
+
+
+    notificationType =  notification.get('Type', 'None') 
+    log.info("ses-events: notificationType %s", notificationType)
 
     # Handle the SNS subscription confirmation handshake
     if notification.get('Type') == 'SubscriptionConfirmation':
