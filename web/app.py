@@ -1456,6 +1456,12 @@ def aws_alerts_get_user_data():
     session['aws_email_verified'] = aws_email_verified
     session['aws_phone_verified'] = aws_phone_verified
 
+    #set a session variable to show this is a admin login
+
+    if len(usernames = aws_username.split(':')) > 1:
+      session['aws_account_type'] = 'sub user'
+    else:
+      session['aws_account_type'] = 'primary user'
     
     session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID")
     session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")
