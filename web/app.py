@@ -7,7 +7,7 @@ import sys
 import re
 #import pyarrow as pa
 import json
-
+from threading import Thread
 
 #import md5
 import hmac
@@ -557,6 +557,61 @@ def manage():
 
 
 """
+
+# Function to handle SNS subscription confirmation
+def confirm_sns_subscription(subscribe_url):
+    """Confirms the SNS subscription by making a GET request to the SubscribeURL."""
+    try:
+        requests.get(subscribe_url)
+        #print(f"Subscription confirmed for: {subscribe_url}")
+        log.info("Subscription confirmed for: %s", subscribe_url)
+        
+    except requests.exceptions.RequestException as e:
+        #print(f"Error confirming subscription: {e}")
+        print("Error confirming subscription: %s", e)
+
+@app.route('/ses-events', methods=['POST'])
+def handle_ses_event():
+    # SNS sends notifications as JSON in the request body
+    notification = request.get_json()
+    log.info("ses-events: notification %s",notification)
+
+    # Handle the SNS subscription confirmation handshake
+    if notification.get('Type') == 'SubscriptionConfirmation':
+        subscribe_url = notification.get('SubscribeURL')
+        if subscribe_url:
+            # Confirm the subscription in a separate thread to avoid blocking the Flask response
+            thread = Thread(target=confirm_sns_subscription, args=[subscribe_url])
+            thread.start()
+            return 'Subscription confirmation requested', 200
+
+    # Handle bounce notifications
+    elif notification.get('Type') == 'Notification':
+        message = json.loads(notification.get('Message'))
+        # The 'Message' is a JSON string containing the SES event details
+        
+        # Extract relevant information (e.g., recipient email, bounce type)
+        bounce_type = message['bounce']['bounceType']
+        bounced_recipients = message['bounce']['bouncedRecipients']
+
+        for recipient in bounced_recipients:
+            email_address = recipient['emailAddress']
+            #print(f"Bounce detected for: {email_address}, Type: {bounce_type}")
+            log.info("Bounce detected for:%s, Type: %s", email_address, bounce_type)
+            
+            # TODO: Implement your logic here
+            # Example: Update your user database, remove the email from a mailing list, etc.
+            # Use the 'Permanent' type to identify hard bounces that should never be retried
+            if bounce_type == 'Permanent':
+                # remove from mailing list
+                pass
+
+        return 'Bounce notification received and processed', 200
+
+    return 'Unknown SNS message type', 400
+
+
+
 
 def aws_check_user_exists(username):
 
