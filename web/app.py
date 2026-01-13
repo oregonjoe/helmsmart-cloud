@@ -576,13 +576,13 @@ def confirm_sns_subscription(subscribe_url):
 def handle_ses_event():
     # SNS sends notifications as JSON in the request body
     try:
-      notification = request.get_json()
-      log.info("ses-events: notification %s", notification)
+        notification = request.get_json()
+        log.info("ses-events: notification %s", notification)
 
     except:
-      e = sys.exc_info()[0]
-      log.info('handle_ses_event  error:  %s:  ' % e)
-      return jsonify( message='handle_ses_event error - failed'  )
+        e = sys.exc_info()[0]
+        log.info('handle_ses_event  error:  %s:  ' % e)
+        return jsonify( message='handle_ses_event error - failed'  )
 
     # Handle the SNS subscription confirmation handshake
     if notification.get('Type') == 'SubscriptionConfirmation':
