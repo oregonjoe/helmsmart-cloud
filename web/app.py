@@ -605,7 +605,14 @@ def handle_ses_event():
             thread = Thread(target=confirm_sns_subscription, args=[subscribe_url])
             thread.start()
             return 'Subscription confirmation requested', 200
-
+          
+    # Handle the SNS subscription confirmation handshake
+    elif notification.get('Type') == 'AmazonSnsSubscriptionSucceeded':
+        log.info("ses-events: notification AmazonSnsSubscriptionSucceeded")
+        unsubscribe_url = notification.get('UnsubscribeURL')
+        log.info("ses-events: notification AmazonSnsSubscriptionSucceeded", unsubscribe_url)
+        return 'Subscription confirmation requested', 200
+          
     # Handle bounce notifications
     elif notification.get('Type') == 'Notification':
         message = json.loads(notification.get('Message'))
