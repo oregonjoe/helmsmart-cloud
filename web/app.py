@@ -612,7 +612,8 @@ def handle_ses_event():
         # The 'Message' is a JSON string containing the SES event details
         log.info("Notification detected message:%s,", message)
 
-        notificationType = json.loads(message.get('notificationType'))
+        #notificationType = json.loads(message.get('notificationType'))
+        notificationType = message.get('notificationType')
         log.info("notificationType detected message:%s,", notificationType)
         
         # Extract relevant information (e.g., recipient email, bounce type)
