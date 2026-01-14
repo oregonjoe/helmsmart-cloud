@@ -2153,8 +2153,15 @@ def aws_cognito_confirm_sms_email():
 
     if HTTPstatus != 200:
       return jsonify( message='aws_cognito_confirm_sms_email ', status='error')
-    
-    updatesmsemail(devicekey, smsemail)
+
+    # Update the HelmSmart database alertemail values
+    update_status = updatesmsemail(devicekey, smsemail)
+
+    if update_status == False:
+      return jsonify( message='aws_cognito_confirm_sms_email  - failed to update HelmSmart DB', status='error')
+
+    log.info("aws_cognito_confirm_sms_email: smsemail verified")
+    return jsonify( message='aws_cognito_confirm_sms_email ', status='success')    
 
   except cognito_client.exceptions.CodeMismatchException:
     log.info("aws_cognito_confirm_sms_email: Invalid verification code provided, please try again..")
@@ -2185,7 +2192,6 @@ def aws_cognito_confirm_sms_email():
     return jsonify( message='aws_cognito_confirm_sms_email ', status='error')
 
     
-  log.info("aws_cognito_confirm_sms_email: smsemail verified")
 
   return jsonify( message='aws_cognito_confirm_sms_email ', status='error')
 
@@ -2208,27 +2214,44 @@ def updatesmsemail(deviceapikey, smsemail):
       
     if cursor.rowcount == 0:
       userstatus = " Could not add user smsemail " + str(deviceapikey)
-      return jsonify( message='Could not add smsemail', status='error')
+      log.info("updatesmsemail Could not add user smsemail deviceid %s ", deviceapikey)
+      return False
 
-    userstatus = "new  smsemail added"
-    return jsonify( message='Added smsemail' , deviceapikey=deviceapikey, userstatus = userstatus )
+    log.info("updatesmsemail - Success smsemail %s deviceid %s ", smsemail, deviceapikey)
+    return True
+
+  except psycopg.Error as e:
+      log.info('updatesmsemail: SyntaxError in  update deviceid %s:  ', deviceapikey)
+      log.info('updatesmsemail: SyntaxError in  update deviceid  %s:  ' % str(e))
+      return False    
+
+  except psycopg.ProgrammingError as e:
+      log.info('updatesmsemail: ProgrammingError in  update deviceid %s:  ', deviceapikey)
+      log.info('updatesmsemail: ProgrammingError in  update deviceid  %s:  ' % str(e))
+      return False   
+
+  except psycopg.DataError as e:
+      log.info('updatesmsemail: DataError in  update deviceid %s:  ', deviceapikey)
+      log.info('updatesmsemail: DataError in  update deviceid  %s:  ' % str(e))
+      return False  
+
 
   except TypeError as e:
     log.info("updatesmsemail Device error -:TypeError deviceid %s ", deviceapikey)
     log.info('updatesmsemail Device error -:TypeError  Error %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsemail" )
+    return False
 
   except NameError as e:
     log.info("updatesmsemail Device error -:NameError deviceid %s ", deviceapikey)
     log.info('updatesmsemail Device error -:NameError  Error %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsemail" )
+    return False
 
 
   except:
     e = sys.exc_info()[0]
     log.info("updatesmsemail Device error - Error in adding device %s", deviceapikey)
     log.info('updatesmsemail Device error: Error in adding device %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsemail" )
+    return False
   
   finally:
     db_pool.putconn(conn)
