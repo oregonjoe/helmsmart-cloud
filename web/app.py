@@ -2013,7 +2013,41 @@ def aws_cognito_update_sms_email():
   log.info('aws_cognito_update_sms_email: awsusername %s:', awsusername)
 
   if awsusername == "" :
-    return jsonify( message='aws_cognito_update_sms_email', status='error')  
+    return jsonify( message='aws_cognito_update_sms_email', status='error')
+
+
+  # get the custom:account_timeout from asw cognito
+  try:
+
+    response = cognito_client.admin_get_user(
+          UserPoolId=environ.get("AWS_COGNITO_ADMIN_POOL_ID"),
+          Username=awsusername
+      )
+    
+    log.info('aws_cognito_update_sms_email: response %s:  ', response)
+
+
+    # Extract the email from the UserAttributes list
+    awsemail = ""
+    
+    for attribute in response['UserAttributes']:
+        if attribute['Name'] == 'email':
+            awsemail = int(attribute['Value'])
+            break
+
+  except AttributeError as e:
+    log.info('aws_cognito_update_sms_email:admin_get_user  AttributeError Error  %s ' % str(e))
+    
+  except TypeError as e:
+    log.info('aws_cognito_update_sms_email: admin_get_user TypeError Error in  %s ' % str(e))
+    
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_update_sms_email: admin_get_user Error in verify in %s:  ' % str(e))          
+
+  log.info('aws_cognito_update_sms_email: awsemail %s:  ', awsemail)
+
+  #if awsemail == smsemail:
   
   try:
     response = cognito_client.admin_update_user_attributes(
