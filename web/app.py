@@ -2039,6 +2039,9 @@ def aws_cognito_update_sms_email():
     if HTTPstatus != 200:
       return jsonify( message='aws_cognito_update_sms_email - admin_update_user_attributes', status='error')
 
+  #aws wll send user a new verification code
+  return jsonify( message='aws_cognito_update_sms_email ', status='success')
+
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_email: User or User Pool not found.")
@@ -2059,7 +2062,7 @@ def aws_cognito_update_sms_email():
     log.info('aws_cognito_update_sms_email: Error in geting adding smsemail %s:  ' % str(e))
     return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
   
-
+  """
   log.info("aws_cognito_update_sms_email: Getting verify code")
   
   try:
@@ -2111,7 +2114,7 @@ def aws_cognito_update_sms_email():
 
 
   return jsonify( message='aws_cognito_update_sms_email ', status='error')
-
+  """
 
 @app.route('/aws_cognito_confirm_sms_email')
 def aws_cognito_confirm_sms_email():
