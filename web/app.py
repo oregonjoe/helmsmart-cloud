@@ -2220,10 +2220,10 @@ def removesmsemail(smsemail):
     conn.commit()
       
     if cursor.rowcount == 0:
-        log.info('removesmsemail:  could not remove smsemail %s' ,  smsemail)
+      log.info('removesmsemail:  could not remove smsemail %s' ,  smsemail)
       return False
 
-      log.info('removesmsemail:  removed smsemail %s' ,  smsemail)
+    log.info('removesmsemail:  removed smsemail %s' ,  smsemail)
     return True
 
   except TypeError as e:
