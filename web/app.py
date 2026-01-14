@@ -2027,8 +2027,8 @@ def aws_cognito_update_sms_email():
         ]
     )
 
-    log.info("aws_cognito_update_sms_email:Successfully updated phone number for user %s:", userid)   
-    log.info("aws_cognito_update_sms_email:updated phone number response %s:", response)
+    log.info("aws_cognito_update_sms_email:Successfully updated smsemail for user %s:", userid)   
+    log.info("aws_cognito_update_sms_email:updated smsemail response %s:", response)
 
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
@@ -2065,27 +2065,42 @@ def aws_cognito_update_sms_email():
     #log.info("manage_details:Successfully verification code for user %s:", username)   
     log.info("aws_cognito_update_sms_email:verification code response %s:", response)
 
+
+    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
+    log.info("aws_cognito_update_sms_email:get_user_attribute_verification_code HTTPstatus %s:", HTTPstatus)
+
+    if HTTPstatus != 200:
+      return jsonify( message='aws_cognito_update_sms_email - get_user_attribute_verification_code', status='error')
+
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
 
+    # Successful so just return
+    log.info("aws_cognito_update_sms_email: Sent verify code")
+    return jsonify( message='aws_cognito_update_sms_email ', status='success')
+
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_email: User or User Pool not found.")
+    return jsonify( message='aws_cognito_update_sms_email:ResourceNotFoundException ', status='error')
 
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_cognito_update_sms_email: InvalidParameterException")
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_email: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
-
+    return jsonify( message='aws_cognito_update_sms_email:InvalidParameterException ', status='error')
+  
   except AttributeError as e:
     log.info('aws_cognito_update_sms_email: AttributeError Error in getting verify code %s ' % str(e))
-    
+    return jsonify( message='aws_cognito_update_sms_email:AttributeError ', status='error')
+  
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_email: Error in verify in getting verify code %s:  ' % str(e))  
+    return jsonify( message='aws_cognito_update_sms_email: ', status='error')
+  
 
-    log.info("aws_cognito_update_sms_email: Got verify code")
 
-  return jsonify( message='aws_cognito_update_sms_email ', status='success')
+  return jsonify( message='aws_cognito_update_sms_email ', status='error')
 
 
 @app.route('/aws_cognito_confirm_sms_email')
@@ -2130,30 +2145,36 @@ def aws_cognito_confirm_sms_email():
 
   except cognito_client.exceptions.CodeMismatchException:
     log.info("aws_cognito_confirm_sms_email: Invalid verification code provided, please try again..")
+    return jsonify( message='aws_cognito_confirm_sms_email Invalid verification code provided, please try again..', status='error')
     
   except cognito_client.exceptions.ExpiredCodeException:
     log.info("aws_cognito_confirm_sms_email: Verification code expired.")
     e = sys.exc_info()[0]
-    log.info('aws_cognito_confirm_sms_email: Error ExpiredCodeException in verify smsemail %s:  ' % str(e))  
+    log.info('aws_cognito_confirm_sms_email: Error ExpiredCodeException in verify smsemail %s:  ' % str(e))
+    return jsonify( message='aws_cognito_confirm_sms_email Expired Code', status='error')
       
   except AttributeError as e:
     log.info('aws_cognito_confirm_sms_email: AttributeError Error in verify smsemail %s  ' % str(e))
+    return jsonify( message='aws_cognito_confirm_sms_email AttributeError', status='error')
 
   except NameError as e:
     log.info('aws_cognito_confirm_sms_email: NameError Error in verify smsemail  %s' % str(e))
+    return jsonify( message='aws_cognito_confirm_sms_email NameError', status='error')
     
   except TypeError as e:
-    log.info('aws_cognito_confirm_sms_email: NameError Error in verify smsemail  %s' % str(e))
+    log.info('aws_cognito_confirm_sms_email: TypeError Error in verify smsemail  %s' % str(e))
+    return jsonify( message='aws_cognito_confirm_sms_email TypeError', status='error')
     
 
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_confirm_sms_email: Error in verify smsemail  %s ' % str(e))
+    return jsonify( message='aws_cognito_confirm_sms_email ', status='error')
 
     
   log.info("aws_cognito_confirm_sms_email: smsemail verified")
 
-  return jsonify( message='aws_cognito_confirm_sms_email ', status='success')
+  return jsonify( message='aws_cognito_confirm_sms_email ', status='error')
 
 def updatesmsemail(deviceapikey, smsemail):
 
