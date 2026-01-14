@@ -2053,9 +2053,11 @@ def aws_cognito_update_sms_email():
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_email: admin_get_user Error in verify in %s:  ' % str(e))          
 
-  log.info('aws_cognito_update_sms_email: awsemail %s: email_verified %s ', awsemail, email_verified)
+  log.info('aws_cognito_update_sms_email: awsemail %s: email_verified %s ', awsemail, awsemail_verified)
 
-  #if awsemail == smsemail:
+  if awsemail == smsemail and awsemail_verified == 'true' :
+    log.info('aws_cognito_update_sms_email: email already exists awsemail %s: email_verified %s ', awsemail, awsemail_verified)
+    return jsonify( message='aws_cognito_update_sms_email: email already exists awsemail', status='exists')
   
   try:
     response = cognito_client.admin_update_user_attributes(

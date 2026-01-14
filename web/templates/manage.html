@@ -781,6 +781,13 @@ function handleupdateAlertEmail(response)
 		return;
   }
   
+  if(smsresponse == 'exists')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Warning: email already exists and has been verified" )
+		return;
+  }
   
   //getDeviceList(gUserEmail);
   
