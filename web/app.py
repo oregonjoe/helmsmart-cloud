@@ -622,25 +622,54 @@ def handle_ses_event():
         #notificationType = json.loads(message.get('notificationType'))
         notificationType = message.get('notificationType')
         log.info("notificationType detected message:%s,", notificationType)
-        
-        # Extract relevant information (e.g., recipient email, bounce type)
-        bounce_type = message['bounce']['bounceType']
-        bounced_recipients = message['bounce']['bouncedRecipients']
 
-        for recipient in bounced_recipients:
-            email_address = recipient['emailAddress']
-            #print(f"Bounce detected for: {email_address}, Type: {bounce_type}")
-            log.info("Bounce detected for:%s, Type: %s", email_address, bounce_type)
-            
-            # TODO: Implement your logic here
-            # Example: Update your user database, remove the email from a mailing list, etc.
-            # Use the 'Permanent' type to identify hard bounces that should never be retried
-            if bounce_type == 'Permanent':
-                # remove from mailing list
-                log.info("Permanent Bounce detected for:%s, Type: %s", email_address, bounce_type)
-                pass
 
-        return 'Bounce notification received and processed', 200
+        if  notificationType == 'Bounce':
+          
+          # Extract relevant information (e.g., recipient email, bounce type)
+          #bounce_type = message['bounce']['bounceType']
+          bounce_msg  = message.get('bounce', "")
+          if bounce_msg != "":
+            bounce_type = bounce_msg.get('bounceType', "")
+            bounced_recipients = bounce_msg.get('bouncedRecipients', "")
+
+            for recipient in bounced_recipients:
+                email_address = recipient['emailAddress']
+                #print(f"Bounce detected for: {email_address}, Type: {bounce_type}")
+                log.info("Bounce detected for:%s, Type: %s", email_address, bounce_type)
+                
+                # TODO: Implement your logic here
+                # Example: Update your user database, remove the email from a mailing list, etc.
+                # Use the 'Permanent' type to identify hard bounces that should never be retried
+                if bounce_type == 'Permanent':
+                    # remove from mailing list
+                    log.info("Permanent Bounce detected for:%s, Type: %s", email_address, bounce_type)
+                    pass
+
+            return 'Bounce notification received and processed', 200
+
+        elif  notificationType == 'Complaint':
+          
+          complaint_msg  = message.get('Complaint', "")
+          if complaint_msg != "":
+            complaint_type = complaint_msg.get('complaintFeedbackType', "")
+            complaint_recipients = complaint_msg.get('complainedRecipients', "")
+
+            for recipient in complaint_recipients:
+                email_address = recipient['emailAddress']
+                #print(f"Bounce detected for: {email_address}, Type: {bounce_type}")
+                log.info("complaint detected for:%s, Type: %s", email_address, complaint_type)
+                
+                # TODO: Implement your logic here
+                # Example: Update your user database, remove the email from a mailing list, etc.
+                # Use the 'abuse' type to identify hard bounces that should never be retried
+                if complaint_type == 'abuse':
+                    # remove from mailing list
+                    log.info("abuse complaint detected for:%s, Type: %s", email_address, complaint_type)
+                    pass
+
+            return 'Bounce notification received and processed', 200
+
 
     return 'Unknown SNS message type', 400
 
