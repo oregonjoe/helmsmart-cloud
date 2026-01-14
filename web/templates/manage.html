@@ -754,7 +754,7 @@ function handleupdateAlertEmail(response)
 
   $.unblockUI();
   
-  var smsresponse = response.error;
+  var smsresponse = response.status;
   
   if(smsresponse == 'error')
   {
