@@ -650,11 +650,14 @@ def handle_ses_event():
 
         elif  notificationType == 'Complaint':
           
-          complaint_msg  = message.get('Complaint', "")
+          complaint_msg  = message.get('complaint', "")
           if complaint_msg != "":
+            
+            log.info("complaint message detected:%s", complaint_msg)
             complaint_type = complaint_msg.get('complaintFeedbackType', "")
             complaint_recipients = complaint_msg.get('complainedRecipients', "")
 
+            
             for recipient in complaint_recipients:
                 email_address = recipient['emailAddress']
                 #print(f"Bounce detected for: {email_address}, Type: {bounce_type}")
