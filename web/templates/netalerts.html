@@ -944,11 +944,11 @@ var rgbAlertColorIndex = [
 	*/
 	
 
-    myuserid = "0";
+    gUserID = "0";
     {% if session['userid'] %}
-    myuserid = "{{session['userid']}}";
+    gUserID = "{{session['userid']}}";
     {% else %}
-    myuserid = "0";
+    gUserID = "0";
     {% endif %}
 
 	{% if session['aws_account_type'] %}
