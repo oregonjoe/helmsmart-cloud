@@ -2039,8 +2039,8 @@ def aws_cognito_update_sms_email():
     if HTTPstatus != 200:
       return jsonify( message='aws_cognito_update_sms_email - admin_update_user_attributes', status='error')
 
-  #aws wll send user a new verification code
-  return jsonify( message='aws_cognito_update_sms_email ', status='success')
+    #aws wll send user a new verification code
+    return jsonify( message='aws_cognito_update_sms_email ', status='success')
 
 
   except cognito_client.exceptions.ResourceNotFoundException:
