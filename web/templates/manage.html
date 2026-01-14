@@ -742,8 +742,25 @@ if (answer) {
 function handlevalidateAlertEmail(response)
 {
   var index=0;
+  
+  
+  
+  
 
   $.unblockUI();
+  
+  
+  var smsresponse = response.status;
+  
+  if(smsresponse == 'error')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Error: " +  smsrsponse_message + "\nBe sure to check correct email for recent verification code")
+		return;
+  }
+  
+  
   
 }
  
