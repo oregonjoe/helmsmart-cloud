@@ -316,6 +316,14 @@ $('#tab a').click(function (e) {
   firebase.initializeApp(config);
 	
 	   //InitalizeFirebase();
+	   
+	 gUserID = "0";
+    {% if session['userid'] %}
+    gUserID = "{{session['userid']}}";
+    {% else %}
+    gUserID = "0";
+    {% endif %}  
+	   
 	
 	{% if session['aws_username'] %}
 		gAWSUsername = "{{session['aws_username']}}";
