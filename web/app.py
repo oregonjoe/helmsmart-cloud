@@ -644,6 +644,7 @@ def handle_ses_event():
                 if bounce_type == 'Permanent':
                     # remove from mailing list
                     log.info("Permanent Bounce detected for:%s, Type: %s", email_address, bounce_type)
+                    removesmsemail(email_address)
                     pass
 
             return 'Bounce notification received and processed', 200
@@ -669,6 +670,7 @@ def handle_ses_event():
                 if complaint_type == 'abuse':
                     # remove from mailing list
                     log.info("abuse complaint detected for:%s, Type: %s", email_address, complaint_type)
+                    removesmsemail(email_address)
                     pass
 
             return 'Bounce notification received and processed', 200
