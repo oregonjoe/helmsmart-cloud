@@ -754,7 +754,15 @@ function handleupdateAlertEmail(response)
 
   $.unblockUI();
   
-  var smsresponse = response;
+  var smsresponse = response.error;
+  
+  if(smsresponse == 'error')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Error: " +  smsrsponse_message)
+		return;
+  }
   
   
   //getDeviceList(gUserEmail);
