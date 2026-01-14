@@ -2032,26 +2032,32 @@ def aws_cognito_update_sms_email():
 
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
-    #return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    #return jsonify( message='aws_cognito_validate_sms_number ', status='success')
+    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
+    log.info("aws_cognito_update_sms_email:get_user_attribute_verification_code HTTPstatus %s:", HTTPstatus)
+
+    if HTTPstatus != 200:
+      return jsonify( message='aws_cognito_update_sms_email - admin_update_user_attributes', status='error')
+
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_email: User or User Pool not found.")
-    return jsonify( message='aws_cognito_validate_sms_email ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_email ', status='error') 
     
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_cognito_update_sms_email: ParamValidationError")
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_email: Error ParamValidationError in geting adding smsemail %s:  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
         
   except AttributeError as e:
     log.info('aws_cognito_update_sms_number: AttributeError Error in geting adding smsemail  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='suerrorccess') 
     
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_email: Error in geting adding smsemail %s:  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
   
 
   log.info("aws_cognito_update_sms_email: Getting verify code")
@@ -2082,6 +2088,10 @@ def aws_cognito_update_sms_email():
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_email: User or User Pool not found.")
     return jsonify( message='aws_cognito_update_sms_email:ResourceNotFoundException ', status='error')
+
+  except cognito_client.exceptions.NotAuthorizedException:
+    log.info("aws_cognito_update_sms_email: User or User Pool not found.")
+    return jsonify( message='aws_cognito_update_sms_email:NotAuthorizedException ', status='error')  
 
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_cognito_update_sms_email: InvalidParameterException")
