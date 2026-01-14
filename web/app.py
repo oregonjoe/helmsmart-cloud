@@ -2197,6 +2197,57 @@ def updatesmsemail(deviceapikey, smsemail):
   finally:
     db_pool.putconn(conn)
 
+
+
+def removesmsemail(smsemail):
+
+  log.info('removesmsemail:  smsemail %s' ,  smsemail)
+  conn = db_pool.getconn()
+  
+  try:
+    
+    cursor = conn.cursor()
+
+    removevalue = None
+    aws_email_verified = 'false'
+    #update user_devices SET smsnumber = %s where deviceapikey = %s;
+    query  = "update user_devices set alertemail = %s, email_verified = %s  where alertemail = %s;"
+
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, (removevalue, aws_email_verified, smsemail))
+
+    conn.commit()
+      
+    if cursor.rowcount == 0:
+        log.info('removesmsemail:  could not remove smsemail %s' ,  smsemail)
+      return False
+
+      log.info('removesmsemail:  removed smsemail %s' ,  smsemail)
+    return True
+
+  except TypeError as e:
+    log.info("removesmsemail error -:TypeError smsemail %s ", smsemail)
+    log.info('removesmsemail  error -:TypeError  Error %s:  ' % e)
+    return False
+
+  except NameError as e:
+    log.info("removesmsemail Device error -:NameError smsemail %s ", smsemail)
+    log.info('removesmsemail Device error -:NameError  Error %s:  ' % e)
+    return False
+
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("updatesmsemail Device error - Error in adding device %s", deviceapikey)
+    log.info('updatesmsemail Device error: Error in adding device %s:  ' % e)
+    return False
+  
+  finally:
+    db_pool.putconn(conn)
+
+
+
 @app.route('/aws_admin_login')
 #@cognito_login
 def aws_admin_login():
