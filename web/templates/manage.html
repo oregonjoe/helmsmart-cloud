@@ -584,6 +584,17 @@ function handlevalidateSMSnumber(response)
 
   $.unblockUI();
   
+   var smsresponse = response.status;
+  
+  if(smsresponse == 'error')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Error: " +  smsrsponse_message + "\nBe sure to check correct phone for recent verification code")
+		return;
+  }
+  
+  
 }
   
   
@@ -593,10 +604,31 @@ function handleupdateSMS(response)
 
   $.unblockUI();
   
-  var smsresponse = response;
-  //getDeviceList(gUserEmail);
+  var smsresponse = response.status;
+  
+  if(smsresponse == 'error')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Error: " +  smsrsponse_message + "\nTry logging out and then back again.")
+		return;
+  }
+  
+  if(smsresponse == 'exists')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Warning: phone already exists and has been verified" )
+		return;
+  }
+  
   
   var newSMSverificationcode = prompt("Please enter your SMS verification code:", "");
+  
+  
+  
+  
+  
   
   
   	$.blockUI({ 
