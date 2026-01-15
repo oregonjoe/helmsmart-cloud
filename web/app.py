@@ -2035,19 +2035,26 @@ def aws_cognito_update_sms_email():
             awsemail = int(attribute['Value'])
             break
 
+    log.info('aws_cognito_update_sms_email: awsemail %s:  ', awsemail)
+    
     # Extract the email_verified from the UserAttributes list
     awsemail_verified = ""
     
     for attribute in response['UserAttributes']:
         if attribute['Name'] == 'email_verified':
             awsemail_verified = int(attribute['Value'])
-            break          
+            break
+          
+    log.info('aws_cognito_update_sms_email: email_verified %s ',  awsemail_verified)
 
   except AttributeError as e:
     log.info('aws_cognito_update_sms_email:admin_get_user  AttributeError Error  %s ' % str(e))
     
   except TypeError as e:
     log.info('aws_cognito_update_sms_email: admin_get_user TypeError Error in  %s ' % str(e))
+    
+  except ValueError as e:
+    log.info('aws_cognito_update_sms_email: admin_get_user ValueError Error in  %s ' % str(e))
     
   except:
     e = sys.exc_info()[0]
