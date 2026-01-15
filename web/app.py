@@ -1801,7 +1801,69 @@ def aws_cognito_update_sms_number():
   log.info('aws_cognito_update_sms_number: awsusername %s:', awsusername)
 
   if awsusername == "" :
-    return jsonify( message='aws_cognito_update_sms_number', status='error')    
+    return jsonify( message='aws_cognito_update_sms_phone', status='error')
+
+
+  # get the user data from asw cognito
+  try:
+
+    response = cognito_client.admin_get_user(
+          UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+          Username=awsusername
+      )
+    
+    log.info('aws_cognito_update_sms_phone: response %s:  ', response)
+
+
+    # Extract the email from the UserAttributes list
+    awssmsnumber = ""
+    
+    for attribute in response['UserAttributes']:
+        if attribute['Name'] == 'phone_number':
+            awssmsnumber = attribute['Value']
+            break
+
+    log.info('aws_cognito_update_sms_phone: awssmsnumber %s:  ', awssmsnumber)
+    
+    # Extract the email_verified from the UserAttributes list
+    awssmsnumber_verified = ""
+    
+    for attribute in response['UserAttributes']:
+        if attribute['Name'] == 'phone_number_verified':
+            awsemail_verified = attribute['Value']
+            break
+          
+    log.info('aws_cognito_update_sms_phone: email_verified %s ',  awssmsnumber_verified)
+
+  except AttributeError as e:
+    log.info('aws_cognito_update_sms_phone:admin_get_user  AttributeError  %s ' % str(e))
+    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
+  
+  except TypeError as e:
+    log.info('aws_cognito_update_sms_phone: admin_get_user TypeError in  %s ' % str(e))
+    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
+  
+  except ValueError as e:
+    log.info('aws_cognito_update_sms_phone: admin_get_user ValueError in  %s ' % str(e))
+    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
+  
+  except UnboundLocalError as e:
+    log.info('aws_cognito_update_sms_phone: admin_get_user UnboundLocalError in  %s ' % str(e))
+    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
+  
+  except:
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_update_sms_email: admin_get_user Error in verify in %s:  ' % str(e))          
+    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
+  
+  log.info('aws_cognito_update_sms_email: awssmsphone %s: phone_verified %s ', awssmsnumber, awssmsnumber_verified)
+
+  if awssmsnumber == smsemail and awssmsnumber_verified == 'true' :
+    log.info('aws_cognito_update_sms_email: email already exists awssmsnumber %s: awssmsnumber_verified %s ', awssmsnumber, awssmsnumber_verified)
+    return jsonify( message='aws_cognito_update_sms_phone: phone already exists awssmsnumber', status='exists')
+
+
+  
   
   try:
     response = cognito_client.admin_update_user_attributes(
@@ -1821,7 +1883,17 @@ def aws_cognito_update_sms_number():
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
     #return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
+    log.info("aws_cognito_update_sms_number:get_user_attribute_verification_code HTTPstatus %s:", HTTPstatus)
 
+    if HTTPstatus != 200:
+      return jsonify( message='aws_cognito_update_sms_number - admin_update_user_attributes', status='error')
+
+    #aws wll send user a new verification code
+    return jsonify( message='aws_cognito_update_sms_number ', status='success')
+
+
+  
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_number: User or User Pool not found.")
     return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
@@ -1841,7 +1913,7 @@ def aws_cognito_update_sms_number():
     log.info('aws_cognito_update_sms_number: Error in geting adding phone number %s:  ' % str(e))
     return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
   
-
+  """
   log.info("aws_cognito_update_sms_number: Getting verify code")
   
   try:
@@ -1874,7 +1946,8 @@ def aws_cognito_update_sms_number():
     log.info("aws_cognito_update_sms_number: Got verify code")
 
   return jsonify( message='aws_cognito_update_sms_number ', status='success')
-
+  
+  """
 
 @app.route('/aws_cognito_confirm_sms_number')
 def aws_cognito_confirm_sms_number():
@@ -1914,30 +1987,40 @@ def aws_cognito_confirm_sms_number():
     if HTTPstatus != 200:
       return jsonify( message='aws_cognito_confirm_sms_number ', status='error')
     
-    updatesmsnumber(devicekey, smsnumber)
+    update_status = updatesmsnumber(devicekey, smsnumber)
 
+    if update_status == False:
+      return jsonify( message='aws_cognito_confirm_sms_number  - failed to update HelmSmart DB', status='error')
+
+    log.info("aws_cognito_confirm_sms_number: smsphone verified")
+    return jsonify( message='aws_cognito_confirm_sms_number ', status='success')
+  
   except cognito_client.exceptions.CodeMismatchException:
     log.info("aws_cognito_confirm_sms_number: Invalid verification code provided, please try again..")
-    
+    return jsonify( message='aws_cognito_confirm_sms_number Invalid verification code provided, please try again..', status='error')
+  
   except cognito_client.exceptions.ExpiredCodeException:
     log.info("aws_cognito_confirm_sms_number: Verification code expired.")
     e = sys.exc_info()[0]
-    log.info('aws_cognito_confirm_sms_number: Error ExpiredCodeException in verify phone number %s:  ' % str(e))  
+    log.info('aws_cognito_confirm_sms_number: Error ExpiredCodeException in verify phone number %s:  ' % str(e))
+    return jsonify( message='aws_cognito_confirm_sms_number Expired Code', status='error')
       
   except AttributeError as e:
     log.info('aws_cognito_confirm_sms_number: AttributeError Error in verify phone number %s  ' % str(e))
-
+    return jsonify( message='aws_cognito_confirm_sms_number AttributeError', status='error')
+  
   except NameError as e:
     log.info('aws_cognito_confirm_sms_number: NameError Error in verify phone number  %s' % str(e))
-    
+    return jsonify( message='aws_cognito_confirm_sms_email NameError', status='error')
+  
   except TypeError as e:
     log.info('aws_cognito_confirm_sms_number: NameError Error in verify phone number  %s' % str(e))
-    
+    return jsonify( message='aws_cognito_confirm_sms_number TypeError', status='error')    
 
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_confirm_sms_number: Error in verify phone number  %s ' % str(e))
-
+    return jsonify( message='aws_cognito_confirm_sms_number ', status='error')
     
   log.info("aws_cognito_confirm_sms_number: phone number verified")
 
@@ -1962,27 +2045,44 @@ def updatesmsnumber(deviceapikey, smsnumber):
       
     if cursor.rowcount == 0:
       userstatus = " Could not add user smsnumber " + str(deviceapikey)
-      return jsonify( message='Could not add smsnumber', status='error')
+      log.info("updatesmsnumber Could not add user smsnumber deviceid %s ", deviceapikey)
+      return False
 
     userstatus = "new  smsnumber added"
-    return jsonify( message='Added smsnumber' , deviceapikey=deviceapikey, userstatus = userstatus )
+    log.info("updatesmsnumber - Success smsnumber %s deviceid %s ", smsemail, deviceapikey)
+    return True
+
+  except psycopg.Error as e:
+      log.info('updatesmsnumber: SyntaxError in  update deviceid %s:  ', deviceapikey)
+      log.info('updatesmsnumber: SyntaxError in  update deviceid  %s:  ' % str(e))
+      return False    
+
+  except psycopg.ProgrammingError as e:
+      log.info('updatesmsnumber: ProgrammingError in  update deviceid %s:  ', deviceapikey)
+      log.info('updatesmsnumber: ProgrammingError in  update deviceid  %s:  ' % str(e))
+      return False   
+
+  except psycopg.DataError as e:
+      log.info('updatesmsnumber: DataError in  update deviceid %s:  ', deviceapikey)
+      log.info('updatesmsnumber: DataError in  update deviceid  %s:  ' % str(e))
+      return False  
 
   except TypeError as e:
-    log.info("updatesmsnumber Device error -:TypeError deviceid %s ", deviceapikey)
-    log.info('updatesmsnumber Device error -:TypeError  Error %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
+    log.info("updatesmsnumber -:TypeError deviceid %s ", deviceapikey)
+    log.info('updatesmsnumber -:TypeError  Error %s:  ' % e)
+    return False
 
   except NameError as e:
-    log.info("updatesmsnumber Device error -:NameError deviceid %s ", deviceapikey)
-    log.info('updatesmsnumber Device error -:NameError  Error %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
+    log.info("updatesmsnumber -:NameError deviceid %s ", deviceapikey)
+    log.info('updatesmsnumber -:NameError  Error %s:  ' % e)
+    return False
 
 
   except:
     e = sys.exc_info()[0]
-    log.info("updatesmsnumber Device error - Error in adding device %s", deviceapikey)
-    log.info('updatesmsnumber Device error: Error in adding device %s:  ' % e)
-    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
+    log.info("updatesmsnumber  - Error in adding device %s", deviceapikey)
+    log.info('updatesmsnumber: Error in adding device %s:  ' % e)
+    return False
   
   finally:
     db_pool.putconn(conn)
