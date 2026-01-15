@@ -2032,7 +2032,7 @@ def aws_cognito_update_sms_email():
     
     for attribute in response['UserAttributes']:
         if attribute['Name'] == 'email':
-            awsemail = int(attribute['Value'])
+            awsemail = attribute['Value']
             break
 
     log.info('aws_cognito_update_sms_email: awsemail %s:  ', awsemail)
@@ -2042,7 +2042,7 @@ def aws_cognito_update_sms_email():
     
     for attribute in response['UserAttributes']:
         if attribute['Name'] == 'email_verified':
-            awsemail_verified = int(attribute['Value'])
+            awsemail_verified = attribute['Value']
             break
           
     log.info('aws_cognito_update_sms_email: email_verified %s ',  awsemail_verified)
