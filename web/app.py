@@ -1505,7 +1505,7 @@ def aws_alerts_get_user_data():
     aws_username = response.get('Username', "")
     log.info('aws_alerts_get_user_data: aws_username %s:  ', aws_username)
     usernames = aws_username.split(':')
-    username = usernames[0]
+    username = usernames[0].upper()
     log.info('aws_alerts_get_user_data: username %s:  ', username)
 
     # Extract the email from the UserAttributes list
