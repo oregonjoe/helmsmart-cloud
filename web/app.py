@@ -1590,7 +1590,10 @@ def aws_alerts_get_user_data():
       i = cursor.fetchone()       
 
       #no existing deviceapikey so add new one 
-      if cursor.rowcount != 0:
+      if cursor.rowcount== 0:
+        log.info("aws_alerts_get_user_data - no deviceapikey found for username %s", username)
+        
+      else:
         userid=str(i[1])
         log.info("aws_alerts_get_user_data- userid %s", userid)
     
