@@ -2048,18 +2048,26 @@ def aws_cognito_update_sms_email():
     log.info('aws_cognito_update_sms_email: email_verified %s ',  awsemail_verified)
 
   except AttributeError as e:
-    log.info('aws_cognito_update_sms_email:admin_get_user  AttributeError Error  %s ' % str(e))
-    
+    log.info('aws_cognito_update_sms_email:admin_get_user  AttributeError  %s ' % str(e))
+    return jsonify( message='aws_cognito_update_sms_email ', status='error')
+  
   except TypeError as e:
-    log.info('aws_cognito_update_sms_email: admin_get_user TypeError Error in  %s ' % str(e))
-    
+    log.info('aws_cognito_update_sms_email: admin_get_user TypeError in  %s ' % str(e))
+    return jsonify( message='aws_cognito_update_sms_email ', status='error')
+  
   except ValueError as e:
-    log.info('aws_cognito_update_sms_email: admin_get_user ValueError Error in  %s ' % str(e))
-    
+    log.info('aws_cognito_update_sms_email: admin_get_user ValueError in  %s ' % str(e))
+    return jsonify( message='aws_cognito_update_sms_email ', status='error')
+  
+  except UnboundLocalError as e:
+    log.info('aws_cognito_update_sms_email: admin_get_user UnboundLocalError in  %s ' % str(e))
+    return jsonify( message='aws_cognito_update_sms_email ', status='error')
+  
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_email: admin_get_user Error in verify in %s:  ' % str(e))          
-
+    return jsonify( message='aws_cognito_update_sms_email ', status='error')
+  
   log.info('aws_cognito_update_sms_email: awsemail %s: email_verified %s ', awsemail, awsemail_verified)
 
   if awsemail == smsemail and awsemail_verified == 'true' :
