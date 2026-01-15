@@ -1597,7 +1597,7 @@ def aws_alerts_get_user_data():
         userid=str(i[1])
         log.info("aws_alerts_get_user_data- userid %s", userid)
     
-        deviceapikey==str(i[0])
+        deviceapikey=str(i[0])
         log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
 
 
