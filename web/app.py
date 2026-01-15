@@ -2020,7 +2020,7 @@ def aws_cognito_update_sms_email():
   try:
 
     response = cognito_client.admin_get_user(
-          UserPoolId=environ.get("AWS_COGNITO_ADMIN_POOL_ID"),
+          UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
           Username=awsusername
       )
     
