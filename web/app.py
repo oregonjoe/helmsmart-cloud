@@ -1883,7 +1883,7 @@ def aws_cognito_update_sms_number():
             awssmsnumber_verified = attribute['Value']
             break
           
-    log.info('aws_cognito_update_sms_phone: email_verified %s ',  awssmsnumber_verified)
+    log.info('aws_cognito_update_sms_phone: awssmsnumber_verified %s ',  awssmsnumber_verified)
 
   except AttributeError as e:
     log.info('aws_cognito_update_sms_phone:admin_get_user  AttributeError  %s ' % str(e))
@@ -1906,10 +1906,10 @@ def aws_cognito_update_sms_number():
     log.info('aws_cognito_update_sms_email: admin_get_user Error in verify in %s:  ' % str(e))          
     return jsonify( message='aws_cognito_update_sms_phone ', status='error')
   
-  log.info('aws_cognito_update_sms_email: awssmsphone %s: phone_verified %s ', awssmsnumber, awssmsnumber_verified)
+  log.info('aws_cognito_update_sms_phone: awssmsphone %s: phone_verified %s ', awssmsnumber, awssmsnumber_verified)
 
   if awssmsnumber == smsnumber and awssmsnumber_verified == 'true' :
-    log.info('aws_cognito_update_sms_email: email already exists awssmsnumber %s: awssmsnumber_verified %s ', awssmsnumber, awssmsnumber_verified)
+    log.info('aws_cognito_update_sms_phone: email already exists awssmsnumber %s: awssmsnumber_verified %s ', awssmsnumber, awssmsnumber_verified)
     return jsonify( message='aws_cognito_update_sms_phone: phone already exists awssmsnumber', status='exists')
 
 
