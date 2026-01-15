@@ -1569,11 +1569,11 @@ def aws_alerts_get_user_data():
     log.info('aws_alerts_get_user_data: session user_info %s:  ', session)
 
 
-    #userid=hash_string(useremail)
-    #log.info("aws_alerts_get_user_data- userid %s", userid)
+    userid=hash_string(useremail)
+    log.info("aws_alerts_get_user_data- userid %s", userid)
     
-    #deviceapikey=hash_string(userid+username+"013024")
-    #log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
+    deviceapikey=hash_string(userid+username+"013024")
+    log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
 
     userid=""
     deviceapikey=""
