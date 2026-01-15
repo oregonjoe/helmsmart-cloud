@@ -1722,7 +1722,7 @@ def aws_alerts_get_admin_data():
     log.info('aws_alerts_get_admin_data: usernamestr %s:  ', usernamestr)
 
     usernames = usernamestr.split(':')
-    username = usernames[0]
+    username = usernames[0].upper()
     log.info('aws_alerts_get_admin_data: username %s:  ', username)    
     
     useremail = userinfo.get("email","")
@@ -1847,7 +1847,7 @@ def aws_cognito_update_sms_number():
   
   log.info('aws_cognito_update_sms_number: userid %s smsnumber %s' , userid, smsnumber)
 
-  awsusername = request.args.get('awsusername', "")
+  awsusername = request.args.get('awsusername', "").upper()
   log.info('aws_cognito_update_sms_number: awsusername %s:', awsusername)
 
   if awsusername == "" :
@@ -1880,7 +1880,7 @@ def aws_cognito_update_sms_number():
     
     for attribute in response['UserAttributes']:
         if attribute['Name'] == 'phone_number_verified':
-            awsemail_verified = attribute['Value']
+            awssmsnumber_verified = attribute['Value']
             break
           
     log.info('aws_cognito_update_sms_phone: email_verified %s ',  awssmsnumber_verified)
@@ -1908,7 +1908,7 @@ def aws_cognito_update_sms_number():
   
   log.info('aws_cognito_update_sms_email: awssmsphone %s: phone_verified %s ', awssmsnumber, awssmsnumber_verified)
 
-  if awssmsnumber == smsemail and awssmsnumber_verified == 'true' :
+  if awssmsnumber == smsnumber and awssmsnumber_verified == 'true' :
     log.info('aws_cognito_update_sms_email: email already exists awssmsnumber %s: awssmsnumber_verified %s ', awssmsnumber, awssmsnumber_verified)
     return jsonify( message='aws_cognito_update_sms_phone: phone already exists awssmsnumber', status='exists')
 

@@ -950,6 +950,9 @@ var rgbAlertColorIndex = [
     {% else %}
     gUserID = "0";
     {% endif %}
+	
+	{% if session['deviceapikey'] %}
+    gDeviceKey = "{{session['deviceapikey']}}";
 
 	{% if session['aws_account_type'] %}
 		gAWSAccountType = "{{session['aws_account_type']}}";
