@@ -1569,11 +1569,58 @@ def aws_alerts_get_user_data():
     log.info('aws_alerts_get_user_data: session user_info %s:  ', session)
 
 
-    userid=hash_string(useremail)
-    log.info("aws_alerts_get_user_data- userid %s", userid)
+    #userid=hash_string(useremail)
+    #log.info("aws_alerts_get_user_data- userid %s", userid)
     
-    deviceapikey=hash_string(userid+username+"013024")
-    log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
+    #deviceapikey=hash_string(userid+username+"013024")
+    #log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
+
+    userid=""
+    deviceapikey=""
+
+    conn = db_pool.getconn()
+    
+    try:
+      
+      query  = "select deviceapikey, userid from user_devices where useremail = %s and deviceid = %s"
+      cursor = conn.cursor()
+
+      cursor = conn.cursor()
+      cursor.execute(query, ( useremail, username))
+      i = cursor.fetchone()       
+
+      #no existing deviceapikey so add new one 
+      if cursor.rowcount != 0:
+        userid=str(i[1])
+        log.info("aws_alerts_get_user_data- userid %s", userid)
+    
+        deviceapikey==str(i[0])
+        log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
+
+
+    except psycopg.Error as e:
+        log.info('aws_update_device: SyntaxError in  update deviceid %s:  ', deviceid)
+        log.info('aws_update_device: SyntaxError in  update deviceid  %s:  ' % str(e))
+        return jsonify( message='aws_cancel_subscription', status='error')     
+
+    except psycopg.ProgrammingError as e:
+        log.info('aws_update_device: ProgrammingError in  update deviceid %s:  ', deviceid)
+        log.info('aws_update_device: ProgrammingError in  update deviceid  %s:  ' % str(e))
+        return jsonify( message='aws_cancel_subscription', status='error')     
+
+    except psycopg.DataError as e:
+        log.info('aws_update_device: DataError in  update deviceid %s:  ', deviceid)
+        log.info('aws_update_device: DataError in  update deviceid  %s:  ' % str(e))
+        return jsonify( message='aws_cancel_subscription', status='error')     
+      
+    except:
+      e = sys.exc_info()[0]
+      log.info('aws_cancel_subscription : Error db delete %s:  ' % e)
+      return jsonify( message='aws_delete_device', status='error')     
+
+    finally:
+      db_pool.putconn(conn)   
+    
     
     session['userid'] = userid
     session['deviceapikey'] = deviceapikey
@@ -7261,6 +7308,7 @@ def getdashboardlists(userid):
 ### hash ###
 def hash_string(string):
     #salted_hash = string + application.config['SECRET_KEY']
+    log.info('freeboard: hash_string string %s:  ', string)
     salted_hash = string + app.secret_key
     log.info('freeboard: hash_string salted_hash %s:  ', salted_hash)
 
