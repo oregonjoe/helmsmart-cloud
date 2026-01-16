@@ -600,7 +600,8 @@ function StartUpMyScript()
  function handleGetDeviceData(response)
  {
  var index=0;
- 
+   var active_index=0;
+   
    	$.unblockUI();
    	
 	document.getElementById("DeviceID").options.length = 0;
@@ -623,6 +624,12 @@ function StartUpMyScript()
 							document.getElementById("DeviceID").options[index].disabled = true;
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
 						}
+						
+						if(dduserid == gAWSuserid.toString())
+						{
+							active_index = index;
+						}
+
 				  
 				  }
 				  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
@@ -632,6 +639,12 @@ function StartUpMyScript()
 							document.getElementById("DeviceID").options[index].disabled = true;
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
 						}
+						
+						if(dduserid == gAWSuserid.toString())
+						{
+							active_index = index;
+						}
+
 					
 				  }
 			  }
@@ -641,7 +654,8 @@ function StartUpMyScript()
 	   		});
 	   		
 	   		
-  		document.getElementById("DeviceID").selectedIndex = 0;
+  		document.getElementById("DeviceID").selectedIndex = active_index;
+		
 	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
 	    		{
 	    			myDeviceID = document.getElementById("DeviceID").options[i].value;

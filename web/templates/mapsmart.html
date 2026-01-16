@@ -408,6 +408,7 @@
  {
  var index=0;
   var ddselectedIndex=0;
+  var active_index=0;
  
    	$.unblockUI();
    	
@@ -430,6 +431,11 @@
 							document.getElementById("DeviceID").options[index].disabled = true;
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
 						}
+						
+						if(dduserid == gAWSuserid.toString())
+						{
+							active_index = index;
+						}
 				  
 				  }
 				  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
@@ -438,6 +444,11 @@
 						{
 							document.getElementById("DeviceID").options[index].disabled = true;
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+						}
+						
+						if(dduserid == gAWSuserid.toString())
+						{
+							active_index = index;
 						}
 					
 				  }
@@ -454,7 +465,7 @@
           document.getElementById("SearchStatus").value = "Get Data succcessful ";  	  
 
 
-  		document.getElementById("DeviceID").selectedIndex = ddselectedIndex;
+  		document.getElementById("DeviceID").selectedIndex = active_index;
 		
 	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
 	    		{

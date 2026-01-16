@@ -812,6 +812,11 @@ function SetAttributeList4( sel)
 							document.getElementById("DeviceID").options[index].disabled = true;
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
 						}
+						
+						if(dduserid == gAWSuserid.toString())
+						{
+							active_index = index;
+						}
 				  
 				  }
 				  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
@@ -820,6 +825,11 @@ function SetAttributeList4( sel)
 						{
 							document.getElementById("DeviceID").options[index].disabled = true;
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+						}
+						
+						if(dduserid == gAWSuserid.toString())
+						{
+							active_index = index;
 						}
 					
 				  }
@@ -831,7 +841,7 @@ function SetAttributeList4( sel)
 	   		
       
 	   	   		
-  		document.getElementById("DeviceID").selectedIndex = ddselectedIndex;
+  		document.getElementById("DeviceID").selectedIndex = active_index;
 		
 	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
 	    		{
