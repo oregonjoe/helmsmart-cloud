@@ -1863,12 +1863,7 @@ def aws_cognito_update_sms_number():
     response = cognito_client.admin_delete_user_attributes(
         UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
         Username=awsusername,
-        UserAttributes=[
-            {
-                'Name': 'phone_number',
-                'Value': smsnumber
-            }
-        ]
+        UserAttributesNames=[ 'phone_number' ]
     )
 
     HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
