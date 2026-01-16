@@ -1843,6 +1843,21 @@ def aws_cognito_update_sms_number():
   smsnumber = request.args.get('smsnumber',"")
   devicekey = request.args.get('devicekey',"")
 
+
+  if smsnumber.startswith("+") == False:
+    smsnumber = prefix + smsnumber
+  
+  log.info('aws_cognito_update_sms_number: userid %s smsnumber %s' , userid, smsnumber)
+
+  awsusername = request.args.get('awsusername', "").upper()
+  log.info('aws_cognito_update_sms_number: awsusername %s:', awsusername)
+
+  if awsusername == "" :
+    return jsonify( message='aws_cognito_update_sms_phone', status='error')
+
+
+  
+
   ########################################################################
   # check if we are going to remove the SMS Phone number
   
@@ -1884,17 +1899,6 @@ def aws_cognito_update_sms_number():
   ########################################################################
 
     
-  if smsnumber.startswith("+") == False:
-    smsnumber = prefix + smsnumber
-  
-  log.info('aws_cognito_update_sms_number: userid %s smsnumber %s' , userid, smsnumber)
-
-  awsusername = request.args.get('awsusername', "").upper()
-  log.info('aws_cognito_update_sms_number: awsusername %s:', awsusername)
-
-  if awsusername == "" :
-    return jsonify( message='aws_cognito_update_sms_phone', status='error')
-
 
   # get the user data from asw cognito
   try:
