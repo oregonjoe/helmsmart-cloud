@@ -1909,7 +1909,7 @@ def aws_cognito_update_sms_number():
   log.info('aws_cognito_update_sms_phone: awssmsphone %s: phone_verified %s ', awssmsnumber, awssmsnumber_verified)
 
   if awssmsnumber == smsnumber and awssmsnumber_verified == 'true' :
-    log.info('aws_cognito_update_sms_phone: email already exists awssmsnumber %s: awssmsnumber_verified %s ', awssmsnumber, awssmsnumber_verified)
+    log.info('aws_cognito_update_sms_phone: phone already exists awssmsnumber %s: awssmsnumber_verified %s ', awssmsnumber, awssmsnumber_verified)
     return jsonify( message='aws_cognito_update_sms_phone: phone already exists awssmsnumber', status='exists')
 
 
@@ -1940,31 +1940,31 @@ def aws_cognito_update_sms_number():
       return jsonify( message='aws_cognito_update_sms_number - admin_update_user_attributes', status='error')
 
     #aws wll send user a new verification code
-    return jsonify( message='aws_cognito_update_sms_number ', status='success')
+    #return jsonify( message='aws_cognito_update_sms_number ', status='success')
 
 
   
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_number: User or User Pool not found.")
-    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
     
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_cognito_update_sms_number: ParamValidationError")
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error ParamValidationError in geting adding phone number %s:  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
         
   except AttributeError as e:
     log.info('aws_cognito_update_sms_number: AttributeError Error in geting adding phone number  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
     
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error in geting adding phone number %s:  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
   
-  """
-  log.info("aws_cognito_update_sms_number: Getting verify code")
+  
+  log.info("aws_cognito_update_sms_number: sending verify code")
   
   try:
     response = cognito_client.get_user_attribute_verification_code(
@@ -1980,24 +1980,27 @@ def aws_cognito_update_sms_number():
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_number: User or User Pool not found.")
-
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error')
+  
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_cognito_update_sms_number: InvalidParameterException")
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
-
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error')
+  
   except AttributeError as e:
     log.info('aws_cognito_update_sms_number: AttributeError Error in getting verify code %s ' % str(e))
-    
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error')
+  
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error in verify in getting verify code %s:  ' % str(e))  
+    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
 
-    log.info("aws_cognito_update_sms_number: Got verify code")
 
-  return jsonify( message='aws_cognito_update_sms_number ', status='success')
+  return jsonify( message='aws_cognito_update_sms_number sent validation code', status='success')
   
-  """
+  
 
 @app.route('/aws_cognito_confirm_sms_number')
 def aws_cognito_confirm_sms_number():
