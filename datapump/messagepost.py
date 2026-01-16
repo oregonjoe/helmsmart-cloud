@@ -2496,6 +2496,8 @@ def SendAWSSMSAlert(parameters, alarmresult):
 
                     #response = sms_ses_client(PhoneNumber = '15416612051', Message='email_body')
                     response = sms_ses_client.publish(PhoneNumber = alertesms, Message=alarmresult['message'],  MessageAttributes={  'AWS.SNS.SMS.SMSType': {  'DataType': 'String',  'StringValue': 'Transactional'  } })
+
+                    if debug_info: log.info('SendAWSSMSAlert: sms_ses_client.publish devicename %s response %s', devicename, response)
                     
                     """
                     if message.error_message:

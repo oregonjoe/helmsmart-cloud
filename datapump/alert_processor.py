@@ -1583,7 +1583,7 @@ def get_alarms_alert(parameters, value):
                 result['status']="status"
                 result['message']=text_body                    
 
-        text_body = text_body + "\ngo to www.hemlsmart-cloud.com\alertsmart to disable receiving alert messages"
+        text_body = text_body + "\nGo to www.hemlsmart-cloud.com AlertSmart to disable receiving alert messages"
         result['message']=text_body
         return result
 
