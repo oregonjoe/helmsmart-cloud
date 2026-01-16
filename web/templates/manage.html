@@ -697,15 +697,15 @@ var answer = confirm("Do you want to update your Alert Email?");
 if (!answer) { return;}
 
 
-	var confirm message = "Adding an phone number will enable SMS alert messages\n";
-	confirm message = confirm message + "configured from the HelmSmart ALERTS module.\n";
-	confirm message = confirm message + "You may be charged for each SMS message\n \n";
-	confirm message = confirm message + "You can opt-out by entering a blank phone number\n";	
-	answer = confirm(confirm message);
+	var confirm_message = "Adding an phone number will enable SMS alert messages\n";
+	confirm_message = confirm_message + "configured from the HelmSmart ALERTS module.\n";
+	confirm_message = confirm_message + "You may be charged for each SMS message\n \n";
+	confirm_message = confirm_message + "You can opt-out by entering a blank phone number\n";	
+	answer = confirm(confirm_message);
 
 	if (!answer) { return; }
 
-	var newSMSnumber = prompt("Please enter your Alert Email: \n Leave blank to remove number and opt-out of SMS alerts", document.getElementById("AlertSMS").value);
+	var newSMSnumber = prompt("Please enter your alert phone to receive SMS messages: \n Leave blank to remove number and opt-out of SMS alerts", document.getElementById("AlertSMS").value);
 	if (newSMSnumber != null && newSMSnumber != "") {
 
 
