@@ -1841,7 +1841,49 @@ def aws_cognito_update_sms_number():
 
   userid = request.args.get('userid',"")
   smsnumber = request.args.get('smsnumber',"")
+  devicekey = request.args.get('devicekey',"")
 
+  ########################################################################
+  # check if we are going to remove the SMS Phone number
+  
+  if smsnumber == "":
+
+    response = cognito_client.admin_delete_user_attributes(
+        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
+        Username=awsusername,
+        UserAttributes=[
+            {
+                'Name': 'phone_number',
+                'Value': smsnumber
+            }
+        ]
+    )
+
+    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
+    log.info("aws_cognito_update_sms_number:admin_delete_user_attributes HTTPstatus %s:", HTTPstatus)
+
+    if HTTPstatus != 200:
+      return jsonify( message='aws_cognito_update_sms_number - admin_delete_user_attributes', status='error')
+
+    log.info("aws_cognito_update_sms_number:Successfully deleted phone number from cognito %s:", userid)  
+    updateststus = updatesmsnumber(deviceapikey, ""):
+
+    if updateststus == False:
+
+      log.info("aws_cognito_update_sms_number:error deleted phone number from helmsmart %s:", userid)  
+      return jsonify( message='aws_cognito_update_sms_number - delete phone from helmsmart', status='error')
+    
+    else:
+      
+      log.info("aws_cognito_update_sms_number:Successfully deleted phone number from helmsmart %s:", userid)  
+      return jsonify( message='aws_cognito_update_sms_number - admin_delete_user_attributes', status='deleted')
+    
+  
+    log.info("aws_cognito_update_sms_number:Successfully deleted phone number for user %s:", userid)   
+    
+  ########################################################################
+
+    
   if smsnumber.startswith("+") == False:
     smsnumber = prefix + smsnumber
   

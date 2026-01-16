@@ -622,7 +622,15 @@ function handleupdateSMS(response)
 		return;
   }
   
+  if(smsresponse == 'deleted')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Status: phone number has been deleted" )
+		return;
+  }
   
+
   var newSMSverificationcode = prompt("Please enter your SMS verification code:", "");
   
   
@@ -1039,6 +1047,7 @@ function handleUpdateDevice(response)
 function handleGetDeviceData(response)
 {
   var index=0;
+    var active_index=0;
 
   $.unblockUI();
 
