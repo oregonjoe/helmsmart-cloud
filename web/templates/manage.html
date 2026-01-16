@@ -594,6 +594,29 @@ function handlevalidateSMSnumber(response)
 		return;
   }
   
+  if(smsresponse == 'badcode')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Error: " +  "Invalid verification code \nPlease reenter correct code")
+		return;
+  }
+  if(smsresponse == 'expiredcode')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Error: "  + "verification code Expired \nPlease retry to add new phone")
+		return;
+  }
+  
+  if(smsresponse == 'expiredsession')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Error: "  + "User session expired \nPlease log baack on again")
+		return;
+  }
+  
   
 }
   

@@ -2093,13 +2093,19 @@ def aws_cognito_confirm_sms_number():
   
   except cognito_client.exceptions.CodeMismatchException:
     log.info("aws_cognito_confirm_sms_number: Invalid verification code provided, please try again..")
-    return jsonify( message='aws_cognito_confirm_sms_number Invalid verification code provided, please try again..', status='error')
+    return jsonify( message='aws_cognito_confirm_sms_number Invalid verification code provided, please try again..', status='badcode')
   
   except cognito_client.exceptions.ExpiredCodeException:
     log.info("aws_cognito_confirm_sms_number: Verification code expired.")
     e = sys.exc_info()[0]
     log.info('aws_cognito_confirm_sms_number: Error ExpiredCodeException in verify phone number %s:  ' % str(e))
-    return jsonify( message='aws_cognito_confirm_sms_number Expired Code', status='error')
+    return jsonify( message='aws_cognito_confirm_sms_number Expired Code', status='expiredcode')
+
+    except cognito_client.exceptions.NotAuthorizedException:
+    log.info("aws_cognito_confirm_sms_number: User session expired.")
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_confirm_sms_number: Error User session in verify phone number %s:  ' % str(e))
+    return jsonify( message='aws_cognito_confirm_sms_number User session', status='expiredsession')
       
   except AttributeError as e:
     log.info('aws_cognito_confirm_sms_number: AttributeError Error in verify phone number %s  ' % str(e))
