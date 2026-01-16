@@ -2023,13 +2023,19 @@ def aws_cognito_update_sms_number():
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_number: User or User Pool not found.")
-    return jsonify( message='aws_cognito_validate_sms_number ', status='error')
+    return jsonify( message='aws_cognito_validate_sms_number InvalidParameterException ', status='error')
   
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_cognito_update_sms_number: InvalidParameterException")
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
-    return jsonify( message='aws_cognito_validate_sms_number ', status='error')
+    return jsonify( message='aws_cognito_validate_sms_number InvalidParameterException ', status='error')
+
+  except cognito_client.exceptions.NotAuthorizedException:
+    log.info("aws_cognito_update_sms_number: NotAuthorizedException")
+    e = sys.exc_info()[0]
+    log.info('aws_cognito_update_sms_number: Error NotAuthorizedException in getting verify code %s:  ' % str(e))  
+    return jsonify( message='aws_cognito_validate_sms_number NotAuthorizedException', status='expiredsession')  
   
   except AttributeError as e:
     log.info('aws_cognito_update_sms_number: AttributeError Error in getting verify code %s ' % str(e))

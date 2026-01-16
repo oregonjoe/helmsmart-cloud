@@ -645,6 +645,14 @@ function handleupdateSMS(response)
 		return;
   }
   
+  if(smsresponse == 'expiredsession')
+  {
+		var smsrsponse_message = response.message;
+		
+		alert("Error: "  + "User session expired \nPlease log baack on again")
+		return;
+  }
+  
   if(smsresponse == 'deleted')
   {
 		var smsrsponse_message = response.message;
