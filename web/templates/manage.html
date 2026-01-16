@@ -732,7 +732,15 @@ if (!answer) { return;}
 		}
 		
 			var encodedSMSnumber = encodeURIComponent(newSMSnumber);
-	
+	}
+	else
+	{
+		var encodedSMSnumber = "";
+		
+		answer = confirm("Do you wish to remove existing SMS number from HelmSmart?");
+		
+		if (!answer) { return; }
+	}
 	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
 	
     //devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedSMSnumber}`;
@@ -789,7 +797,7 @@ if (!answer) { return;}
 		
 		
 		
-	}
+	
 
 
 
