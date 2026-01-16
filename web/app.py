@@ -2102,7 +2102,7 @@ def updatesmsnumber(deviceapikey, smsnumber):
       return False
 
     userstatus = "new  smsnumber added"
-    log.info("updatesmsnumber - Success smsnumber %s deviceid %s ", smsemail, deviceapikey)
+    log.info("updatesmsnumber - Success smsnumber %s deviceid %s ", smsnumber, deviceapikey)
     return True
 
   except psycopg.Error as e:
