@@ -1875,7 +1875,7 @@ def aws_cognito_update_sms_number():
       return jsonify( message='aws_cognito_update_sms_number - admin_delete_user_attributes', status='error')
 
     log.info("aws_cognito_update_sms_number:Successfully deleted phone number from cognito %s:", userid)  
-    updateststus = updatesmsnumber(devicekey, "")
+    updateststus = updatesmsnumber(devicekey, None)
 
     if updateststus == False:
 
