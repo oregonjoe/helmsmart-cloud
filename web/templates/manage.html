@@ -743,8 +743,12 @@ if (!answer) { return;}
 	answer = confirm(confirm_message);
 
 	if (!answer) { return; }
-
-	var newSMSnumber = prompt("Please enter your alert phone to receive SMS messages: \nLeave blank to remove number and opt-out of SMS alerts", document.getElementById("AlertSMS").value);
+	
+	var promptmessage = "Please enter your alert phone to receive SMS messages: \nLeave blank to remove number and opt-out of SMS alerts \n";
+	promptmessage = promptmessage + "Use 11 digit international format \nMust start with + sign and international code \nexample: +15411234567";
+	
+	
+	var newSMSnumber = prompt(promptmessage, document.getElementById("AlertSMS").value);
 	if (newSMSnumber != null && newSMSnumber != "") {
 
 
