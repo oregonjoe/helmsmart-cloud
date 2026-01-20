@@ -352,15 +352,17 @@ function handlegetDashboardLists(response)
 	 $.unblockUI();
 	
 	mydata = response.preferences;;
+	
+	if (mydata.length == 0)
+	{
+		return;
+	}
 
 	var table = document.getElementById("ReportData");
  
     var rowCount = table.rows.length;
 	
-	if (rowCount == 0)
-	{
-		return;
-	}
+
 	   	
 	while(table.rows.length > 0) {
 		table.deleteRow(1);
