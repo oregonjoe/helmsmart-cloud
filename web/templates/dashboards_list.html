@@ -356,6 +356,11 @@ function handlegetDashboardLists(response)
 	var table = document.getElementById("ReportData");
  
     var rowCount = table.rows.length;
+	
+	if (rowCount == 0)
+	{
+		return;
+	}
 	   	
 	while(table.rows.length > 0) {
 		table.deleteRow(1);
