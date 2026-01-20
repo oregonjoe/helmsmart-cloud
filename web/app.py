@@ -1837,6 +1837,11 @@ def aws_alerts_get_admin_data():
     finally:
       db_pool.putconn(conn)   
 
+    session['profile']={}
+    session['profile']['email'] = useremail
+    session['profile']['name'] = username
+    session.modified = True
+    log.info('aws_alerts_get_admin_data: session user_info %s:  ', session)
     
     
     session['userid'] = userid
