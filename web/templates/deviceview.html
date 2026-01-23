@@ -372,6 +372,7 @@ $('#tab a').click(function (e) {
     {% endif %}
 	
 	
+	document.getElementById("DeviceKey").value = gDeviceKey;
 	
 	InitalizeFirebase()
 	/*
@@ -1408,19 +1409,6 @@ var mypgndata;
 		
 }
 
-function ChangedDeviceTypeID(sel)
-{
-gDeviceKey = document.getElementById("DeviceTypeID").options[sel.selectedIndex].value;
-					document.getElementById("DeviceKey").value = gDeviceKey;
-					
-					
-						//GetAlertEvents();		
-						
-						if(gDeviceKey !== "")
-					InitalizeFirebase();
-					
-}
-
 
 
 
@@ -1447,200 +1435,6 @@ function ChangedLogType(sel)
 
 
 
-function handleGetDeviceData(response)
-{
-  var index=0;
-  var active_index=0;
-
-  $.unblockUI();
-
-  document.getElementById("DeviceTypeID").options.length = 0;
-
-  response.records.forEach(function(row){
- 
-     // myDeviceIDs[index]=row[0];
-	 var dduserid = row[3];
-	 
-      document.getElementById("DeviceTypeID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
-	  
-	  if (gAWSuserid != "")
-	  {
-	  
-		  if (gAWSAccountType != 'admin' )
-		  {
-				if(dduserid != gAWSuserid.toString())
-				{
-					document.getElementById("DeviceTypeID").options[index].disabled = true;
-					document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
-				}
-				
-				if(dduserid == gAWSuserid.toString())
-				{
-					active_index = index;
-				}
-		  
-		  }
-		  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
-		  {
-				if(dduserid != gAWSuserid.toString())
-				{
-					//document.getElementById("DeviceTypeID").options[index].disabled = true;
-					document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
-				}
-				
-				if(dduserid == gAWSuserid.toString())
-				{
-					active_index = index;
-				}
-			
-		  }
-	  }
-	  
-	  
-	  
-	    index++;
-	  
-	
-
-  });
-
-  
-  
-  
-  /*
-  if( gAWSAccountType != 'admin' )
-		{
-			//check to disable row
-			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
-			{
-				ssrow.classList.add('row-disabled');
-			}
-		}
-		
-		if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
-		{
-			//check to disable row
-			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
-			{
-				ssrow.classList.add('row-disabled');
-			}
-		}
-  */
-  
-  
-  
-  
-
-  document.getElementById("DeviceTypeID").selectedIndex = active_index;
-  gDeviceKey = document.getElementById("DeviceTypeID").options[active_index].value;
-					document.getElementById("DeviceKey").value = gDeviceKey;
-					
-	 if(gDeviceKey !== "")
-		InitalizeFirebase();
-		
-					
-					
-					
-   /*   
-  for(i=0; i< document.getElementById("DeviceTypeID").options.length; i++)
-	    		{
-	    			myDeviceID = document.getElementById("DeviceTypeID").options[i].value;
-					document.getElementById("DeviceKey").value = myDeviceID;
-		    		//if(myDeviceID == AccountDataFolder)
-		    		//	document.getElementById("DeviceID").selectedIndex = i;
-		    	}
- */         
- //  if(index == 0)
- //    document.getElementById("SearchStatus").innerHTML = "Get Devices Error";
-  //   else
-  //    document.getElementById("SearchStatus").innerHTML = "Device List update succcessful "; 
-    
-
-    // Search DB for list of series that match deviceID
-   //  GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value); 
-    
-    // Search DB for list of Alerts that match DeviceID
-  	//		 getAlertIDsList(myuserid);
-    
-    
-}
-
-
-  
- function RegisterDevice()
-{
-
-     $.blockUI({ 
-     message: '<h1>Register Device...</h1>',
-      css: {
-      border: 'none',
-      padding: '15px',
-      backgroundColor: '#000',
-
-      '-webkit-border-radius': '10px',
-      '-moz-border-radius': '10px',
-      opacity: .5,
-      color: '#fff'
-      } });
-	  
-	  
-	  timezoneOffset = parseInt(document.getElementById("TimeZoneId").options[document.getElementById("TimeZoneId").selectedIndex].value) * 60;
-
-      var devicedataurl;
-      var myuserKey;
-
-      var publictoken = "{{publictoken}}";
-      myuserKey = "{{userKey}}";
-
-      //myDeviceKey = document.getElementById("DeviceKey").value;
-	  myDeviceKey = gDeviceKey;
-
-      myDeviceName = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].value;
-     // myTextArray = myDeviceName.split(":");
-
-      // devicedataurl = "http://www.boatlogger.com/Account/ActivateDevice?deviceId=a5069b96637473d7701fa11eb9baad3d&deviceType=SeaSmart_lite" ;
-
-
-      devicedataurl = "https://www.helmsmart-cloud.com/boatlogger_regtracker?publickey=" + publictoken  + '&userkey=' + myuserKey + '&deviceid=' + myDeviceKey + '&devicename=' + myDeviceName ;
-
-
-      // devicedataurl =  devicedataurl  + "&blwskey=" + document.getElementById("BLWSKeyInput").value ;
-   // devicedataurl =  devicedataurl  + "&datapaneid=" + myuserKey ;
-
-
-      return $.ajax({
-      //async: false,
-      cache: false,
-      crossDomain: true,
-      processData: false,
-      type: "GET",
-      url: devicedataurl,
-      dataType: "json",
-      timeout: 10000,
-      xhrFields: {
-      withCredentials: true
-      },
-
-      statusCode: {
-      404: function() {      alert( "page not found" );    },
-      200: function() {      }
-      },
-      success: function(response) {
-      handleRegisterDevice(response)
-      },
-      complete: function(response) {
-      // unblock when remote call returns
-     // handleRegisterDevice(response)
-      },
-      error: function(request,status,errorThrown) {
-      //document.getElementById("SearchStatus").innerHTML = "Pref Add Error";
-
-      $.unblockUI();
-      }
-      });
-
-
-} 
 
   
   
@@ -1785,7 +1579,7 @@ function getDeviceList(useremail)
 			}
 		});
 		
-		$('.nav-tabs a[href="#tabBasicSettings"]').tab('show');
+		$('.nav-tabs a[href="#tabLive"]').tab('show');
 
 	});
 
@@ -1798,13 +1592,12 @@ function getDeviceList(useremail)
 <ul class="nav nav-tabs" id="tab" role="tablist">
 	<!--<li><a href="#tabMarketing" role="tab" data-toggle="tab">Info</a></li>-->
 	
-	<li><a href="#tabLive" role="tab" data-toggle="tab">Summary</a></li>
+	<li><a href="#tabBasicSettings" role="tab" data-toggle="tab">Device</a></li>
 
 	<li><a href="#tabDetails" role="tab" data-toggle="tab">Details</a></li>
 		
-	<li><a href="#tabBasicSettings" role="tab" data-toggle="tab">Device</a></li>
 		
-		
+	<li><a href="#tabLive" role="tab" data-toggle="tab">Summary</a></li>	
 </ul>
 
 <!-- Tab panes -->
@@ -1927,6 +1720,7 @@ function getDeviceList(useremail)
     <p id="introText">token = {{ publictoken }} </p>
 -->
 
+<!--
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="DeviceTypeID">Device Type</label>
 			<div class="col-sm-4">
@@ -1937,9 +1731,11 @@ function getDeviceList(useremail)
 				<span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span>
 			</div>
 		</div>
+	-->	
+		
 
 		<div class="form-group">
-			<label class="control-label col-sm-2" for="DeviceKey">Device Key</label>
+			<label class="control-label col-sm-2" for="DeviceKey">Device ID</label>
 			<div class="col-sm-4">
 				<input class="form-control text-box single-line" data-val="true" data-val-length="The Device Key must be a string with a length of 32 ." data-val-length-max="15" data-val-length-min="32" data-val-required="The Device Key field is required." id="DeviceKey" name="DeviceKey" placeholder="Key is 32 characters" type="text" value="" onchange="ChangedDeviceKey();" readonly />
 				<span class="field-validation-valid text-danger" data-valmsg-for="DeviceKey" data-valmsg-replace="true"></span>
