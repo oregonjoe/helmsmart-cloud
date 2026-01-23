@@ -349,6 +349,10 @@ $('#tab a').click(function (e) {
 		gDeviceKey = "{{session['deviceapikey']}}";
     {% endif %}
 	
+	{% if session['devicename'] %}
+		gDeviceName = "{{session['devicename']}}";
+    {% endif %}
+	
     {% if session['aws_email'] %}
 		gUserEmail = "{{session['aws_email']}}";
     {% endif %}
@@ -371,7 +375,7 @@ $('#tab a').click(function (e) {
 		gAWSPhoneVerified = "{{session['aws_phone_verified']}}";
     {% endif %}
 	
-	
+	document.getElementById("DeviceName").value = gDeviceName;
 	document.getElementById("DeviceKey").value = gDeviceKey;
 	
 	InitalizeFirebase()
@@ -1737,8 +1741,17 @@ function getDeviceList(useremail)
 		<div class="form-group">
 			<label class="control-label col-sm-2" for="DeviceKey">Device ID</label>
 			<div class="col-sm-4">
-				<input class="form-control text-box single-line" data-val="true" data-val-length="The Device Key must be a string with a length of 32 ." data-val-length-max="15" data-val-length-min="32" data-val-required="The Device Key field is required." id="DeviceKey" name="DeviceKey" placeholder="Key is 32 characters" type="text" value="" onchange="ChangedDeviceKey();" readonly />
-				<span class="field-validation-valid text-danger" data-valmsg-for="DeviceKey" data-valmsg-replace="true"></span>
+				<input class="form-control text-box single-line"  id="DeviceKey" name="DeviceKey"  type="text" value=""  readonly />
+				
+			</div>
+		</div>
+
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="DeviceName">Device Name</label>
+			<div class="col-sm-4">
+				<input class="form-control text-box single-line"  id="DeviceName" name="DeviceName"  type="text" value=""  readonly />
+				
 			</div>
 		</div>
 

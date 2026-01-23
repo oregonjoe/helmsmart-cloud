@@ -1054,7 +1054,7 @@ function get_deviceView(index)
 	document.getElementById("AlertEmail").value = myAlertEmail[index];
 	document.getElementById("AlertSMS").value = myAlertSMS[index];
 
-	 devicedataurl = "https://www.helmsmart-cloud.com/deviceview?deviceapikey=" + myDeviceID[index]; 
+	 devicedataurl = "https://www.helmsmart-cloud.com/deviceview?deviceapikey=" + myDeviceID[index]+ "&devicename=" + myDeviceName[index]; 
 
 	 window.location.href = devicedataurl
 	
