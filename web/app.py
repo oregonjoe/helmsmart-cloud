@@ -832,25 +832,44 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
   log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
 
+
+  userid=""
+  userid_exists = False
+  deviceapikey=""
+  deviceapikey_exists = False
+
+  # First check if userid already exists because we can only have one unique userid to match email
+  userid = getuserid(useremail)
+
+  # if dosnt exist then create a new one
+  if userid == "":
+    userid=hash_string(useremail)
+    
+  if userid != "":
+    userid_exists = True
+
+  log.info("aws_update_device- userid %s", userid)
+
+  # now see if we have a matching deciveapikey
+  deviceapikey = getdeviceapikey(userid, username)
+
+  # if dosnt exist then create a new one
+  if deviceapikey == "":
+    deviceapikey=hash_string(userid+username+"013024")
+
+  if deviceapikey != "":
+    deviceapikey_exists = True
+      
+      
+  log.info("aws_update_device - deviceapikey %s", deviceapikey)
+  
+
   
   conn = db_pool.getconn()
   
   try:
     
-    query  = "select deviceapikey from user_devices where useremail = %s and deviceid = %s"
-    cursor = conn.cursor()
-
-    cursor = conn.cursor()
-    cursor.execute(query, ( useremail, deviceid))
-    i = cursor.fetchone()       
-
-    #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
-    if cursor.rowcount == 0:
-
-      userid=hash_string(useremail)
-      log.info("aws_update_device- userid %s", userid)
-      deviceapikey=hash_string(userid+deviceid+"013024")
-      log.info("aws_update_device - deviceapikey %s", deviceapikey)
+    if deviceapikey_exists == False:
       
       log.info("aws_update_device - deviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
       userstatus = "device does not exist - adding"
@@ -1475,7 +1494,6 @@ def aws_cancel_subscription():
 
 
 @app.route('/aws_alerts_get_user_data')
-#@cognito_login_callback
 def aws_alerts_get_user_data():
   
   log.info('aws_alerts_get_user_data: request.args %s:  ', request.args)
@@ -1553,77 +1571,35 @@ def aws_alerts_get_user_data():
 
     log.info('aws_alerts_get_user_data: phone_number_verified %s:  ', aws_phone_verified)
     
-          
+      
+    userid=""
+    deviceapikey=""
+
+
+    # First check if userid already exists because we can only have one unique userid to match email
+    userid = getuserid(useremail)
+
+    # if dosnt exist then create a new one
+    if userid == "":
+      userid=hash_string(useremail)
+
+    log.info("aws_alerts_get_user_data- userid %s", userid)
+
+    # now see if we have a matching deciveapikey
+    deviceapikey = getdeviceapikey(userid, username)
+
+    # if dosnt exist then create a new one
+    if deviceapikey == "":
+        deviceapikey=hash_string(userid+username+"013024")
+        
+    log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
 
     session.clear
-    
-
-    #user_info_json = json.dumps(userinfo)
-    #log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
-    
-    #session['profile'] =json.loads(user_info_json)
     session['profile']={}
     session['profile']['email'] = useremail
     session['profile']['name'] = username
     session.modified = True
-    log.info('aws_alerts_get_user_data: session user_info %s:  ', session)
-
-
-    userid=hash_string(useremail)
-    log.info("aws_alerts_get_user_data- userid %s", userid)
-    
-    deviceapikey=hash_string(userid+username+"013024")
-    log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
-
-    userid=""
-    deviceapikey=""
-
-    conn = db_pool.getconn()
-    
-    try:
-      
-      query  = "select deviceapikey, userid from user_devices where useremail = %s and deviceid = %s"
-      cursor = conn.cursor()
-
-      cursor = conn.cursor()
-      cursor.execute(query, ( useremail, username))
-      i = cursor.fetchone()       
-
-      #no existing deviceapikey so add new one 
-      if cursor.rowcount== 0:
-        log.info("aws_alerts_get_user_data - no deviceapikey found for username %s", username)
-        
-      else:
-        userid=str(i[1])
-        log.info("aws_alerts_get_user_data- userid %s", userid)
-    
-        deviceapikey=str(i[0])
-        log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
-
-
-    except psycopg.Error as e:
-        log.info('aws_alerts_get_user_data: SyntaxError in  update deviceid %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: SyntaxError in  update deviceid  %s:  ' % str(e))
-        return jsonify( message='aws_cancel_subscription', status='error')     
-
-    except psycopg.ProgrammingError as e:
-        log.info('aws_alerts_get_user_data: ProgrammingError in  update deviceid %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: ProgrammingError in  update deviceid  %s:  ' % str(e))
-        return jsonify( message='aws_cancel_subscription', status='error')     
-
-    except psycopg.DataError as e:
-        log.info('aws_alerts_get_user_data: DataError in  update deviceid %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: DataError in  update deviceid  %s:  ' % str(e))
-        return jsonify( message='aws_cancel_subscription', status='error')     
-      
-    except:
-      e = sys.exc_info()[0]
-      log.info('aws_alerts_get_user_data : Error db delete %s:  ' % e)
-      return jsonify( message='aws_delete_device', status='error')     
-
-    finally:
-      db_pool.putconn(conn)   
-    
+    log.info('aws_alerts_get_user_data: session user_info %s:  ', session)    
     
     session['userid'] = userid
     session['deviceapikey'] = deviceapikey
@@ -1686,7 +1662,7 @@ def aws_alerts_get_admin_data():
   
   #log.info('aws_alerts_get_admin_data: request.args %s:  ', request.args)
   #log.info('aws_alerts_get_admin_data: session %s:  ', session)
-  session.clear
+
   #access_token = aws_auth.get_access_token(request.args)
   #access_token = aws_auth.get_access_token()
   #log.info('aws_alerts_get_admin_data: access_token %s:  ', access_token) 
@@ -1781,62 +1757,29 @@ def aws_alerts_get_admin_data():
     mc.set(username + '_enabled' , True, time=int(account_timeout*60))
 
 
-    userid=hash_string(useremail)
-    log.info("aws_alerts_get_admin_data - userid %s", userid)
-    
-    deviceapikey=hash_string(userid+username+"013024")
-    log.info("aws_alerts_get_admin_data - deviceapikey %s", deviceapikey)
-
 
     userid=""
     deviceapikey=""
 
-    conn = db_pool.getconn()
-    
-    try:
-      
-      query  = "select deviceapikey, userid from user_devices where useremail = %s and deviceid = %s"
-      cursor = conn.cursor()
+    # First check if userid already exists because we can only have one unique userid to match email
+    userid = getuserid(useremail)
 
-      cursor = conn.cursor()
-      cursor.execute(query, ( useremail, username))
-      i = cursor.fetchone()       
+    # if dosnt exist then create a new one
+    if userid == "":
+      userid=hash_string(useremail)
 
-      #no existing deviceapikey so add new one 
-      if cursor.rowcount== 0:
-        log.info("aws_alerts_get_admin_data - no deviceapikey found for username %s", username)
+    log.info("aws_alerts_get_admin_data- userid %s", userid)
+
+    # now see if we have a matching deciveapikey
+    deviceapikey = getdeviceapikey(userid, username)
+
+    # if dosnt exist then create a new one
+    if deviceapikey == "":
+        deviceapikey=hash_string(userid+username+"013024")
         
-      else:
-        userid=str(i[1])
-        log.info("aws_alerts_get_admin_data- userid %s", userid)
-    
-        deviceapikey=str(i[0])
-        log.info("aws_alerts_get_admin_data - deviceapikey %s", deviceapikey)
+    log.info("aws_alerts_get_admin_data - deviceapikey %s", deviceapikey)
 
-
-    except psycopg.Error as e:
-        log.info('aws_alerts_get_admin_data: SyntaxError in  update deviceid %s:  ', deviceid)
-        log.info('aws_alerts_get_admin_data: SyntaxError in  update deviceid  %s:  ' % str(e))
-        return jsonify( message='aws_cancel_subscription', status='error')     
-
-    except psycopg.ProgrammingError as e:
-        log.info('aws_alerts_get_admin_data: ProgrammingError in  update deviceid %s:  ', deviceid)
-        log.info('aws_update_device: ProgrammingError in  update deviceid  %s:  ' % str(e))
-        return jsonify( message='aws_cancel_subscription', status='error')     
-
-    except psycopg.DataError as e:
-        log.info('aws_alerts_get_admin_data: DataError in  update deviceid %s:  ', deviceid)
-        log.info('aws_alerts_get_admin_data: DataError in  update deviceid  %s:  ' % str(e))
-        return jsonify( message='aws_cancel_subscription', status='error')     
-      
-    except:
-      e = sys.exc_info()[0]
-      log.info('aws_alerts_get_admin_data : Error db delete %s:  ' % e)
-      return jsonify( message='aws_delete_device', status='error')     
-
-    finally:
-      db_pool.putconn(conn)   
-
+    session.clear
     session['profile']={}
     session['profile']['email'] = useremail
     session['profile']['name'] = username
@@ -5266,6 +5209,144 @@ def getuseremail(deviceapikey):
     db_pool.putconn(conn)                       
 
     return ""
+
+
+def getuserid(useremail):
+
+    conn = db_pool.getconn()
+
+    log.info("freeboard getuserid data Query %s", useremail)
+
+    try:
+    # first check db to see if useremail is matched to existing userid
+        cursor = conn.cursor()
+
+        cursor.execute("select userid from user_devices where useremail = %s" , (useremail,))
+
+        i = cursor.fetchone()
+        log.info("freeboard getuserid response %s", i)            
+        # see we got any matches
+        if cursor.rowcount == 0:
+            db_pool.putconn(conn) 
+            return ""
+        
+        else:
+            userid = str(i[0])
+            db_pool.putconn(conn) 
+            return userid 
+
+
+
+    except psycopg.Error as e:
+        log.info('aws_alerts_get_user_data: SyntaxError in  getuserid %s:  ', deviceid)
+        log.info('aws_alerts_get_user_data: SyntaxError in  getuserid  %s:  ' % str(e))
+ 
+
+    except psycopg.ProgrammingError as e:
+        log.info('aws_alerts_get_user_data: ProgrammingError in  getuserid %s:  ', deviceid)
+        log.info('aws_alerts_get_user_data: ProgrammingError in  getuserid  %s:  ' % str(e))
+   
+
+    except psycopg.DataError as e:
+        log.info('aws_alerts_get_user_data: DataError in  update deviceid %s:  ', deviceid)
+        log.info('aws_alerts_get_user_data: DataError in  update deviceid  %s:  ' % str(e))
+    
+
+    except TypeError as e:
+        log.info('freeboard: TypeError in getuserid  %s:  ', useremail)
+        log.info('freeboard: TypeError in getuserid  %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('freeboard: KeyError in getuserid  %s:  ', useremail)
+        log.info('freeboard: KeyError in getuserid  %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('freeboard: NameError in getuserid  %s:  ', useremail)
+        log.info('freeboard: NameError in getuserid  %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('freeboard: IndexError in getuserid  %s:  ', useremail)
+        log.info('freeboard: IndexError in getuserid  %s:  ' % str(e))  
+
+
+    except:
+        log.info('freeboard: Error in getuserid %s:  ', useremail)
+        e = sys.exc_info()[0]
+        log.info('freeboard: Error in getuserid  %s:  ' % str(e))
+
+    # cursor.close
+    db_pool.putconn(conn)                       
+
+    return ""
+
+def getdeviceapikey(userid, deviceid):
+
+    conn = db_pool.getconn()
+
+    log.info("freeboard getdeviceapikey data Query %s", userid)
+
+    try:
+    # first check db to see if deviceapikey is matched to device id
+
+        cursor = conn.cursor()
+
+        cursor.execute("select deviceapikey from user_devices where userid = %s and deviceid = %s " , (userid, deviceid,))
+
+        i = cursor.fetchone()
+        log.info("freeboard getdeviceapikey response %s", i)            
+        # see we got any matches
+        if cursor.rowcount == 0:
+
+            db_pool.putconn(conn) 
+            return ""
+        
+        else:
+            userid = str(i[0])
+            db_pool.putconn(conn) 
+            return userid 
+
+
+    except psycopg.Error as e:
+        log.info('aws_alerts_get_user_data: SyntaxError in  getdeviceapikey %s:  ', deviceid)
+        log.info('aws_alerts_get_user_data: SyntaxError in  getdeviceapikey  %s:  ' % str(e))
+
+
+    except psycopg.ProgrammingError as e:
+        log.info('aws_alerts_get_user_data: ProgrammingError in  getdeviceapikey %s:  ', deviceid)
+        log.info('aws_alerts_get_user_data: ProgrammingError in  getdeviceapikey  %s:  ' % str(e))
+
+
+    except psycopg.DataError as e:
+        log.info('aws_alerts_get_user_data: DataError in  getdeviceapikey %s:  ', deviceid)
+        log.info('aws_alerts_get_user_data: DataError in  getdeviceapikey  %s:  ' % str(e))
+   
+    except TypeError as e:
+        log.info('freeboard: TypeError in getdeviceapikey  %s:  ', deviceid)
+        log.info('freeboard: TypeError in getdeviceapikey  %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('freeboard: KeyError in getdeviceapikey  %s:  ', deviceid)
+        log.info('freeboard: KeyError in getdeviceapikey  %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('freeboard: NameError in getdeviceapikey  %s:  ', deviceid)
+        log.info('freeboard: NameError in getdeviceapikey  %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('freeboard: IndexError in getdeviceapikey  %s:  ', deviceid)
+        log.info('freeboard: IndexError in getdeviceapikey  %s:  ' % str(e))  
+
+
+    except:
+        log.info('freeboard: Error in getdeviceapikey %s:  ', deviceid)
+        e = sys.exc_info()[0]
+        log.info('freeboard: Error in getdeviceapikey  %s:  ' % str(e))
+
+    # cursor.close
+    db_pool.putconn(conn)                       
+
+    return ""
+
 
 
 @app.route('/get_influxdbcloud_series')
