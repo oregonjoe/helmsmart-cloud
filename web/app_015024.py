@@ -832,44 +832,25 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
   log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
 
-
-  userid=""
-  userid_exists = False
-  deviceapikey=""
-  deviceapikey_exists = False
-
-  # First check if userid already exists because we can only have one unique userid to match email
-  userid = getuserid(useremail)
-
-  # if dosnt exist then create a new one
-  if userid == "":
-    userid=hash_string(useremail)
-    
-  else:
-    userid_exists = True
-
-  log.info("aws_update_device- userid %s", userid)
-
-  # now see if we have a matching deciveapikey
-  deviceapikey = getdeviceapikey(userid, deviceid)
-
-  # if dosnt exist then create a new one
-  if deviceapikey == "":
-    deviceapikey=hash_string(userid+deviceid+"013024")
-    
-  else:
-    deviceapikey_exists = True
-      
-      
-  log.info("aws_update_device - deviceapikey %s", deviceapikey)
-  
-
   
   conn = db_pool.getconn()
   
   try:
     
-    if deviceapikey_exists == False:
+    query  = "select deviceapikey from user_devices where useremail = %s and deviceid = %s"
+    cursor = conn.cursor()
+
+    cursor = conn.cursor()
+    cursor.execute(query, ( useremail, deviceid))
+    i = cursor.fetchone()       
+
+    #no existing userid so need to use hashed email for userid and hashed deviceid for combined deviceapikey      
+    if cursor.rowcount == 0:
+
+      userid=hash_string(useremail)
+      log.info("aws_update_device- userid %s", userid)
+      deviceapikey=hash_string(userid+deviceid+"013024")
+      log.info("aws_update_device - deviceapikey %s", deviceapikey)
       
       log.info("aws_update_device - deviceapikey does not exist so adding  deviceapikey %s", deviceapikey)
       userstatus = "device does not exist - adding"
@@ -896,7 +877,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
     #deviceid exists so look up if deviceapikey has already been added
     else:
-
+      deviceapikey= str(i[0])
       log.info("Update Device status deviceapikey  %s  already exists", deviceapikey )
 
       query  = "update user_devices SET "
@@ -948,12 +929,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
     log.info("aws_update_device Device error -:TypeError deviceid %s ", deviceid)
     log.info('aws_update_device Device error -:TypeError  Error %s:  ' % e)
     return False
-    
-  except NameError as e:
-    log.info("aws_update_device Device error -:NameError deviceid %s ", deviceid)
-    log.info('aws_update_device Device error -:NameError  Error %s:  ' % e)
-    return False
-  
+
   except:
     e = sys.exc_info()[0]
     log.info("aws_update_device Device error - Error in update device %s", deviceid)
@@ -1499,6 +1475,7 @@ def aws_cancel_subscription():
 
 
 @app.route('/aws_alerts_get_user_data')
+#@cognito_login_callback
 def aws_alerts_get_user_data():
   
   log.info('aws_alerts_get_user_data: request.args %s:  ', request.args)
@@ -1528,7 +1505,7 @@ def aws_alerts_get_user_data():
     aws_username = response.get('Username', "")
     log.info('aws_alerts_get_user_data: aws_username %s:  ', aws_username)
     usernames = aws_username.split(':')
-    username = usernames[0].upper()
+    username = usernames[0]
     log.info('aws_alerts_get_user_data: username %s:  ', username)
 
     # Extract the email from the UserAttributes list
@@ -1576,35 +1553,27 @@ def aws_alerts_get_user_data():
 
     log.info('aws_alerts_get_user_data: phone_number_verified %s:  ', aws_phone_verified)
     
-      
-    userid=""
-    deviceapikey=""
-
-
-    # First check if userid already exists because we can only have one unique userid to match email
-    userid = getuserid(useremail)
-
-    # if dosnt exist then create a new one
-    if userid == "":
-      userid=hash_string(useremail)
-
-    log.info("aws_alerts_get_user_data- userid %s", userid)
-
-    # now see if we have a matching deciveapikey
-    deviceapikey = getdeviceapikey(userid, username)
-
-    # if dosnt exist then create a new one
-    if deviceapikey == "":
-        deviceapikey=hash_string(userid+username+"013024")
-        
-    log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
+          
 
     session.clear
+    
+
+    #user_info_json = json.dumps(userinfo)
+    #log.info('aws_alerts_get_admin_data: TypeError in user_info %s:  ', user_info_json)
+    
+    #session['profile'] =json.loads(user_info_json)
     session['profile']={}
     session['profile']['email'] = useremail
     session['profile']['name'] = username
     session.modified = True
-    log.info('aws_alerts_get_user_data: session user_info %s:  ', session)    
+    log.info('aws_alerts_get_user_data: session user_info %s:  ', session)
+
+
+    userid=hash_string(useremail)
+    log.info("aws_alerts_get_user_data- userid %s", userid)
+    
+    deviceapikey=hash_string(userid+username+"013024")
+    log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
     
     session['userid'] = userid
     session['deviceapikey'] = deviceapikey
@@ -1667,7 +1636,7 @@ def aws_alerts_get_admin_data():
   
   #log.info('aws_alerts_get_admin_data: request.args %s:  ', request.args)
   #log.info('aws_alerts_get_admin_data: session %s:  ', session)
-
+  session.clear
   #access_token = aws_auth.get_access_token(request.args)
   #access_token = aws_auth.get_access_token()
   #log.info('aws_alerts_get_admin_data: access_token %s:  ', access_token) 
@@ -1703,7 +1672,7 @@ def aws_alerts_get_admin_data():
     log.info('aws_alerts_get_admin_data: usernamestr %s:  ', usernamestr)
 
     usernames = usernamestr.split(':')
-    username = usernames[0].upper()
+    username = usernames[0]
     log.info('aws_alerts_get_admin_data: username %s:  ', username)    
     
     useremail = userinfo.get("email","")
@@ -1762,35 +1731,11 @@ def aws_alerts_get_admin_data():
     mc.set(username + '_enabled' , True, time=int(account_timeout*60))
 
 
-
-    userid=""
-    deviceapikey=""
-
-    # First check if userid already exists because we can only have one unique userid to match email
-    userid = getuserid(useremail)
-
-    # if dosnt exist then create a new one
-    if userid == "":
-      userid=hash_string(useremail)
-
-    log.info("aws_alerts_get_admin_data- userid %s", userid)
-
-    # now see if we have a matching deciveapikey
-    deviceapikey = getdeviceapikey(userid, username)
-
-    # if dosnt exist then create a new one
-    if deviceapikey == "":
-        deviceapikey=hash_string(userid+username+"013024")
-        
-    log.info("aws_alerts_get_admin_data - deviceapikey %s", deviceapikey)
-
-    session.clear
-    session['profile']={}
-    session['profile']['email'] = useremail
-    session['profile']['name'] = username
-    session.modified = True
-    log.info('aws_alerts_get_admin_data: session user_info %s:  ', session)
+    userid=hash_string(useremail)
+    log.info("aws_alerts_get_admin_data - userid %s", userid)
     
+    deviceapikey=hash_string(userid+username+"013024")
+    log.info("aws_alerts_get_admin_data - deviceapikey %s", deviceapikey)
     
     session['userid'] = userid
     session['deviceapikey'] = deviceapikey
@@ -1846,122 +1791,17 @@ def aws_cognito_update_sms_number():
 
   userid = request.args.get('userid',"")
   smsnumber = request.args.get('smsnumber',"")
-  devicekey = request.args.get('devicekey',"")
-
-
-
-
-  awsusername = request.args.get('awsusername', "").upper()
-  log.info('aws_cognito_update_sms_number: awsusername %s:', awsusername)
-
-  if awsusername == "" :
-    return jsonify( message='aws_cognito_update_sms_phone', status='error')
-
-
-  log.info('aws_cognito_update_sms_number: userid %s smsnumber %s' , userid, smsnumber)    
-  log.info('aws_cognito_update_sms_number: devicekey %s:', devicekey)
-  
-  ########################################################################
-  # check if we are going to remove the SMS Phone number
-  
-  if smsnumber == "":
-
-    response = cognito_client.admin_delete_user_attributes(
-        UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-        Username=awsusername,
-        UserAttributeNames=[ 'phone_number' ]
-        
-    )
-
-    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
-    log.info("aws_cognito_update_sms_number:admin_delete_user_attributes HTTPstatus %s:", HTTPstatus)
-
-    if HTTPstatus != 200:
-      return jsonify( message='aws_cognito_update_sms_number - admin_delete_user_attributes', status='error')
-
-    log.info("aws_cognito_update_sms_number:Successfully deleted phone number from cognito %s:", userid)  
-    updateststus = updatesmsnumber(devicekey, None)
-
-    if updateststus == False:
-
-      log.info("aws_cognito_update_sms_number:error deleted phone number from helmsmart %s:", userid)  
-      return jsonify( message='aws_cognito_update_sms_number - delete phone from helmsmart', status='error')
-    
-    else:
-      
-      log.info("aws_cognito_update_sms_number:Successfully deleted phone number from helmsmart %s:", userid)  
-      return jsonify( message='aws_cognito_update_sms_number - admin_delete_user_attributes', status='deleted')
-    
-  
-    log.info("aws_cognito_update_sms_number:Successfully deleted phone number for user %s:", userid)   
-    
-  ########################################################################
 
   if smsnumber.startswith("+") == False:
     smsnumber = prefix + smsnumber
   
-  log.info('aws_cognito_update_sms_number: userid %s smsnumber %s' , userid, smsnumber)    
+  log.info('aws_cognito_update_sms_number: userid %s smsnumber %s' , userid, smsnumber)
 
-  # get the user data from asw cognito
-  try:
+  awsusername = request.args.get('awsusername', "")
+  log.info('aws_cognito_update_sms_number: awsusername %s:', awsusername)
 
-    response = cognito_client.admin_get_user(
-          UserPoolId=environ.get("AWS_COGNITO_USER_POOL_ID"),
-          Username=awsusername
-      )
-    
-    log.info('aws_cognito_update_sms_phone: response %s:  ', response)
-
-
-    # Extract the email from the UserAttributes list
-    awssmsnumber = ""
-    
-    for attribute in response['UserAttributes']:
-        if attribute['Name'] == 'phone_number':
-            awssmsnumber = attribute['Value']
-            break
-
-    log.info('aws_cognito_update_sms_phone: awssmsnumber %s:  ', awssmsnumber)
-    
-    # Extract the email_verified from the UserAttributes list
-    awssmsnumber_verified = ""
-    
-    for attribute in response['UserAttributes']:
-        if attribute['Name'] == 'phone_number_verified':
-            awssmsnumber_verified = attribute['Value']
-            break
-          
-    log.info('aws_cognito_update_sms_phone: awssmsnumber_verified %s ',  awssmsnumber_verified)
-
-  except AttributeError as e:
-    log.info('aws_cognito_update_sms_phone:admin_get_user  AttributeError  %s ' % str(e))
-    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
-  
-  except TypeError as e:
-    log.info('aws_cognito_update_sms_phone: admin_get_user TypeError in  %s ' % str(e))
-    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
-  
-  except ValueError as e:
-    log.info('aws_cognito_update_sms_phone: admin_get_user ValueError in  %s ' % str(e))
-    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
-  
-  except UnboundLocalError as e:
-    log.info('aws_cognito_update_sms_phone: admin_get_user UnboundLocalError in  %s ' % str(e))
-    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
-  
-  except:
-    e = sys.exc_info()[0]
-    log.info('aws_cognito_update_sms_email: admin_get_user Error in verify in %s:  ' % str(e))          
-    return jsonify( message='aws_cognito_update_sms_phone ', status='error')
-  
-  log.info('aws_cognito_update_sms_phone: awssmsphone %s: phone_verified %s ', awssmsnumber, awssmsnumber_verified)
-
-  if awssmsnumber == smsnumber and awssmsnumber_verified == 'true' :
-    log.info('aws_cognito_update_sms_phone: phone already exists awssmsnumber %s: awssmsnumber_verified %s ', awssmsnumber, awssmsnumber_verified)
-    return jsonify( message='aws_cognito_update_sms_phone: phone already exists awssmsnumber', status='exists')
-
-
-  
+  if awsusername == "" :
+    return jsonify( message='aws_cognito_update_sms_number', status='error')    
   
   try:
     response = cognito_client.admin_update_user_attributes(
@@ -1981,38 +1821,28 @@ def aws_cognito_update_sms_number():
     # Note: The phone number will be unverified by default.
     # Use AdminUpdateUserAttributes to set 'phone_number_verified' to 'true' if needed.
     #return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
-    HTTPstatus = response.get("ResponseMetadata", {}).get('HTTPStatusCode')
-    log.info("aws_cognito_update_sms_number:get_user_attribute_verification_code HTTPstatus %s:", HTTPstatus)
 
-    if HTTPstatus != 200:
-      return jsonify( message='aws_cognito_update_sms_number - admin_update_user_attributes', status='error')
-
-    #aws wll send user a new verification code
-    #return jsonify( message='aws_cognito_update_sms_number ', status='success')
-
-
-  
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_number: User or User Pool not found.")
-    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
     
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_cognito_update_sms_number: ParamValidationError")
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error ParamValidationError in geting adding phone number %s:  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
         
   except AttributeError as e:
     log.info('aws_cognito_update_sms_number: AttributeError Error in geting adding phone number  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
     
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error in geting adding phone number %s:  ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
+    return jsonify( message='aws_cognito_validate_sms_number ', status='success') 
   
-  
-  log.info("aws_cognito_update_sms_number: sending verify code")
+
+  log.info("aws_cognito_update_sms_number: Getting verify code")
   
   try:
     response = cognito_client.get_user_attribute_verification_code(
@@ -2028,33 +1858,23 @@ def aws_cognito_update_sms_number():
 
   except cognito_client.exceptions.ResourceNotFoundException:
     log.info("aws_cognito_update_sms_number: User or User Pool not found.")
-    return jsonify( message='aws_cognito_validate_sms_number InvalidParameterException ', status='error')
-  
+
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_cognito_update_sms_number: InvalidParameterException")
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error InvalidParameterException in getting verify code %s:  ' % str(e))  
-    return jsonify( message='aws_cognito_validate_sms_number InvalidParameterException ', status='error')
 
-  except cognito_client.exceptions.NotAuthorizedException:
-    log.info("aws_cognito_update_sms_number: NotAuthorizedException")
-    e = sys.exc_info()[0]
-    log.info('aws_cognito_update_sms_number: Error NotAuthorizedException in getting verify code %s:  ' % str(e))  
-    return jsonify( message='aws_cognito_validate_sms_number NotAuthorizedException', status='expiredsession')  
-  
   except AttributeError as e:
     log.info('aws_cognito_update_sms_number: AttributeError Error in getting verify code %s ' % str(e))
-    return jsonify( message='aws_cognito_validate_sms_number ', status='error')
-  
+    
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_update_sms_number: Error in verify in getting verify code %s:  ' % str(e))  
-    return jsonify( message='aws_cognito_validate_sms_number ', status='error') 
 
+    log.info("aws_cognito_update_sms_number: Got verify code")
 
-  return jsonify( message='aws_cognito_update_sms_number sent validation code', status='success')
-  
-  
+  return jsonify( message='aws_cognito_update_sms_number ', status='success')
+
 
 @app.route('/aws_cognito_confirm_sms_number')
 def aws_cognito_confirm_sms_number():
@@ -2094,46 +1914,30 @@ def aws_cognito_confirm_sms_number():
     if HTTPstatus != 200:
       return jsonify( message='aws_cognito_confirm_sms_number ', status='error')
     
-    update_status = updatesmsnumber(devicekey, smsnumber)
+    updatesmsnumber(devicekey, smsnumber)
 
-    if update_status == False:
-      return jsonify( message='aws_cognito_confirm_sms_number  - failed to update HelmSmart DB', status='error')
-
-    log.info("aws_cognito_confirm_sms_number: smsphone verified")
-    return jsonify( message='aws_cognito_confirm_sms_number ', status='success')
-  
   except cognito_client.exceptions.CodeMismatchException:
     log.info("aws_cognito_confirm_sms_number: Invalid verification code provided, please try again..")
-    return jsonify( message='aws_cognito_confirm_sms_number Invalid verification code provided, please try again..', status='badcode')
-  
+    
   except cognito_client.exceptions.ExpiredCodeException:
     log.info("aws_cognito_confirm_sms_number: Verification code expired.")
     e = sys.exc_info()[0]
-    log.info('aws_cognito_confirm_sms_number: Error ExpiredCodeException in verify phone number %s:  ' % str(e))
-    return jsonify( message='aws_cognito_confirm_sms_number Expired Code', status='expiredcode')
-
-  except cognito_client.exceptions.NotAuthorizedException:
-    log.info("aws_cognito_confirm_sms_number: User session expired.")
-    e = sys.exc_info()[0]
-    log.info('aws_cognito_confirm_sms_number: Error User session in verify phone number %s:  ' % str(e))
-    return jsonify( message='aws_cognito_confirm_sms_number User session', status='expiredsession')
+    log.info('aws_cognito_confirm_sms_number: Error ExpiredCodeException in verify phone number %s:  ' % str(e))  
       
   except AttributeError as e:
     log.info('aws_cognito_confirm_sms_number: AttributeError Error in verify phone number %s  ' % str(e))
-    return jsonify( message='aws_cognito_confirm_sms_number AttributeError', status='error')
-  
+
   except NameError as e:
     log.info('aws_cognito_confirm_sms_number: NameError Error in verify phone number  %s' % str(e))
-    return jsonify( message='aws_cognito_confirm_sms_email NameError', status='error')
-  
+    
   except TypeError as e:
     log.info('aws_cognito_confirm_sms_number: NameError Error in verify phone number  %s' % str(e))
-    return jsonify( message='aws_cognito_confirm_sms_number TypeError', status='error')    
+    
 
   except:
     e = sys.exc_info()[0]
     log.info('aws_cognito_confirm_sms_number: Error in verify phone number  %s ' % str(e))
-    return jsonify( message='aws_cognito_confirm_sms_number ', status='error')
+
     
   log.info("aws_cognito_confirm_sms_number: phone number verified")
 
@@ -2158,44 +1962,27 @@ def updatesmsnumber(deviceapikey, smsnumber):
       
     if cursor.rowcount == 0:
       userstatus = " Could not add user smsnumber " + str(deviceapikey)
-      log.info("updatesmsnumber Could not add user smsnumber deviceid %s ", deviceapikey)
-      return False
+      return jsonify( message='Could not add smsnumber', status='error')
 
     userstatus = "new  smsnumber added"
-    log.info("updatesmsnumber - Success smsnumber %s deviceid %s ", smsnumber, deviceapikey)
-    return True
-
-  except psycopg.Error as e:
-      log.info('updatesmsnumber: SyntaxError in  update deviceid %s:  ', deviceapikey)
-      log.info('updatesmsnumber: SyntaxError in  update deviceid  %s:  ' % str(e))
-      return False    
-
-  except psycopg.ProgrammingError as e:
-      log.info('updatesmsnumber: ProgrammingError in  update deviceid %s:  ', deviceapikey)
-      log.info('updatesmsnumber: ProgrammingError in  update deviceid  %s:  ' % str(e))
-      return False   
-
-  except psycopg.DataError as e:
-      log.info('updatesmsnumber: DataError in  update deviceid %s:  ', deviceapikey)
-      log.info('updatesmsnumber: DataError in  update deviceid  %s:  ' % str(e))
-      return False  
+    return jsonify( message='Added smsnumber' , deviceapikey=deviceapikey, userstatus = userstatus )
 
   except TypeError as e:
-    log.info("updatesmsnumber -:TypeError deviceid %s ", deviceapikey)
-    log.info('updatesmsnumber -:TypeError  Error %s:  ' % e)
-    return False
+    log.info("updatesmsnumber Device error -:TypeError deviceid %s ", deviceapikey)
+    log.info('updatesmsnumber Device error -:TypeError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
 
   except NameError as e:
-    log.info("updatesmsnumber -:NameError deviceid %s ", deviceapikey)
-    log.info('updatesmsnumber -:NameError  Error %s:  ' % e)
-    return False
+    log.info("updatesmsnumber Device error -:NameError deviceid %s ", deviceapikey)
+    log.info('updatesmsnumber Device error -:NameError  Error %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
 
 
   except:
     e = sys.exc_info()[0]
-    log.info("updatesmsnumber  - Error in adding device %s", deviceapikey)
-    log.info('updatesmsnumber: Error in adding device %s:  ' % e)
-    return False
+    log.info("updatesmsnumber Device error - Error in adding device %s", deviceapikey)
+    log.info('updatesmsnumber Device error: Error in adding device %s:  ' % e)
+    return jsonify( message='Add user deviceid error - failed' , deviceapikey=deviceapikey, userstatus = "could not add smsnumber" )
   
   finally:
     db_pool.putconn(conn)
@@ -2637,19 +2424,6 @@ def user_subscription_added():
     features = [],
   )
 
-@app.route('/deviceview')
-def deviceview():
-
-  devicekey = request.args.get('deviceapikey',"")
-
-  log.info('deviceview: devicekey %s ' , devicekey)
-
-  session["deviceapikey"] = devicekey
-  
-  return render_template(
-    'deviceview.html',
-    features = [],
-  )
 
 @app.route('/manage')
 def manage():
@@ -5229,144 +5003,6 @@ def getuseremail(deviceapikey):
     return ""
 
 
-def getuserid(useremail):
-
-    conn = db_pool.getconn()
-
-    log.info("freeboard getuserid data Query %s", useremail)
-
-    try:
-    # first check db to see if useremail is matched to existing userid
-        cursor = conn.cursor()
-
-        cursor.execute("select userid from user_devices where useremail = %s" , (useremail,))
-
-        i = cursor.fetchone()
-        log.info("freeboard getuserid response %s", i)            
-        # see we got any matches
-        if cursor.rowcount == 0:
-            db_pool.putconn(conn) 
-            return ""
-        
-        else:
-            userid = str(i[0])
-            db_pool.putconn(conn) 
-            return userid 
-
-
-
-    except psycopg.Error as e:
-        log.info('aws_alerts_get_user_data: SyntaxError in  getuserid %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: SyntaxError in  getuserid  %s:  ' % str(e))
- 
-
-    except psycopg.ProgrammingError as e:
-        log.info('aws_alerts_get_user_data: ProgrammingError in  getuserid %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: ProgrammingError in  getuserid  %s:  ' % str(e))
-   
-
-    except psycopg.DataError as e:
-        log.info('aws_alerts_get_user_data: DataError in  update deviceid %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: DataError in  update deviceid  %s:  ' % str(e))
-    
-
-    except TypeError as e:
-        log.info('freeboard: TypeError in getuserid  %s:  ', useremail)
-        log.info('freeboard: TypeError in getuserid  %s:  ' % str(e))
-            
-    except KeyError as e:
-        log.info('freeboard: KeyError in getuserid  %s:  ', useremail)
-        log.info('freeboard: KeyError in getuserid  %s:  ' % str(e))
-
-    except NameError as e:
-        log.info('freeboard: NameError in getuserid  %s:  ', useremail)
-        log.info('freeboard: NameError in getuserid  %s:  ' % str(e))
-            
-    except IndexError as e:
-        log.info('freeboard: IndexError in getuserid  %s:  ', useremail)
-        log.info('freeboard: IndexError in getuserid  %s:  ' % str(e))  
-
-
-    except:
-        log.info('freeboard: Error in getuserid %s:  ', useremail)
-        e = sys.exc_info()[0]
-        log.info('freeboard: Error in getuserid  %s:  ' % str(e))
-
-    # cursor.close
-    db_pool.putconn(conn)                       
-
-    return ""
-
-def getdeviceapikey(userid, deviceid):
-
-    conn = db_pool.getconn()
-
-    log.info("freeboard getdeviceapikey data Query %s", userid)
-
-    try:
-    # first check db to see if deviceapikey is matched to device id
-
-        cursor = conn.cursor()
-
-        cursor.execute("select deviceapikey from user_devices where userid = %s and deviceid = %s " , (userid, deviceid,))
-
-        i = cursor.fetchone()
-        log.info("freeboard getdeviceapikey response %s", i)            
-        # see we got any matches
-        if cursor.rowcount == 0:
-
-            db_pool.putconn(conn) 
-            return ""
-        
-        else:
-            userid = str(i[0])
-            db_pool.putconn(conn) 
-            return userid 
-
-
-    except psycopg.Error as e:
-        log.info('aws_alerts_get_user_data: SyntaxError in  getdeviceapikey %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: SyntaxError in  getdeviceapikey  %s:  ' % str(e))
-
-
-    except psycopg.ProgrammingError as e:
-        log.info('aws_alerts_get_user_data: ProgrammingError in  getdeviceapikey %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: ProgrammingError in  getdeviceapikey  %s:  ' % str(e))
-
-
-    except psycopg.DataError as e:
-        log.info('aws_alerts_get_user_data: DataError in  getdeviceapikey %s:  ', deviceid)
-        log.info('aws_alerts_get_user_data: DataError in  getdeviceapikey  %s:  ' % str(e))
-   
-    except TypeError as e:
-        log.info('freeboard: TypeError in getdeviceapikey  %s:  ', deviceid)
-        log.info('freeboard: TypeError in getdeviceapikey  %s:  ' % str(e))
-            
-    except KeyError as e:
-        log.info('freeboard: KeyError in getdeviceapikey  %s:  ', deviceid)
-        log.info('freeboard: KeyError in getdeviceapikey  %s:  ' % str(e))
-
-    except NameError as e:
-        log.info('freeboard: NameError in getdeviceapikey  %s:  ', deviceid)
-        log.info('freeboard: NameError in getdeviceapikey  %s:  ' % str(e))
-            
-    except IndexError as e:
-        log.info('freeboard: IndexError in getdeviceapikey  %s:  ', deviceid)
-        log.info('freeboard: IndexError in getdeviceapikey  %s:  ' % str(e))  
-
-
-    except:
-        log.info('freeboard: Error in getdeviceapikey %s:  ', deviceid)
-        e = sys.exc_info()[0]
-        log.info('freeboard: Error in getdeviceapikey  %s:  ' % str(e))
-
-    # cursor.close
-    db_pool.putconn(conn)                       
-
-    return ""
-
-
-
 @app.route('/get_influxdbcloud_series')
 def get_influxdbcloud_series():
   deviceid = request.args.get('deviceid', '000000000000')
@@ -7525,7 +7161,6 @@ def getdashboardlists(userid):
 ### hash ###
 def hash_string(string):
     #salted_hash = string + application.config['SECRET_KEY']
-    log.info('freeboard: hash_string string %s:  ', string)
     salted_hash = string + app.secret_key
     log.info('freeboard: hash_string salted_hash %s:  ', salted_hash)
 
