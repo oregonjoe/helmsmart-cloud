@@ -845,7 +845,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   if userid == "":
     userid=hash_string(useremail)
     
-  if userid != "":
+  else:
     userid_exists = True
 
   log.info("aws_update_device- userid %s", userid)
@@ -856,8 +856,8 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   # if dosnt exist then create a new one
   if deviceapikey == "":
     deviceapikey=hash_string(userid+deviceid+"013024")
-
-  if deviceapikey != "":
+    
+  else:
     deviceapikey_exists = True
       
       
@@ -896,7 +896,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
     #deviceid exists so look up if deviceapikey has already been added
     else:
-      deviceapikey= str(i[0])
+
       log.info("Update Device status deviceapikey  %s  already exists", deviceapikey )
 
       query  = "update user_devices SET "
@@ -948,7 +948,12 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
     log.info("aws_update_device Device error -:TypeError deviceid %s ", deviceid)
     log.info('aws_update_device Device error -:TypeError  Error %s:  ' % e)
     return False
-
+    
+  except NameError as e:
+    log.info("aws_update_device Device error -:NameError deviceid %s ", deviceid)
+    log.info('aws_update_device Device error -:NameError  Error %s:  ' % e)
+    return False
+  
   except:
     e = sys.exc_info()[0]
     log.info("aws_update_device Device error - Error in update device %s", deviceid)
