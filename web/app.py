@@ -851,11 +851,11 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   log.info("aws_update_device- userid %s", userid)
 
   # now see if we have a matching deciveapikey
-  deviceapikey = getdeviceapikey(userid, username)
+  deviceapikey = getdeviceapikey(userid, deviceid)
 
   # if dosnt exist then create a new one
   if deviceapikey == "":
-    deviceapikey=hash_string(userid+username+"013024")
+    deviceapikey=hash_string(userid+deviceid+"013024")
 
   if deviceapikey != "":
     deviceapikey_exists = True
