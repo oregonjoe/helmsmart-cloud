@@ -823,6 +823,9 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   elif subscriptionKey == environ.get("SubscriptionKeyYear"):
     SubscriptionType = "HS-Yearly"
     endtime = datetime.datetime.now()  + relativedelta(months=12)
+  elif subscriptionKey == environ.get("SubscriptionKeyELLOYear"):
+    SubscriptionType = "HSELLO-Year"
+    endtime = datetime.datetime.now()  + relativedelta(months=12)
   elif subscriptionKey == environ.get("SubscriptionKeyWeekly"):
     SubscriptionType = "HS-Weekly"
     endtime = datetime.datetime.now()  + relativedelta(weeks=1)
