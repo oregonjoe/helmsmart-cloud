@@ -131,7 +131,8 @@
 		  
 	  {% if session['aws_email'] %}
 		 <a href="https://www.helmsmart-cloud.com/aws_alerts_logout" id="login" class="persona-button">
-		<span>HelmSmart User: {{session['aws_email']}}</span></a>
+		 <span>HelmSmart User: {{session['aws_email']}}:{{session['aws_username']}}</span></a>
+		
 	  
 	  {% elif session['userid'] %}
 		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">

@@ -72,12 +72,26 @@ var myusername
     clientID: AUTH0_CLIENT_ID
    });
 
+   
+   
+   
 
- {% if session['username'] %}
-     myusername = "{{session['username']}}";  
-	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out</span>  </a>';
+   
+    {% if session['aws_email'] %}
+		myusername = "{{session['username']}}"; 
+		myuseremail = "{{session['aws_email']}}"; 
+		document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myuseremail + ':' + myusername + ': Sign Out</span>  </a>';
 
- $("#logout").click(function(e) {
+	$("#logout").click(function(e) {
+            e.preventDefault();
+			window.location.href = '/aws_logout';
+			 });
+
+	{% elif session['username'] %}
+		myusername = "{{session['username']}}";  
+		document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out</span>  </a>';
+
+	$("#logout").click(function(e) {
             e.preventDefault();
 			window.location.href = '/auth0logout';
 			 });
