@@ -77,8 +77,8 @@ var myusername
    
 
    
-    {% if session['aws_email'] %}
-		myusername = "{{session['username']}}"; 
+    {% if session['aws_username'] %}
+		myusername = "{{session['aws_username']}}"; 
 		myuseremail = "{{session['aws_email']}}"; 
 		document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myuseremail + ':' + myusername + ': Sign Out</span>  </a>';
 
