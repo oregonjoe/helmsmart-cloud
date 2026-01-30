@@ -1144,6 +1144,23 @@ def auth_payment_completed():
         deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction, 1, False, False   )
 
         if deviceupdate_check == True:
+
+          source = "verify@helmsmart-cloud.com"
+          destination = "admin@helmsmart-cloud.com"
+          subject = "New HelmSmart-Cloud Subscription - username : " + mPaymentDeviceID
+          text = "Username = " + mPaymentDeviceID + "\nUser email = " + mPaymentEmail + "\nDeviceID = " + mPaymentDeviceID + "\nDevicename = " + mPaymentDeviceName +"\n"
+          text =  text + "\nSubscription = " + mPaymentSubscription + "\nTransaction = " + mPaymentTransaction  +"\n"
+          html = "<p>Username = " + mPaymentDeviceID + "</p><p>User email = " + mPaymentEmail + "</p><p>DeviceID = " + mPaymentDeviceID + "</p><p>Devicename = " + mPaymentDeviceName +"</p>"
+          html = html + "<p>Subscription = " + mPaymentSubscription + "</p><p>SubscriptionType = " + SubscriptionType + "</p><p>Transaction = " + mPaymentTransaction  +"</p><p>SubscriptionEnd = " + endtime + "</p>"
+
+
+
+
+          log.info("aws_cognito_user_added sendemail")
+          #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
+          message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
+          
+          log.info("sendtestemail_endpoint message_id = %s", message_id)
           return redirect(url_for('user_subscription_added'))
 
         else:
@@ -1283,6 +1300,7 @@ def aws_cognito_user_added():
   userphoneverified = None
   useremailverified = None
 
+  username = request.args.get('username', '000000000000')
   deviceidstr = request.args.get('username', '000000000000').split(':')
   deviceid = deviceidstr[0]
   deviceid = deviceid.upper()
@@ -1333,7 +1351,21 @@ def aws_cognito_user_added():
 
 
   if deviceupdate_check == True:
+    log.info("aws_cognito_user_added to user_devices DB")
     #return redirect(url_for('user_subscription_updated'))
+    source = "verify@helmsmart-cloud.com"
+    destination = "admin@helmsmart-cloud.com"
+    subject = "New AWS HelmSmart-Cloud user added - username : " + username
+    text = "AWS Username = " + username + "\nUser email = " + useremail + "\nDeviceID = " + deviceid + "\nDevicename = " + devicename
+    html = "<p>Username = " + username + "</p><p>User email = " + useremail + "</p><p>DeviceID = " + deviceid + "</p><p>Devicename = " + devicename +"</p>"
+
+    log.info("sendtestemail_endpoint text = %s", text)
+
+    log.info("aws_cognito_user_added sendemail")
+    #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
+    message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
+    
+    log.info("sendtestemail_endpoint message_id = %s", message_id)
     return redirect(url_for('manage'))
 
   else:
@@ -1369,9 +1401,9 @@ def aws_delete_device():
   returncode="ERROR"
   
   deviceapikey = request.args.get('deviceapikey',"")
-  #useremail = request.args.get('useremail', '')
+  useremail = request.args.get('useremail', '')
   deviceid = request.args.get('deviceid', "")
-  #devicename = request.args.get('name', '')
+  devicename = request.args.get('devicename', '')
 
   log.info('aws_delete_device: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
 
@@ -1439,9 +1471,26 @@ def aws_delete_device():
     #if cursor.rowcount == 0:
       
     if cursor.rowcount == 0:
-          return jsonify( message='aws_delete_device Could not delete device', status='error')      
+      return jsonify( message='aws_delete_device Could not delete device', status='error')
+    
     else:
-          return jsonify( message='aws_delete_device deleted', status='success') 
+      log.info("aws_delete_device deleted from user_devices DB")
+      #return redirect(url_for('user_subscription_updated'))
+      source = "verify@helmsmart-cloud.com"
+      destination = "admin@helmsmart-cloud.com"
+      subject = "AWS HelmSmart-Cloud user deleted - username : " + awsusername
+      text = "AWS Username = " + awsusername + "\nUser email = " + useremail + "\nDeviceID = " + deviceid + "\nDevicename = " + devicename
+      html = "<p>Username = " + awsusername + "</p><p>User email = " + useremail + "</p><p>DeviceID = " + deviceid + "</p><p>Devicename = " + devicename +"</p>"
+
+      log.info(" aws_delete_device sendtestemail_endpoint text = %s", text)
+
+      log.info("aws_delete_device sendemail")
+      #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
+      message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
+      
+      log.info("aws_delete_device sendtestemail_endpoint message_id = %s", message_id)
+      
+      return jsonify( message='aws_delete_device deleted', status='success') 
   
   except:
     e = sys.exc_info()[0]
@@ -1461,9 +1510,9 @@ def aws_cancel_subscription():
   returncode="ERROR"
   
   deviceapikey = request.args.get('deviceapikey',"")
-  #useremail = request.args.get('useremail', '')
+  useremail = request.args.get('useremail', '')
   deviceid = request.args.get('deviceid', "")
-  #devicename = request.args.get('name', '')
+  devicename = request.args.get('devicename', '')
 
   log.info('aws_cancel_subscription: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
 
@@ -1491,9 +1540,25 @@ def aws_cancel_subscription():
     #if cursor.rowcount == 0:
       
     if cursor.rowcount == 0:
-          return jsonify( message='aws_cancel_subscription Could not delete device', status='error')      
+      return jsonify( message='aws_cancel_subscription Could not delete device', status='error')
+    
     else:
-          return jsonify( message='aws_cancel_subscription cancled', status='success')
+      log.info("aws_cancel_subscription deleted from user_devices DB")
+      #return redirect(url_for('user_subscription_updated'))
+      source = "verify@helmsmart-cloud.com"
+      destination = "admin@helmsmart-cloud.com"
+      subject = "AWS HelmSmart-Cloud user subscription cancled - deviceid : " + deviceid
+      text = "AUser email = " + useremail + "\nDeviceID = " + deviceid + "\nDevicename = " + devicename
+      html = "<p>User email = " + useremail + "</p><p>DeviceID = " + deviceid + "</p><p>Devicename = " + devicename +"</p>"
+
+      log.info(" aws_cancel_subscription sendmail_endpoint text = %s", text)
+
+      log.info("aws_cancel_subscription sendemail")
+      #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
+      message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
+      
+      log.info("aws_cancel_subscription sendemail_endpoint message_id = %s", message_id)
+      return jsonify( message='aws_cancel_subscription cancled', status='success')
         
   except psycopg.Error as e:
       log.info('aws_update_device: SyntaxError in  update deviceid %s:  ', deviceid)

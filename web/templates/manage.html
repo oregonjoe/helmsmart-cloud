@@ -126,13 +126,12 @@
   
 		<div>
 		  <a width="250" href="http://www.helmsmart-cloud.com/" id="hshome" >
-		  <span width="250"><h2><b>Helmsmart:  Home </b></h2></span></a>
+		  <span width="250"><h2><b>Helmsmart: Dashboards </b></h2></span></a>
 		  </div>
 		  
 	  {% if session['aws_email'] %}
 		 <a href="https://www.helmsmart-cloud.com/aws_alerts_logout" id="login" class="persona-button">
-		 <span>HelmSmart User: {{session['aws_email']}}:{{session['aws_username']}}</span></a>
-		
+		<span>HelmSmart User: {{session['aws_email']}}:{{session['aws_username']}}</span></a>
 	  
 	  {% elif session['userid'] %}
 		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
@@ -1040,7 +1039,11 @@ if (answer) {
 }
 
 }
+function handle_get_deviceView()
+{
+     $.unblockUI();
 
+}
 
 
 function get_deviceView(index)
@@ -1060,9 +1063,7 @@ function get_deviceView(index)
 	 window.location.href = devicedataurl
 	
 
-
-
-
+	
 	
 
 
@@ -1118,7 +1119,7 @@ function handleUpdateDevice(response)
 function handleGetDeviceData(response)
 {
   var index=0;
-    var active_index=0;
+  var active_index=0xFFFF;
 
   $.unblockUI();
 
@@ -1173,10 +1174,14 @@ var table = document.getElementById("DeviceData");
 	    var cell0 = ssrow.insertCell(0);
 		//cell0.innerHTML = row[3];
 		cell0.innerHTML = '<a href="#" onclick="get_deviceView(' + index + '); return false;">' + row[3] + '</a>';
+		
 		cell0.style.textAlign = 'left';
 		cell0.style.width = '110px';
 		cell0.style.height = '25px';		
-		cell0.classList.add('auto-style7'); 		
+		cell0.classList.add('auto-style7'); 	
+		//cell0.addEventListener("click", get_deviceView(index));		
+		
+		
 		
 		// Device Name
 		 var cell1 = ssrow.insertCell(1);
@@ -1279,13 +1284,20 @@ var table = document.getElementById("DeviceData");
 		cell8.classList.add('auto-style7'); 
 		
 		//if( gAWSAccountType != 'admin' &&  gAWSuserid != '000000000000')
-		if( gAWSAccountType != 'admin' )
+		//if( gAWSAccountType != 'admin' )
+		if( gAWSuserid.toUpperCase() != 'FFFFFFFFFFFF' )
 		{
 			//check to disable row
 			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
 			{
 				ssrow.classList.add('row-disabled');
 			}
+			else if(	myDeviceID[index].toUpperCase() == gAWSuserid.toUpperCase() )
+			{
+						active_index = index;
+			}
+			
+
 		}
 		
 		if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
@@ -1307,13 +1319,30 @@ var table = document.getElementById("DeviceData");
   
   //gAWSUsername
   
+	if(active_index == 0xFFFF)
+	{	
+		// 1. Get the anchor element using its ID
+		const anchorElement = document.getElementById("login");
+
+		// 2. Set the new anchor text
+		anchorElement.textContent = "<span>HelmSmart Guest: click to login</span>";
+	
+		anchorElement.href = "https://www.helmsmart-cloud.com/aws_login";
+		
+		window.location.href = "https://www.helmsmart-cloud.com/aws_login"; 
+
+		
+	
+		active_index = 0;
+		
+		//LogoutDevice();
+	}
   
-  
-document.getElementById("DeviceKey").value = myDeviceKey[0];
-	document.getElementById("DeviceTypeID").value = myDeviceID[0];
-     document.getElementById("DeviceName").value = myDeviceName[0];
-  document.getElementById("AlertEmail").value = myAlertEmail[0];
-   document.getElementById("AlertSMS").value = myAlertSMS[0];
+	document.getElementById("DeviceKey").value = myDeviceKey[active_index];
+	document.getElementById("DeviceTypeID").value = myDeviceID[active_index];
+    document.getElementById("DeviceName").value = myDeviceName[active_index];
+	document.getElementById("AlertEmail").value = myAlertEmail[active_index];
+	document.getElementById("AlertSMS").value = myAlertSMS[active_index];
    
    
    
@@ -1453,19 +1482,13 @@ function AWSDeleteDevice(index)
 
 	var devicedataurl;
 	
-//	  document.getElementById("DeviceKey").value = myDeviceKey[index];
-//  document.getElementById("DeviceTypeID").value = myDeviceID[index];
- //document.getElementById("DeviceName").value = myDeviceName[index];
-//  document.getElementById("AlertEmail").value = myAlertEmail[index];
- //  document.getElementById("AlertSMS").value = myAlertSMS[index];
-	
-	
-	//var deviceID = encodeURIComponent(gDeviceID);
-	
-	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
+
 	devicedataurl = "https://www.helmsmart-cloud.com/aws_delete_device?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index] + "&awsusername=" + gAWSUsername;
-    //devicedataurl = "https://www.helmsmart-cloud.com/aws_delete_device?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index] + "&accesstokem=" + gAWSAccessToken;
-	//devicedataurl = "https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=joe@seagauge.com";
+	devicedataurl = devicedataurl + "&devicename=" + document.getElementById("DeviceName").value; 
+	devicedataurl = devicedataurl + "&useremail=" + gUserEmail; 
+	
+	
+
 
     return $.ajax({
     //async: false,
@@ -1555,19 +1578,13 @@ function AWSCancelSubscription(index)
 
 	var devicedataurl;
 	
-//	  document.getElementById("DeviceKey").value = myDeviceKey[index];
-//  document.getElementById("DeviceTypeID").value = myDeviceID[index];
- //document.getElementById("DeviceName").value = myDeviceName[index];
-//  document.getElementById("AlertEmail").value = myAlertEmail[index];
- //  document.getElementById("AlertSMS").value = myAlertSMS[index];
-	
-	
-	//var deviceID = encodeURIComponent(gDeviceID);
-	
-	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
+
 	
     devicedataurl = "https://www.helmsmart-cloud.com/aws_cancel_subscription?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index];
-	//devicedataurl = "https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=joe@seagauge.com";
+	devicedataurl = devicedataurl + "&devicename=" + document.getElementById("DeviceName").value; 
+	devicedataurl = devicedataurl + "&useremail=" + gUserEmail; 
+	
+	
 
     return $.ajax({
     //async: false,
@@ -1605,12 +1622,14 @@ function LogoutDevice()
    	
 	
 	
-    const logoutUri = "https://www.helmsmart-cloud.com/aws_alerts_logout"; // e.g., 'http://localhost:3000/logout'
+    //const logoutUri = "https://www.helmsmart-cloud.com/aws_alerts_logout"; // e.g., 'http://localhost:3000/logout'
 
     
-    window.location.href = `${gAWSDomain}/logout?client_id=${gAWSClientID}&logout_uri=${encodeURIComponent(logoutUri)}`;
+    //window.location.href = `${gAWSDomain}/logout?client_id=${gAWSClientID}&logout_uri=${encodeURIComponent(logoutUri)}`;
 
 
+	window.location.href = "https://www.helmsmart-cloud.com/aws_alerts_logout"; 
+	
 }
 
 function AWSUpdateDevice()
@@ -1664,10 +1683,11 @@ var dIndex=0;
 
 
 	  //devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + myDeviceKey[dIndex]; 
-	  devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
+	  devicedataurl = "https://www.helmsmart-cloud.com/aws_update_devicename?deviceapikey=" + document.getElementById("DeviceKey").value; 
+	  devicedataurl = devicedataurl + "&deviceid=" + document.getElementById("DeviceTypeID").value; 
 	  devicedataurl = devicedataurl + "&devicename=" + document.getElementById("DeviceName").value; 
-	  devicedataurl = devicedataurl + "&alertemail=" +  document.getElementById("AlertEmail").value; 
-	  devicedataurl = devicedataurl + "&alertsms=" + document.getElementById("AlertSMS").value;
+	  //devicedataurl = devicedataurl + "&alertemail=" +  document.getElementById("AlertEmail").value; 
+	  //devicedataurl = devicedataurl + "&alertsms=" + document.getElementById("AlertSMS").value;
 
 
 
@@ -1714,7 +1734,7 @@ Alert service</p>
 	services using any internet connection where it is stored in real time for 
 	off-line analytics,</p>
 	<p>Stored data can be <a href="https://www.helmsmart-cloud.com/graphsmart">time series graphed </a>or <a href="https://www.helmsmart-cloud.com/mapsmart">overlayed on google maps</a>.</p>
-	<p>You can also create <a href="https://www.helmsmart-cloud.com/dashboards_list">customized real-time dashboards </a> and <a href="https://www.helmsmart-cloud.com/netgauges">virtual 
+	<p>You can also create <a href="https://www.helmsmart-cloud.com/dashboards_list">customized real-time dashboards </a> and <a href="https://www.helmsmart-cloud/netgauges">virtual 
 	insturmentation</a> pages.</p>
 	<p>HelmSmart-Cloud also offers a seperate real-time Alerts module which 
 	analyzes incoming sensor data with configured alert thresholds to generate 
@@ -1789,32 +1809,17 @@ Alert service</p>
 
 	</tr>
 	
-	<tr>
-	<td>
-	
-	<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
-	 <input type="hidden" name="LinkId" value="e8bceddf-3f87-4c2e-beb7-7a6a2d5a33f6" />
-  
-	<input type="image" src="{{ url_for('static', filename='img/OrderWeeklyButtonSmall.jpg' ) }}" />
-	</form>
-	</td>
-	<td>
-		
-			<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
-	  <input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
-	  
-	  <input type="image" src="{{ url_for('static', filename='img/OrderMonthlyButtonSmall.jpg' ) }}" />
-	</form>
-		
-	</td>
-	<td>
+	<tr >
+
+	<td colspan="3">
+	<center>
 		
 	<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
-	  <input type="hidden" name="LinkId" value="a2b39ac2-fe57-49f8-999f-b895d45c1110" />
+	  <input type="hidden" name="LinkId" value="16826504-0474-4074-b67d-391392a37191" />
 	  
-	  <input type="image" src="{{ url_for('static', filename='img/OrderYearlyButtonSmall.jpg' ) }}" />
+	  <center><input type="image" src="{{ url_for('static', filename='img/OrderYearlyButtonSmall.jpg' ) }}" /></center>
 	</form>
-		
+	</center>	
 	</td>
 	</tr>
 		<tr>
@@ -1926,7 +1931,7 @@ Alert service</p>
 	<div class="form-group">	
 			 <label class="control-label col-sm-2" for="AlertEmail">Alert Email</label> 
 			 <div class="col-sm-8"> 
-			<input type="text" class="form-control text-box single-line"  type="email" id="AlertEmail" placeholder="" style="width:300px;" onclick="updateAlertEmail();" >	
+			<input type="text" class="form-control text-box single-line"  type="email" id="AlertEmail" placeholder="" style="width:300px;" readonly " onclick="updateAlertEmail();" >	
 			<span class="field-validation-valid text-danger" data-valmsg-for="AlertEmail" data-valmsg-replace="true"></span>
 			</div>
 		</div>  
@@ -1935,7 +1940,7 @@ Alert service</p>
 			<div class="form-group">	
 			 <label class="control-label col-sm-2" for="AlertSMS">Alert SMS</label> 
 			 <div class="col-sm-8"> 
-			<input type="text" class="form-control text-box single-line"  type="tel" id="AlertSMS" placeholder="" style="width:300px;" onclick="updateSMS();" >
+			<input type="text" class="form-control text-box single-line"  type="tel" id="AlertSMS" placeholder="" style="width:300px;" readonly " onclick="updateSMS();">
 			<span class="field-validation-valid text-danger" data-valmsg-for="AlertSMS" data-valmsg-replace="true"></span>
 	
 			</div>
@@ -1946,13 +1951,13 @@ Alert service</p>
 				
 			<div class="col-sm-offset-4 col-sm-4">
 			
-				<button id="btnSettingsEventSave" name="btnValue" value="Update" class="btn btn-primary" onclick="AWSUpdateDevice();">Update</button>
-				<button id="btnSettingsEventSave" name="btnValue" value="Save" class="btn btn-primary" onclick="UpdateDevice();">Save</button>
+				<button id="btnSettingsEventSave" name="btnValue" value="Update" class="btn btn-primary" onclick="AWSUpdateDevice();">Login</button>
+				<button id="btnSettingsEventSave" name="btnValue" value="Save" class="btn btn-primary" onclick="UpdateDevice();">Update</button>
 				<!-- <button id="btnSettingsEventDelete" name="btnValue" value="Delete" class="btn btn-primary" onclick="DeleteAlert();">Delete</button> -->
 				<!-- <button name="btnValue" value="Cancel" class="btn btn-default cancel">Cancel</button> -->
 				
 				<button id="btnSettingsEventlogout" name="btnValue" value="Delete" class="btn btn-primary" onclick="AWSDeleteDevice(gModifyIndex);">Delete</button>
-			<button id="btnSettingsEventcancel" name="btnValue" value="CancelSubscription" class="btn btn-primary" onclick="AWSCancelSubscription(gModifyIndex);">Cancel Subscription</button>
+			 <button id="btnSettingsEventcancel" name="btnValue" value="CancelSubscription" class="btn btn-primary" onclick="AWSCancelSubscription(gModifyIndex);">Cancel Subscription</button> 
 			
 			
 			</div>
