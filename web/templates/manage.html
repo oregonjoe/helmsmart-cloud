@@ -730,10 +730,15 @@ function updateSMS()
 {
 
 
+	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not update alert phone")
+		return;
+	}
+	
+	var answer = confirm("Do you want to update your Alert SMS phone number?");
 
-var answer = confirm("Do you want to update your Alert SMS phone number?");
-
-if (!answer) { return;}
+	if (!answer) { return;}
 
 
 	var confirm_message = "Adding a phone number will enable SMS alert messages\n";
@@ -952,6 +957,21 @@ function handleupdateAlertEmail(response)
 
 function updateAlertEmail()
 {
+
+/*
+	if(gAWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not delete a primary account")
+		return;
+	}
+*/
+
+	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not update alert email")
+		return;
+	}
+
 
 var answer = confirm("Do you want to update your Alert Email?");
 
@@ -1439,6 +1459,11 @@ function AWSDeleteDevice(index)
 		return;
 	}
 
+	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not delete a primary account")
+		return;
+	}
 
 // The confirm() method pauses script execution until a button is clicked
  	var confirm_message = "Are you sure you want to delete device? \n";
@@ -1534,6 +1559,13 @@ function AWSCancelSubscription(index)
 	if(gAWSAccountType == "sub user")
 	{
 		alert("Invalid: a sub user account can not cancel a subscription")
+		return;
+	}
+
+	
+	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not cancel a subscription")
 		return;
 	}
 
@@ -1662,6 +1694,12 @@ function AWSUpdateDevice()
 function UpdateDevice()
 {
 var dIndex=0;
+
+	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not update device parameters")
+		return;
+	}
 
 //dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 
@@ -1815,7 +1853,11 @@ Alert service</p>
 	<center>
 		
 	<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
-	  <input type="hidden" name="LinkId" value="16826504-0474-4074-b67d-391392a37191" />
+	
+	{% if session['aws_account_type'] != "guest" %}
+		 <input type="hidden" name="LinkId" value="16826504-0474-4074-b67d-391392a37191" />
+    {% endif %}
+	 
 	  
 	  <center><input type="image" src="{{ url_for('static', filename='img/OrderYearlyButtonSmall.jpg' ) }}" /></center>
 	</form>
