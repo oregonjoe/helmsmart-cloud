@@ -292,6 +292,12 @@ function handleaddnewboard()
 function addnewboard()
 {
 
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
 
         $.blockUI({ 
      message: '<h1>Search in progress...</h1>',    

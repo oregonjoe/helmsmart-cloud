@@ -5036,6 +5036,13 @@ function handleDeleteAlert(response)
 }
 function UpdateLogAlert()
 {
+
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
 	if(document.getElementById("EventsID").selectedIndex == document.getElementById("EventsID").length - 1)
 	{
 		AddLogAlert();
@@ -5986,6 +5993,13 @@ function AddLogAlert()
 
 function DisableTimmer()
 {
+
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
 	document.getElementById("LEDdimmer").value = 255;
 	document.getElementById('LEDdimmervalue').value = 255;
 	
@@ -5998,7 +6012,11 @@ function DisableTimmer()
 function DeleteAlert()
  {
 
-
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
     
     //Can't update prefs if we don't have one
     if(document.getElementById("EventsID").length == 0)

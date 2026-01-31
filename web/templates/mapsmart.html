@@ -2977,6 +2977,14 @@ function ShowSearchTick()
 function AddNewPref()
 {
 
+
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
+
    var myStartTimeStr;
    var myEndTimeStr;
    var myStartDays;
@@ -3195,6 +3203,13 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 
 function ModifyPref()
 {
+
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
   var myStartTimeStr;
   var myEndTimeStr;
   var myStartDays;
@@ -3433,6 +3448,13 @@ function DeletePref()
      //  if(myuserid == 0)
      //  return;
 
+	 if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+	 
+	 
        $.blockUI({
        message: '<h1>Deleting Preferences...</h1>',    
      css: {             
