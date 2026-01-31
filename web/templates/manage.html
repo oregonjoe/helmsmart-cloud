@@ -1345,7 +1345,8 @@ var table = document.getElementById("DeviceData");
 		const anchorElement = document.getElementById("login");
 
 		// 2. Set the new anchor text
-		anchorElement.textContent = "HelmSmart Guest: click to login";
+		//anchorElement.textContent = "HelmSmart Guest: click to login";
+		anchorElement.innerHTML = "<span>HelmSmart Guest: click to login</span>";
 	
 		anchorElement.href = "https://www.helmsmart-cloud.com/aws_login";
 		

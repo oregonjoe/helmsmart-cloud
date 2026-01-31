@@ -1125,8 +1125,10 @@ def auth_payment_completed():
             UserAttributes=[
                   {'Name': 'email', 'Value': mPaymentEmail},
                   {'Name': 'phone_number', 'Value': mPaymentPhone},
-                  {'Name': 'name', 'Value': mPaymentDeviceName}
-                  #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
+                  {'Name': 'name', 'Value': mPaymentDeviceName},
+                  {'Name': 'custom:subscriptionkey', 'Value': mPaymentSubscription},
+                  {'Name': 'custom:transactionid', 'Value': mPaymentTransaction}
+                  
               ]
            
         )
@@ -1223,8 +1225,10 @@ def auth_payment_completed():
             UserAttributes=[
                   {'Name': 'email', 'Value': mPaymentEmail},
                   {'Name': 'phone_number', 'Value': mPaymentPhone},
-                  {'Name': 'name', 'Value': mPaymentDeviceName}
-                  #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
+                  {'Name': 'name', 'Value': mPaymentDeviceName},
+                  {'Name': 'custom:subscriptionkey', 'Value': mPaymentSubscription},
+                  {'Name': 'custom:transactionid', 'Value': mPaymentTransaction}
+                  
               ]
            
         )
