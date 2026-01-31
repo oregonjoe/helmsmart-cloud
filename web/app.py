@@ -1372,6 +1372,10 @@ def aws_cognito_user_added():
     return jsonify( message='aws_update_device error - failed'  )
 
 
+
+
+
+@app.route('/aws_logout')
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
 def aws_alerts_logout():
