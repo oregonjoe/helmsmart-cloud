@@ -565,32 +565,44 @@ def get_payment_token():
 
   #return jsonify({"token": "empty"})
 
-  # 4. Set Hosted Settings (e.g., Return URL)
-  setting1 = apicontractsv1.settingType()
-  setting1.settingName = "hostedPaymentIFrameCommunicatorUrl"
-  # Note: Values like 'showReceipt' must be boolean True, not string "true"
-  #setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
-  setting1.settingValue = ' {"https://www.helmsmart-cloud.com"}'
+  ## 4. Set Hosted Settings (e.g., Return URL)
+  #setting1 = apicontractsv1.settingType()
+  #setting1.settingName = "hostedPaymentIFrameCommunicatorUrl"
+  ## Note: Values like 'showReceipt' must be boolean True, not string "true"
+  ##setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
+  #setting1.settingValue = ' {"https://www.helmsmart-cloud.com"}'
 
-  # 4. Set Hosted Settings (e.g., Return URL)
-  setting2 = apicontractsv1.settingType()
-  setting2.settingName = "hostedPaymentReturnOptions"
-  # Note: Values like 'showReceipt' must be boolean True, not string "true"
-  #setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
-  setting2.settingValue = '{"showReceipt": true}'
+  ## 4. Set Hosted Settings (e.g., Return URL)
+  #setting2 = apicontractsv1.settingType()
+  #setting2.settingName = "hostedPaymentReturnOptions"
+  ## Note: Values like 'showReceipt' must be boolean True, not string "true"
+  ##setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
+  #setting2.settingValue = '{"showReceipt": true}'
 
-  # Put settings into a list
+  ## Put settings into a list
   #hostedPaymentSettings = [setting1, setting2]
-  hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
-  hostedPaymentSettings.setting.append(setting1)
-  hostedPaymentSettings.setting.append(setting2)
+  #hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
+  #hostedPaymentSettings.setting.append(setting1)
+  #hostedPaymentSettings.setting.append(setting2)
+
+
+  #request.hostedPaymentSettings = apicontractsv1.ArrayOfSettingType([setting])
+  #request.hostedPaymentSettings = hostedPaymentSettings
+  request.hostedPaymentSettings = [
+        {
+            'setting': {
+                'settingName': 'hostedPaymentIFrameCommunicatorUrl',
+                'settingValue': "https://www.helmsmart-cloud.com"
+            },
+            {
+                'settingName': 'hostedPaymentReturnOptions',
+                'settingValue': '{"showReceipt": true}'
+            }
+        }
+    ]
 
   return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
-  #request.hostedPaymentSettings = apicontractsv1.ArrayOfSettingType([setting])
-  request.hostedPaymentSettings = hostedPaymentSettings
-  
 
-  
   controller = getHostedPaymentPageController(request)
   controller.execute()
 
