@@ -639,7 +639,7 @@ def get_payment_token():
   #request.hostedPaymentSettings = [{'setting': {'settingName': 'duplicateWindow', 'settingValue': False} }]
 
 
-  request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
+  #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
 
   """
   hostedPaymentSettings  = apicontractsv1.ArrayOfSetting()
