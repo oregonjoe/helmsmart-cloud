@@ -634,7 +634,7 @@ def get_payment_token():
     
   """
   
-  request.hostedPaymentSettings = [ 'setting': { 'settingName': 'hostedPaymentReturnOptions',  'settingValue': {"showReceipt": true} }  ]
+  request.hostedPaymentSettings = [ 'setting': { 'settingName': 'hostedPaymentReturnOptions',  'settingValue': {'showReceipt': true} }  ]
 
 
 
