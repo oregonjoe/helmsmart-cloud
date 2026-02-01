@@ -122,7 +122,7 @@ import datapump.seagaugeg4 as seagaugeg4
 #from AuthorizeNet.apisub1 import constants as ANetConstants
 #from AuthorizeNet.apimessages import apilibrary as ANetAPI
 
-#from authorizenet import apicontractsv1
+from authorizenet import apicontractsv1
 ##from authorizenet.apicontrollers import getHostedPaymentPageController
 #from authorizenet.apicontrollers import *
 ##from authorizenet.apisubsiapicontractsv1 import merchantAuthenticationType
@@ -545,7 +545,7 @@ def get_payment_token():
   #ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
   
   #merchantAuth = apicontractsv1.merchantAuthenticationType()
-  merchantAuth = merchantAuthenticationType()
+  merchantAuth =apicontractsv1.merchantAuthenticationType()
   merchantAuth.name = API_LOGIN_ID
   merchantAuth.transactionKey = TRANSACTION_KEY
 
@@ -558,7 +558,7 @@ def get_payment_token():
 
   # 3. Request Hosted Form Token
   #request = apicontractsv1.getHostedPaymentPageRequest()
-  request = getHostedPaymentPageRequest()
+  request = apicontractsv1.getHostedPaymentPageRequest()
   request.merchantAuthentication = merchantAuth
   request.transactionRequest = transactionRequest
 
