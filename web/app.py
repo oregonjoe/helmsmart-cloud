@@ -602,7 +602,7 @@ def get_payment_token():
         }
     ]
   """
-    request.hostedPaymentSettings = [
+  request.hostedPaymentSettings = [
         {
             'setting': {
                 'settingName': 'hostedPaymentIFrameCommunicatorUrl',
