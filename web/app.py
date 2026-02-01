@@ -536,27 +536,33 @@ def index():
 
 @app.route('/get-token')
 def get_payment_token():
-  
+
+  log.info('get_payment_token: start:  ')
   # 1. Set Credentials
 
   #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
   #TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
   #ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
   
-  merchantAuth = apicontractsv1.merchantAuthenticationType()
+  #merchantAuth = apicontractsv1.merchantAuthenticationType()
+  merchantAuth = merchantAuthenticationType()
   merchantAuth.name = API_LOGIN_ID
   merchantAuth.transactionKey = TRANSACTION_KEY
 
 
   # 2. Set Transaction Details
+  #transactionRequest = apicontractsv1.transactionRequestType()
   transactionRequest = apicontractsv1.transactionRequestType()
   transactionRequest.transactionType = "authCaptureTransaction"
   transactionRequest.amount = "0.01"
 
   # 3. Request Hosted Form Token
-  request = apicontractsv1.getHostedPaymentPageRequest()
+  #request = apicontractsv1.getHostedPaymentPageRequest()
+  request = getHostedPaymentPageRequest()
   request.merchantAuthentication = merchantAuth
   request.transactionRequest = transactionRequest
+
+  jsonify({"token": "empty"})
 
   # 4. Set Hosted Settings (e.g., Return URL)
   setting = apicontractsv1.settingType()
