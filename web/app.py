@@ -588,6 +588,7 @@ def get_payment_token():
 
   #request.hostedPaymentSettings = apicontractsv1.ArrayOfSettingType([setting])
   #request.hostedPaymentSettings = hostedPaymentSettings
+  """
   request.hostedPaymentSettings = [
         {
             'setting': {
@@ -600,6 +601,16 @@ def get_payment_token():
             },
         }
     ]
+  """
+    request.hostedPaymentSettings = [
+        {
+            'setting': {
+                'settingName': 'hostedPaymentIFrameCommunicatorUrl',
+                'settingValue': 'https://www.helmsmart-cloud.com'
+            }
+        }
+    ]
+
 
   return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
 
