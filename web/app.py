@@ -597,7 +597,7 @@ def get_payment_token():
             {
                 'settingName': 'hostedPaymentReturnOptions',
                 'settingValue': '{"showReceipt": true}'
-            }
+            },
         }
     ]
 
