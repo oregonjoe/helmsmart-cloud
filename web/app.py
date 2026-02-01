@@ -608,6 +608,12 @@ def get_payment_token():
                 'settingName': 'hostedPaymentIFrameCommunicatorUrl',
                 'settingValue': 'https://www.helmsmart-cloud.com'
             }
+        },
+        {
+            'setting': {
+                'settingName': 'hostedPaymentReturnOptions',
+                'settingValue': '{"showReceipt": true}'
+            }
         }
     ]
 
