@@ -521,7 +521,48 @@ def index():
     #response.headers['Cache-Control'] = 'public, max-age=0'
     #return response
 
+@app.route('/get-token')
+def get_payment_token():
+  
+  # 1. Set Credentials
 
+  #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
+  #TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
+  #ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
+  
+  merchantAuth = apicontractsv1.merchantAuthenticationType()
+  merchantAuth.name = API_LOGIN_ID
+  merchantAuth.transactionKey = TRANSACTION_KEY
+
+
+  # 2. Set Transaction Details
+  transactionRequest = apicontractsv1.transactionRequestType()
+  transactionRequest.transactionType = "authCaptureTransaction"
+  transactionRequest.amount = "0.01"
+
+  # 3. Request Hosted Form Token
+  request = apicontractsv1.getHostedPaymentPageRequest()
+  request.merchantAuthentication = merchantAuth
+  request.transactionRequest = transactionRequest
+
+  # 4. Set Hosted Settings (e.g., Return URL)
+  setting = apicontractsv1.settingType()
+  setting.settingName = "hostedPaymentReturnOptions"
+  # Note: Values like 'showReceipt' must be boolean True, not string "true"
+  setting.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
+  request.hostedPaymentSettings = apicontractsv1.ArrayOfSettingType([setting])
+
+  controller = getHostedPaymentPageController(request)
+  controller.execute()
+
+  response = controller.getresponse()
+  if response.messages.resultCode == "Ok":
+    session['token']= response.token
+    session.modified = True
+    log.info('get_payment_token: session  %s:  ', session) 
+    return jsonify({"token": response.token})
+  
+  return jsonify({"error": "Failed to get token"}), 400
 
 @app.route('/nettimers') 
 def nettimers():
