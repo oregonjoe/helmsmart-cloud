@@ -50,3 +50,4 @@ Flask-SocketIO
 tzdata
 flask-cognito-lib
 Flask-AWSCognito
+authorize-net
