@@ -602,6 +602,8 @@ def get_payment_token():
         }
     ]
   """
+
+  """
   request.hostedPaymentSettings = [
         {
             'setting': {
@@ -616,6 +618,22 @@ def get_payment_token():
             }
         }
     ]
+  """
+
+  request.hostedPaymentSettings = {
+            'setting': [
+            {
+                'settingName': 'hostedPaymentIFrameCommunicatorUrl',
+                'settingValue': 'https://www.helmsmart-cloud.com'
+            },
+            {
+                'settingName': 'hostedPaymentReturnOptions',
+                'settingValue': '{"showReceipt": true}'
+            } ]
+        }
+    
+
+
 
 
   return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
