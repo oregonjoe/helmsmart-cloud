@@ -50,4 +50,5 @@ Flask-SocketIO
 tzdata
 flask-cognito-lib
 Flask-AWSCognito
-authorize-net
+#authorize-net
+git+https://github.com/AuthorizeNet/sdk-python.git
