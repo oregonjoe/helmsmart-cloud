@@ -118,9 +118,9 @@ import datapump.seagaugeg4 as seagaugeg4
 #from signalk import createSIGKpath, parseSIGK
 
  
-from AuthorizeNet import apicontroller as auth_controller
-from AuthorizeNet.apisub1 import constants as ANetConstants
-from AuthorizeNet.apimessages import apilibrary as ANetAPI
+#from AuthorizeNet import apicontroller as auth_controller
+#from AuthorizeNet.apisub1 import constants as ANetConstants
+#from AuthorizeNet.apimessages import apilibrary as ANetAPI
 
 API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
 TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
