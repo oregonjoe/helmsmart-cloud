@@ -118,6 +118,13 @@ import datapump.seagaugeg4 as seagaugeg4
 #from signalk import createSIGKpath, parseSIGK
 
 
+from AuthorizeNet import apicontroller as auth_controller
+from AuthorizeNet.apisub1 import constants as ANetConstants
+from AuthorizeNet.apimessages import apilibrary as ANetAPI
+
+API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
+TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
+ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
 #from helmsmartmodules import user_db_functions
 
 from splicer import Schema
