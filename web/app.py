@@ -636,10 +636,10 @@ def get_payment_token():
   
   request.hostedPaymentSettings = [ 'setting': { 'settingName': 'hostedPaymentReturnOptions',  'settingValue': {'showReceipt': true} }  ]
 
+  request.hostedPaymentSettings = [{'setting': {'settingName': 'duplicateWindow', 'settingValue': False} }]
 
 
-
-  return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
+  return jsonify({"hostedPaymentSettings": request})
 
   controller = getHostedPaymentPageController(request)
   controller.execute()
