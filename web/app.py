@@ -122,16 +122,16 @@ import datapump.seagaugeg4 as seagaugeg4
 #from AuthorizeNet.apisub1 import constants as ANetConstants
 #from AuthorizeNet.apimessages import apilibrary as ANetAPI
 
-#from authorizenet import apicontractsv1
+from authorizenet import apicontractsv1
 ##from authorizenet.apicontrollers import getHostedPaymentPageController
-#from authorizenet.apicontrollers import *
+from authorizenet.apicontrollers import *
 ##from authorizenet.apisubsiapicontractsv1 import merchantAuthenticationType
 ##from authorizenet.apisubsiapicontractsv1 import getHostedPaymentPageRequest
 ##from authorizenet.apisubsiapicontractsv1 import settingType
 #import authorizenet.constants as constants
-#from decimal import *
+from decimal import *
 
-from AuthorizeNet import apicontrollers as controllers
+#from AuthorizeNet import apicontrollers as controllers
 #from AuthorizeNet.apisubcontainers import *
 #from AuthorizeNet.apimessages import *
 #from AuthorizeNet import constants as constant
@@ -580,13 +580,16 @@ def get_payment_token():
   setting2.settingValue = '{"showReceipt": true}'
 
   # Put settings into a list
-  hostedPaymentSettings = [setting1, setting2]
+  #hostedPaymentSettings = [setting1, setting2]
+  hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
+  hostedPaymentSettings.setting.append(setting1)
+  hostedPaymentSettings.setting.append(setting2)
 
-  
+  return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
   #request.hostedPaymentSettings = apicontractsv1.ArrayOfSettingType([setting])
   request.hostedPaymentSettings = hostedPaymentSettings
   
-  return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
+
   
   controller = getHostedPaymentPageController(request)
   controller.execute()
