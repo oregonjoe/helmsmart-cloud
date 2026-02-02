@@ -670,7 +670,8 @@ def get_payment_token():
   #hostedPaymentSettings.setting.append(setting1)
 
   #request.hostedPaymentSettings = settings
-
+  request.hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
+  request.hostedPaymentSettings.setting.append(setting1)
   #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
   #request.hostedPaymentSettings =settings
   #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
