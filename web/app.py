@@ -128,10 +128,11 @@ collections.MutableSequence = collections.abc.MutableSequence
 from authorizenet import apicontractsv1
 ##from authorizenet.apicontrollers import getHostedPaymentPageController
 from authorizenet.apicontrollers import *
+from authorizenet.apicontrollers import getHostedPaymentPageController
 ##from authorizenet.apisubsiapicontractsv1 import merchantAuthenticationType
 ##from authorizenet.apisubsiapicontractsv1 import getHostedPaymentPageRequest
 ##from authorizenet.apisubsiapicontractsv1 import settingType
-#import authorizenet.constants as constants
+import authorizenet.constants as constants
 from decimal import *
 
 #from AuthorizeNet import apicontrollers as controllers
