@@ -810,7 +810,7 @@ def payment_silent_post():
   # After payment, A.Net redirects here with data in the form body (POST)
   # You should use a webhook to reliably verify payment success
   # For a basic example, just acknowledge the return
-  raw_payload = request.data
+  raw_payload = request.form
   log.info('payment_silent_post: raw_payload  %s:  ', raw_payload)
 
 
