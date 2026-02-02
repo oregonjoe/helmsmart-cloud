@@ -641,6 +641,9 @@ def get_payment_token():
 
   #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
 
+
+  hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
+  log.info('get_payment_token: setting1:hostedPaymentSettings %s  ', hostedPaymentSettings)
   """
   hostedPaymentSettings  = apicontractsv1.ArrayOfSetting()
   """
@@ -657,13 +660,14 @@ def get_payment_token():
   
   #settings = [setting1]
   settings = []
-  settings.append(setting1.__dict__)
+  ##settings.append(setting1.__dict__)
 
     
   #hostedPaymentSettings.setting.append(setting1)
 
+  request.hostedPaymentSettings
   
-  return jsonify({"hostedPaymentSettings": settings})
+  return jsonify({"hostedPaymentSettings": request})
 
   controller = getHostedPaymentPageController(request)
   controller.execute()
