@@ -563,8 +563,11 @@ def get_payment_token():
   #transactionRequest.order.invoiceNumber = "678965432145"
   #transactionRequest.order.description = "SeaGAugeG4-4576"
   #transactionRequest.poNumber = "678965432145"
-
-
+  # Define transaction details (adjust as needed)
+  order = OrderType()
+  order.invoiceNumber = "678965432145"
+  order.description = "SeaGAugeG4-4576"
+  transactionRequest.order = order
 
   # 3. Request Hosted Form Token
   #request = apicontractsv1.getHostedPaymentPageRequest()
