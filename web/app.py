@@ -698,6 +698,8 @@ def get_payment_token():
   #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
 
   controller = getHostedPaymentPageController(request)
+  #controller.setenvironment(constants.SANDBOX) 
+  controller.setenvironment(constants.PRODUCTION) 
   #controller.execute(constants.PRODUCTION)
   # Send the request to the Authorize.net API
   # Use constant.PRODUCTION_URL for live environment.
