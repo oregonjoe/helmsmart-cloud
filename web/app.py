@@ -832,6 +832,9 @@ def payment_response_recieved():
       log.info('Auth Amount : %s' % transactionDetailsResponse.transaction.authAmount)
       log.info('Settle Amount : %s' % transactionDetailsResponse.transaction.settleAmount)
 
+      log.info('invoice Number  : %s' % transactionDetailsResponse.order.invoiceNumber)
+      log.info('order description : %s' % transactionDetailsResponse.order.description)
+
       if transactionDetailsResponse.messages:
         log.info('Message Code : %s' % transactionDetailsResponse.messages.message[0].code)
         log.info('Message Text : %s' % transactionDetailsResponse.messages.message[0].text)
