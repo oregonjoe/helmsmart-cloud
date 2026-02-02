@@ -798,6 +798,12 @@ def payment_response_recieved():
   log.info('payment_response_recieved: event_type  %s:  ', event_type)
 
 
+  payload = data.get("payload")
+  log.info('payment_response_recieved: payload  %s:  ', payload)
+
+  transactionid = payload.get('id')
+  log.info('payment_response_recieved: transactionid  %s:  ', transactionid)
+  
   #log.info('payment_response_recieved: data  %s:  ', data)
   #print(f"Received event: {event_type}")
   #print(f"Payload details: {data.get('payload')}")
@@ -816,8 +822,8 @@ def payment_silent_post():
 
   #ANET_Signature_Key
 
-  data = json.loads(raw_payload)
-  log.info('payment_silent_post: data  %s:  ', data)
+  #data = json.loads(raw_payload)
+  #log.info('payment_silent_post: data  %s:  ', data)
 
   #event_type = data.get("eventType")
   #log.info('payment_silent_post: event_type  %s:  ', event_type)
