@@ -722,7 +722,7 @@ def get_payment_token():
     # Pass the token to the frontend
     #return render_template('payment_page.html', token=token, anet_env=ANET_ENVIRONMENT.url)
     #return render_template('payment_page.html', token=response.token, anet_env="https://api2.authorize.net/xml/v1/request.api")
-    return render_template('payment_page.html')
+    return render_template('payment_page.html', token=str(response.token))
 
   return jsonify({"error": "Failed to get token"}), 400
 

@@ -2,13 +2,23 @@
 <html>
 <head>
     <title>Complete Payment</title>
+	
+	
+	<script>
+	
+		
+	{% if session['token'] %}
+		gtoken = "{{session['token']}}";
+	{% endif %}
+	
+	</script>
 </head>
 <body>
     <h1>Complete Your Payment</h1>
     <!-- A.Net requires a form post to their URL with the token -->
    <!-- <form method="post" action="{{ anet_env }}/payment/payment" id="formAuthorizeNet"> m-->
 	 <form method="post" action="https://accept.authorize.net/payment/payment" id="formAuthorizeNet">
-        <input type="hidden" name="token" value="{{ token }}" />
+        <input type="hidden" name="token" value="{{ session[token] }}" />
         <!-- This button text can be customized in the backend settings -->
         <button id="btnContinue">Continue to Payment Page</button>
     </form>
