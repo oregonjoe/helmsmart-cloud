@@ -667,7 +667,7 @@ def get_payment_token():
 
   #request.hostedPaymentSettings
   
-  return jsonify({"hostedPaymentSettings": settings})
+  return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
 
   controller = getHostedPaymentPageController(request)
   controller.execute()
