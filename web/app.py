@@ -661,10 +661,18 @@ def get_payment_token():
   setting2 = apicontractsv1.settingType()
   setting2.settingName = "hostedPaymentReturnOptions"
   # The value must be a JSON string, which requires escaping quotes in Python
-  setting2.settingValue = "{\"showReceipt\": true}"
+  #setting2.settingValue = "{\"showReceipt\": true}"
+  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com\", \"urlText\": \"Continue to site\"}"
   log.info('get_payment_token: setting2:  ')
 
+  # 3. Customize the "Pay" button text
+  setting3 = apicontractsv1.settingType()
+  setting3.settingName = "hostedPaymentShippingAddressOptions"
+  # The value must be a JSON string, which requires escaping quotes in Python
+  setting3.settingValue = "{\"show\": false}"
+  log.info('get_payment_token: setting3:  ')
 
+  
   #setting2.settingName = "hostedPaymentReturnOptions"
   ## Note: Values like 'showReceipt' must be boolean True, not string "true"
   ##setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
@@ -683,13 +691,19 @@ def get_payment_token():
   request.hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
   request.hostedPaymentSettings.setting.append(setting1)
   request.hostedPaymentSettings.setting.append(setting2)
+  request.hostedPaymentSettings.setting.append(setting3)
   #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
   #request.hostedPaymentSettings =settings
   #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
 
   controller = getHostedPaymentPageController(request)
-  controller.execute()
+  #controller.execute()
 
+
+  # Use constants.PRODUCTION or constants.SANDBOX depending on your credentials
+  response = controller.executeWithApiResponse(constants.PRODUCTION)
+
+    
   response = controller.getresponse()
   if response.messages.resultCode == "Ok":
     session['token']= response.token
