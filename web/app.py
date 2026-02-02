@@ -660,14 +660,15 @@ def get_payment_token():
   
   #settings = [setting1]
   settings = []
-  settings.append(setting1.__dict__)
+  #settings.append(setting1.__dict__)
+  settings.append(setting1)
   log.info('get_payment_token: setting4:settings %s  ', settings)
     
   #hostedPaymentSettings.setting.append(setting1)
 
-  #request.hostedPaymentSettings
+  request.hostedPaymentSettings = settings
   
-  return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
+  #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
 
   controller = getHostedPaymentPageController(request)
   controller.execute()
