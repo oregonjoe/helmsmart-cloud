@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complete Payment</title>
+</head>
+<body>
+    <h1>Complete Your Payment</h1>
+    <!-- A.Net requires a form post to their URL with the token -->
+    <form method="post" action="{{ anet_env }}/payment/payment" id="formAuthorizeNet">
+        <input type="hidden" name="token" value="{{ token }}" />
+        <!-- This button text can be customized in the backend settings -->
+        <button id="btnContinue">Continue to Payment Page</button>
+    </form>
+
+    <script>
+        // Optional: Automatically submit the form on page load for a seamless redirect
+        document.getElementById('formAuthorizeNet').submit();
+    </script>
+</body>
+</html>

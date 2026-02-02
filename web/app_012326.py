@@ -117,37 +117,7 @@ import datapump.signalk as signalk
 import datapump.seagaugeg4 as seagaugeg4
 #from signalk import createSIGKpath, parseSIGK
 
- 
-#from AuthorizeNet import apicontroller as auth_controller
-#from AuthorizeNet.apisub1 import constants as ANetConstants
-#from AuthorizeNet.apimessages import apilibrary as ANetAPI
 
-import collections
-collections.MutableSequence = collections.abc.MutableSequence
-
-from authorizenet import apicontractsv1
-##from authorizenet.apicontrollers import getHostedPaymentPageController
-from authorizenet.apicontrollers import *
-from authorizenet.apicontrollers import getHostedPaymentPageController
-##from authorizenet.apisubsiapicontractsv1 import merchantAuthenticationType
-##from authorizenet.apisubsiapicontractsv1 import getHostedPaymentPageRequest
-##from authorizenet.apisubsiapicontractsv1 import settingType
-import authorizenet.constants as constants
-from decimal import *
-
-#from AuthorizeNet import apicontrollers as controllers
-#from AuthorizeNet.apisubcontainers import *
-#from AuthorizeNet.apimessages import *
-#from AuthorizeNet import constants as constant
-
-#from authorizenet import apicontrollers as controllers
-#from authorizenet.apisubcontainers import *
-#from authorizenet.apimessages import *
-#from authorizenet import constants as constant
-
-API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
-TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
-ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
 #from helmsmartmodules import user_db_functions
 
 from splicer import Schema
@@ -539,206 +509,6 @@ def index():
     #response.headers['Cache-Control'] = 'public, max-age=0'
     #return response
 
-@app.route('/get-token')
-def get_payment_token():
-
-  log.info('get_payment_token: start:  ')
-  # 1. Set Credentials
-
-  #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
-  #TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
-  #ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
-  
-  #merchantAuth = apicontractsv1.merchantAuthenticationType()
-  merchantAuth =apicontractsv1.merchantAuthenticationType()
-  merchantAuth.name = API_LOGIN_ID
-  merchantAuth.transactionKey = TRANSACTION_KEY
-
-
-  # 2. Set Transaction Details
-  #transactionRequest = apicontractsv1.transactionRequestType()
-  transactionRequest = apicontractsv1.transactionRequestType()
-  transactionRequest.transactionType = "authCaptureTransaction"
-  transactionRequest.amount = "0.01"
-
-  # 3. Request Hosted Form Token
-  #request = apicontractsv1.getHostedPaymentPageRequest()
-  request = apicontractsv1.getHostedPaymentPageRequest()
-  request.merchantAuthentication = merchantAuth
-  request.transactionRequest = transactionRequest
-
-  #return jsonify({"token": "empty"})
-
-  ## 4. Set Hosted Settings (e.g., Return URL)
-  #setting1 = apicontractsv1.settingType()
-  #setting1.settingName = "hostedPaymentIFrameCommunicatorUrl"
-  ## Note: Values like 'showReceipt' must be boolean True, not string "true"
-  ##setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
-  #setting1.settingValue = ' {"https://www.helmsmart-cloud.com"}'
-
-  ## 4. Set Hosted Settings (e.g., Return URL)
-  #setting2 = apicontractsv1.settingType()
-  #setting2.settingName = "hostedPaymentReturnOptions"
-  ## Note: Values like 'showReceipt' must be boolean True, not string "true"
-  ##setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
-  #setting2.settingValue = '{"showReceipt": true}'
-
-  ## Put settings into a list
-  #hostedPaymentSettings = [setting1, setting2]
-  #hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
-  #hostedPaymentSettings.setting.append(setting1)
-  #hostedPaymentSettings.setting.append(setting2)
-
-
-  #request.hostedPaymentSettings = apicontractsv1.ArrayOfSettingType([setting])
-  #request.hostedPaymentSettings = hostedPaymentSettings
-  """
-  request.hostedPaymentSettings = [
-        {
-            'setting': {
-                'settingName': 'hostedPaymentIFrameCommunicatorUrl',
-                'settingValue': "https://www.helmsmart-cloud.com"
-            },
-            {
-                'settingName': 'hostedPaymentReturnOptions',
-                'settingValue': '{"showReceipt": true}'
-            },
-        }
-    ]
-  """
-
-  """
-  request.hostedPaymentSettings = [
-        {
-            'setting': {
-                'settingName': 'hostedPaymentIFrameCommunicatorUrl',
-                'settingValue': 'https://www.helmsmart-cloud.com'
-            }
-        },
-        {
-            'setting': {
-                'settingName': 'hostedPaymentReturnOptions',
-                'settingValue': '{"showReceipt": true}'
-            }
-        }
-    ]
-  """
-  """
-  request.hostedPaymentSettings = {
-            'setting': [
-            {
-                'settingName': 'hostedPaymentIFrameCommunicatorUrl',
-                'settingValue': 'https://www.helmsmart-cloud.com'
-            },
-            {
-                'settingName': 'hostedPaymentReturnOptions',
-                'settingValue': '{"showReceipt": true}'
-            } ]
-        }
-    
-  """
-  
-  #request.hostedPaymentSettings = [ {'setting': { 'settingName': 'hostedPaymentReturnOptions',  'settingValue': {'showReceipt': true} } } ]
-
-  #request.hostedPaymentSettings = [{'setting': {'settingName': 'duplicateWindow', 'settingValue': False} }]
-
-
-  #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
-
-
-  hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
-  log.info('get_payment_token: setting1:hostedPaymentSettings %s  ', hostedPaymentSettings)
-  """
-  hostedPaymentSettings  = apicontractsv1.ArrayOfSetting()
-  """
-  # 1. Customize the "Pay" button text
-  setting1 = apicontractsv1.settingType()
-  setting1.settingName = "hostedPaymentButtonOptions"
-  # The value must be a JSON string, which requires escaping quotes in Python
-  setting1.settingValue = "{\"text\": \"Submit Payment\"}"
-  log.info('get_payment_token: setting1:  ')
-
-  # 2. Customize the "Pay" button text
-  setting2 = apicontractsv1.settingType()
-  setting2.settingName = "hostedPaymentReturnOptions"
-  # The value must be a JSON string, which requires escaping quotes in Python
-  #setting2.settingValue = "{\"showReceipt\": true}"
-  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/payment_response_handler\", \"urlText\": \"Continue to site\"}"
-  log.info('get_payment_token: setting2:  ')
-
-  # 3. Customize the "Pay" button text
-  setting3 = apicontractsv1.settingType()
-  setting3.settingName = "hostedPaymentShippingAddressOptions"
-  # The value must be a JSON string, which requires escaping quotes in Python
-  setting3.settingValue = "{\"show\": false}"
-  log.info('get_payment_token: setting3:  ')
-
-  
-  #setting2.settingName = "hostedPaymentReturnOptions"
-  ## Note: Values like 'showReceipt' must be boolean True, not string "true"
-  ##setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
-  #setting2.settingValue = '{"showReceipt": true}'
-
-  
-  #settings = [setting1]
-  #settings = []
-  #settings.append(setting1.__dict__)
-  #settings.append(setting1)
-  #log.info('get_payment_token: setting4:settings %s  ', settings)
-    
-  #hostedPaymentSettings.setting.append(setting1)
-
-  #request.hostedPaymentSettings = settings
-  request.hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
-  request.hostedPaymentSettings.setting.append(setting1)
-  request.hostedPaymentSettings.setting.append(setting2)
-  request.hostedPaymentSettings.setting.append(setting3)
-  #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
-  #request.hostedPaymentSettings =settings
-  #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
-
-  controller = getHostedPaymentPageController(request)
-  #controller.setenvironment(constants.SANDBOX) 
-  #controller.setenvironment(constants.PRODUCTION)
-  controller.setenvironment("https://api2.authorize.net/xml/v1/request.api")
-  #controller.execute(constants.PRODUCTION)
-  # Send the request to the Authorize.net API
-  # Use constant.PRODUCTION_URL for live environment.
-  #controller = controllers.getHostedPaymentPageController(getHostedPaymentPageRequest, constant.SANDBOX_URL)
-  controller.execute()
-
-  # Use constants.PRODUCTION or constants.SANDBOX depending on your credentials
-  #response = controller.executeWithApiResponse(constants.PRODUCTION)
-
-    
-  response = controller.getresponse()
-  if response.messages.resultCode == "Ok":
-    log.info('get_payment_token: got token  %s:  ', response.token) 
-    session['token']= response.token
-    session.modified = True
-    log.info('get_payment_token: session  %s:  ', session) 
-    #return jsonify({"token": response.token})
-    # Pass the token to the frontend
-    #return render_template('payment_page.html', token=token, anet_env=ANET_ENVIRONMENT.url)
-    return render_template('payment_page.html', token=token, anet_env="https://api2.authorize.net/xml/v1/request.api")
-
-  return jsonify({"error": "Failed to get token"}), 400
-
-
-@app.route('/payment_response_handler', methods=['POST', 'GET'])
-def payment_response_handler():
-  # After payment, A.Net redirects here with data in the form body (POST)
-  # You should use a webhook to reliably verify payment success
-  # For a basic example, just acknowledge the return
-  return "Payment form submission received. Checking transaction status via webhook soon..."
-
-@app.route('/checkout') 
-def checkout():
-
-  return render_template(
-    'checkout.html',
-    features = [],
-  )
 
 
 @app.route('/nettimers') 
@@ -1043,45 +813,26 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   log.info('aws_update_device: email_verified %s   ', email_verified)
   log.info('aws_update_device: phone_verified %s   ', phone_verified)
 
-  try:
-    
-    starttime = datetime.datetime.now()
-    #startepoch =  int(time.time())
-
-    if subscriptionKey == environ.get("SubscriptionKeyMonth"):
-      endtime = datetime.datetime.now()  + relativedelta(months=1)
-      SubscriptionType = "HS-Monthly"
-    elif subscriptionKey == environ.get("SubscriptionKeyYear"):
-      SubscriptionType = "HS-Yearly"
-      endtime = datetime.datetime.now()  + relativedelta(months=12)
-    elif subscriptionKey == environ.get("SubscriptionKeyELLOYear"):
-      SubscriptionType = "HSELLO-Year"
-      endtime = datetime.datetime.now()  + relativedelta(months=12)
-    elif subscriptionKey == environ.get("SubscriptionKeyWeekly"):
-      SubscriptionType = "HS-Weekly"
-      endtime = datetime.datetime.now()  + relativedelta(weeks=1)
-    else:
-      SubscriptionType = "HS-Invalid"
-      endtime = starttime
-
-    log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
-
-  except TypeError as e:
-    log.info("aws_update_device Device error -:TypeError deviceid %s ", deviceid)
-    log.info('aws_update_device Device error -:TypeError  Error %s:  ' % e)
-    return False
-    
-  except NameError as e:
-    log.info("aws_update_device Device error -:NameError deviceid %s ", deviceid)
-    log.info('aws_update_device Device error -:NameError  Error %s:  ' % e)
-    return False
   
-  except:
-    e = sys.exc_info()[0]
-    log.info("aws_update_device Device error - Error in update device %s", deviceid)
-    log.info('aws_update_device Device error: Error in update device %s:  ' % e)
-    return False
-  
+  starttime = datetime.datetime.now()
+  #startepoch =  int(time.time())
+
+  if subscriptionKey == environ.get("SubscriptionKeyMonth"):
+    endtime = datetime.datetime.now()  + relativedelta(months=1)
+    SubscriptionType = "HS-Monthly"
+  elif subscriptionKey == environ.get("SubscriptionKeyYear"):
+    SubscriptionType = "HS-Yearly"
+    endtime = datetime.datetime.now()  + relativedelta(months=12)
+  elif subscriptionKey == environ.get("SubscriptionKeyWeekly"):
+    SubscriptionType = "HS-Weekly"
+    endtime = datetime.datetime.now()  + relativedelta(weeks=1)
+  else:
+    SubscriptionType = "HS-Invalid"
+    endtime = starttime
+
+  log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
+
+
   userid=""
   userid_exists = False
   deviceapikey=""
@@ -1355,10 +1106,8 @@ def auth_payment_completed():
             UserAttributes=[
                   {'Name': 'email', 'Value': mPaymentEmail},
                   {'Name': 'phone_number', 'Value': mPaymentPhone},
-                  {'Name': 'name', 'Value': mPaymentDeviceName},
-                  {'Name': 'custom:subscriptionkey', 'Value': mPaymentSubscription},
-                  {'Name': 'custom:transactionid', 'Value': mPaymentTransaction}
-                  
+                  {'Name': 'name', 'Value': mPaymentDeviceName}
+                  #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
               ]
            
         )
@@ -1376,23 +1125,6 @@ def auth_payment_completed():
         deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone,mPaymentSubscription, mPaymentTransaction, 1, False, False   )
 
         if deviceupdate_check == True:
-
-          source = "verify@helmsmart-cloud.com"
-          destination = "admin@helmsmart-cloud.com"
-          subject = "New HelmSmart-Cloud Subscription - username : " + mPaymentDeviceID
-          text = "Username = " + mPaymentDeviceID + "\nUser email = " + mPaymentEmail + "\nDeviceID = " + mPaymentDeviceID + "\nDevicename = " + mPaymentDeviceName +"\n"
-          text =  text + "\nSubscription = " + mPaymentSubscription + "\nTransaction = " + mPaymentTransaction  +"\n"
-          html = "<p>Username = " + mPaymentDeviceID + "</p><p>User email = " + mPaymentEmail + "</p><p>DeviceID = " + mPaymentDeviceID + "</p><p>Devicename = " + mPaymentDeviceName +"</p>"
-          html = html + "<p>Subscription = " + mPaymentSubscription + "</p><p>SubscriptionType = " + SubscriptionType + "</p><p>Transaction = " + mPaymentTransaction  +"</p><p>SubscriptionEnd = " + endtime + "</p>"
-
-
-
-
-          log.info("aws_cognito_user_added sendemail")
-          #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
-          message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
-          
-          log.info("sendtestemail_endpoint message_id = %s", message_id)
           return redirect(url_for('user_subscription_added'))
 
         else:
@@ -1428,10 +1160,6 @@ def auth_payment_completed():
         log.info('auth_payment_completed error  - add device:TypeError  Error %s:  ' % e)
         return jsonify( message='Add user auth_payment_completed aws Type error - failed'  )
       
-      except NameError as e:
-        log.info('auth_payment_completed error  - add device:NameError  Error %s:  ' % e)
-        return jsonify( message='Add user auth_payment_completed aws NameError  - failed'  )
-      
       except:
         e = sys.exc_info()[0]
         log.info('auth_payment_completed aws error  - add device: Error in adding user %s:  ' % e)
@@ -1455,10 +1183,8 @@ def auth_payment_completed():
             UserAttributes=[
                   {'Name': 'email', 'Value': mPaymentEmail},
                   {'Name': 'phone_number', 'Value': mPaymentPhone},
-                  {'Name': 'name', 'Value': mPaymentDeviceName},
-                  {'Name': 'custom:subscriptionkey', 'Value': mPaymentSubscription},
-                  {'Name': 'custom:transactionid', 'Value': mPaymentTransaction}
-                  
+                  {'Name': 'name', 'Value': mPaymentDeviceName}
+                  #{'Name': 'email_verified', 'Value': 'true'} # Set email as verified
               ]
            
         )
@@ -1534,7 +1260,6 @@ def aws_cognito_user_added():
   userphoneverified = None
   useremailverified = None
 
-  username = request.args.get('username', '000000000000')
   deviceidstr = request.args.get('username', '000000000000').split(':')
   deviceid = deviceidstr[0]
   deviceid = deviceid.upper()
@@ -1585,31 +1310,13 @@ def aws_cognito_user_added():
 
 
   if deviceupdate_check == True:
-    log.info("aws_cognito_user_added to user_devices DB")
     #return redirect(url_for('user_subscription_updated'))
-    source = "verify@helmsmart-cloud.com"
-    destination = "admin@helmsmart-cloud.com"
-    subject = "New AWS HelmSmart-Cloud user added - username : " + username
-    text = "AWS Username = " + username + "\nUser email = " + useremail + "\nDeviceID = " + deviceid + "\nDevicename = " + devicename
-    html = "<p>Username = " + username + "</p><p>User email = " + useremail + "</p><p>DeviceID = " + deviceid + "</p><p>Devicename = " + devicename +"</p>"
-
-    log.info("sendtestemail_endpoint text = %s", text)
-
-    log.info("aws_cognito_user_added sendemail")
-    #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
-    message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
-    
-    log.info("sendtestemail_endpoint message_id = %s", message_id)
     return redirect(url_for('manage'))
 
   else:
     return jsonify( message='aws_update_device error - failed'  )
 
 
-
-
-
-@app.route('/aws_logout')
 @app.route('/aws_alerts_logout')
 #@cognito_login_callback
 def aws_alerts_logout():
@@ -1639,9 +1346,9 @@ def aws_delete_device():
   returncode="ERROR"
   
   deviceapikey = request.args.get('deviceapikey',"")
-  useremail = request.args.get('useremail', '')
+  #useremail = request.args.get('useremail', '')
   deviceid = request.args.get('deviceid', "")
-  devicename = request.args.get('devicename', '')
+  #devicename = request.args.get('name', '')
 
   log.info('aws_delete_device: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
 
@@ -1709,26 +1416,9 @@ def aws_delete_device():
     #if cursor.rowcount == 0:
       
     if cursor.rowcount == 0:
-      return jsonify( message='aws_delete_device Could not delete device', status='error')
-    
+          return jsonify( message='aws_delete_device Could not delete device', status='error')      
     else:
-      log.info("aws_delete_device deleted from user_devices DB")
-      #return redirect(url_for('user_subscription_updated'))
-      source = "verify@helmsmart-cloud.com"
-      destination = "admin@helmsmart-cloud.com"
-      subject = "AWS HelmSmart-Cloud user deleted - username : " + awsusername
-      text = "AWS Username = " + awsusername + "\nUser email = " + useremail + "\nDeviceID = " + deviceid + "\nDevicename = " + devicename
-      html = "<p>Username = " + awsusername + "</p><p>User email = " + useremail + "</p><p>DeviceID = " + deviceid + "</p><p>Devicename = " + devicename +"</p>"
-
-      log.info(" aws_delete_device sendtestemail_endpoint text = %s", text)
-
-      log.info("aws_delete_device sendemail")
-      #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
-      message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
-      
-      log.info("aws_delete_device sendtestemail_endpoint message_id = %s", message_id)
-      
-      return jsonify( message='aws_delete_device deleted', status='success') 
+          return jsonify( message='aws_delete_device deleted', status='success') 
   
   except:
     e = sys.exc_info()[0]
@@ -1748,9 +1438,9 @@ def aws_cancel_subscription():
   returncode="ERROR"
   
   deviceapikey = request.args.get('deviceapikey',"")
-  useremail = request.args.get('useremail', '')
+  #useremail = request.args.get('useremail', '')
   deviceid = request.args.get('deviceid', "")
-  devicename = request.args.get('devicename', '')
+  #devicename = request.args.get('name', '')
 
   log.info('aws_cancel_subscription: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
 
@@ -1778,25 +1468,9 @@ def aws_cancel_subscription():
     #if cursor.rowcount == 0:
       
     if cursor.rowcount == 0:
-      return jsonify( message='aws_cancel_subscription Could not delete device', status='error')
-    
+          return jsonify( message='aws_cancel_subscription Could not delete device', status='error')      
     else:
-      log.info("aws_cancel_subscription deleted from user_devices DB")
-      #return redirect(url_for('user_subscription_updated'))
-      source = "verify@helmsmart-cloud.com"
-      destination = "admin@helmsmart-cloud.com"
-      subject = "AWS HelmSmart-Cloud user subscription cancled - deviceid : " + deviceid
-      text = "AUser email = " + useremail + "\nDeviceID = " + deviceid + "\nDevicename = " + devicename
-      html = "<p>User email = " + useremail + "</p><p>DeviceID = " + deviceid + "</p><p>Devicename = " + devicename +"</p>"
-
-      log.info(" aws_cancel_subscription sendmail_endpoint text = %s", text)
-
-      log.info("aws_cancel_subscription sendemail")
-      #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
-      message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
-      
-      log.info("aws_cancel_subscription sendemail_endpoint message_id = %s", message_id)
-      return jsonify( message='aws_cancel_subscription cancled', status='success')
+          return jsonify( message='aws_cancel_subscription cancled', status='success')
         
   except psycopg.Error as e:
       log.info('aws_update_device: SyntaxError in  update deviceid %s:  ', deviceid)
@@ -1902,8 +1576,6 @@ def aws_alerts_get_user_data():
 
     log.info('aws_alerts_get_user_data: phone_number_verified %s:  ', aws_phone_verified)
     
-
-
       
     userid=""
     deviceapikey=""
@@ -1927,46 +1599,6 @@ def aws_alerts_get_user_data():
         
     log.info("aws_alerts_get_user_data - deviceapikey %s", deviceapikey)
 
-
-
-
-    # Extract the custom:helmsmartkey from the UserAttributes list
-    helmsmartkey =""
-    for attribute in response['UserAttributes']:
-        if attribute['Name'] == 'custom:helmsmartkey':
-            helmsmartkey = attribute['Value']
-            break
-
-    log.info('aws_alerts_get_user_data: helmsmartkey %s:  ', helmsmartkey)
-
-    if helmsmartkey != "":
-      deviceapikey = helmsmartkey
-
-
-    # Extract the custom:deviceid_alias from the UserAttributes list
-    deviceid_alias =""
-    for attribute in response['UserAttributes']:
-        if attribute['Name'] == 'custom:deviceid_alias':
-            deviceid_alias = attribute['Value']
-            break
-
-    log.info('aws_alerts_get_user_data: deviceid_alias %s:  ', deviceid_alias)
-
-    if deviceid_alias != "":
-      username =deviceid_alias
-      aws_username =deviceid_alias
-
-
-    # Extract the custom:account_type from the UserAttributes list
-    account_type ="primary user"
-    for attribute in response['UserAttributes']:
-        if attribute['Name'] == 'custom:account_type':
-            account_type = attribute['Value']
-            break
-
-    log.info('aws_alerts_get_user_data: account_type %s:  ', account_type)
-      
-      
     session.clear
     session['profile']={}
     session['profile']['email'] = useremail
@@ -1992,7 +1624,7 @@ def aws_alerts_get_user_data():
     if len(aws_username.split(':')) > 1:
       session['aws_account_type'] = 'sub user'
     else:
-      session['aws_account_type'] = account_type
+      session['aws_account_type'] = 'primary user'
     
     session['aws_clientid'] = environ.get("AWS_COGNITO_USER_POOL_CLIENT_ID")
     session['aws_domain'] = environ.get("AWS_COGNITO_DOMAIN")

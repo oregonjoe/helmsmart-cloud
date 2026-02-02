@@ -1,0 +1,28 @@
+<!-- iframe-communicator.html -->
+<html>
+<head>
+    <title>IFrame Communicator</title>
+    <script type="text/javascript">
+        // This script is embedded by Authorize.net in their hosted page.
+        // It passes messages up to the parent window's CommunicationHandler.
+        function receiveMessage(event) {
+            // Validate the origin of the message (optional but recommended)
+            // if (event.origin === "https://test.authorize.net") { ... }
+
+            if (window.parent.CommunicationHandler && window.parent.CommunicationHandler.onReceiveCommunication) {
+                // Pass the query string arguments to the parent handler
+                window.parent.CommunicationHandler.onReceiveCommunication({qstr: event.data});
+            }
+        }
+
+        if (window.addEventListener) {
+            window.addEventListener("message", receiveMessage, false);
+        } else if (window.attachEvent) {
+            window.attachEvent("onmessage", receiveMessage);
+        }
+    </script>
+</head>
+<body>
+    <!-- This page intentionally left blank -->
+</body>
+</html>

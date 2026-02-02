@@ -1,0 +1,74 @@
+export async function handler(event, context) {
+    console.log("Post confirmation trigger initiated.");
+    
+    const userName = event.userName;
+    const userEmail = event.request.userAttributes.email;
+    const userPhone = event.request.userAttributes.phone_number;
+    const userEmailVerified = event.request.userAttributes.email_verified ;
+    const userPhoneVerified = event.request.userAttributes.phone_number_verified ;
+    const device = event.request.userAttributes.name;
+    const apiUrl = `https://www.helmsmart-cloud.com/aws_cognito_user_added?username=${userName}&device=${device}&email=${userEmail}&emailverified=${userEmailVerified}&phone=${userPhone}&phoneverified=${userPhoneVerified}`;
+    
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                // Add any necessary headers, e.g., API keys or authorization tokens
+                'Authorization': 'Bearer YOUR_API_TOKEN' 
+            }
+        });
+  
+        if (!response.ok) {
+            console.error(`HTTP error! status: ${response.status}`);
+        } else {
+            const data = await response.json();
+            console.log("External API response data:", data);
+        }
+        
+    } catch (error) {
+        console.error("Failed to make HTTP GET request:", error);
+    }
+    
+    // Amazon Cognito expects the original event object back
+    return event;
+  }
+  
+  
+  export const handler = (event, context, callback) => {
+    // Impose a condition that the minimum length of the username is 5
+    if (event.userName.length < 5) {
+        var error = new Error("Cannot register users with a username less than the minimum length of 5");
+        // Return an error to Amazon Cognito
+        callback(error, event);
+    } else {
+        // If validation passes, return the event to Amazon Cognito
+        callback(null, event);
+    }
+};
+
+
+
+
+export const handler = async (event) => {
+    // Regex for alphanumeric only (no spaces or special characters)
+    const alphanumericRegex = /^[a-fA-F0-9]+$/;
+
+    // Validate the userName field in the event object
+
+	
+	if (event.userName.length != 12) {
+        throw new Error("Cannot register users with a username not equal to 12 hexideciaml characters");
+        // Return an error to Amazon Cognito
+     
+    } 
+	
+	if (!alphanumericRegex.test(event.userName)) {
+        // Throwing an error prevents the user from being created
+        throw new Error("Username can only contain 12 hexideciaml characters");
+    }
+	
+	event.userName = event.userName.toUpperCase()
+	
+    // If validation passes, return the event to proceed with sign-up
+    return event;
+};
