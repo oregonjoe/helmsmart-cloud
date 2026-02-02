@@ -573,10 +573,26 @@ def get_payment_token():
   # Define transaction details (adjust as needed)
   order = apicontractsv1.orderType()
   order.invoiceNumber = "678965432145"
-  order.description = "SeaGAugeG4-4576"
+  order.description = "HelmSmart Subscription - Yearly"
   transactionRequest.order = order
 
   transactionRequest.customer = customerData
+
+
+  # setup individual line items
+  line_item_1 = apicontractsv1.lineItemType()
+  line_item_1.itemId = "HS-YEARLY"
+  line_item_1.name = "678965432145"
+  line_item_1.description = "SeaGAugeG4-4576"
+  line_item_1.quantity = "1"
+  line_item_1.unitPrice = "0.01"
+  
+
+  # build the array of line items
+  line_items = apicontractsv1.ArrayOfLineItem()
+  line_items.lineItem.append(line_item_1)
+
+  transactionRequest.lineItems = line_items
 
   # 3. Request Hosted Form Token
   #request = apicontractsv1.getHostedPaymentPageRequest()
