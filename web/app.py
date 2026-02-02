@@ -715,12 +715,14 @@ def get_payment_token():
   if response.messages.resultCode == "Ok":
     log.info('get_payment_token: got token  %s:  ', response.token) 
     session['token']= response.token
+    session['anet_env']= "https://api2.authorize.net/xml/v1/request.api"
     session.modified = True
     log.info('get_payment_token: session  %s:  ', session) 
     #return jsonify({"token": response.token})
     # Pass the token to the frontend
     #return render_template('payment_page.html', token=token, anet_env=ANET_ENVIRONMENT.url)
-    return render_template('payment_page.html', token=response.token, anet_env="https://api2.authorize.net/xml/v1/request.api")
+    #return render_template('payment_page.html', token=response.token, anet_env="https://api2.authorize.net/xml/v1/request.api")
+    return render_template('payment_page.html')
 
   return jsonify({"error": "Failed to get token"}), 400
 
