@@ -696,7 +696,7 @@ def get_payment_token():
   setting2.settingName = "hostedPaymentReturnOptions"
   # The value must be a JSON string, which requires escaping quotes in Python
   #setting2.settingValue = "{\"showReceipt\": true}"
-  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/auth_payment_completed\", \"urlText\": \"Continue\"}"
+  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/payment_response_handler\", \"urlText\": \"Continue\"}"
   log.info('get_payment_token: setting2:  ')
 
   # 3. Customize the "Pay" button text
@@ -775,6 +775,27 @@ def payment_response_handler():
   # You should use a webhook to reliably verify payment success
   # For a basic example, just acknowledge the return
   return "Payment form submission received. Checking transaction status via webhook soon..."
+
+
+@app.route('/payment_response_recieved', methods=['POST'])
+def payment_response_recieved():
+  # After payment, A.Net redirects here with data in the form body (POST)
+  # You should use a webhook to reliably verify payment success
+  # For a basic example, just acknowledge the return
+  raw_payload = request.data
+  log.info('payment_response_recieved: raw_payload  %s:  ', raw_payload)
+
+
+  data = json.loads(raw_payload)
+  event_type = data.get("eventType")
+
+  log.info('payment_response_recieved: data  %s:  ', data)
+  #print(f"Received event: {event_type}")
+  #print(f"Payload details: {data.get('payload')}")
+  
+  
+  return "Payment form submission received. Checking transaction status via webhook soon..."
+
 
 @app.route('/checkout', methods=['POST', 'GET'])
 def checkout():
