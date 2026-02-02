@@ -652,26 +652,37 @@ def get_payment_token():
   """
   # 1. Customize the "Pay" button text
   setting1 = apicontractsv1.settingType()
-  log.info('get_payment_token: setting1:  ')
-  
   setting1.settingName = "hostedPaymentButtonOptions"
-  log.info('get_payment_token: setting2:  ')
-  
   # The value must be a JSON string, which requires escaping quotes in Python
   setting1.settingValue = "{\"text\": \"Submit Payment\"}"
-  log.info('get_payment_token: setting3:  ')
+  log.info('get_payment_token: setting1:  ')
+
+  # 2. Customize the "Pay" button text
+  setting2 = apicontractsv1.settingType()
+  setting2.settingName = "hostedPaymentReturnOptions"
+  # The value must be a JSON string, which requires escaping quotes in Python
+  setting2.settingValue = "{\"showReceipt\": true}"
+  log.info('get_payment_token: setting2:  ')
+
+
+  #setting2.settingName = "hostedPaymentReturnOptions"
+  ## Note: Values like 'showReceipt' must be boolean True, not string "true"
+  ##setting1.settingValue = '{"showReceipt": true, "url": "https://www.helmsmart-cloud.com"}'
+  #setting2.settingValue = '{"showReceipt": true}'
+
   
   #settings = [setting1]
-  settings = []
-  settings.append(setting1.__dict__)
+  #settings = []
+  #settings.append(setting1.__dict__)
   #settings.append(setting1)
-  log.info('get_payment_token: setting4:settings %s  ', settings)
+  #log.info('get_payment_token: setting4:settings %s  ', settings)
     
   #hostedPaymentSettings.setting.append(setting1)
 
   #request.hostedPaymentSettings = settings
   request.hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
   request.hostedPaymentSettings.setting.append(setting1)
+  request.hostedPaymentSettings.setting.append(setting2)
   #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
   #request.hostedPaymentSettings =settings
   #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
