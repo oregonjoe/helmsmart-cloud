@@ -733,7 +733,7 @@ def get_payment_token():
   request.hostedPaymentSettings.setting.append(setting1)
   request.hostedPaymentSettings.setting.append(setting2)
   request.hostedPaymentSettings.setting.append(setting3)
-  request.hostedPaymentSettings.setting.append(setting3)
+  request.hostedPaymentSettings.setting.append(setting4)
   #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
   #request.hostedPaymentSettings =settings
   #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
