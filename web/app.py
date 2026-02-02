@@ -539,7 +539,7 @@ def index():
     #response.headers['Cache-Control'] = 'public, max-age=0'
     #return response
 
-@app.route('/get-token')
+@app.route('/get-token', methods=['POST', 'GET'])
 def get_payment_token():
 
   log.info('get_payment_token: start:  ')
