@@ -561,8 +561,8 @@ def get_payment_token():
   transactionRequest.transactionType = "authCaptureTransaction"
   transactionRequest.amount = "0.01"
   transactionRequest.order.invoiceNumber = "678965432145"
-  transactionRequest.order.description = "SeaGAugeG4-4576"
-  transactionRequest.poNumber = "678965432145"
+  #transactionRequest.order.description = "SeaGAugeG4-4576"
+  #transactionRequest.poNumber = "678965432145"
 
 
 
@@ -727,8 +727,9 @@ def get_payment_token():
     # Pass the token to the frontend
     #return render_template('payment_page.html', token=token, anet_env=ANET_ENVIRONMENT.url)
     #return render_template('payment_page.html', token=response.token, anet_env="https://api2.authorize.net/xml/v1/request.api")
-    return render_template('payment_page.html', token=str(response.token))
-
+    #return render_template('payment_page.html', token=str(response.token))
+    return render_template('payment_page.html')
+  
   return jsonify({"error": "Failed to get token"}), 400
 
 
