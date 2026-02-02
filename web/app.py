@@ -713,6 +713,7 @@ def get_payment_token():
     
   response = controller.getresponse()
   if response.messages.resultCode == "Ok":
+    log.info('get_payment_token: got token  %s:  ', response.token) 
     session['token']= response.token
     session.modified = True
     log.info('get_payment_token: session  %s:  ', session) 
