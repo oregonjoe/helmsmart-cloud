@@ -646,12 +646,20 @@ def get_payment_token():
   """
   # 1. Customize the "Pay" button text
   setting1 = apicontractsv1.settingType()
+  log.info('get_payment_token: setting1:  ')
+  
   setting1.settingName = "hostedPaymentButtonOptions"
+  log.info('get_payment_token: setting2:  ')
+  
   # The value must be a JSON string, which requires escaping quotes in Python
   setting1.settingValue = "{\"text\": \"Submit Payment\"}"
-
-  settings = [setting1]
+  log.info('get_payment_token: setting3:  ')
   
+  #settings = [setting1]
+  settings = []
+  settings.append(setting1.__dict__)
+
+    
   #hostedPaymentSettings.setting.append(setting1)
 
   
