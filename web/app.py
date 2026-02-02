@@ -805,6 +805,32 @@ def payment_response_recieved():
   
   return "Payment form submission received. Checking transaction status via webhook soon..."
 
+@app.route('/payment_silent_post',methods=['POST', 'GET'])
+def payment_silent_post():
+  # After payment, A.Net redirects here with data in the form body (POST)
+  # You should use a webhook to reliably verify payment success
+  # For a basic example, just acknowledge the return
+  raw_payload = request.data
+  log.info('payment_silent_post: raw_payload  %s:  ', raw_payload)
+
+
+  #ANET_Signature_Key
+
+  #data = json.loads(raw_payload)
+  #log.info('payment_silent_post: data  %s:  ', data)
+
+  #event_type = data.get("eventType")
+  #log.info('payment_silent_post: event_type  %s:  ', event_type)
+
+
+  #log.info('payment_response_recieved: data  %s:  ', data)
+  #print(f"Received event: {event_type}")
+  #print(f"Payload details: {data.get('payload')}")
+  
+  
+  return "payment_silent_post received. ..."
+
+
 
 @app.route('/checkout', methods=['POST', 'GET'])
 def checkout():
