@@ -702,10 +702,10 @@ def get_payment_token():
   # Send the request to the Authorize.net API
   # Use constant.PRODUCTION_URL for live environment.
   #controller = controllers.getHostedPaymentPageController(getHostedPaymentPageRequest, constant.SANDBOX_URL)
-  #controller.execute()
+  controller.execute()
 
   # Use constants.PRODUCTION or constants.SANDBOX depending on your credentials
-  response = controller.executeWithApiResponse(constants.PRODUCTION)
+  #response = controller.executeWithApiResponse(constants.PRODUCTION)
 
     
   response = controller.getresponse()
