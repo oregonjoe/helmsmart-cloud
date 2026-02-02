@@ -714,7 +714,7 @@ def get_payment_token():
   response = controller.getresponse()
   if response.messages.resultCode == "Ok":
     log.info('get_payment_token: got token  %s:  ', response.token) 
-    session['token']= response.token
+    session['token']= str(response.token)
     session['anet_env']= "https://api2.authorize.net/xml/v1/request.api"
     session.modified = True
     log.info('get_payment_token: session  %s:  ', session) 
