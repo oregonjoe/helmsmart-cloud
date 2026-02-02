@@ -804,10 +804,41 @@ def payment_response_recieved():
   transactionid = payload.get('id')
   log.info('payment_response_recieved: transactionid  %s:  ', transactionid)
   
-  #log.info('payment_response_recieved: data  %s:  ', data)
-  #print(f"Received event: {event_type}")
-  #print(f"Payload details: {data.get('payload')}")
-  
+
+
+  merchantAuth =apicontractsv1.merchantAuthenticationType()
+  merchantAuth.name = API_LOGIN_ID
+  merchantAuth.transactionKey = TRANSACTION_KEY
+
+  transactionDetailsRequest = apicontractsv1.getTransactionDetailsRequest()
+  transactionDetailsRequest.merchantAuthentication = merchantAuth
+  transactionDetailsRequest.transId = transactionid
+
+  transactionDetailsController = getTransactionDetailsController(transactionDetailsRequest)
+
+
+  transactionDetailsController.setenvironment("https://api2.authorize.net/xml/v1/request.api")
+  transactionDetailsController.execute()
+
+  transactionDetailsResponse = transactionDetailsController.getresponse()
+
+  if transactionDetailsResponse is not None:
+    if transactionDetailsResponse.messages.resultCode == apicontractsv1.messageTypeEnum.Ok:
+      log.info('Successfully got transaction details!')
+
+      log.info('Transaction Id : %s' % transactionDetailsResponse.transaction.transId)
+      log.info('Transaction Type : %s' % transactionDetailsResponse.transaction.transactionType)
+      log.info('Transaction Status : %s' % transactionDetailsResponse.transaction.transactionStatus)
+      log.info('Auth Amount : %s' % transactionDetailsResponse.transaction.authAmount)
+      log.info('Settle Amount : %s' % transactionDetailsResponse.transaction.settleAmount)
+
+      if transactionDetailsResponse.messages:
+        log.info('Message Code : %s' % transactionDetailsResponse.messages.message[0].code)
+        log.info('Message Text : %s' % transactionDetailsResponse.messages.message[0].text)
+    else:
+      if transactionDetailsResponse.messages:
+        log.info('Failed to get transaction details.\nCode:%s \nText:%s' % (transactionDetailsResponse.messages.message[0].code,transactionDetailsResponse.messages.message[0].text))
+
   
   return "Payment form submission received. Checking transaction status via webhook soon..."
 
