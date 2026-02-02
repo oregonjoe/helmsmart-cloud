@@ -555,6 +555,13 @@ def get_payment_token():
   merchantAuth.transactionKey = TRANSACTION_KEY
 
 
+  # Set the customer's identifying information
+  customerData = apicontractsv1.customerDataType()
+  customerData.type = "individual"
+  customerData.id = "99999456654"
+  customerData.email = "EllenJohnson@example.com"
+
+
   # 2. Set Transaction Details
   #transactionRequest = apicontractsv1.transactionRequestType()
   transactionRequest = apicontractsv1.transactionRequestType()
@@ -568,6 +575,8 @@ def get_payment_token():
   order.invoiceNumber = "678965432145"
   order.description = "SeaGAugeG4-4576"
   transactionRequest.order = order
+
+  transactionRequest.customer = customerData
 
   # 3. Request Hosted Form Token
   #request = apicontractsv1.getHostedPaymentPageRequest()
