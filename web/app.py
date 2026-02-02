@@ -122,6 +122,9 @@ import datapump.seagaugeg4 as seagaugeg4
 #from AuthorizeNet.apisub1 import constants as ANetConstants
 #from AuthorizeNet.apimessages import apilibrary as ANetAPI
 
+import collections
+collections.MutableSequence = collections.abc.MutableSequence
+
 from authorizenet import apicontractsv1
 ##from authorizenet.apicontrollers import getHostedPaymentPageController
 from authorizenet.apicontrollers import *
