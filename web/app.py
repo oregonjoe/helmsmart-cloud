@@ -696,7 +696,7 @@ def get_payment_token():
   setting2.settingName = "hostedPaymentReturnOptions"
   # The value must be a JSON string, which requires escaping quotes in Python
   #setting2.settingValue = "{\"showReceipt\": true}"
-  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/auth_payment_completed\", \"urlText\": \"Continue to site\"}"
+  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/auth_payment_completed\", \"urlText\": \"Continue\"}"
   log.info('get_payment_token: setting2:  ')
 
   # 3. Customize the "Pay" button text
@@ -1278,7 +1278,9 @@ def aws_home():
 def auth_payment_completed():
 
   log.info('auth_payment_completed:start  ')
+  log.info('auth_payment_completed:request %s  ' , request)
 
+  
   device_alreay_exists = False
   
   try:  
