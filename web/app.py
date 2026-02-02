@@ -785,14 +785,18 @@ def payment_response_recieved():
   # After payment, A.Net redirects here with data in the form body (POST)
   # You should use a webhook to reliably verify payment success
   # For a basic example, just acknowledge the return
-  #raw_payload = request.data
-  #log.info('payment_response_recieved: raw_payload  %s:  ', raw_payload)
+  raw_payload = request.data
+  log.info('payment_response_recieved: raw_payload  %s:  ', raw_payload)
 
 
   #ANET_Signature_Key
 
-  #data = json.loads(raw_payload)
-  #event_type = data.get("eventType")
+  data = json.loads(raw_payload)
+  log.info('payment_response_recieved: data  %s:  ', data)
+
+  event_type = data.get("eventType")
+  log.info('payment_response_recieved: event_type  %s:  ', event_type)
+
 
   #log.info('payment_response_recieved: data  %s:  ', data)
   #print(f"Received event: {event_type}")
