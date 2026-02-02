@@ -732,7 +732,7 @@ def payment_response_handler():
   # For a basic example, just acknowledge the return
   return "Payment form submission received. Checking transaction status via webhook soon..."
 
-@app.route('/checkout') 
+@app.route('/checkout', methods=['POST', 'GET'])
 def checkout():
 
   return render_template(
