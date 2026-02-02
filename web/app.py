@@ -583,7 +583,7 @@ def get_payment_token():
   line_item_1 = apicontractsv1.lineItemType()
   line_item_1.itemId = "HS-YEARLY"
   line_item_1.name = "678965432145"
-  line_item_1.description = "SeaGAugeG4-4576"
+  line_item_1.description = "SeaGaugeG4-4576"
   line_item_1.quantity = "1"
   line_item_1.unitPrice = "0.01"
   
@@ -706,6 +706,13 @@ def get_payment_token():
   setting3.settingValue = "{\"show\": false}"
   log.info('get_payment_token: setting3:  ')
 
+  # 3. Customize the "Pay" button text
+  setting4 = apicontractsv1.settingType()
+  setting4.settingName = "hostedPaymentCustomerOptions"
+  # The value must be a JSON string, which requires escaping quotes in Python
+  setting4.settingValue = "{\"showEmail\": true, \"requiredEmail\": true, \"addPaymentProfile\": false}"
+  log.info('get_payment_token: setting4:  ')
+
   
   #setting2.settingName = "hostedPaymentReturnOptions"
   ## Note: Values like 'showReceipt' must be boolean True, not string "true"
@@ -725,6 +732,7 @@ def get_payment_token():
   request.hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
   request.hostedPaymentSettings.setting.append(setting1)
   request.hostedPaymentSettings.setting.append(setting2)
+  request.hostedPaymentSettings.setting.append(setting3)
   request.hostedPaymentSettings.setting.append(setting3)
   #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
   #request.hostedPaymentSettings =settings
