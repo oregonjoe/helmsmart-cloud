@@ -18,7 +18,7 @@
     <!-- A.Net requires a form post to their URL with the token -->
    <!-- <form method="post" action="{{ anet_env }}/payment/payment" id="formAuthorizeNet"> m-->
 	 <form method="post" action="https://accept.authorize.net/payment/payment" id="formAuthorizeNet">
-        <input type="hidden" name="token" value="{{ session[token] }}" />
+        <input type="hidden" name="token" value="{{ session['token'] }}" />
         <!-- This button text can be customized in the backend settings -->
         <button id="btnContinue">Continue to Payment Page</button>
     </form>
