@@ -668,8 +668,8 @@ def get_payment_token():
 
   #request.hostedPaymentSettings = settings
 
-  request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
-  
+  #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
+  request.hostedPaymentSettings =settings
   #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
 
   controller = getHostedPaymentPageController(request)
