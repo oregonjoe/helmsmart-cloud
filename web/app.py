@@ -816,8 +816,8 @@ def payment_silent_post():
 
   #ANET_Signature_Key
 
-  #data = json.loads(raw_payload)
-  #log.info('payment_silent_post: data  %s:  ', data)
+  data = json.loads(raw_payload)
+  log.info('payment_silent_post: data  %s:  ', data)
 
   #event_type = data.get("eventType")
   #log.info('payment_silent_post: event_type  %s:  ', event_type)
