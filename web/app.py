@@ -148,6 +148,9 @@ from decimal import *
 API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
 TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
 ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
+ANET_Signature_Key=os.environ.get('ANET_Signature_Key')
+
+
 #from helmsmartmodules import user_db_functions
 
 from splicer import Schema
@@ -782,9 +785,11 @@ def payment_response_recieved():
   # After payment, A.Net redirects here with data in the form body (POST)
   # You should use a webhook to reliably verify payment success
   # For a basic example, just acknowledge the return
-  #raw_payload = request.data
-  #log.info('payment_response_recieved: raw_payload  %s:  ', raw_payload)
+  raw_payload = request.data
+  log.info('payment_response_recieved: raw_payload  %s:  ', raw_payload)
 
+
+  #ANET_Signature_Key
 
   #data = json.loads(raw_payload)
   #event_type = data.get("eventType")
