@@ -777,7 +777,7 @@ def payment_response_handler():
   return "Payment form submission received. Checking transaction status via webhook soon..."
 
 
-@app.route('/payment_response_recieved', methods=['POST'])
+@app.route('/payment_response_recieved',methods=['POST', 'GET'])
 def payment_response_recieved():
   # After payment, A.Net redirects here with data in the form body (POST)
   # You should use a webhook to reliably verify payment success
