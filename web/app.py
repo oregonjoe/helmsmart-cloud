@@ -698,11 +698,11 @@ def get_payment_token():
   #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
 
   controller = getHostedPaymentPageController(request)
-  #controller.execute()
+  controller.execute(constants.PRODUCTION)
 
 
   # Use constants.PRODUCTION or constants.SANDBOX depending on your credentials
-  response = controller.executeWithApiResponse(constants.PRODUCTION)
+  #response = controller.executeWithApiResponse(constants.PRODUCTION)
 
     
   response = controller.getresponse()
