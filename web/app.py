@@ -560,7 +560,7 @@ def get_payment_token():
   transactionRequest = apicontractsv1.transactionRequestType()
   transactionRequest.transactionType = "authCaptureTransaction"
   transactionRequest.amount = "0.01"
-  transactionRequest.order.invoiceNumber = "678965432145"
+  #transactionRequest.order.invoiceNumber = "678965432145"
   #transactionRequest.order.description = "SeaGAugeG4-4576"
   #transactionRequest.poNumber = "678965432145"
 
