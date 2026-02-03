@@ -549,12 +549,28 @@ def get_payment_token():
 
   log.info('get-token: session %s:  ', session)
   
-  tokens = session.json()
-  log.info('get-token: access_token %s:  ', tokens) 
+  #tokens = session.json()
+  #log.info('get-token: access_token %s:  ', tokens) 
 
 
-  #deviceid = 
+  if session['aws_username'] is not None:
+    deviceid = session['aws_username']
+    log.info("get_payment_token: deviceid:%s", deviceid)
 
+  if session['aws_email'] is not None:
+    deviceid = session['aws_email']
+    log.info("get_payment_token: aws_email:%s", aws_email)
+
+  gUserEmail = request.form.get('gUserEmail',"") 
+  log.info("get_payment_token: gUserEmail:%s", gUserEmail)
+
+  gAWSuserid = request.form.get('gAWSuserid',"") 
+  log.info("get_payment_token: gAWSuserid:%s", gAWSuserid)
+
+  gSubscriptionType = request.form.get('SubscriptionType',"") 
+  log.info("get_payment_token: gSubscriptionType:%s", gSubscriptionType)
+
+    
   #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
   #TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
   #ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
