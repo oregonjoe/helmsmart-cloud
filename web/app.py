@@ -8,6 +8,7 @@ import re
 #import pyarrow as pa
 import json
 from threading import Thread
+from dataclasses import dataclass
 
 #import md5
 import hmac
@@ -434,6 +435,72 @@ def dump_json(schema, records):
   #if debug_all: log.info('data =  %s ', data)
   return json.dumps(data, cls=DateEncoder)
 
+@dataclass
+class SubscriptionData:
+    """A class to hold product details."""
+
+    subscriptionDescription:str 
+    subscriptionPrice: str
+    subscriptionStart:datetime
+    subscriptionEnd:datetime
+    subscriptionValid: bool
+
+def get_subscription_details(gSubscriptionType) -> SubscriptionData:
+
+  subscriptionValid = False
+  subscriptionPrice=""
+  subscriptionDescription = ""
+  endtime = datetime.datetime.now()
+  starttime = datetime.datetime.now()
+
+  
+  try:
+
+    if gSubscriptionType == "HS-Weekly":
+      subscriptionPrice = str(os.environ.get('SubscriptionPriceHSWeekly'))
+      subscriptionDescription = "HelmSmart Subscription - Weekly"
+      endtime = datetime.datetime.now()  + relativedelta(weeks=1)
+      subscriptionValid = True
+        
+    elif gSubscriptionType == "HS-Monthly":
+      subscriptionPrice = str(os.environ.get('SubscriptionPriceHSMonthly'))
+      subscriptionDescription = "HelmSmart Subscription - Monthly"
+      endtime = datetime.datetime.now()  + relativedelta(months=1)
+      subscriptionValid = True
+        
+    elif gSubscriptionType == "HS-Yearly":
+      subscriptionPrice = str(os.environ.get('SubscriptionPriceHSYearly'))
+      subscriptionDescription = "HelmSmart Subscription - Yearly"
+      endtime = datetime.datetime.now()  + relativedelta(months=12)
+      subscriptionValid = True
+        
+    elif gSubscriptionType == "HS-ELLO":
+      subscriptionPrice = str(os.environ.get('SubscriptionPriceELLO'))
+      subscriptionDescription = "HelmSmart Subscription - ELLO"
+      endtime = datetime.datetime.now()  + relativedelta(months=12)
+      subscriptionValid = True
+      
+    else:
+      subscriptionValid = False
+      
+    log.info("get_subscription_details - starttime %s endtime %s", starttime, endtime)
+
+  except TypeError as e:
+    log.info("get_subscription_details Device error -:TypeError gSubscriptionType %s ", gSubscriptionType)
+    log.info('get_subscription_details Device error -:TypeError  Error %s:  ' % e)
+    
+  except NameError as e:
+    log.info("get_subscription_details Device error -:NameError gSubscriptionType %s ", gSubscriptionType)
+    log.info('get_subscription_details Device error -:NameError  Error %s:  ' % e)
+
+  except:
+    e = sys.exc_info()[0]
+    log.info("get_subscription_details Device error - Error in update gSubscriptionType %s", gSubscriptionType)
+    log.info('get_subscription_details Device error: Error in update device %s:  ' % e)
+
+
+  return SubscriptionData(subscriptionDescription=subscriptionDescription, subscriptionPrice=subscriptionPrice, subscriptionStart=subscriptionStart, subscriptionEnd=subscriptionEnd, subscriptionValid=subscriptionValid)
+
 
 @app.route('/')
 @cross_origin()
@@ -579,20 +646,23 @@ def get_payment_token():
     gSubscriptionType = raw_payload.get('SubscriptionType',"") 
     log.info("get_payment_token: gSubscriptionType:%s", gSubscriptionType)
 
-
-
+  
   if gSubscriptionType == "HS-Weekly":
     subscriptionPrice = str(os.environ.get('SubscriptionPriceHSWeekly'))
     subscriptionDescription = "HelmSmart Subscription - Weekly"
+    subscriptionkey = os.environ.get('SubscriptionKeyWeekly')
   elif gSubscriptionType == "HS-Monthly":
     subscriptionPrice = str(os.environ.get('SubscriptionPriceHSMonthly'))
     subscriptionDescription = "HelmSmart Subscription - Monthly"
+    subscriptionkey = os.environ.get('SubscriptionKeyMonth')
   elif gSubscriptionType == "HS-Yearly":
     subscriptionPrice = str(os.environ.get('SubscriptionPriceHSYearly'))
     subscriptionDescription = "HelmSmart Subscription - Yearly"
+    subscriptionkey = os.environ.get('SubscriptionKeyYear')
   elif gSubscriptionType == "HS-ELLO":
     subscriptionPrice = str(os.environ.get('SubscriptionPriceELLO'))
     subscriptionDescription = "HelmSmart Subscription - ELLO"
+    subscriptionkey = os.environ.get('SubscriptionKeyELLO')
   else:
     # invalid value so just return
     return redirect(url_for('manage'))
@@ -854,13 +924,20 @@ def payment_response_recieved():
   event_type = data.get("eventType")
   log.info('payment_response_recieved: event_type  %s:  ', event_type)
 
+  if event_type != 'net.authorize.payment.authcapture.created':
+    return "Payment processing error"
 
-  payload = data.get("payload")
+
+  payload = data.get("payload", "")
   log.info('payment_response_recieved: payload  %s:  ', payload)
-
-  transactionid = payload.get('id')
-  log.info('payment_response_recieved: transactionid  %s:  ', transactionid)
+  if payload == "":
+    return "Payment processing error"
   
+
+  transactionid = payload.get('id', "")
+  log.info('payment_response_recieved: transactionid  %s:  ', transactionid)
+  if transactionid == "":
+    return "Payment processing error"  
 
 
   merchantAuth =apicontractsv1.merchantAuthenticationType()
@@ -883,8 +960,10 @@ def payment_response_recieved():
     if transactionDetailsResponse.messages.resultCode == apicontractsv1.messageTypeEnum.Ok:
       log.info('Successfully got transaction details!!!  ' )
 
-      log.info('Transaction Id : %s' % transactionDetailsResponse.transaction.transId)
+      mPaymentTransaction = transactionDetailsResponse.transaction.transId
+      log.info('Transaction Id : %s' , mPaymentTransaction)
       log.info('Transaction Type : %s' % transactionDetailsResponse.transaction.transactionType)
+      
       log.info('Transaction Status : %s' % transactionDetailsResponse.transaction.transactionStatus)
       log.info('Auth Amount : %s' % transactionDetailsResponse.transaction.authAmount)
       log.info('Settle Amount : %s' % transactionDetailsResponse.transaction.settleAmount)
@@ -892,7 +971,8 @@ def payment_response_recieved():
       log.info('invoice Number  : %s' % transactionDetailsResponse.transaction.order.invoiceNumber)
       log.info('order description : %s' % transactionDetailsResponse.transaction.order.description)
 
-      log.info('customer email : %s' % transactionDetailsResponse.transaction.customer.email)
+      mPaymentEmail = transactionDetailsResponse.transaction.customer.email
+      log.info('customer email : %s' , mPaymentEmail)
       
       #log.info('purchaseOrderNumber : %s' % transactionDetailsResponse.transaction.order.purchaseOrderNumber)
 
@@ -905,9 +985,16 @@ def payment_response_recieved():
         log.info('lineItems : %s' , lineItems)
 
         for lineItem in lineItems:
-          log.info('item itemId : %s' , lineItem.itemId)
-          log.info('item name : %s' , lineItem.name)
-          log.info('item description : %s' , lineItem.description)
+          gSubscriptionType = lineItem.itemId
+          log.info('item gSubscriptionType : %s' , gSubscriptionType)
+
+          mPaymentDeviceID = lineItem.name
+          log.info('item mPaymentDeviceID : %s' , mPaymentDeviceID)
+
+          mPaymentDeviceName = lineItem.description
+          log.info('item mPaymentDeviceName : %s' , mPaymentDeviceName)
+
+          
           log.info('item quantity : %s' , lineItem.quantity)
 
 
@@ -919,6 +1006,56 @@ def payment_response_recieved():
       if transactionDetailsResponse.messages:
         log.info('Failed to get transaction details.\nCode:%s \nText:%s' % (transactionDetailsResponse.messages.message[0].code,transactionDetailsResponse.messages.message[0].text))
 
+    if gSubscriptionType == "HS-Weekly":
+      subscriptionPrice = str(os.environ.get('SubscriptionPriceHSWeekly'))
+      subscriptionDescription = "HelmSmart Subscription - Weekly"
+      subscriptionKey = os.environ.get('SubscriptionKeyWeekly')
+    elif gSubscriptionType == "HS-Monthly":
+      subscriptionPrice = str(os.environ.get('SubscriptionPriceHSMonthly'))
+      subscriptionDescription = "HelmSmart Subscription - Monthly"
+      subscriptionKey = os.environ.get('SubscriptionKeyMonth')
+    elif gSubscriptionType == "HS-Yearly":
+      subscriptionPrice = str(os.environ.get('SubscriptionPriceHSYearly'))
+      subscriptionDescription = "HelmSmart Subscription - Yearly"
+      subscriptionKey = os.environ.get('SubscriptionKeyYear')
+    elif gSubscriptionType == "HS-ELLO":
+      subscriptionPrice = str(os.environ.get('SubscriptionPriceELLO'))
+      subscriptionDescription = "HelmSmart Subscription - ELLO"
+      subscriptionKey = os.environ.get('SubscriptionKeyELLO')
+    else:
+      # invalid value so just return
+      return "Payment processing error - invalid subscription"
+  
+    ######### add new device to helmsmart database #############
+    #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
+    deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone, subscriptionKey, mPaymentTransaction, 1, False, False   )
+
+    if deviceupdate_check == True:
+
+      source = "verify@helmsmart-cloud.com"
+      destination = "admin@helmsmart-cloud.com"
+      subject = "New HelmSmart-Cloud Subscription - username : " + mPaymentDeviceID
+      text = "Username = " + mPaymentDeviceID + "\nUser email = " + mPaymentEmail + "\nDeviceID = " + mPaymentDeviceID + "\nDevicename = " + mPaymentDeviceName +"\n"
+      text =  text + "\nSubscription = " + mPaymentSubscription + "\nTransaction = " + mPaymentTransaction  +"\n"
+      html = "<p>Username = " + mPaymentDeviceID + "</p><p>User email = " + mPaymentEmail + "</p><p>DeviceID = " + mPaymentDeviceID + "</p><p>Devicename = " + mPaymentDeviceName +"</p>"
+      html = html + "<p>Subscription = " + mPaymentSubscription + "</p><p>SubscriptionType = " + SubscriptionType + "</p><p>Transaction = " + mPaymentTransaction  +"</p><p>SubscriptionEnd = " + endtime + "</p>"
+
+
+
+
+      log.info("payment_response_recieved sendemail")
+      #message_id = send_email(source, destination, subject, text, html, reply_tos=None)
+      message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
+      
+      log.info("sendtestemail_endpoint message_id = %s", message_id)
+      return redirect(url_for('user_subscription_added'))
+
+    else:
+      return jsonify( message='aws_add_device error - failed'  )          
+   ###############################################
+
+  else:
+    return "Payment processing error"
   
   return "Payment form submission received. Checking transaction status via webhook soon..."
 
