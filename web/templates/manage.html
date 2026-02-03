@@ -1867,8 +1867,8 @@ Alert service</p>
 			-->
 			
 			<form name="PrePage" method="post" action="https://www.helmsmart-cloud.com/get-token">
-			<input type="hidden" name="gUserEmail" value=session['aws_email'] />
-			<input type="hidden" name="gAWSuserid" value=session['aws_userid'] />
+			<input type="hidden" name="gUserEmail" value={{session['aws_email']}} />
+			<input type="hidden" name="gAWSuserid" value={{session['aws_userid']}} />
 			<input type="hidden" name="SubscriptionType" value='HS-Weekly' />
 			
 			<input type="image" src="{{ url_for('static', filename='img/OrderWeeklyButtonSmall.jpg' ) }}" />
