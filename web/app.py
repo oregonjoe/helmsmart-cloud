@@ -574,8 +574,12 @@ def get_payment_token():
   #transactionRequest.order.description = "SeaGAugeG4-4576"
   #transactionRequest.poNumber = "678965432145"
   # Define transaction details (adjust as needed)
+
+  today = datetime.now()
+  formatted_today = today.strftime('%Y%m%d%H%M')
+  
   order = apicontractsv1.orderType()
-  order.invoiceNumber = "678965432145"
+  order.invoiceNumber = "678965432145-" + formatted_today
   order.description = "HelmSmart Subscription - Yearly"
   transactionRequest.order = order
 
