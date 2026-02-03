@@ -499,7 +499,7 @@ def get_subscription_details(gSubscriptionType) -> SubscriptionData:
     log.info('get_subscription_details Device error: Error in update device %s:  ' % e)
 
 
-  return SubscriptionData(subscriptionDescription=subscriptionDescription, subscriptionPrice=subscriptionPrice, subscriptionStart=subscriptionStart, subscriptionEnd=subscriptionEnd, subscriptionValid=subscriptionValid)
+  return SubscriptionData(subscriptionDescription=subscriptionDescription, subscriptionPrice=subscriptionPrice, subscriptionStart=starttime, subscriptionEnd=endtime, subscriptionValid=subscriptionValid)
 
 
 @app.route('/')
