@@ -840,10 +840,10 @@ def payment_response_recieved():
       log.info('lineItems : %s' , lineItems)
 
       for lineItem in lineItems:
-        log.info('item itemId : %s' , lineItems.itemId)
-        log.info('item name : %s' , lineItems.name)
-        log.info('item description : %s' , lineItems.description)
-        log.info('item quantity : %s' , lineItems.quantity)
+        log.info('item itemId : %s' , lineItem.itemId)
+        log.info('item name : %s' , lineItem.name)
+        log.info('item description : %s' , lineItem.description)
+        log.info('item quantity : %s' , lineItem.quantity)
 
 
 
