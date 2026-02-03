@@ -1488,7 +1488,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   log.info("aws_update_device- userid %s", userid)
 
   # now see if we have a matching deciveapikey
-  deviceapikey = getdeviceapikey(userid, deviceid)
+  deviceapikey = getdeviceapikey(userid, str(deviceid))
 
   # if dosnt exist then create a new one
   if deviceapikey == "":
