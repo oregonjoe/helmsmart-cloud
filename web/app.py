@@ -652,7 +652,8 @@ def get_payment_token():
   log.info("get_payment_token: subscriptionDescription:%s", subscription.subscriptionDescription)
   log.info("get_payment_token: subscriptionStart:%s", subscription.subscriptionStart)
   log.info("get_payment_token: subscriptionEnd:%s", subscription.subscriptionEnd)
-  
+
+  """
   if gSubscriptionType == "HS-Weekly":
     subscriptionPrice = str(os.environ.get('SubscriptionPriceHSWeekly'))
     subscriptionDescription = "HelmSmart Subscription - Weekly"
@@ -674,7 +675,9 @@ def get_payment_token():
     return redirect(url_for('manage'))
 
   log.info("get_payment_token: subscriptionPrice:%s", subscriptionPrice)
-    
+  """
+
+  
   #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
   #TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
   #ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
@@ -1012,6 +1015,7 @@ def payment_response_recieved():
       if transactionDetailsResponse.messages:
         log.info('Failed to get transaction details.\nCode:%s \nText:%s' % (transactionDetailsResponse.messages.message[0].code,transactionDetailsResponse.messages.message[0].text))
 
+    """
     if gSubscriptionType == "HS-Weekly":
       subscriptionPrice = str(os.environ.get('SubscriptionPriceHSWeekly'))
       subscriptionDescription = "HelmSmart Subscription - Weekly"
@@ -1031,10 +1035,18 @@ def payment_response_recieved():
     else:
       # invalid value so just return
       return "Payment processing error - invalid subscription"
+    """
+    
+    subscription = get_subscription_details(gSubscriptionType)
+    log.info("payment_response_recieved: subscriptionPrice:%s", subscription.subscriptionPrice)
+    log.info("payment_response_recieved: subscriptionDescription:%s", subscription.subscriptionDescription)
+    log.info("payment_response_recieved: subscriptionStart:%s", subscription.subscriptionStart)
+    log.info("payment_response_recieved: subscriptionEnd:%s", subscription.subscriptionEnd)
+
   
     ######### add new device to helmsmart database #############
     #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
-    deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone, subscriptionKey, mPaymentTransaction, 1, False, False   )
+    deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone, gSubscriptionType, mPaymentTransaction, 1, False, False   )
 
     if deviceupdate_check == True:
 
@@ -1403,6 +1415,8 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   log.info('aws_update_device: email_verified %s   ', email_verified)
   log.info('aws_update_device: phone_verified %s   ', phone_verified)
 
+  
+  """
   try:
     
     starttime = datetime.datetime.now()
@@ -1426,6 +1440,9 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
     log.info("aws_update_device - starttime %s endtime %s", starttime, endtime)
 
+
+    
+
   except TypeError as e:
     log.info("aws_update_device Device error -:TypeError deviceid %s ", deviceid)
     log.info('aws_update_device Device error -:TypeError  Error %s:  ' % e)
@@ -1441,6 +1458,13 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
     log.info("aws_update_device Device error - Error in update device %s", deviceid)
     log.info('aws_update_device Device error: Error in update device %s:  ' % e)
     return False
+  """
+  subscription = get_subscription_details(gSubscriptionType)
+  log.info("payment_response_recieved: subscriptionPrice:%s", subscription.subscriptionPrice)
+  log.info("payment_response_recieved: subscriptionDescription:%s", subscription.subscriptionDescription)
+  log.info("payment_response_recieved: subscriptionStart:%s", subscription.subscriptionStart)
+  log.info("payment_response_recieved: subscriptionEnd:%s", subscription.subscriptionEnd)
+
   
   userid=""
   userid_exists = False
@@ -1490,7 +1514,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime, email_verified, phone_verified))
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, SubscriptionType, transactionID, subscription.subscriptionStart, subscription.subscriptionEnd, email_verified, phone_verified))
 
       conn.commit()
         
