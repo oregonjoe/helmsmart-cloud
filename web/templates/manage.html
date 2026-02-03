@@ -1869,6 +1869,7 @@ Alert service</p>
 			<form name="PrePage" method="post" action="https://www.helmsmart-cloud.com/get-token">
 			<input type="hidden" name="gUserEmail" value={{session['aws_email']}} />
 			<input type="hidden" name="gAWSuserid" value={{session['aws_userid']}} />
+			<input type="hidden" name="gAWSname" value={{session['aws_name']}} />
 			<input type="hidden" name="SubscriptionType" value='HS-Weekly' />
 			
 			<input type="image" src="{{ url_for('static', filename='img/OrderWeeklyButtonSmall.jpg' ) }}" />
@@ -1880,22 +1881,46 @@ Alert service</p>
 	</td>
 	<td>
 		{% if session['aws_account_type'] == "primary user" %}	
+			<!--
 			<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
 			<input type="hidden" name="LinkId" value="0c6167c5-7663-4d73-b0ef-466b387eafed" />
-	  
 			<input type="image" src="{{ url_for('static', filename='img/OrderMonthlyButtonSmall.jpg' ) }}" />
 			</form>
+			
+			-->
+			
+			<form name="PrePage" method="post" action="https://www.helmsmart-cloud.com/get-token">
+			<input type="hidden" name="gUserEmail" value={{session['aws_email']}} />
+			<input type="hidden" name="gAWSuserid" value={{session['aws_userid']}} />
+			<input type="hidden" name="gAWSname" value={{session['aws_name']}} />
+			<input type="hidden" name="SubscriptionType" value='HS-Monthly' />
+			<input type="image" src="{{ url_for('static', filename='img/OrderMonthlyButtonSmall.jpg' ) }}" />
+			</form>
+			
 		{% else %}
 			<input type="image" src="{{ url_for('static', filename='img/OrderMonthlyButtonSmall.jpg' ) }}" />
 		{% endif %}
 	</td>
 	<td>
-		{% if session['aws_account_type'] == "primary user" %}		
+		{% if session['aws_account_type'] == "primary user" %}	
+			<!--		
 			<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
 			<input type="hidden" name="LinkId" value="a2b39ac2-fe57-49f8-999f-b895d45c1110" />
 	  
+			-->
+			
+			<form name="PrePage" method="post" action="https://www.helmsmart-cloud.com/get-token">
+			<input type="hidden" name="gUserEmail" value={{session['aws_email']}} />
+			<input type="hidden" name="gAWSuserid" value={{session['aws_userid']}} />
+			<input type="hidden" name="gAWSname" value={{session['aws_name']}} />
+			<input type="hidden" name="SubscriptionType" value='HS-Yearly' />
+	  
 			<input type="image" src="{{ url_for('static', filename='img/OrderYearlyButtonSmall.jpg' ) }}" />
 			</form>
+			
+			
+			
+			
 		{% else %}
 			<input type="image" src="{{ url_for('static', filename='img/OrderYearlyButtonSmall.jpg' ) }}" />
 		{% endif %}	

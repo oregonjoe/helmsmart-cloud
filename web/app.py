@@ -572,9 +572,32 @@ def get_payment_token():
     gAWSuserid = raw_payload.get('gAWSuserid',"") 
     log.info("get_payment_token: gAWSuserid:%s", gAWSuserid)
 
+    gAWSname = raw_payload.get('gAWSname',"") 
+    log.info("get_payment_token: gAWSname:%s", gAWSname)
+
+
     gSubscriptionType = raw_payload.get('SubscriptionType',"") 
     log.info("get_payment_token: gSubscriptionType:%s", gSubscriptionType)
 
+
+
+  if gSubscriptionType == "HS-Weekly":
+    subscriptionPrice = str(os.environ.get('SubscriptionPriceHSWeekly'))
+    subscriptionDescription = "HelmSmart Subscription - Weekly"
+  elif gSubscriptionType == "HS-Monthly":
+    subscriptionPrice = str(os.environ.get('SubscriptionPriceHSMonthly'))
+    subscriptionDescription = "HelmSmart Subscription - Monthly"
+  elif gSubscriptionType == "HS-Yearly":
+    subscriptionPrice = str(os.environ.get('SubscriptionPriceHSYearly'))
+    subscriptionDescription = "HelmSmart Subscription - Yearly"
+  elif gSubscriptionType == "HS-ELLO":
+    subscriptionPrice = str(os.environ.get('SubscriptionPriceELLO'))
+    subscriptionDescription = "HelmSmart Subscription - ELLO"
+  else:
+    # invalid value so just return
+    return redirect(url_for('manage'))
+
+  log.info("get_payment_token: subscriptionPrice:%s", subscriptionPrice)
     
   #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
   #TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
@@ -589,18 +612,18 @@ def get_payment_token():
   # Set the customer's identifying information
   customerData = apicontractsv1.customerDataType()
   customerData.type = "individual"
-  customerData.id = "99999456654"
-  customerData.email = "EllenJohnson@example.com"
+  customerData.id = gAWSuserid
+  customerData.email = gUserEmail
 
 
   # 2. Set Transaction Details
   #transactionRequest = apicontractsv1.transactionRequestType()
   transactionRequest = apicontractsv1.transactionRequestType()
   transactionRequest.transactionType = "authCaptureTransaction"
-  transactionRequest.amount = "0.01"
+  transactionRequest.amount = subscriptionPrice
   #transactionRequest.order.invoiceNumber = "678965432145"
   #transactionRequest.order.description = "SeaGAugeG4-4576"
-  transactionRequest.poNumber = "678965432145"
+  transactionRequest.poNumber = gAWSuserid"
   # Define transaction details (adjust as needed)
 
 
@@ -609,8 +632,8 @@ def get_payment_token():
   
   order = apicontractsv1.orderType()
   order.invoiceNumber = "HS-" + formatted_today
-  order.purchaseOrderNumber = "678965432145" 
-  order.description = "HelmSmart Subscription - Yearly"
+  order.purchaseOrderNumber =gAWSuserid 
+  order.description = subscriptionDescription
   transactionRequest.order = order
 
   transactionRequest.customer = customerData
@@ -618,11 +641,11 @@ def get_payment_token():
 
   # setup individual line items
   line_item_1 = apicontractsv1.lineItemType()
-  line_item_1.itemId = "HS-YEARLY"
-  line_item_1.name = "678965432145"
-  line_item_1.description = "SeaGaugeG4-4576"
+  line_item_1.itemId = gSubscriptionType
+  line_item_1.name = gAWSuserid
+  line_item_1.description = gAWSname
   line_item_1.quantity = "1"
-  line_item_1.unitPrice = "0.01"
+  line_item_1.unitPrice = subscriptionPrice
   
 
   # build the array of line items
