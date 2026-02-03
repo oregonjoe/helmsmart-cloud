@@ -575,7 +575,8 @@ def get_payment_token():
   #transactionRequest.poNumber = "678965432145"
   # Define transaction details (adjust as needed)
 
-  today = datetime.now()
+
+  today = datetime.datetime.now()
   formatted_today = today.strftime('%Y%m%d%H%M')
   
   order = apicontractsv1.orderType()
