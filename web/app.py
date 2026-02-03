@@ -623,7 +623,7 @@ def get_payment_token():
   transactionRequest.amount = subscriptionPrice
   #transactionRequest.order.invoiceNumber = "678965432145"
   #transactionRequest.order.description = "SeaGAugeG4-4576"
-  transactionRequest.poNumber = gAWSuserid"
+  transactionRequest.poNumber = gAWSuserid
   # Define transaction details (adjust as needed)
 
 
