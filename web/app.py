@@ -980,11 +980,11 @@ def payment_response_recieved():
       log.info('invoice Number  : %s' % transactionDetailsResponse.transaction.order.invoiceNumber)
       log.info('order description : %s' % transactionDetailsResponse.transaction.order.description)
 
-      #mPaymentEmail = transactionDetailsResponse.transaction.customer.email
-      mPaymentEmail = "joe@seagauge.com"
+      mPaymentEmail = str(transactionDetailsResponse.transaction.customer.email)
+      #mPaymentEmail = "joe@seagauge.com"
       log.info('customer email : %s' , mPaymentEmail)
 
-      mPaymentPhone = transactionDetailsResponse.transaction.billTo.phoneNumber
+      mPaymentPhone = str(transactionDetailsResponse.transaction.billTo.phoneNumber)
       log.info('customer phoneNumber : %s' , mPaymentPhone)
       
       #log.info('purchaseOrderNumber : %s' % transactionDetailsResponse.transaction.order.purchaseOrderNumber)
@@ -998,13 +998,13 @@ def payment_response_recieved():
         log.info('lineItems : %s' , lineItems)
 
         for lineItem in lineItems:
-          gSubscriptionType = lineItem.itemId
+          gSubscriptionType = str(lineItem.itemId)
           log.info('item gSubscriptionType : %s' , gSubscriptionType)
 
-          mPaymentDeviceID = lineItem.name
+          mPaymentDeviceID = str(lineItem.name)
           log.info('item mPaymentDeviceID : %s' , mPaymentDeviceID)
 
-          mPaymentDeviceName = lineItem.description
+          mPaymentDeviceName = str(lineItem.description)
           log.info('item mPaymentDeviceName : %s' , mPaymentDeviceName)
 
           
