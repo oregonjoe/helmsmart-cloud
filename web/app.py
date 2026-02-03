@@ -1402,7 +1402,7 @@ def aws_add_device(deviceid, devicename, useremail, smsemail, smsphone ):
     db_pool.putconn(conn)
 
 
-def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
+def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionType, transactionID, devicestatus, email_verified, phone_verified ):
 
   log.info('aws_update_device:start  ')  
 
@@ -1412,7 +1412,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
   log.info('aws_update_device: useremail %s   ', useremail)
   log.info('aws_update_device: smsemail %s   ', smsemail)
   log.info('aws_update_device: smsphone %s   ', smsphone)
-  log.info('aws_update_device: subscriptionkey %s   ', subscriptionKey)
+  log.info('aws_update_device: subscriptionType %s   ', subscriptionType)
   log.info('aws_update_device: transactionID %s   ', transactionID)
   log.info('aws_update_device: devicestatus %s   ', devicestatus)
   log.info('aws_update_device: email_verified %s   ', email_verified)
@@ -1462,7 +1462,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
     log.info('aws_update_device Device error: Error in update device %s:  ' % e)
     return False
   """
-  subscription = get_subscription_details(gSubscriptionType)
+  subscription = get_subscription_details(subscriptionType)
   log.info("payment_response_recieved: subscriptionPrice:%s", subscription.subscriptionPrice)
   log.info("payment_response_recieved: subscriptionDescription:%s", subscription.subscriptionDescription)
   log.info("payment_response_recieved: subscriptionStart:%s", subscription.subscriptionStart)
@@ -1517,7 +1517,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
 
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, SubscriptionType, transactionID, subscription.subscriptionStart, subscription.subscriptionEnd, email_verified, phone_verified))
+      cursor.execute(query, (deviceapikey, userid, useremail, deviceid, devicestatus,  devicename, smsemail, smsphone, subscriptionType, transactionID, subscription.subscriptionStart, subscription.subscriptionEnd, email_verified, phone_verified))
 
       conn.commit()
         
@@ -1552,7 +1552,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (devicename, smsemail, smsphone, SubscriptionType, transactionID, starttime, endtime, devicestatus, email_verified, phone_verified, deviceapikey))
+      cursor.execute(query, (devicename, smsemail, smsphone, subscriptionType, transactionID, starttime, endtime, devicestatus, email_verified, phone_verified, deviceapikey))
 
       conn.commit()
 
