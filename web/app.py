@@ -646,6 +646,12 @@ def get_payment_token():
     gSubscriptionType = raw_payload.get('SubscriptionType',"") 
     log.info("get_payment_token: gSubscriptionType:%s", gSubscriptionType)
 
+
+  subscription = get_subscription_details(gSubscriptionType)
+  log.info("get_payment_token: subscriptionPrice:%s", subscription.subscriptionPrice)
+  log.info("get_payment_token: subscriptionDescription:%s", subscription.subscriptionDescription)
+  log.info("get_payment_token: subscriptionStart:%s", subscription.subscriptionStart)
+  log.info("get_payment_token: subscriptionEnd:%s", subscription.subscriptionEnd)
   
   if gSubscriptionType == "HS-Weekly":
     subscriptionPrice = str(os.environ.get('SubscriptionPriceHSWeekly'))
