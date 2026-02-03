@@ -834,6 +834,10 @@ def payment_response_recieved():
 
       log.info('invoice Number  : %s' % transactionDetailsResponse.transaction.order.invoiceNumber)
       log.info('order description : %s' % transactionDetailsResponse.transaction.order.description)
+      log.info('purchaseOrderNumber : %s' % transactionDetailsResponse.transaction.order.purchaseOrderNumber)
+
+      lineItems = transactionDetailsResponse.transaction.lineItems
+      log.info('lineItems : %s' % lineItems)
 
       if transactionDetailsResponse.messages:
         log.info('Message Code : %s' % transactionDetailsResponse.messages.message[0].code)
