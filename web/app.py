@@ -561,14 +561,19 @@ def get_payment_token():
     aws_email = session['aws_email']
     log.info("get_payment_token: aws_email:%s", aws_email)
 
-  gUserEmail = request.form.get('gUserEmail',"") 
-  log.info("get_payment_token: gUserEmail:%s", gUserEmail)
+  if request.method == 'POST':
 
-  gAWSuserid = request.form.get('gAWSuserid',"") 
-  log.info("get_payment_token: gAWSuserid:%s", gAWSuserid)
+    raw_payload = request.form
+    log.info('get_payment_token: raw_payload  %s:  ', raw_payload)
+    
+    gUserEmail = raw_payload.get('gUserEmail',"") 
+    log.info("get_payment_token: gUserEmail:%s", gUserEmail)
 
-  gSubscriptionType = request.form.get('SubscriptionType',"") 
-  log.info("get_payment_token: gSubscriptionType:%s", gSubscriptionType)
+    gAWSuserid = raw_payload.get('gAWSuserid',"") 
+    log.info("get_payment_token: gAWSuserid:%s", gAWSuserid)
+
+    gSubscriptionType = raw_payload.get('SubscriptionType',"") 
+    log.info("get_payment_token: gSubscriptionType:%s", gSubscriptionType)
 
     
   #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
