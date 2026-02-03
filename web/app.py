@@ -546,12 +546,19 @@ def index():
 def get_payment_token():
 
   log.info('get_payment_token: start:  ')
-  # 1. Set Credentials
+
+  log.info('get-token: session %s:  ', session)
+  
+  tokens = session.json()
+  log.info('get-token: access_token %s:  ', tokens) 
+
+
+  #deviceid = 
 
   #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
   #TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
   #ENVIRONMENT = os.environ.get('ANET_ENVIRONMENT', 'PRODUCTION')
-  
+  # 1. Set Credentials
   #merchantAuth = apicontractsv1.merchantAuthenticationType()
   merchantAuth =apicontractsv1.merchantAuthenticationType()
   merchantAuth.name = API_LOGIN_ID
@@ -572,7 +579,7 @@ def get_payment_token():
   transactionRequest.amount = "0.01"
   #transactionRequest.order.invoiceNumber = "678965432145"
   #transactionRequest.order.description = "SeaGAugeG4-4576"
-  #transactionRequest.poNumber = "678965432145"
+  transactionRequest.poNumber = "678965432145"
   # Define transaction details (adjust as needed)
 
 

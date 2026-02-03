@@ -1849,13 +1849,30 @@ Alert service</p>
 	</tr>
 	
 	<tr >	
+	
+	
+	
+
+	
+	
+	
 
 	<td>
 		{% if session['aws_account_type'] == "primary user" %}
+			<!--
 			<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
 			<input type="hidden" name="LinkId" value="e8bceddf-3f87-4c2e-beb7-7a6a2d5a33f6" /> 
 			<input type="image" src="{{ url_for('static', filename='img/OrderWeeklyButtonSmall.jpg' ) }}" />
 			</form>
+			-->
+			
+			<form name="PrePage" method="post" action="https://www.helmsmart-cloud.com/get-token">
+			<input type="hidden" name="gUserEmail" value="session['aws_email']" />
+			<input type="hidden" name="gAWSuserid" value="session['aws_userid']" />
+			
+			<input type="image" src="{{ url_for('static', filename='img/OrderWeeklyButtonSmall.jpg' ) }}" />
+			</form>
+			
 		{% else %}
 			<input type="image" src="{{ url_for('static', filename='img/OrderWeeklyButtonSmall.jpg' ) }}" />
 		{% endif %}
