@@ -836,14 +836,19 @@ def payment_response_recieved():
       log.info('order description : %s' % transactionDetailsResponse.transaction.order.description)
       #log.info('purchaseOrderNumber : %s' % transactionDetailsResponse.transaction.order.purchaseOrderNumber)
 
-      lineItems = transactionDetailsResponse.transaction.lineItems
-      log.info('lineItems : %s' , lineItems)
+      # Check if lineItems exist
+      if hasattr(transactionDetailsResponse.transaction.lineItems, 'lineItem'):
+        
+        log.info('lineItem exists')
+        
+        lineItems = transactionDetailsResponse.transaction.lineItems.lineItem
+        log.info('lineItems : %s' , lineItems)
 
-      for lineItem in lineItems:
-        log.info('item itemId : %s' , lineItem.itemId)
-        log.info('item name : %s' , lineItem.name)
-        log.info('item description : %s' , lineItem.description)
-        log.info('item quantity : %s' , lineItem.quantity)
+        for lineItem in lineItems:
+          log.info('item itemId : %s' , lineItem.itemId)
+          log.info('item name : %s' , lineItem.name)
+          log.info('item description : %s' , lineItem.description)
+          log.info('item quantity : %s' , lineItem.quantity)
 
 
 
