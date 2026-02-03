@@ -699,7 +699,7 @@ def get_payment_token():
   setting2.settingName = "hostedPaymentReturnOptions"
   # The value must be a JSON string, which requires escaping quotes in Python
   #setting2.settingValue = "{\"showReceipt\": true}"
-  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/payment_response_handler\", \"urlText\": \"Continue\"}"
+  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/manage\", \"urlText\": \"Continue\"}"
   log.info('get_payment_token: setting2:  ')
 
   # 3. Customize the "Pay" button text
@@ -834,6 +834,9 @@ def payment_response_recieved():
 
       log.info('invoice Number  : %s' % transactionDetailsResponse.transaction.order.invoiceNumber)
       log.info('order description : %s' % transactionDetailsResponse.transaction.order.description)
+
+      log.info('customer email : %s' % transactionDetailsResponse.transaction.customer.email)
+      
       #log.info('purchaseOrderNumber : %s' % transactionDetailsResponse.transaction.order.purchaseOrderNumber)
 
       # Check if lineItems exist
