@@ -980,7 +980,8 @@ def payment_response_recieved():
       log.info('invoice Number  : %s' % transactionDetailsResponse.transaction.order.invoiceNumber)
       log.info('order description : %s' % transactionDetailsResponse.transaction.order.description)
 
-      mPaymentEmail = transactionDetailsResponse.transaction.customer.email
+      #mPaymentEmail = transactionDetailsResponse.transaction.customer.email
+      mPaymentEmail = "joe@seagauge.com"
       log.info('customer email : %s' , mPaymentEmail)
 
       mPaymentPhone = transactionDetailsResponse.transaction.billTo.phoneNumber
@@ -1463,10 +1464,10 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
     return False
   """
   subscription = get_subscription_details(subscriptionType)
-  log.info("payment_response_recieved: subscriptionPrice:%s", subscription.subscriptionPrice)
-  log.info("payment_response_recieved: subscriptionDescription:%s", subscription.subscriptionDescription)
-  log.info("payment_response_recieved: subscriptionStart:%s", subscription.subscriptionStart)
-  log.info("payment_response_recieved: subscriptionEnd:%s", subscription.subscriptionEnd)
+  log.info("aws_update_device: subscriptionPrice:%s", subscription.subscriptionPrice)
+  log.info("aws_update_device: subscriptionDescription:%s", subscription.subscriptionDescription)
+  log.info("aws_update_device: subscriptionStart:%s", subscription.subscriptionStart)
+  log.info("aws_update_device: subscriptionEnd:%s", subscription.subscriptionEnd)
 
   
   userid=""
