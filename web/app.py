@@ -824,7 +824,7 @@ def payment_response_recieved():
 
   if transactionDetailsResponse is not None:
     if transactionDetailsResponse.messages.resultCode == apicontractsv1.messageTypeEnum.Ok:
-      log.info('Successfully got transaction details!!!  %s', transactionDetailsResponse )
+      log.info('Successfully got transaction details!!!  ' )
 
       log.info('Transaction Id : %s' % transactionDetailsResponse.transaction.transId)
       log.info('Transaction Type : %s' % transactionDetailsResponse.transaction.transactionType)
@@ -832,8 +832,8 @@ def payment_response_recieved():
       log.info('Auth Amount : %s' % transactionDetailsResponse.transaction.authAmount)
       log.info('Settle Amount : %s' % transactionDetailsResponse.transaction.settleAmount)
 
-      log.info('invoice Number  : %s' % transactionDetailsResponse.order.invoiceNumber)
-      log.info('order description : %s' % transactionDetailsResponse.order.description)
+      log.info('invoice Number  : %s' % transactionDetailsResponse.transaction.order.invoiceNumber)
+      log.info('order description : %s' % transactionDetailsResponse.transaction.order.description)
 
       if transactionDetailsResponse.messages:
         log.info('Message Code : %s' % transactionDetailsResponse.messages.message[0].code)
