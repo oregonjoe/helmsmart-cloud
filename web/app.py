@@ -720,7 +720,7 @@ def get_payment_token():
 
   # setup individual line items
   line_item_1 = apicontractsv1.lineItemType()
-  line_item_1.itemId = subscription.gSubscriptionType
+  line_item_1.itemId = gSubscriptionType
   line_item_1.name = gAWSuserid
   line_item_1.description = gAWSname
   line_item_1.quantity = "1"
