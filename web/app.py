@@ -982,6 +982,9 @@ def payment_response_recieved():
 
       mPaymentEmail = transactionDetailsResponse.transaction.customer.email
       log.info('customer email : %s' , mPaymentEmail)
+
+      mPaymentPhone = transactionDetailsResponse.transaction.billTo.phoneNumber
+      log.info('customer phoneNumber : %s' , mPaymentPhone)
       
       #log.info('purchaseOrderNumber : %s' % transactionDetailsResponse.transaction.order.purchaseOrderNumber)
 
