@@ -580,7 +580,8 @@ def get_payment_token():
   formatted_today = today.strftime('%Y%m%d%H%M')
   
   order = apicontractsv1.orderType()
-  order.invoiceNumber = "678965432145-" + formatted_today
+  order.invoiceNumber = "HS-" + formatted_today
+  #order.purchaseOrderNumber = "678965432145" 
   order.description = "HelmSmart Subscription - Yearly"
   transactionRequest.order = order
 
