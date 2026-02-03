@@ -633,9 +633,9 @@ def get_payment_token():
 
   # 3. Request Hosted Form Token
   #request = apicontractsv1.getHostedPaymentPageRequest()
-  request = apicontractsv1.getHostedPaymentPageRequest()
-  request.merchantAuthentication = merchantAuth
-  request.transactionRequest = transactionRequest
+  paymentRequest = apicontractsv1.getHostedPaymentPageRequest()
+  paymentRequest.merchantAuthentication = merchantAuth
+  paymentRequest.transactionRequest = transactionRequest
 
   #return jsonify({"token": "empty"})
 
@@ -766,16 +766,16 @@ def get_payment_token():
   #hostedPaymentSettings.setting.append(setting1)
 
   #request.hostedPaymentSettings = settings
-  request.hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
-  request.hostedPaymentSettings.setting.append(setting1)
-  request.hostedPaymentSettings.setting.append(setting2)
-  request.hostedPaymentSettings.setting.append(setting3)
-  request.hostedPaymentSettings.setting.append(setting4)
+  paymentRequest.hostedPaymentSettings = apicontractsv1.ArrayOfSetting()
+  paymentRequest.hostedPaymentSettings.setting.append(setting1)
+  paymentRequest.hostedPaymentSettings.setting.append(setting2)
+  paymentRequest.hostedPaymentSettings.setting.append(setting3)
+  paymentRequest.hostedPaymentSettings.setting.append(setting4)
   #request.hostedPaymentSettings = {"setting":[ {"settingName": "hostedPaymentButtonOptions", "settingValue":  "{\"text\": \"Pay\"}"} ] }
   #request.hostedPaymentSettings =settings
   #return jsonify({"hostedPaymentSettings": hostedPaymentSettings})
 
-  controller = getHostedPaymentPageController(request)
+  controller = getHostedPaymentPageController(paymentRequest)
   #controller.setenvironment(constants.SANDBOX) 
   #controller.setenvironment(constants.PRODUCTION)
   controller.setenvironment("https://api2.authorize.net/xml/v1/request.api")
