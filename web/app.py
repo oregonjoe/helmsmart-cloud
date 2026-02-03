@@ -699,7 +699,7 @@ def get_payment_token():
   #transactionRequest = apicontractsv1.transactionRequestType()
   transactionRequest = apicontractsv1.transactionRequestType()
   transactionRequest.transactionType = "authCaptureTransaction"
-  transactionRequest.amount = subscriptionPrice
+  transactionRequest.amount = subscription.subscriptionPrice
   #transactionRequest.order.invoiceNumber = "678965432145"
   #transactionRequest.order.description = "SeaGAugeG4-4576"
   transactionRequest.poNumber = gAWSuserid
@@ -712,7 +712,7 @@ def get_payment_token():
   order = apicontractsv1.orderType()
   order.invoiceNumber = "HS-" + formatted_today
   order.purchaseOrderNumber =gAWSuserid 
-  order.description = subscriptionDescription
+  order.description = subscription.subscriptionDescription
   transactionRequest.order = order
 
   transactionRequest.customer = customerData
@@ -720,11 +720,11 @@ def get_payment_token():
 
   # setup individual line items
   line_item_1 = apicontractsv1.lineItemType()
-  line_item_1.itemId = gSubscriptionType
+  line_item_1.itemId = subscription.gSubscriptionType
   line_item_1.name = gAWSuserid
   line_item_1.description = gAWSname
   line_item_1.quantity = "1"
-  line_item_1.unitPrice = subscriptionPrice
+  line_item_1.unitPrice = subscription.subscriptionPrice
   
 
   # build the array of line items
