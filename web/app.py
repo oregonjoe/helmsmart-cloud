@@ -1058,9 +1058,9 @@ def payment_response_recieved():
       destination = "admin@helmsmart-cloud.com"
       subject = "New HelmSmart-Cloud Subscription - username : " + mPaymentDeviceID
       text = "Username = " + mPaymentDeviceID + "\nUser email = " + mPaymentEmail + "\nDeviceID = " + mPaymentDeviceID + "\nDevicename = " + mPaymentDeviceName +"\n"
-      text =  text + "\nSubscription = " + mPaymentSubscription + "\nTransaction = " + mPaymentTransaction  +"\n"
+      text =  text + "\nSubscription = " + gSubscriptionType + "\nTransaction = " + mPaymentTransaction  +"\n"
       html = "<p>Username = " + mPaymentDeviceID + "</p><p>User email = " + mPaymentEmail + "</p><p>DeviceID = " + mPaymentDeviceID + "</p><p>Devicename = " + mPaymentDeviceName +"</p>"
-      html = html + "<p>Subscription = " + mPaymentSubscription + "</p><p>SubscriptionType = " + SubscriptionType + "</p><p>Transaction = " + mPaymentTransaction  +"</p><p>SubscriptionEnd = " + endtime + "</p>"
+      html = html + "<p>Subscription = " + gSubscriptionType + "</p><p>SubscriptionType = " + SubscriptionType + "</p><p>Transaction = " + mPaymentTransaction  +"</p><p>SubscriptionEnd = " + endtime + "</p>"
 
 
 
