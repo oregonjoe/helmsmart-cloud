@@ -1457,6 +1457,7 @@ function handleDeleteDevice(response)
 function AWSDeleteDevice(index)
 {
 
+	var deleted_username = "";
 
 	if(gAWSAccountType == "sub user")
 	{
@@ -1495,6 +1496,15 @@ function AWSDeleteDevice(index)
   if (!isConfirmed) {
     return;
   } 
+  
+  if(gAWSUsername.toUpperCase() == "FFFFFFFFFFFF")
+  {
+		deleted_username = myDeviceID[index];
+  }
+  else
+  {
+		deleted_username = gAWSUsername;
+  }
 
 
         $.blockUI({ 
@@ -1513,7 +1523,7 @@ function AWSDeleteDevice(index)
 	var devicedataurl;
 	
 
-	devicedataurl = "https://www.helmsmart-cloud.com/aws_delete_device?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index] + "&awsusername=" + gAWSUsername;
+	devicedataurl = "https://www.helmsmart-cloud.com/aws_delete_device?deviceapikey=" + myDeviceKey[index] + "&deviceid=" + myDeviceID[index] + "&awsusername=" + deleted_username;
 	devicedataurl = devicedataurl + "&devicename=" + document.getElementById("DeviceName").value; 
 	devicedataurl = devicedataurl + "&useremail=" + gUserEmail; 
 	
@@ -1599,6 +1609,10 @@ function AWSCancelSubscription(index)
   if (!isConfirmed) {
     return;
   } 
+  
+  
+
+  
   
         $.blockUI({ 
      message: '<h1>Search in progress...</h1>',    
