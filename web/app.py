@@ -1452,7 +1452,8 @@ def authorizenet_update_subscription(deviceid,  subscriptionType, transactionID 
     query  = query + "subscriptionid = %s, "
     query  = query + "transactionid = %s, "
     query  = query + "subscriptionstartdate = %s, "
-    query  = query + "subscriptionenddate = %s "
+    query  = query + "subscriptionenddate = %s ",
+    query  = query + "devicestatus = 1 "
     query  = query + "WHERE deviceid =  %s"
 
     log.info("authorizenet_update_subscription update query %s ", query)
@@ -2279,7 +2280,8 @@ def aws_cancel_subscription():
 
   query  = "update user_devices SET "
   query  = query + "subscriptionid = %s, "
-  query  = query + "subscriptionenddate = %s "
+  query  = query + "subscriptionenddate = %s ",
+  query  = query + "devicestatus = 0 "  
   query  = query + "WHERE deviceapikey =  %s"
 
   log.info("aws_cancel_subscription update query %s ", query)
