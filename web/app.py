@@ -2154,14 +2154,19 @@ def aws_delete_device():
   log.info('aws_delete_device: deviceapikey %s:   deviceid %s:', deviceapikey, deviceid)
 
   if deviceapikey == "" or deviceid == "":
-    return jsonify( message='aws_delete_user', status='error')     
+    return jsonify( message='aws_delete_user', status='error - missing deviceid')     
 
 
   awsusername = request.args.get('awsusername', "")
   log.info('aws_delete_device: awsusername %s:', awsusername)
 
   if awsusername == "" :
-    return jsonify( message='aws_delete_user', status='error')     
+    return jsonify( message='aws_delete_user', status='error - missing aws_username')     
+
+  if awsusername.upper() != deviceid.upper() :
+    return jsonify( message='aws_delete_user', status='error - deviceid dosnt match aws_username')    
+
+
   
   try:
     
