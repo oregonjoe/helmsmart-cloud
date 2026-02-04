@@ -6265,7 +6265,7 @@ def check_deviceid(deviceid):
 
     conn = db_pool.getconn()
 
-    log.info("check_deviceid data Query %s", useremail)
+    log.info("check_deviceid data Query %s", deviceid)
 
     try:
     # first check db to see if useremail is matched to existing userid
