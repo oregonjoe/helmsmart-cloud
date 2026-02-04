@@ -1452,7 +1452,7 @@ def authorizenet_update_subscription(deviceid,  subscriptionType, transactionID 
     query  = query + "subscriptionid = %s, "
     query  = query + "transactionid = %s, "
     query  = query + "subscriptionstartdate = %s, "
-    query  = query + "subscriptionenddate = %s, "
+    query  = query + "subscriptionenddate = %s "
     query  = query + "WHERE deviceid =  %s"
 
     log.info("authorizenet_update_subscription update query %s ", query)
