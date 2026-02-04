@@ -900,14 +900,14 @@ def get_payment_token():
     log.info('get_payment_token: session  %s:  ', session) 
 
     # Pass the token to the frontend
-    #return render_template('payment_page.html')
+    return render_template('payment_page.html')
 
-    url = "https://accept.authorize.net/payment/payment"
-    token =str(response.token)
+    #url = "https://accept.authorize.net/payment/payment"
+    #token =str(response.token)
 
     # Send POST request with FORM data using the data parameter
-    response = requests.post(url, data=token)
-    log.info('get_payment_token: requests response  %s:  ', response) 
+    #response = requests.post(url, data=token)
+    #log.info('get_payment_token: requests response  %s:  ', response) 
   
   return jsonify({"error": "Failed to get token"}), 400
 
