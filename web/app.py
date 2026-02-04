@@ -969,7 +969,7 @@ def payment_response_recieved():
     if transactionDetailsResponse.messages.resultCode == apicontractsv1.messageTypeEnum.Ok:
       log.info('Successfully got transaction details!!!  ' )
 
-      mPaymentTransaction = transactionDetailsResponse.transaction.transId
+      mPaymentTransaction = str(transactionDetailsResponse.transaction.transId)
       log.info('Transaction Id : %s' , mPaymentTransaction)
       log.info('Transaction Type : %s' % transactionDetailsResponse.transaction.transactionType)
       
