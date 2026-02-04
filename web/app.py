@@ -902,7 +902,7 @@ def get_payment_token():
     # Pass the token to the frontend
     #return render_template('payment_page.html')
 
-    url = '"https://accept.authorize.net/payment/payment"
+    url = "https://accept.authorize.net/payment/payment"
     token =str(response.token)
 
     # Send POST request with FORM data using the data parameter
