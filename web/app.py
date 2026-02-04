@@ -1071,7 +1071,7 @@ def payment_response_recieved():
     ######### add new device to helmsmart database #############
     #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
     #deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone, gSubscriptionType, mPaymentTransaction, 1, False, False   )
-    deviceupdate_check = authorizenet_update_subscription(mPaymentDeviceID,  gSubscriptionType, mPaymentTransaction ):
+    deviceupdate_check = authorizenet_update_subscription(mPaymentDeviceID,  gSubscriptionType, mPaymentTransaction )
     if deviceupdate_check == True:
 
       source = "verify@helmsmart-cloud.com"
