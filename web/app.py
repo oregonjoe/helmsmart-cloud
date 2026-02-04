@@ -835,7 +835,7 @@ def get_payment_token():
   setting2.settingName = "hostedPaymentReturnOptions"
   # The value must be a JSON string, which requires escaping quotes in Python
   #setting2.settingValue = "{\"showReceipt\": true}"
-  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/manage\", \"urlText\": \"Continue\",\"cancelUrl\":\"https://www.helmsmart-cloud.com/manage\",\"cancelUrlText\":\"Cancel"}"
+  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/manage\", \"urlText\": \"Continue\",\"cancelUrl\":\"https://www.helmsmart-cloud.com/manage\",\"cancelUrlText\":\"Cancel\"}"
   log.info('get_payment_token: setting2:  ')
 
   # 3. Customize the "Pay" button text
