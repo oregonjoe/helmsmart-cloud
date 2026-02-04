@@ -907,7 +907,7 @@ def get_payment_token():
 
     # Send POST request with FORM data using the data parameter
     response = requests.post(url, data=token)
-
+    log.info('get_payment_token: requests response  %s:  ', response) 
   
   return jsonify({"error": "Failed to get token"}), 400
 
