@@ -1501,9 +1501,15 @@ function AWSDeleteDevice(index)
   {
 		deleted_username = myDeviceID[index];
   }
-  else
+  else if(gAWSUsername.toUpperCase() == myDeviceID[index].toUpperCase()
   {
 		deleted_username = gAWSUsername;
+  }
+  else
+  {
+		alert("Invalid: Must be logged in as user delete a primary account")
+		return;
+  
   }
 
 
