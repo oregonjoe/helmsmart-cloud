@@ -677,6 +677,10 @@ def get_payment_token():
   log.info("get_payment_token: subscriptionPrice:%s", subscriptionPrice)
   """
 
+  if check_deviceid(gAWSuserid) == False:
+    return redirect(url_for('user_doesnotexist'))
+    #return jsonify({"error": "DeviceID does not exist"}), 400
+
   
   #API_LOGIN_ID = os.environ.get('ANET_API_LOGIN_ID')
   #TRANSACTION_KEY = os.environ.get('ANET_TRANSACTION_KEY')
@@ -952,7 +956,15 @@ def payment_response_recieved():
   if transactionid == "":
     return "Payment processing error"  
 
+  responseCode = payload.get('responseCode', "")
+  log.info('payment_response_recieved: responseCode  %s:  ', responseCode)
+  if responseCode != 1:
+    log.info("sendtestemail_endpoint message_id = %s", message_id)
+    return redirect(url_for('user_subscription_payment_declined'))
+    #return "Payment processing error"
 
+
+  
   merchantAuth =apicontractsv1.merchantAuthenticationType()
   merchantAuth.name = API_LOGIN_ID
   merchantAuth.transactionKey = TRANSACTION_KEY
@@ -1058,8 +1070,8 @@ def payment_response_recieved():
   
     ######### add new device to helmsmart database #############
     #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
-    deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone, gSubscriptionType, mPaymentTransaction, 1, False, False   )
-
+    #deviceupdate_check = aws_update_device(mPaymentDeviceID, mPaymentDeviceName, mPaymentEmail, mPaymentEmail, mPaymentPhone, gSubscriptionType, mPaymentTransaction, 1, False, False   )
+    deviceupdate_check = authorizenet_update_subscription(mPaymentDeviceID,  gSubscriptionType, mPaymentTransaction ):
     if deviceupdate_check == True:
 
       source = "verify@helmsmart-cloud.com"
@@ -1409,6 +1421,97 @@ def aws_add_device(deviceid, devicename, useremail, smsemail, smsphone ):
   
   finally:
     db_pool.putconn(conn)
+
+
+def authorizenet_update_subscription(deviceid,  subscriptionType, transactionID ):
+
+  log.info('authorizenet_update_subscription:start  ')  
+
+  #devicestatus = 1
+
+  log.info('authorizenet_update_subscription: deviceid %s  ', deviceid)
+  log.info('authorizenet_update_subscription: subscriptionType %s   ', subscriptionType)
+  log.info('authorizenet_update_subscription: transactionID %s   ', transactionID)
+
+
+  subscription = get_subscription_details(subscriptionType)
+  log.info("authorizenet_update_subscription: subscriptionPrice:%s", subscription.subscriptionPrice)
+  log.info("authorizenet_update_subscription: subscriptionDescription:%s", subscription.subscriptionDescription)
+  log.info("authorizenet_update_subscription: subscriptionStart:%s", subscription.subscriptionStart)
+  log.info("authorizenet_update_subscription: subscriptionEnd:%s", subscription.subscriptionEnd)
+
+  
+  conn = db_pool.getconn()
+  
+  try:
+    
+
+    log.info("Update subscription status deviceid  %s  already exists", deviceid )
+
+    query  = "update user_devices SET "
+    query  = query + "subscriptionid = %s, "
+    query  = query + "transactionid = %s, "
+    query  = query + "subscriptionstartdate = %s, "
+    query  = query + "WHERE deviceid =  %s"
+
+    log.info("authorizenet_update_subscription update query %s ", query)
+    
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, ( subscriptionType, transactionID, subscription.subscriptionStart, subscription.subscriptionEnd, deviceid))
+
+    conn.commit()
+
+    if cursor.rowcount == 0:
+      log.info("authorizenet_update_subscription UPDATE DB ERROR deviceid %s ", deviceid)
+      #db_pool.putconn(conn)
+      return False
+    
+    #db_pool.putconn(conn)
+    log.info("authorizenet_update_subscription UPDATE SUCCESS deviceid %s ", deviceid)
+    return True
+
+  except psycopg.Error as e:
+      log.info('authorizenet_update_subscription: SyntaxError in  update deviceid %s:  ', deviceid)
+      log.info('authorizenet_update_subscription: SyntaxError in  update deviceid  %s:  ' % str(e))
+      return False
+
+  except psycopg.ProgrammingError as e:
+      log.info('authorizenet_update_subscription: ProgrammingError in  update deviceid %s:  ', deviceid)
+      log.info('authorizenet_update_subscription: ProgrammingError in  update deviceid  %s:  ' % str(e))
+      return False
+
+  except psycopg.DataError as e:
+      log.info('authorizenet_update_subscription: DataError in  update deviceid %s:  ', deviceid)
+      log.info('authorizenet_update_subscription: DataError in  update deviceid  %s:  ' % str(e))
+      return False
+
+    
+  except TypeError as e:
+    log.info("authorizenet_update_subscription Device error -:TypeError deviceid %s ", deviceid)
+    log.info('authorizenet_update_subscription Device error -:TypeError  Error %s:  ' % e)
+    return False
+    
+  except SyntaxError  as e:
+    log.info("authorizenet_update_subscription Device error -:SyntaxError  deviceid %s ", deviceid)
+    log.info('authorizenet_update_subscription Device error -:SyntaxError   Error %s:  ' % e)
+    return False
+    
+  except NameError as e:
+    log.info("authorizenet_update_subscription Device error -:NameError deviceid %s ", deviceid)
+    log.info('authorizenet_update_subscription Device error -:NameError  Error %s:  ' % e)
+    return False
+  
+  except:
+    e = sys.exc_info()[0]
+    log.info("authorizenet_update_subscription Device error - Error in update device %s", deviceid)
+    log.info('authorizenet_update_subscription Device error: Error in update device %s:  ' % e)
+    return False
+  
+  finally:
+    db_pool.putconn(conn)
+
+
 
 
 def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionType, transactionID, devicestatus, email_verified, phone_verified ):
@@ -3408,6 +3511,25 @@ def user_subscription_added():
     'user_subscription_added.html',
     features = [],
   )
+
+
+@app.route('/user_doesnotexist')
+def user_doesnotexist():
+
+  return render_template(
+    'user_doesnotexist.html',
+    features = [],
+  )
+
+
+@app.route('/user_subscription_payment_declined')
+def user_subscription_payment_declined():
+
+  return render_template(
+    'user_subscription_payment_declined.html',
+    features = [],
+  )
+
 
 @app.route('/deviceview')
 def deviceview():
@@ -6139,7 +6261,73 @@ def getdeviceapikey(userid, deviceid):
 
     return ""
 
+def check_deviceid(deviceid):
 
+    conn = db_pool.getconn()
+
+    log.info("check_deviceid data Query %s", useremail)
+
+    try:
+    # first check db to see if useremail is matched to existing userid
+        cursor = conn.cursor()
+
+        cursor.execute("select deviceapikey from user_devices where deviceid = %s" , (deviceid,))
+
+        i = cursor.fetchone()
+        log.info("check_deviceid deviceapikey response %s", i)            
+        # see we got any matches
+        if cursor.rowcount == 0:
+            db_pool.putconn(conn) 
+            return False
+        
+        else:
+            deviceapikey = str(i[0])
+            db_pool.putconn(conn) 
+            return True 
+
+
+
+    except psycopg.Error as e:
+        log.info('check_deviceid: SyntaxError in  getuserid %s:  ', deviceid)
+        log.info('check_deviceid: SyntaxError in  getuserid  %s:  ' % str(e))
+ 
+
+    except psycopg.ProgrammingError as e:
+        log.info('check_deviceid: ProgrammingError in  getuserid %s:  ', deviceid)
+        log.info('check_deviceid: ProgrammingError in  getuserid  %s:  ' % str(e))
+   
+
+    except psycopg.DataError as e:
+        log.info('check_deviceid: DataError in  update deviceid %s:  ', deviceid)
+        log.info('check_deviceid: DataError in  update deviceid  %s:  ' % str(e))
+    
+
+    except TypeError as e:
+        log.info('check_deviceid: TypeError in getuserid  %s:  ', useremail)
+        log.info('check_deviceid: TypeError in getuserid  %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('check_deviceid: KeyError in getuserid  %s:  ', useremail)
+        log.info('check_deviceid: KeyError in getuserid  %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('v: NameError in getuserid  %s:  ', useremail)
+        log.info('check_deviceid: NameError in getuserid  %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('check_deviceid: IndexError in getuserid  %s:  ', useremail)
+        log.info('check_deviceid: IndexError in getuserid  %s:  ' % str(e))  
+
+
+    except:
+        log.info('check_deviceid: Error in getuserid %s:  ', useremail)
+        e = sys.exc_info()[0]
+        log.info('v: Error in getuserid  %s:  ' % str(e))
+
+    # cursor.close
+    db_pool.putconn(conn)                       
+
+    return False
 
 @app.route('/get_influxdbcloud_series')
 def get_influxdbcloud_series():
