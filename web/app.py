@@ -989,6 +989,10 @@ def payment_response_recieved():
       log.info('customer email : %s' , mPaymentEmail)
 
       mPaymentPhone = str(transactionDetailsResponse.transaction.billTo.phoneNumber)
+
+      if mPaymentPhone.startswith("+") == False:
+        mPaymentPhone = "+" + mPaymentPhone
+        
       log.info('customer phoneNumber : %s' , mPaymentPhone)
       
       #log.info('purchaseOrderNumber : %s' % transactionDetailsResponse.transaction.order.purchaseOrderNumber)
