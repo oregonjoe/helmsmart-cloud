@@ -2190,7 +2190,7 @@ def aws_delete_device():
 
   except cognito_client.exceptions.UserNotFoundException:
     log.info("aws_delete_device: User not found.")
-    return jsonify( message='aws_delete_user', status='error - not found')  
+    #return jsonify( message='aws_delete_user', status='error - not found')  
 
   except cognito_client.exceptions.InvalidParameterException:
     log.info("aws_delete_device: InvalidParameterException")
