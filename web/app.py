@@ -1553,7 +1553,7 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       
       # add new device record to DB
       cursor = conn.cursor()
-      cursor.execute(query, (devicename, smsemail, smsphone, subscriptionType, transactionID, starttime, endtime, devicestatus, email_verified, phone_verified, deviceapikey))
+      cursor.execute(query, (devicename, smsemail, smsphone, subscriptionType, transactionID, subscription.subscriptionStart, subscription.subscriptionEnd, devicestatus, email_verified, phone_verified, deviceapikey))
 
       conn.commit()
 
