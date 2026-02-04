@@ -1580,10 +1580,16 @@ def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subsc
       log.info('aws_update_device: DataError in  update deviceid %s:  ', deviceid)
       log.info('aws_update_device: DataError in  update deviceid  %s:  ' % str(e))
       return False
+
     
   except TypeError as e:
     log.info("aws_update_device Device error -:TypeError deviceid %s ", deviceid)
     log.info('aws_update_device Device error -:TypeError  Error %s:  ' % e)
+    return False
+    
+  except SyntaxError  as e:
+    log.info("aws_update_device Device error -:SyntaxError  deviceid %s ", deviceid)
+    log.info('aws_update_device Device error -:SyntaxError   Error %s:  ' % e)
     return False
     
   except NameError as e:
