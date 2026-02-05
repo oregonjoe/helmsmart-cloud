@@ -619,7 +619,7 @@ def get_payment_token():
   #tokens = session.json()
   #log.info('get-token: access_token %s:  ', tokens) 
 
-
+  """
   if session['aws_username'] is not None:
     deviceid = session['aws_username']
     log.info("get_payment_token: deviceid:%s", deviceid)
@@ -627,7 +627,8 @@ def get_payment_token():
   if session['aws_email'] is not None:
     aws_email = session['aws_email']
     log.info("get_payment_token: aws_email:%s", aws_email)
-
+  """
+  
   if request.method == 'POST':
 
     raw_payload = request.form
