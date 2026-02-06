@@ -845,7 +845,7 @@ def get_payment_token():
   #setting2.settingValue = "{\"showReceipt\": true}"
   setting2.settingValue = "{\"showReceipt\": true, \"url\": \""+ greturnURL + "\", \"urlText\": \"Continue\",\"cancelUrl\":\"" + greturnURL + "\",\"cancelUrlText\":\"Cancel\"}"
   log.info('get_payment_token: setting2:  ')
-
+    
   # 3. Customize the "Pay" button text
   setting3 = apicontractsv1.settingType()
   setting3.settingName = "hostedPaymentShippingAddressOptions"
@@ -1094,7 +1094,9 @@ def payment_response_recieved():
       message_id = send_raw_email(source, destination, subject, text, html, reply_tos=None)
       
       log.info("sendtestemail_endpoint message_id = %s", message_id)
-      return redirect(url_for('user_subscription_added'))
+      #return redirect(url_for('user_subscription_added'))
+      return "Payment form submission received. confirming email sent."
+    
 
     else:
       return jsonify( message='aws_add_device error - failed'  )          
