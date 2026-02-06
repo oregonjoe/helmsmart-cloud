@@ -647,6 +647,9 @@ def get_payment_token():
     gSubscriptionType = raw_payload.get('SubscriptionType',"") 
     log.info("get_payment_token: gSubscriptionType:%s", gSubscriptionType)
 
+    greturnURL = raw_payload.get('returnURL',"") 
+    log.info("get_payment_token: greturnURL:%s", greturnURL)
+
 
   subscription = get_subscription_details(gSubscriptionType)
   log.info("get_payment_token: subscriptionPrice:%s", subscription.subscriptionPrice)
@@ -840,7 +843,7 @@ def get_payment_token():
   setting2.settingName = "hostedPaymentReturnOptions"
   # The value must be a JSON string, which requires escaping quotes in Python
   #setting2.settingValue = "{\"showReceipt\": true}"
-  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/manage\", \"urlText\": \"Continue\",\"cancelUrl\":\"https://www.helmsmart-cloud.com/manage\",\"cancelUrlText\":\"Cancel\"}"
+  setting2.settingValue = "{\"showReceipt\": true, \"url\": \"https://www.helmsmart-cloud.com/manage\", \"urlText\": \"Continue\",\"cancelUrl\":\"" + greturnURL + "\",\"cancelUrlText\":\"Cancel\"}"
   log.info('get_payment_token: setting2:  ')
 
   # 3. Customize the "Pay" button text
