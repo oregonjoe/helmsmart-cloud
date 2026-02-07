@@ -5665,7 +5665,7 @@ def getdevicesbyemail_endpoint():
     result = json.dumps(
       dict(
         schema=schema,
-        records=records
+        records=active_records
       ),
       cls=DateEncoder
     )
