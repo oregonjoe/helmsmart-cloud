@@ -42,11 +42,18 @@
 			margin-top: 15px;
 		}
 		
-		.row-disabled {
+			.row-disabled {
 			  background-color: #e0e0e0; /* Gray out the row for visual feedback */
 			  pointer-events: none; /* Prevents all mouse events */
 			  opacity: 0.6; /* Optional: adds a faded look */
-}
+			}
+
+
+				.row-selected {
+			  background-color: #AEFBEA; /* Gray out the row for visual feedback */
+			  pointer-events: none; /* Prevents all mouse events */
+			  opacity: 0.5; /* Optional: adds a faded look */
+			}
 
 		.auto-style5 {
           font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -1397,7 +1404,10 @@ var table = document.getElementById("DeviceData");
 		if(parseInt(row[4]) == 1 )
 			cell8.innerHTML = 'active';
 		else if(parseInt(row[4]) == 2 )
+		{
 			cell8.innerHTML = 'on-line';
+			ssrow.classList.add('row-selected');
+		}
 		else
 			cell8.innerHTML = 'disabled';
 			
