@@ -328,6 +328,7 @@ $('#tab a').click(function (e) {
 	var myAlertSMS  = new Array();
 	var myDeviceName = new Array();
 	var myDeviceID = new Array();
+	var myUserEmail = new Array();
 	var myDeviceKey = new Array();
 	var myDeviceStatus = new Array();
 	var myDeviceApiCount = new Array();
@@ -1067,10 +1068,10 @@ function handle_get_devicebyemail()
 }
 
 
-function get_devicebyemail(userEmail)
+function get_devicebyemail(index)
 {
 
-	getDeviceList(userEmail);
+	getDeviceList(myUserEmail[index]);
 }
 
 
@@ -1180,6 +1181,7 @@ var table = document.getElementById("DeviceData");
 	myAlertSMS.length=0;
 	myDeviceName.length=0;
 	myDeviceID.length=0;
+	myUserEmail.length=0;
 	myDeviceKey.length=0;
 	myDeviceStatus.length=0;
 	myDeviceApiCount.length=0;	
@@ -1193,6 +1195,7 @@ var table = document.getElementById("DeviceData");
 	// document.getElementById("DeviceTypeID").options[index] = new Option(row[3] , row[3]);
 	 
 	myDeviceKey.push(row[0]); 
+	myUserEmail.push(row[2]);
 	myDeviceID.push(row[3]);
 	myDeviceName.push(row[5]);	
 	myDeviceStatus.push(row[6]);	
@@ -1262,7 +1265,7 @@ var table = document.getElementById("DeviceData");
 		{
 			//cell3.innerHTML = row[7];
 			
-			cell3.innerHTML = '<a href="#" onclick="get_devicebyemail("' + row[2] + '"); return false;">' + row[2] + '</a>';
+			cell3.innerHTML = '<a href="#" onclick="get_devicebyemail(' + index + '); return false;">' + row[2] + '</a>';
 			
 			cell3.style.textAlign = 'left';
 			cell3.style.width = '160px';
