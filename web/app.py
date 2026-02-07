@@ -5704,7 +5704,7 @@ def getalldevices():
     active_records = []
     
     for record in records:
-      deviceid = record[3]
+      device_id = record[3]
       
       deviceid_active = mc.get(device_id + '_active' )
       
@@ -24474,7 +24474,7 @@ def events_endpoint(device_id, partition):
   ##################################################################
   #refresh token to expire in 60 minutes
   mc.set(device_id + '_active' , True, time=600)
-  log.info('events_endpoint - set device is active token %s deviceid %s :  ', device_id, )
+  log.info('events_endpoint - set device is active deviceid %s :  ', device_id, )
   
 
   ##################################################################
