@@ -5715,7 +5715,7 @@ def getalldevices():
         
       else:
         log.info('getalldevices: deviceid_active not found for device_id %s:  ', device_id)
-         record[4] = 1
+        record[4] = 1
 
       active_records.append(record)
 
