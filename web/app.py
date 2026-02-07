@@ -5711,13 +5711,17 @@ def getalldevices():
       if deviceid_active != "" and deviceid_active != None and deviceid_active is not None:
         log.info('getalldevices: deviceid_active found for device_id %s:  ', device_id)
         
-        record[4] = 2
+        #record[4] = 2
+        newrecord = record[:3] + (2,) + record[4:]
         
       else:
         log.info('getalldevices: deviceid_active not found for device_id %s:  ', device_id)
-        record[4] = 1
+        #record[4] = 1
+        newrecord = record[:3] + (1,) + record[4:]
 
-      active_records.append(record)
+      log.info('getalldevices: newrecord %s:  ', newrecord)
+
+      active_records.append(newrecord)
 
     
     def type_for(type_code):
