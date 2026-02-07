@@ -1059,6 +1059,22 @@ if (answer) {
 }
 
 }
+
+function handle_get_devicebyemail()
+{
+     $.unblockUI();
+
+}
+
+
+function get_devicebyemail(userEmail)
+{
+
+	getDeviceList(userEmail);
+}
+
+
+
 function handle_get_deviceView()
 {
      $.unblockUI();
@@ -1230,27 +1246,35 @@ var table = document.getElementById("DeviceData");
 		if( gAWSAccountType == 'admin' && gAWSuserid == 'FFFFFFFFFFFF')
 		{
 			cell3.innerHTML = row[2];
+			
+			cell3.style.textAlign = 'left';
+			cell3.style.width = '160px';
+			cell3.style.height = '25px';		
+			cell3.classList.add('truncate-text'); 
+			cell3.classList.add('auto-style7'); 
+			
+			cell3.style.color = '#75051A';
+			if(row[15] == true)
+			cell3.style.color = '#057552';
+			
 		}
 		else
 		{
-			cell3.innerHTML = row[7];
+			//cell3.innerHTML = row[7];
+			
+			cell3.innerHTML = '<a href="#" onclick="get_devicebyemail(' + row[7] + '); return false;">' + row[7] + '</a>';
+			
+			cell3.style.textAlign = 'left';
+			cell3.style.width = '160px';
+			cell3.style.height = '25px';		
+			cell3.classList.add('truncate-text'); 
+			cell3.classList.add('auto-style7'); 
+			cell3.style.color = '#75051A';
+
 		}
 		
-		
-		cell3.style.textAlign = 'left';
-		cell3.style.width = '160px';
-		cell3.style.height = '25px';		
-		cell3.classList.add('truncate-text'); 
-		cell3.classList.add('auto-style7'); 
 		
 
-		
-		//if(	myDeviceID[index].toUpperCase() == gAWSuserid.toUpperCase() )
-		{
-			cell3.style.color = '#75051A';
-			if(row[15] == true)
-				cell3.style.color = '#057552';
-		}
 		
 		if( !(gAWSAccountType == 'admin' && gAWSuserid == 'FFFFFFFFFFFF'))
 		{
