@@ -5699,8 +5699,27 @@ def getalldevices():
     records = cursor.fetchall()
 
 
-    log.info('getalldevices: records found for useremail %s:  ', records)    
+    log.info('getalldevices: records found for useremail %s:  ', records)
 
+    active_records = []
+    
+    for record in records:
+      deviceid = record[3]
+      
+      deviceid_active = mc.get(device_id + '_active' )
+      
+      if deviceid_active != "" and deviceid_active != None and deviceid_active is not None:
+        log.info('getalldevices: deviceid_active found for device_id %s:  ', device_id)
+        
+        record[4] = 2
+        
+      else:
+        log.info('getalldevices: deviceid_active not found for device_id %s:  ', device_id)
+         record[4] = 1
+
+      active_records.append(record)
+
+    
     def type_for(type_code):
       return {
         23: 'INTEGER',
@@ -24453,9 +24472,9 @@ def events_endpoint(device_id, partition):
   ##################################################################
   ## set token to active because we just got some new data
   ##################################################################
-  #refresh token to expire in 10 minutes
-  #mc.set(device_id + '_active' , True, time=600)
-  #log.info('events_endpoint - set device is active token %s deviceid %s :  ', device_id, )
+  #refresh token to expire in 60 minutes
+  mc.set(device_id + '_active' , True, time=600)
+  log.info('events_endpoint - set device is active token %s deviceid %s :  ', device_id, )
   
 
   ##################################################################
