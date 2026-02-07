@@ -5693,7 +5693,7 @@ def getalldevices():
     
     conn = db_pool.getconn()
     cursor = conn.cursor()
-    sqlstr = 'select * from user_devices order by deviceid desc;'   
+    sqlstr = 'select * from user_devices order by useremail desc;'   
     cursor.execute(sqlstr,)
         
     records = cursor.fetchall()
