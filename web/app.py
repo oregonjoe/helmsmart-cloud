@@ -5742,7 +5742,7 @@ def getalldevices():
     result = json.dumps(
       dict(
         schema=schema,
-        records=records
+        records=active_records
       ),
       cls=DateEncoder
     )
