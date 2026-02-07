@@ -1276,6 +1276,7 @@ var table = document.getElementById("DeviceData");
 		cellindex=0;
 	
 		// DeviceID
+		//document.getElementById('header0').textContent = "Device ID"
 	    var cell0 = ssrow.insertCell(cellindex++);
 		//cell0.innerHTML = row[3];
 		cell0.innerHTML = '<a href="#" onclick="get_deviceView(' + index + '); return false;">' + row[3] + '</a>';
@@ -1289,7 +1290,8 @@ var table = document.getElementById("DeviceData");
 		
 		
 		// Device Name
-		 var cell1 = ssrow.insertCell(cellindex++);
+		//document.getElementById('header1').textContent = "Name
+		var cell1 = ssrow.insertCell(cellindex++);
 		cell1.innerHTML = row[5];
 		cell1.style.textAlign = 'left';
 		cell1.style.width = '160px';
@@ -1310,9 +1312,10 @@ var table = document.getElementById("DeviceData");
 		
 		//Alert Email
 		var cell3 = ssrow.insertCell(cellindex++);
-		
+		/*
 		if( !(gAWSAccountType == 'admin' && gAWSuserid == 'FFFFFFFFFFFF'))
 		{
+			//document.getElementById('header2').textContent = "Alert Email"
 			cell3.innerHTML = row[7];
 			
 			cell3.style.textAlign = 'left';
@@ -1326,10 +1329,11 @@ var table = document.getElementById("DeviceData");
 			cell3.style.color = '#057552';
 			
 		}
-		else
+		*/
+		//else
 		{
 			//cell3.innerHTML = row[7];
-			
+			document.getElementById('header2').textContent = "User Email"
 			cell3.innerHTML = '<a href="#" onclick="get_devicebyemail(' + index + '); return false;">' + row[2] + '</a>';
 			
 			cell3.style.textAlign = 'left';
@@ -1343,7 +1347,7 @@ var table = document.getElementById("DeviceData");
 		
 		
 
-		
+		/*
 		if( !(gAWSAccountType == 'admin' && gAWSuserid == 'FFFFFFFFFFFF'))
 		{
 			// Alert SMS
@@ -1362,7 +1366,7 @@ var table = document.getElementById("DeviceData");
 					cell4.style.color = '#057552';
 			}
 		}
-		
+		*/
 		//Subscritpion Type
 		var cell5 = ssrow.insertCell(cellindex++);
 		cell5.innerHTML = row[11];
@@ -2112,15 +2116,15 @@ Alert service</p>
 
       <thead >
         <TR>
-          <th style="width:110px; height:30px;" >Device ID</th>
-		  <th style="width:160px; height:30px;" >Name</th>
-		  <th style="width:160px; height:30px;" >Alert-Email</th>
-          <th style="width:100px; height:30px;" >Alert-SMS</th>    
-		  <th style="width:80px; height:30px;" >Subscription</th>  
-		  <th style="width:80px; height:30px;" >Expires</th>  
-		  <th style="width:60px; height:30px;" >API</th> 
-		  <th style="width:60px; height:30px;" >Status</th>
-		  <th style="width:100px; height:30px;" >&nbsp;</th>
+          <th style="width:110px; height:30px;" id="tableheader0">Device ID</th>
+		  <th style="width:160px; height:30px;" id="tableheader1" >Name</th>
+		  <th style="width:160px; height:30px;" id="tableheader2">Email</th>
+          <!-- <th style="width:100px; height:30px;" id="tableheader3">Alert-SMS</th> -->   
+		  <th style="width:80px; height:30px;"  id="tableheader4">Subscription</th>  
+		  <th style="width:80px; height:30px;"  id="tableheader5">Expires</th>  
+		  <th style="width:60px; height:30px;"  id="tableheader6">API</th> 
+		  <th style="width:60px; height:30px;"  id="tableheader7">Status</th>
+		  <th style="width:100px; height:30px;" id="tableheader8">&nbsp;</th>
 		</TR>
       </thead>
       <tbody class="wrap-table" ></tbody>
