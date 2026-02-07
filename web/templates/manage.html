@@ -1252,20 +1252,23 @@ var table = document.getElementById("DeviceData");
 				cell3.style.color = '#057552';
 		}
 		
-		// Alert SMS
-		var cell4 = ssrow.insertCell(cellindex++);
-		cell4.innerHTML = row[8];
-		cell4.style.textAlign = 'left';
-		cell4.style.width = '100px';
-		cell4.style.height = '25px';		
-		cell4.classList.add('auto-style7'); 
-
-		
-		//if(	myDeviceID[index].toUpperCase() == gAWSuserid.toUpperCase() )
+		if( !(gAWSAccountType == 'admin' && gAWSuserid == 'FFFFFFFFFFFF'))
 		{
-			cell4.style.color = '#75051A';
-			if(row[16] == true)
-				cell4.style.color = '#057552';
+			// Alert SMS
+			var cell4 = ssrow.insertCell(cellindex++);
+			cell4.innerHTML = row[8];
+			cell4.style.textAlign = 'left';
+			cell4.style.width = '100px';
+			cell4.style.height = '25px';		
+			cell4.classList.add('auto-style7'); 
+
+			
+			//if(	myDeviceID[index].toUpperCase() == gAWSuserid.toUpperCase() )
+			{
+				cell4.style.color = '#75051A';
+				if(row[16] == true)
+					cell4.style.color = '#057552';
+			}
 		}
 		
 		//Subscritpion Type
