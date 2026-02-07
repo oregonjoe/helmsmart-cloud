@@ -1243,9 +1243,9 @@ var table = document.getElementById("DeviceData");
 		//Alert Email
 		var cell3 = ssrow.insertCell(cellindex++);
 		
-		if( gAWSAccountType == 'admin' && gAWSuserid == 'FFFFFFFFFFFF')
+		if( !(gAWSAccountType == 'admin' && gAWSuserid == 'FFFFFFFFFFFF'))
 		{
-			cell3.innerHTML = row[2];
+			cell3.innerHTML = row[7];
 			
 			cell3.style.textAlign = 'left';
 			cell3.style.width = '160px';
@@ -1262,7 +1262,7 @@ var table = document.getElementById("DeviceData");
 		{
 			//cell3.innerHTML = row[7];
 			
-			cell3.innerHTML = '<a href="#" onclick="get_devicebyemail(' + row[7] + '); return false;">' + row[7] + '</a>';
+			cell3.innerHTML = '<a href="#" onclick="get_devicebyemail(' + row[2] + '); return false;">' + row[2] + '</a>';
 			
 			cell3.style.textAlign = 'left';
 			cell3.style.width = '160px';
