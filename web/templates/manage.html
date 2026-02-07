@@ -580,6 +580,14 @@ Date.prototype.yyyymmdd = function() {
         return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]) + ' ' + hh + ':' + Min;
    };
 	
+
+function reloadMe()
+{
+	window.location.reload();
+}
+
+
+	
 function handlevalidateSMSnumber(response)
 {
   var index=0;
@@ -2124,7 +2132,7 @@ Alert service</p>
 		</div>
 	
 	
-		<div class="tab-pane" id="tabRefresh" onclick="window.location.reload();">
+		<div class="tab-pane" id="tabRefresh" onclick="reloadMe();">
 		<script>
 		//window.location.reload();
 		</script>
