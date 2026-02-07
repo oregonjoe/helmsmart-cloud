@@ -5712,12 +5712,12 @@ def getalldevices():
         log.info('getalldevices: deviceid_active found for device_id %s:  ', device_id)
         
         #record[4] = 2
-        newrecord = record[:3] + (2,) + record[4:]
+        newrecord = record[:4] + (2,) + record[5:]
         
       else:
         log.info('getalldevices: deviceid_active not found for device_id %s:  ', device_id)
         #record[4] = 1
-        newrecord = record[:3] + (1,) + record[4:]
+        newrecord = record[:4] + (1,) + record[5:]
 
       log.info('getalldevices: newrecord %s:  ', newrecord)
 
