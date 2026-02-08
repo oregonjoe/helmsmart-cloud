@@ -1193,7 +1193,7 @@ function modifyData(index)
    document.getElementById("AlertSMS").value = myAlertSMS[index];
 
   
-		if(myAlertSMS_verified[index] == "true")
+		if(myAlertSMS_verified[index].toString() == "true")
 		{
 			document.getElementById("AlertSMS").value = myAlertSMS[index] + " *";
 		}
@@ -1204,7 +1204,7 @@ function modifyData(index)
 			document.getElementById("AlertSMS").style.color = "#75051A";
 		}
 			
-      	if(myAlertEmail_verified[index] == "true")
+      	if(myAlertEmail_verified[index].toString() == "true")
 		{
 			document.getElementById("AlertEmail").value = myAlertEmail[index] + " *";
 		}
