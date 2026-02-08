@@ -1191,13 +1191,24 @@ function modifyData(index)
    document.getElementById("AlertSMS").value = myAlertSMS[index];
 
   
-   		if(gAWSPhoneVerified == "false")
+		if(gAWSPhoneVerified == "true")
 		{
+			document.getElementById("AlertSMS").value = myAlertSMS[index] + " *";
+		}
+  
+   		else
+		{
+			document.getElementById("AlertSMS").value = myAlertSMS[index];
 			document.getElementById("AlertSMS").style.color = "#75051A";
 		}
 			
-      	if(gAWSEmailVerified == "false")
+      	if(gAWSEmailVerified == "true")
 		{
+			document.getElementById("AlertEmail").value = myAlertEmail[index] + " *";
+		}
+		else
+		{
+			document.getElementById("AlertEmail").value = myAlertEmail[index];
 			document.getElementById("AlertEmail").style.color = "#75051A";
 		}
    
