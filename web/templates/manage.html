@@ -50,16 +50,16 @@
 
 
 				.row-selected {
-			  background-color: #AEFBEA; /* Gray out the row for visual feedback */
+			  background-color: #F5BDEB; /* Gray out the row for visual feedback */
 			  /* pointer-events: none; Prevents all mouse events */
-			  opacity: 0.8; /* Optional: adds a faded look */
+			  opacity: 0.99; /* Optional: adds a faded look */
 			}
 			
 				.row-active {
 				font-style: bold;
-			  background-color: #F7A2E8; /* Gray out the row for visual feedback */
+			  background-color: #AEFBEA; /* Gray out the row for visual feedback */
 			  /* pointer-events: none; Prevents all mouse events */
-			  opacity: 0.99; /* Optional: adds a faded look */
+			  opacity: 0.74; /* Optional: adds a faded look */
 			}
 
 		.auto-style5 {
@@ -1433,7 +1433,7 @@ var table = document.getElementById("DeviceData");
 		else if(parseInt(row[4]) == 2 )
 		{
 			cell8.innerHTML = 'on-line';
-			ssrow.classList.add('row-selected');
+			ssrow.classList.add('row-active');
 		}
 		else
 			cell8.innerHTML = 'disabled';
@@ -1465,7 +1465,7 @@ var table = document.getElementById("DeviceData");
 			else if(	myDeviceID[index].toUpperCase() == gAWSuserid.toUpperCase() )
 			{
 						active_index = index;
-						ssrow.classList.add('row-active');
+						ssrow.classList.add('row-selected');
 			}
 			
 
