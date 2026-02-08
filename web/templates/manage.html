@@ -54,6 +54,12 @@
 			  /* pointer-events: none; Prevents all mouse events */
 			  opacity: 0.8; /* Optional: adds a faded look */
 			}
+			
+				.row-active {
+			  background-color: #D2F5ED; /* Gray out the row for visual feedback */
+			  /* pointer-events: none; Prevents all mouse events */
+			  opacity: 0.99; /* Optional: adds a faded look */
+			}
 
 		.auto-style5 {
           font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -1458,6 +1464,7 @@ var table = document.getElementById("DeviceData");
 			else if(	myDeviceID[index].toUpperCase() == gAWSuserid.toUpperCase() )
 			{
 						active_index = index;
+						ssrow.classList.add('row-active');
 			}
 			
 
