@@ -335,6 +335,8 @@ $('#tab a').click(function (e) {
 
 	var myAlertEmail  = new Array();
 	var myAlertSMS  = new Array();
+	var myAlertEmail_verified  = new Array();
+	var myAlertSMS_verified  = new Array();
 	var myDeviceName = new Array();
 	var myDeviceID = new Array();
 	var myUserEmail = new Array();
@@ -1191,7 +1193,7 @@ function modifyData(index)
    document.getElementById("AlertSMS").value = myAlertSMS[index];
 
   
-		if(gAWSPhoneVerified == "true")
+		if(myAlertSMS_verified[index] == "true")
 		{
 			document.getElementById("AlertSMS").value = myAlertSMS[index] + " *";
 		}
@@ -1202,7 +1204,7 @@ function modifyData(index)
 			document.getElementById("AlertSMS").style.color = "#75051A";
 		}
 			
-      	if(gAWSEmailVerified == "true")
+      	if(myAlertEmail_verified[index]) == "true")
 		{
 			document.getElementById("AlertEmail").value = myAlertEmail[index] + " *";
 		}
@@ -1263,6 +1265,8 @@ var table = document.getElementById("DeviceData");
 
    	myAlertEmail.length=0;
 	myAlertSMS.length=0;
+	  myAlertEmail_verified.length=0;
+	myAlertSMS_verified.length=0;
 	myDeviceName.length=0;
 	myDeviceID.length=0;
 	myUserEmail.length=0;
@@ -1284,7 +1288,9 @@ var table = document.getElementById("DeviceData");
 	myDeviceName.push(row[5]);	
 	myDeviceStatus.push(row[6]);	
 	myAlertEmail.push(row[7]);
+	myAlertEmail_verified.push(row[15]);
 	myAlertSMS.push(row[8]);
+	myAlertSMS_verified.push(row[16]);
 	myDeviceApiCount.push(row[9]);
 	mySubscriptionType.push(row[11]);
 	mySubscriptionExpires.push(row[14]);
