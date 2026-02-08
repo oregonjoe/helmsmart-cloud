@@ -1195,7 +1195,7 @@ function modifyData(index)
   
 		if(myAlertSMS_verified[index].toString() == "true")
 		{
-			document.getElementById("AlertSMS").value = myAlertSMS[index] + "(verified)";
+			document.getElementById("AlertSMS").value = myAlertSMS[index] + " (verified)";
 			document.getElementById("AlertSMS").style.color = "#117841";
 		}
   
@@ -1207,8 +1207,8 @@ function modifyData(index)
 			
       	if(myAlertEmail_verified[index].toString() == "true")
 		{
-			document.getElementById("AlertEmail").value = myAlertEmail[index] + "(verified)";
-			document.getElementById("AlertSMS").style.color = "#117841";
+			document.getElementById("AlertEmail").value = myAlertEmail[index] + " (verified)";
+			document.getElementById("AlertEmail").style.color = "#117841";
 		}
 		else
 		{
