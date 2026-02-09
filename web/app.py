@@ -5620,7 +5620,7 @@ def getdevicesbyemail_endpoint():
         
     records = cursor.fetchall()
 
-    
+      
 
     active_records = []
     
