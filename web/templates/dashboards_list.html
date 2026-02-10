@@ -159,6 +159,12 @@ window.location.href = '/auth0logout';
 function shareboard(sel)
 {
 
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
 	var prefuid = sel.name;
 	prefuid =  sel.name.replace("Share-", "");
 	
@@ -168,6 +174,13 @@ function shareboard(sel)
 }
 function deleteboard(sel)
 {
+
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
 
 	var prefuid = sel.name;
 	prefuid =  sel.name.replace("Delete-", "");
@@ -227,6 +240,14 @@ function deleteboard(sel)
 	
 function editboardname()
 {
+
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
+
 	///var newname = document.getElementById("EditName").value;
 	var newname = document.getElementById("modal_new_name").value;
 	var prefuid = document.getElementById("EditBoardID").value;
@@ -290,6 +311,12 @@ function editboardname()
 function editboard(sel)
 {
 
+ 	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
 	//	showPopup();
 	var editname = sel.name.split(":");
 	var boardname = editname[0];
@@ -327,7 +354,7 @@ function addnewboard()
  	if(gAWSAccountType == "guest")
 	{
 		alert("Invalid: a guest account can not modify a primary account")
-		//return;
+		return;
 	}
 
 
