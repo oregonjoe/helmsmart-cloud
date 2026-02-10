@@ -16889,7 +16889,8 @@ def freeboard_engine_aux2():
 
       serieskeys=" deviceid='"
       serieskeys= serieskeys + deviceid + "' AND "
-      serieskeys= serieskeys +  " (sensor='engine_parameters_rapid_update' OR sensor='engine_parameters_dynamic'   OR  sensor='trip_parameters_engine') AND "   
+      #serieskeys= serieskeys +  " (sensor='engine_parameters_rapid_update' OR sensor='engine_parameters_dynamic'   OR  sensor='trip_parameters_engine') AND "
+      serieskeys= serieskeys +  " sensor='trip_parameters_engine' AND "   
       serieskeys= serieskeys +  " (instance='" + Instance + "') "
 
       """
