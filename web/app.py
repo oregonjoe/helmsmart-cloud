@@ -16624,11 +16624,11 @@ def freeboard_engine_aux():
         callback = request.args.get('callback')
         return '{0}({1})'.format(callback, {'date_time':myjsondate, 'status':'missing','update':'False','boost_pressure':list(reversed(boost_pressure)), 'coolant_pressure':list(reversed(coolant_pressure)), 'fuel_pressure':list(reversed(fuel_pressure)),'oil_temp':list(reversed(oil_temp)), 'egt_temperature':list(reversed(egt_temperature)), 'fuel_rate_average':list(reversed(fuel_rate_average)), 'instantaneous_fuel_economy':list(reversed(instantaneous_fuel_economy)),'fuel_used':list(reversed(fuel_used)), 'throttle_position':list(reversed(throttle_position))})     
 
-    #log.info('freeboard:  InfluxDB-Cloud response  %s:', response)
+    log.info('freeboard_engine_aux:  InfluxDB-Cloud response  %s:', response)
 
     keys = response.raw.get('series',[])
     #keys = result.keys()
-    #log.info("freeboard Get InfluxDB series keys %s", keys)
+    log.info("freeboard_engine_aux Get InfluxDB series keys %s", keys)
 
 
     #callback = request.args.get('callback')
@@ -16669,7 +16669,7 @@ def freeboard_engine_aux():
       points = list(response.get_points())
 
 
-      #log.info('freeboard:  InfluxDB-Cloud points%s:', points)
+      log.info('freeboard_engine_aux:  InfluxDB-Cloud points%s:', points)
 
       for point in points:
         #log.info('freeboard:  InfluxDB-Cloud point%s:', point)
