@@ -16905,7 +16905,7 @@ def freeboard_engine_aux2():
       serieskeys= serieskeys +  " (instance='" + Instance + "') "
       """
 
-
+      resolution=60
 
       log.info("freeboard Query InfluxDB-Cloud:%s", serieskeys)
       log.info("freeboard Create InfluxDB %s", database)
