@@ -16806,6 +16806,384 @@ def freeboard_engine_aux():
     callback = request.args.get('callback')
     return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
 
+@app.route('/freeboard_engine_aux2')
+@cross_origin()
+def freeboard_engine_aux2():
+
+    deviceapikey = request.args.get('apikey','')
+    serieskey = request.args.get('datakey','')
+    Interval = request.args.get('interval',"10min")
+
+    Instance = request.args.get('instance','0')
+    resolution = request.args.get('resolution',"")
+    units= request.args.get('units',"US")
+    mytimezone = request.args.get('timezone',"UTC")
+    mode =  request.args.get('mode',"mean")
+    starttime = request.args.get('start','0')
+    
+    response = None
+    
+    try:
+      
+      if int(starttime) != 0:
+        epochtimes = getendepochtimes(int(starttime), Interval)
+        
+      else:
+        epochtimes = getepochtimes(Interval)
+
+      
+      startepoch = epochtimes[0]
+      endepoch = epochtimes[1]
+      if resolution == "":
+        resolution = epochtimes[2]
+
+
+      log.info("freeboard freeboard_engine_aux2 epochtimes %s %s %s", epochtimes[0], epochtimes[1],  epochtimes[2])
+
+      strvalue = ""
+      value1 = '---'
+      value2 = '---'
+      value3 = '---'
+      value4 = '---'
+      value5 = '---'
+      value6 = '---'
+      value7 = '---'
+      value8 = '---'
+      value9 = '---'
+
+      boost_pressure=[]
+      coolant_pressure=[]
+      fuel_pressure=[]
+      oil_temp=[]
+      egt_temperature=[]
+      fuel_rate_average=[]
+      instantaneous_fuel_economy=[]
+      #tilt_or_trim=[]
+      throttle_position=[]
+      fuel_used=[]    
+
+      mydatetime = datetime.datetime.now()
+      myjsondate = mydatetime.strftime("%B %d, %Y %H:%M:%S")      
+
+
+      deviceid = getedeviceid(deviceapikey)
+      
+      log.info("freeboard_engine_aux2 deviceid %s", deviceid)
+
+      if deviceid == "":
+          callback = request.args.get('callback')
+          return '{0}({1})'.format(callback, {'update':'False', 'status':'deviceid error' })
+
+
+      host = 'hilldale-670d9ee3.influxcloud.net' 
+      port = 8086
+      username = 'helmsmart'
+      password = 'Salm0n16'
+      database = 'pushsmart-cloud'
+
+      measurement = "HelmSmart"
+      measurement = 'HS_' + str(deviceid)
+
+
+
+
+      serieskeys=" deviceid='"
+      serieskeys= serieskeys + deviceid + "' AND "
+      serieskeys= serieskeys +  " (sensor='engine_parameters_rapid_update' OR sensor='engine_parameters_dynamic'   OR  sensor='trip_parameters_engine') AND "   
+      serieskeys= serieskeys +  " (instance='" + Instance + "') "
+
+      """
+      serieskeys=" deviceid='"
+      serieskeys= serieskeys + deviceid + "' AND "
+      serieskeys= serieskeys +  " (sensor='engine_parameters_rapid_update' OR sensor='engine_parameters_dynamic'  OR  sensor='temperature'  OR  sensor='trip_parameters_engine') AND "
+      if Instance == 1:
+        serieskeys= serieskeys +  " (type='NULL' OR type='Reserved 134')  AND "
+      else:
+        serieskeys= serieskeys +  " (type='NULL' OR type='Reserved 135')  AND "
+        
+      serieskeys= serieskeys +  " (instance='" + Instance + "') "
+      """
+
+
+
+      log.info("freeboard Query InfluxDB-Cloud:%s", serieskeys)
+      log.info("freeboard Create InfluxDB %s", database)
+
+
+      dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
+
+      if mode == "median":
+        query = ('select  median(throttle_position) AS throttle_position, median(boost_pressure) AS  boost_pressure, median(coolant_pressure) AS coolant_pressure, median(fuel_pressure) AS fuel_pressure, median(oil_temp) AS oil_temp ,  median(egt_temp) AS egt_temperature , median(fuel_rate_average) AS fuel_rate_average  , median(instantaneous_fuel_economy) AS instantaneous_fuel_economy  , median(trip_fuel_used) AS fuel_used from {} '
+                         'where {} AND time > {}s and time < {}s '
+                         'group by time({}s)') \
+                    .format( measurement, serieskeys,
+                            startepoch, endepoch,
+                            resolution) 
+
+      elif mode == "max":
+        query = ('select  max(throttle_position) AS throttle_position, max(boost_pressure) AS  boost_pressure, max(coolant_pressure) AS coolant_pressure, max(fuel_pressure) AS fuel_pressure, max(oil_temp) AS oil_temp ,  max(egt_temp) AS egt_temperature , max(fuel_rate_average) AS fuel_rate_average  , max(instantaneous_fuel_economy) AS instantaneous_fuel_economy, max(trip_fuel_used) AS fuel_used  from {} '
+                         'where {} AND time > {}s and time < {}s '
+                         'group by time({}s)') \
+                    .format( measurement, serieskeys,
+                            startepoch, endepoch,
+                            resolution) 
+
+      elif mode == "min":
+        query = ('select  min(throttle_position) AS throttle_position, min(boost_pressure) AS  boost_pressure, min(coolant_pressure) AS coolant_pressure, min(fuel_pressure) AS fuel_pressure, min(oil_temp) AS oil_temp ,  min(egt_temp) AS egt_temperature , min(fuel_rate_average) AS fuel_rate_average  , min(instantaneous_fuel_economy) AS instantaneous_fuel_economy from, min(trip_fuel_used) AS fuel_used  from {} '
+                         'where {} AND time > {}s and time < {}s '
+                         'group by time({}s)') \
+                    .format( measurement, serieskeys,
+                            startepoch, endepoch,
+                            resolution) 
+
+      else:        
+        query = ('select  mean(throttle_position) AS throttle_position, mean(boost_pressure) AS  boost_pressure, mean(coolant_pressure) AS coolant_pressure, mean(fuel_pressure) AS fuel_pressure, mean(oil_temp) AS oil_temp ,  mean(egt_temp) AS egt_temperature , mean(fuel_rate_average) AS fuel_rate_average  , mean(instantaneous_fuel_economy) AS instantaneous_fuel_economy, mean(trip_fuel_used) AS fuel_used from {} '
+                         'where {} AND time > {}s and time < {}s ') \
+                    .format( measurement, serieskeys,
+                            startepoch, endepoch) 
+     
+
+
+      log.info("freeboard_engine_aux2 data Query %s", query)
+
+      response= dbc.query(query)
+        
+    except TypeError as e:
+        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('freeboard: Index error in InfluxDB mydata append %s:  ', query)
+        log.info('freeboard: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+
+    except ValueError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('freeboard_createInfluxDB: Value Error in InfluxDB  %s:  ' % str(e))
+
+    except AttributeError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))
+
+    except UnboundLocalError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))  
+
+    except InfluxDBClientError as e:
+      log.info('freeboard_createInfluxDB: Exception Client Error in InfluxDB  %s:  ' % str(e))
+
+
+    except InfluxDBServerError as e:
+      log.info('freeboard_createInfluxDB: Exception Client Error in InfluxDB  %s:  ' % str(e))
+
+
+    except:
+        log.info('freeboard: Error in InfluxDB mydata append %s:', query)
+        e = sys.exc_info()[0]
+        log.info("freeboard: Error: %s" % e)
+        callback = request.args.get('callback')
+        return '{0}({1})'.format(callback, {'date_time':myjsondate, 'status':'missing','update':'False','boost_pressure':list(reversed(boost_pressure)), 'coolant_pressure':list(reversed(coolant_pressure)), 'fuel_pressure':list(reversed(fuel_pressure)),'oil_temp':list(reversed(oil_temp)), 'egt_temperature':list(reversed(egt_temperature)), 'fuel_rate_average':list(reversed(fuel_rate_average)), 'instantaneous_fuel_economy':list(reversed(instantaneous_fuel_economy)),'fuel_used':list(reversed(fuel_used)), 'throttle_position':list(reversed(throttle_position))})     
+
+    if response is None:
+        log.info('freeboard: InfluxDB Query has no data ')
+        callback = request.args.get('callback')
+        return '{0}({1})'.format(callback, {'date_time':myjsondate, 'status':'missing','update':'False','boost_pressure':list(reversed(boost_pressure)), 'coolant_pressure':list(reversed(coolant_pressure)), 'fuel_pressure':list(reversed(fuel_pressure)),'oil_temp':list(reversed(oil_temp)), 'egt_temperature':list(reversed(egt_temperature)), 'fuel_rate_average':list(reversed(fuel_rate_average)), 'instantaneous_fuel_economy':list(reversed(instantaneous_fuel_economy)),'fuel_used':list(reversed(fuel_used)), 'throttle_position':list(reversed(throttle_position))})     
+
+    if not response:
+        log.info('freeboard: InfluxDB Query has no data ')
+        callback = request.args.get('callback')
+        return '{0}({1})'.format(callback, {'date_time':myjsondate, 'status':'missing','update':'False','boost_pressure':list(reversed(boost_pressure)), 'coolant_pressure':list(reversed(coolant_pressure)), 'fuel_pressure':list(reversed(fuel_pressure)),'oil_temp':list(reversed(oil_temp)), 'egt_temperature':list(reversed(egt_temperature)), 'fuel_rate_average':list(reversed(fuel_rate_average)), 'instantaneous_fuel_economy':list(reversed(instantaneous_fuel_economy)),'fuel_used':list(reversed(fuel_used)), 'throttle_position':list(reversed(throttle_position))})     
+
+    log.info('freeboard_engine_aux2:  InfluxDB-Cloud response  %s:', response)
+
+    keys = response.raw.get('series',[])
+    #keys = result.keys()
+    log.info("freeboard_engine_aux2 Get InfluxDB series keys %s", keys)
+
+
+    #callback = request.args.get('callback')
+    #return '{0}({1})'.format(callback, {'update':'False', 'status':'success' })
+     
+    jsondata=[]
+    #jsonkey=[]
+    #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
+    #jsonkey.append(strvaluekey)
+    #print 'freeboard start processing data points:'
+    
+    #log.info("freeboard jsonkey..%s", jsonkey )
+    try:
+    
+      strvalue = ""
+      value1 = '---'
+      value2 = '---'
+      value3 = '---'
+      value4 = '---'
+      value5 = '---'
+      value6 = '---'
+      value7 = '---'
+      value8 = '---'
+      value9 = '---'
+
+      boost_pressure=[]
+      coolant_pressure=[]
+      fuel_pressure=[]
+      oil_temp=[]
+      egt_temperature=[]
+      fuel_rate_average=[]
+      instantaneous_fuel_economy=[]
+      throttle_position=[]
+      fuel_used=[]
+      
+      ts =startepoch*1000
+      
+      points = list(response.get_points())
+
+
+      log.info('freeboard_engine_aux2:  InfluxDB-Cloud points%s:', points)
+
+      for point in points:
+        #log.info('freeboard:  InfluxDB-Cloud point%s:', point)
+        value1 = '---'
+        value2 = '---'
+        value3 = '---'
+        value4 = '---'
+        value5 = '---'
+        value6 = '---'
+        value7 = '---'
+        value8 = '---'
+        value9 = '---'        
+
+        if point['time'] is not None:
+            mydatetimestr = str(point['time'])
+            ##log.info('freeboard_environmental:: mydatetimestr %s:  ' % mydatetimestr)
+            
+            # convert string to datetime opject
+            mydatetime = datetime.datetime.strptime(mydatetimestr, '%Y-%m-%dT%H:%M:%S%z')
+            ##log.info('freeboard_environmental:: mydatetime %s:  ' % mydatetime)
+
+            # set timezone of new datetime opbect
+            mydatetimetz = mydatetime.replace(tzinfo=ZoneInfo(mytimezone))
+            ##log.info('freeboard_environmental:: mydatetimetz %s:  ' % mydatetimetz)    
+
+            ## This dosnt work for python 3.11 anymore
+            ## throws an OverFlow error
+            ##dtt = mydatetimetz.timetuple()
+            ##ts = int(mktime(dtt)*1000)
+            ## So we need to convert datetime directly to seconds and add in timezone offesets
+
+            # get seconds offset for selected timezone
+            tzoffset = mydatetimetz.utcoffset().total_seconds()
+            ##log.info('freeboard_environmental:: tzoffset %s:  ' % tzoffset)           
+
+            # adjust GMT time for slected timezone for display purposes
+            ts = int((mydatetime.timestamp() + tzoffset) * 1000 )
+            ##log.info('freeboard_environmental:: ts %s:  ' % ts)
+          
+        if point['boost_pressure'] is not None:
+          value1 = convertfbunits( point['boost_pressure'], convertunittype('pressure', units))
+          boost_pressure.append({'epoch':ts, 'value':value1})
+          
+        
+        if point['coolant_pressure'] is not None:
+          value2 =  convertfbunits(point['coolant_pressure'], convertunittype('pressure', units))
+        coolant_pressure.append({'epoch':ts, 'value':value2})
+          
+        
+        if point['fuel_pressure'] is not None:
+          value3=  convertfbunits(point['fuel_pressure'], convertunittype('pressure', units))
+        fuel_pressure.append({'epoch':ts, 'value':value3})
+          
+        
+        if point['oil_temp'] is not None:
+          value4 =  convertfbunits(point['oil_temp'], convertunittype('temperature', units))
+        oil_temp.append({'epoch':ts, 'value':value4})
+          
+        
+        if point['egt_temperature'] is not None:
+          value5 =  convertfbunits(point['egt_temperature'], convertunittype('temperature', units))
+        egt_temperature.append({'epoch':ts, 'value':value5})
+          
+       
+        if point['fuel_rate_average'] is not None:
+          value6=  convertfbunits(point['fuel_rate_average'], convertunittype('flow', units))
+        fuel_rate_average.append({'epoch':ts, 'value':value6})
+          
+        
+        if point['instantaneous_fuel_economy'] is not None:
+          value7 = convertfbunits(point['instantaneous_fuel_economy'],convertunittype('flow', units))
+        instantaneous_fuel_economy.append({'epoch':ts, 'value':value7})
+
+          
+        
+        if point['throttle_position'] is not None:
+          value8 = convertfbunits(point['throttle_position'], convertunittype('%', units))
+        throttle_position.append({'epoch':ts, 'value':value8})
+          
+         
+        if point['fuel_used'] is not None:
+          value9 = convertfbunits(point['fuel_used'], convertunittype('volume', units))
+        fuel_used.append({'epoch':ts, 'value':value9})
+          
+         
+
+      callback = request.args.get('callback')
+      myjsondate= mydatetimetz.strftime("%B %d, %Y %H:%M:%S")  
+      #return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True', 'rpm':value1, 'eng_temp':value2, 'oil_pressure':value3, 'alternator':value4, 'tripfuel':value5, 'fuel_rate':value6, 'fuel_level':value7, 'eng_hours':value8})
+      #return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True', 'rpm':value1, 'eng_temp':value2, 'oil_pressure':value3, 'alternator':value4, 'tripfuel':value5, 'fuel_rate':value6, 'fuel_level':value7, 'eng_hours':value8})
+      #return '{0}({1})'.format(callback, {'date_time':myjsondate, 'update':'True','rpm':list(reversed(speed)), 'eng_temp':list(reversed(engine_temp)), 'oil_pressure':list(reversed(oil_pressure)),'alternator':list(reversed(alternator_potential)), 'tripfuel':list(reversed(tripfuel)), 'fuel_rate':list(reversed(fuel_rate)), 'fuel_level':list(reversed(level)), 'eng_hours':list(reversed(total_engine_hours))})     
+      #return '{0}({1})'.format(callback, {'date_time':myjsondate, 'status':'success','update':'True','boost_pressure':list(reversed(boost_pressure)), 'coolant_pressure':list(reversed(coolant_pressure)), 'fuel_pressure':list(reversed(fuel_pressure)),'oil_temp':list(reversed(oil_temp)), 'egt_temperature':list(reversed(egt_temperature)), 'fuel_rate_average':list(reversed(fuel_rate_average)), 'instantaneous_fuel_economy':list(reversed(instantaneous_fuel_economy)), 'throttle_position':list(reversed(throttle_position))})     
+      return '{0}({1})'.format(callback, {'date_time':myjsondate, 'status':'success','update':'True','boost_pressure':list(reversed(boost_pressure)), 'coolant_pressure':list(reversed(coolant_pressure)), 'fuel_pressure':list(reversed(fuel_pressure)),'oil_temp':list(reversed(oil_temp)), 'egt_temperature':list(reversed(egt_temperature)), 'fuel_rate_average':list(reversed(fuel_rate_average)), 'instantaneous_fuel_economy':list(reversed(instantaneous_fuel_economy)),  'fuel_used':list(reversed(fuel_used)), 'throttle_position':list(reversed(throttle_position))})     
+
+
+
+    except TypeError as e:
+        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard: Type Error in InfluxDB mydata append %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard: Key Error in InfluxDB mydata append %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard: Name Error in InfluxDB mydata append %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+        log.info('freeboard: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+
+    except ValueError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('freeboard_createInfluxDB: Value Error in InfluxDB  %s:  ' % str(e))
+
+    except AttributeError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('freeboard_createInfluxDB: AttributeError in InfluxDB  %s:  ' % str(e))     
+
+    except InfluxDBClientError as e:
+      log.info('freeboard_createInfluxDB: Exception Error in InfluxDB  %s:  ' % str(e))     
+    
+    except:
+        log.info('freeboard: Error in geting freeboard response %s:  ', strvalue)
+        e = sys.exc_info()[0]
+        log.info('freeboard: Error in geting freeboard ststs %s:  ' % e)
+        #return jsonify(update=False, status='missing' )
+        callback = request.args.get('callback')
+        return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
+
+  
+    #return jsonify(status='error', update=False )
+    callback = request.args.get('callback')
+    return '{0}({1})'.format(callback, {'update':'False', 'status':'error' })
+
+
 
 
 @app.route('/freeboard_engine')
