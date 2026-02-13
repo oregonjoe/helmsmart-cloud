@@ -3707,6 +3707,16 @@ def optoutpolicy():
   )
 
 
+@app.route('/new_account_login')
+def new_account_login():
+
+  return render_template(
+    'new_account_login.html',
+    features = [],
+  )
+
+
+
 @app.route('/dashboard_api')
 def dashboardapi():
 

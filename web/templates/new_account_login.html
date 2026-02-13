@@ -1,0 +1,330 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy</title>
+
+
+	<title>netView - HelmSmart NMEA 2000 bus data</title>
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script> -->
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+	   
+	<!--   <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }} " ></script> -->
+	   
+	   
+	   
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/> 
+		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+
+	 
+	   <!-- <script src='https://cdn.firebase.com/v0/firebase.js'></script> -->
+	   
+	   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+	   
+	<style>
+	
+
+	
+	td { white-space: nowrap; }
+	
+	.nowrap { white-space: nowrap; }
+	
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+
+
+<style type="text/css">
+	.map_container{
+		 position: relative;
+		 width: 100%;
+		 /*padding-bottom: 56.25%;*/ /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
+	}
+	.map_container .map_canvas{
+		height:120px;
+		width:180px;
+	}
+
+	.map_container .map_edit_canvas{
+		width:100%;
+		height:280px;
+		margin-left:10px;
+		border:1px solid gray;
+	}
+
+	.ajaxBtn {
+		width:44px;
+	}
+</style>
+
+		
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/support.js') }}" ></script>
+
+<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabGeoFence .form-control-static,
+	#tabGeoFence .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+
+	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca;
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+
+<style type="text/css">
+ p.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	}
+ol
+	{margin-bottom:0in;}
+ li.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	}
+.auto-style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #008080;
+}
+.auto-style2 {
+	color: #1673E4;
+}
+</style>
+</head>
+
+<body>
+
+   <table cellpadding="5" cellspacing="10" style="width: 100%">
+	   <tr>
+		   <td>
+	   <div>
+	  <a width="250" href="http://www.helmsmart-cloud.com/manage" id="hshome" >
+      <span width="250"><h2 class="auto-style1">Helmsmart: New user subscription 
+		   and account login</h2></span></a>
+	  </div>
+</td>
+	   </tr>
+	   <tr>
+		   <td>
+<p class="MsoNormal"><b>www.helmsmart-cloud.com Privacy Policy</b><o:p></o:p></p>
+<p class="MsoNormal">Starting April 1, 2026 - Helmsmart-cloud.com will move to a 
+new subscription based service. </p>
+		   <p class="MsoNormal">All current and new devices will require a 
+		   self-serviced subscription registration which can be purchased 
+		   weekly, monthly. or yearly.</p>
+		   <p class="MsoNormal">Any current subscriptions will remain active 
+		   until the term expries at which point a new subscription will be 
+		   required</p>
+		   <p class="MsoNormal">Any device data stored on
+		   <a href="http://www.helmsmart-cloud.com">www.helmsmart-cloud.com</a> 
+		   will still be accessable after a subscription expires.</p>
+		   <p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><strong>Subscription<em> Fees</em></strong><br />
+A subscription must be purchased for each device uploading live data to the 
+helmsmart-cloud service</p>
+<ol start="1" style="margin-top: 0in" type="1">
+	<li class="MsoNormal" style="mso-list: l2 level1 lfo1; tab-stops: list .5in">
+	Weekly - $4.95/wk</li>
+</ol>
+<ol start="2" style="margin-top: 0in" type="1">
+	<li class="MsoNormal" style="mso-list: l2 level1 lfo2; tab-stops: list .5in">
+	Monthly - $11.95/mounth</li>
+</ol>
+<ol start="3" style="margin-top: 0in" type="1">
+	<li class="MsoNormal" style="mso-list: l2 level1 lfo3; tab-stops: list .5in">
+	Yearly - $99.95/year</li>
+</ol>
+<p class="MsoNormal">Device subscriptions may be purchased direcly at
+<a href="http://www.helmsmart-cloud.com/manage">
+http://www.helmsmart-cloud.com/manage</a> - Purchase Subscription</p>
+<p class="MsoNormal" style="text-decoration: underline">&nbsp;</p>
+		   <p class="MsoNormal" style="text-decoration: underline"><strong>New 
+		   User account</strong></p>
+		   <p class="MsoNormal">Before a subscrption can be purchased, each 
+		   device must be registered on the helmsmart-cloud service. </p>
+		   <p class="MsoNormal">Multiple devices can be grouped by a common 
+		   email.</p>
+		   <p class="MsoNormal">Emails will no longer be used for account login.</p>
+		   <p class="MsoNormal">All device IDs must be the 12 character 
+		   hexidecimal value printed on each device label</p>
+		   <p class="MsoNormal">To register a new device - go to&nbsp;
+		   <a href="http://www.helmsmart-cloud.com/manage">
+		   http://www.helmsmart-cloud.com/manage</a> </p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">If you are not currently logged in - you will be 
+		   prompted to signin with your device ID or <span class="auto-style2">
+		   <strong>Create a acccount</strong></span></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">
+		   <img alt="Helmsmart-cloud create an account" height="373" src="../static/img/AWS_login_Add_1.jpg" width="532" /></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">Complete the Sign Up information</p>
+		   <p class="MsoNormal"><span class="auto-style2"><strong>Username</strong></span> 
+		   - is you 12 character Device ID printed on the device label</p>
+		   <p class="MsoNormal"><span class="auto-style2"><strong>Email address</strong></span> 
+		   must be a verifiable address</p>
+		   <p class="MsoNormal"><span class="auto-style2"><strong>Name</strong></span> 
+		   is any 32 character label you choose</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">
+		   <img alt="Helmsmart-cloud creat account details" height="947" src="../static/img/AWS_login_Add_2.jpg" width="522" /></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">Once you complete signup, a verification email 
+		   will be sent.</p>
+		   <p class="MsoNormal">You must have a verifiable email account to 
+		   register devices</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">
+		   <img alt="Helmsmaer-cloud confirm account" height="333" src="../static/img/AWS_login_Add_3.jpg" width="524" /></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">Once you recieve the verification email, 
+		   complete the process to enable login with the new account infomation.</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">
+		   <img alt="Helmsmart-cloud verify email" height="644" src="../static/img/AWS_login_Add_4.jpg" width="848" /></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">To sign an existing device - go to&nbsp;
+		   <a href="http://www.helmsmart-cloud.com/manage">
+		   http://www.helmsmart-cloud.com/manage</a> </p>
+		   <p class="MsoNormal">If you are not currently logged in - you will be 
+		   prompted to sign in with your device ID</p>
+		   <p class="MsoNormal">
+		   <img alt="Helmsmart initial login" height="375" src="../static/img/AWS_login_1.jpg" width="535" /></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">Enter the 12 character Device ID</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">
+		   <img alt="Helmsmart-cloud login device ID" height="372" src="../static/img/AWS_login_2.jpg" width="522" /></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">And complete the password</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">
+		   <img alt="Helmsmart-cloud password" height="374" src="../static/img/AWS_login_3.jpg" width="525" /></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">Once logged in, you will be directed to the 
+		   device management console</p>
+		   <p class="MsoNormal">Multiple devices may show under the same email 
+		   address</p>
+		   <p class="MsoNormal">The current selected device will have a blue 
+		   background</p>
+		   <p class="MsoNormal">Other actively posting devices will show with a 
+		   green background and <span class="auto-style2"><strong>STATUS</strong></span> 
+		   of <span class="auto-style2"><strong>ON-LINE</strong></span></p>
+		   <p class="MsoNormal">Other registered devices that are
+		   <span class="auto-style2"><strong>OFF-LINE</strong></span> will have 
+		   a grey backgroud</p>
+		   <p class="MsoNormal">Selecting the HelmSmart User banner button will 
+		   log out the current device.</p>
+		   <p class="MsoNormal">Current subscription detail will show for each 
+		   device</p>
+		   <p class="MsoNormal">You can select the <span class="auto-style2">
+		   <strong>DEVICE ID</strong></span> link for the current logged in 
+		   device to view live device status.</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">
+		   <img alt="helmsmart-cloud manage console" height="388" src="../static/img/AWS_login_Add_5.jpg" width="600" />&nbsp;</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">Select the<strong> PURCHASE SUBSCRIPTION</strong> 
+		   tab to update you device plan and choose one of three options</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">
+		   <img alt="" height="214" src="../static/img/AWS_login_Purchase_1.jpg" width="600" /></p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">Complete the payment authorization details and
+		   <span class="auto-style2"><strong>SUBMIT PAYMENT</strong></span> to 
+		   enable your plan</p>
+		   <p class="MsoNormal">The <span class="auto-style2"><strong>PO NUMBER</strong></span> 
+		   should refer to the selected Device ID</p>
+		   <p class="MsoNormal">The supplied email and phone will be used for 
+		   any enabled alert messages</p>
+		   <p class="MsoNormal">These values can be modified later in the 
+		   management console</p>
+		   <p class="MsoNormal">
+		   <img alt="" height="474" src="../static/img/AWS_login_Purchase_3.jpg" width="528" /></p>
+		   <p class="MsoNormal">Any subscription plan can not be refunnded or 
+		   transfered once billing has been completed</p>
+		   <p class="MsoNormal">&nbsp;</p>
+		   <p class="MsoNormal">Any questions please contact:</p>
+		   <p class="MsoNormal">
+<br />
+support@helmsmart-cloud.com<br />
+		   </p>
+		   </td>
+	   </tr>
+   </table>
+   <p class="MsoNormal">&nbsp;</p>
+
+</body>
+
+</html>
