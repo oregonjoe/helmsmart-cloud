@@ -424,49 +424,81 @@
 		  
 			  if (gAWSuserid != "")
 			  {
-			  
-					if( emailPattern.test(gAWSuserid))
+			  	if( emailPattern.test(gAWSuserid))
+				{
+					active_index = index;
+					
+					if(parseInt(row[4]) == 2 )
+					{
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
+					}	
+				}
+						  
+				else if (gAWSAccountType != 'admin' )
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						document.getElementById("DeviceID").options[index].disabled = true;
+						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3";
+						}
+						else	
+						{					
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+						
+						
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
+						}
+					}
+				  
+				}
+				else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						//document.getElementById("DeviceID").options[index].disabled = true;
+						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3";
+						}
+						else	
+						{					
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
 					{
 						active_index = index;
 						if(parseInt(row[4]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
 						}
-							
 					}
-				  else if (gAWSAccountType != 'admin' )
-				  {
-						if(dduserid != gAWSuserid.toString())
-						{
-							document.getElementById("DeviceID").options[index].disabled = true;
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
-						}
-						
-						if(dduserid == gAWSuserid.toString())
-						{
-							active_index = index;
-						}
-				  
-				  }
-				  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
-				  {
-						if(dduserid != gAWSuserid.toString())
-						{
-							//document.getElementById("DeviceID").options[index].disabled = true;
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
-						}
-						
-						if(dduserid == gAWSuserid.toString())
-						{
-							active_index = index;
-						}
 					
-				  }
+				}
 			  }
 					  
 			index++;
 			
 	   		});
+	   		
+      
+	   	   		
+  		document.getElementById("DeviceID").selectedIndex = active_index;
+		var selectedColor = document.getElementById("DeviceID").options[active_index].style.backgroundColor;
+		document.getElementById("DeviceID").style.backgroundColor = selectedColor;
 			
 			
 	if(response.records.length == 0)
@@ -475,14 +507,7 @@
           document.getElementById("SearchStatus").value = "Get Data succcessful ";  	  
 
 
-  		document.getElementById("DeviceID").selectedIndex = active_index;
-		
-	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
-	    		{
-	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
-		    		if(myDeviceID == AccountDataFolder)
-		    			document.getElementById("DeviceID").selectedIndex = i;
-		    	}
+
           
             
             GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
