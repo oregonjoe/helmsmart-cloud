@@ -786,6 +786,8 @@ function SetAttributeList4( sel)
  function handleGetDeviceData(response)
  {
  var index=0;
+  var active_index=0;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
  
    	$.unblockUI();
    	
@@ -802,37 +804,49 @@ function SetAttributeList4( sel)
    	      //document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
 		  document.getElementById("DeviceID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
 		  
+		  
+		  
+		  
 			  if (gAWSuserid != "")
 			  {
-			  
-				  if (gAWSAccountType != 'admin' )
-				  {
-						if(dduserid != gAWSuserid.toString())
-						{
-							document.getElementById("DeviceID").options[index].disabled = true;
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
-						}
+			  	if( emailPattern.test(gAWSuserid))
+				{
+					active_index = index;
+					if(parseInt(row[4]) == 2 )
+					{
+						document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA";
+					}
 						
-						if(dduserid == gAWSuserid.toString())
-						{
-							active_index = index;
-						}
+				}
+						  
+				else if (gAWSAccountType != 'admin' )
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						document.getElementById("DeviceID").options[index].disabled = true;
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+					}
 				  
-				  }
-				  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
-				  {
-						if(dduserid != gAWSuserid.toString())
-						{
-							//document.getElementById("DeviceID").options[index].disabled = true;
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
-						}
+				}
+				else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						//document.getElementById("DeviceID").options[index].disabled = true;
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+					}
 						
-						if(dduserid == gAWSuserid.toString())
-						{
-							active_index = index;
-						}
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+					}
 					
-				  }
+				}
 			  }
 					  
 			index++;

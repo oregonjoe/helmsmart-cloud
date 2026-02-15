@@ -4916,6 +4916,7 @@ function handleGetDeviceData(response)
 {
   var index=0;
   var active_index=0;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   $.unblockUI();
 
@@ -4931,7 +4932,16 @@ function handleGetDeviceData(response)
 			  if (gAWSuserid != "")
 			  {
 			  
-				  if (gAWSAccountType != 'admin' )
+				if( emailPattern.test(gAWSuserid))
+				{
+					active_index = index;
+					if(parseInt(row[4]) == 2 )
+					{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA";
+					}
+							
+				  }	
+				  else if (gAWSAccountType != 'admin' )
 				  {
 						if(dduserid != gAWSuserid.toString())
 						{
