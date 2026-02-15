@@ -483,7 +483,14 @@ $('#tab a').click(function (e) {
     {% endif %}
 	
 	
+	gUserEmail = "joe@seagauge.com";
+	  // Regex pattern for basic email validation
+	  const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+	 if( emailPattern.test(email))
+	{
+		alert("login is an email");
 
+	}
 	
     getDeviceList(gUserEmail);
 
