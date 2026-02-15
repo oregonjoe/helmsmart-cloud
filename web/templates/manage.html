@@ -485,7 +485,8 @@ $('#tab a').click(function (e) {
 	
 	gUserEmail = "joe@seagauge.com";
 	  // Regex pattern for basic email validation
-	  const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+	  //const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+	  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	 if( emailPattern.test(gUserEmail))
 	{
 		alert("login is an email");
