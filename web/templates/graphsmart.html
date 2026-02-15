@@ -804,7 +804,10 @@ function SetAttributeList4( sel)
    	      //document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
 		  document.getElementById("DeviceID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
 		  
-		  
+				if(parseInt(row[4]) == 2 )
+				{
+					document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
+				}
 		  
 		  
 			  if (gAWSuserid != "")
@@ -812,10 +815,7 @@ function SetAttributeList4( sel)
 			  	if( emailPattern.test(gAWSuserid))
 				{
 					active_index = index;
-					if(parseInt(row[4]) == 2 )
-					{
-						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
-					}
+					
 						
 				}
 						  
@@ -824,6 +824,7 @@ function SetAttributeList4( sel)
 					if(dduserid != gAWSuserid.toString())
 					{
 						document.getElementById("DeviceID").options[index].disabled = true;
+						document.getElementById("DeviceID").options[index].style.opacity = '0.5';
 						document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
 					}
 						
@@ -838,6 +839,7 @@ function SetAttributeList4( sel)
 					if(dduserid != gAWSuserid.toString())
 					{
 						//document.getElementById("DeviceID").options[index].disabled = true;
+						document.getElementById("DeviceID").options[index].style.opacity = '0.5';
 						document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
 					}
 						
