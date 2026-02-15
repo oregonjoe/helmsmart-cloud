@@ -1460,84 +1460,86 @@ function handleGetDeviceData(response)
 	 
       document.getElementById("DeviceTypeID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
 	  
-	  if (gAWSuserid != "")
-	  {
-	  
-		if( emailPattern.test(gAWSuserid))
-		{
-				active_index = index;
-				if(parseInt(row[4]) == 2 )
-				{
-					document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA";
-				}
-			
-		}
-		else if (gAWSAccountType != 'admin' )
-		{
-				if(dduserid != gAWSuserid.toString())
-				{
-					document.getElementById("DeviceTypeID").options[index].disabled = true;
-					document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
-				}
-				
-				if(dduserid == gAWSuserid.toString())
+			  if (gAWSuserid != "")
+			  {
+			  	if( emailPattern.test(gAWSuserid))
 				{
 					active_index = index;
+					
+					if(parseInt(row[4]) == 2 )
+					{
+						document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA";
+					}	
 				}
-		  
-		}
-		else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
-		{
-				if(dduserid != gAWSuserid.toString())
+						  
+				else if (gAWSAccountType != 'admin' )
 				{
-					//document.getElementById("DeviceTypeID").options[index].disabled = true;
-					document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
+					if(dduserid != gAWSuserid.toString())
+					{
+						document.getElementById("DeviceTypeID").options[index].disabled = true;
+						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#8EBDB3";
+						}
+						else	
+						{					
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+						
+						
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA";
+						}
+					}
+				  
 				}
-				
-				if(dduserid == gAWSuserid.toString())
+				else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
 				{
-					active_index = index;
+					if(dduserid != gAWSuserid.toString())
+					{
+						//document.getElementById("DeviceID").options[index].disabled = true;
+						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#8EBDB3";
+						}
+						else	
+						{					
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE";
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA";
+						}
+					}
+					
 				}
+			  }
+					  
+			index++;
 			
-		}
-	  }
-	  
-	  
-	  
-	    index++;
-	  
-	
-
-  });
-
+	   		});
+	   		
+      
+	   	   		
+  		document.getElementById("DeviceTypeID").selectedIndex = active_index;
+		var selectedColor = document.getElementById("DeviceTypeID").options[active_index].style.backgroundColor;
+		document.getElementById("DeviceTypeID").style.backgroundColor = selectedColor;
   
   
   
-  /*
-  if( gAWSAccountType != 'admin' )
-		{
-			//check to disable row
-			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
-			{
-				ssrow.classList.add('row-disabled');
-			}
-		}
-		
-		if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
-		{
-			//check to disable row
-			if(	myDeviceID[index].toUpperCase() != gAWSuserid.toUpperCase() )
-			{
-				ssrow.classList.add('row-disabled');
-			}
-		}
-  */
-  
-  
-  
-  
-
-  document.getElementById("DeviceTypeID").selectedIndex = active_index;
   gDeviceKey = document.getElementById("DeviceTypeID").options[active_index].value;
 					document.getElementById("DeviceKey").value = gDeviceKey;
 					
