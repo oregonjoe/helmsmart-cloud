@@ -1447,6 +1447,7 @@ function handleGetDeviceData(response)
 {
   var index=0;
   var active_index=0;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   $.unblockUI();
 
@@ -1462,8 +1463,13 @@ function handleGetDeviceData(response)
 	  if (gAWSuserid != "")
 	  {
 	  
-		  if (gAWSAccountType != 'admin' )
-		  {
+		if( emailPattern.test(gAWSuserid))
+		{
+				active_index = index;
+			
+		}
+		else if (gAWSAccountType != 'admin' )
+		{
 				if(dduserid != gAWSuserid.toString())
 				{
 					document.getElementById("DeviceTypeID").options[index].disabled = true;
@@ -1475,9 +1481,9 @@ function handleGetDeviceData(response)
 					active_index = index;
 				}
 		  
-		  }
-		  else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
-		  {
+		}
+		else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+		{
 				if(dduserid != gAWSuserid.toString())
 				{
 					//document.getElementById("DeviceTypeID").options[index].disabled = true;
@@ -1489,7 +1495,7 @@ function handleGetDeviceData(response)
 					active_index = index;
 				}
 			
-		  }
+		}
 	  }
 	  
 	  
