@@ -482,7 +482,7 @@ $('#tab a').click(function (e) {
 		gAWSPhoneVerified = "{{session['aws_phone_verified']}}";
     {% endif %}
 	
-	
+	/*
 	gUserEmail = "joe@seagauge.com";
 	  // Regex pattern for basic email validation
 	  //const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
@@ -492,6 +492,8 @@ $('#tab a').click(function (e) {
 		alert("login is an email");
 
 	}
+	*/
+	
 	
     getDeviceList(gUserEmail);
 
@@ -1261,6 +1263,7 @@ function handleGetDeviceData(response)
   var index=0;
   var active_index=0xFFFF;
   var cellindex=0;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   $.unblockUI();
 
@@ -1279,6 +1282,20 @@ var table = document.getElementById("DeviceData");
 
 	//document.getElementById("DeviceTypeID").options.length = 0;
 
+	
+		
+	//gUserEmail = "joe@seagauge.com";
+	  // Regex pattern for basic email validation
+	  //const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+
+	// if( emailPattern.test(gUserEmail))
+	//{
+	//	alert("login is an email");
+//
+	//}
+	
+	
+	
 
    	myAlertEmail.length=0;
 	myAlertSMS.length=0;
@@ -1463,7 +1480,12 @@ var table = document.getElementById("DeviceData");
 		cell9.classList.add('auto-style7'); 
 		
 		//if( gAWSAccountType != 'admin' &&  gAWSuserid != '000000000000')
-		if( gAWSAccountType != 'admin' )
+		if( emailPattern.test(gAWSuserid))
+		{
+			active_index = index;
+		
+		}
+		else if( gAWSAccountType != 'admin' )
 		//if( gAWSuserid.toUpperCase() != 'FFFFFFFFFFFF' )
 		{
 			//check to disable row
