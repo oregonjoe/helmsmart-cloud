@@ -840,6 +840,8 @@ function SetAttributeList4( sel)
 						active_index = index;
 						if(parseInt(row[4]) == 2 )
 						{
+						
+						
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
 						}
 					}
@@ -880,14 +882,18 @@ function SetAttributeList4( sel)
       
 	   	   		
   		document.getElementById("DeviceID").selectedIndex = active_index;
+		var selectedColor = document.getElementById("DeviceID").options[active_index].style.backgroundColor;
+		document.getElementById("DeviceID").backgroundColor = selectedColor;
 		
+		
+		/*
 	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
 	    		{
 	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
 		    		if(myDeviceID == AccountDataFolder)
 		    			document.getElementById("DeviceID").selectedIndex = i;
 		    	}
-          
+          */
             
 		if(index == 0)
      document.getElementById("SearchStatus").value = "Get Devices Error";
