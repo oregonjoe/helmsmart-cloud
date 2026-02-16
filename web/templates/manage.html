@@ -2188,13 +2188,16 @@ Alert service</p>
 			
 			
 		{% else %}
-			<input type="image" src="{{ url_for('static', filename='img/OrderYearlyButtonSmall.jpg' ) }}" />
+			<input type="image" src="{{ url_for('static', filename='img/OrderYearlyButtonSmall.jpg' ) }}" onClick = "alert('Must be logged in with a device id to purchase a subscription');"/>
 		{% endif %}	
 	</td>
 	
 	
 	</tr> 
-
+	<td class="auto-style6" colspan="3"> &nbsp;</td>
+	<tr>
+	
+	</tr>
 	
 		<tr>
 	<td class="auto-style6">
