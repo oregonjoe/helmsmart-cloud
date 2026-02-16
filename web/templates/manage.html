@@ -607,7 +607,59 @@ function reloadMe()
 	window.location.reload();
 }
 
+function checkUserAccountPermissions(AWSuserid, AWSAccountType)
+{
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+	
+	if( AWSuserid == "")
+	{
+		var alertText = "Invalid account login\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	
+	if( AWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	if( emailPattern.test(AWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+
+	if(AWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return false;
+	}
+
+	if(AWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return false;
+	}
+
+	return true;
+ 
+ 
+}  	
 	
 function handlevalidateSMSnumber(response)
 {
@@ -1197,27 +1249,7 @@ function get_deviceView(index)
 function modifyData(index)
 {
 
-	if( gAWSuserid == "000000000000")
-	{
-		var alertText = "Guest account can not modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-
-
-
-	if( emailPattern.test(gAWSuserid))
-	{
-		var alertText = "You must be logged in with a device ID to modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 	gModifyIndex = index;
  //document.getElementById("DeviceTypeID").selectedIndex = index;
@@ -1661,40 +1693,9 @@ function AWSDeleteDevice(index)
 	var deleted_username = "";
 	
 	
-	if( gAWSuserid == "000000000000")
-	{
-		var alertText = "Guest account can not modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-	
-	if( emailPattern.test(gAWSuserid))
-	{
-		var alertText = "You must be logged in with a device ID to modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-	
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
-	if(gAWSAccountType == "sub user")
-	{
-		alert("Invalid: a sub user account can not delete a primary account")
-		return;
-	}
-
-	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not delete a primary account")
-		return;
-	}
-
-// The confirm() method pauses script execution until a button is clicked
+	// The confirm() method pauses script execution until a button is clicked
  	var confirm_message = "Are you sure you want to delete device? \n";
 	confirm_message = confirm_message + " \n ";
 	confirm_message = confirm_message + "Subscription fees are not refundable and you will no longer \n";
@@ -1800,38 +1801,7 @@ function handleCancelSubscription(response)
 function AWSCancelSubscription(index)
 {
 
-	if( gAWSuserid == "000000000000")
-	{
-		var alertText = "Guest account can not modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-
-	if( emailPattern.test(gAWSuserid))
-	{
-		var alertText = "You must be logged in with a device ID to modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-
-	if(gAWSAccountType == "sub user")
-	{
-		alert("Invalid: a sub user account can not cancel a subscription")
-		return;
-	}
-
-	
-	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not cancel a subscription")
-		return;
-	}
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 
 // The confirm() method pauses script execution until a button is clicked
@@ -1961,40 +1931,13 @@ function AWSUpdateDevice()
 
 function UpdateDevice()
 {
-var dIndex=0;
+	var dIndex=0;
 
-	if( gAWSuserid == "000000000000")
-	{
-		var alertText = "Guest account can not modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+	//dIndex = document.getElementById("DeviceTypeID").selectedIndex;
 
 
-	if( emailPattern.test(gAWSuserid))
-	{
-		var alertText = "You must be logged in with a device ID to modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-
-
-	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not update device parameters")
-		return;
-	}
-
-//dIndex = document.getElementById("DeviceTypeID").selectedIndex;
-
-
- $.blockUI({ 
+	$.blockUI({ 
      message: '<h1>Updating Alert Event...</h1>',    
      css: {             
      border: 'none',             

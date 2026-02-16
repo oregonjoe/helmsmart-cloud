@@ -204,6 +204,62 @@
 
     //
     /* ******************  Done getting cookies  variable ************************************************ */
+
+function checkUserAccountPermissions(AWSuserid, AWSAccountType)
+{
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+	
+	if( AWSuserid == "")
+	{
+		var alertText = "Invalid account login\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	
+	if( AWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	if( emailPattern.test(AWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+
+	if(AWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return false;
+	}
+
+	if(AWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return false;
+	}
+
+	return true;
+ 
+ 
+}  	
+	
+	
 function ShowHidePrefs()
 {
 
@@ -3144,45 +3200,7 @@ function ShowSearchType()
 function AddNewPref()
 {
 
-	if( gAWSuserid == "000000000000")
-	{
-		var alertText = "Guest account can not modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-	
-	if( emailPattern.test(gAWSuserid))
-	{
-		var alertText = "You must be logged in with a device ID to modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-	
-
-	if(gAWSAccountType == "sub user")
-	{
-		alert("Invalid: a sub user account can not modify a primary account")
-		return;
-	}
-
-	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
-
-
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
  
 
  var myStartTimeStr;
@@ -3326,46 +3344,7 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
  {
  
  
-	if( gAWSuserid == "000000000000")
-	{
-		var alertText = "Guest account can not modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-	
-	if( emailPattern.test(gAWSuserid))
-	{
-		var alertText = "You must be logged in with a device ID to modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-	
-
-	if(gAWSAccountType == "sub user")
-	{
-		alert("Invalid: a sub user account can not modify a primary account")
-		return;
-	}
-
-	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
-
-
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
- 
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
  
     var myStartTimeStr;
     var myEndTimeStr;
@@ -3507,52 +3486,12 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
 
 }	 
   
+
+  
 function DeletePref()
 {
 
- // Guests do not get to make changes
- //if(myuserid == 0)
- //return;
-	if( gAWSuserid == "000000000000")
-	{
-		var alertText = "Guest account can not modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-	
-	if( emailPattern.test(gAWSuserid))
-	{
-		var alertText = "You must be logged in with a device ID to modify data\n";
-		alertText = alertText + "Please logout and and login with your device ID";
-		
-		alert(alertText);
-		return;
-		
-	}
-	
-
-	if(gAWSAccountType == "sub user")
-	{
-		alert("Invalid: a sub user account can not modify a primary account")
-		return;
-	}
-
-	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
-
-
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
- 
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
  
   $.blockUI({ 
      message: '<h1>Deleting Preferences...</h1>',
