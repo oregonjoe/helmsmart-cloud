@@ -449,7 +449,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 	
 			var dduserid = row[1];
 		  deviceAPIkeys[index] = row[2];
-   	      document.getElementById("DeviceID").options[index++] = new Option(row[0], row[1]);
+   	      document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
 		  
 		  
 		    if (gAWSuserid != "")
