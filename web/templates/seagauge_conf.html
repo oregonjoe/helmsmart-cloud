@@ -215,7 +215,7 @@ color: #08c;
 	var myVersionString = "1.9.3.7.28"
 	var deviceAPIkeys = new Array();
 	
-	var gAWSuserid = "000000000000";
+	var gAWSuserid = "";
 	var gAWSAccessToken="";
 	var gAWSDomain = "";
 	var gAWSClientID = "";
@@ -345,16 +345,69 @@ function StartUpMyScript()
     // set up Server Account Type
 
     SetServerType( 1);
+	
+	
+	      // Initialize the User ID from the Session variable
+	{% if session['aws_username'] %}
+		gAWSUsername = "{{session['aws_username']}}";
+	{% endif %}
+	
+	
+	{% if session['aws_domain'] %}
+		gAWSDomain = "{{session['aws_domain']}}";
+	{% endif %}
+		
+	{% if session['aws_clientid'] %}
+		gAWSClientID = "{{session['aws_clientid']}}";
+	{% endif %}
+		
 
-    if (myuserid == null)
-    {
-    myuserid = "0";
-    }
-    else
-    {
-    getDeviceList(myuserid);
-    //getDeviceParamList(myuserid);
-    }
+    {% if session['aws_userid'] %}
+		gAWSuserid = "{{session['aws_userid']}}";
+    {% endif %}
+	
+
+	
+    {% if session['username'] %}
+		gUserEmail = "{{session['username']}}";
+    {% endif %}
+	
+    {% if session['aws_email'] %}
+		gUserEmail = "{{session['aws_email']}}";
+    {% endif %}
+	
+	{% if session['aws_phone'] %}
+		gAWSPhone = "{{session['aws_phone']}}";
+    {% endif %}
+	
+	{% if session['aws_account_type'] %}
+		gAWSAccountType = "{{session['aws_account_type']}}";
+    {% endif %}
+	
+	
+	
+	{% if session['aws_email_verified'] %}
+		gAWSEmailVerified = "{{session['aws_email_verified']}}";
+    {% endif %}
+
+    {% if session['aws_phone_verified'] %}
+		gAWSPhoneVerified = "{{session['aws_phone_verified']}}";
+    {% endif %}
+	
+   
+
+      if (myuserid == null)
+      {
+         myuserid = "0";
+      }
+      else
+      {
+          getDeviceList(gUserEmail);
+          //getDeviceParamList(myuserid);
+      }
+	
+	
+
 
 
 
