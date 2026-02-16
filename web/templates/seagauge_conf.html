@@ -409,7 +409,7 @@ function StartUpMyScript()
       }
       else
       {
-          getDeviceList(gUserID);
+          getDeviceList(gUserEmail);
           //getDeviceParamList(myuserid);
       }
 	
@@ -490,7 +490,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
    AccountDataFolder = document.getElementById("DeviceID").value;
    myDeviceID = document.getElementById("DeviceID").value;
    
-	getDeviceParamList(myDeviceID);
+	getDeviceParamList(gUserID,  myDeviceID);
    
 }
 
@@ -507,10 +507,10 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 
    	response.records.forEach(function(row){
 	
-			var dduserid = row[1];
-		  deviceAPIkeys[index] = row[2];
-   	      document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
-		  
+			var dduserid = row[3];
+		  deviceAPIkeys[index] = row[0];
+   	      //document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
+		  document.getElementById("DeviceID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
 		  
 		    if (gAWSuserid != "")
 			  {
@@ -518,7 +518,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 				{
 					active_index = index;
 					
-					if(parseInt(row[3]) == 2 )
+					if(parseInt(row[4]) == 2 )
 					{
 						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
 						document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
@@ -534,7 +534,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 					{
 						document.getElementById("DeviceID").options[index].disabled = true;
 						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
-						if(parseInt(row[3]) == 2 )
+						if(parseInt(row[4]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
 						}
@@ -547,7 +547,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 					if(dduserid == gAWSuserid.toString())
 					{
 						active_index = index;
-						if(parseInt(row[3]) == 2 )
+						if(parseInt(row[4]) == 2 )
 						{
 						
 						
@@ -563,7 +563,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 					{
 						//document.getElementById("DeviceID").options[index].disabled = true;
 						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
-						if(parseInt(row[3]) == 2 )
+						if(parseInt(row[4]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
 							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
@@ -577,7 +577,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 					if(dduserid == gAWSuserid.toString())
 					{
 						active_index = index;
-						if(parseInt(row[3]) == 2 )
+						if(parseInt(row[4]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
 							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
@@ -617,7 +617,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
         //  UpdateSeriesList();
 		//deviceapikey = deviceAPIkeys[document.getElementById("DeviceID").selectedIndex];
 		//getDeviceParamList(myDeviceID);
-		getDeviceParamList(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+		getDeviceParamList(gUserID, myDeviceID);
  
 }
 
@@ -689,7 +689,7 @@ function GetSeriesAttributes(userid)
 }
 
 
- function getDeviceList(userid)
+ function getDeviceList(useremail)
 {
 	mapInitialized =false;
         $.blockUI({ 
@@ -709,8 +709,8 @@ function GetSeriesAttributes(userid)
 
     //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid; 
 	
-	 devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devicekeys&userid=" + userid; 
-	
+	 //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devicekeys&userid=" + userid; 
+	 devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
       
    return $.ajax({
 					   //async: false,
@@ -776,7 +776,7 @@ function handleGetDevicePramNames(response)
 }
 
 
- function getDeviceParamList(deviceid)
+ function getDeviceParamList(userid, deviceid)
 {
 	mapInitialized =false;
         $.blockUI({ 
@@ -794,7 +794,7 @@ function handleGetDevicePramNames(response)
 
 	var devicedataurl;
 	
-   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefnames&userid=" + myuserid + "&deviceid=" + deviceid;
+   devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=sgg4prefnames&userid=" + userid + "&deviceid=" + deviceid;
     
     
    return $.ajax({
