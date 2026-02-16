@@ -847,7 +847,7 @@ function SetAttributeList4( sel)
 						
 						
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; // light teal
-							document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
+							document.getElementById("DeviceID").options[index].style.Color = "#E3236C"; //red
 						}
 					}
 				  
@@ -861,7 +861,7 @@ function SetAttributeList4( sel)
 						if(parseInt(row[4]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
-							document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
+							document.getElementById("DeviceID").options[index].style.Color = "#E3236C"; //red
 						}
 						else	
 						{					
@@ -875,7 +875,7 @@ function SetAttributeList4( sel)
 						if(parseInt(row[4]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
-							document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
+							document.getElementById("DeviceID").options[index].style.Color = "#E3236C"; //red
 						}
 					}
 					
@@ -1394,8 +1394,18 @@ function handleImportData(response)
 	
  }
  
- function SetDeviceOptionList()
+ function SetDeviceOptionList(sel)
 {
+
+   		
+  		//document.getElementById("DeviceID").selectedIndex = active_index;
+		var selectedColor = document.getElementById("DeviceID").options[sel.selectedIndex].style.backgroundColor;
+		document.getElementById("DeviceID").style.backgroundColor = selectedColor;
+
+
+
+
+
    //document.getElementById("AccountFolder").value = document.getElementById("DeviceID").value;
    AccountDataFolder = document.getElementById("DeviceID").value;
    
