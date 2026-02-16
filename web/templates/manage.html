@@ -1203,6 +1203,18 @@ function get_deviceView(index)
 function modifyData(index)
 {
 
+	if( gAWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+
+
+
 	if( emailPattern.test(gAWSuserid))
 	{
 		var alertText = "You must be logged in with a device ID to modify data\n";
