@@ -202,7 +202,7 @@ color: #08c;
 
 
 <script type="text/javascript">
-
+const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 var gAnalogStr = "00000000";
 var chunkindex=0;
 var gversionSubstrings
@@ -258,6 +258,15 @@ function StartUpMyScript()
     var CanvasIndex=0;
 	var adcchannel;
 	
+	var gAWSuserid = "";
+	var gAWSAccessToken="";
+	var gAWSDomain = "";
+	var gAWSClientID = "";
+	var gAWSUseid = "";
+	var gAWSUsername = "";
+	var gAWSPhone="";
+	var gAWSAccountType = "User";	
+	var gUserEmail = 'guest@helmsmart.com';
 
       AccountDataFolder = GetCookie(CookiePrefix + 'Account');
       // alert('AccountDataFolder  ' + AccountDataFolder );
@@ -354,9 +363,68 @@ function StartUpMyScript()
 
 }
 
- function SetDeviceOptionList()
+function checkUserAccountPermissions(AWSuserid, AWSAccountType)
+{
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+	
+	if( AWSuserid == "")
+	{
+		var alertText = "Invalid account login\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	
+	if( AWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	if( emailPattern.test(AWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+
+	if(AWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return false;
+	}
+
+	if(AWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return false;
+	}
+
+	return true;
+ 
+ 
+}  
+
+
+ function SetDeviceOptionList(sel)
 {
 	mapInitialized =false;
+	
+	var selectedColor = document.getElementById("DeviceID").options[sel.selectedIndex].style.backgroundColor;
+	document.getElementById("DeviceID").style.backgroundColor = selectedColor;
+
    //document.getElementById("AccountFolder").value = document.getElementById("DeviceID").value;
    AccountDataFolder = document.getElementById("DeviceID").value;
    myDeviceID = document.getElementById("DeviceID").value;
@@ -367,22 +435,109 @@ function StartUpMyScript()
 
  function handleGetDeviceData(response)
  {
- var index=0;
+ 
+	var index=0;
+	var active_index=0;
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
  
    	$.unblockUI();
    	
 	  document.getElementById("DeviceID").options.length = 0;
 
    	response.records.forEach(function(row){
+	
+	
 		  deviceAPIkeys[index] = row[2];
    	      document.getElementById("DeviceID").options[index++] = new Option(row[0], row[1]);
+		  
+		  
+		    if (gAWSuserid != "")
+			  {
+			  	if( emailPattern.test(gAWSuserid))
+				{
+					active_index = index;
+					
+					if(parseInt(row[4]) == 2 )
+					{
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+						document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
+					}
+					else 
+					{
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#FFFFFF";	// white				
+					}
+				}		  
+				else if (gAWSAccountType != 'admin' )
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						document.getElementById("DeviceID").options[index].disabled = true;
+						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
+						}
+						else	
+						{					
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE"; //grey
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+						
+						
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; // light teal
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
+						}
+					}
+				  
+				}
+				else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						//document.getElementById("DeviceID").options[index].disabled = true;
+						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
+						}
+						else	
+						{					
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE"; //grey
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
+						}
+					}
+					
+				}
+			  }
+					  
+			index++;
+		  
+		  
 		  
 	   		});
 	   		
 	   	// set default DeviceID to initial index	
-  		document.getElementById("DeviceID").selectedIndex = 0;
-		myDeviceID = document.getElementById("DeviceID").options[0].value;
+		document.getElementById("DeviceID").selectedIndex = active_index;
+		var selectedColor = document.getElementById("DeviceID").options[active_index].style.backgroundColor;
+		document.getElementById("DeviceID").style.backgroundColor = selectedColor;
 		
+		/*
 	    		for(i=0; i< document.getElementById("DeviceID").options.length; i++)
 	    		{
 	    			myDeviceID = document.getElementById("DeviceID").options[i].value;
@@ -392,13 +547,15 @@ function StartUpMyScript()
 						break;
 					}
 		    	}
-				
+		*/
+		
 		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
 		document.getElementById('DeviceIDXML').value = myDeviceID;
 				
         //  UpdateSeriesList();
 		//deviceapikey = deviceAPIkeys[document.getElementById("DeviceID").selectedIndex];
-		getDeviceParamList(myDeviceID);
+		//getDeviceParamList(myDeviceID);
+		getDeviceParamList(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
  
 }
 
