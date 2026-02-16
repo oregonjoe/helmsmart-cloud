@@ -119,7 +119,7 @@
 	   
 	   
   <script type="text/javascript">
-
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     var mydata = new String();
     var myuserid;
 
@@ -847,7 +847,7 @@ function SetAttributeList4( sel)
 						
 						
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; // light teal
-							document.getElementById("DeviceID").options[index].style.Color = "#E3236C"; //red
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
 						}
 					}
 				  
@@ -861,7 +861,7 @@ function SetAttributeList4( sel)
 						if(parseInt(row[4]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
-							document.getElementById("DeviceID").options[index].style.Color = "#E3236C"; //red
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
 						}
 						else	
 						{					
@@ -875,7 +875,7 @@ function SetAttributeList4( sel)
 						if(parseInt(row[4]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
-							document.getElementById("DeviceID").options[index].style.Color = "#E3236C"; //red
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
 						}
 					}
 					
@@ -3144,6 +3144,39 @@ function ShowSearchType()
 function AddNewPref()
 {
 
+	if( gAWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+	
+	if( emailPattern.test(gAWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+	
+
+	if(gAWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return;
+	}
+
+	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
 
  	if(gAWSAccountType == "guest")
 	{
@@ -3293,6 +3326,40 @@ var mytimeZoneOffset = $('#datepickerstart').data('datepicker').settings.timepic
  {
  
  
+	if( gAWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+	
+	if( emailPattern.test(gAWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+	
+
+	if(gAWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return;
+	}
+
+	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
+
  	if(gAWSAccountType == "guest")
 	{
 		alert("Invalid: a guest account can not modify a primary account")
@@ -3446,7 +3513,41 @@ function DeletePref()
  // Guests do not get to make changes
  //if(myuserid == 0)
  //return;
-  	if(gAWSAccountType == "guest")
+	if( gAWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+	
+	if( emailPattern.test(gAWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+	
+
+	if(gAWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return;
+	}
+
+	if(gAWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return;
+	}
+
+
+ 	if(gAWSAccountType == "guest")
 	{
 		alert("Invalid: a guest account can not modify a primary account")
 		return;
