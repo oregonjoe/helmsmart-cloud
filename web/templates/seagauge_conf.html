@@ -447,7 +447,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 
    	response.records.forEach(function(row){
 	
-	
+			var dduserid = row[3];
 		  deviceAPIkeys[index] = row[2];
    	      document.getElementById("DeviceID").options[index++] = new Option(row[0], row[1]);
 		  
