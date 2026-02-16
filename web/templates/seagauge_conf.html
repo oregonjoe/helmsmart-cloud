@@ -708,7 +708,7 @@ function GetSeriesAttributes(userid)
 	var devicedataurl;
 
     //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid; 
-	
+	var encodedEmail = encodeURIComponent(useremail);
 	 //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devicekeys&userid=" + userid; 
 	 devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
       
