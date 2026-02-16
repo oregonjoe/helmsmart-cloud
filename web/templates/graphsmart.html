@@ -815,9 +815,13 @@ function SetAttributeList4( sel)
 					
 					if(parseInt(row[4]) == 2 )
 					{
-						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
-					}	
-				}
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+						document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
+					}
+					else 
+					{
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#FFFFFF";	// white				
+					}
 						  
 				else if (gAWSAccountType != 'admin' )
 				{
@@ -827,11 +831,11 @@ function SetAttributeList4( sel)
 						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
 						if(parseInt(row[4]) == 2 )
 						{
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
 						}
 						else	
 						{					
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE"; //grey
 						}
 					}
 						
@@ -842,7 +846,8 @@ function SetAttributeList4( sel)
 						{
 						
 						
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; // light teal
+							document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
 						}
 					}
 				  
@@ -855,11 +860,12 @@ function SetAttributeList4( sel)
 						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
 						if(parseInt(row[4]) == 2 )
 						{
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
+							document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
 						}
 						else	
 						{					
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE"; //grey
 						}
 					}
 						
@@ -868,7 +874,8 @@ function SetAttributeList4( sel)
 						active_index = index;
 						if(parseInt(row[4]) == 2 )
 						{
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+							document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
 						}
 					}
 					
