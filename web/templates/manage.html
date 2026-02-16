@@ -73,15 +73,6 @@
           text-align: center;
           }
 		  
-		  .auto-style7 {
-          font-family: Verdana, Geneva, Tahoma, sans-serif;
-          font-size: 8pt;
-		  font-color: #2A507E;
-          text-align: left;
-		  width: 100px;
-		  overflow: hidden;
-          }
-		  
 		  td, th {
 		  overflow-wrap: break-word; /* Standard property */
 		  word-wrap: break-word;     /* Older alias for compatibility */
@@ -310,7 +301,7 @@ $('#tab a').click(function (e) {
 <div class="tab-content">
 
 	<!-- Tab pane -->
-	<div class="tab-pane" id="Subscriptions">
+	<div class="auto-style8" id="Subscriptions">
 			<!DOCTYPE html>
 <html>
 <head>
@@ -336,6 +327,9 @@ $('#tab a').click(function (e) {
 		.tab-content {
 			margin-top: 15px;
 		}
+	.auto-style8 {
+	margin-left: 21px;
+}
 	</style>
 	
 <script type="text/javascript">
@@ -2122,7 +2116,7 @@ Alert service</p>
 	
 	
 
-	<td>
+	<td><center>
 		{% if session['aws_account_type'] == "primary user" %}
 			<!--
 			<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
@@ -2141,10 +2135,10 @@ Alert service</p>
 			</form>
 			
 		{% else %}
-			<input type="image" src="{{ url_for('static', filename='img/OrderWeeklyButtonSmall.jpg' ) }}" />
+			<input type="image" src="{{ url_for('static', filename='img/OrderWeeklyButtonSmall.jpg' ) }}" onClick = "alert('Must be logged in with a device id to purchase a subscription');"/>
 		{% endif %}
-	</td>
-	<td>
+	</center></td>
+	<td><center>
 		{% if session['aws_account_type'] == "primary user" %}	
 			<!--
 			<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
@@ -2164,10 +2158,10 @@ Alert service</p>
 			</form>
 			
 		{% else %}
-			<input type="image" src="{{ url_for('static', filename='img/OrderMonthlyButtonSmall.jpg' ) }}" />
+			<input type="image" src="{{ url_for('static', filename='img/OrderMonthlyButtonSmall.jpg' ) }}" onClick = "alert('Must be logged in with a device id to purchase a subscription');"/>
 		{% endif %}
-	</td>
-	<td>
+	</center></td>
+	<td><center>
 		{% if session['aws_account_type'] == "primary user" %}	
 			<!--		
 			<form name="PrePage" method="post" action="https://Simplecheckout.authorize.net/payment/CatalogPayment.aspx">
@@ -2190,28 +2184,25 @@ Alert service</p>
 		{% else %}
 			<input type="image" src="{{ url_for('static', filename='img/OrderYearlyButtonSmall.jpg' ) }}" onClick = "alert('Must be logged in with a device id to purchase a subscription');"/>
 		{% endif %}	
-	</td>
+	</center></td>
 	
 	
 	</tr> 
 	<td class="auto-style6" colspan="3"> &nbsp;</td>
-	<tr>
-	
-	</tr>
-	
+		
 		<tr>
-	<td class="auto-style6">
+	<td class="auto-style6"><center>
 	<a width="250" href="http://www.helmsmart-cloud.com/privacypolicy" id="privacypolicy" 
       <span width="250">Privacy Policy</span></a>
-	</td>
-	<td class="auto-style6">
+	</center></td>
+	<td class="auto-style6"><center>
 	<a width="250" href="http://www.helmsmart-cloud.com/termsofuse" id="awstermsofuse" 
       <span width="250">Terms of Use</span></a>
-	</td class="auto-style5">
-	<td class="auto-style6">
+	</center></td class="auto-style5">
+	<td class="auto-style6"><center>
 	<a width="250" href="http://www.helmsmart-cloud.com/optoutpolicy" id="awsoptout" 
       <span width="250">Alerts Opt Out</span></a>
-	</td>
+	</center></td>
 	</tr>
 	</table>
  
