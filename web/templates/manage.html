@@ -339,7 +339,7 @@ $('#tab a').click(function (e) {
 	</style>
 	
 <script type="text/javascript">
-
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	var myAlertEmail  = new Array();
 	var myAlertSMS  = new Array();
 	var myAlertEmail_verified  = new Array();
@@ -1203,6 +1203,16 @@ function get_deviceView(index)
 function modifyData(index)
 {
 
+	if( emailPattern.test(gAWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+
 	gModifyIndex = index;
  //document.getElementById("DeviceTypeID").selectedIndex = index;
   document.getElementById("DeviceKey").value = myDeviceKey[index];
@@ -1265,7 +1275,7 @@ function handleGetDeviceData(response)
   var index=0;
   var active_index=0xFFFF;
   var cellindex=0;
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   $.unblockUI();
 
@@ -1643,6 +1653,18 @@ function AWSDeleteDevice(index)
 {
 
 	var deleted_username = "";
+	
+	
+	if( emailPattern.test(gAWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+	
 
 	if(gAWSAccountType == "sub user")
 	{
@@ -1761,6 +1783,16 @@ function handleCancelSubscription(response)
 
 function AWSCancelSubscription(index)
 {
+
+	if( emailPattern.test(gAWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
 
 	if(gAWSAccountType == "sub user")
 	{
@@ -1904,6 +1936,18 @@ function AWSUpdateDevice()
 function UpdateDevice()
 {
 var dIndex=0;
+
+
+	if( emailPattern.test(gAWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return;
+		
+	}
+
 
 	if(gAWSAccountType == "guest")
 	{
