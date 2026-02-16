@@ -150,7 +150,7 @@ color: #FFFFFF;
   <script language = "Javascript">
 
 
-
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     var device;
     var mydata = new String();
@@ -402,6 +402,62 @@ Date.prototype.yyyymmdd = function() {
         return yyyy + '-' + MM + '-' + dd + ' ' +  hh + ':' + mm + ':' + ss;
    };  
    
+   
+function checkUserAccountPermissions(AWSuserid, AWSAccountType)
+{
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+	
+	if( AWSuserid == "")
+	{
+		var alertText = "Invalid account login\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	
+	if( AWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	if( emailPattern.test(AWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+
+	if(AWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return false;
+	}
+
+	if(AWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return false;
+	}
+
+	return true;
+ 
+ 
+}  	
+	   
+   
 function ChangedMapOptions()
 {
 
@@ -615,6 +671,7 @@ function StartUpMyScript()
    	      //document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
 		  document.getElementById("DeviceID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
 		  
+			   
 			  if (gAWSuserid != "")
 			  {
 			  	if( emailPattern.test(gAWSuserid))
@@ -623,10 +680,14 @@ function StartUpMyScript()
 					
 					if(parseInt(row[4]) == 2 )
 					{
-						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
-					}	
-				}
-						  
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+						document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
+					}
+					else 
+					{
+						document.getElementById("DeviceID").options[index].style.backgroundColor = "#FFFFFF";	// white				
+					}
+				}		  
 				else if (gAWSAccountType != 'admin' )
 				{
 					if(dduserid != gAWSuserid.toString())
@@ -635,11 +696,11 @@ function StartUpMyScript()
 						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
 						if(parseInt(row[4]) == 2 )
 						{
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
 						}
 						else	
 						{					
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE"; //grey
 						}
 					}
 						
@@ -650,7 +711,8 @@ function StartUpMyScript()
 						{
 						
 						
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; // light teal
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
 						}
 					}
 				  
@@ -663,11 +725,12 @@ function StartUpMyScript()
 						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
 						if(parseInt(row[4]) == 2 )
 						{
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
 						}
 						else	
 						{					
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#EEEEEE"; //grey
 						}
 					}
 						
@@ -676,7 +739,8 @@ function StartUpMyScript()
 						active_index = index;
 						if(parseInt(row[4]) == 2 )
 						{
-							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA";
+							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
 						}
 					}
 					
@@ -1064,9 +1128,14 @@ function handleDeletePref(response)
 			document.getElementById("DeviceID").options[0] = new Option("Demo Data", "000000000000");
  }
  
- function SetDeviceOptionList()
+ function SetDeviceOptionList(sel)
 {
 	mapInitialized =false;
+	
+	
+		var selectedColor = document.getElementById("DeviceID").options[sel.selectedIndex].style.backgroundColor;
+		document.getElementById("DeviceID").style.backgroundColor = selectedColor;
+	
    //document.getElementById("AccountFolder").value = document.getElementById("DeviceID").value;
    AccountDataFolder = document.getElementById("DeviceID").value;
    //ConfigOptions = document.getElementById("XMLFilesSelect").index;
@@ -2602,7 +2671,7 @@ var StatusString;
   <center>
 	  {% if session['aws_email'] %}
 		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-		<span>HelmSmart User: {{session['aws_email']}}</span></a>
+		<span>HelmSmart User: {{session['aws_email']}}:{{session['aws_username']}}</span></a>
 	  
 	  {% elif session['username'] %}
 		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
