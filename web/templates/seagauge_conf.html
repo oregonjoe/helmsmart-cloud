@@ -202,10 +202,10 @@ color: #08c;
 
 
 <script type="text/javascript">
-const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-var gAnalogStr = "00000000";
-var chunkindex=0;
-var gversionSubstrings
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	var gAnalogStr = "00000000";
+	var chunkindex=0;
+	var gversionSubstrings
     var device;
     var mydata = new String();
     var myDeviceID;
@@ -215,21 +215,30 @@ var gversionSubstrings
 	var myVersionString = "1.9.3.7.28"
 	var deviceAPIkeys = new Array();
 	
+	var gAWSuserid = "";
+	var gAWSAccessToken="";
+	var gAWSDomain = "";
+	var gAWSClientID = "";
+	var gAWSUseid = "";
+	var gAWSUsername = "";
+	var gAWSPhone="";
+	var gAWSAccountType = "User";	
+	var gUserEmail = 'guest@helmsmart.com';
 	
 	let gFileHandle;
-var gFileName =  ""
-var gCalFileContents = "";
-var gDescription = "";
-var gType = "";
-var gUnits = "";
-var gResolution = "";
-var gMin = "";
-var gMax = "";
-var gFileSource = "SPIFFS";
-var gADCchannel=0;
-var gCurrentFile = "Not_Defined.xml"
-	
-var CookiePrefix = "SGG4CONFIG";	
+	var gFileName =  ""
+	var gCalFileContents = "";
+	var gDescription = "";
+	var gType = "";
+	var gUnits = "";
+	var gResolution = "";
+	var gMin = "";
+	var gMax = "";
+	var gFileSource = "SPIFFS";
+	var gADCchannel=0;
+	var gCurrentFile = "Not_Defined.xml"
+		
+	var CookiePrefix = "SGG4CONFIG";	
 	var CurrentDialID;
 
 	var DialPGNInstance = new Array(0,0,0,0,0,0,0,0); 
@@ -258,15 +267,7 @@ function StartUpMyScript()
     var CanvasIndex=0;
 	var adcchannel;
 	
-	var gAWSuserid = "";
-	var gAWSAccessToken="";
-	var gAWSDomain = "";
-	var gAWSClientID = "";
-	var gAWSUseid = "";
-	var gAWSUsername = "";
-	var gAWSPhone="";
-	var gAWSAccountType = "User";	
-	var gUserEmail = 'guest@helmsmart.com';
+
 
       AccountDataFolder = GetCookie(CookiePrefix + 'Account');
       // alert('AccountDataFolder  ' + AccountDataFolder );
