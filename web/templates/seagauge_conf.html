@@ -224,6 +224,7 @@ color: #08c;
 	var gAWSPhone="";
 	var gAWSAccountType = "User";	
 	var gUserEmail = 'guest@helmsmart.com';
+	var gUserID = "";
 	
 	let gFileHandle;
 	var gFileName =  ""
@@ -372,6 +373,12 @@ function StartUpMyScript()
 		gUserEmail = "{{session['username']}}";
     {% endif %}
 	
+	
+	{% if session['userid'] %}
+		gUserID = "{{session['userid']}}";
+    {% endif %}
+	
+	
     {% if session['aws_email'] %}
 		gUserEmail = "{{session['aws_email']}}";
     {% endif %}
@@ -402,7 +409,7 @@ function StartUpMyScript()
       }
       else
       {
-          getDeviceList(gUserEmail);
+          getDeviceList(gUserID);
           //getDeviceParamList(myuserid);
       }
 	
