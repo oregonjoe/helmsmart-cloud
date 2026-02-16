@@ -5146,11 +5146,7 @@ function handleDeleteAlert(response)
 function UpdateLogAlert()
 {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 	if(document.getElementById("EventsID").selectedIndex == document.getElementById("EventsID").length - 1)
 	{
@@ -6121,11 +6117,7 @@ function DisableTimmer()
 function DeleteAlert()
  {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
     
     //Can't update prefs if we don't have one
     if(document.getElementById("EventsID").length == 0)

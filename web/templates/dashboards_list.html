@@ -44,12 +44,13 @@
         </script>  
 
 	
-    <script type="text/javascript">
-		var gUserID= "";
-		var gUseremail = ""
-		var currentUser = null;
-		
-		
+<script type="text/javascript">
+	
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	var gUserID= "";
+	var gUseremail = ""
+	var currentUser = null;
+			
 	var gAWSuserid = "000000000000"
 	var gAWSAccessToken="";
 	var gAWSDomain = "";
@@ -62,10 +63,10 @@
 	gAWSEmailVerified = "false";
 	gAWSPhoneVerified = "false";
 
-$(window).bind("load", function() {
-var myusername
+	$(window).bind("load", function() {
+	var myusername
 
- var auth = new auth0.WebAuth({
+	var auth = new auth0.WebAuth({
     domain: AUTH0_DOMAIN,
     clientID: AUTH0_CLIENT_ID
    });
@@ -156,14 +157,67 @@ window.location.href = '/auth0logout';
 //        .getElementById('popup-clickie')
 //        .addEventListener('click', showPopup);
 
+function checkUserAccountPermissions(AWSuserid, AWSAccountType)
+{
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+	
+	if( AWSuserid == "")
+	{
+		var alertText = "Invalid account login\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	
+	if( AWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	/*
+	if( emailPattern.test(AWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	*/
+
+	if(AWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return false;
+	}
+
+	if(AWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return false;
+	}
+
+	return true;
+ 
+ 
+}  	
+	
+	
+	
 function shareboard(sel)
 {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 	var prefuid = sel.name;
 	prefuid =  sel.name.replace("Share-", "");
@@ -175,11 +229,7 @@ function shareboard(sel)
 function deleteboard(sel)
 {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 
 	var prefuid = sel.name;
@@ -241,11 +291,7 @@ function deleteboard(sel)
 function editboardname()
 {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 
 	///var newname = document.getElementById("EditName").value;
@@ -311,11 +357,7 @@ function editboardname()
 function editboard(sel)
 {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 	//	showPopup();
 	var editname = sel.name.split(":");
@@ -351,11 +393,7 @@ function handleaddnewboard()
 function addnewboard()
 {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 
         $.blockUI({ 

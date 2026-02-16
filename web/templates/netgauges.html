@@ -1564,11 +1564,7 @@ var mypayload;
 function AddNewPref()
 {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 
  // Guests do not get to make changes
@@ -1657,11 +1653,7 @@ function AddNewPref()
 function ModifyPref()
 {
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+ 	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
  // Guests do not get to make changes
  if(myuserid == 0)
@@ -1751,11 +1743,7 @@ function DeletePref()
 {
 
 
- 	if(gAWSAccountType == "guest")
-	{
-		alert("Invalid: a guest account can not modify a primary account")
-		return;
-	}
+if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 
 
       // Guests do not get to make changes

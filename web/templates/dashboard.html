@@ -75,8 +75,67 @@ var gPrefID="";
                     });
                 });
 	
+	
+function checkUserAccountPermissions(AWSuserid, AWSAccountType)
+{
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+	
+	if( AWSuserid == "")
+	{
+		var alertText = "Invalid account login\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	
+	if( AWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	/*
+	if( emailPattern.test(AWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	*/
+
+	if(AWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return false;
+	}
+
+	if(AWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return false;
+	}
+
+	return true;
+ 
+ 
+}  	
+	
 function SaveDashboardToServer(blob)
 {
+
+if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+
         $.blockUI({ 
      message: '<h1>Saving Dashboard...</h1>',    
      css: {             
