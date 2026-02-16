@@ -550,8 +550,8 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 		    	}
 		*/
 		
-		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + myDeviceID;
-		document.getElementById('DeviceIDXML').value = myDeviceID;
+		document.getElementById('DeviceIDXMLValue').innerHTML = "DeviceID " + document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
+		document.getElementById('DeviceIDXML').value = document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value;
 				
         //  UpdateSeriesList();
 		//deviceapikey = deviceAPIkeys[document.getElementById("DeviceID").selectedIndex];
