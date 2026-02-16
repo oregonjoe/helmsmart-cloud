@@ -447,7 +447,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 
    	response.records.forEach(function(row){
 	
-			var dduserid = row[3];
+			var dduserid = row[1];
 		  deviceAPIkeys[index] = row[2];
    	      document.getElementById("DeviceID").options[index++] = new Option(row[0], row[1]);
 		  
@@ -458,7 +458,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 				{
 					active_index = index;
 					
-					if(parseInt(row[4]) == 2 )
+					if(parseInt(row[3]) == 2 )
 					{
 						document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
 						document.getElementById("DeviceID").options[index].style.Color = "#C40B51"; //red
@@ -474,7 +474,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 					{
 						document.getElementById("DeviceID").options[index].disabled = true;
 						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
-						if(parseInt(row[4]) == 2 )
+						if(parseInt(row[3]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
 						}
@@ -487,7 +487,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 					if(dduserid == gAWSuserid.toString())
 					{
 						active_index = index;
-						if(parseInt(row[4]) == 2 )
+						if(parseInt(row[3]) == 2 )
 						{
 						
 						
@@ -503,7 +503,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 					{
 						//document.getElementById("DeviceID").options[index].disabled = true;
 						//document.getElementById("DeviceID").options[index].style.opacity = '0.5';
-						if(parseInt(row[4]) == 2 )
+						if(parseInt(row[3]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
 							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
@@ -517,7 +517,7 @@ function checkUserAccountPermissions(AWSuserid, AWSAccountType)
 					if(dduserid == gAWSuserid.toString())
 					{
 						active_index = index;
-						if(parseInt(row[4]) == 2 )
+						if(parseInt(row[3]) == 2 )
 						{
 							document.getElementById("DeviceID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
 							document.getElementById("DeviceID").options[index].style.Color = "#E9102E"; //red
