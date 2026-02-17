@@ -291,6 +291,19 @@ var gNumberOfDimmers = 15;
 	var gFirebaseInitialized = false;
 	var gFirebasePaused = false;
 	
+	
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	var gAWSuserid = "";
+	var gAWSAccessToken="";
+	var gAWSDomain = "";
+	var gAWSClientID = "";
+	var gAWSUseid = "";
+	var gAWSUsername = "";
+	var gAWSPhone="";
+	var gAWSAccountType = "User";	
+	var gUserEmail = 'guest@helmsmart.com';
+	
+	
 	// PageType = 7 = meshDimmerPrefs
 	var pagetype=7;
 	// default user preference
@@ -646,6 +659,52 @@ var gDimmerElements = Array(
     gUserID = "0";
     {% endif %}
 
+		     // Initialize the User ID from the Session variable
+	{% if session['aws_username'] %}
+		gAWSUsername = "{{session['aws_username']}}";
+	{% endif %}
+	
+	
+	{% if session['aws_domain'] %}
+		gAWSDomain = "{{session['aws_domain']}}";
+	{% endif %}
+		
+	{% if session['aws_clientid'] %}
+		gAWSClientID = "{{session['aws_clientid']}}";
+	{% endif %}
+		
+
+    {% if session['aws_userid'] %}
+		gAWSuserid = "{{session['aws_userid']}}";
+    {% endif %}
+	
+
+	
+    {% if session['username'] %}
+		gUserEmail = "{{session['username']}}";
+    {% endif %}
+	
+    {% if session['aws_email'] %}
+		gUserEmail = "{{session['aws_email']}}";
+    {% endif %}
+	
+	{% if session['aws_phone'] %}
+		gAWSPhone = "{{session['aws_phone']}}";
+    {% endif %}
+	
+	{% if session['aws_account_type'] %}
+		gAWSAccountType = "{{session['aws_account_type']}}";
+    {% endif %}
+	
+	
+	
+	{% if session['aws_email_verified'] %}
+		gAWSEmailVerified = "{{session['aws_email_verified']}}";
+    {% endif %}
+
+    {% if session['aws_phone_verified'] %}
+		gAWSPhoneVerified = "{{session['aws_phone_verified']}}";
+    {% endif %}
 
     if (gUserID == null)
     {
@@ -657,7 +716,7 @@ var gDimmerElements = Array(
     }
     else
     {
-    getDeviceList(gUserID);
+    getDeviceList(gUserEmail);
     //getDeviceParamList(myuserid);
     }
 	
@@ -4182,22 +4241,107 @@ function handleRegisterDevice(response)
 function handleGetDeviceData(response)
 {
   var index=0;
+  var active_index=0;
+const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   $.unblockUI();
 
   document.getElementById("DeviceTypeID").options.length = 0;
 
-  response.records.forEach(function(row){
+	response.records.forEach(function(row){
  
+    var dduserid = row[3];
      // myDeviceIDs[index]=row[0];
-      document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+      //document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+	   document.getElementById("DeviceTypeID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
+	   
+	     if (gAWSuserid != "")
+			  {
+			  	if( emailPattern.test(gAWSuserid))
+				{
+					active_index = index;
+					
+					if(parseInt(row[4]) == 2 )
+					{
+						document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+						document.getElementById("DeviceTypeID").options[index].style.Color = "#C40B51"; //red
+					}
+					else 
+					{
+						document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#FFFFFF";	// white				
+					}
+				}		  
+				else if (gAWSAccountType != 'admin' )
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						document.getElementById("DeviceTypeID").options[index].disabled = true;
+						//document.getElementById(DeviceTypeID).options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
+						}
+						else	
+						{					
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE"; //grey
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+						
+						
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA"; // light teal
+							document.getElementById("DeviceTypeID").options[index].style.Color = "#E9102E"; //red
+						}
+					}
+				  
+				}
+				else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						//document.getElementById("DeviceTypeID").options[index].disabled = true;
+						//document.getElementById("DeviceTypeID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
+							document.getElementById("DeviceTypeID").options[index].style.Color = "#E9102E"; //red
+						}
+						else	
+						{					
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE"; //grey
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+							document.getElementById("DeviceTypeID").options[index].style.Color = "#E9102E"; //red
+						}
+					}
+					
+				}
+			  }
+					  
+			index++;
 
-  });
+		});
 
 
-  document.getElementById("DeviceTypeID").selectedIndex = 0;
-  gDeviceKey = document.getElementById("DeviceTypeID").options[0].value;
-					document.getElementById("DeviceKey").value = gDeviceKey;
+  	document.getElementById("DeviceTypeID").selectedIndex = active_index;
+	var selectedColor = document.getElementById("DeviceTypeID").options[active_index].style.backgroundColor;
+	document.getElementById("DeviceTypeID").style.backgroundColor = selectedColor;
+
+  //document.getElementById("DeviceTypeID").selectedIndex = 0;
+	gDeviceKey = document.getElementById("DeviceTypeID").options[active_index].value;
+	document.getElementById("DeviceKey").value = gDeviceKey;
 					
 	// if(gDeviceKey !== "")
 	//	InitalizeFirebase();
@@ -6161,7 +6305,7 @@ function GetGeoReport()
   
   
   
-function getDeviceList(userid)
+function getDeviceList(useremail)
 {
 
         $.blockUI({ 
@@ -6179,8 +6323,22 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
-
+    //devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=devices&userid=" + userid;
+	var encodedEmail = encodeURIComponent(useremail);
+	
+	//devicedataurl = "https://www.helmsmart-cloud.com/updatedevice?deviceapikey=" + document.getElementById("DeviceKey").value; 
+	
+	if( gAWSAccountType == 'admin' &&  gAWSuserid == '000000000000')
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getalldevices`;
+	}
+	else
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
+	}
+	
+	
+	
     return $.ajax({
     //async: false,
     cache: false,
@@ -6234,13 +6392,17 @@ function getDeviceList(userid)
 
 <div>
   <center>
-  {% if session['userid'] %}
-     <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-    <span>HelmSmart: {{session['username']}}</span></a>
-  {% else %}
-    <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
-      <span>HelmSmart: Guest</span></a>
-  {% endif %}
+  {% if session['aws_email'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart User: {{session['aws_email']}}:{{session['aws_username']}}</span></a>
+	  
+	  {% elif session['username'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart Email: {{session['username']}}</span></a>
+	  {% else %}
+		<a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		  <span>HelmSmart Guest: click to login</span></a>
+	  {% endif %}
   </center>
 </div>
 
