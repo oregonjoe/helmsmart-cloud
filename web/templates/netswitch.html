@@ -1901,6 +1901,9 @@ function InitalizePrefs()
 
 function UpdateLogAlert()
 {
+
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+
 	if(gprefkey == 0)
 	{
 		AddNewPref();
@@ -2185,9 +2188,8 @@ function getDeviceParamList(userid)
 	
 function AddNewPref()
 {
- // Guests do not get to make changes
- if(gUserID == 0)
- return;
+	// Guests do not get to make changes
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
  
  
         $.blockUI({ 
@@ -2279,9 +2281,9 @@ function AddNewPref()
 
 function ModifyPref()
 {
- // Guests do not get to make changes
- if(gUserID == 0)
- return;
+	// Guests do not get to make changes
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+
         $.blockUI({ 
      message: '<h1>Adding Preferences...</h1>',
       css: {
@@ -2372,8 +2374,12 @@ function ModifyPref()
 function DeletePref()
 {
       // Guests do not get to make changes
-      if(gUserID == 0)
-      return;
+      //if(gUserID == 0)
+	  
+	  if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+	  
+	  
+     
       $.blockUI({
       message: '<h1>Adding Preferences...</h1>',    
      css: {             

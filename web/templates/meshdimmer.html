@@ -1032,6 +1032,61 @@ function ConvertValueUnits(value, type)
 
 }
 
+
+function checkUserAccountPermissions(AWSuserid, AWSAccountType)
+{
+	const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+	
+	if( AWSuserid == "")
+	{
+		var alertText = "Invalid account login\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	
+	if( AWSuserid == "000000000000")
+	{
+		var alertText = "Guest account can not modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+	if( emailPattern.test(AWSuserid))
+	{
+		var alertText = "You must be logged in with a device ID to modify data\n";
+		alertText = alertText + "Please logout and and login with your device ID";
+		
+		alert(alertText);
+		return false;
+		
+	}
+	
+
+	if(AWSAccountType == "sub user")
+	{
+		alert("Invalid: a sub user account can not modify a primary account")
+		return false;
+	}
+
+	if(AWSAccountType == "guest")
+	{
+		alert("Invalid: a guest account can not modify a primary account")
+		return false;
+	}
+
+	return true;
+ 
+ 
+}  	
+
 //function setdimmerOverrideButtonClick(button)
 //{
 //}
@@ -4882,12 +4937,16 @@ var index=0;
 
 function AddLogAlert()
 {
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+	
 	AddNewPref();
 }
 
 
 function UpdateLogAlert()
 {
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+	
 	if(gPrefKey != 0)
 	{
 
@@ -5281,9 +5340,8 @@ function getDeviceParamList(userid)
 	
 function AddNewPref()
 {
- // Guests do not get to make changes
- if(gUserID == 0)
- return;
+	// Guests do not get to make changes
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
  
  
         $.blockUI({ 
@@ -5442,9 +5500,9 @@ function AddNewPref()
 
 function ModifyPref()
 {
- // Guests do not get to make changes
- if(gUserID == 0)
- return;
+	// Guests do not get to make changes
+	if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+
         $.blockUI({ 
      message: '<h1>Updateing Preferences...</h1>',
       css: {
@@ -5614,9 +5672,11 @@ function ModifyPref()
 
 function DeletePref()
 {
-      // Guests do not get to make changes
-      if(gUserID == 0)
-      return;
+ 
+	   if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
+	  
+	  
+	  
       $.blockUI({
       message: '<h1>Adding Preferences...</h1>',    
      css: {             
