@@ -456,7 +456,13 @@ def get_subscription_details(gSubscriptionType) -> SubscriptionData:
   
   try:
 
-    if gSubscriptionType == "HS-Weekly":
+    if gSubscriptionType == "HS-Trial":
+      subscriptionPrice = "0.00"
+      subscriptionDescription = "HelmSmart Subscription - Trial"
+      endtime = datetime.datetime.now()  + relativedelta(weeks=1)
+      subscriptionValid = True
+
+    elif gSubscriptionType == "HS-Weekly":
       subscriptionPrice = str(os.environ.get('SubscriptionPriceHSWeekly'))
       subscriptionDescription = "HelmSmart Subscription - Weekly"
       endtime = datetime.datetime.now()  + relativedelta(weeks=1)
@@ -2096,7 +2102,7 @@ def aws_cognito_user_added():
   
   #aws_add_device(deviceid, devicename, useremail,  smsemail, smsphone )
   #def aws_update_device(deviceid, devicename, useremail, smsemail, smsphone, subscriptionKey, transactionID, devicestatus, email_verified, phone_verified ):
-  deviceupdate_check = aws_update_device(deviceid, devicename, useremail,  smsemail, smsphone, 'HS-Invalid', '0000000000', 0, useremailverified, userphoneverified )
+  deviceupdate_check = aws_update_device(deviceid, devicename, useremail,  smsemail, smsphone, 'HS-Trial', '0000000000', 0, useremailverified, userphoneverified )
 
 
   if deviceupdate_check == True:
