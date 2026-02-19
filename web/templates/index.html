@@ -74,7 +74,7 @@ var myusername
 
    
 	{% if session['loginType'] %}
-		var gLoginType = session['loginType'];
+		var gLoginType = {{session['loginType']}};
 	{% endif %}
 
 
