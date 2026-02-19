@@ -1274,7 +1274,7 @@ function modifyData(index)
 		}
 			
       	//if(myAlertEmail_verified[index].toString() == "true")
-		if(String(myAlertEmail_verified[index].toString()) == "true")
+		if(String(myAlertEmail_verified[index]) == "true")
 		{
 			document.getElementById("AlertEmail").value = myAlertEmail[index] + " (verified)";
 			document.getElementById("AlertEmail").style.color = "#117841";
