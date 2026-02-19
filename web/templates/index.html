@@ -63,10 +63,12 @@
 <script language = "Javascript">
           
 var currentUser = null;
+var gLoginType = "";
+
 
 $(window).bind("load", function() {
 var myusername
-var gLoginType = "";
+
 
  var auth = new auth0.WebAuth({
     domain: AUTH0_DOMAIN,
@@ -92,14 +94,17 @@ var gLoginType = "";
 		}
 
 	 {% else %}
-     myusername = ""; 
-	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="login" class="persona-button"><span>Sign in with your Email (legacy)</span>  </a>';
+		if(gLoginType == "")
+		{
+			myusername = ""; 
+			document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="login" class="persona-button"><span>Sign in with your Email (legacy)</span>  </a>';
  
-		$("#login").click(function(e) {
-            e.preventDefault();
+			$("#login").click(function(e) {
+				e.preventDefault();
 
-			window.location.href = '/login';
-          });
+				window.location.href = '/login';
+			});
+		}
 	{% endif %}
 
 
@@ -118,6 +123,8 @@ var gLoginType = "";
 		}
 
 	{% else %}
+		if(gLoginType == "")
+		{
 			myusername = ""; 
 			document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogin" class="persona-button"><span>Sign in with your DeviceID (new)</span>  </a>';
  
@@ -125,6 +132,7 @@ var gLoginType = "";
 				e.preventDefault();
 				window.location.href = '/aws_login';
 			});
+		}
 	{% endif %}
 
 
