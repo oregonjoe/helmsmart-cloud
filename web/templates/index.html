@@ -76,18 +76,9 @@ var myusername
    
    
 
-   
-    {% if session['aws_username'] %}
-		myusername = "{{session['aws_username']}}"; 
-		myuseremail = "{{session['aws_email']}}"; 
-		document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myuseremail + ':' + myusername + ': Sign Out</span>  </a>';
 
-	$("#logout").click(function(e) {
-            e.preventDefault();
-			window.location.href = '/aws_logout';
-			 });
 
-	{% elif session['username'] %}
+	{% if session['username'] %}
 		myusername = "{{session['username']}}";  
 		document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out</span>  </a>';
 
@@ -98,24 +89,35 @@ var myusername
 
 	 {% else %}
      myusername = ""; 
-	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="login" class="persona-button"><span>Sign in with your Email</span>  </a>';
+	 document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="login" class="persona-button"><span>Sign in with your Email (legacy)</span>  </a>';
  
-  $("#login").click(function(e) {
+		$("#login").click(function(e) {
             e.preventDefault();
-			/*
-		auth.authorize({
-				audience: 'https://'+AUTH0_DOMAIN+'/userinfo', // you can also set this on the .env file and put API_AUDIENCE instead
-				scope: 'openid profile',
-				responseType: 'code',
-				redirectUri: AUTH0_CALLBACK_URL
-			  }); 
-			*/
+
 			window.location.href = '/login';
           });
- {% endif %}
+	{% endif %}
 
 
+    {% if session['aws_username'] %}
+		myusername = "{{session['aws_username']}}"; 
+		myuseremail = "{{session['aws_email']}}"; 
+		document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogout" class="persona-button"><span>' + myuseremail + ':' + myusername + ': Sign Out</span>  </a>';
 
+		$("#awslogout").click(function(e) {
+            e.preventDefault();
+			window.location.href = '/aws_logout';
+			 });
+
+		 {% else %}
+			myusername = ""; 
+			document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogin" class="persona-button"><span>Sign in with your DeviceID</span>  </a>';
+ 
+			$("#awslogin").click(function(e) {
+				e.preventDefault();
+				window.location.href = '/aws_login';
+			});
+		{% endif %}
 
 
 
@@ -218,16 +220,15 @@ var myusername;
       <table cellpadding="2" style="width: 600px">
         <tr>
           <td colspan="3">
-
-
-	<div id = 'loginbutton'>
-	
-	</div>		
-			
+			<div id = 'loginbutton'></div>	
           </td>
-
         </tr>
 		
+		<tr>
+          <td colspan="3">
+			<div id = 'awsloginbutton'></div>	
+          </td>
+        </tr>
 		
         <tr>
           <td class="auto-style8" colspan="3">
