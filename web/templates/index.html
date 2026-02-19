@@ -66,6 +66,7 @@ var currentUser = null;
 
 $(window).bind("load", function() {
 var myusername
+var gLoginType = "";
 
  var auth = new auth0.WebAuth({
     domain: AUTH0_DOMAIN,
@@ -79,13 +80,16 @@ var myusername
 
 
 	{% if session['username'] %}
-		myusername = "{{session['username']}}";  
-		document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out (legacy)</span>  </a>';
+		if(gLoginType == "auth0")
+		{
+			myusername = "{{session['username']}}";  
+			document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out (legacy)</span>  </a>';
 
-	$("#logout").click(function(e) {
-            e.preventDefault();
-			window.location.href = '/auth0logout';
+			$("#logout").click(function(e) {
+				e.preventDefault();
+				window.location.href = '/auth0logout';
 			 });
+		}
 
 	 {% else %}
      myusername = ""; 
@@ -100,16 +104,20 @@ var myusername
 
 
     {% if session['aws_username'] %}
-		myusername = "{{session['aws_username']}}"; 
-		myuseremail = "{{session['aws_email']}}"; 
-		document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogout" class="persona-button"><span>' + myuseremail + ':' + myusername + ': Sign Out</span>  </a>';
+	
+		if(gLoginType == "aws_cognito")
+		{
+			myusername = "{{session['aws_username']}}"; 
+			myuseremail = "{{session['aws_email']}}"; 
+			document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogout" class="persona-button"><span>' + myuseremail + ':' + myusername + ': Sign Out</span>  </a>';
 
-		$("#awslogout").click(function(e) {
-            e.preventDefault();
-			window.location.href = '/aws_logout';
-			 });
+			$("#awslogout").click(function(e) {
+				e.preventDefault();
+				window.location.href = '/aws_logout';
+				});
+		}
 
-		 {% else %}
+	{% else %}
 			myusername = ""; 
 			document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogin" class="persona-button"><span>Sign in with your DeviceID (new)</span>  </a>';
  
@@ -117,7 +125,7 @@ var myusername
 				e.preventDefault();
 				window.location.href = '/aws_login';
 			});
-		{% endif %}
+	{% endif %}
 
 
 
