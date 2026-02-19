@@ -73,14 +73,14 @@ var myusername
    });
 
    
-   
-   
-
+	{% if session['loginType'] %}
+		var gLoginType = session['loginType'];
+	{% endif %}
 
 
 	{% if session['username'] %}
 		myusername = "{{session['username']}}";  
-		document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out</span>  </a>';
+		document.getElementById("loginbutton").innerHTML =' <center><a href="#" id="logout" class="persona-button"><span>' + myusername + ': Sign Out (legacy)</span>  </a>';
 
 	$("#logout").click(function(e) {
             e.preventDefault();
@@ -111,7 +111,7 @@ var myusername
 
 		 {% else %}
 			myusername = ""; 
-			document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogin" class="persona-button"><span>Sign in with your DeviceID</span>  </a>';
+			document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogin" class="persona-button"><span>Sign in with your DeviceID (new)</span>  </a>';
  
 			$("#awslogin").click(function(e) {
 				e.preventDefault();

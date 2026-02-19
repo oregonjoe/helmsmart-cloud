@@ -3495,6 +3495,8 @@ def aws_login():
   
   session.clear()
 
+  session['loginType'] = 'aws_cognito'
+
   #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data')
   #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data?login_hint=someone')
   #return oauth_aws.oidc.authorize_redirect('https://www.helmsmart-cloud.com/aws_alerts_get_user_data', authorize_params={'prompt': 'login'} )
@@ -3943,6 +3945,8 @@ def callback_handling():
           myusername = mydata['name']
           session['username'] = myusername
           log.info("authcallback: username:%s", myusername)
+
+          session['loginType'] = 'auth0'
 
       except TypeError as e:
         log.info('auth0callback: TypeError in customdata %s:  ', mydata)
