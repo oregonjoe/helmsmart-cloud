@@ -1521,7 +1521,7 @@ function handleGetDeviceData(response)
 	 
       document.getElementById("DeviceTypeID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
 	  
-	  //if (gAWSuserid != "")
+	  if (gAWSuserid != "")
 			  {
 			  	if( emailPattern.test(gAWSuserid))
 				{
