@@ -24716,7 +24716,41 @@ def updatedevice_endpoint():
     
 
   finally:
+    db_pool.putconn(conn)
+
+
+@app.route('/update_devicename')
+def update_devicename():
+  
+  conn = db_pool.getconn()
+  
+  deviceapikey = request.args.get('deviceapikey', '')
+  devicename = request.args.get('devicename', 'SeaSmart')
+
+  log.info("Update Device  - update user_devices SET devicename = %s,  WHERE deviceapikey =  %s", devicename,  deviceapikey)
+ 
+  query  = "update user_devices SET devicename = %s,  WHERE deviceapikey =  %s"
+  
+  try:
+    # add new device record to DB
+    cursor = conn.cursor()
+    cursor.execute(query, (devicename,  deviceapikey))
+
+    conn.commit()
+    #i = cursor.fetchone()
+    # if not then just exit
+    #if cursor.rowcount == 0:
+      
+    if cursor.rowcount == 0:
+          return jsonify( message='Could not update device', status='error')      
+    else:
+          return jsonify( message='device updated', status='success') 
+  
+    
+
+  finally:
     db_pool.putconn(conn)   
+    
 
 @app.route('/deletedevice')
 def deletedevice_endpoint():
