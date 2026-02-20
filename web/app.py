@@ -24727,9 +24727,9 @@ def update_devicename():
   deviceapikey = request.args.get('deviceapikey', '')
   devicename = request.args.get('devicename', 'SeaSmart')
 
-  log.info("Update Device  - update user_devices SET devicename = %s,  WHERE deviceapikey =  %s", devicename,  deviceapikey)
+  log.info("Update Device  - update user_devices SET devicename = %s  WHERE deviceapikey =  %s", devicename,  deviceapikey)
  
-  query  = "update user_devices SET devicename = %s,  WHERE deviceapikey =  %s"
+  query  = "update user_devices SET devicename = %s  WHERE deviceapikey =  %s"
   
   try:
     # add new device record to DB
