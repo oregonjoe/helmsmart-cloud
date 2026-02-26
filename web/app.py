@@ -211,6 +211,8 @@ def connection_from(url):
   )
 
 
+
+
 #from psycopg.pool import ThreadedConnectionPool
 from psycopg_pool import ConnectionPool
 #db_pool = ThreadedConnectionPool( 1,  **connection_from(os.environ['DATABASE_URL']))
@@ -6212,6 +6214,57 @@ def getuseremail(deviceapikey):
     db_pool.putconn(conn)                       
 
     return ""
+
+@app.route('/getalexauser')
+def getalexauser_endpoint():
+  conn = db_pool.getconn()
+
+
+  userid = request.args.get('userid', '')
+  email = request.args.get('email', '')
+   
+  try:
+    # get records based on alexa email  used for account login
+    cursor = conn.cursor()
+
+    log.info('getalexauser_endpoint: userid %s:  ', userid)
+
+    
+    if userid != '':
+        sqlstr = 'select message_json from alexa_prefs where userid  = %s;'   
+        cursor.execute(sqlstr, (userid,))
+    elif email != '':
+        sqlstr = 'select message_json from alexa_prefs where alexa_email = %s;'   
+        cursor.execute(sqlstr, (email,))
+        
+    else:
+        return jsonify(result="OK")
+    
+    records = cursor.fetchall()
+    
+    log.info('getalexauser_endpoint: records %s:  ', records)
+    
+    result = []
+    for record in records:
+      log.info('getalexauser_endpoint: record %s:  ', record)
+      
+      device={}
+      #myjson = json.loads(record)
+      #devicename=myjson['devicename']
+      #deviceid=myjson['deviceid']
+      #alexainterface=myjson['alexainterface']
+      #alexafriendlyname=myjson['alexafriendlyname']
+      #device['alexafriendlyname']=myjson['alexafriendlyname']
+      #devicekey=myjson['series_key']
+      result.append(record[0])
+      
+    return jsonify(device_params = result)
+    
+
+
+  finally:
+    db_pool.putconn(conn)    
+
 
 
 def getuserid(useremail):

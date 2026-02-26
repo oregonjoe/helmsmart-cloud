@@ -54,3 +54,4 @@ Flask-AWSCognito
 #authorize-net
 #git+https://github.com/AuthorizeNet/sdk-python.git
 authorizenet
+ask-sdk
