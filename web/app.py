@@ -24524,11 +24524,15 @@ def make_switchpgn(statusvalues, switchinstance, switchid, switchvalue):
   return switchpgn
 
 
-def make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, dimmeroverride):
+def make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, dimmeroverride):
 
   #update new dimmer value
   statusvalues[int(dimmerid)]=dimmervalue
 
+  #update new hue value if present
+  if int(huevalue) != 255:
+    statusvalues[1]=huevalue
+  
   #update new dimmer control value
   statusvalues[4]=dimmeroverride << 4
 
@@ -25227,13 +25231,14 @@ def events_endpoint(device_id, partition):
       log.info("events_endpoint get dimmer data %s", data )
       dimmerinstance = int(data['instance'])
       dimmerid = int(data['dimmerid'])
-      dimmervalue = int(data['dimmervalue'])
+      dimmervalue = int(data.get('dimmervalue', '255'))
+      huevalue== int(data.get('huevalue', '255'))
       dimmeroverride = int(data['dimmeroverride'])
       log.info("events_endpoint get make dimmerpgn dimmeroverride %s", dimmeroverride )
     
       # Make up Responce dimmer PGN to send back to gateway if valid dimmervalue only if override is not false
       if dimmeroverride != 1 and dimmervalue != 255:
-        dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance,dimmerid,dimmervalue,dimmeroverride)
+        dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, dimmeroverride)
         log.info("events_endpoint get make dimmerpgn %s", dimmerpgn )
         dimmerpgns.append(dimmerpgn)
         log.info("events_endpoint get make dimmerpgns %s", dimmerpgns )
@@ -26748,6 +26753,150 @@ def setswitchapi():
 
   
   return jsonify(result="OK", switch=newswitchitem)
+
+# ######################################################
+# called from alexa skill when it ques a set switch command via timmer task list
+# #####################################################
+
+@app.route('/alexa_setdimmerapi')
+@cross_origin()
+def alexa_setdimmerapi():
+  deviceapikey = request.args.get('deviceapikey', "")
+  deviceid = request.args.get('deviceid', "")
+  dimmerid = request.args.get('dimmerid', "0")
+  dimmervalue = request.args.get('dimmervalue', "3")
+  huevalue = request.args.get('huevalue', "255")
+  dimmeroverride = request.args.get('dimmeroverride', "0")
+  instance = request.args.get('instance', "0")
+
+
+  if deviceapikey != "":
+    deviceid = getedeviceid(deviceapikey)
+
+  elif deviceid == "":
+    return jsonify(result="Error", switch=dimmerid)
+    
+  log.info("alexa_setdimmerapi deviceid %s", deviceid)
+  #log.info("sendswitchapi dimmerpgn %s", dimmerpgn)
+  
+  if deviceid == "":
+    return jsonify(result="Error", switch=dimmerid)
+
+  # Create an client object
+  #cache = IronCache()
+  dimmeritem=""
+
+
+  try:
+    dimmeritem = mc.get(deviceid + '_dimmer')
+
+    log.info('alexa_setdimmerapi - MemCache   deviceid %s payload %s:  ', deviceid, dimmeritem)
+
+  except NameError as e:
+    log.info('alexa_setdimmerapi - MemCache NameError %s:  ' % str(e))
+
+    
+  except:
+    dimmeritem = ""
+    log.info('alexa_setdimmerapi - MemCache error  deviceid %s payload %s:  ', deviceid, dimmeritem)
+    e = sys.exc_info()[0]
+    log.info('alexa_setdimmerapi - MemCache error %s:  ' % e)
+
+
+  # if we have old keys we need to delete redundent keys with same switch id's and values
+  # since these will all be set at one time
+
+  #create new dimmerpgn
+  dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'huevalue':huevalue, 'dimmeroverride':dimmeroverride}
+  log.info("alexa_setdimmerapi - MemCache  new dimmerpgn %s", dimmerpgn)
+
+  newdimmeritem=[]      
+  if dimmeritem != "" and dimmeritem != None and dimmeritem is not None:
+    log.info("alexa_setdimmerapi - MemCache  key exists %s", dimmeritem)
+    #jsondata = json.loads(dimmeritem)
+    jsondata = dimmeritem
+    #log.info("setdimmerapi - IronCache  key exists %s", dimmeritem.value)
+    #jsondata = json.loads(dimmeritem.value)
+    for item in jsondata:
+      #do not append old item if it matches the new one
+      # need to checkif both old dimmerid and dimmerinstance match new one
+      # If they match, dont add old one - we do this so we can update if we get a change in dimmeroverride value
+      # Overrides (!=0) are always appended
+      #if item != dimmerpgn:
+      if (int(item['instance']) != int(dimmerpgn['instance'])) or (int(item['dimmerid']) != int(dimmerpgn['dimmerid'])) :
+        
+        # not all items have all keys so we need to rebuild them
+        itemInstance = item.get('instance', '0')
+        itemDimmerid = item.get('dimmerid', '0')
+        itemDimmervalue = item.get('dimmervalue', '0')
+        itemHuevalue = item.get('huevalue', '0')
+        itemDimmeroverride = item.get('dimmeroverride', '0')
+        
+        newItem = {'instance':itemInstance, 'dimmerid':itemDimmerid, 'dimmervalue':itemDimmervalue,  'huevalue':huevalue, 'dimmeroverride':itemDimmeroverride}
+        
+        newdimmeritem.append(newItem)
+        log.info("alexa_setdimmerapi - old  keys are different %s", newdimmeritem)
+
+      # if instance and ID are equal but old override value is 2 (override enabled) and new value is 0 (NULL from Alert)
+      # Keep override active
+      elif (int(item['instance'])  == int(dimmerpgn['instance'])) and (int(item['dimmerid']) == int(dimmerpgn['dimmerid'])):
+        #if we are disable override mode - new value =1 comes from web page api
+        #
+        # Not all ITEMs have a dimmeroverride so we need to check if one exists first
+        # itemDimmeroverride =  item['dimmeroverride']
+        itemDimmeroverride = item.get('dimmeroverride', '0')
+        
+        if int(dimmerpgn['dimmeroverride']) == 1 and int(itemDimmeroverride) >= 2:
+          #dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'dimmeroverride':'0'}
+          dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'dimmeroverride':'1'}
+          log.info("alexa_setdimmerapi - old  keys are same with new override = 1 and old >=2 %s", dimmerpgn)
+          
+        #If wee are in override mode  - replace values with override  
+        elif int(dimmerpgn['dimmeroverride'] )  == 0 and int(itemDimmeroverride) >= 2:
+          dimmerpgn['dimmervalue'] = item['dimmervalue'] 
+          dimmerpgn['dimmeroverride'] = itemDimmeroverride
+          log.info("alexa_setdimmerapi - old  keys are same with new override =0 old >=2 %s", dimmerpgn)
+
+          
+
+          
+  #dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue}
+  #now add new dimmerpgn
+  log.info("alexa_setdimmerapi - Cache  adding new key  %s",dimmerpgn)
+  
+  newdimmeritem.append(dimmerpgn)
+  log.info("alexa_setdimmerapi - Cache  new keys  %s",json.dumps(newdimmeritem))
+
+   
+
+  log.info("alexa_setdimmerapi put dimmer device= %s keys = %s", deviceid, newdimmeritem)
+  #log.info("setdimmerapi - IronCache  put key %s", "dimmer_"+str(instance))
+  #log.info("setdimmerapi - IronCache  put key %s", "dimmer")
+  #item=cache.put(cache=deviceid, key="dimmer", value=newdimmeritem )
+  #log.info("IronCache response key %s", item)
+
+
+  try:
+    #log.info("setdimmerapi - IronCache  get key %s", "dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer_"+str(instance))
+    #dimmeritem = cache.get(cache=deviceid, key="dimmer")
+    mc.set(deviceid + '_dimmer' , newdimmeritem, time=600)
+
+    log.info('alexa_setdimmerapi - MemCache  set deviceid %s payload %s:  ', deviceid, newdimmeritem)
+
+  except NameError as e:
+    log.info('alexa_setdimmerapi - MemCache set NameError %s:  ' % str(e))
+
+    
+  except:
+    dimmeritem = ""
+    log.info('alexa_setdimmerapi - MemCache set error  deviceid %s payload %s:  ', deviceid, newdimmeritem)
+    e = sys.exc_info()[0]
+    log.info('alexa_setdimmerapi - MemCache set error %s:  ' % e)
+
+  
+  return jsonify(result="OK", dimmer=newdimmeritem)
+
 
 
 # ######################################################
