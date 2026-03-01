@@ -24524,7 +24524,7 @@ def make_switchpgn(statusvalues, switchinstance, switchid, switchvalue):
   return switchpgn
 
 
-def make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, dimmeroverride):
+def make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, saturationvalue, dimmeroverride):
 
   #update new dimmer value
   statusvalues[int(dimmerid)]=dimmervalue
@@ -24532,6 +24532,10 @@ def make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue
   #update new hue value if present
   if int(huevalue) != 255:
     statusvalues[1]=huevalue
+
+  #update new hue value if present
+  if int(saturationvalue) != 255:
+    statusvalues[2]=huevalue    
   
   #update new dimmer control value
   statusvalues[4]=dimmeroverride << 4
@@ -25233,12 +25237,13 @@ def events_endpoint(device_id, partition):
       dimmerid = int(data['dimmerid'])
       dimmervalue = int(data.get('dimmervalue', '255'))
       huevalue= int(data.get('huevalue', '255'))
+      saturationvalue= int(data.get('saturationvalue', '255'))
       dimmeroverride = int(data['dimmeroverride'])
       log.info("events_endpoint get make dimmerpgn dimmeroverride %s", dimmeroverride )
     
       # Make up Responce dimmer PGN to send back to gateway if valid dimmervalue only if override is not false
       if dimmeroverride != 1 and dimmervalue != 255:
-        dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, dimmeroverride)
+        dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, saturationvalue, dimmeroverride)
         log.info("events_endpoint get make dimmerpgn %s", dimmerpgn )
         dimmerpgns.append(dimmerpgn)
         log.info("events_endpoint get make dimmerpgns %s", dimmerpgns )
@@ -26766,6 +26771,7 @@ def alexa_setdimmerapi():
   dimmerid = request.args.get('dimmerid', "0")
   dimmervalue = request.args.get('dimmervalue', "3")
   huevalue = request.args.get('huevalue', "255")
+  saturationvalue = request.args.get('saturationvalue', "100")
   dimmeroverride = request.args.get('dimmeroverride', "0")
   instance = request.args.get('instance', "0")
 
@@ -26807,7 +26813,7 @@ def alexa_setdimmerapi():
   # since these will all be set at one time
 
   #create new dimmerpgn
-  dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'huevalue':huevalue, 'dimmeroverride':dimmeroverride}
+  dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'huevalue':huevalue, 'saturationvalue':saturationvalue, dimmeroverride':dimmeroverride}
   log.info("alexa_setdimmerapi - MemCache  new dimmerpgn %s", dimmerpgn)
 
   newdimmeritem=[]      
@@ -26828,11 +26834,12 @@ def alexa_setdimmerapi():
         # not all items have all keys so we need to rebuild them
         itemInstance = item.get('instance', '0')
         itemDimmerid = item.get('dimmerid', '0')
-        itemDimmervalue = item.get('dimmervalue', '0')
-        itemHuevalue = item.get('huevalue', '0')
+        itemDimmervalue = item.get('dimmervalue', '255')
+        itemHuevalue = item.get('huevalue', '255')
+        itemSaturationvalue = item.get('saturationvalue', '100')
         itemDimmeroverride = item.get('dimmeroverride', '0')
         
-        newItem = {'instance':itemInstance, 'dimmerid':itemDimmerid, 'dimmervalue':itemDimmervalue,  'huevalue':huevalue, 'dimmeroverride':itemDimmeroverride}
+        newItem = {'instance':itemInstance, 'dimmerid':itemDimmerid, 'dimmervalue':itemDimmervalue,  'huevalue':huevalue,'saturationvalue':saturationvalue, 'dimmeroverride':itemDimmeroverride}
         
         newdimmeritem.append(newItem)
         log.info("alexa_setdimmerapi - old  keys are different %s", newdimmeritem)
