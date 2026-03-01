@@ -26813,7 +26813,7 @@ def alexa_setdimmerapi():
   # since these will all be set at one time
 
   #create new dimmerpgn
-  dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'huevalue':huevalue, 'saturationvalue':saturationvalue, dimmeroverride':dimmeroverride}
+  dimmerpgn = {'instance':instance, 'dimmerid':dimmerid, 'dimmervalue':dimmervalue, 'huevalue':huevalue, 'saturationvalue':saturationvalue, 'dimmeroverride':dimmeroverride}
   log.info("alexa_setdimmerapi - MemCache  new dimmerpgn %s", dimmerpgn)
 
   newdimmeritem=[]      
