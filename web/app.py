@@ -25242,7 +25242,7 @@ def events_endpoint(device_id, partition):
       log.info("events_endpoint get make dimmerpgn dimmeroverride %s", dimmeroverride )
     
       # Make up Responce dimmer PGN to send back to gateway if valid dimmervalue only if override is not false
-      if dimmeroverride != 1 and dimmervalue != 255:
+      if dimmeroverride != 1 and (dimmervalue != 255 or huevalue != 255 or saturationvalue != 255):
         dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, saturationvalue, dimmeroverride)
         log.info("events_endpoint get make dimmerpgn %s", dimmerpgn )
         dimmerpgns.append(dimmerpgn)
