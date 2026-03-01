@@ -24535,7 +24535,7 @@ def make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue
 
   #update new hue value if present
   if int(saturationvalue) != 255:
-    statusvalues[2]=huevalue    
+    statusvalues[2]=saturationvalue    
   
   #update new dimmer control value
   statusvalues[4]=dimmeroverride << 4
