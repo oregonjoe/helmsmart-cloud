@@ -27071,7 +27071,7 @@ def alexa_get_dimmer_colorvalues():
     #hueLookup = [0,84,0,42,169,126,212,0,84,0,42,169,126,212]
     #saturationLookup =[0,128,128,128,128,128,128,0,254,254,254,254,254,254]
 
-    brightnessLookup = [0.0, 0.15, 0.30, 0.45, 0.60, 0.75, 1.0]
+    brightnessLookup = [0.0, 0.15, 0.30, 0.45, 0.60, 0.75, 1.0, 1.0]
     hueLookup = [0, 120, 0, 60, 240, 180, 300, 0, 120, 0, 60, 240, 180, 300]
     saturationLookup =[0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     
@@ -27087,6 +27087,10 @@ def alexa_get_dimmer_colorvalues():
         
         if point['dv0'] is not None:
           dimmerValue=int(point['dv0'])
+          if dimmerValue > 98:
+            dimmerValue = 98
+
+            
         else:
           dimmerValue=0
 
