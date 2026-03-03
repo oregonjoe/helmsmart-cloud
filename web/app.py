@@ -26911,9 +26911,9 @@ def alexa_setdimmerapi():
 # #####################################################
 
 
-@app.route('/alexa_get_dimmer_values')
+@app.route('/alexa_get_dimmer_colorvalues')
 @cross_origin()
-def alexa_get_dimmer_values():
+def alexa_get_dimmer_colorvalues():
 
     deviceid = request.args.get('deviceid','')
     serieskey = request.args.get('datakey','')
@@ -27066,6 +27066,14 @@ def alexa_get_dimmer_values():
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
     #print 'freeboard start processing data points:'
+
+    #brightnessLookup = [0,38,76,114,128,154,254,0,38,76,114,128,154,254]
+    #hueLookup = [0,84,0,42,169,126,212,0,84,0,42,169,126,212]
+    #saturationLookup =[0,128,128,128,128,128,128,0,254,254,254,254,254,254]
+
+    brightnessLookup = [0.0,0.15,0.30,0.45,0.60,0.75,1.0]
+    hueLookup = [0,120,0,60,240,180,300,0,120,0,60,240,180,300]
+    saturationLookup =[0,0.5,0.5,0.5,0.5,0.5,0.5,0,1.0,1.0,1.0,1.0,1.0,1.0]
     
     #log.info("freeboard jsonkey..%s", jsonkey )
     try:
@@ -27078,32 +27086,17 @@ def alexa_get_dimmer_values():
         log.info('alexa_get_dimmer_values:  InfluxDB-Cloud point%s:', point)
         
         if point['dv0'] is not None:
-          dimmer0=int(point['dv0'])
+          dimmerValue=int(point['dv0'])
         else:
-          dimmer0='---'
+          dimmerValue=0
 
-        if point['dv1'] is not None:
-          dimmer1=int(point['dv1'])
-        else:
-          dimmer1='---'
 
-        if point['dv2'] is not None:
-          dimmer2=int(point['dv2'])
-        else:
-          dimmer2='---'
-          
-        if point['dv3'] is not None:
-          dimmer3=int(point['dv3'])
-        else:
-          dimmer3='---'
 
-        if point['dv4'] is not None:
-          dimmer4=int(point['dv4'])
-        else:
-          dimmer4='---'
-
-        
-      return jsonify(result="OK",  instance=instance, oldvalue0=dimmer0, oldvalue1=dimmer1, oldvalue2=dimmer2, oldvalue3=dimmer3, oldvalue4=dimmer4)
+        brightnessValue = brightnessLookup[int(dimmerValue/14)]
+        hueValue = hueLookup[int(dimmerValue%14)]
+        saturationValue = saturationLookup[int(dimmerValue%14)]
+                
+      return jsonify(result="OK",  instance=instance, brightness=brightnessValue, hue=hueValue, saturation=saturationValue)
 
 
     except TypeError as e:
