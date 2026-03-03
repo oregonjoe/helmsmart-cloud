@@ -26954,7 +26954,7 @@ def alexa_get_dimmer_colorvalues():
 
 
     
-    log.info("alexa_get_dimmer_values deviceid %s", deviceid)
+    log.info("alexa_get_dimmer_colorvalues deviceid %s", deviceid)
 
     if deviceid == "":
       return jsonify(result="ERROR")
@@ -26996,60 +26996,60 @@ def alexa_get_dimmer_colorvalues():
  
 
 
-    log.info("alexa_get_dimmer_values data Query %s", query)
+    log.info("alexa_get_dimmer_colorvalues data Query %s", query)
 
     try:
         response= dbc.query(query)
         
     except TypeError as e:
-        log.info('alexa_get_dimmer_values: Type Error in InfluxDB mydata append %s:  ', query)
-        log.info('alexa_get_dimmer_values: Type Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('alexa_get_dimmer_colorvalues: Type Error in InfluxDB mydata append %s:  ', query)
+        log.info('alexa_get_dimmer_colorvalues: Type Error in InfluxDB mydata append %s:  ' % str(e))
             
     except KeyError as e:
-        log.info('alexa_get_dimmer_values: Key Error in InfluxDB mydata append %s:  ', query)
-        log.info('alexa_get_dimmer_values: Key Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('alexa_get_dimmer_colorvalues: Key Error in InfluxDB mydata append %s:  ', query)
+        log.info('alexa_get_dimmer_colorvalues: Key Error in InfluxDB mydata append %s:  ' % str(e))
 
     except NameError as e:
-        log.info('alexa_get_dimmer_values: Name Error in InfluxDB mydata append %s:  ', query)
-        log.info('alexa_get_dimmer_values: Name Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('alexa_get_dimmer_colorvalues: Name Error in InfluxDB mydata append %s:  ', query)
+        log.info('alexa_get_dimmer_colorvalues: Name Error in InfluxDB mydata append %s:  ' % str(e))
             
     except IndexError as e:
-        log.info('alexa_get_dimmer_values: Index error in InfluxDB mydata append %s:  ', query)
-        log.info('alexa_get_dimmer_values: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+        log.info('alexa_get_dimmer_colorvalues: Index error in InfluxDB mydata append %s:  ', query)
+        log.info('alexa_get_dimmer_colorvalues: Index Error in InfluxDB mydata append %s:  ' % str(e))  
 
     except ValueError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('alexa_get_dimmer_values: Value Error in InfluxDB  %s:  ' % str(e))
+      log.info('alexa_get_dimmer_colorvalues: Value Error in InfluxDB  %s:  ' % str(e))
 
     except AttributeError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('alexa_get_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))
+      log.info('alexa_get_dimmer_colorvalues: AttributeError in InfluxDB  %s:  ' % str(e))
 
     except UnboundLocalError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('alexa_get_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))  
+      log.info('alexa_get_dimmer_colorvalues: AttributeError in InfluxDB  %s:  ' % str(e))  
 
     except InfluxDBClientError as e:
-      log.info('alexa_get_dimmer_values: Exception Client Error in InfluxDB  %s:  ' % str(e))
+      log.info('alexa_get_dimmer_colorvalues: Exception Client Error in InfluxDB  %s:  ' % str(e))
 
 
     except InfluxDBServerError as e:
-      log.info('alexa_get_dimmer_values: Exception Client Error in InfluxDB  %s:  ' % str(e))
+      log.info('alexa_get_dimmer_colorvalues: Exception Client Error in InfluxDB  %s:  ' % str(e))
 
       
     except:
-        log.info('alexa_get_dimmer_values: Error in InfluxDB mydata append %s:', query)
+        log.info('alexa_get_dimmer_colorvalues: Error in InfluxDB mydata append %s:', query)
         e = sys.exc_info()[0]
-        log.info("freeboard_dimmer_values: Error: %s" % e)
+        log.info("alexa_get_dimmer_colorvalues: Error: %s" % e)
         return jsonify(result="ERROR")
 
     if response is None:
-        log.info('alexa_get_dimmer_values: InfluxDB Query has no data ')
+        log.info('alexa_get_dimmer_colorvalues: InfluxDB Query has no data ')
         return jsonify(result="ERROR")
 
       
     if not response:
-        log.info('alexa_get_dimmer_values: InfluxDB Query has no data ')
+        log.info('alexa_get_dimmer_colorvalues: InfluxDB Query has no data ')
         return jsonify(result="ERROR")
 
 
@@ -27071,26 +27071,26 @@ def alexa_get_dimmer_colorvalues():
     #hueLookup = [0,84,0,42,169,126,212,0,84,0,42,169,126,212]
     #saturationLookup =[0,128,128,128,128,128,128,0,254,254,254,254,254,254]
 
-    brightnessLookup = [0.0,0.15,0.30,0.45,0.60,0.75,1.0]
-    hueLookup = [0,120,0,60,240,180,300,0,120,0,60,240,180,300]
-    saturationLookup =[0,0.5,0.5,0.5,0.5,0.5,0.5,0,1.0,1.0,1.0,1.0,1.0,1.0]
+    brightnessLookup = [0.0, 0.15, 0.30, 0.45, 0.60, 0.75, 1.0]
+    hueLookup = [0, 120, 0, 60, 240, 180, 300, 0, 120, 0, 60, 240, 180, 300]
+    saturationLookup =[0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     
     #log.info("freeboard jsonkey..%s", jsonkey )
     try:
 
       points = list(response.get_points())
 
-      log.info('alexa_get_dimmer_values:  InfluxDB-Cloud points%s:', points)
+      log.info('alexa_get_dimmer_colorvalues:  InfluxDB-Cloud points%s:', points)
 
       for point in points:
-        log.info('alexa_get_dimmer_values:  InfluxDB-Cloud point%s:', point)
+        log.info('alexa_get_dimmer_colorvalues:  InfluxDB-Cloud point%s:', point)
         
         if point['dv0'] is not None:
           dimmerValue=int(point['dv0'])
         else:
           dimmerValue=0
 
-
+        log.info('alexa_get_dimmer_colorvalues: dimmerValue %s : int(dimmerValue/14) %s  : int(dimmerValue%14) %s', dimmerValue, int(dimmerValue/14), int(dimmerValue%14))
 
         brightnessValue = brightnessLookup[int(dimmerValue/14)]
         hueValue = hueLookup[int(dimmerValue%14)]
@@ -27100,20 +27100,20 @@ def alexa_get_dimmer_colorvalues():
 
 
     except TypeError as e:
-        log.info('alexa_get_dimmer_values: Type Error in InfluxDB mydata append %s:  ', response)
-        log.info('alexa_get_dimmer_values: Type Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('alexa_get_dimmer_colorvalues: Type Error in InfluxDB mydata append %s:  ', response)
+        log.info('alexa_get_dimmer_colorvalues: Type Error in InfluxDB mydata append %s:  ' % str(e))
             
     except KeyError as e:
-        log.info('alexa_get_dimmer_values: Key Error in InfluxDB mydata append %s:  ', response)
-        log.info('alexa_get_dimmer_values: Key Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('alexa_get_dimmer_colorvalues: Key Error in InfluxDB mydata append %s:  ', response)
+        log.info('alexa_get_dimmer_colorvalues: Key Error in InfluxDB mydata append %s:  ' % str(e))
 
     except NameError as e:
-        log.info('alexa_get_dimmer_values: Name Error in InfluxDB mydata append %s:  ', response)
-        log.info('alexa_get_dimmer_values: Name Error in InfluxDB mydata append %s:  ' % str(e))
+        log.info('alexa_get_dimmer_colorvalues: Name Error in InfluxDB mydata append %s:  ', response)
+        log.info('alexa_get_dimmer_colorvalues: Name Error in InfluxDB mydata append %s:  ' % str(e))
             
     except IndexError as e:
-        log.info('alexa_get_dimmer_values: Index error in InfluxDB mydata append %s:  ', response)
-        log.info('alexa_get_dimmer_values: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+        log.info('alexa_get_dimmer_colorvalues: Index error in InfluxDB mydata append %s:  ', response)
+        log.info('alexa_get_dimmer_colorvalues: Index Error in InfluxDB mydata append %s:  ' % str(e))  
 
     except ValueError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
@@ -27121,15 +27121,15 @@ def alexa_get_dimmer_colorvalues():
 
     except AttributeError as e:
       #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
-      log.info('alexa_get_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))     
+      log.info('alexa_get_dimmer_colorvalues: AttributeError in InfluxDB  %s:  ' % str(e))     
 
     except InfluxDBClientError as e:
-      log.info('alexa_get_dimmer_values: Exception Error in InfluxDB  %s:  ' % str(e))     
+      log.info('alexa_get_dimmer_colorvalues: Exception Error in InfluxDB  %s:  ' % str(e))     
     
     except:
-        log.info('alexa_get_dimmer_values: Error in geting freeboard response %s:  ', strvalue)
+        log.info('alexa_get_dimmer_colorvalues: Error in geting freeboard response %s:  ', strvalue)
         e = sys.exc_info()[0]
-        log.info('alexa_get_dimmer_values: Error in geting freeboard ststs %s:  ' % e)
+        log.info('alexa_get_dimmer_colorvalues: Error in geting freeboard ststs %s:  ' % e)
 
         return jsonify(result="ERROR")
 
