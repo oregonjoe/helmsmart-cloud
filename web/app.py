@@ -26907,6 +26907,247 @@ def alexa_setdimmerapi():
 
 
 # ######################################################
+# called from alexa skill to get current dimmer values by deviceID
+# #####################################################
+
+
+@app.route('/alexa_get_dimmer_values')
+@cross_origin()
+def alexa_get_dimmer_values():
+
+    deviceid = request.args.get('deviceid','')
+    serieskey = request.args.get('datakey','')
+    gwtype = request.args.get('type',"hub")
+    Interval = request.args.get('interval',"5min")
+    instance = request.args.get('instance','0')
+    resolution = request.args.get('resolution',"")
+    mytimezone = request.args.get('timezone',"UTC")
+    response = None
+
+    dimmerstatus=[]
+    dimmer0=[]
+    dimmer1=[]
+    dimmer2=[]
+    dimmer3=[]
+    dimmer4=[]
+
+      
+    mydatetime = datetime.datetime.now()
+    myjsondate = mydatetime.strftime("%B %d, %Y %H:%M:%S")    
+    
+    starttime = request.args.get('start','0')
+    
+    response = None
+    
+
+    if int(starttime) != 0:
+      epochtimes = getendepochtimes(int(starttime), Interval)
+      
+    else:
+      epochtimes = getepochtimes(Interval)
+
+    
+    startepoch = epochtimes[0]
+    endepoch = epochtimes[1]
+    if resolution == "":
+      resolution = epochtimes[2]
+
+
+    
+    log.info("alexa_get_dimmer_values deviceid %s", deviceid)
+
+    if deviceid == "":
+      return jsonify(result="ERROR")
+
+    host = 'hilldale-670d9ee3.influxcloud.net' 
+    port = 8086
+    username = 'helmsmart'
+    password = 'Salm0n16'
+    database = 'pushsmart-cloud'
+
+    measurement = "HelmSmart"
+    measurement = 'HS_' + str(deviceid)
+
+    serieskeys=" deviceid='"
+    serieskeys= serieskeys + deviceid + "' AND "
+    serieskeys= serieskeys +  " sensor='seasmartdimmer'  AND "
+    serieskeys= serieskeys +  " (instance='" + instance + "') "
+
+
+
+
+
+    #log.info("freeboard Query InfluxDB-Cloud:%s", serieskeys)
+    #log.info("freeboard Create InfluxDB %s", database)
+
+
+    dbc = InfluxDBCloud(host, port, username, password, database,  ssl=True)
+
+    #SELECT LAST()...WHERE time > now() - 1h       
+    #query = ('select  median(bank0) AS bank0, median(bank1) AS  bank1 FROM {} '
+    query = ('select  last(value0) as dv0, '
+                     'last(value1) as dv1, '
+                     'last(value2) as dv2, '
+                      'last(value3) as dv3, '
+                      'last(value4) as dv4 '
+                     ' FROM {} '             
+                     'where {} ') \
+                .format( measurement, serieskeys ) 
+ 
+
+
+    log.info("alexa_get_dimmer_values data Query %s", query)
+
+    try:
+        response= dbc.query(query)
+        
+    except TypeError as e:
+        log.info('alexa_get_dimmer_values: Type Error in InfluxDB mydata append %s:  ', query)
+        log.info('alexa_get_dimmer_values: Type Error in InfluxDB mydata append %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('alexa_get_dimmer_values: Key Error in InfluxDB mydata append %s:  ', query)
+        log.info('alexa_get_dimmer_values: Key Error in InfluxDB mydata append %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('alexa_get_dimmer_values: Name Error in InfluxDB mydata append %s:  ', query)
+        log.info('alexa_get_dimmer_values: Name Error in InfluxDB mydata append %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('alexa_get_dimmer_values: Index error in InfluxDB mydata append %s:  ', query)
+        log.info('alexa_get_dimmer_values: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+
+    except ValueError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('alexa_get_dimmer_values: Value Error in InfluxDB  %s:  ' % str(e))
+
+    except AttributeError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('alexa_get_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))
+
+    except UnboundLocalError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('alexa_get_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))  
+
+    except InfluxDBClientError as e:
+      log.info('alexa_get_dimmer_values: Exception Client Error in InfluxDB  %s:  ' % str(e))
+
+
+    except InfluxDBServerError as e:
+      log.info('alexa_get_dimmer_values: Exception Client Error in InfluxDB  %s:  ' % str(e))
+
+      
+    except:
+        log.info('alexa_get_dimmer_values: Error in InfluxDB mydata append %s:', query)
+        e = sys.exc_info()[0]
+        log.info("freeboard_dimmer_values: Error: %s" % e)
+        return jsonify(result="ERROR")
+
+    if response is None:
+        log.info('alexa_get_dimmer_values: InfluxDB Query has no data ')
+        return jsonify(result="ERROR")
+
+      
+    if not response:
+        log.info('alexa_get_dimmer_values: InfluxDB Query has no data ')
+        return jsonify(result="ERROR")
+
+
+    keys = response.raw.get('series',[])
+    #keys = result.keys()
+    #log.info("freeboard Get InfluxDB series keys %s", keys)
+
+
+    #callback = request.args.get('callback')
+    #return '{0}({1})'.format(callback, {'update':'False', 'status':'success' })
+     
+    jsondata=[]
+    #jsonkey=[]
+    #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
+    #jsonkey.append(strvaluekey)
+    #print 'freeboard start processing data points:'
+    
+    #log.info("freeboard jsonkey..%s", jsonkey )
+    try:
+
+      points = list(response.get_points())
+
+      log.info('alexa_get_dimmer_values:  InfluxDB-Cloud points%s:', points)
+
+      for point in points:
+        log.info('alexa_get_dimmer_values:  InfluxDB-Cloud point%s:', point)
+        
+        if point['dv0'] is not None:
+          dimmer0=int(point['dv0'])
+        else:
+          dimmer0='---'
+
+        if point['dv1'] is not None:
+          dimmer1=int(point['dv1'])
+        else:
+          dimmer1='---'
+
+        if point['dv2'] is not None:
+          dimmer2=int(point['dv2'])
+        else:
+          dimmer2='---'
+          
+        if point['dv3'] is not None:
+          dimmer3=int(point['dv3'])
+        else:
+          dimmer3='---'
+
+        if point['dv4'] is not None:
+          dimmer4=int(point['dv4'])
+        else:
+          dimmer4='---'
+
+        
+      return jsonify(result="OK",  instance=instance, oldvalue0=dimmer0, oldvalue1=dimmer1, oldvalue2=dimmer2, oldvalue3=dimmer3, oldvalue4=dimmer4)
+
+
+    except TypeError as e:
+        log.info('alexa_get_dimmer_values: Type Error in InfluxDB mydata append %s:  ', response)
+        log.info('alexa_get_dimmer_values: Type Error in InfluxDB mydata append %s:  ' % str(e))
+            
+    except KeyError as e:
+        log.info('alexa_get_dimmer_values: Key Error in InfluxDB mydata append %s:  ', response)
+        log.info('alexa_get_dimmer_values: Key Error in InfluxDB mydata append %s:  ' % str(e))
+
+    except NameError as e:
+        log.info('alexa_get_dimmer_values: Name Error in InfluxDB mydata append %s:  ', response)
+        log.info('alexa_get_dimmer_values: Name Error in InfluxDB mydata append %s:  ' % str(e))
+            
+    except IndexError as e:
+        log.info('alexa_get_dimmer_values: Index error in InfluxDB mydata append %s:  ', response)
+        log.info('alexa_get_dimmer_values: Index Error in InfluxDB mydata append %s:  ' % str(e))  
+
+    except ValueError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('alexa_get_dimmer_values: Value Error in InfluxDB  %s:  ' % str(e))
+
+    except AttributeError as e:
+      #log.info('freeboard: Index error in InfluxDB mydata append %s:  ', response)
+      log.info('alexa_get_dimmer_values: AttributeError in InfluxDB  %s:  ' % str(e))     
+
+    except InfluxDBClientError as e:
+      log.info('alexa_get_dimmer_values: Exception Error in InfluxDB  %s:  ' % str(e))     
+    
+    except:
+        log.info('alexa_get_dimmer_values: Error in geting freeboard response %s:  ', strvalue)
+        e = sys.exc_info()[0]
+        log.info('alexa_get_dimmer_values: Error in geting freeboard ststs %s:  ' % e)
+
+        return jsonify(result="ERROR")
+
+    return jsonify(result="ERROR")
+
+
+
+
+
+
+# ######################################################
 # called from sqs_poller when it ques a set switch command via timmer task list
 # #####################################################
 
