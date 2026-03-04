@@ -26960,64 +26960,64 @@ def alexa_get_dimmer_colorvalues():
       return jsonify(result="ERROR")
 
 
-  # ######################################################
-  # Next we will check MCACHER for any dimmer keys
-  # #######################################################
-  dimmeritem = ""
-  dimmerpgn=""
-  dimmerpgns=[]
-# Memcacher get
-  try:
-
-    dimmeritem = mc.get(device_id + '_dimmer' )
-
-    log.info('alexa_get_dimmer_colorvalues - MemCache dimmer get  deviceid %s payload %s:  ', device_id, dimmeritem)
-
-
-  except:
+    # ######################################################
+    # Next we will check MCACHER for any dimmer keys
+    # #######################################################
     dimmeritem = ""
-    log.info('alexa_get_dimmer_colorvalues - MemCache dimmer error  deviceid %s payload %s:  ', device_id, dimmeritem)
-    e = sys.exc_info()[0]
-    log.info('alexa_get_dimmer_colorvalues - MemCache dimmer error %s:  ' % e)    
-
-  if dimmeritem != ""  and dimmeritem != None and dimmeritem is not None:
     dimmerpgn=""
-    statusvalues=[]
-
-    for x in range(0,256):
-      statusvalues.append(int(255))    
-
-    
-    # sort list so higher overrides are last to be sure they take effect
-    # 0 = No Override and will be deleted from MemCache on next HTTP Post from Gateway
-    # 1 = Remove Override - sent from WebPage to trun override Off
-    # 2-4 = Enabel override whihc is not removed from MemCache untill a override=1 is recieved.
-    dimmeritem = sorted(dimmeritem, key = lambda i: ( i['dimmeroverride'],i['instance'])) 
-
-    log.info("alexa_get_dimmer_colorvalues get dimmer key %s", dimmeritem )
-
     dimmerpgns=[]
-    savedimmeritems = []
-    
-    for data in dimmeritem:
-      log.info("alexa_get_dimmer_colorvalues get dimmer data %s", data )
-      dimmerinstance = int(data['instance'])
-      dimmerid = int(data['dimmerid'])
-      dimmervalue = int(data.get('dimmervalue', 255))
-      huevalue= int(data.get('huevalue', 255))
-      saturationvalue= int(data.get('saturationvalue', 255))
-      dimmeroverride = int(data['dimmeroverride'])
-      log.info("alexa_get_dimmer_colorvalues get make dimmerpgn dimmeroverride %s", dimmeroverride )
-    
-      # Make up Responce dimmer PGN to send back to gateway if valid dimmervalue only if override is not false
-      if dimmeroverride != 1 and (dimmervalue != 255 or huevalue != 255 or saturationvalue != 255):
-        dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, saturationvalue, dimmeroverride)
-        log.info("alexa_get_dimmer_colorvalues get make dimmerpgn %s", dimmerpgn )
-        dimmerpgns.append(dimmerpgn)
-        log.info("alexa_get_dimmer_colorvalues get make dimmerpgns %s", dimmerpgns )
-        
-      else:
-        log.info("alexa_get_dimmer_colorvalues NULL dimmervalue so ignore " )
+  # Memcacher get
+    try:
+
+      dimmeritem = mc.get(device_id + '_dimmer' )
+
+      log.info('alexa_get_dimmer_colorvalues - MemCache dimmer get  deviceid %s payload %s:  ', device_id, dimmeritem)
+
+
+    except:
+      dimmeritem = ""
+      log.info('alexa_get_dimmer_colorvalues - MemCache dimmer error  deviceid %s payload %s:  ', device_id, dimmeritem)
+      e = sys.exc_info()[0]
+      log.info('alexa_get_dimmer_colorvalues - MemCache dimmer error %s:  ' % e)    
+
+    if dimmeritem != ""  and dimmeritem != None and dimmeritem is not None:
+      dimmerpgn=""
+      statusvalues=[]
+
+      for x in range(0,256):
+        statusvalues.append(int(255))    
+
+      
+      # sort list so higher overrides are last to be sure they take effect
+      # 0 = No Override and will be deleted from MemCache on next HTTP Post from Gateway
+      # 1 = Remove Override - sent from WebPage to trun override Off
+      # 2-4 = Enabel override whihc is not removed from MemCache untill a override=1 is recieved.
+      dimmeritem = sorted(dimmeritem, key = lambda i: ( i['dimmeroverride'],i['instance'])) 
+
+      log.info("alexa_get_dimmer_colorvalues get dimmer key %s", dimmeritem )
+
+      dimmerpgns=[]
+      savedimmeritems = []
+      
+      for data in dimmeritem:
+        log.info("alexa_get_dimmer_colorvalues get dimmer data %s", data )
+        dimmerinstance = int(data['instance'])
+        dimmerid = int(data['dimmerid'])
+        dimmervalue = int(data.get('dimmervalue', 255))
+        huevalue= int(data.get('huevalue', 255))
+        saturationvalue= int(data.get('saturationvalue', 255))
+        dimmeroverride = int(data['dimmeroverride'])
+        log.info("alexa_get_dimmer_colorvalues get make dimmerpgn dimmeroverride %s", dimmeroverride )
+      
+        # Make up Responce dimmer PGN to send back to gateway if valid dimmervalue only if override is not false
+        if dimmeroverride != 1 and (dimmervalue != 255 or huevalue != 255 or saturationvalue != 255):
+          dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, saturationvalue, dimmeroverride)
+          log.info("alexa_get_dimmer_colorvalues get make dimmerpgn %s", dimmerpgn )
+          dimmerpgns.append(dimmerpgn)
+          log.info("alexa_get_dimmer_colorvalues get make dimmerpgns %s", dimmerpgns )
+          
+        else:
+          log.info("alexa_get_dimmer_colorvalues NULL dimmervalue so ignore " )
 
 
 
