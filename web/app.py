@@ -27073,7 +27073,7 @@ def alexa_get_dimmer_colorvalues():
 
     brightnessLookup = [0.0, 0.15, 0.30, 0.45, 0.60, 0.75, 1.0, 1.0]
     hueLookup = [0, 0, 60, 120, 180, 240, 300, 0, 60, 120, 180, 240, 300, 0]
-    saturationLookup =[0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    saturationLookup =[0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     
     #log.info("freeboard jsonkey..%s", jsonkey )
     try:
@@ -27094,11 +27094,14 @@ def alexa_get_dimmer_colorvalues():
         else:
           dimmerValue=0
 
-        log.info('alexa_get_dimmer_colorvalues: dimmerValue %s : int(dimmerValue/14) %s  : int(dimmerValue modolo 14) %s: int(dimmerValue modolo 14)*8 %s', dimmerValue, int(dimmerValue/14) ,int(dimmerValue%14), int(dimmerValue%14)*7)
+        log.info('alexa_get_dimmer_colorvalues: dimmerValue %s : int(dimmerValue/14) %s  : int(dimmerValue modolo 7) %s: int(dimmerValue modolo 14) %s', dimmerValue, int(dimmerValue/14) ,int(dimmerValue)%7, int(dimmerValue)%14)
 
         brightnessValue = brightnessLookup[int(dimmerValue/14)]
-        hueValue = hueLookup[int(dimmerValue%14)]
-        saturationValue = saturationLookup[int(dimmerValue%14)*7]
+
+
+        hueValue = hueLookup[int(dimmerValue)%7]
+          
+        saturationValue = saturationLookup[int(dimmerValue)%14]
                 
       return jsonify(result="OK",  instance=instance, brightness=brightnessValue, hue=hueValue, saturation=saturationValue)
 
