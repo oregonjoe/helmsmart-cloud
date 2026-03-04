@@ -27094,7 +27094,7 @@ def alexa_get_dimmer_colorvalues():
         else:
           dimmerValue=0
 
-        log.info('alexa_get_dimmer_colorvalues: dimmerValue %s : int(dimmerValue/14) %s  : int(dimmerValue modolo 14) %s', dimmerValue, int(dimmerValue%14)*8, int(dimmerValue%14))
+        log.info('alexa_get_dimmer_colorvalues: dimmerValue %s : int(dimmerValue/14) %s  : int(dimmerValue modolo 14) %s: int(dimmerValue modolo 14)*8 %s', dimmerValue, int(dimmerValue/14) ,int(dimmerValue%14)*8, int(dimmerValue%14))
 
         brightnessValue = brightnessLookup[int(dimmerValue/14)]
         hueValue = hueLookup[int(dimmerValue%14)]
