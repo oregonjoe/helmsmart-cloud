@@ -27072,7 +27072,7 @@ def alexa_get_dimmer_colorvalues():
     #saturationLookup =[0,128,128,128,128,128,128,0,254,254,254,254,254,254]
 
     brightnessLookup = [0.0, 0.15, 0.30, 0.45, 0.60, 0.75, 1.0, 1.0]
-    hueLookup = [0, 120, 0, 60, 240, 180, 300, 0, 120, 0, 60, 240, 180, 300]
+    hueLookup = [0, 0, 60, 120, 180, 240, 300, 0, 60, 120, 180, 240, 300, 0]
     saturationLookup =[0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     
     #log.info("freeboard jsonkey..%s", jsonkey )
