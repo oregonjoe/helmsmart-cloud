@@ -26969,14 +26969,14 @@ def alexa_get_dimmer_colorvalues():
   # Memcacher get
     try:
 
-      dimmeritem = mc.get(device_id + '_dimmer' )
+      dimmeritem = mc.get(deviceid + '_dimmer' )
 
-      log.info('alexa_get_dimmer_colorvalues - MemCache dimmer get  deviceid %s payload %s:  ', device_id, dimmeritem)
+      log.info('alexa_get_dimmer_colorvalues - MemCache dimmer get  deviceid %s payload %s:  ', deviceid, dimmeritem)
 
 
     except:
       dimmeritem = ""
-      log.info('alexa_get_dimmer_colorvalues - MemCache dimmer error  deviceid %s payload %s:  ', device_id, dimmeritem)
+      log.info('alexa_get_dimmer_colorvalues - MemCache dimmer error  deviceid %s payload %s:  ', deviceid, dimmeritem)
       e = sys.exc_info()[0]
       log.info('alexa_get_dimmer_colorvalues - MemCache dimmer error %s:  ' % e)    
 
