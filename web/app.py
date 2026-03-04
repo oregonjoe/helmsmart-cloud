@@ -25235,9 +25235,9 @@ def events_endpoint(device_id, partition):
       log.info("events_endpoint get dimmer data %s", data )
       dimmerinstance = int(data['instance'])
       dimmerid = int(data['dimmerid'])
-      dimmervalue = int(data.get('dimmervalue', '255'))
-      huevalue= int(data.get('huevalue', '255'))
-      saturationvalue= int(data.get('saturationvalue', '255'))
+      dimmervalue = int(data.get('dimmervalue', 255))
+      huevalue= int(data.get('huevalue', 255))
+      saturationvalue= int(data.get('saturationvalue', 255))
       dimmeroverride = int(data['dimmeroverride'])
       log.info("events_endpoint get make dimmerpgn dimmeroverride %s", dimmeroverride )
     
