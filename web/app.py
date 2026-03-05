@@ -27007,17 +27007,12 @@ def alexa_get_dimmer_colorvalues():
         huevalue= int(data.get('huevalue', 255))
         saturationvalue= int(data.get('saturationvalue', 255))
         dimmeroverride = int(data['dimmeroverride'])
+        
         log.info("alexa_get_dimmer_colorvalues get make dimmerpgn dimmeroverride %s", dimmeroverride )
+
+      return jsonify(result="OK",  instance=dimmerinstance, brightness=dimmervalue, hue=huevalue, saturation=saturationvalue)
       
-        # Make up Responce dimmer PGN to send back to gateway if valid dimmervalue only if override is not false
-        if dimmeroverride != 1 and (dimmervalue != 255 or huevalue != 255 or saturationvalue != 255):
-          dimmerpgn = make_dimmerpgn(statusvalues, dimmerinstance, dimmerid, dimmervalue, huevalue, saturationvalue, dimmeroverride)
-          log.info("alexa_get_dimmer_colorvalues get make dimmerpgn %s", dimmerpgn )
-          dimmerpgns.append(dimmerpgn)
-          log.info("alexa_get_dimmer_colorvalues get make dimmerpgns %s", dimmerpgns )
-          
-        else:
-          log.info("alexa_get_dimmer_colorvalues NULL dimmervalue so ignore " )
+
 
 
 
