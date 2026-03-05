@@ -26931,6 +26931,9 @@ def alexa_get_dimmer_colorvalues():
     dimmer3=[]
     dimmer4=[]
 
+    brightnessLookup = [0.0, 0.15, 0.30, 0.45, 0.60, 0.75, 1.0, 1.0]
+    hueLookup = [0, 0, 60, 120, 180, 240, 300, 0, 60, 120, 180, 240, 300, 0]
+    saturationLookup =[0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
       
     mydatetime = datetime.datetime.now()
     myjsondate = mydatetime.strftime("%B %d, %Y %H:%M:%S")    
@@ -26961,7 +26964,7 @@ def alexa_get_dimmer_colorvalues():
 
 
     # ######################################################
-    # Next we will check MCACHER for any dimmer keys
+    # check MCACHER for any dimmer keys
     # #######################################################
     dimmeritem = ""
     dimmerpgn=""
@@ -27003,23 +27006,30 @@ def alexa_get_dimmer_colorvalues():
         log.info("alexa_get_dimmer_colorvalues get dimmer data %s", data )
         dimmerinstance = int(data['instance'])
         dimmerid = int(data['dimmerid'])
-        dimmervalue = int(data.get('dimmervalue', 255))
+        dimmerValue = int(data.get('dimmervalue', 255))
         huevalue= int(data.get('huevalue', 255))
         saturationvalue= int(data.get('saturationvalue', 255))
         dimmeroverride = int(data['dimmeroverride'])
-
-        returnvalue = jsonify(result="SUCCESS",  instance=dimmerinstance, brightness=dimmervalue, hue=huevalue, saturation=saturationvalue)
+        log.info("alexa_get_dimmer_colorvalues get make dimmerpgn dimmerValue %s", dimmerValue )
         
-        log.info("alexa_get_dimmer_colorvalues get make dimmerpgn dimmeroverride %s", returnvalue )
+      if dimmerValue > 98:
+        dimmerValue = 98
 
-      return jsonify(result="OK",  instance=dimmerinstance, brightness=dimmervalue, hue=huevalue, saturation=saturationvalue)
+      log.info('alexa_get_dimmer_colorvalues: MEMCACHE dimmerValue %s : int(dimmerValue/14) %s  : int(dimmerValue modolo 7) %s: int(dimmerValue modolo 14) %s', dimmerValue, int(dimmerValue/14) ,int(dimmerValue)%7, int(dimmerValue)%14)
+
+      brightnessValue = brightnessLookup[int(dimmerValue/14)]
+
+      hueValue = hueLookup[int(dimmerValue)%7]
+          
+      saturationValue = saturationLookup[int(dimmerValue)%14]        
+
+      return jsonify(result="SUCCESS",  instance=dimmerinstance, brightness=brightnessValue, hue=hueValue, saturation=saturationValue)
       
-
-
-
-
     
-
+    # ********************************************************************************
+    # Else go to database to get latest values
+    # ********************************************************************************
+    
     host = 'hilldale-670d9ee3.influxcloud.net' 
     port = 8086
     username = 'helmsmart'
@@ -27132,9 +27142,7 @@ def alexa_get_dimmer_colorvalues():
     #hueLookup = [0,84,0,42,169,126,212,0,84,0,42,169,126,212]
     #saturationLookup =[0,128,128,128,128,128,128,0,254,254,254,254,254,254]
 
-    brightnessLookup = [0.0, 0.15, 0.30, 0.45, 0.60, 0.75, 1.0, 1.0]
-    hueLookup = [0, 0, 60, 120, 180, 240, 300, 0, 60, 120, 180, 240, 300, 0]
-    saturationLookup =[0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
     
     #log.info("freeboard jsonkey..%s", jsonkey )
     try:
