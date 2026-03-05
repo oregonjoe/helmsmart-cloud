@@ -27007,8 +27007,10 @@ def alexa_get_dimmer_colorvalues():
         huevalue= int(data.get('huevalue', 255))
         saturationvalue= int(data.get('saturationvalue', 255))
         dimmeroverride = int(data['dimmeroverride'])
+
+        returnvalue = jsonify(result="SUCCESS",  instance=dimmerinstance, brightness=dimmervalue, hue=huevalue, saturation=saturationvalue)
         
-        log.info("alexa_get_dimmer_colorvalues get make dimmerpgn dimmeroverride %s", dimmeroverride )
+        log.info("alexa_get_dimmer_colorvalues get make dimmerpgn dimmeroverride %s", returnvalue )
 
       return jsonify(result="OK",  instance=dimmerinstance, brightness=dimmervalue, hue=huevalue, saturation=saturationvalue)
       
