@@ -27023,7 +27023,7 @@ def alexa_get_dimmer_colorvalues():
           
       saturationValue = saturationLookup[int(dimmerValue)%14]        
 
-      return jsonify(result="SUCCESS",  instance=dimmerinstance, brightness=brightnessValue, hue=hueValue, saturation=saturationValue)
+      return jsonify(result="SUCCESS",  instance=dimmerinstance, dimmervalue = dimmerValue, brightness=brightnessValue, hue=hueValue, saturation=saturationValue)
       
     
     # ********************************************************************************
