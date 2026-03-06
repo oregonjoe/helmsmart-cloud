@@ -31,7 +31,7 @@
 	   	<link href="{{ url_for('static', filename='css/bootstrap-slider.min.css') }}" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-slider.min.js') }}"></script>   
 	   
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />   
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/> 
@@ -1751,7 +1751,7 @@ function getDeviceList(useremail)
 	var devicedataurl;
 	
     //devicedataurl = "http://www.helmsmart.net/getuser?gettype=devices&userid=" + userid;
-
+	var encodedEmail = encodeURIComponent(useremail);
 	
 	if( gAWSAccountType == 'admin' &&  gAWSuserid == '000000000000')
 	{
