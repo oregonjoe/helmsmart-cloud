@@ -1,0 +1,114 @@
+.dimmerColor0_0{background-color: #000800;} /* Green */
+.dimmerColor0_1{background-color: #002400;} /* Green */
+.dimmerColor0_2{background-color: #004800;} /* Green */
+.dimmerColor0_3{background-color: #006C00;} /* Green */
+.dimmerColor0_4{background-color: #009200;} /* Green */
+.dimmerColor0_5{background-color: #00B600;} /* Green */
+.dimmerColor0_6{background-color: #00DA00;} /* Green */
+
+.dimmerColor1_0{background-color: #080000;} /* Red */
+.dimmerColor1_1{background-color: #240000;} /* Red */
+.dimmerColor1_2{background-color: #480000;} /* Red */
+.dimmerColor1_3{background-color: #6C0000;} /* Red */
+.dimmerColor1_4{background-color: #920000;} /* Red */
+.dimmerColor1_5{background-color: #B60000;} /* Red */
+.dimmerColor1_6{background-color: #DA0000;} /* Red */
+
+.dimmerColor2_0{background-color: #080800;} /* Yellow */
+.dimmerColor2_1{background-color: #242400;} /* Yellow */
+.dimmerColor2_2{background-color: #484800;} /* Yellow */
+.dimmerColor2_3{background-color: #6C6C00;} /* Yellow */
+.dimmerColor2_4{background-color: #929200;} /* Yellow */
+.dimmerColor2_5{background-color: #B6B600;} /* Yellow */
+.dimmerColor2_6{background-color: #DADA00;} /* Yellow */
+
+
+.dimmerColor3_0{background-color: #000008;} /* BLUE */
+.dimmerColor3_1{background-color: #000024;} /* BLUE */
+.dimmerColor3_2{background-color: #000048;} /* BLUE */
+.dimmerColor3_3{background-color: #00006C;} /* BLUE */
+.dimmerColor3_4{background-color: #000092;} /* BLUE */
+.dimmerColor3_5{background-color: #0000B6;} /* BLUE */
+.dimmerColor3_6{background-color: #0000DA;} /* BLUE */
+
+.dimmerColor4_0{background-color: #080008;} /* CYAN */
+.dimmerColor4_1{background-color: #240024;} /* CYAN */
+.dimmerColor4_2{background-color: #480048;} /* CYAN */
+.dimmerColor4_3{background-color: #6C006C;} /* CYAN */
+.dimmerColor4_4{background-color: #920092;} /* CYAN */
+.dimmerColor4_5{background-color: #B600B6;} /* CYAN */
+.dimmerColor4_6{background-color: #DA00DA;} /* CYAN */
+
+.dimmerColor5_0{background-color: #000808;} /* MEGENTA */
+.dimmerColor5_1{background-color: #002424;} /* MEGENTA */
+.dimmerColor5_2{background-color: #004848;} /* MEGENTA */
+.dimmerColor5_3{background-color: #006C6C;} /* MEGENTA */
+.dimmerColor5_4{background-color: #009292;} /* MEGENTA */
+.dimmerColor5_5{background-color: #00B6B6;} /* MEGENTA */
+.dimmerColor5_6{background-color: #00DADA;} /* MEGENTA */
+
+.dimmerColor6_0{background-color: #080808;} /* White */
+.dimmerColor6_1{background-color: #242424;} /* White */
+.dimmerColor6_2{background-color: #484848;} /* White */
+.dimmerColor6_3{background-color: #6C6C6C;} /* White */
+.dimmerColor6_4{background-color: #929292;} /* White */
+.dimmerColor6_5{background-color: #B6B6B6;} /* White */
+.dimmerColor6_6{background-color: #DADADA;} /* White */
+
+		
+.dimmerColor7_0{background-color: #206020;} /* Green */
+.dimmerColor7_1{background-color: #408040;} /* Green */
+.dimmerColor7_2{background-color: #60A060;} /* Green */
+.dimmerColor7_3{background-color: #80C080;} /* Green */
+.dimmerColor7_4{background-color: #80F080;} /* Green */
+.dimmerColor7_5{background-color: #A0F0A0;} /* Green */
+.dimmerColor7_6{background-color: #C0F0C0;} /* Green */
+
+.dimmerColor8_0{background-color: #602020;} /* Red */
+.dimmerColor8_1{background-color: #804040;} /* Red */
+.dimmerColor8_2{background-color: #A06060;} /* Red */
+.dimmerColor8_3{background-color: #C08080;} /* Red */
+.dimmerColor8_4{background-color: #F08080;} /* Red */
+.dimmerColor8_5{background-color: #F0A0A0;} /* Red */
+.dimmerColor8_6{background-color: #F0C0C0;} /* Red */
+
+.dimmerColor9_0{background-color: #606020;} /* Yellow */
+.dimmerColor9_1{background-color: #808040;} /* Yellow */
+.dimmerColor9_2{background-color: #A0A060;} /* Yellow */
+.dimmerColor9_3{background-color: #C0C080;} /* Yellow */
+.dimmerColor9_4{background-color: #F0F080;} /* Yellow */
+.dimmerColor9_5{background-color: #F0F0A0;} /* Yellow */
+.dimmerColor9_6{background-color: #F0F0C0;} /* Yellow */
+
+
+.dimmerColor10_0{background-color: #202060;} /* BLUE */
+.dimmerColor10_1{background-color: #404080;} /* BLUE */
+.dimmerColor10_2{background-color: #6060A0;} /* BLUE */
+.dimmerColor10_3{background-color: #8080C0;} /* BLUE */
+.dimmerColor10_4{background-color: #8080F0;} /* BLUE */
+.dimmerColor10_5{background-color: #A0A0F0;} /* BLUE */
+.dimmerColor10_6{background-color: #C0C0F0;} /* BLUE */
+
+.dimmerColor11_0{background-color: #602060;} /* CYAN */
+.dimmerColor11_1{background-color: #804080;} /* CYAN */
+.dimmerColor11_2{background-color: #A060A0;} /* CYAN */
+.dimmerColor11_3{background-color: #C080C0;} /* CYAN */
+.dimmerColor11_4{background-color: #F080F0;} /* CYAN */
+.dimmerColor11_5{background-color: #F0A0F0;} /* CYAN */
+.dimmerColor11_6{background-color: #F0C0F0;} /* CYAN */
+
+.dimmerColor12_0{background-color: #204040;} /* MEGENTA */
+.dimmerColor12_1{background-color: #408080;} /* MEGENTA */
+.dimmerColor12_2{background-color: #60A0A0;} /* MEGENTA */
+.dimmerColor12_3{background-color: #80C0C0;} /* MEGENTA */
+.dimmerColor12_4{background-color: #80F0F0;} /* MEGENTA */
+.dimmerColor12_5{background-color: #A0F0F0;} /* MEGENTA */
+.dimmerColor12_6{background-color: #C0F0F0;} /* MEGENTA */
+
+.dimmerColor13_0{background-color: #181818;} /* White */
+.dimmerColor13_1{background-color: #343434;} /* White */
+.dimmerColor13_2{background-color: #585858;} /* White */
+.dimmerColor13_3{background-color: #7C7C7C;} /* White */
+.dimmerColor13_4{background-color: #A2A2A2;} /* White */
+.dimmerColor13_5{background-color: #C6C6C6;} /* White */
+.dimmerColor13_6{background-color: #EAEAEA;} /* White */	

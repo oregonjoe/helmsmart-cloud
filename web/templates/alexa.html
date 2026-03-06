@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	
+	
+	<title>netAlerts - HelmSmart Data Alerts</title>
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url_for('static', filename='css/timepicker.less') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ url_for('static', filename='css/pick-a-color-1.1.8.min.css') }}" rel="stylesheet" type="text/css" />	
+		
+		
+	<script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	
+		<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-timepicker.js') }}"></script>
+	
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	 <script type="text/javascript" src="{{ url_for('static', filename='js/PGNSelectFunctions.js') }}" ></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-timepicker-addon.js') }}"></script> -->
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/jscolor.js') }} " ></script>
+	   
+	<!--   <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }} " ></script> -->
+	   	<link href="{{ url_for('static', filename='css/bootstrap-slider.min.css') }}" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-slider.min.js') }}"></script>   
+	   
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/fileuploadstyles.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/persona-buttons.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/helmsmart-buttons.css') }}"/> 
+	
+
+	   <!-- <script src='https://cdn.firebase.com/v0/firebase.js'></script> -->
+	   
+	   <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+	   
+	   
+	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca; 
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+
+
+<style type="text/css">
+	.map_container{
+		 position: relative;
+		 width: 100%;
+		 /*padding-bottom: 56.25%;*/ /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
+	}
+	.map_container .map_canvas{
+		height:120px;
+		width:180px;
+	}
+
+	.map_container .map_edit_canvas{
+		width:100%;
+		height:280px;
+		margin-left:10px;
+		border:1px solid gray;
+	}
+
+	.ajaxBtn {
+		width:44px;
+	}
+</style>
+<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script> -->
+<script type="text/javascript"      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y&sensor=false">    </script>
+
+
+
+		
+
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/support.js') }}" ></script>
+
+<style>
+	.form-group {
+		margin-bottom: 5px;
+	}
+
+	.control-label {
+		padding-right: 3px;
+	}
+
+	.timeAgo {
+		color: gray;
+	}
+
+	.valueFormat {
+		color: black;
+	}
+
+	#tabGeoFence .form-control-static,
+	#tabGeoFence .control-label {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	hr {
+		margin-top: 2px;
+		margin-bottom: 6px;
+	}
+
+	input[type=checkbox] {
+		margin-left: 0px !important;
+	}
+</style>
+
+<script>
+	$(function () {
+		$(document).ajaxComplete(function (event, xhr, settings) {
+			if (xhr.getResponseHeader('ReloadWholePage')) {
+				window.location.reload();	//Reload the whole datapane
+			}
+		});
+		
+		$('.nav-tabs a[href="#tabBasicSettings"]').tab('show');
+		//RegisterDevice();
+		//GetAlertEvents();
+		/*
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabEvents')
+			alert("events tab");
+			GetAlertEvents();
+				
+		});
+		*/
+	});
+	/*
+	//DoOnChange is used in the Edit template for EventValue
+	function DoOnChange(t) {
+		if (t.value == 0)
+			$('#' + t.id).nextAll('span:first').hide()
+		else
+			$('#' + t.id).nextAll('span:first').show()
+	}
+
+	
+	$(function () {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabEvents')
+			alert("events tab");
+			GetAlertEvents();
+				
+		});
+	});
+	
+	
+	$(document).ready(function () {
+$('.nav nav-tabs').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+ })
+ 
+
+    $('.tabs').bind('change', function (e) {
+        // e.target is the new active tab according to docs
+        // so save the reference in case it's needed later on
+       // window.activeTab = e.target;
+        // display the alert
+        alert("hello");
+        // Load data etc
+    });
+	
+$('.nav-tabs').bind('change', function (e) {
+      // e.target is the new active tab according to docs
+        // so save the reference in case it's needed later on
+       // window.activeTab = e.target;
+        // display the alert
+        alert("hello");
+        // Load data etc
+    });
+ 
+ 
+}); 
+  */
+  
+  	/*
+	$(document).ready(function () {
+$('#tab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+ })
+}); 
+  */
+  
+  
+ 
+  
+</script>
+
+
+	
+	
+
+
+
+
+
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="{{ url_for('static', filename='js/modernizr-2.6.2.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.unobtrusive-ajax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery_blockUI.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.validate.unobtrusive.js') }}"></script>
+	<style>
+		.nav-tabs > li.active > a,
+		.nav-tabs > li.active > a:hover,
+		.nav-tabs > li.active > a:focus {
+			color: #fff;
+			background-color: #428bca;
+		}
+
+		.tab-content {
+			margin-top: 15px;
+		}
+	</style>
+	
+<script type="text/javascript">
+	var DialPGNNumber = new Array();
+	var myEventID = new Array();
+	var myEventTag = new Array();
+	var myEventName = new Array();
+
+	var myEventSource = new Array();
+	var myEventName = new Array();
+	var	myAlexaInterface= new Array();
+	var	 myAlexaFriendlyName= new Array();
+	var	myAlexaPrefName= new Array();
+	
+	var myAlexaPrefID= new Array();
+	var myAlexaAlertEventID = new Array();
+	var myAlexaEnabled = new Array();
+
+
+	
+
+
+	
+	
+	var timezoneOffset = 0;
+
+	
+	var index = 0;
+	var gUserID="a91140300971bfb9244989a9bffde53c";
+	var gUserEmail=""
+	var gDeviceID="";
+	var gDeviceKey="";
+	//var gDeviceName="001EC0B415C2:SSENETG2_SeaDream";
+	var gDeviceName="";
+	//var gBLWSKey="0b4eb181bac44020803de7a35be6fe62";
+
+	gEMail = "";
+	gSMSNumber="";
+	
+	var pagetype=2;
+	
+	
+  var AlertID=0;
+  var device;
+  var firebase;
+    var rootRef;;
+  var map;
+  var alarmmap;
+  //var myLatlng;
+  //var myOldLatlng;
+
+  
+  
+
+
+
+
+ 
+
+    zpad.zeros = new Array(5).join('0');
+    spad.spaces = new Array(7).join(' ');
+	
+	
+	$(document).ready(function () {
+	
+	var myText;
+	//document.getElementById("PGNTypeSource").length = 0;
+
+	
+	
+		
+	document.getElementById("PGNTypeSource").options[index++] = new Option( "ANY", ".*");
+	
+		
+	document.getElementById("EventsID").length = 0;	
+	document.getElementById("EventsID").options[index] = new Option( "** no events available **", "0");
+	
+
+			
+			
+	
+		
+
+		
+		
+	for(var i=0; i< 255; i++)
+	{
+		myText = ("00" + i.toString(16)).substr(-2);
+		document.getElementById("PGNTypeSource").options[index++] = new Option(myText.toUpperCase(), myText.toUpperCase());
+		
+		
+	}
+	
+	
+	
+	document.getElementById("PGNTypeSource").selectedIndex = 0;
+	
+	
+	
+    gUserID = "0";
+    {% if session['userid'] %}
+    gUserID = "{{session['userid']}}";
+    {% else %}
+    gUserID = "0";
+    {% endif %}
+	
+	 gUserEmail = "";
+    {% if session['username'] %}
+    gUserEmail = "{{session['username']}}";
+    {% else %}
+    gUserEmail = "";
+    {% endif %}
+
+
+    if (gUserID == null)
+    {
+    gUserID = "0";
+    }
+    else
+    {
+    getDeviceList(gUserID);
+    //getDeviceParamList(myuserid);
+    }
+	
+/*
+$('.nav-tabs').bind('change', function (e) {
+      // e.target is the new active tab according to docs
+        // so save the reference in case it's needed later on
+       // window.activeTab = e.target;
+        // display the alert
+        alert("hello change");
+        // Load data etc
+    });
+*/	
+	$('.nav-tabs').bind('click', function (e) {
+      // e.target is the new active tab according to docs
+        // so save the reference in case it's needed later on
+       // window.activeTab = e.target;
+        // display the alert
+	//	if (e.target.hash == '#tabEvents')
+			//GetAlertEvents();
+			//alert("events tab");
+
+        //alert("hello click");
+        // Load data etc
+    });
+ 
+/*
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			if (e.target.hash == '#tabEvents')
+			alert("events tab");
+			//GetAlertEvents();
+				
+		});
+*/
+	
+	
+}); 
+
+    /* ******************  padding functions ************************************************ */
+
+    function zpad(num, len) {
+    var str = String(num),
+    diff = len - str.length;
+    if(diff <= 0) return str;
+    if(diff > zpad.zeros.length)
+        zpad.zeros = new Array(diff + 1).join('0');
+    return zpad.zeros.substr(0, diff) + str;
+}
+
+function spad(num, len) {
+    var str = String(num),
+        diff = len - str.length;
+    if(diff <= 0) return str;
+      if(diff > spad.spaces.length)
+      spad.spaces= new Array(diff + 1).join(' ');
+      return spad.spaces.substr(0, diff) + str;
+      }
+	  
+function pad(number, length) {
+
+        var str = '' + number;
+        while (str.length < length) {
+            str = '0' + str;
+        }
+
+        return str;
+
+    }	  
+	  
+Date.isLeapYear = function (year) { 
+    return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
+};
+
+Date.getDaysInMonth = function (year, month) {
+    return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+};
+
+Date.prototype.isLeapYear = function () { 
+    return Date.isLeapYear(this.getFullYear()); 
+};
+
+Date.prototype.getDaysInMonth = function () { 
+    return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+};
+
+Date.prototype.addMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() + value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	  
+	  
+Date.prototype.subMonths = function (value) {
+    var n = this.getDate();
+    this.setDate(1);
+    this.setMonth(this.getMonth() - value);
+    this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
+};	
+
+
+Date.prototype.yyyymmdd = function() {         
+                                
+        var yyyy = this.getFullYear().toString();                                    
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+        var dd  = this.getDate().toString();             
+                            
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+   };
+   
+ Date.prototype.yyyymmddhhmm = function() {         
+                                
+        var yyyy = this.getFullYear().toString();                                    
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based         
+        var dd  = this.getDate().toString();    
+        var hh  = this.getHours().toString(); 
+        var Min  = this.getMinutes().toString(); 		
+                            
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]) + ' ' + hh + ':' + Min;
+   };
+   
+   Date.prototype.yyyymmddhhmmss = function() {         
+                                
+        var yyyy = this.getFullYear().toString();
+        var MM = pad(this.getMonth() + 1,2);
+        var dd = pad(this.getDate(), 2);
+        var hh = pad(this.getHours(), 2);
+        var mm = pad(this.getMinutes(), 2)
+        var ss = pad(this.getSeconds(), 2)
+
+        return yyyy + '-' + MM + '-' + dd + ' ' +  hh + ':' + mm + ':' + ss;
+   };   
+	   
+   Date.prototype.hhmmss = function() {         
+                                
+
+        var hh = pad(this.getHours(), 2);
+        var mm = pad(this.getMinutes(), 2)
+        var ss = pad(this.getSeconds(), 2)
+
+        return   hh + ':' + mm + ':' + ss;
+   };  
+
+function rgbToHex(r,g,b) {
+    return "#"+("00000"+(r<<16|g<<8|b).toString(16)).slice(-6);
+}
+
+function padToHex(value) {
+    return ("00000"+(value).toString(16)).slice(-6);
+}
+
+  
+
+
+
+function ChangedDeviceTypeID(sel)
+{
+gDeviceKey = document.getElementById("DeviceTypeID").options[sel.selectedIndex].value;
+					document.getElementById("DeviceKey").value = gDeviceKey;
+					
+					
+						GetAlertEvents();		
+					
+}
+
+
+
+function ChangedEmail()
+{
+	//gEMail = document.getElementById("EmailAddress").value;
+}
+
+function ChangedSMSNumber()
+{
+	//gSMSNumber = document.getElementById("SMSNumber").value;
+}
+
+function ChangedDeviceKey()
+{
+	gDeviceKey = document.getElementById("DeviceKey").value;
+
+}
+
+
+function ChangedTimeZone(sel)
+{
+ timezoneOffset = parseInt(document.getElementById("TimeZoneId").options[sel.selectedIndex].value) * 60;
+
+}
+
+
+
+
+function ChangedEventInterval(sel)
+{
+
+}
+function ChangedEventDuration(sel)
+{
+
+}
+function ChangedEventOffset(sel)
+{
+
+}
+function ChangedAlertMode(sel)
+{
+
+}
+function ChangedPGNSource(sel)
+{
+	ConstructPGNTypeID(gDeviceID,0);
+}
+
+function ChangedActionSwitch(sel)
+{
+}
+
+function ChangedActionDimmer(sel)
+{
+}
+function ChangedPGNTypeID(sel)
+{
+	ConstructPGNTypeID(gDeviceID,0);
+	
+	var myindex = document.getElementById("AlexaPrefID").selectedIndex;
+	
+	if(myindex == document.getElementById("AlexaPrefID").length-1)
+	{
+		//document.getElementById("AlexaPrefID").selectedIndex=document.getElementById("AlexaPrefID").length-1;
+
+		document.getElementById("AlexaPreferenceName").value = document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].text; 
+		document.getElementById("AlexaFriendlyName").value = document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].text; 
+	}
+}
+
+
+function updateAlexaList(sel)
+{
+//var myDialID = 0 ;
+
+	
+	//	DialUnits[myDialID] = sel.options[sel.selectedIndex].value;
+		
+		SetEventsOptions(sel.selectedIndex);
+		
+		
+		document.getElementById("AlexaPreferenceName").value = document.getElementById("AlexaPrefID").options[sel.selectedIndex].text; 
+		
+		
+}
+
+
+
+function updateEventList(sel)
+{
+//var myDialID = 0 ;
+
+	
+	//	DialUnits[myDialID] = sel.options[sel.selectedIndex].value;
+		
+		SetEventsOptions(sel.selectedIndex);
+		
+		
+		document.getElementById("AlexaPreferenceName").value = document.getElementById("AlexaPrefID").options[sel.selectedIndex].text; 
+		
+		
+}
+
+
+function SetEventsOptions(myindex){
+
+
+	var myEvent;
+	var myEindex = parseInt(myindex);
+		 
+	 //document.getElementById("EventsID").selectedIndex = 0;
+	 
+	 document.getElementById("AlexaFriendlyName").value = myAlexaFriendlyName[myEindex];
+	  document.getElementById("AlexaPreferenceName").value = myAlexaPrefName[myEindex];
+	  
+	  
+	 if( myEventSource.length != 0)
+	 {
+		if(myEventSource[myEindex] == ".*" || myEventSource[myEindex] == "")
+			 document.getElementById("PGNTypeSource").selectedIndex = 0;
+		else
+			document.getElementById("PGNTypeSource").selectedIndex = parseInt(myEventSource[myEindex],16) + 1;
+	 }
+	 else
+	 {
+		document.getElementById("PGNTypeSource").selectedIndex = 0;
+		}
+	 
+
+	
+	 //	 document.getElementById("EventInterval").selectedIndex = parseInt(myEventInterval[myEindex]);
+	 
+	 document.getElementById("EventEnabled").selectedIndex = 0;
+	 for(i=0; i< document.getElementById("EventEnabled").options.length; i++)
+	 {
+	    myEvent = document.getElementById("EventEnabled").options[i].text;
+		
+		 try{
+		  if(myEvent.trim() == myAlexaEnabled[myEindex].trim())
+		    	document.getElementById("EventEnabled").selectedIndex = i;
+		}
+		catch(err)
+		{
+		
+		}
+		
+	}  
+	
+	
+	 
+
+	 
+	 document.getElementById("PGNTypeID").selectedIndex = 0;
+	 for(i=0; i< document.getElementById("PGNTypeID").options.length; i++)
+	 {
+	    myEvent = document.getElementById("PGNTypeID").options[i].value;
+		
+		if(myEventTag.length != 0 &&  myEindex < myEventTag.length)
+		{
+		  if(myEvent.trim() == myEventTag[myEindex].trim())
+		    	document.getElementById("PGNTypeID").selectedIndex = i;
+		}
+		else
+			document.getElementById("PGNTypeID").selectedIndex = 0;
+	}   
+	
+	
+	document.getElementById("EventsID").selectedIndex = 0;
+	 for(i=0; i< document.getElementById("EventsID").options.length; i++)
+	 {
+	    myEvent = document.getElementById("EventsID").options[i].value;
+		
+		if(myAlexaAlertEventID.length != 0 &&  myEindex < myAlexaAlertEventID.length)
+		{
+		  if(parseInt(myEvent) == parseInt(myAlexaAlertEventID[myEindex]))
+		    	document.getElementById("EventsID").selectedIndex = i;
+		}
+		else
+			document.getElementById("EventsID").selectedIndex = 0;
+	}   
+	
+   
+	
+	document.getElementById("AlexaInterface").selectedIndex = 0;
+	 for(i=0; i< document.getElementById("AlexaInterface").options.length; i++)
+	 {
+	    myEvent = document.getElementById("AlexaInterface").options[i].value;
+		
+		if(myAlexaInterface.length != 0 &&  myEindex < myAlexaInterface.length)
+		{
+		  if(myEvent.trim() == myAlexaInterface[myEindex].trim())
+		    	document.getElementById("AlexaInterface").selectedIndex = i;
+		}
+		else
+			document.getElementById("AlexaInterface").selectedIndex = 0;
+	}   
+	
+	
+	
+   //document.getElementById("EventName").value = myEventName[myEindex]; 	
+	
+}
+
+
+
+
+function handleGetAlertIDs(response)
+ {
+    var index=0;
+	var alertEventindex=0;
+    var myText;
+	var myAlertID=0;
+    var myMessage;
+	var myDeviceID;
+	var myGPSValue;
+
+    $.unblockUI();
+	
+	myEventTag.length = 0;
+	
+	myEventSource.length = 0;
+	myEventID.length = 0;
+	myAlexaPrefID.length = 0;
+	myAlexaInterface.length = 0;
+	myAlexaAlertEventID.length = 0;
+	myAlexaFriendlyName.length = 0;
+	myAlexaPrefName.length = 0;
+	myAlexaEnabled.length = 0;	
+	
+
+
+
+
+
+	 document.getElementById("AlexaPrefID").options.length = 0;
+    document.getElementById("EventsID").options.length = 0;
+   document.getElementById("EventsID").options[alertEventindex++] = new Option("no event selected", 0);
+
+    response.records.forEach(function(row){
+	
+	try
+	{
+		myMessage = JSON.parse(row[1]);
+		myText = myMessage.posttype;
+	}
+	catch(err)
+	{
+		myText = "ParseError";
+		myAlertID = row[0];
+	}
+	
+	// get any sored alert events that match our deviceid
+	// we can use these to trigger any alexa scenes
+	if( myText == "EmailAlertPost")
+    {
+		myDeviceID = myMessage.deviceid;
+		if(myDeviceID == gDeviceKey)
+		{
+			if(myMessage.subject != null)
+			{
+				var myalertText = myMessage.subject;
+			}
+	
+			else
+			{
+				var myalertText = "unknown";
+			}
+			
+			//	myAlertID = row[0];
+			document.getElementById("EventsID").options[alertEventindex++] = new Option(myalertText, row[0]);
+		}
+	}
+	
+	// Get the body of the alexa prefs
+    if( myText == "AlexaPreferencePost")
+    {
+        //myText = myMessage.alexaprefname;
+		myAlertID = row[0];
+		/*
+		if(myMessage.email != null)
+			gEMail = myMessage.email;
+		else
+			gEMail = "";
+			
+		document.getElementById("EmailAddress").value = gEMail;
+		
+		if(myMessage.smsnumber != null)
+			gSMSNumber = myMessage.smsnumber;
+		else
+			gSMSNumber = "";
+			
+		document.getElementById("SMSNumber").value = gSMSNumber;
+		*/
+		myDeviceID = myMessage.deviceid;
+		if(myDeviceID == gDeviceKey)
+		{
+			
+			
+
+			if(myMessage.alexaprefname != null)
+			{
+				myText = myMessage.alexaprefname;
+			}
+	
+			else
+			{
+				myText = "alexaprefname";
+			}
+			
+			myAlexaPrefName.push(myText);
+			myAlexaEnabled.push(myMessage.alertenabled);
+			myAlexaPrefID.push(myAlertID);
+			myAlexaInterface.push(myMessage.alexainterface);
+			myAlexaFriendlyName.push(myMessage.alexafriendlyname);
+			myAlexaAlertEventID.push(myMessage.alexaalerteventid);
+	
+
+			myEventTag.push(myMessage.EventTypeId);
+			var mySeriesKey = myMessage.seriesKey;
+		
+			 try{
+					myEventKey  = mySeries.key.replace(/\"/g, "");
+					myPGNArray = myEventKey.split("."); 
+					myValue = myPGNArray[2];
+					myTextArray = myValue.split(":");
+					myValue = myTextArray[1]; 
+					myEventSource.push(myValue);
+					}
+					catch(err)
+					{
+						myEventSource.push(".*");
+					}
+		
+
+		
+				document.getElementById("AlexaPrefID").options[index++] = new Option(myText, myAlertID);
+				
+			//boardlogins[index++]=myMessage.blwskey;
+			}
+		   
+		}
+
+
+    });
+	
+	 //  document.getElementById("EventsID").options[index++] = new Option("-----------", 0);
+
+	document.getElementById("AlexaPrefID").options[index] = new Option( "** Add New Event **", "0");
+	
+	
+	// Initialize all the parameters
+	SetEventsOptions(0);
+
+	   // get active series and enable them in the Event drop down list
+   GetSeriesAttributes();
+
+ 
+}
+
+
+
+
+function handleGetSeriesAttributes(response)
+ {
+ var index=0;
+ var i;
+ 
+   	$.unblockUI();
+    
+
+     var myserieskey 
+     var myPGNEvent;
+     var index
+     index = 0;
+     
+
+ 
+     
+    if(response.status == "error")
+   {
+    //  document.getElementById("SearchStatus").innerHTML = "No data from search";
+      return;
+      
+     }
+            
+
+		
+	var PGNTypeIDLength = 	document.getElementById("PGNTypeID").length;
+	
+	for(var i=0; i< PGNTypeIDLength; i++)
+	{
+		document.getElementById("PGNTypeID").options[i].disabled = true;
+		document.getElementById("PGNTypeID").options[i].style.color = '#CCCCCC';
+	}
+	
+	//var ActionSwitchLength = 	document.getElementById("ActionSwitch").length;
+	
+	//for(var i=0; i< ActionSwitchLength; i++)
+	//{
+	//	document.getElementById("ActionSwitch").options[i].disabled = true;
+	//	document.getElementById("ActionSwitch").options[i].style.color = '#CCCCCC';
+	//}
+	
+	//var ActionDimmerLength = 	document.getElementById("ActionDimmer").length;
+	
+  
+        
+     response.series.forEach(function(mydata){
+     
+
+      
+            myserieskey = "deviceid:" + mydata.deviceid;
+            myserieskey = myserieskey  + ".sensor:" + mydata.sensor;
+            myserieskey = myserieskey  + ".source:" + mydata.source;
+            myserieskey = myserieskey  + ".instance:" + mydata.instance;
+            myserieskey = myserieskey  + ".type:" + mydata.type;
+            myserieskey = myserieskey  + ".parameter:" + mydata.parameter;
+            myserieskey = myserieskey  + ".HelmSmart";                                     
+            
+            myPGNEvent = GetPGNTypeFromSeries(myserieskey);
+			
+			for(var i=0; i< PGNTypeIDLength; i++)
+			{
+				if(document.getElementById("PGNTypeID").options[i].value == myPGNEvent)
+				{
+					document.getElementById("PGNTypeID").options[i].disabled = false;
+					document.getElementById("PGNTypeID").options[i].style.color = '#0D27C3';
+				}
+			}
+		
+
+/*		
+			for(var i=0; i< ActionDimmerLength; i++)
+			{
+				if(document.getElementById("ActionDimmer").options[i].value == myPGNEvent)
+				{
+					document.getElementById("ActionDimmer").options[i].disabled = false;
+					document.getElementById("ActionDimmer").options[i].style.color = '#0D27C3';
+				}
+			}
+			
+			for(var i=0; i< ActionSwitchLength; i++)
+			{
+				if(document.getElementById("ActionSwitch").options[i].value == myPGNEvent)
+				{
+					document.getElementById("ActionSwitch").options[i].disabled = false;
+					document.getElementById("ActionSwitch").options[i].style.color = '#0D27C3';
+				}
+			}
+			
+*/
+
+
+            
+         });
+              
+//	UpdateSeriesList();
+ 
+}
+
+function UpdateSeriesList()
+{
+    GetSeriesAttributes(document.getElementById("DeviceID").options[document.getElementById("DeviceID").selectedIndex].value);
+}
+  
+
+function handleRegisterDevice(response)
+{
+var myresponse;
+var myBLWSKey
+var myJSON = {};
+  
+  	$.unblockUI();
+   
+     myresponse = response;
+     myStatus = myresponse.status;
+     if(myStatus == 'success')
+     {
+          //myText = myresponse.boatlogger;
+          myBLWSKey = myresponse.blwskey;
+		   gBLWSKey = myBLWSKey;	
+		   
+		   gDeviceKey = myresponse.deviceapi;
+		   
+		  myDeviceID = myresponse.deviceid;
+		  
+		  if(myDeviceID == "")
+		  {
+			alert('No valid DeviceDI found');
+			gDeviceID="";
+		  }
+		  else
+			gDeviceID = myDeviceID;
+			
+          //myJSON = JSON.parse(myText);
+          //myBLWSKey = myJSON.ActivationKey;
+          //document.getElementById("BLWSKeyInput").value = myBLWSKey;
+
+         // myKey=response.url;
+      }
+      else if(myStatus == 'error')
+      {
+        //document.getElementById("BLWSKeyInput").value = "invalid key";
+		alert('Invalid BLWS Key');
+		gBLWSKey ="";
+     }
+	 
+	
+	 //gDeviceID = document.getElementById("DeviceID").value;
+
+     gDeviceName = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].value;
+
+	 if(gDeviceID !== "")
+		InitalizeFirebase();
+		
+		GetAlertEvents();
+
+} 
+
+
+
+function handleGetDeviceData(response)
+{
+  var index=0;
+
+  $.unblockUI();
+
+  document.getElementById("DeviceTypeID").options.length = 0;
+
+  response.records.forEach(function(row){
+ 
+     // myDeviceIDs[index]=row[0];
+      document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+
+  });
+
+
+  document.getElementById("DeviceTypeID").selectedIndex = 0;
+  gDeviceKey = document.getElementById("DeviceTypeID").options[0].value;
+					document.getElementById("DeviceKey").value = gDeviceKey;
+					
+
+		
+		GetAlertEvents();				
+					
+					
+  
+    
+    
+}
+
+function handleUpdateAlert(response)
+{
+ var index=0;
+ 
+   	$.unblockUI();
+    
+            // document.getElementById("AddPreferenceName").value = "";
+         //   getAlertIDsList(myuserid);
+		 GetAlertEvents();
+
+}
+
+function handleAddLogAlert(response)
+{
+ var index=0;
+ 
+   	$.unblockUI();
+    
+            // document.getElementById("AddPreferenceName").value = "";
+         //   getAlertIDsList(myuserid);
+		 GetAlertEvents();
+
+}
+
+function handleDeleteAlert(response)
+ {
+ var index=0;
+ 
+   	$.unblockUI();
+    
+            // document.getElementById("AddPreferenceName").value = "";
+            GetAlertEvents();
+
+}
+function UpdateLogAlert()
+{
+	if(document.getElementById("AlexaPrefID").selectedIndex == document.getElementById("AlexaPrefID").length - 1)
+	{
+		AddLogAlert();
+	}
+	else
+	{
+		ModifyLogAlert();
+	}
+}
+function ModifyLogAlert()
+{
+    var myStartTimeStr;
+    var myEndTimeStr;
+      var myInterval=60;
+
+
+	  var EndEpoch = 0;
+	  var StartEpoch =0;
+	
+   if(gDeviceKey == "" || gDeviceKey =="000000000000")
+	{
+		alert('No Device selected');
+		return;
+	}
+	
+	//Can't update prefs if we don't have one
+    if(document.getElementById("AlexaPrefID").selectedIndex == document.getElementById("AlexaPrefID").length - 1)
+     return;
+	 
+
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+	var prefName;
+  var AlertPrefs={};
+  var PrefsToAdd = {};
+
+    
+      
+     // get current AlertID from preference dropdown    
+   optionmenuindex = document.getElementById("AlexaPrefID").selectedIndex;
+   prefkey = parseInt(document.getElementById("AlexaPrefID").options[optionmenuindex].value);
+   
+  
+  //DialID.length = 3;
+ // myNumOfSeries = DialID.length;
+  
+  AlertPrefs['posttype'] = "AlexaPreferencePost";
+ // AlertPrefs['login'] = document.getElementById("BoardLogin").value;
+//  AlertPrefs['boardname'] = document.getElementById("BoardName").options[document.getElementById("BoardName").selectedIndex].text;  
+//  AlertPrefs['boardid'] = document.getElementById("BoardName").options[document.getElementById("BoardName").selectedIndex].value;  
+//  AlertPrefs['channelname'] = document.getElementById("ChannelName").options[document.getElementById("ChannelName").selectedIndex].text;  
+//  AlertPrefs['channelid'] = document.getElementById("ChannelName").options[document.getElementById("ChannelName").selectedIndex].value;  
+ 	var myText = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].text;
+	var myTags = myText.split(":");
+	
+	  gDeviceName = myTags[1];
+	  gDeviceKey = myTags[0];
+	  
+ AlertPrefs['devicename'] = gDeviceName;   
+  AlertPrefs['deviceid'] = gDeviceKey;
+  
+  //AlertPrefs['email'] = document.getElementById("EmailAddress").value;
+  //AlertPrefs['smsnumber'] = document.getElementById("SMSNumber").value;
+  
+
+
+
+      
+  if(document.getElementById("AlexaPreferenceName").value == "")
+  {
+    //alert('Need to enter a pref name');
+    //return;
+	AlertPrefs['alexaprefname']  = document.getElementById("AlexaPrefID").options[document.getElementById("AlexaPrefID").selectedIndex].text
+  }
+  else
+  {
+        AlertPrefs['alexaprefname'] = document.getElementById("AlexaPreferenceName").value;
+  }
+
+  
+
+      AlertPrefs['alexainterface'] = document.getElementById("AlexaInterface").options[document.getElementById("AlexaInterface").selectedIndex].text;
+	  AlertPrefs['alexafriendlyname'] = document.getElementById("AlexaFriendlyName").value;
+	  
+	  
+	  AlertPrefs['alertenabled'] = document.getElementById("EventEnabled").options[document.getElementById("EventEnabled").selectedIndex].text;
+	  
+	  
+
+      AlertPrefs['alexaalerteventid'] = parseInt(document.getElementById("EventsID").options[document.getElementById("EventsID").selectedIndex].value);
+ 
+
+
+      //AlertPrefs['blwskey'] = gBLWSKey;
+      AlertPrefs['EventTypeId'] = document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].value;
+     // AlertPrefs['EventKey'] = 0;
+	 
+	 
+
+		  ConstructPGNTypeID(gDeviceKey,0);
+		  AlertPrefs['series_key']=DialPGNNumber[0];
+
+
+ 
+  // get current AlertID from preference dropdown    
+  AlertPrefs['AlertId'] = prefkey; 
+  
+
+
+
+
+  
+ 
+   $.blockUI({ 
+     message: '<h1>Updating Alert Event...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } });      
+      
+   // var  myDeviceKey = document.getElementById("DeviceKey").value;
+      var  myDeviceKey = gDeviceKey;
+  // devicedataurl = "http://www.helmsmart.net/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + myuserid + "&deviceid=" +  myuserid + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&options=" + JSON.stringify(AlertPrefs);
+   //devicedataurl = "http://www.helmsmart.net/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + gUserID + "&deviceid=" +  myDeviceKey + "&start=0" +  "&end=0" +   "&interval=" +  myInterval  + "&repeat=0" + "&options=" + JSON.stringify(AlertPrefs);
+   devicedataurl = "http://www.helmsmart.net/prefs?type=update_alexa_pref&prefkey=" + prefkey + "&userid=" + gUserID +  "&email=" + gUserEmail + "&deviceid=" +  gDeviceKey +  "&options=" + JSON.stringify(AlertPrefs);
+
+
+
+      return $.ajax({
+      //async: false,
+      cache: false,
+      url: devicedataurl,
+      dataType: "json",
+      timeout: 30000,
+      statusCode: {
+      404: function() {      alert( "page not found" );    },
+      200: function() {      }
+      },
+      success: function(response) {
+      handleUpdateAlert(response)
+      },
+      complete: function() {
+      // unblock when remote call returns
+      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+      //   ShowGraphSmartChart(gindex);
+      //$.unblockUI();
+      },
+      error: function(request,status,errorThrown) {
+      document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+
+      $.unblockUI();
+      }
+      });
+
+
+}
+
+function AddLogAlert()
+      {
+      var myStartTimeStr;
+      var myEndTimeStr;
+      var myStartDays;
+      var myStartSecs;
+      var myEndDays;
+      var myEndSecs;
+
+      var myInterval=60;
+	  var mytriggervalue;
+
+	  var EndEpoch = 0;
+	  var StartEpoch =0;
+      //Can't update prefs if we don't have one
+      // if(AlertID == 0)
+      //  return;
+	 if(gDeviceKey == "" || gDeviceKey =="000000000000")
+	{
+		alert('No Device selected');
+		return;
+	}
+	
+	
+
+
+      var devicedataurl;
+      var optionmenuindex;
+      var prefkey;
+      var prefName;
+      var AlertPrefs={};
+      var PrefsToAdd = {};
+      var AlertPrefs={};
+      var PrefsToAdd = {};
+
+
+      //DialID.length = 3;
+      //myNumOfSeries = DialID.length;
+
+      AlertPrefs['posttype'] = "AlexaPreferencePost";
+      // AlertPrefs['login'] = document.getElementById("BoardLogin").value;
+      // AlertPrefs['boardname'] = document.getElementById("BoardName").options[document.getElementById("BoardName").selectedIndex].text;
+      // AlertPrefs['boardid'] = document.getElementById("BoardName").options[document.getElementById("BoardName").selectedIndex].value;
+      // AlertPrefs['channelname'] = document.getElementById("ChannelName").options[document.getElementById("ChannelName").selectedIndex].text;
+      // AlertPrefs['channelid'] = document.getElementById("ChannelName").options[document.getElementById("ChannelName").selectedIndex].value;
+   
+ 	var myText = document.getElementById("DeviceTypeID").options[document.getElementById("DeviceTypeID").selectedIndex].text;
+	var myTags = myText.split(":");
+	
+	  gDeviceName = myTags[1];
+	  gDeviceKey = myTags[0];
+
+		AlertPrefs['devicename'] = gDeviceName;
+      AlertPrefs['deviceid'] = gDeviceKey;
+	  //AlertPrefs['email'] = document.getElementById("EmailAddress").value;
+	  //AlertPrefs['smsnumber'] = document.getElementById("SMSNumber").value;
+
+
+	if(document.getElementById("AlexaPreferenceName").value == "")
+	{
+		alert('Need to enter a pref name');
+		return;
+      }
+
+		AlertPrefs['alexaprefname'] = document.getElementById("AlexaPreferenceName").value;
+
+      AlertPrefs['alexainterface'] = document.getElementById("AlexaInterface").options[document.getElementById("AlexaInterface").selectedIndex].text;
+	  AlertPrefs['alexafriendlyname'] = document.getElementById("AlexaFriendlyName").value;
+	  
+	  
+	  AlertPrefs['alertenabled'] = document.getElementById("EventEnabled").options[document.getElementById("EventEnabled").selectedIndex].text;
+	  
+	  
+	  AlertPrefs['alexaalerteventid'] = parseInt(document.getElementById("EventsID").options[document.getElementById("EventsID").selectedIndex].value);
+
+      AlertPrefs['AlertId'] = "";
+
+
+ 
+      AlertPrefs['EventTypeId'] = document.getElementById("PGNTypeID").options[document.getElementById("PGNTypeID").selectedIndex].value;
+   
+	 		  ConstructPGNTypeID(gDeviceKey,0);
+		  AlertPrefs['series_key']=DialPGNNumber[0];
+
+ 
+
+
+
+      $.blockUI({
+      message: '<h1>Adding Alert Event ...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } });    
+     
+  //var  myDeviceKey = document.getElementById("DeviceKey").value;
+  var  myDeviceKey = gDeviceKey;
+	
+	
+  //devicedataurl = "http://www.helmsmart.net/prefs?type=add_alert&userid=" + gUserID + "&deviceid=" +  myDeviceKey + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&repeat=0"  + "&options=" + JSON.stringify(AlertPrefs);
+  devicedataurl = "http://www.helmsmart.net/prefs?type=add_alexa_pref&userid=" + gUserID +  "&email=" + gUserEmail + "&deviceid=" +  gDeviceKey +  "&options=" + JSON.stringify(AlertPrefs);
+
+
+
+          return $.ajax({
+          //async: false,
+          cache: false,
+          url: devicedataurl,
+          dataType: "json",
+          timeout: 30000,
+          statusCode: {
+          404: function() {      alert( "page not found" );    },
+          200: function() {      }
+          },
+          success: function(response) {
+          handleAddLogAlert(response)
+          },
+          complete: function() {
+          // unblock when remote call returns
+          // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+          //   ShowGraphSmartChart(gindex);
+          //$.unblockUI();
+          },
+          error: function(request,status,errorThrown) {
+          document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+
+          $.unblockUI();
+          }
+          });
+
+
+}
+
+function DeleteAlert()
+ {
+
+
+    
+    //Can't update prefs if we don't have one
+    if(document.getElementById("AlexaPrefID").length == 0)
+       return;
+
+
+
+
+
+        $.blockUI({ 
+     message: '<h1>Deleting Event...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	var optionmenuindex;
+	var prefkey;
+	var prefName;
+  var AlertPrefs={};
+
+   optionmenuindex = document.getElementById("AlexaPrefID").selectedIndex;
+   prefkey = parseInt(document.getElementById("AlexaPrefID").options[optionmenuindex].value);
+   
+
+  
+  devicedataurl = "http://www.helmsmart.net/prefs?type=delete_alexa_pref&prefkey=" + prefkey + "&userid=" + gUserID ;
+
+
+
+          return $.ajax({
+          //async: false,
+          cache: false,
+          url: devicedataurl,
+          dataType: "json",
+          timeout: 30000,
+          statusCode: {
+          404: function() {      alert( "page not found" );    },
+          200: function() {      }
+          },
+          success: function(response) {
+          handleDeleteAlert(response)
+          },
+          complete: function() {
+          // unblock when remote call returns
+          // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+          //   ShowGraphSmartChart(gindex);
+          //$.unblockUI();
+          },
+          error: function(request,status,errorThrown) {
+          document.getElementById("SearchStatus").innerHTML = "Pref Update Error";
+
+          $.unblockUI();
+          }
+          });
+
+
+  }
+  
+ function GetAlertEvents()
+ {
+ // http://www.helmsmart.net/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c&_=1427391221558
+ 
+ /*
+	if(gDeviceID == "")
+	{
+		alert('No Device ID entered');
+		return;
+	}
+ */
+ 
+ 
+     $.blockUI({
+    message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+	//var  myDeviceKey = document.getElementById("DeviceKey").value;
+	var  myDeviceKey = gDeviceKey;
+	
+  // devicedataurl = "http://www.helmsmart.net/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + AccountDataFolder;
+  // devicedataurl = "http://www.helmsmart.net/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
+ // devicedataurl = "http://www.helmsmart.net/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
+  //devicedataurl = "http://www.helmsmart.net/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
+  devicedataurl = "http://www.helmsmart.net/getuser?gettype=alexaprefs&userid=" + gUserID + "&email=" + gUserEmail ;
+	
+   return $.ajax({
+					   //async: false,
+					   cache: false,
+					   url: devicedataurl,
+					   dataType: "json",
+					   timeout: 30000,
+					   statusCode: {    
+					   	404: function() {      alert( "page not found" );    }, 
+					   	200: function() {      } 
+					   	 },
+					   success: function(response) {
+					   		handleGetAlertIDs(response)
+					   },
+					   complete: function() {  
+		                      // unblock when remote call returns 
+		                      // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+		                    //   ShowGraphSmartChart(gindex);
+		                	//$.unblockUI();   
+		            	}, 
+		            	error: function(request,status,errorThrown) {  
+		                       //   document.getElementById("SearchStatus").innerHTML = "Search Error";
+		               		$.unblockUI();   
+		            	} 
+		 		  });
+ 
+ 
+ 
+ }
+ 
+ 
+ function GetSeriesAttributes(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+  
+
+
+   
+   
+
+			var tmLoc = new Date();
+			var EndEpoch =  Math.floor((tmLoc.getTime()/1000) + tmLoc.getTimezoneOffset() * 60);
+
+			var StartEpoch = Math.floor(EndEpoch - 60*60*24*2);
+	  
+	
+	
+   
+   
+   
+
+   var DeviceID =  document.getElementById("DeviceKey").value;
+   //devicedataurl = "http://www.helmsmart.net/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   //devicedataurl = "http://www.helmsmart.net/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "http://www.helmsmart.net/get_influxdbcloud_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+
+             return $.ajax({
+             //async: false,
+             cache: false,
+             url: devicedataurl,
+             dataType: "json",
+             timeout: 30000,
+             statusCode: {
+             404: function() {      alert( "page not found" );    },
+             200: function() {      }
+             },
+             success: function(response) {
+             handleGetSeriesAttributes(response)
+             },
+             complete: function() {
+             // unblock when remote call returns
+             // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+
+             //$.unblockUI();
+             },
+             error: function(request,status,errorThrown) {
+             document.getElementById("SearchStatus").innerHTML = "Data Series List Search Error";
+             $.unblockUI();
+             }
+             });
+
+
+ }
+  
+
+
+
+  
+
+  
+function getDeviceList(userid)
+{
+
+        $.blockUI({ 
+     message: '<h1>Search in progress...</h1>',    
+     css: {             
+     border: 'none',             
+     padding: '15px',             
+     backgroundColor: '#000', 
+        
+     '-webkit-border-radius': '10px',             
+     '-moz-border-radius': '10px',             
+     opacity: .5,             
+     color: '#fff'         
+     } }); 
+
+	var devicedataurl;
+	
+    devicedataurl = "http://www.helmsmart.net/getuser?gettype=devices&userid=" + userid;
+
+    return $.ajax({
+    //async: false,
+    cache: false,
+    url: devicedataurl,
+    dataType: "json",
+    timeout: 30000,
+    statusCode: {
+    404: function() {      alert( "page not found" );    },
+    200: function() {      }
+    },
+    success: function(response) {
+    handleGetDeviceData(response)
+    },
+    complete: function() {
+    // unblock when remote call returns
+    // document.getElementById("SearchStatus").innerHTML = "Search Complete";
+    //   ShowGraphSmartChart(gindex);
+    //$.unblockUI();
+    },
+    error: function(request,status,errorThrown) {
+    //document.getElementById("SearchStatus").innerHTML = "Search Error";
+    $.unblockUI();
+    }
+    });
+
+
+}
+
+</script>
+
+</head>
+<body>
+
+<div>
+  <center>
+  {% if session['userid'] %}
+     <a href="http://www.helmsmart.net" id="login" class="persona-button">
+    <span>HelmSmart: {{session['username']}}</span></a>
+  {% else %}
+    <a href="http://www.helmsmart.net" id="login" class="persona-button">
+      <span>HelmSmart: Guest</span></a>
+  {% endif %}
+  </center>
+</div>
+
+
+
+
+	<div class="container body-content">
+		
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="tab" role="tablist">
+	<li><a href="#tabMarketing" role="tab" data-toggle="tab">Info</a></li>
+
+
+		<li><a href="#tabBasicSettings" role="tab" data-toggle="tab">Device</a></li>
+		<li><a href="#tabEvents" role="tab" data-toggle="tab">Events</a></li>
+	<!--	<li><a href="#tabTriggers" role="tab" data-toggle="tab">Triggers</a></li> -->
+
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+
+<!-- Tab pane -->
+<div class="tab-pane" id="tabMarketing">
+
+<p id="introText">With this datapane you can configure, control and monitor your SeaSmart device.</p>
+<div id="idMarketing">
+	<img src="static/img/SSWIFIPRO200W.jpg" style="float: right; margin: 5px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');" />
+	<p>If you have no tracker today, we strongly recommend the  <span class="SeaSmartPro">SeaSmartPro</span> tracker. The <span class="SeaSmartPro">SeaSmartPro</span> automatically sends positions to your BoatLogger yacht site where your logbooks and segments gets created automatically.</p>
+	<p>The <span class="SeaSmart">SeaSmartProGPRS</span> is however much more than a tracker. The standard functions include:</p>
+	<ul>
+		<li>Links to your existing NMEA 2000 network</li>
+		<li>Sends positions to your yacht site</li>
+		<li>Uses you existing internet service</li>
+		<li>No need for additional data plan charges</li>
+		<li>Automatically creates logbooks and trip segments for your journeys</li>
+		<li>Monitors the battery voltage</li>
+		<li>Monitors the temperature onboard</li>
+		<li>Monitors fuel and tanks onboard</li>
+		<li>Monitors weather and wind</li>
+		<li>Tracks the yacht in case of theft</li>
+	</ul>
+	<p>Built-in data logger to SD memory</p>
+	<ul>
+		<li>Records everything when vessel is out of range</li>
+		<li>Up to a full year of storage</li>
+		<li>Automatically syncs to Boatlogger site when internet service is found</li>
+		<li>Cloud base storage and access from the HelmSmart data server</li>
+		</ul>
+	<p>Add more vessel sensors</p>
+	<ul>		
+		<li>Install additional temperature sensors to monitor e.g. engine room temperature, sea temperature, outdoor temperature etc.</li>
+		<li>12 additional customized inputs (6 digital inputs, 2 tach, and 4 analog inputs)</li>
+	</ul>
+	<p>Everything is naturally monitored from your yacht site and automatically included in your logbook or displayed on graphs or photo albums at your site.</p>
+	<p>Download the data sheet to learn more or order your <span class="SeaSmartPro">SeaSmartPro</span> directly here. Worldwide shipping is included in the <em>595 USD</em> price.</p>
+	<div style="margin: 15px;">
+		<button id='downloadDatasheet' type="button" class="btn btn-primary" onclick="window.open('http://www.seasmart.net/pdf/SSWiFiPro.pdf', '_blank');">Datasheet</button>
+<!--	<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="location.href=window.location.protocol + '//' + window.location.host + '/Order';return false;">Order Now</button>-->
+		<button id='orderNow' type="button" class="btn btn-primary" style="margin-left: 30px;" onclick="window.open('http://www.seasmart.net/marine-wireless-networking-wifipro.html', '_blank');">Order Now</button>
+
+	</div>
+	<p>
+		If you already have a SeaSmart and want to connect it to HelSmart, login with your email
+	</p>
+
+</div>
+
+
+	
+
+	<script>
+		$(function () { $("[data-toggle='tooltip']").tooltip(); });
+	</script>
+
+
+
+
+</div>
+
+	<!-- Tab pane -->
+
+
+<div class='tab-pane' id="tabBasicSettings">
+			
+<form action="/TrackerDatapane/SettingsBasic" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#tabBasicSettings" id="form0" method="post">	
+<div class="form-horizontal">
+		
+		<!--
+	<p id="introText">By registering your SeaSmart gateway with BoatLogger - live vessel data can be automatically added to your log book and displayed in custom data boards</p>
+    <p id="introText">Please enter account info to link you HelmSmart Telemetry Board to Data Pane ID = {{ userKey }} </p>
+    <p id="introText">token = {{ publictoken }} </p>
+-->
+
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="DeviceTypeID">Device Type</label>
+			<div class="col-sm-4">
+				<select class="form-control" data-val="true" data-val-number="The field Tracker Type must be a number." data-val-required="The Tracker Type field is required." id="DeviceTypeID" name="DeviceTypeID"   onchange="ChangedDeviceTypeID(this);"  >
+				<option value="000000000000">0000000000000:Demo</option>
+
+			</select>
+				<span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="DeviceKey">Device Key</label>
+			<div class="col-sm-4">
+				<input class="form-control text-box single-line" data-val="true" data-val-length="The Device Key must be a string with a length of 32 ." data-val-length-max="15" data-val-length-min="32" data-val-required="The Device Key field is required." id="DeviceKey" name="DeviceKey" placeholder="Key is 32 characters" type="text" value="" onchange="ChangedDeviceKey();" readonly />
+				<span class="field-validation-valid text-danger" data-valmsg-for="DeviceKey" data-valmsg-replace="true"></span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="TimeZoneId">Time zone</label>
+			<div class="col-sm-6">
+				
+<select class="form-control" id="TimeZoneId" name="TimeZoneId" style="" onchange="ChangedTimeZone(this);">
+			<option value="-720">(UTC-12:00) International Date Line West</option>
+			<option value="-660">(UTC-11:00) Coordinated Universal Time-11</option>
+			<option value="-600">(UTC-10:00) Hawaii</option>
+			<option value="-540">(UTC-09:00) Alaska</option>
+			<option value="-480">(UTC-08:00) Baja California</option>
+			<option value="-480">(UTC-08:00) Pacific Time (US and Canada)</option>
+			<option value="-420">(UTC-07:00) Arizona</option>
+			<option value="-420">(UTC-07:00) Chihuahua, La Paz, Mazatlan</option>
+			<option value="-420">(UTC-07:00) Mountain Time (US and Canada)</option>
+			<option value="-360">(UTC-06:00) Central America</option>
+			<option value="-360">(UTC-06:00) Central Time (US and Canada)</option>
+			<option value="-360">(UTC-06:00) Guadalajara, Mexico City, Monterrey</option>
+			<option value="-360">(UTC-06:00) Saskatchewan</option>
+			<option value="-300">(UTC-05:00) Bogota, Lima, Quito, Rio Branco</option>
+			<option value="-300">(UTC-05:00) Eastern Time (US and Canada)</option>
+			<option value="-300">(UTC-05:00) Indiana (East)</option>
+			<option value="-270">(UTC-04:30) Caracas</option>
+			<option value="-240">(UTC-04:00) Asuncion</option>
+			<option value="-240">(UTC-04:00) Atlantic Time (Canada)</option>
+			<option value="-240">(UTC-04:00) Cuiaba</option>
+			<option value="-240">(UTC-04:00) Georgetown, La Paz, Manaus, San Juan</option>
+			<option value="-240">(UTC-04:00) Santiago</option>
+			<option value="-210">(UTC-03:30) Newfoundland</option>
+			<option value="-180">(UTC-03:00) Brasilia</option>
+			<option value="-180">(UTC-03:00) Buenos Aires</option>
+			<option value="-180">(UTC-03:00) Cayenne, Fortaleza</option>
+			<option value="-180">(UTC-03:00) Greenland</option>
+			<option value="-180">(UTC-03:00) Montevideo</option>
+			<option value="-180">(UTC-03:00) Salvador</option>
+			<option value="-120">(UTC-02:00) Coordinated Universal Time-02</option>
+			<option value="-120">(UTC-02:00) Mid-Atlantic - Old</option>
+			<option value="-60">(UTC-01:00) Azores</option>
+			<option value="-60">(UTC-01:00) Cape Verde Is.</option>
+			<option value="0">(UTC) Casablanca</option>
+			<option selected="selected" value="-0">(LOCAL) Local Time</option>
+			<option value="0">(UTC) Coordinated Universal Time</option>
+			<option value="0">(UTC) Dublin, Edinburgh, Lisbon, London</option>
+			<option value="0">(UTC) Monrovia, Reykjavik</option>
+			<option value="60">(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
+			<option value="60">(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
+			<option value="60">(UTC+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+			<option value="60">(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
+			<option value="60">(UTC+01:00) West Central Africa</option>
+			<option value="60">(UTC+01:00) Windhoek</option>
+			<option value="120">(UTC+02:00) Amman</option>
+			<option value="120">(UTC+02:00) Athens, Bucharest</option>
+			<option value="120">(UTC+02:00) Beirut</option>
+			<option value="120">(UTC+02:00) Cairo</option>
+			<option value="120">(UTC+02:00) Damascus</option>
+			<option value="120">(UTC+02:00) E. Europe</option>
+			<option value="120">(UTC+02:00) Harare, Pretoria</option>
+			<option value="120">(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
+			<option value="120">(UTC+02:00) Istanbul</option>
+			<option value="120">(UTC+02:00) Jerusalem</option>
+			<option value="120">(UTC+02:00) Tripoli</option>
+			<option value="180">(UTC+03:00) Baghdad</option>
+			<option value="180">(UTC+03:00) Kaliningrad, Minsk</option>
+			<option value="180">(UTC+03:00) Kuwait, Riyadh</option>
+			<option value="180">(UTC+03:00) Nairobi</option>
+			<option value="210">(UTC+03:30) Tehran</option>
+			<option value="240">(UTC+04:00) Abu Dhabi, Muscat</option>
+			<option value="240">(UTC+04:00) Baku</option>
+			<option value="240">(UTC+04:00) Moscow, St. Petersburg, Volgograd</option>
+			<option value="240">(UTC+04:00) Port Louis</option>
+			<option value="240">(UTC+04:00) Tbilisi</option>
+			<option value="240">(UTC+04:00) Yerevan</option>
+			<option value="240">(UTC+04:30) Kabul</option>
+			<option value="300">(UTC+05:00) Ashgabat, Tashkent</option>
+			<option value="300">(UTC+05:00) Islamabad, Karachi</option>
+			<option value="330">(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+			<option value="330">(UTC+05:30) Sri Jayawardenepura</option>
+			<option value="345">(UTC+05:45) Kathmandu</option>
+			<option value="360">(UTC+06:00) Astana</option>
+			<option value="360">(UTC+06:00) Dhaka</option>
+			<option value="360">(UTC+06:00) Ekaterinburg</option>
+			<option value="390">(UTC+06:30) Yangon (Rangoon)</option>
+			<option value="420">(UTC+07:00) Bangkok, Hanoi, Jakarta</option>
+			<option value="420">(UTC+07:00) Novosibirsk</option>
+			<option value="480">(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi</option>
+			<option value="480">(UTC+08:00) Krasnoyarsk</option>
+			<option value="480">(UTC+08:00) Kuala Lumpur, Singapore</option>
+			<option value="480">(UTC+08:00) Perth</option>
+			<option value="480">(UTC+08:00) Taipei</option>
+			<option value="480">(UTC+08:00) Ulaanbaatar</option>
+			<option value="540">(UTC+09:00) Irkutsk</option>
+			<option value="540">(UTC+09:00) Osaka, Sapporo, Tokyo</option>
+			<option value="540">(UTC+09:00) Seoul</option>
+			<option value="540">(UTC+09:30) Adelaide</option>
+			<option value="540">(UTC+09:30) Darwin</option>
+			<option value="600">(UTC+10:00) Brisbane</option>
+			<option value="600">(UTC+10:00) Canberra, Melbourne, Sydney</option>
+			<option value="600">(UTC+10:00) Guam, Port Moresby</option>
+			<option value="600">(UTC+10:00) Hobart</option>
+			<option value="600">(UTC+10:00) Yakutsk</option>
+			<option value="660">(UTC+11:00) Solomon Is., New Caledonia</option>
+			<option value="660">(UTC+11:00) Vladivostok</option>
+			<option value="720">(UTC+12:00) Auckland, Wellington</option>
+			<option value="720">(UTC+12:00) Coordinated Universal Time+12</option>
+			<option value="720">(UTC+12:00) Fiji</option>
+			<option value="720">(UTC+12:00) Magadan</option>
+			<option value="720">(UTC+12:00) Petropavlovsk-Kamchatsky - Old</option>
+			<option value="780">(UTC+13:00) Nukualofa</option>
+			<option value="780">(UTC+13:00) Samoa</option>
+			<option value="840">(UTC+14:00) Kiritimati Island</option>
+</select>
+<span class="field-validation-valid" data-valmsg-for="TimeZoneId" data-valmsg-replace="true"></span>
+			</div>
+		</div>
+
+
+
+	</div> <!-- form horzinal -->
+
+</form>
+</div>
+<!-- Events TAB> ###################################################   -->		
+		
+		<div class="tab-pane" id="tabEvents">
+		
+
+			
+<form action="/TrackerDatapane/SettingsEvents" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#tabEvents" id="form1" method="post">	
+	<div class="form-horizontal">
+
+	<div class="form-group" style="width:400px; height:40px;" >
+		<label class="control-label col-sm-2" for="AlexaPrefID">Alexa Lists</label>
+			<div class="col-sm-6">
+				<select class="form-control" data-val="true" data-val-number="The field Tracker Type must be a number." data-val-required="The Tracker Type field is required." id="AlexaPrefID" name="AlexaPrefID" onchange="updateAlexaList(this);">
+				<option value="0"> ** Add New Preference ** </option>
+	</select>
+				<!-- <span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span> -->	
+			</div>
+		</div>
+		
+		
+		<div class="form-group" style="width:400px; height:40px;" >	
+			 <label class="control-label col-sm-2" for="EventEnabled">Mode</label> 
+			 <div class="col-sm-6"> 
+					<select class="form-control "  id="EventEnabled" name="EventEnabled" onchange="ChangedAlertMode(this)";>
+					  <option value="0">enabled</option>
+					  <option value="1">disabled</option>
+			          </select>		
+			</div>
+		</div>  
+		
+	
+			<div class="form-group" style="width:400px; height:40px;" >
+			<label class="control-label col-sm-2" for="PGNTypeID">Event</label>
+			<div class="col-sm-6">
+				<select class="form-control" data-val="true" data-val-number="The field Tracker Type must be a number." data-val-required="The Tracker Type field is required." id="PGNTypeID" name="PGNTypeID" onchange="ChangedPGNTypeID(this);">
+				<option value="None"> -------- </option>
+				
+				
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 0">LED Dimmer - Mesh Zone0</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 0">LED Dimmer - Mesh Zone0 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 0">LED Dimmer - Mesh Zone0 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 0">LED Dimmer - Mesh Zone0 - Status</option> -->
+
+				
+				 <option value="/M2M/LED Dimmer/Value 0 Zone 1">LED Dimmer - Mesh Zone1</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 1">LED Dimmer - Mesh Zone1 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 1">LED Dimmer - Mesh Zone1 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 1">LED Dimmer - Mesh Zone1 - Status</option> -->
+
+
+				 <option value="/M2M/LED Dimmer/Value 0 Zone 2">LED Dimmer - Mesh Zone2</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 2">LED Dimmer - Mesh Zone2 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 2">LED Dimmer - Mesh Zone2 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 2">LED Dimmer - Mesh Zone2 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 3">LED Dimmer - Mesh Zone3</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 3">LED Dimmer - Mesh Zone3 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 3">LED Dimmer - Mesh Zone3 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 3">LED Dimmer - Mesh Zone3 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 4">LED Dimmer - Mesh Zone4</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 4">LED Dimmer - Mesh Zone4 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 4">LED Dimmer - Mesh Zone4 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 4">LED Dimmer - Mesh Zone4 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 5">LED Dimmer - Mesh Zone5</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 5">LED Dimmer - Mesh Zone5 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 5">LED Dimmer - Mesh Zone5 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 5">LED Dimmer - Mesh Zone5 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 6">LED Dimmer - Mesh Zone6</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 6">LED Dimmer - Mesh Zone6 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 6">LED Dimmer - Mesh Zone6 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 6">LED Dimmer - Mesh Zone6 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 7">LED Dimmer - Mesh Zone7</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 7">LED Dimmer - Mesh Zone7 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 7">LED Dimmer - Mesh Zone7 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 7">LED Dimmer - Mesh Zone7 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 8">LED Dimmer - Mesh Zone8</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 8">LED Dimmer - Mesh Zone8 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 8">LED Dimmer - Mesh Zone8 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 8">LED Dimmer - Mesh Zone8 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 9">LED Dimmer - Mesh Zone9</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 9">LED Dimmer - Mesh Zone9 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 9">LED Dimmer - Mesh Zone9 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 9">LED Dimmer - Mesh Zone9 - Status</option> -->
+
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 10">LED Dimmer - Mesh Zone10</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 10">LED Dimmer - Mesh Zone10 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 10">LED Dimmer - Mesh Zone10 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 10">LED Dimmer - Mesh Zone10 - Status</option> -->
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 11">LED Dimmer - Mesh Zone11</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 11">LED Dimmer - Mesh Zone11 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 11">LED Dimmer - Mesh Zone11 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 11">LED Dimmer - Mesh Zone11 - Status</option> -->
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 12">LED Dimmer - Mesh Zone12</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 12">LED Dimmer - Mesh Zone12 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 12">LED Dimmer - Mesh Zone12 - Amps</option> --> 
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 12">LED Dimmer - Mesh Zone12 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 13">LED Dimmer - Mesh Zone13</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 13">LED Dimmer - Mesh Zone13 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 13">LED Dimmer - Mesh Zone13 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 13">LED Dimmer - Mesh Zone13 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 14">LED Dimmer - Mesh Zone14</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 14">LED Dimmer - Mesh Zone14 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 14">LED Dimmer - Mesh Zone14 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 14">LED Dimmer - Mesh Zone14 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 15">LED Dimmer - Mesh Zone15</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 15">LED Dimmer - Mesh Zone15 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 15">LED Dimmer - Mesh Zone15 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 15">LED Dimmer - Mesh Zone15 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 16">LED Dimmer - Mesh Zone16</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 16">LED Dimmer - Mesh Zone16 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 16">LED Dimmer - Mesh Zone16 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 16">LED Dimmer - Mesh Zone16 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 17">LED Dimmer - Mesh Zone17</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 17">LED Dimmer - Mesh Zone17 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 17">LED Dimmer - Mesh Zone17 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 17">LED Dimmer - Mesh Zone17 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 18">LED Dimmer - Mesh Zone18</option> 
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 18">LED Dimmer - Mesh Zone18 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 18">LED Dimmer - Mesh Zone18 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 18">LED Dimmer - Mesh Zone18 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 19">LED Dimmer - Mesh Zone19</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 19">LED Dimmer - Mesh Zone19 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 19">LED Dimmer - Mesh Zone19 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 19">LED Dimmer - Mesh Zone19 - Status</option> -->
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 20">LED Dimmer - Mesh Zone20</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 20">LED Dimmer - Mesh Zone20 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 20">LED Dimmer - Mesh Zone20 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 20">LED Dimmer - Mesh Zone20 - Status</option> -->
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 21">LED Dimmer - Mesh Zone21</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 21">LED Dimmer - Mesh Zone21 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 21">LED Dimmer - Mesh Zone21 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 21">LED Dimmer - Mesh Zone21 - Status</option> -->
+
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 22">LED Dimmer - Mesh Zone22</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 22">LED Dimmer - Mesh Zone22 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 22">LED Dimmer - Mesh Zone22 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 22">LED Dimmer - Mesh Zone22 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 23">LED Dimmer - Mesh Zone23</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 23">LED Dimmer - Mesh Zone23 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 23">LED Dimmer - Mesh Zone23 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 23">LED Dimmer - Mesh Zone23 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 24">LED Dimmer - Mesh Zone24</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 24">LED Dimmer - Mesh Zone24 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 24">LED Dimmer - Mesh Zone24 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 24">LED Dimmer - Mesh Zone24 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 25">LED Dimmer - Mesh Zone25</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 25">LED Dimmer - Mesh Zone25 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 25">LED Dimmer - Mesh Zone25 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 25">LED Dimmer - Mesh Zone25 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 26">LED Dimmer - Mesh Zone26</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 26">LED Dimmer - Mesh Zone26 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 26">LED Dimmer - Mesh Zone26 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 26">LED Dimmer - Mesh Zone26 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 27">LED Dimmer - Mesh Zone27</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 27">LED Dimmer - Mesh Zone27 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 27">LED Dimmer - Mesh Zone27 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 27">LED Dimmer - Mesh Zone27 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 28">LED Dimmer - Mesh Zone28</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 28">LED Dimmer - Mesh Zone28 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 28">LED Dimmer - Mesh Zone28 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 28">LED Dimmer - Mesh Zone28 - Status</option> -->
+
+				
+
+				<option value="/M2M/LED Dimmer/Value 0 Zone 29">LED Dimmer - Mesh Zone29</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 29">LED Dimmer - Mesh Zone29 - Relay</option>	 -->			
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 29">LED Dimmer - Mesh Zone29 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 29">LED Dimmer - Mesh Zone29 - Status</option> -->
+
+			
+				<option value="/M2M/LED Dimmer/Value 0 Zone 30">LED Dimmer - Mesh Zone30</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 30">LED Dimmer - Mesh Zone30 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 30">LED Dimmer - Mesh Zone30 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 30">LED Dimmer - Mesh Zone30 - Status</option> -->
+
+				
+				<option value="/M2M/LED Dimmer/Value 0 Zone 31">LED Dimmer - Mesh Zone31</option>
+				<! -- <option value="/M2M/LED Dimmer/Value 2 Zone 31">LED Dimmer - Mesh Zone31 - Relay</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 3 Zone 31">LED Dimmer - Mesh Zone31 - Amps</option> -->
+				<! -- <option value="/M2M/LED Dimmer/Value 4 Zone 31">LED Dimmer - Mesh Zone31 - Status</option> -->
+
+
+			
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 0">RGB Dimmer - Zone0 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 0">RGB Dimmer - Zone0 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 0">RGB Dimmer - Zone0 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 0">RGB Dimmer - Zone0 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 0">RGB Dimmer - Zone0 - Control</option> 
+				
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 1">RGB Dimmer - Zone1 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 1">RGB Dimmer - Zone1 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 1">RGB Dimmer - Zone1 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 1">RGB Dimmer - Zone1 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 1">RGB Dimmer - Zone1 - Control</option>
+				
+			<!--	<option value="/M2M/RGB Dimmer/Value 0 Zone 2">RGB Dimmer - Zone2 - Value0</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 1 Zone 2">RGB Dimmer - Zone2 - Value1</option> -->
+			<!--	<option value="/M2M/RGB Dimmer/Value 2 Zone 2">RGB Dimmer - Zone2 - Value2</option> -->
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 2">RGB Dimmer - Zone2 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 2">RGB Dimmer - Zone2 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 3">RGB Dimmer - Zone3 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 3">RGB Dimmer - Zone3 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 4">RGB Dimmer - Zone4 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 4">RGB Dimmer - Zone4 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 5">RGB Dimmer - Zone5 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 5">RGB Dimmer - Zone5 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 6">RGB Dimmer - Zone6 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 6">RGB Dimmer - Zone6 - Control</option>
+				
+				<option value="/M2M/RGB Dimmer/Value 3 Zone 7">RGB Dimmer - Zone7 - Color</option>
+				<option value="/M2M/RGB Dimmer/Value 4 Zone 7">RGB Dimmer - Zone7 - Control</option>
+				
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 0">LED Dimmer 4 Channel - Zone0 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 0">LED Dimmer 4 Channel - Zone0 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 0">LED Dimmer 4 Channel - Zone0 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 0">LED Dimmer 4 Channel - Zone0 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 0">LED Dimmer 4 Channel - Zone0 - Control</option>
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 1">LED Dimmer 4 Channel - Zone1 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 1">LED Dimmer 4 Channel - Zone1 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 1">LED Dimmer 4 Channel - Zone1 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 1">LED Dimmer 4 Channel - Zone1 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 1">LED Dimmer 4 Channel - Zone1 - Control</option>
+				
+				<option value="/M2M/LED Dimmer 4 Channel/Value 0 Zone 2">LED Dimmer - 4 Channel Zone2 - Value0</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 1 Zone 2">LED Dimmer - 4 Channel Zone2 - Value1</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 2 Zone 2">LED Dimmer - 4 Channel Zone2 - Value2</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 3 Zone 2">LED Dimmer - 4 Channel Zone2 - Value3</option>
+				<option value="/M2M/LED Dimmer 4 Channel/Value 4 Zone 2">LED Dimmer - 4 Channel Zone2 - Control</option>
+				
+				
+			
+				<option value="/M2M/Switch/Value 0 Port">Switch - Unit0 - Value0</option>
+				<option value="/M2M/Switch/Value 1 Port">Switch - Unit0 - Value1</option>
+				<option value="/M2M/Switch/Value 2 Port">Switch - Unit0 - Value2</option>
+				<option value="/M2M/Switch/Value 3 Port">Switch - Unit0 - Value3</option>
+				<option value="/M2M/Switch/Value 4 Port">Switch - Unit0 - Value4</option>
+				<option value="/M2M/Switch/Value 5 Port">Switch - Unit0 - Value5</option>
+				<option value="/M2M/Switch/Value 6 Port">Switch - Unit0 - Value6</option>
+				<option value="/M2M/Switch/Value 7 Port">Switch - Unit0 - Value7</option>
+				<option value="/M2M/Switch/Value 8 Port">Switch - Unit0 - Value8</option>
+				<option value="/M2M/Switch/Value 9 Port">Switch - Unit0 - Value9</option>
+
+				
+				<option value="/M2M/Switch/Value 0 Starboard">Switch - Unit1 - Value0</option>
+				<option value="/M2M/Switch/Value 1 Starboard">Switch - Unit1 - Value1</option>
+				<option value="/M2M/Switch/Value 2 Starboard">Switch - Unit1 - Value2</option>
+				<option value="/M2M/Switch/Value 3 Starboard">Switch - Unit1 - Value3</option>
+				<option value="/M2M/Switch/Value 4 Starboard">Switch - Unit1 - Value4</option>
+				<option value="/M2M/Switch/Value 5 Starboard">Switch - Unit1 - Value5</option>
+				<option value="/M2M/Switch/Value 6 Starboard">Switch - Unit1 - Value6</option>
+				<option value="/M2M/Switch/Value 7 Starboard">Switch - Unit1 - Value7</option>
+				<option value="/M2M/Switch/Value 8 Starboard">Switch - Unit1 - Value8</option>
+				<option value="/M2M/Switch/Value 9 Starboard">Switch - Unit1 - Value9</option>				
+
+				
+				<option value="/M2M/Switch/Value 0 Center">Switch - Unit2 - Value0</option>
+				<option value="/M2M/Switch/Value 1 Center">Switch - Unit2 - Value1</option>
+				<option value="/M2M/Switch/Value 2 Center">Switch - Unit2 - Value2</option>
+				<option value="/M2M/Switch/Value 3 Center">Switch - Unit2 - Value3</option>
+				<option value="/M2M/Switch/Value 4 Center">Switch - Unit2 - Value4</option>
+				<option value="/M2M/Switch/Value 5 Center">Switch - Unit2 - Value5</option>
+				<option value="/M2M/Switch/Value 6 Center">Switch - Unit2 - Value6</option>
+				<option value="/M2M/Switch/Value 7 Center">Switch - Unit2 - Value7</option>
+				<option value="/M2M/Switch/Value 8 Center">Switch - Unit2 - Value8</option>
+				<option value="/M2M/Switch/Value 9 Center">Switch - Unit2 - Value9</option>	
+			
+			
+
+				</select>
+				<!-- <span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span> -->
+			</div>
+			</div>
+			
+			
+			
+			
+						<div class="form-group" style="width:400px; height:40px;" >	
+			 <label class="control-label col-sm-2" for="PGNTypeSource">Source</label> 
+			 <div class="col-sm-6"> 
+					<select class="form-control "  id="PGNTypeSource" name="PGNTypeSource" onchange="ChangedPGNSource(this)";>
+					  <option value="0">Any</option>
+					  <option value="1">1</option>
+					  <option value="2">2</option>
+			          </select>		
+			</div>
+		</div>  
+			
+						<div class="form-group" style="width:400px; height:40px;" >	
+			 <label class="control-label col-sm-2" for="AlexaInterface">Interface</label> 
+			 <div class="col-sm-6"> 
+				<select class="form-control "  id="AlexaInterface" name="AlexaInterface">
+				
+			<!-- <select class="auto-style5" id="DialUnits" style="width: 100px; height: 25px" onchange="updateDialUnits(this);"> -->
+            <option value="Brightness">Brightness</option>
+            <option value="Color">Color</option>
+            <option value="Switch">Switch</option>
+			<option value="Scene">Scene</option>
+			    </select>
+				
+				
+				
+			</div>
+		</div>
+			
+	
+		
+		<div class="form-group" style="width:400px; height:40px;" >	
+			 <label class="control-label col-sm-2" for="AlexaFriendlyName">Friendy Name</label> 
+			 <div class="col-sm-5"> 
+			<input type="text" class="form-control" id="AlexaFriendlyName" placeholder="Device 0 Channel 0">	
+			</div>
+		</div>  
+	
+	
+	
+		<div class="form-group" style="width:400px; height:40px;" >
+		<label class="control-label col-sm-2" for="EventsID">Event Lists</label>
+			<div class="col-sm-6">
+				<select class="form-control" data-val="true" data-val-number="The field Tracker Type must be a number." data-val-required="The Tracker Type field is required." id="EventsID" name="EventsTypesID" onchange="updateEventList(this);">
+				<option value="0"> ** no events available ** </option>
+	</select>
+				<!-- <span class="field-validation-valid text-danger" data-valmsg-for="TrackerTypeID" data-valmsg-replace="true"></span> -->	
+			</div>
+		</div>
+	
+	<div class="form-group" style="width:400px; height:40px; display: none " >	
+			 <label class="control-label col-sm-2" for="EventName">Subject</label> 
+			 <div class="col-sm-5"> 
+			<input type="text" class="form-control" id="EventName" placeholder="">	
+			</div>
+		</div>  
+	
+		
+			<div class="form-group" style="width:400px; height:40px;" >	
+			 <label class="control-label col-sm-2" for="AlexaPreferenceName">Profile Name</label> 
+			 <div class="col-sm-5"> 
+			<input type="text" class="form-control" id="AlexaPreferenceName" placeholder="Alexa Device Profile">	
+			</div>
+		</div>  
+		
+					 
+
+		
+					<div class="form-group" style="width:400px; height:40px; margin-top:20px;">
+				
+			<div class="col-sm-offset-4 col-sm-4">
+				<button id="btnSettingsEventSave" name="btnValue" value="Save" class="btn btn-primary" onclick="UpdateLogAlert();">Save</button>
+				<button id="btnSettingsEventDelete" name="btnValue" value="Delete" class="btn btn-primary" onclick="DeleteAlert();">Delete</button>
+				<button name="btnValue" value="Cancel" class="btn btn-default cancel">Cancel</button>
+			
+			</div>
+		</div>
+		
+		
+					<div class="form-group" style="width:400px; height:40px; margin-top:80px;">
+		
+		</div>
+		
+		
+		
+		</div>
+</form>
+<!--
+		<link href="{{ url_for('static', filename='css/timepicker.less') }}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-timepicker.js') }} " ></script> -->
+
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-datetimepicker.css') }}"/> 
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-datetimepicker.js') }} " ></script>  
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/pick-a-color-1.1.8.min.js') }}" type="text/javascript"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/tinycolor-0.9.15.min.js') }}" type="text/javascript"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-slider.min.js') }}"></script>
+	
+
+
+
+</div>
+		
+    
+
+
+	
+
+	
+	
+
+	
+	
+</div>
+
+
+</body>
+
+</html>
+
