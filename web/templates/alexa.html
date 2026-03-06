@@ -1350,7 +1350,7 @@ function ModifyLogAlert()
       var  myDeviceKey = gDeviceKey;
   // devicedataurl = "http://www.helmsmart.net/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + myuserid + "&deviceid=" +  myuserid + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&options=" + JSON.stringify(AlertPrefs);
    //devicedataurl = "http://www.helmsmart.net/prefs?type=update_alert&prefkey=" + prefkey + "&userid=" + gUserID + "&deviceid=" +  myDeviceKey + "&start=0" +  "&end=0" +   "&interval=" +  myInterval  + "&repeat=0" + "&options=" + JSON.stringify(AlertPrefs);
-   devicedataurl = "http://www.helmsmart.net/prefs?type=update_alexa_pref&prefkey=" + prefkey + "&userid=" + gUserID +  "&email=" + gUserEmail + "&deviceid=" +  gDeviceKey +  "&options=" + JSON.stringify(AlertPrefs);
+   devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=update_alexa_pref&prefkey=" + prefkey + "&userid=" + gUserID +  "&email=" + gUserEmail + "&deviceid=" +  gDeviceKey +  "&options=" + JSON.stringify(AlertPrefs);
 
 
 
@@ -1489,7 +1489,7 @@ function AddLogAlert()
 	
 	
   //devicedataurl = "http://www.helmsmart.net/prefs?type=add_alert&userid=" + gUserID + "&deviceid=" +  myDeviceKey + "&start=" +  StartEpoch+ "&end=" +  EndEpoch + "&interval=" +  myInterval + "&repeat=0"  + "&options=" + JSON.stringify(AlertPrefs);
-  devicedataurl = "http://www.helmsmart.net/prefs?type=add_alexa_pref&userid=" + gUserID +  "&email=" + gUserEmail + "&deviceid=" +  gDeviceKey +  "&options=" + JSON.stringify(AlertPrefs);
+  devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=add_alexa_pref&userid=" + gUserID +  "&email=" + gUserEmail + "&deviceid=" +  gDeviceKey +  "&options=" + JSON.stringify(AlertPrefs);
 
 
 
@@ -1559,7 +1559,7 @@ function DeleteAlert()
    
 
   
-  devicedataurl = "http://www.helmsmart.net/prefs?type=delete_alexa_pref&prefkey=" + prefkey + "&userid=" + gUserID ;
+  devicedataurl = "https://www.helmsmart-cloud.com/prefs?type=delete_alexa_pref&prefkey=" + prefkey + "&userid=" + gUserID ;
 
 
 
@@ -1627,7 +1627,7 @@ function DeleteAlert()
   // devicedataurl = "http://www.helmsmart.net/getuser?gettype=AlertIDs&userid=" + userid + "&deviceid=" + userid;
  // devicedataurl = "http://www.helmsmart.net/getuser?gettype=AlertIDs&userid=a91140300971bfb9244989a9bffde53c&deviceid=a91140300971bfb9244989a9bffde53c";
   //devicedataurl = "http://www.helmsmart.net/getuser?gettype=AlertIDs&userid=" + gUserID + "&deviceid=" + myDeviceKey;
-  devicedataurl = "http://www.helmsmart.net/getuser?gettype=alexaprefs&userid=" + gUserID + "&email=" + gUserEmail ;
+  devicedataurl = "https://www.helmsmart-cloud.com/getuser?gettype=alexaprefs&userid=" + gUserID + "&email=" + gUserEmail ;
 	
    return $.ajax({
 					   //async: false,
