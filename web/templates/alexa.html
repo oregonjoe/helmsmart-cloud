@@ -251,7 +251,15 @@ $('#tab a').click(function (e) {
 	var myAlexaEnabled = new Array();
 
 
-	
+	var gAWSuserid = "";
+	var gAWSAccessToken="";
+	var gAWSDomain = "";
+	var gAWSClientID = "";
+	var gAWSUseid = "";
+	var gAWSUsername = "";
+	var gAWSPhone="";
+	var gAWSAccountType = "User";	
+	var gUserEmail = 'guest@helmsmart.com';
 
 
 	
@@ -338,13 +346,30 @@ $('#tab a').click(function (e) {
     gUserID = "0";
     {% endif %}
 	
-	 gUserEmail = "";
-    {% if session['username'] %}
-    gUserEmail = "{{session['username']}}";
-    {% else %}
-    gUserEmail = "";
+	{% if session['deviceapikey'] %}
+    gDeviceKey = "{{session['deviceapikey']}}";
+	{% endif %}
+  
+	{% if session['aws_account_type'] %}
+		gAWSAccountType = "{{session['aws_account_type']}}";
     {% endif %}
 
+	{% if session['aws_userid'] %}
+		gAWSuserid = "{{session['aws_userid']}}";
+	{% endif %}
+
+
+	{% if session['aws_username'] %}
+		gAWSUsername = "{{session['aws_username']}}";
+	{% endif %}
+	
+    {% if session['username'] %}
+		gUserEmail = "{{session['username']}}";
+    {% endif %}
+	
+    {% if session['aws_email'] %}
+		gUserEmail = "{{session['aws_email']}}";
+    {% endif %}
 
     if (gUserID == null)
     {
@@ -352,7 +377,7 @@ $('#tab a').click(function (e) {
     }
     else
     {
-    getDeviceList(gUserID);
+    getDeviceList(gUserEmail);
     //getDeviceParamList(myuserid);
     }
 	
@@ -1676,13 +1701,17 @@ function getDeviceList(userid)
 
 <div>
   <center>
-  {% if session['userid'] %}
-     <a href="http://www.helmsmart.net" id="login" class="persona-button">
-    <span>HelmSmart: {{session['username']}}</span></a>
-  {% else %}
-    <a href="http://www.helmsmart.net" id="login" class="persona-button">
-      <span>HelmSmart: Guest</span></a>
-  {% endif %}
+	  {% if session['aws_email'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart User: {{session['aws_email']}}:{{session['aws_username']}}</span></a>
+	  
+	  {% elif session['username'] %}
+		 <a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		<span>HelmSmart Email: {{session['username']}}</span></a>
+	  {% else %}
+		<a href="https://www.helmsmart-cloud.com" id="login" class="persona-button">
+		  <span>HelmSmart Guest: click to login</span></a>
+	  {% endif %}
   </center>
 </div>
 
