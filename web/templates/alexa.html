@@ -1696,7 +1696,7 @@ function DeleteAlert()
    var DeviceID =  document.getElementById("DeviceKey").value;
    //devicedataurl = "http://www.helmsmart.net/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
    //devicedataurl = "http://www.helmsmart.net/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
-   devicedataurl = "http://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "https://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
              return $.ajax({
              //async: false,
@@ -2041,6 +2041,14 @@ function getDeviceList(useremail)
 	</div> <!-- form horzinal -->
 
 </form>
+
+
+			  <div id="SearchStatus" class="auto-style6" style="width:100%;  padding: 5px 5px 5px 5px;" >
+    <span class="auto-style6">	</span>
+
+  </div>
+
+
 </div>
 <!-- Events TAB> ###################################################   -->		
 		
