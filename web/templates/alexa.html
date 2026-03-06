@@ -8,7 +8,7 @@
 	
 	<title>Alexa - HelmSmart netDimmer Alexa Prefs</title>
 	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-		<link href="{{ url_for('static', filename='css/timepicker.less') }}" rel="stylesheet" type="text/css" />
+	<!--	<link href="{{ url_for('static', filename='css/timepicker.less') }}" rel="stylesheet" type="text/css" /> -->
 		<link href="{{ url_for('static', filename='css/pick-a-color-1.1.8.min.css') }}" rel="stylesheet" type="text/css" />	
 		
 		
@@ -79,7 +79,7 @@
 	}
 </style>
 <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script> -->
-<script type="text/javascript"      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y&sensor=false">    </script>
+<script type="text/javascript"      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCE0JHB4u3xqbBndHV4RFTa6oRfZrJzP8Y&sensor=false">    </script>
 
 
 
@@ -1696,7 +1696,7 @@ function DeleteAlert()
    var DeviceID =  document.getElementById("DeviceKey").value;
    //devicedataurl = "http://www.helmsmart.net/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
    //devicedataurl = "http://www.helmsmart.net/get_influxdb_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
-   devicedataurl = "http://www.helmsmart.net/get_influxdbcloud_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
+   devicedataurl = "http://www.helmsmart-cloud.com/get_influxdbcloud_series?&deviceid=" + DeviceID+ "&startepoch=" + StartEpoch + "&endepoch=" + EndEpoch ;
 
              return $.ajax({
              //async: false,
