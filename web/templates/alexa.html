@@ -6,7 +6,7 @@
 
 	
 	
-	<title>netAlerts - HelmSmart Data Alerts</title>
+	<title>Alexa - HelmSmart netDimmer Alexa Prefs</title>
 	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ url_for('static', filename='css/timepicker.less') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ url_for('static', filename='css/pick-a-color-1.1.8.min.css') }}" rel="stylesheet" type="text/css" />	
@@ -1069,6 +1069,8 @@ var myJSON = {};
 function handleGetDeviceData(response)
 {
   var index=0;
+    var active_index=0;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   $.unblockUI();
 
@@ -1076,15 +1078,99 @@ function handleGetDeviceData(response)
 
   response.records.forEach(function(row){
  
-     // myDeviceIDs[index]=row[0];
-      document.getElementById("DeviceTypeID").options[index++] = new Option(row[0] + ":" + row[1], row[0]);
+		  var dduserid = row[3];	
+			 
+   	      //document.getElementById("DeviceID").options[index] = new Option(row[0], row[1]);
+		  document.getElementById("DeviceTypeID").options[index] = new Option(row[3] + ":" + row[5], row[3]);
+		  
+					  if (gAWSuserid != "")
+			  {
+			  	if( emailPattern.test(gAWSuserid))
+				{
+					active_index = index;
+					
+					if(parseInt(row[4]) == 2 )
+					{
+						document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+						document.getElementById("DeviceTypeID").options[index].style.Color = "#C40B51"; //red
+					}
+					else 
+					{
+						document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#FFFFFF";	// white				
+					}
+				}		  
+				else if (gAWSAccountType != 'admin' )
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						document.getElementById("DeviceTypeID").options[index].disabled = true;
+						//document.getElementById("DeviceTypeID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
+						}
+						else	
+						{					
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE"; //grey
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+						
+						
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA"; // light teal
+							document.getElementById("DeviceTypeID").options[index].style.Color = "#E9102E"; //red
+						}
+					}
+				  
+				}
+				else if( gAWSAccountType == 'admin' &&  gAWSuserid != '000000000000')
+				{
+					if(dduserid != gAWSuserid.toString())
+					{
+						//document.getElementById("DeviceTypeID").options[index].disabled = true;
+						//document.getElementById("DeviceTypeID").options[index].style.opacity = '0.5';
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#8EBDB3"; //dark teal
+							document.getElementById("DeviceTypeID").options[index].style.Color = "#E9102E"; //red
+						}
+						else	
+						{					
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#EEEEEE"; //grey
+						}
+					}
+						
+					if(dduserid == gAWSuserid.toString())
+					{
+						active_index = index;
+						if(parseInt(row[4]) == 2 )
+						{
+							document.getElementById("DeviceTypeID").options[index].style.backgroundColor = "#AEFBEA"; //light teal
+							document.getElementById("DeviceTypeID").options[index].style.Color = "#E9102E"; //red
+						}
+					}
+					
+				}
+			  }
+					  
+			index++;
+			
+	   		});
+	   		
+      
+	   	   		
+  		document.getElementById("DeviceTypeID").selectedIndex = active_index;
+		var selectedColor = document.getElementById("DeviceTypeID").options[active_index].style.backgroundColor;
+		document.getElementById("DeviceTypeID").style.backgroundColor = selectedColor;
+		
 
-  });
-
-
-  document.getElementById("DeviceTypeID").selectedIndex = 0;
-  gDeviceKey = document.getElementById("DeviceTypeID").options[0].value;
-					document.getElementById("DeviceKey").value = gDeviceKey;
+		gDeviceKey = document.getElementById("DeviceTypeID").options[active_index].value;
+		document.getElementById("DeviceKey").value = gDeviceKey;
 					
 
 		
@@ -1646,7 +1732,7 @@ function DeleteAlert()
   
 
   
-function getDeviceList(userid)
+function getDeviceList(useremail)
 {
 
         $.blockUI({ 
@@ -1664,8 +1750,19 @@ function getDeviceList(userid)
 
 	var devicedataurl;
 	
-    devicedataurl = "http://www.helmsmart.net/getuser?gettype=devices&userid=" + userid;
+    //devicedataurl = "http://www.helmsmart.net/getuser?gettype=devices&userid=" + userid;
 
+	
+	if( gAWSAccountType == 'admin' &&  gAWSuserid == '000000000000')
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getalldevices`;
+	}
+	else
+	{
+		devicedataurl = `https://www.helmsmart-cloud.com/getdevicesbyemail?useremail=${encodedEmail}`;
+	}
+	
+	
     return $.ajax({
     //async: false,
     cache: false,
