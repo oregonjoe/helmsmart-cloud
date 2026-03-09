@@ -81,16 +81,7 @@ var myusername
 	{% endif %}
 	
 	
-	if(gLoginType == "")
-		{
-			myusername = ""; 
-			document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogin" class="persona-button"><span>Sign in with your DeviceID (new)</span>  </a>';
- 
-			$("#awslogin").click(function(e) {
-				e.preventDefault();
-				window.location.href = '/aws_login';
-			});
-		}
+
 	
 
 
@@ -136,7 +127,7 @@ var myusername
 		}
 
 	{% else %}
-		if(gLoginType == "")
+		//if(gLoginType == "")
 		{
 			myusername = ""; 
 			document.getElementById("awsloginbutton").innerHTML =' <center><a href="#" id="awslogin" class="persona-button"><span>Sign in with your DeviceID (new)</span>  </a>';
