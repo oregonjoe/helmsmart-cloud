@@ -25234,7 +25234,8 @@ def events_endpoint(device_id, partition):
     # 0 = No Override and will be deleted from MemCache on next HTTP Post from Gateway
     # 1 = Remove Override - sent from WebPage to trun override Off
     # 2-4 = Enabel override whihc is not removed from MemCache untill a override=1 is recieved.
-    dimmeritem = sorted(dimmeritem, key = lambda i: ( i['dimmeroverride'],i['instance'])) 
+    #dimmeritem = sorted(dimmeritem, key = lambda i: ( i['dimmeroverride'],i['instance']))
+    dimmeritem = sorted(dimmeritem, key = lambda i: ( int(i['dimmeroverride']),int(i['instance']))) 
 
     log.info("events_endpoint get dimmer key %s", dimmeritem )
 
