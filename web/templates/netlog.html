@@ -619,9 +619,22 @@ function uploadFileInChunks(file, i){
 				if (file.type == "application/vnd.ms-excel")
 				{
 					//myFileName = "SSLOG00_000" + myFileNamePart[0].substring[0:3] + "_" + myFileNamePart[1] +  myFileNamePart[2].substring[0:3]  + zpad(chunkcount, 3);
-					
-					myFileName = "SSA300_000" + myFileNamePart[0].substring(0,3) + "_" + myFileNamePart[1] +  myFileNamePart[2].substring(0,3)  + zpad(chunkcount, 3);
-					
+					if(chunckcount < 10)
+					{
+						myFileName = "SSA300_000" + myFileNamePart[0].substring(0,3) + "_" + myFileNamePart[1] +  myFileNamePart[2];
+					}
+					else if(chunckcount < 100)				
+					{
+						myFileName = "SSA300_000" + myFileNamePart[0].substring(0,3) + "_" + myFileNamePart[1] +  myFileNamePart[2].substring(0,2)  + zpad(chunkcount, 2);
+					}
+					else if(chunckcount < 1000)
+					{
+						myFileName = "SSA300_000" + myFileNamePart[0].substring(0,3) + "_" + myFileNamePart[1] +  myFileNamePart[2].substring(0,3)  + zpad(chunkcount, 3);
+					}
+					else
+					{
+						myFileName = "SSA300_000" + myFileNamePart[0].substring(0,3) + "_" + myFileNamePart[1] +  myFileNamePart[2];
+					}
 					//"SSLOG00_000001_01150112000" + zpad(chunkcount, 3);
 					//SSA300_000031_01191013160307
 					// conver csv file format to PushSmart
@@ -692,13 +705,30 @@ function uploadFileInChunks(file, i){
 				}
 				else // send PushSmart log file
 				{
-				
+					if(chunckcount < 10)
+					{
 
-					myFileName = myFileName.substr(0,(myFileName.length - 7));
+						myFileName = myFileName.substr(0,(myFileName.length - 5));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+					}
+					else if(chunckcount < 100)
+					{
 
-					//var postfilename = "https://salty-hollows-73367.herokuapp.com/https://pushsmartdata.herokuapp.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
-					
-					var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3)
+						myFileName = myFileName.substr(0,(myFileName.length - 6));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 2);
+					}
+					else if(chunckcount < 1000)
+					{
+
+						myFileName = myFileName.substr(0,(myFileName.length - 7));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3);
+					}
+					else
+					{
+
+						myFileName = myFileName.substr(0,(myFileName.length - 5));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+					}
 	
 					
 					xhr.open("POST", postfilename, true);
