@@ -572,6 +572,8 @@ function myuploadFile(e){
 
 async function uploadFileBlobInChunks(file, i){
 
+	var xhr = new XMLHttpRequest();
+
     var myloaded = 0;
 	var chunkcount = 0;
     //var step = 1024*1024;
@@ -591,6 +593,66 @@ async function uploadFileBlobInChunks(file, i){
 		
 	var blob = file.slice(start,start+step+1);
 	const PStext = await blob.text();
+	
+	
+			if(chunkcount < 10)
+			{
+
+						myFileName = myFileName.substr(0,(myFileName.length - 5));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+			}
+			else if(chunkcount < 100)
+			{
+
+						myFileName = myFileName.substr(0,(myFileName.length - 6));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 2);
+			}
+			else if(chunkcount < 1000)
+			{
+
+						myFileName = myFileName.substr(0,(myFileName.length - 7));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3);
+			}
+			else
+			{
+
+						myFileName = myFileName.substr(0,(myFileName.length - 5));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+			}
+	
+					
+			xhr.open("POST", postfilename, true);
+			xhr.setRequestHeader("X_FILENAME", file.name);
+				
+				
+			xhr.onreadystatechange = function(){ 
+			
+				if ( xhr.readyState == 4 ) { 
+						
+						  if ( xhr.status == 200 ) {
+								console.log("We got a response : " + xhr.response);
+	
+					  }; 
+				} 
+				else //if (!isValid(xhr.response) && xhr.status == 0) 
+				{
+								console.log("The computer appears to be offline.");
+								myprogressvalue.innerHTML = " Server error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+				}
+							
+							
+			};
+						
+			xhr.onerror = function () { 
+						console.log("We got a error : " + xhr.status);
+						
+						//myloaded = total;
+					myprogressvalue.innerHTML = " Post error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+						
+			}; 					
+				
+				
+			xhr.send(PStext);
 		
 
 }
