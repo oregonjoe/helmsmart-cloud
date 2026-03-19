@@ -603,22 +603,14 @@ async function uploadFileBlobInChunks(file, index){
 	var blob = file.slice(start,start+step+1);
 	const PStext = await blob.text();
 	
-	chunkcount = await uploadPSfile(file, index, PStext, chunkcount, numofchunks, step);
+	chunkcount = await uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, total);
 	
-	myloaded = myloaded + step;
-								   
-								
-	m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
 
-	myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
-
-	//myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
-	 myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + index;
 	
 
 }
 	
-async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step){	
+async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, total){	
 
 	var xhr = new XMLHttpRequest();
 
@@ -678,7 +670,15 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step){
 								
 								chunkcount = chunkcount + 1;
 								 
-	
+								myloaded = myloaded + step;
+														   
+														
+							m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
+
+							myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
+
+							//myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
+							 myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + index;
 								 
 								 
 								 return chunkcount;
