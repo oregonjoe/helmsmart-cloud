@@ -572,7 +572,7 @@ async function  myuploadFile(e){
 
 async function uploadFileBlobInChunks(file, i){
 
-	var xhr = new XMLHttpRequest();
+	
 
     var myloaded = 0;
 	var chunkcount = 0;
@@ -603,6 +603,14 @@ async function uploadFileBlobInChunks(file, i){
 }
 	
 async function uploadPSfile(file, chunkcount){	
+
+	var xhr = new XMLHttpRequest();
+
+	var m_uploadmessages = $id("uploadmessages");
+	
+	var myprogressbar = $id("ulprogressBar");
+	var myprogressvalue = $id("progressvalue");
+	myprogressvalue.innerHTML = " starting";
 	
 	if(myDeviceID.length == 12)
 	{
