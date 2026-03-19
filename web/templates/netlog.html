@@ -558,7 +558,10 @@ function myuploadFile(e){
 		{
 		for (var i = 0, f; f = files[i]; i++) {
 	
-			uploadFileInChunks(f, i);
+			//uploadFileInChunks(f, i);
+			
+			await uploadFileBlobInChunks(f, i);
+			
 			}
 		}
 		else if(uploadType == 2)
@@ -567,7 +570,32 @@ function myuploadFile(e){
 		}
 	}
 
+async function uploadFileBlobInChunks(file, i){
 
+    var myloaded = 0;
+	var chunkcount = 0;
+    //var step = 1024*1024;
+	var step = 1024*128;
+    var total = file.size;
+    var start = 0;
+	var numofchunks = 0;
+	
+	var mySubStrings = new Array();
+
+	var m_uploadmessages = $id("uploadmessages");
+
+	if(total >= step)
+		numofchunks = parseInt(total / step);
+	else
+		numofchunks = 1;
+		
+	var blob = file.slice(start,start+step+1);
+	const PStext = await blob.text();
+		
+
+}
+	
+	
 function uploadFileInChunks(file, i){
     var myloaded = 0;
 	var chunkcount = 0;
