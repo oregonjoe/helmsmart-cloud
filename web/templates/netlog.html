@@ -598,11 +598,11 @@ async function uploadFileBlobInChunks(file, i){
 	var blob = file.slice(start,start+step+1);
 	const PStext = await blob.text();
 	
-	chunkcount = await uploadPSfile(file, chunkcount);
+	chunkcount = await uploadPSfile(file, PStext, chunkcount);
 
 }
 	
-async function uploadPSfile(file, chunkcount){	
+async function uploadPSfile(file, PStext, chunkcount){	
 
 	var xhr = new XMLHttpRequest();
 
