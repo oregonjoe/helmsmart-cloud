@@ -560,7 +560,7 @@ function myuploadFile(e){
 	
 			//uploadFileInChunks(f, i);
 			
-			uploadFileBlobInChunks(f, i);
+			await uploadFileBlobInChunks(f, i);
 			
 			}
 		}
@@ -585,6 +585,10 @@ async function uploadFileBlobInChunks(file, i){
 	var mySubStrings = new Array();
 
 	var m_uploadmessages = $id("uploadmessages");
+	
+	var myprogressbar = $id("ulprogressBar");
+	var myprogressvalue = $id("progressvalue");
+	myprogressvalue.innerHTML = " starting";
 
 	if(total >= step)
 		numofchunks = parseInt(total / step);
@@ -593,6 +597,12 @@ async function uploadFileBlobInChunks(file, i){
 		
 	var blob = file.slice(start,start+step+1);
 	const PStext = await blob.text();
+	
+	chunkcount = await uploadPSfile(file, chunkcount);
+
+}
+	
+async function uploadPSfile(file, chunkcount){	
 	
 	if(myDeviceID.length == 12)
 	{
@@ -639,6 +649,10 @@ async function uploadFileBlobInChunks(file, i){
 						
 						  if ( xhr.status == 200 ) {
 								console.log("We got a response : " + xhr.response);
+								
+								 chunkcount = chunkcount + 1;
+								 
+								 return chunkcount;
 	
 					  }; 
 				} 
