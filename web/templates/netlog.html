@@ -594,6 +594,14 @@ async function uploadFileBlobInChunks(file, i){
 	var blob = file.slice(start,start+step+1);
 	const PStext = await blob.text();
 	
+	if(myDeviceID.length == 12)
+	{
+			    var myFileName = file.name;
+				
+				var myFileType = file.type;
+				var myFileNameParts = file.name.split(".");
+				var myFileNamePart =  myFileNameParts[0].split("_");
+	
 	
 			if(chunkcount < 10)
 			{
@@ -653,6 +661,7 @@ async function uploadFileBlobInChunks(file, i){
 				
 				
 			xhr.send(PStext);
+	}
 		
 
 }
