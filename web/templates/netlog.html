@@ -634,26 +634,26 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, 
 		if(chunkcount < 10)
 		{
 
-						myFileName = myFileName.substr(0,(myFileName.length - 5));	
+						myFileName = myFileName.substr(0,(myFileName.length - 4));	
 						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
 		}
 		else if(chunkcount < 100)
 		{
 
-						myFileName = myFileName.substr(0,(myFileName.length - 6));	
-						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 2);
+						myFileName = myFileName.substr(0,(myFileName.length - 5));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 1);
 		}
 		else if(chunkcount < 1000)
 		{
 
-						myFileName = myFileName.substr(0,(myFileName.length - 7));	
-						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3);
+						myFileName = myFileName.substr(0,(myFileName.length - 6));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 2);
 		}
 		else
 		{
 
-						myFileName = myFileName.substr(0,(myFileName.length - 5));	
-						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
+						myFileName = myFileName.substr(0,(myFileName.length - 7));	
+						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3);
 		}
 	
 					
