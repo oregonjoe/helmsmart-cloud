@@ -604,6 +604,17 @@ async function uploadFileBlobInChunks(file, index){
 	const PStext = await blob.text();
 	
 	chunkcount = await uploadPSfile(file, index, PStext, chunkcount, numofchunks, step);
+	
+	myloaded = myloaded + step;
+								   
+								
+	m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
+
+	myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
+
+	//myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
+	 myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + index;
+	
 
 }
 	
@@ -667,15 +678,7 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step){
 								
 								chunkcount = chunkcount + 1;
 								 
-								myloaded = myloaded + step;
-								   
-								
-								 m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
-
-								 myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
-
-								 //myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
-								 myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + index;
+	
 								 
 								 
 								 return chunkcount;
@@ -685,7 +688,7 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step){
 				else //if (!isValid(xhr.response) && xhr.status == 0) 
 				{
 								console.log("The computer appears to be offline.");
-								myprogressvalue.innerHTML = " Server error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+								//myprogressvalue.innerHTML = " Server error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
 				}
 							
 							
@@ -695,7 +698,7 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step){
 						console.log("We got a error : " + xhr.status);
 						
 						//myloaded = total;
-					myprogressvalue.innerHTML = " Post error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
+					//myprogressvalue.innerHTML = " Post error: " + (Math.round((myloaded / total * 100))) + " %" + " : " + total + " bytes";
 						
 			}; 					
 				
