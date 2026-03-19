@@ -591,18 +591,23 @@ async function uploadFileBlobInChunks(file, i){
 	myprogressvalue.innerHTML = " starting";
 
 	if(total >= step)
+	{
 		numofchunks = parseInt(total / step);
+	}
 	else
+	{
 		numofchunks = 1;
+		step = total;
+	}
 		
 	var blob = file.slice(start,start+step+1);
 	const PStext = await blob.text();
 	
-	chunkcount = await uploadPSfile(file, PStext, chunkcount);
+	chunkcount = await uploadPSfile(file, index, PStext, chunkcount, numofchunks);
 
 }
 	
-async function uploadPSfile(file, PStext, chunkcount){	
+async function uploadPSfile(file, index, PStext, chunkcount, numofchunks){	
 
 	var xhr = new XMLHttpRequest();
 
@@ -612,53 +617,66 @@ async function uploadPSfile(file, PStext, chunkcount){
 	var myprogressvalue = $id("progressvalue");
 	myprogressvalue.innerHTML = " starting";
 	
+	var myloaded = 0;
+	
 	if(myDeviceID.length == 12)
 	{
-			    var myFileName = file.name;
+		var myFileName = file.name;
 				
-				var myFileType = file.type;
-				var myFileNameParts = file.name.split(".");
-				var myFileNamePart =  myFileNameParts[0].split("_");
+		var myFileType = file.type;
+		var myFileNameParts = file.name.split(".");
+		var myFileNamePart =  myFileNameParts[0].split("_");
 	
 	
-			if(chunkcount < 10)
-			{
+		if(chunkcount < 10)
+		{
 
 						myFileName = myFileName.substr(0,(myFileName.length - 5));	
 						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
-			}
-			else if(chunkcount < 100)
-			{
+		}
+		else if(chunkcount < 100)
+		{
 
 						myFileName = myFileName.substr(0,(myFileName.length - 6));	
 						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 2);
-			}
-			else if(chunkcount < 1000)
-			{
+		}
+		else if(chunkcount < 1000)
+		{
 
 						myFileName = myFileName.substr(0,(myFileName.length - 7));	
 						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3);
-			}
-			else
-			{
+		}
+		else
+		{
 
 						myFileName = myFileName.substr(0,(myFileName.length - 5));	
 						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName;
-			}
+		}
 	
 					
-			xhr.open("POST", postfilename, true);
-			xhr.setRequestHeader("X_FILENAME", file.name);
+		xhr.open("POST", postfilename, true);
+		xhr.setRequestHeader("X_FILENAME", file.name);
 				
 				
-			xhr.onreadystatechange = function(){ 
+		xhr.onreadystatechange = function(){ 
 			
-				if ( xhr.readyState == 4 ) { 
+		if ( xhr.readyState == 4 ) { 
 						
 						  if ( xhr.status == 200 ) {
 								console.log("We got a response : " + xhr.response);
 								
-								 chunkcount = chunkcount + 1;
+								chunkcount = chunkcount + 1;
+								 
+								myloaded = myloaded + step;
+								   
+								
+								 m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
+
+								 myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
+
+								 //myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
+								 myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + index;
+								 
 								 
 								 return chunkcount;
 	
@@ -703,9 +721,14 @@ function uploadFileInChunks(file, i){
 	var m_uploadmessages = $id("uploadmessages");
 
 	if(total >= step)
+	{
 		numofchunks = parseInt(total / step);
+	}
 	else
+	{
 		numofchunks = 1;
+		step = total;
+	}
 
 
 
