@@ -1036,6 +1036,7 @@ function GetSeriesAttributes(userid)
   
   EndEpoch = (new Date).getTime();
   StartEpoch = EndEpoch - (60*60*24*1000);
+  StartEpoch = EndEpoch - (3*60*60*24*1000);
   
   EndEpoch = Math.floor(EndEpoch/1000);
   StartEpoch = Math.floor(StartEpoch/1000);
