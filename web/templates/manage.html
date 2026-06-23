@@ -1580,6 +1580,11 @@ var table = document.getElementById("DeviceData");
   
 	if(active_index == 0xFFFF)
 	{	
+	
+		// if get here if current device is not registered
+		
+		alert("Your Device is not registered on HelmSmart-Cloud \nPlease add account first")
+	
 		// 1. Get the anchor element using its ID
 		const anchorElement = document.getElementById("login");
 
