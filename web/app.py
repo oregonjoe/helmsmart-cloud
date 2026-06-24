@@ -9379,9 +9379,9 @@ def getendepochtimes(starttime, Interval):
                 resolution = 60*60*24*30*6
                 endepoch = startepoch + (resolution * 1)
 
-           elif Interval == "12month":
-              resolution = 60*60*24*30*12
-              endepoch = startepoch + (resolution * 1)               
+             elif Interval == "12month":
+                resolution = 60*60*24*30*12
+                endepoch = startepoch + (resolution * 1)               
                          
             else:
                 resolution = 60
