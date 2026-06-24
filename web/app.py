@@ -22832,7 +22832,7 @@ def get_dbstats_html():
 
       stathtml = stathtml + "</tr>"
 
-    elif elif Interval == "7day" or Interval == "1week":
+    elif  Interval == "7day" or Interval == "1week":
       period = 1
       units = "d"
       
