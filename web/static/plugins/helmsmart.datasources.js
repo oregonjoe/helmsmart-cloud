@@ -300,7 +300,7 @@
 					
 					{
 						name: "All Stats",
-						value: "https://helmsmart-cloud.herokuapp.com/get_dbstats_html"
+						value: "https://www.helmsmart-cloud.com/get_dbstats_html"
 					}
 
 				]
@@ -413,7 +413,16 @@
 					{
 						name: "1 month",
 						value: "1month"
+					},
+					{
+						name: "6 month",
+						value: "6month"
+					},
+					{
+						name: "12 month",
+						value: "12month"
 					}
+					
 				]
 			},
 			

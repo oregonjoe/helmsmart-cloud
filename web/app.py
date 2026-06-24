@@ -22894,6 +22894,7 @@ def get_dbstats_html():
       stathtml = stathtml + "<td>" +  str(int(period) * 3) +units + "</td>"
       stathtml = stathtml + "<td>" +  str(int(period) * 4) +units + "</td>"
       stathtml = stathtml + "<td>" +  str(int(period) * 5) +units + "</td>"
+      stathtml = stathtml + "<td>" +  str(int(period) * 6) +units + "</td>"
       stathtml = stathtml + "</tr>"
 
     elif Interval == "12month":
@@ -22911,6 +22912,7 @@ def get_dbstats_html():
       stathtml = stathtml + "<td>" +  str(int(period) * 9) +units + "</td>"
       stathtml = stathtml + "<td>" +  str(int(period) * 10) +units + "</td>"
       stathtml = stathtml + "<td>" +  str(int(period) * 11) +units + "</td>"
+      stathtml = stathtml + "<td>" +  str(int(period) * 12) +units + "</td>"
       stathtml = stathtml + "</tr>"    
     log.info("get_dbstats header2 %s ", stathtml)
 
