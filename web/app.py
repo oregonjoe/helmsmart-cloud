@@ -9228,6 +9228,10 @@ def getepochtimes(Interval):
                 resolution = 60*60*24*7
                 startepoch = endepoch - (resolution * 1)
                 oldtime = datetime.datetime.now() - datetime.timedelta(days=7)
+            elif Interval== "1week":
+                resolution = 60*60*24*7
+                startepoch = endepoch - (resolution * 1)
+                oldtime = datetime.datetime.now() - datetime.timedelta(days=7)    
             elif Interval == "1month":
                 resolution = 60*60*24*30
                 startepoch = endepoch - (resolution * 1)
@@ -9362,10 +9366,22 @@ def getendepochtimes(starttime, Interval):
             elif Interval== "7day":
                 resolution = 60*60*24*7
                 endepoch = startepoch + (resolution * 1)
+                
+            elif Interval== "1week":
+                resolution = 60*60*24*7
+                endepoch = startepoch + (resolution * 1)
                          
             elif Interval == "1month":
                 resolution = 60*60*24*30
                 endepoch = startepoch + (resolution * 1)
+
+            elif Interval == "6month":
+                resolution = 60*60*24*30*6
+                endepoch = startepoch + (resolution * 1)
+
+           elif Interval == "12month":
+              resolution = 60*60*24*30*12
+              endepoch = startepoch + (resolution * 1)               
                          
             else:
                 resolution = 60
@@ -22622,7 +22638,7 @@ def get_dbstats_html():
     elif Interval == "1day":
       resolution = 7200
     elif Interval == "1week":
-      resolution = 7200*7
+      resolution = 86400
     elif Interval == "1month":
       resolution = 86400
     elif Interval == "6month":
@@ -22948,7 +22964,7 @@ def get_dbstats_html():
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[4]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[5]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[6]) * 0.001) ))  + "</td>"
-        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[7]) * 0.001) ))  + "</td>"
+        #stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[7]) * 0.001) ))  + "</td>"
 
         
       elif  Interval == "1month":
@@ -22983,7 +22999,7 @@ def get_dbstats_html():
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[28]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[29]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[30]) * 0.001) ))  + "</td>"
-        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[31]) * 0.001) ))  + "</td>"
+        #stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[31]) * 0.001) ))  + "</td>"
 
       elif  Interval == "6month":
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[0]) * 0.001) ))  + "</td>"
@@ -22991,7 +23007,7 @@ def get_dbstats_html():
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[2]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[3]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[4]) * 0.001) ))  + "</td>"
-        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[5]) * 0.001) ))  + "</td>"
+        #stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[5]) * 0.001) ))  + "</td>"
 
       elif  Interval == "12month":
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[0]) * 0.001) ))  + "</td>"
@@ -23005,7 +23021,7 @@ def get_dbstats_html():
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[8]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[9]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[10]) * 0.001) ))  + "</td>"
-        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[11]) * 0.001) ))  + "</td>"
+        #stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[11]) * 0.001) ))  + "</td>"
 
         
     except:
