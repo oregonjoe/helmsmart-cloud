@@ -295,7 +295,7 @@
 					},
 					{
 						name: "Device Stats",
-						value: "https://helmsmart-cloud.herokuapp.com/get_dbstat"
+						value: "https://www.helmsmart-cloud.com/get_dbstat"
 					},
 					
 					{
