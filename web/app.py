@@ -22637,7 +22637,7 @@ def get_dbstats_html():
       resolution = 600
     elif Interval == "1day":
       resolution = 7200
-    elif Interval == "1week":
+    elif Interval == "7day" or Interval == "1week":
       resolution = 86400
     elif Interval == "1month":
       resolution = 86400
@@ -22832,7 +22832,7 @@ def get_dbstats_html():
 
       stathtml = stathtml + "</tr>"
 
-    elif Interval == "1week":
+    elif elif Interval == "7day" or Interval == "1week":
       period = 1
       units = "d"
       
@@ -22958,7 +22958,7 @@ def get_dbstats_html():
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[11]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[12]) * 0.001) ))  + "</td>"
 
-      elif Interval == "1week" :
+      elif Interval == "7day" or Interval == "1week":
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[0]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[1]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[2]) * 0.001) ))  + "</td>"
