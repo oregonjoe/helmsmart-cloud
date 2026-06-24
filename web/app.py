@@ -22621,6 +22621,8 @@ def get_dbstats_html():
       resolution = 600
     elif Interval == "1day":
       resolution = 7200
+    elif Interval == "1week":
+      resolution = 7200*7
     elif Interval == "1month":
       resolution = 86400
     elif Interval == "6month":
@@ -22814,6 +22816,21 @@ def get_dbstats_html():
 
       stathtml = stathtml + "</tr>"
 
+    elif Interval == "1week":
+      period = 1
+      units = "d"
+      
+      stathtml = stathtml + "<td>" +  str(int(period) * 1) +units + "</td>"
+      stathtml = stathtml + "<td>" +  str(int(period) * 2) +units + "</td>"
+      stathtml = stathtml + "<td>" +  str(int(period) * 3) +units + "</td>"
+      stathtml = stathtml + "<td>" +  str(int(period) * 4) +units + "</td>"
+      stathtml = stathtml + "<td>" +  str(int(period) * 5) +units + "</td>"
+      stathtml = stathtml + "<td>" +  str(int(period) * 6) +units + "</td>"
+      stathtml = stathtml + "<td>" +  str(int(period) * 7) +units + "</td>"
+
+
+      stathtml = stathtml + "</tr>"      
+
 
     elif Interval == "1month":
       period = 1
@@ -22922,6 +22939,17 @@ def get_dbstats_html():
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[10]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[11]) * 0.001) ))  + "</td>"
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[12]) * 0.001) ))  + "</td>"
+
+      elif Interval == "1week" :
+        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[0]) * 0.001) ))  + "</td>"
+        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[1]) * 0.001) ))  + "</td>"
+        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[2]) * 0.001) ))  + "</td>"
+        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[3]) * 0.001) ))  + "</td>"
+        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[4]) * 0.001) ))  + "</td>"
+        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[5]) * 0.001) ))  + "</td>"
+        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[6]) * 0.001) ))  + "</td>"
+        stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[7]) * 0.001) ))  + "</td>"
+
         
       elif  Interval == "1month":
         stathtml = stathtml + "<td>" +    str(float("{0:.1f}".format(int(totals[0]) * 0.001) ))  + "</td>"
