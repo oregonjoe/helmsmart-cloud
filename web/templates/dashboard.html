@@ -33,6 +33,45 @@
     <script type="text/javascript">
       
 var gPrefID="";
+
+	var gAWSuserid = "000000000000"
+	var gAWSAccessToken="";
+	var gAWSDomain = "";
+	var gAWSClientID = "";
+	var gAWSUseid = "";
+	var gAWSUsername = "";
+	var gAWSPhone="";
+	var gAWSAccountType = "primary user";
+	
+	gAWSEmailVerified = "false";
+	gAWSPhoneVerified = "false";
+
+	   gUserID = "0";
+    {% if session['userid'] %}
+    gUserID = "{{session['userid']}}";
+	gUseremail = "{{session['username']}}";
+    {% else %}
+    gUserID = "0";
+    {% endif %}
+
+	
+	 {% if session['aws_userid'] %}
+		gAWSuserid = "{{session['aws_userid']}}";
+    {% endif %}
+
+    {% if session['aws_email'] %}
+		gUserEmail = "{{session['aws_email']}}";
+    {% endif %}
+	
+	{% if session['aws_email'] %}
+		gAWSPhone = "{{session['aws_phone']}}";
+    {% endif %}
+	
+	{% if session['aws_account_type'] %}
+		gAWSAccountType = "{{session['aws_account_type']}}";
+    {% endif %}
+	
+
 		
      head.js("https://helmsmart-cloud.herokuapp.com/static/js/freeboard_plugins.js",
 		"https://helmsmart-cloud.herokuapp.com/static/plugins/helmsmart.datasources.js",
