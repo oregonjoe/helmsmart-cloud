@@ -194,104 +194,104 @@
 				options: [
 					{
 						name: "Environmental",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_environmental"
+						value: "https://www.helmsmart-cloud.com/freeboard_environmental"
 					},
 					
 					{
 						name: "Environmental Calculated",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_environmental_calculated"
+						value: "https://www.helmsmart-cloud.com/freeboard_environmental_calculated"
 					},
 					
 					
 					{ 
 						name: "Wind Data",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_winddata"
+						value: "https://www.helmsmart-cloud.com/freeboard_winddata"
 					},					
 					
 					
 					{
 						name: "Weather WUN",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_weather_wung"
+						value: "https://www.helmsmart-cloud.com/freeboard_weather_wung"
 					},		
 					
 					
 					{
 						name: "GPS Location",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_location"
+						value: "https://www.helmsmart-cloud.com/freeboard_location"
 					},
 					
 					{
 						name: "GPS Location and Wind",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_location_wind"
+						value: "https://www.helmsmart-cloud.com/freeboard_location_wind"
 					},	
 
 					{
 						name: "Rain Gauge",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_rain_gauge"
+						value: "https://www.helmsmart-cloud.com/freeboard_rain_gauge"
 					},	
 					
 					
 					{
 						name: "Navigation",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_nav"
+						value: "https://www.helmsmart-cloud.com/freeboard_nav"
 					},
 					{
 						name: "Attitude",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_attitude"
+						value: "https://www.helmsmart-cloud.com/freeboard_attitude"
 					},
 					{
 						name: "Engine Status",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_engine"
+						value: "https://www.helmsmart-cloud.com/freeboard_engine"
 					},	
 					{
 						name: "Engine Status Extended",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_engine_aux"
+						value: "https://www.helmsmart-cloud.com/freeboard_engine_aux"
 					},	
 					{
 						name: "Fluid Levels",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_fluidlevels"
+						value: "https://www.helmsmart-cloud.com/freeboard_fluidlevels"
 					},						
 					{
 						name: "DC Status",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_battery"
+						value: "https://www.helmsmart-cloud.com/freeboard_battery"
 					},					
 					
 					{
 						name: "AC Status",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_ac_status"
+						value: "https://www.helmsmart-cloud.com/freeboard_ac_status"
 					},
 					
 					{
 						name: "Water Depth",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_water_depth"
+						value: "https://www.helmsmart-cloud.com/freeboard_water_depth"
 					},
 
 					{
 						name: "Indicator Bank",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_status"
+						value: "https://www.helmsmart-cloud.com/freeboard_status"
 					},
 					
 					{
 						name: "Indicator",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_indicator_status"
+						value: "https://www.helmsmart-cloud.com/freeboard_indicator_status"
 					},
 					
 					{
 						name: "Indicator Runtime",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_indicator_runtime"
+						value: "https://www.helmsmart-cloud.com/freeboard_indicator_runtime"
 					},
 					
 					{
 						name: "Dimmer",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_dimmer_status"
+						value: "https://www.helmsmart-cloud.com/freeboard_dimmer_status"
 					},
 					{
 						name: "Dimmer Values",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_dimmer_values"
+						value: "https://www.helmsmart-cloud.com/freeboard_dimmer_values"
 					},
 					{
 						name: "Switches",
-						value: "https://helmsmart-cloud.herokuapp.com/freeboard_switch_bank_status"
+						value: "https://www.helmsmart-cloud.com/freeboard_switch_bank_status"
 					},
 					{
 						name: "Device Stats",
