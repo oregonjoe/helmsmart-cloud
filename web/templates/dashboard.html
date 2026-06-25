@@ -73,12 +73,12 @@ var gPrefID="";
 	
 
 		
-     head.js("https://helmsmart-cloud.herokuapp.com/static/js/freeboard_plugins.js",
-		"https://helmsmart-cloud.herokuapp.com/static/plugins/helmsmart.datasources.js",
-		"https://helmsmart-cloud.herokuapp.com/static/plugins/helmsmart.widgets.js",
-		"https://helmsmart-cloud.herokuapp.com/static/plugins/plugin_highcharts_historical.js",
-				"https://helmsmart-cloud.herokuapp.com/static/plugins/thirdparty/highcharts.js",
-		"https://helmsmart-cloud.herokuapp.com/static/plugins/thirdparty/exporting.js",
+     head.js("https://www.helmsmart-cloud.com/static/js/freeboard_plugins.js",
+		"https://www.helmsmart-cloud.com/static/plugins/helmsmart.datasources.js",
+		"https://www.helmsmart-cloud.com/static/plugins/helmsmart.widgets.js",
+		"https://www.helmsmart-cloud.com/static/plugins/plugin_highcharts_historical.js",
+				"https://www.helmsmart-cloud.com/static/plugins/thirdparty/highcharts.js",
+		"https://www.helmsmart-cloud.com/static/plugins/thirdparty/exporting.js",
 		//"js/freeboard_plugins.min.js",             // *** Load more plugins here ***
                 function(){
                     $(function()
@@ -191,7 +191,7 @@ if (checkUserAccountPermissions(gAWSuserid, gAWSAccountType) == false) return;
 	 
 	var devicedataurl;
 	
-    devicedataurl = "https://helmsmart-cloud.herokuapp.com/freeboard_savedashboardjson?prefuid=" + gPrefID;
+    devicedataurl = "https://www.helmsmart-cloud.com/freeboard_savedashboardjson?prefuid=" + gPrefID;
 	
 				return $.ajax({
 			//async: false,
@@ -261,7 +261,7 @@ function getDashboardJSON(prefuid)
 
 	var devicedataurl;
 	
-    devicedataurl = "https://helmsmart-cloud.herokuapp.com/freeboard_getdashboardjson?prefuid=" + prefuid;
+    devicedataurl = "https://www.helmsmart-cloud.com/freeboard_getdashboardjson?prefuid=" + prefuid;
 
     return $.ajax({
     //async: false,
