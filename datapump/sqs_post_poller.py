@@ -36,7 +36,7 @@ import logging
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-#debug_all = True
+debug_all = True
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging
@@ -60,7 +60,7 @@ queue_url= os.environ.get('SQS_POSTS_URL')
 
 queue_url= "https://sqs.us-west-2.amazonaws.com/291312677175/helmsmart-cloud"
 
-
+fbqueue_url = os.environ.get('SQS_FIREBASE_URL')
 
 import nmea
 from splicer import Schema
@@ -302,6 +302,20 @@ def proc(message):
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
         dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
         dump_pcdinfirebase(device_id, "SIGNALK", partition, dump_json(schema, mysortedrecords))
+        
+        if debug_all: log.info('sqs_post_poller write to firebase SQS que %s: ', partition)
+
+        # ######################################################
+        # now place in PUSHSMART Firebase SQS queue
+        # #######################################################
+        # Send message to SQS queue
+        response = sqs_queue.send_message(
+            QueueUrl=fbqueue_url,
+            DelaySeconds=10,
+            #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+            MessageBody=(dump_json(schema, mysortedrecords))
+        )
+
 
         if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
         #if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
