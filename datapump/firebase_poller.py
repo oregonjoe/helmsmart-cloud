@@ -156,9 +156,15 @@ def get_messages(queue_url, num_receive):
 
     if debug_all: log.info("firebase_poller:Read SQS:  receipt_handle %s: ", receipt_handle)
 
-    #if debug_all: log.info("get_messages:  response %s: ", rs['Messages'][0])
+    if response.message_attributes:
+      # message_attributes returns a clean dictionary mapping keys to their types/values
+      deviceid = response.message_attributes.get('DeviceID', {}).get('StringValue')
+      fbBucket = response.message_attributes.get('fbBucket', {}).get('StringValue')
+      partition = response.message_attributes.get('Partition', {}).get('StringValue')   
 
-    #if debug_all: log.info('sqs_poller:get_messages read %s', len(rs))
+    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute DeviceID %s: ", deviceid)
+    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute fbBucket %s: ", fbBucket)
+    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute Partition %s: ", partition)
 
     #return rs
     return message

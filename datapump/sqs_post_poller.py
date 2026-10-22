@@ -313,6 +313,21 @@ def proc(message):
             QueueUrl=fbqueue_url,
             DelaySeconds=10,
             #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+            MessageAttributes= {
+              'DeviceID': {
+                'StringValue': device_id,
+                'DataType': 'String'
+                },
+              'Bucket': {
+                'StringValue': 'JSON',
+                'DataType': 'String'
+                },
+              'Partition': {
+                'StringValue': partition,
+                'DataType': 'String'
+                },
+              }
+            
             MessageBody=(dump_json(schema, mysortedrecords))
         )
 
