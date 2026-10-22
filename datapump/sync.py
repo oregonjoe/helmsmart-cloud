@@ -569,7 +569,16 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
       
       #ref.set(skdata)
 
+    # **************************************************
+    # For Signal KB
+    # **************************************************    
+    elif eventtype == 'SIGNALKB':
 
+      ref= firebase_admin.db.reference('/DEVICE/' + device + '/' + eventtype)
+
+      skdata = parseSIGK(device, data)
+      ref.set(skdata)
+      
     else:
       try:
         # **************************************************

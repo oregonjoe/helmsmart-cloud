@@ -186,7 +186,8 @@ def get_messages(queue_url, num_receive):
     if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute partition %s: ", partition)
     
     #dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
-    dump_pcdinfirebase(deviceid, fbBucket, partition, message_body)
+    #dump_pcdinfirebase(deviceid, fbBucket, partition, message_body)
+    dump_pcdinfirebase(deviceid, "SIGNALKB", partition, message_body)
 
     if debug_all: log.info("firebase_poller:Read SQS:  sent to firebase %s: ", deviceid)
     
