@@ -326,7 +326,7 @@ def proc(message):
                 'StringValue': partition,
                 'DataType': 'String'
                 },
-              }
+              },
             
             MessageBody=(dump_json(schema, mysortedrecords))
         )
