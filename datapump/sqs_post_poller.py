@@ -318,7 +318,7 @@ def proc(message):
                 'StringValue': device_id,
                 'DataType': 'String'
                 },
-              'Bucket': {
+              'fbBucket': {
                 'StringValue': 'JSON',
                 'DataType': 'String'
                 },
