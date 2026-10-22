@@ -566,6 +566,9 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
       ref= firebase_admin.db.reference('/DEVICE/' + device + '/' + eventtype)
 
       skdata = parseSIGK(device, data)
+
+      if debug_all: log.info('sync: dump_pcdinfirebase SIGNALK %s:%s', eventtype, device)
+      if debug_all: log.info('sync: dump_pcdinfirebase SIGNALK %s:%s', device, skdata)
       
       ref.set(skdata)
 
