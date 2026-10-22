@@ -319,7 +319,7 @@ def proc(message):
                 'DataType': 'String'
                 },
               'fbBucket': {
-                'StringValue': 'JSON',
+                'StringValue': 'SIGNALK',
                 'DataType': 'String'
                 },
               'Partition': {
