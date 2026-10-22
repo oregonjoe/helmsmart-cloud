@@ -355,20 +355,18 @@ if __name__ == "__main__":
   num_requests =1
   
 
-  db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
-  #db_pool = ConnectionPool(os.environ.get('HEROKU_POSTGRESQL_MAUVE_URL'))
+  #db_pool = ConnectionPool(os.environ.get('DATABASE_URL'))
+
   
-  
-  conn = db_pool.getconn()
-  fact_info = ensure_database(conn, SCHEMA)
-  #db_pool.putconn(conn, close=True)  
-  #if debug_all: log.info('sqs_poller: fact_info in main  %s:  ', fact_info)
+  #conn = db_pool.getconn()
+  #fact_info = ensure_database(conn, SCHEMA)
+
   
   config = dict(
     device_group = os.environ['DEVICE_GROUP'],
-    db_pool = db_pool ,
+    #db_pool = db_pool ,
     #s3_bucket = bucket(),
-    fact_info = fact_info,
+    #fact_info = fact_info,
     max_retries = os.environ.get('MAX_RETRIES',3)
   )
 
