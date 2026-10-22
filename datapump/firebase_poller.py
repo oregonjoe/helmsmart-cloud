@@ -105,9 +105,9 @@ def dump_influxdb_cloud(device, partition, records):
     if debug_all: log.info("firebase_poller: in dump_influxdb_cloud SSA300 Error: %s" % str(e))
 
 
-def proc(alert_message):
+def proc(fb_message):
 
-  if debug_all: log.info("firebase_poller:firebase_message %s", alert_message)
+  if debug_all: log.info("firebase_poller:firebase_message %s", fb_message)
 
   """  
   alertKey = alert_message.get('key', 0) 
@@ -133,10 +133,15 @@ def get_messages(queue_url, num_receive):
     response = sqs_queue.receive_message(
         QueueUrl=queue_url,
         MaxNumberOfMessages=1,
-        MessageAttributeNames=[  'All'  ],
+        MessageAttributeNames=['All'],
         VisibilityTimeout=0,
         WaitTimeSeconds=0
     )
+
+    deviceid = ""
+    fbBucket = ""
+    partition = ""
+
 
     if "Messages" not in response:
       if debug_all: log.info('firebase_poller:no messages left')
@@ -156,17 +161,31 @@ def get_messages(queue_url, num_receive):
 
     if debug_all: log.info("firebase_poller:Read SQS:  receipt_handle %s: ", receipt_handle)
 
-    if response.message_attributes:
-      # message_attributes returns a clean dictionary mapping keys to their types/values
-      deviceid = response.message_attributes.get('DeviceID', {}).get('StringValue')
-      fbBucket = response.message_attributes.get('fbBucket', {}).get('StringValue')
-      partition = response.message_attributes.get('Partition', {}).get('StringValue')   
+    # Retrieve the custom MessageAttributes dictionary
+    # Use .get() because MessageAttributes won't exist if the sender didn't attach any
+    message_attributes = message.get('MessageAttributes', {})
 
+    # SQS stores values in StringValue, BinaryValue, or Number (which maps to StringValue)
+    if 'DeviceID' in message_attributes:
+      deviceid_data = message_attributes['DeviceID']
+      deviceid = deviceid_data.get('StringValue')
+      
     if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute DeviceID %s: ", deviceid)
-    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute fbBucket %s: ", fbBucket)
-    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute Partition %s: ", partition)
 
-    #return rs
+    if 'fbBucket' in message_attributes:
+      fbBucket_data = message_attributes['fbBucket']
+      fbBucket = fbBucket_data.get('StringValue')
+      
+    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute fbBucket %s: ", fbBucket)
+
+
+    if 'Partition' in message_attributes:
+      partition_data = message_attributes['Partition']
+      partition = partition_data.get('StringValue')
+      
+    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute partition %s: ", partition)
+    
+
     return message
   
 
