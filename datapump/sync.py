@@ -567,7 +567,7 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
 
       skdata = parseSIGK(device, data)
       
-      #ref.set(skdata)
+      ref.set(skdata)
 
     # **************************************************
     # For Signal KB
