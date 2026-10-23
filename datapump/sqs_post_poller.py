@@ -338,7 +338,7 @@ def proc(message):
         # now place in PUSHSMART Firebase SQS queue
         # #######################################################
         # Send message to SQS queue
-        """
+        
         response = sqs_queue.send_message(
             QueueUrl=fbqueue_url,
             DelaySeconds=10,
@@ -360,9 +360,6 @@ def proc(message):
             MessageBody=(dump_json(schema, mysortedrecords))
         )
 
-        """
-        
-        #dump_pcdinfirebase(device_id, "SIGNALK", partition, dump_json(schema, mysortedrecords))
         
         if debug_all: log.info('sqs_post_poller write to firebase SIGNALK SQS que %s: ', partition)
 
