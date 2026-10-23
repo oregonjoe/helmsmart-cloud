@@ -36,7 +36,7 @@ import logging
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-#debug_all = True
+debug_all = True
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging
@@ -46,7 +46,7 @@ log = logging
 # Comment to enable/disable
 # ********************************************************************
 use_sqs_firebase = False
-use_sqs_firebase = True
+#use_sqs_firebase = True
 
 
 from gevent.pool import Pool, Group
