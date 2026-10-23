@@ -148,7 +148,7 @@ def get_messages(queue_url, num_receive):
       return []
 
     #print(response['Messages'][0])
-    print(f"Number of messages received: {len(response.get('Messages', []))}")
+    print(f"firebase_poller:Number of messages received: {len(response.get('Messages', []))}")
 
     message = response.get("Messages", [])[0]
     # print(message)
@@ -187,7 +187,7 @@ def get_messages(queue_url, num_receive):
     
     #dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
     #dump_pcdinfirebase(deviceid, fbBucket, partition, message_body)
-    dump_pcdinfirebase(deviceid, "SIGNALK", partition, message_body)
+    dump_pcdinfirebase(deviceid, fbBucket, partition, message_body)
 
     if debug_all: log.info("firebase_poller:Read SQS:  sent to firebase %s: ", deviceid)
     
@@ -313,7 +313,7 @@ def transaction(func, sqs_message):
         QueueUrl=queue_url,
         ReceiptHandle=receipt_handle
     )
-    print('Received and deleted message: %s' % sqs_message)
+    print('firebase_poller:Received and deleted message: %s' % sqs_message)
 
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)

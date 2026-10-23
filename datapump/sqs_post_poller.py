@@ -300,10 +300,10 @@ def proc(message):
         
         dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
-        dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
-        #dump_pcdinfirebase(device_id, "SIGNALK", partition, dump_json(schema, mysortedrecords))
-        
-        if debug_all: log.info('sqs_post_poller write to firebase SQS que %s: ', partition)
+        #dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
+
+
+        if debug_all: log.info('sqs_post_poller write to firebase JSON SQS que %s: ', partition)
 
         # ######################################################
         # now place in PUSHSMART Firebase SQS queue
@@ -312,7 +312,37 @@ def proc(message):
         response = sqs_queue.send_message(
             QueueUrl=fbqueue_url,
             DelaySeconds=10,
-            #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+            MessageAttributes= {
+              'DeviceID': {
+                'StringValue': device_id,
+                'DataType': 'String'
+                },
+              'fbBucket': {
+                'StringValue': 'JSON',
+                'DataType': 'String'
+                },
+              'Partition': {
+                'StringValue': partition,
+                'DataType': 'String'
+                },
+              },
+            
+            MessageBody=(dump_json(schema, mysortedrecords))
+        )
+
+
+        
+        #dump_pcdinfirebase(device_id, "SIGNALK", partition, dump_json(schema, mysortedrecords))
+        
+        if debug_all: log.info('sqs_post_poller write to firebase SIGNALK SQS que %s: ', partition)
+
+        # ######################################################
+        # now place in PUSHSMART Firebase SQS queue
+        # #######################################################
+        # Send message to SQS queue
+        response = sqs_queue.send_message(
+            QueueUrl=fbqueue_url,
+            DelaySeconds=10,
             MessageAttributes= {
               'DeviceID': {
                 'StringValue': device_id,

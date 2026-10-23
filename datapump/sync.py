@@ -572,16 +572,7 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
       
       ref.set(skdata)
 
-    # **************************************************
-    # For Signal KB
-    # **************************************************    
-    elif eventtype == 'SIGNALKB':
 
-      ref= firebase_admin.db.reference('/DEVICE/' + device + '/' + eventtype)
-
-      skdata = parseSIGK(device, data)
-      ref.set(skdata)
-      
     else:
       try:
         # **************************************************
@@ -593,10 +584,10 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
         myjson={eventtype:data}
 
         if debug_all: log.info('sync: dump_pcdinfirebase json %s:%s', eventtype, device)
-        if debug_all: log.info('sync: dump_pcdinfirebase json %s:%s', device, data)
+        #if debug_all: log.info('sync: dump_pcdinfirebase json %s:%s', device, data)
 
         
-        #ref.set(json.loads(data))
+        ref.set(json.loads(data))
 
       except AttributeError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 AttributeError in data %s:  ', data)
