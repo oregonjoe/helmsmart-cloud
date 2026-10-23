@@ -298,9 +298,38 @@ def proc(message):
         #print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
 
         
-        dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
+        #dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
         #dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
+
+        
+       # ######################################################
+        # now place in PUSHSMART Firebase SQS queue
+        # #######################################################
+        # Send message to SQS queue
+        
+        response = sqs_queue.send_message(
+            QueueUrl=fbqueue_url,
+            DelaySeconds=10,
+            MessageAttributes= {
+              'DeviceID': {
+                'StringValue': device_id,
+                'DataType': 'String'
+                },
+              'fbBucket': {
+                'StringValue': 'PCDIN',
+                'DataType': 'String'
+                },
+              'Partition': {
+                'StringValue': partition,
+                'DataType': 'String'
+                },
+              },
+            
+            MessageBody=json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
+        )
+
+        
 
 
         if debug_all: log.info('sqs_post_poller write to firebase JSON SQS que %s: ', partition)
@@ -309,6 +338,7 @@ def proc(message):
         # now place in PUSHSMART Firebase SQS queue
         # #######################################################
         # Send message to SQS queue
+        """
         response = sqs_queue.send_message(
             QueueUrl=fbqueue_url,
             DelaySeconds=10,
@@ -330,7 +360,7 @@ def proc(message):
             MessageBody=(dump_json(schema, mysortedrecords))
         )
 
-
+        """
         
         #dump_pcdinfirebase(device_id, "SIGNALK", partition, dump_json(schema, mysortedrecords))
         
