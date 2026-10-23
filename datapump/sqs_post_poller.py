@@ -302,7 +302,7 @@ def proc(message):
         #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
         #dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
 
-        
+        if debug_all: log.info('sqs_post_poller write to firebase JSON PCDIN que %s: ', partition)
        # ######################################################
         # now place in PUSHSMART Firebase SQS queue
         # #######################################################
