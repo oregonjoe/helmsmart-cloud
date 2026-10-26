@@ -22326,7 +22326,7 @@ def get_dbstats():
   cursor = conn.cursor()
   cursor.execute("select deviceid, devicename from user_devices")
   records = cursor.fetchall()
-
+  conn.commit()
   db_pool.putconn(conn)   
 
 
@@ -25078,9 +25078,10 @@ def events_endpoint(device_id, partition):
   ##################################################################
   #refresh token to expire in 60 minutes
   mc.set(device_id + '_active' , True, time=600)
-  log.info('events_endpoint - set device is active deviceid %s :  ', device_id, )
+  #log.info('events_endpoint - set device is active deviceid %s :  ', device_id, )
   
-
+  print('events_endpoint: Que SQS message device_id %s ' % device_id)
+  
   ##################################################################
   ## use deviceid to see if its in the database subscription and enabled
   ##################################################################
@@ -25534,6 +25535,8 @@ def events_endpoint(device_id, partition):
   epochtime =  int(time.time())
 
   log.info("events_endpoint memc keys switchpgn %s dimmerpgns %s timmerpgns %s",switchpgn, dimmerpgns, timmerpgns )
+  print(f'events_endpoint: response sent device_id {device_id}   partition {partition}' )
+
   
   if switchpgn == "" and len(dimmerpgns) == 0 and len(timmerpgns) == 0:
     log.info("events_endpoint sending empty post response %s", device_id ) 
