@@ -24,6 +24,14 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import urllib 
 #from urlparse import urlparse
 from urllib.parse import urlparse,urlencode, quote_plus
+# Suppress only the InsecureRequestWarning from urllib3
+
+import urllib3 
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
+
+
 import psycopg
 
 
