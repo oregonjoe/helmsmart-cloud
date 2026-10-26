@@ -518,8 +518,8 @@ def get_messages(queue_url, num_receive):
         QueueUrl=queue_url,
         MaxNumberOfMessages=1,
         MessageAttributeNames=[  'All'  ],
-        VisibilityTimeout=0,
-        WaitTimeSeconds=0
+        VisibilityTimeout=10,
+        WaitTimeSeconds=1
     )
 
     if "Messages" not in response:

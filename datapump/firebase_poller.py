@@ -166,8 +166,8 @@ def get_messages(queue_url, num_receive):
         QueueUrl=queue_url,
         MaxNumberOfMessages=2,
         MessageAttributeNames=['All'],
-        VisibilityTimeout=0,
-        WaitTimeSeconds=0
+        VisibilityTimeout=10,
+        WaitTimeSeconds=1
     )
 
     deviceid = ""
