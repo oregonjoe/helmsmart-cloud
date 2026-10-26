@@ -22637,6 +22637,8 @@ def get_dbstats_html():
   conn.commit()
   db_pool.putconn(conn)   
   """
+
+  """
   with db_pool.connection() as conn:
   
     #cursor = conn.cursor()
@@ -22648,7 +22650,7 @@ def get_dbstats_html():
       records = cursor.fetchone()
 
     print(f'freeboard get_dbstats_html records = {records}')
-          
+    """          
 
   try:
    
