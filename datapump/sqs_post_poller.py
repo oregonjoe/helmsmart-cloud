@@ -28,6 +28,10 @@ from functools import partial
 
 import gevent, gevent.monkey
 import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 
 # *******************************************************************
 # Define to use AWS SQS Queues for Firebase writes
