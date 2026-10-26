@@ -194,7 +194,8 @@ def get_messages(queue_url, num_receive):
     for message in messages:
       
       count = count + 1
-      print(f"firebase_poller:Processing messages received: {count}")
+      print(f"firebase_poller:Processing received message : {count} : len={len(sqs_message['Body'])}")
+
     
       message_body = message['Body']
       receipt_handle = message['ReceiptHandle']
@@ -366,7 +367,7 @@ def transaction(func, sqs_message):
     )
     
     if debug_all: log.info('firebase_poller:Received and deleted message: %s' % receipt_handle)
-    print(f"firebase_poller:Received and deleted message: {len(sqs_message['Body'])}" )
+    print(f"firebase_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
 
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
