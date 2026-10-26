@@ -124,7 +124,8 @@ debug_all = False
 #debug_all = True
 debug_info = True
 debug_memcachier = False
-
+#debug_all_influxdb = True
+debug_all_influxdb = False
 
 #import helmsmartmodules.nmearemote_functions as nmearemote_functions
 #from helmsmartmodules import user_db_functions
@@ -17873,7 +17874,7 @@ def freeboard_fluidlevels():
     #jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
-    print('freeboard start processing data points:')
+    if debug_all: log.info('freeboard start processing data points:')
     
     #log.info("freeboard jsonkey..%s", jsonkey )
     try:
@@ -22118,12 +22119,12 @@ def get_dbstat():
     #  #print 'inFluxDB Exception2:', response.response.successful, response.response.reason 
     #  return jsonify( message='No data to return 2', status='error')
 
-    print('get_dbstat processing data headers:')
+    if debug_all: log.info('get_dbstat processing data headers:')
     jsondata=[]
     jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
-    print('get_dbstat start processing data points:')
+    if debug_all: log.info('get_dbstat start processing data points:')
     #log.info("freeboard Get InfluxDB response %s", response)
 
     keys = response.raw.get('series',[])
@@ -22392,7 +22393,9 @@ def get_dbstats():
     #  #print 'inFluxDB Exception2:', response.response.successful, response.response.reason 
     #  return jsonify( message='No data to return 2', status='error')
 
-    print('inFluxDB processing data headers:')
+    #print('inFluxDB processing data headers:')
+    if debug_all: log.info('inFluxDB processing data headers:')
+    
     jsondata=[]
     jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
@@ -22709,12 +22712,15 @@ def get_dbstats_html():
     #  #print 'inFluxDB Exception2:', response.response.successful, response.response.reason 
     #  return jsonify( message='No data to return 2', status='error')
 
-    print('inFluxDB processing data headers:')
+    #print('inFluxDB processing data headers:')
+    if debug_all: log.info('inFluxDB processing data headers:')
+
+    
     jsondata=[]
     jsonkey=[]
     #strvaluekey = {'Series': SERIES_KEY, 'start': start,  'end': end, 'resolution': resolution}
     #jsonkey.append(strvaluekey)
-    print('inFluxDB start processing data points:')
+    if debug_all: log.info('inFluxDB start processing data points:')
     #log.info("freeboard Get InfluxDB response %s", response)
 
     keys = response.raw.get('series',[])
