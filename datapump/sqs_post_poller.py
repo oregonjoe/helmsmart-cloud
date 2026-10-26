@@ -343,50 +343,22 @@ def proc(message):
         #print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
 
         
-        #dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
-        #dump_pcdinfirebase(device_id, "PCDIN", partition, message_payload)
-        #dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
+        if use_direct_firebase == 1:
+          print(f'sqs_post_poller: write to  firebase Queue  directly device_id = {device_id} : partition = {partition}')
+          #dump_pcdinfirebase(device_id, "PCDIN", partition, json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r')))
+          dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
+          #dump_pcdinfirebase(device_id, "SIGNALK", partition, dump_json(schema, mysortedrecords))
 
 
 
-        if use_sqs_firebase == True:
+        if use_sqs_js_firebase == 1:
 
           if debug_all: log.info('sqs_post_poller write to firebase JSON PCDIN que %s: ', partition)
+          print(f'sqs_post_poller: write to SQS firebase Queue  device_id = {device_id} : partition = {partition}')
           # ######################################################
           # now place in PUSHSMART Firebase SQS queue
           # #######################################################
           # Send message to SQS queue         
-          
-          response = sqs_queue.send_message(
-              QueueUrl=fbqueue_url,
-              DelaySeconds=10,
-              MessageAttributes= {
-                'DeviceID': {
-                  'StringValue': device_id,
-                  'DataType': 'String'
-                  },
-                'fbBucket': {
-                  'StringValue': 'PCDIN',
-                  'DataType': 'String'
-                  },
-                'Partition': {
-                  'StringValue': partition,
-                  'DataType': 'String'
-                  },
-                },
-              
-              MessageBody=json.dumps(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
-          )
-
-          
-
-
-          if debug_all: log.info('sqs_post_poller write to firebase JSON SQS que %s: ', partition)
-
-          # ######################################################
-          # now place in PUSHSMART Firebase SQS queue
-          # #######################################################
-          # Send message to SQS queue
           
           response = sqs_queue.send_message(
               QueueUrl=fbqueue_url,
@@ -410,36 +382,12 @@ def proc(message):
           )
 
           
-          if debug_all: log.info('sqs_post_poller write to firebase SIGNALK SQS que %s: ', partition)
 
-          # ######################################################
-          # now place in PUSHSMART Firebase SQS queue
-          # #######################################################
-          # Send message to SQS queue
-          response = sqs_queue.send_message(
-              QueueUrl=fbqueue_url,
-              DelaySeconds=10,
-              MessageAttributes= {
-                'DeviceID': {
-                  'StringValue': device_id,
-                  'DataType': 'String'
-                  },
-                'fbBucket': {
-                  'StringValue': 'SIGNALK',
-                  'DataType': 'String'
-                  },
-                'Partition': {
-                  'StringValue': partition,
-                  'DataType': 'String'
-                  },
-                },
-              
-              MessageBody=(dump_json(schema, mysortedrecords))
-          )
           
         # ######################################################
 
 
+        print(f'sqs_post_poller: PS message dump_influxdb_cloud device_id = {device_id} : partition = {partition}')
           
         if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
         #if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
