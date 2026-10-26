@@ -22639,12 +22639,13 @@ def get_dbstats_html():
   """
   with db_pool.connection() as conn:
   
-    cursor = conn.cursor()
+    #cursor = conn.cursor()
+    with conn.cursor() as cursor:
 
-    cursor.execute("select deviceid, devicename from user_devices where useremail = %s" , (useremail,))
+      cursor.execute("select deviceid, devicename from user_devices where useremail = %s" , (useremail,))
     
-    #records = cursor.fetchall()
-    records = cursor.fetchone()
+      #records = cursor.fetchall()
+      records = cursor.fetchone()
 
     print(f'freeboard get_dbstats_html records = {records}')
           
