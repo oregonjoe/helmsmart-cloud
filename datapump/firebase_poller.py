@@ -177,52 +177,71 @@ def get_messages(queue_url, num_receive):
 
     if "Messages" not in response:
       if debug_all: log.info('firebase_poller:no messages left')
+      print(f"firebase_poller:No messages received: Que is empty")
       return []
 
     #print(response['Messages'][0])
-    print(f"firebase_poller:Number of messages received: {len(response.get('Messages', []))}")
+    #print(f"firebase_poller:Number of messages received: {len(response.get('Messages', []))}")
 
-    message = response.get("Messages", [])[0]
+    #message = response.get("Messages", [])[0]
+
+    count=0
+    messages = response.get('Messages', [])
+    print(f"firebase_poller:Number of messages received: {len(messages)}")
     # print(message)
     #if debug_all: log.info("Read SQS:  message %s: ", message)
-    
-    message_body = message['Body']
-    receipt_handle = message['ReceiptHandle']
 
-    if debug_all: log.info("firebase_poller:Read SQS:  message_body %s: ", message_body)
-
-    if debug_all: log.info("firebase_poller:Read SQS:  receipt_handle %s: ", receipt_handle)
-
-    # Retrieve the custom MessageAttributes dictionary
-    # Use .get() because MessageAttributes won't exist if the sender didn't attach any
-    message_attributes = message.get('MessageAttributes', {})
-
-    # SQS stores values in StringValue, BinaryValue, or Number (which maps to StringValue)
-    if 'DeviceID' in message_attributes:
-      deviceid_data = message_attributes['DeviceID']
-      deviceid = deviceid_data.get('StringValue')
+    for message in messages:
       
-    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute DeviceID %s: ", deviceid)
-
-    if 'fbBucket' in message_attributes:
-      fbBucket_data = message_attributes['fbBucket']
-      fbBucket = fbBucket_data.get('StringValue')
-      
-    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute fbBucket %s: ", fbBucket)
-
-
-    if 'Partition' in message_attributes:
-      partition_data = message_attributes['Partition']
-      partition = partition_data.get('StringValue')
-      
-    if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute partition %s: ", partition)
+      count = count + 1
+      print(f"firebase_poller:Processing messages received: {count}")
     
-    #dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
-    #dump_pcdinfirebase(deviceid, fbBucket, partition, message_body)
-    dump_pcdinfirebase(deviceid, fbBucket, partition, message_body)
+      message_body = message['Body']
+      receipt_handle = message['ReceiptHandle']
 
-    if debug_all: log.info("firebase_poller:Read SQS:  sent to firebase deviceid:%s fbBucket:%s partition:%s ", deviceid, fbBucket, partition )
+      if debug_all: log.info("firebase_poller:Read SQS:  message_body %s: ", message_body)
+
+      if debug_all: log.info("firebase_poller:Read SQS:  receipt_handle %s: ", receipt_handle)
+
+      # Retrieve the custom MessageAttributes dictionary
+      # Use .get() because MessageAttributes won't exist if the sender didn't attach any
+      message_attributes = message.get('MessageAttributes', {})
+
+      # SQS stores values in StringValue, BinaryValue, or Number (which maps to StringValue)
+      if 'DeviceID' in message_attributes:
+        deviceid_data = message_attributes['DeviceID']
+        deviceid = deviceid_data.get('StringValue')
+        
+      if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute DeviceID %s: ", deviceid)
+
+      if 'fbBucket' in message_attributes:
+        fbBucket_data = message_attributes['fbBucket']
+        fbBucket = fbBucket_data.get('StringValue')
+        
+      if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute fbBucket %s: ", fbBucket)
+
+
+      if 'Partition' in message_attributes:
+        partition_data = message_attributes['Partition']
+        partition = partition_data.get('StringValue')
+        
+      if debug_all: log.info("firebase_poller:Read SQS:  MessageAttribute partition %s: ", partition)
+      
+      #dump_pcdinfirebase(device_id, "JSON", partition, dump_json(schema, mysortedrecords))
+      #dump_pcdinfirebase(deviceid, fbBucket, partition, message_body)
+      #dump_pcdinfirebase(deviceid, fbBucket, partition, message_body)
+
+      if use_sqs_js_firebase == 1:
+        print(f"firebase_poller Got SQS message JSON device_id={deviceid}  partition={partition}")
+        dump_pcdinfirebase(deviceid, "JSON", partition, message_body)
+      
+      if use_sqs_sk_firebase == 1:    
+        print(f"firebase_poller Got SQS message SIGNALK device_id={deviceid}  partition={partition}")
+        dump_pcdinfirebase(deviceid, "SIGNALK", partition, message_body)
+
+      if debug_all: log.info("firebase_poller:Read SQS:  sent to firebase deviceid:%s fbBucket:%s partition:%s ", deviceid, fbBucket, partition )
     
+    # return all messages recieved in case of errors and need to retry SQS que by rewriting messages      
     return message
   
 
