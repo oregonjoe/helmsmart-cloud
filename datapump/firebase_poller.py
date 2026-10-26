@@ -400,6 +400,8 @@ def best_effort(func, pushsmart_message):
     func(message)
   except  Exception as e:
     if debug_all: log.info('firebase_poller:best_effort error %s' % str(e))
+
+    
     
     retry_count = message.get('retries', 0) + 1
     if retry_count > env.max_retries:
@@ -426,7 +428,8 @@ def best_effort(func, pushsmart_message):
           #MessageAttributes={ 'Device': {  'deviceid':device_id} },
           MessageBody=(json.dumps(retry))
       )
-
+      
+      print(f"firebase_poller:Retry message: retry_count={retry_count} : len={len(message)} : {message} " )
       #print(response['MessageId'])
 
       if debug_all: log.info("firebase_poller:device_id %s:  response %s: ", device_id,response['MessageId'])
