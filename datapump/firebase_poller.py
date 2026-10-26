@@ -188,7 +188,7 @@ def get_messages(queue_url, num_receive):
     count=0
     messages = response.get('Messages', [])
     print(f"firebase_poller:Number of messages received: {len(messages)}")
-    # print(message)
+    print(messages)
     #if debug_all: log.info("Read SQS:  message %s: ", message)
 
     for message in messages:

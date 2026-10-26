@@ -669,7 +669,7 @@ def transaction(func, sqs_message):
     )
     
     #print('Received and deleted message: %s' % sqs_message)
-    print('sqs_post_poller:Received and deleted message: ' )
+    print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
     
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
@@ -730,7 +730,7 @@ def best_effort(func, pushsmart_message):
       )
 
       #print(response['MessageId'])
-
+      print(f"sqs_post_poller:Retry message: retry_count={retry_count} : len={len(message)} : {message} " )
       if debug_all: log.info("sqs_post_poller Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
       
