@@ -42,7 +42,7 @@ from zoneinfo import ZoneInfo
 #from geopy.distance import vincenty
 from geopy.distance import geodesic
 
-
+import logging
 from influxdb.influxdb08 import InfluxDBClient
 
 from influxdb import InfluxDBClient as InfluxDBCloud
