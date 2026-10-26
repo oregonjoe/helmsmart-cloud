@@ -19,6 +19,7 @@ from itertools import groupby
 
 import requests
 from requests.exceptions import HTTPError
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 import urllib 
 #from urlparse import urlparse
