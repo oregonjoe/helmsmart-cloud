@@ -22646,7 +22646,7 @@ def get_dbstats_html():
     #records = cursor.fetchall()
     records = cursor.fetchone()
 
-    print(f'freeboard get_dbstats_html records = {records})
+    print(f'freeboard get_dbstats_html records = {records}')
           
 
   try:
