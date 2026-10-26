@@ -31,16 +31,46 @@ import requests
 
 
 import logging
+
+#The logging levels of python is arranged in the following order:
+#CRITICAL
+#ERROR
+#WARNING
+#INFO
+#DEBUG
+#NOTSET
+#If you set the root logger level when configuring as logging.DEBUG, it will write all the logs with the levels above that.
+
+#logging.basicConfig(level=logging.DEBUG, force=True )
+logging.basicConfig(level=logging.CRITICAL)
+
+log = logging
 # *******************************************************************
 # Debug Output defines
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-debug_all = True
+#debug_all = True
 
-logging.basicConfig(level=logging.DEBUG)
-log = logging
+# *******************************************************************
+# Define to use AWS SQS Queues for Firebase writes
+# Comment to enable/disable
+# ********************************************************************
+#use_direct_firebase = False
+#use_direct_firebase = True
+use_direct_firebase =int(os.environ.get('use_direct_firebase'))
 
+#use_sqs_ps_firebase = True
+#use_sqs_ps_firebase = False
+use_sqs_ps_firebase =int(os.environ.get('use_sqs_ps_firebase'))
+
+#use_sqs_js_firebase = True
+#use_sqs_js_firebase = False
+use_sqs_js_firebase =int(os.environ.get('use_sqs_js_firebase'))
+
+#use_sqs_sk_firebase = True
+#use_sqs_sk_firebase = False
+use_sqs_sk_firebase =int(os.environ.get('use_sqs_sk_firebase'))
 
 
 from gevent.pool import Pool, Group
@@ -52,6 +82,8 @@ import boto3
 #s3 = boto3.resource(service_name='sqs', region_name='REGION_NAME')
 
 sqs_queue = boto3.client('sqs', region_name=os.environ.get('AWS_REGION'), aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
+logging.getLogger('boto3').setLevel(logging.CRITICAL)
+logging.getLogger('botocore').setLevel(logging.CRITICAL)
 
 #queue_url = 'SQS_QUEUE_URL'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'

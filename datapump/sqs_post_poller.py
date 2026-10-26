@@ -29,6 +29,26 @@ from functools import partial
 import gevent, gevent.monkey
 import requests
 
+# *******************************************************************
+# Define to use AWS SQS Queues for Firebase writes
+# Comment to enable/disable
+# ********************************************************************
+#use_direct_firebase = False
+#use_direct_firebase = True
+use_direct_firebase =int(os.environ.get('use_direct_firebase'))
+
+#use_sqs_ps_firebase = True
+#use_sqs_ps_firebase = False
+use_sqs_ps_firebase =int(os.environ.get('use_sqs_ps_firebase'))
+
+#use_sqs_js_firebase = True
+#use_sqs_js_firebase = False
+use_sqs_js_firebase =int(os.environ.get('use_sqs_js_firebase'))
+
+#use_sqs_sk_firebase = True
+#use_sqs_sk_firebase = False
+use_sqs_sk_firebase =int(os.environ.get('use_sqs_sk_firebase'))
+
 
 import logging
 # *******************************************************************
@@ -36,9 +56,19 @@ import logging
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-debug_all = True
+#debug_all = True
 
-logging.basicConfig(level=logging.DEBUG)
+#The logging levels of python is arranged in the following order:
+#CRITICAL
+#ERROR
+#WARNING
+#INFO
+#DEBUG
+#NOTSET
+#If you set the root logger level when configuring as logging.DEBUG, it will write all the logs with the levels above that.
+
+#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.CRITICAL)
 log = logging
 
 # *******************************************************************
@@ -59,6 +89,11 @@ import boto3
 aws_region = os.environ.get('AWS_REGION')
 #sqs_queue = boto3.client('sqs', region_name='us-west-2', aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
 sqs_queue = boto3.client('sqs', region_name=os.environ.get('AWS_REGION'), aws_access_key_id=environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key=environ.get('AWS_SECRET_ACCESS_KEY'))
+logging.getLogger('boto3').setLevel(logging.CRITICAL)
+logging.getLogger('botocore').setLevel(logging.CRITICAL)
+#logging.getLogger('urllib3').setLevel(logging.WARNING)
+logging.getLogger('urllib3').setLevel(logging.CRITICAL)
+
 #queue_url = 'SQS_QUEUE_URL'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/helmsmart-cloud'
 #queue_url = 'https://sqs.us-east-1.amazonaws.com/291312677175/SeaSmart'

@@ -27,14 +27,20 @@ from alert_processor import process_emailalert
 # ********************************************************************
 debug_all = False
 debug_info = True
-debug_all = True
+#debug_all = True
 debug_memcachier = False
 
 requests_log = logging.getLogger("requests")
 requests_log.setLevel(logging.INFO)
 
-logging.basicConfig(level=logging.INFO)
+requests_log = logging.getLogger("requests")
+#requests_log.setLevel(logging.INFO)
+requests_log.setLevel(logging.CRITICAL)
+
+#logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.CRITICAL)
 log = logging
+
 
 
 #import sendgrid

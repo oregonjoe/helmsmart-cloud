@@ -23,8 +23,17 @@ requests_log.setLevel(logging.WARNING)
 
 #logging.disable(logging.CRITICAL)
 
-logging.basicConfig(level=logging.INFO)
-#logging.basicConfig(level=logging.ERROR)
+#The logging levels of python is arranged in the following order:
+#CRITICAL
+#ERROR
+#WARNING
+#INFO
+#DEBUG
+#NOTSET
+#If you set the root logger level when configuring as logging.DEBUG, it will write all the logs with the levels above that.
+
+#logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 log = logging
 
 # *******************************************************************
