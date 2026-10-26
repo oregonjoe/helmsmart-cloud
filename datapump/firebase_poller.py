@@ -366,7 +366,7 @@ def transaction(func, sqs_message):
     )
     
     if debug_all: log.info('firebase_poller:Received and deleted message: %s' % receipt_handle)
-    print('firebase_poller:Received and deleted message:' )
+    print(f"firebase_poller:Received and deleted message: {len(sqs_message['Body'])}" )
 
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
