@@ -22638,7 +22638,7 @@ def get_dbstats_html():
   db_pool.putconn(conn)   
   
 
-  """
+  
   with db_pool.connection() as conn:
   
     #cursor = conn.cursor()
@@ -22646,11 +22646,11 @@ def get_dbstats_html():
 
       cursor.execute("select deviceid, devicename from user_devices where useremail = %s" , (useremail,))
     
-      #records = cursor.fetchall()
-      records = cursor.fetchone()
+      records = cursor.fetchall()
+      #records = cursor.fetchone()
 
     print(f'freeboard get_dbstats_html records = {records}')
-    """          
+             
 
   try:
    
