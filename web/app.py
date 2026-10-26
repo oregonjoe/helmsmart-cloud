@@ -22627,6 +22627,7 @@ def get_dbstats_html():
   
   records = cursor.fetchall()
 
+  conn.commit()
   db_pool.putconn(conn)   
 
 
