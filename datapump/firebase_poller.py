@@ -194,7 +194,7 @@ def get_messages(queue_url, num_receive):
     for message in messages:
       
       count = count + 1
-      print(f"firebase_poller:Processing received message : {count} : len={len(sqs_message['Body'])}")
+      print(f"firebase_poller:Processing received message : {count} : len={len(message['Body'])}")
 
     
       message_body = message['Body']
