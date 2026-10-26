@@ -715,8 +715,10 @@ def transaction(func, sqs_message):
         QueueUrl=queue_url,
         ReceiptHandle=receipt_handle
     )
-    print('Received and deleted message: %s' % sqs_message)
-
+    
+    #print('Received and deleted message: %s' % sqs_message)
+    print('sqs_post_poller:Received and deleted message: ' )
+    
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
     if debug_all: log.info('transaction SQS:AttributeError  Error in que SQS %s:  ' % str(e))
