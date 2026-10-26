@@ -372,6 +372,8 @@ mc = bmemcached.Client(mcservers, username=mcuser, password=mcpassw)
 
 mc.enable_retry_delay(True)  # Enabled by default. Sets retry delay to 5s.
 
+logging.getLogger('bmemcached').setLevel(logging.CRITICAL)
+
 """
 def get_xml_value(postdata, tag):
 
