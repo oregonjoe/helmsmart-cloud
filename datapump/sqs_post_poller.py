@@ -460,7 +460,7 @@ def proc(message):
         # write parsed nmea data to database
         dump_influxdb_cloud(device_id, partition, records)
 
-        raise ValueError("Force an error for retry testing")
+        #raise ValueError("Force an error for retry testing")
 
       except TypeError as e:
         if debug_all: log.info('sqs_post_poller:proc: TypeError in proc SSLOG00  %s:  ', partition)
@@ -485,31 +485,31 @@ def proc(message):
         e = sys.exc_info()[0]
         if debug_all: log.info("sqs_post_poller::  in proc SSLOG00 Error: %s" % str(e))
         pass 
-      
+
+        raise ValueError("Force an error for retry testing")      
 
   except AttributeError as e:
     #if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ', partition)
-
     if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ' % str(e))
     
   except TypeError as e:
     #if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ', partition)
-
     if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ' % str(e))
       
   except KeyError as e:
     #if debug_all: log.info('sqs_post_poller:: KeyError in proc %s:  ', partition)
-
     if debug_all: log.info('sqs_post_poller:: KeyError in proc  %s:  ' % str(e))
 
   except NameError as e:
     #if debug_all: log.info('sqs_post_poller:: NameError in proc  %s:  ', partition)
-
     if debug_all: log.info('sqs_post_poller:: NameError in proc  %s:  ' % str(e))
+
+  except ValueError as e:
+    #if debug_all: log.info('sqs_post_poller:: ValueError in proc  %s:  ', partition)
+    if debug_all: log.info('sqs_post_poller:: ValueError in proc  %s:  ' % str(e))    
       
   except:
     #if debug_all: log.info('sqs_post_poller:: Error in proc  %s:', partition)
-
     e = sys.exc_info()[0]
     if debug_all: log.info("sqs_post_poller::  in proc Error: %s" % e)
     pass     
