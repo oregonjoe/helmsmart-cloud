@@ -225,7 +225,7 @@ def proc(message):
 
           e = sys.exc_info()[0]
           if debug_all: log.info("sqs_post_poller::  in proc SSEA00 Error: %s" % e)
-          pass
+          raise
 
 
         #if timmerdata or (timmerdata != ""  and timmerdata != None and timmerdata is not None):
@@ -303,7 +303,7 @@ def proc(message):
 
         e = sys.exc_info()[0]
         if debug_all: log.info("sqs_post_poller::  in proc SSEA00 Error: %s" % str(e))
-        pass
+        raise
 
 
     # ##########################################################
@@ -395,30 +395,33 @@ def proc(message):
         # write parsed nmea data to database
         dump_influxdb_cloud(device_id, partition, records)
 
-        raise ValueError("Force an error for retry testing")      
+        #raise ValueError("Force an error for retry testing")      
 
       except TypeError as e:
         if debug_all: log.info('sqs_post_poller:proc: TypeError in SSA300  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: TypeError in SSA300  %s:  ' % str(e))
-        
+        raise
+      
       except AttributeError as e:
         if debug_all: log.info('sqs_post_poller:proc: AttributeError in SSA300  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: AttributeError in SSA300  %s:  ' % str(e))
-        
+        raise
+      
       except NameError as e:
         if debug_all: log.info('sqs_post_poller:proc: NameError in SSA300  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: NameError in SSA300  %s:  ' % str(e))
-
+        raise
+      
       except ValueError as e:
         if debug_all: log.info('sqs_post_poller:proc: ValueError in SSA300  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: ValueError in SSA300  %s:  ' % str(e))
-        #raise
+        raise
 
       except:
         if debug_all: log.info('sqs_post_poller:proc: Error in proc SSA300 %s:', partition)
         e = sys.exc_info()[0]
         if debug_all: log.info("sqs_post_poller:proc:  in proc SSA300 Error: %s" % str(e))
-        pass
+        raise
 
     elif "SSLOG00" in partition:
       try:
@@ -472,45 +475,52 @@ def proc(message):
       except TypeError as e:
         if debug_all: log.info('sqs_post_poller:proc: TypeError in proc SSLOG00  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: TypeError in proc SSLOG00  %s:  ' % str(e))
-        
+        raise
+      
       except AttributeError as e:
         if debug_all: log.info('sqs_post_poller:proc: AttributeError in proc SSLOG00  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: AttributeError in proc SSLOG00  %s:  ' % str(e))
-        
+        raise
+      
       except NameError as e:
         if debug_all: log.info('sqs_post_poller:proc: NameError in proc SSLOG00  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: NameError in proc SSLOG00  %s:  ' % str(e))
-
+        raise
+      
       except ValueError as e:
         if debug_all: log.info('sqs_post_poller:proc: ValueError in proc SSLOG00  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: ValueError in proc SSLOG00  %s:  ' % str(e))
-
+        raise
         
       except:
         if debug_all: log.info('sqs_post_poller:: Error in proc SSLOG00 %s:', partition)
 
         e = sys.exc_info()[0]
         if debug_all: log.info("sqs_post_poller::  in proc SSLOG00 Error: %s" % str(e))
-        pass 
+        raise 
 
        
 
   except AttributeError as e:
     #if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ', partition)
     if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ' % str(e))
-    
+    raise
+  
   except TypeError as e:
     #if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ', partition)
     if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ' % str(e))
-      
+    raise
+  
   except KeyError as e:
     #if debug_all: log.info('sqs_post_poller:: KeyError in proc %s:  ', partition)
     if debug_all: log.info('sqs_post_poller:: KeyError in proc  %s:  ' % str(e))
-
+    raise
+  
   except NameError as e:
     #if debug_all: log.info('sqs_post_poller:: NameError in proc  %s:  ', partition)
     if debug_all: log.info('sqs_post_poller:: NameError in proc  %s:  ' % str(e))
-
+    raise
+  
   except ValueError as e:
     #if debug_all: log.info('sqs_post_poller:: ValueError in proc  %s:  ', partition)
     if debug_all: log.info('sqs_post_poller:: ValueError in proc  %s:  ' % str(e))
@@ -520,7 +530,7 @@ def proc(message):
     #if debug_all: log.info('sqs_post_poller:: Error in proc  %s:', partition)
     e = sys.exc_info()[0]
     if debug_all: log.info("sqs_post_poller::  in proc Error: %s" % e)
-    pass     
+    raise     
 
 #reads num_receive messeges from SQS que
 def get_messages(queue_url, num_receive):
@@ -538,6 +548,7 @@ def get_messages(queue_url, num_receive):
 
     if "Messages" not in response:
       if debug_all: log.info('sqs_post_poller:no messages left')
+      print("sqs_post_poller:no messages left in queue")
       return []
 
     #print(response['Messages'][0])
