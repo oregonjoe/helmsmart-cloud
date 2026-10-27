@@ -541,7 +541,7 @@ def get_messages(queue_url, num_receive):
     # read message from SQS queue
     response = sqs_queue.receive_message(
         QueueUrl=queue_url,
-        MaxNumberOfMessages=2,
+        MaxNumberOfMessages=4,
         MessageAttributeNames=[  'All'  ],
         VisibilityTimeout=10,
         WaitTimeSeconds=1
@@ -652,7 +652,7 @@ def process_queue(config):
       if count == 0:
         # if we had messages process right away, else
         if debug_all: log.info('sqs_post_poller process_queue sleeping: ')
-        sleep(1)
+        sleep(5)
 
     except NameError as e:
       #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
