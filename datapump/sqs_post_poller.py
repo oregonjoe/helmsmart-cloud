@@ -679,7 +679,8 @@ def transaction(func, sqs_messages):
       count = count + 1
 
       #parse message
-      func(sqs_message[0])
+      #func(sqs_message[0])
+      func(sqs_message)
       print('sqs_post_poller:transaction func(sqs_message)...{count}')
       #proc(sqs_message)
       #sqs_message.delete()
@@ -704,6 +705,10 @@ def transaction(func, sqs_messages):
   except NameError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
     if debug_all: log.info('transaction SQS:NameError  Error in que SQS %s:  ' % str(e))
+    
+  except KeyError as e:
+    #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
+    if debug_all: log.info('transaction SQS:KeyError  Error in que SQS %s:  ' % str(e))
     
   except TypeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
