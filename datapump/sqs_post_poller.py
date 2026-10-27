@@ -615,7 +615,7 @@ def process_queue(config):
 
       if debug_all: log.info('sqs_post_poller process_queue %s: ', count)
 
-      if debug_all: log.info("process_queue:  message %s: ", message)
+      #if debug_all: log.info("process_queue:  message %s: ", message)
       #if debug_all: log.info("process_queue:  message_MessageId %s: ", message['MessageId'])
       
       #try to get messages from the SQS queue and parse them
