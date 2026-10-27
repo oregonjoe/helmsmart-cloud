@@ -672,7 +672,7 @@ def transaction(func, sqs_message):
     #func(sqs_message.get_body())
     #func(sqs_message['Body'])
     func(sqs_message)
-
+    print('sqs_post_poller:transaction func(sqs_message)...')
     #proc(sqs_message)
     #sqs_message.delete()
 
