@@ -342,32 +342,46 @@ def interval(delay, method, *args, **kw):
 
 
 # trys to get a pushsmart message from the SQS que
-def transaction(func, sqs_message):
+def transaction(func, sqs_messages):
   """Delete message if no errors."""
   #if debug_all: log.info('s3_poller: transaction %s', sqs_message.get_body())
   try:
     
     if debug_all: log.info('firebase_poller:transaction message %s', sqs_message['Body'])
     #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
-    #func(sqs_message.get_body())
-    #func(sqs_message['Body'])
-    func(sqs_message)
-
-    #proc(sqs_message)
-    #sqs_message.delete()
-
-    #receipt_handle = sqs_message['ReceiptHandle']
-    receipt_handle = sqs_message['ReceiptHandle']
-    if debug_all: log.info('firebase_poller: transaction ReceiptHandle  %s', receipt_handle)
-
-    # Delete received message from queue
-    sqs_queue.delete_message(
-        QueueUrl=queue_url,
-        ReceiptHandle=receipt_handle
-    )
+    count = 0
     
-    if debug_all: log.info('firebase_poller:Received and deleted message: %s' % receipt_handle)
-    print(f"firebase_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
+    for sqs_message in sqs_messages:
+
+      count = count + 1
+    
+      #func(sqs_message.get_body())
+      #func(sqs_message['Body'])
+      func(sqs_message)
+
+      #proc(sqs_message)
+      #sqs_message.delete()
+      print(f'firebase_poller: transaction func(sqs_message)...{count}')
+      #receipt_handle = sqs_message['ReceiptHandle']
+      receipt_handle = sqs_message['ReceiptHandle']
+      if debug_all: log.info('firebase_poller: transaction ReceiptHandle  %s', receipt_handle)
+
+      message_body = json.loads(sqs_message['Body'])
+      #print(f"sqs_post_poller:Processing message  message_body={message_body}")
+      
+
+      mpartition = message_body.get('partition',"")
+      device_id = message_body.get('device_id',"")
+
+      # Delete received message from queue
+      sqs_queue.delete_message(
+          QueueUrl=queue_url,
+          ReceiptHandle=receipt_handle
+      )
+      
+      if debug_all: log.info('firebase_poller:Received and deleted message: %s' % receipt_handle)
+      #print(f"firebase_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
+      print(f"firebase_poller: Received and deleted message {count}: bytes {len(sqs_message['Body'])}: {device_id} : {mpartition}")
 
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
