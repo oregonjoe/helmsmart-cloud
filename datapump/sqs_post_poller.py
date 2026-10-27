@@ -395,6 +395,8 @@ def proc(message):
         # write parsed nmea data to database
         dump_influxdb_cloud(device_id, partition, records)
 
+        raise ValueError("Force an error for retry testing")      
+
       except TypeError as e:
         if debug_all: log.info('sqs_post_poller:proc: TypeError in proc  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: TypeError in proc  %s:  ' % str(e))
@@ -406,6 +408,11 @@ def proc(message):
       except NameError as e:
         if debug_all: log.info('sqs_post_poller:proc: NameError in proc  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: NameError in proc  %s:  ' % str(e))
+
+      except ValueError as e:
+        if debug_all: log.info('sqs_post_poller:proc: ValueError in proc  %s:  ', partition)
+        if debug_all: log.info('sqs_post_poller:proc: ValueError in proc  %s:  ' % str(e))
+        raise
 
       except:
         if debug_all: log.info('sqs_post_poller:proc: Error in proc SSA300 %s:', partition)
@@ -486,7 +493,7 @@ def proc(message):
         if debug_all: log.info("sqs_post_poller::  in proc SSLOG00 Error: %s" % str(e))
         pass 
 
-        raise ValueError("Force an error for retry testing")      
+       
 
   except AttributeError as e:
     #if debug_all: log.info('sqs_post_poller:: TypeError in proc  %s:  ', partition)
