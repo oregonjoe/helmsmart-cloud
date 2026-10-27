@@ -677,8 +677,8 @@ def transaction(func, sqs_message):
     #sqs_message.delete()
 
     #receipt_handle = sqs_message['ReceiptHandle']
-    #receipt_handle = sqs_message['ReceiptHandle']
-    #if debug_all: log.info('sqs_post_poller: transaction ReceiptHandle  %s', receipt_handle)
+    receipt_handle = sqs_message[0]['ReceiptHandle']
+    if debug_all: log.info('sqs_post_poller: transaction ReceiptHandle  %s', receipt_handle)
 
     # Delete received message from queue
     sqs_queue.delete_message(
