@@ -541,7 +541,7 @@ def get_messages(queue_url, num_receive):
     # read message from SQS queue
     response = sqs_queue.receive_message(
         QueueUrl=queue_url,
-        MaxNumberOfMessages=1,
+        MaxNumberOfMessages=2,
         MessageAttributeNames=[  'All'  ],
         VisibilityTimeout=10,
         WaitTimeSeconds=1
