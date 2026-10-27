@@ -653,7 +653,8 @@ def process_queue(config):
 
       if count == 0:
         # if we had messages process right away, else
-        if debug_all: log.info('sqs_post_poller: process_queue sleeping {sqs_sleep} secs')
+        if debug_all: log.info('sqs_post_poller: process_queue sleeping ')
+        print(f'sqs_post_poller: process_queue sleeping {sqs_sleep} secs')
         sleep(sqs_sleep)
 
     except NameError as e:
