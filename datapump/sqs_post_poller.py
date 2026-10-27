@@ -751,7 +751,8 @@ def best_effort(func, pushsmart_message):
     if debug_all: log.info('sqs_post_poller:best_effort error %s' % str(e))
     
     retry_count = message.get('retries', 0) + 1
-    if retry_count > env.max_retries:
+    #if retry_count > env.max_retries:
+    if retry_count > 5:
       log.exception('Discarding due to errors: %s', pushsmart_message)
       if debug_all: log.info('sqs_post_poller:best_effort Discarding')
       
