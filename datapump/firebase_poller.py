@@ -41,8 +41,8 @@ import logging
 #NOTSET
 #If you set the root logger level when configuring as logging.DEBUG, it will write all the logs with the levels above that.
 
-#logging.basicConfig(level=logging.DEBUG, force=True )
-logging.basicConfig(level=logging.CRITICAL)
+logging.basicConfig(level=logging.DEBUG, force=True )
+#logging.basicConfig(level=logging.CRITICAL)
 
 log = logging
 # *******************************************************************
@@ -50,7 +50,7 @@ log = logging
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-#debug_all = True
+debug_all = True
 
 # *******************************************************************
 # Define to use AWS SQS Queues for Firebase writes
@@ -369,9 +369,11 @@ def transaction(func, sqs_messages):
       #receipt_handle = sqs_message['ReceiptHandle']
       receipt_handle = sqs_message['ReceiptHandle']
       if debug_all: log.info('firebase_poller: transaction ReceiptHandle  %s', receipt_handle)
+      
+      print(f'firebase_poller: transaction receipt_handle...{receipt_handle}')
 
       message_body = json.loads(sqs_message['Body'])
-      #print(f"sqs_post_poller:Processing message  message_body={message_body}")
+      print(f"sqs_post_poller:Processing message  message_body={message_body}")
       
 
       mpartition = message_body.get('partition',"")
