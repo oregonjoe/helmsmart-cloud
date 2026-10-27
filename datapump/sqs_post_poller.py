@@ -681,7 +681,7 @@ def transaction(func, sqs_messages):
       #parse message
       #func(sqs_message[0])
       func(sqs_message)
-      print('sqs_post_poller:transaction func(sqs_message)...{count}')
+      print(f'sqs_post_poller:transaction func(sqs_message)...{count}')
       #proc(sqs_message)
       #sqs_message.delete()
 
