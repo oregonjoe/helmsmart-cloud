@@ -264,9 +264,9 @@ def get_messages(queue_url, num_receive):
     raise
 
   except ValueError as e:
-  #if debug_all: log.info("Read SQS:ValueError device_id %s:  ", device_id)
-  if debug_all: log.info('Read SQS:ValueError  Error in que SQS %s:  ' % str(e))
-  raise
+    #if debug_all: log.info("Read SQS:ValueError device_id %s:  ", device_id)
+    if debug_all: log.info('Read SQS:ValueError  Error in que SQS %s:  ' % str(e))
+    raise
   
   except:
     e = sys.exc_info()[0]
