@@ -453,9 +453,9 @@ def proc(message):
         if debug_all: log.info('sqs_post_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
 
 
-        if debug_all: log.info('sqs_post_poller dump_pcdinfirebase message_payload %s: ', partition)
+        if debug_all: log.info('sqs_post_poller: dump_pcdinfirebase message_payload %s: ', partition)
         #print(message_payload)
-        if debug_all: log.info('sqs_post_poller dump_pcdinfirebase %s: ', partition)
+        if debug_all: log.info('sqs_post_poller: dump_pcdinfirebase %s: ', partition)
         #print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
 
         
@@ -535,7 +535,7 @@ def proc(message):
 #reads num_receive messeges from SQS que
 def get_messages(queue_url, num_receive):
   if debug_all: log.info('sqs_post_poller:get_messages %s', num_receive)
-  print(f"sqs_post_poller:getting {num_receive} messages from queue")
+  print(f"sqs_post_poller: getting {num_receive} messages from queue")
   try:
     
     # read message from SQS queue
@@ -549,11 +549,11 @@ def get_messages(queue_url, num_receive):
 
     if "Messages" not in response:
       if debug_all: log.info('sqs_post_poller:no messages left')
-      print("sqs_post_poller:no messages left in queue")
+      print("sqs_post_poller: no messages left in queue")
       return []
 
     #print(response['Messages'][0])
-    print(f"sqs_post_poller:Number of messages received: {len(response.get('Messages', []))}")
+    print(f"sqs_post_poller: Number of messages received: {len(response.get('Messages', []))}")
     count=0
     
     messages = response.get('Messages', [])
@@ -580,7 +580,7 @@ def get_messages(queue_url, num_receive):
       mpartition = message_body.get('partition',"")
       device_id = message_body.get('device_id',"")
 
-      print(f"sqs_post_poller:getting messages {count}: bytes {len(message['Body'])}: {device_id} : {mpartition}")
+      print(f"sqs_post_poller: getting messages {count}: bytes {len(message['Body'])}: {device_id} : {mpartition}")
       #print(f"sqs_post_poller:Processing message  device_id={device_id} : mpartition={mpartition}")
       #if debug_all: log.info('sqs_post_poller:get_messages read %s', len(rs))
 
@@ -711,7 +711,7 @@ def transaction(func, sqs_messages):
       #func(sqs_message[0])
       #uses best_effort to process message and retries if there are errors
       func(sqs_message)
-      print(f'sqs_post_poller:transaction func(sqs_message)...{count}')
+      print(f'sqs_post_poller: transaction func(sqs_message)...{count}')
       #proc(sqs_message)
       #sqs_message.delete()
 
@@ -739,7 +739,7 @@ def transaction(func, sqs_messages):
       
       #print('Received and deleted message: %s' % sqs_message)
       #print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
-      print(f"sqs_post_poller:Received and deleted message {count}: bytes {len(sqs_message['Body'])}: {device_id} : {mpartition}")
+      print(f"sqs_post_poller: Received and deleted message {count}: bytes {len(sqs_message['Body'])}: {device_id} : {mpartition}")
       
     
   except AttributeError as e:
@@ -809,7 +809,7 @@ def best_effort(func, pushsmart_message):
 
       #print(response['MessageId'])
       #print(f"sqs_post_poller:Retry message: retry_count={retry_count} : len={len(message.get('payload', 'missing'))} : {message.get('device_id', 'missing')} " )
-      print(f"sqs_post_poller:Retry message: retry_count={retry_count} : {message.get('device_id', 'missing')} : {message.get('partition', 'missing')}  " )
+      print(f"sqs_post_poller: Retry message: retry_count={retry_count} : {message.get('device_id', 'missing')} : {message.get('partition', 'missing')}  " )
       #if debug_all: log.info("sqs_post_poller Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
       
