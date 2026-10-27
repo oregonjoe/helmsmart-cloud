@@ -779,7 +779,7 @@ def best_effort(func, pushsmart_message):
 
       #print(response['MessageId'])
       print(f"sqs_post_poller:Retry message: retry_count={retry_count} : len={len(message)} : {message} " )
-      if debug_all: log.info("sqs_post_poller Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
+      #if debug_all: log.info("sqs_post_poller Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
       
   
