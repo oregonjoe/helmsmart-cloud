@@ -71,7 +71,7 @@ debug_all = False
 #NOTSET
 #If you set the root logger level when configuring as logging.DEBUG, it will write all the logs with the levels above that.
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.CRITICAL)
 #logging.basicConfig(level=logging.CRITICAL)
 log = logging
 
