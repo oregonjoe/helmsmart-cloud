@@ -339,7 +339,7 @@ def proc(message):
 
         #if debug_all: log.info('sqs_post_poller dump_pcdinfirebase message_payload %s: ', partition)
         #print(message_payload)
-        if debug_all: log.info('sqs_post_poller dump_pcdinfirebase %s: ', partition)
+        #if debug_all: log.info('sqs_post_poller dump_pcdinfirebase %s: ', partition)
         #print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
 
         
@@ -353,7 +353,7 @@ def proc(message):
 
         if use_sqs_js_firebase == 1:
 
-          if debug_all: log.info('sqs_post_poller write to firebase JSON PCDIN que %s: ', partition)
+          if debug_all: log.info('sqs_post_poller write to firebase JSON SIGNALK que %s: ', partition)
           print(f'sqs_post_poller: write to SQS firebase Queue  device_id = {device_id} : partition = {partition}')
           # ######################################################
           # now place in PUSHSMART Firebase SQS queue
@@ -662,7 +662,7 @@ def interval(delay, method, *args, **kw):
 
 
 # trys to get a pushsmart message from the SQS que
-def transaction(func, sqs_message):
+def transaction(func, sqs_messages):
   """Delete message if no errors."""
   #if debug_all: log.info('sqs_post_poller: transaction %s', sqs_message.get_body())
   try:
@@ -672,23 +672,30 @@ def transaction(func, sqs_message):
     #func(sqs_message.get_body())
     #func(sqs_message['Body'])
     #func(sqs_message)
-    func(sqs_message[0])
-    print('sqs_post_poller:transaction func(sqs_message)...')
-    #proc(sqs_message)
-    #sqs_message.delete()
-
-    #receipt_handle = sqs_message['ReceiptHandle']
-    receipt_handle = sqs_message[0]['ReceiptHandle']
-    if debug_all: log.info('sqs_post_poller: transaction ReceiptHandle  %s', receipt_handle)
-
-    # Delete received message from queue
-    sqs_queue.delete_message(
-        QueueUrl=queue_url,
-        ReceiptHandle=receipt_handle
-    )
+    count = 0
     
-    #print('Received and deleted message: %s' % sqs_message)
-    print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message[0]['Body'])}" )
+    for sqs_message in sqs_messages:
+
+      count = count + 1
+
+      #parse message
+      func(sqs_message[0])
+      print('sqs_post_poller:transaction func(sqs_message)...{count}')
+      #proc(sqs_message)
+      #sqs_message.delete()
+
+      receipt_handle = sqs_message['ReceiptHandle']
+      #receipt_handle = sqs_message[0]['ReceiptHandle']
+      if debug_all: log.info('sqs_post_poller: transaction ReceiptHandle  %s', receipt_handle)
+
+      # Delete received message from queue
+      sqs_queue.delete_message(
+          QueueUrl=queue_url,
+          ReceiptHandle=receipt_handle
+      )
+      
+      #print('Received and deleted message: %s' % sqs_message)
+      print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message[0]['Body'])}" )
     
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
