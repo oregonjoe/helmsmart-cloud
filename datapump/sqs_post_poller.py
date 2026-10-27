@@ -527,17 +527,17 @@ def get_messages(queue_url, num_receive):
       return []
 
     #print(response['Messages'][0])
-    print(f"Number of messages received: {len(response.get('Messages', []))}")
+    print(f"sqs_post_poller:Number of messages received: {len(response.get('Messages', []))}")
     count=0
     
-    messages = response.get("Messages", [])[0]
+    messages = response.get('Messages', [])
     #print(f"sqs_post_poller:Number of messages received: {len(messages)}")
     # print(message)
     #if debug_all: log.info("Read SQS:  message %s: ", message)
     for message in messages:
       
       count = count + 1
-      print(f"firebase_poller:Processing received message : {count} : len={len(message['Body'])}")
+      print(f"sqs_post_poller:Processing received message : {count} : len={len(message['Body'])}")
       
       message_body = message['Body']
       receipt_handle = message['ReceiptHandle']

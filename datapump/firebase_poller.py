@@ -243,7 +243,7 @@ def get_messages(queue_url, num_receive):
       if debug_all: log.info("firebase_poller:Read SQS:  sent to firebase deviceid:%s fbBucket:%s partition:%s ", deviceid, fbBucket, partition )
     
     # return all messages recieved in case of errors and need to retry SQS que by rewriting messages      
-    return message
+    return messages
   
 
   except botocore.exceptions.ClientError as e:
