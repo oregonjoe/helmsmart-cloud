@@ -334,10 +334,10 @@ def proc(message):
         #if debug_all: log.info('sqs_post_poller Got SQS records %s: ', records) 
 
         mysortedrecords = sorted(records, key=lambda t:t[1])
-        if debug_all: log.info('sqs_post_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
+        #if debug_all: log.info('sqs_post_poller: PS message sorted device %s: %s ', device_id, mysortedrecords)
 
 
-        if debug_all: log.info('sqs_post_poller dump_pcdinfirebase message_payload %s: ', partition)
+        #if debug_all: log.info('sqs_post_poller dump_pcdinfirebase message_payload %s: ', partition)
         #print(message_payload)
         if debug_all: log.info('sqs_post_poller dump_pcdinfirebase %s: ', partition)
         #print(message_payload.replace('\\n', '\n').replace('\\r', '\r'))
