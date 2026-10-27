@@ -540,10 +540,10 @@ def get_messages(queue_url, num_receive):
       print(f"sqs_post_poller:Processing received message : {count} : len={len(message['Body'])}")
       
       message_body = message['Body']
-      print(f"sqs_post_poller:Processing message  message_body={message_body}")
+      #print(f"sqs_post_poller:Processing message  message_body={message_body}")
       
-      device_id = message_body.get('device_id')
-      #print(f"sqs_post_poller:Processing message  device_id={device_id}")
+      device_id = message_body.get('device_id',"")
+      print(f"sqs_post_poller:Processing message  device_id={device_id}")
       #receipt_handle = message['ReceiptHandle']
 
       #if debug_all: log.info("Read SQS:  message_body %s: ", message_body)
@@ -572,7 +572,7 @@ def get_messages(queue_url, num_receive):
 
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
-    if debug_all: log.info('Read SQS:AttributeError  Error in que SQS %s:  ' % str(e))
+    log.info('Read SQS:AttributeError  Error in que SQS %s:  ' % str(e))
 
   except NameError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
