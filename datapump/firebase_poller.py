@@ -351,7 +351,7 @@ def transaction(func, sqs_messages):
   #if debug_all: log.info('s3_poller: transaction %s', sqs_message.get_body())
   try:
     
-    if debug_all: log.info('firebase_poller:transaction message %s', sqs_message['Body'])
+    if debug_all: log.info('firebase_poller:transaction message %s', len(sqs_messages))
     #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
     count = 0
     
