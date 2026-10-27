@@ -528,24 +528,30 @@ def get_messages(queue_url, num_receive):
 
     #print(response['Messages'][0])
     print(f"Number of messages received: {len(response.get('Messages', []))}")
-
-    message = response.get("Messages", [])[0]
+    count=0
+    
+    messages = response.get("Messages", [])[0]
+    #print(f"sqs_post_poller:Number of messages received: {len(messages)}")
     # print(message)
     #if debug_all: log.info("Read SQS:  message %s: ", message)
-    
-    message_body = message['Body']
-    receipt_handle = message['ReceiptHandle']
+    for message in messages:
+      
+      count = count + 1
+      print(f"firebase_poller:Processing received message : {count} : len={len(message['Body'])}")
+      
+      message_body = message['Body']
+      receipt_handle = message['ReceiptHandle']
 
-    #if debug_all: log.info("Read SQS:  message_body %s: ", message_body)
+      #if debug_all: log.info("Read SQS:  message_body %s: ", message_body)
 
-    if debug_all: log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
+      if debug_all: log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
 
-    #if debug_all: log.info("get_messages:  response %s: ", rs['Messages'][0])
+      #if debug_all: log.info("get_messages:  response %s: ", rs['Messages'][0])
 
-    #if debug_all: log.info('sqs_post_poller:get_messages read %s', len(rs))
+      #if debug_all: log.info('sqs_post_poller:get_messages read %s', len(rs))
 
-    #return rs
-    return message
+      #return rs
+    return messages
   
 
   except botocore.exceptions.ClientError as e:
