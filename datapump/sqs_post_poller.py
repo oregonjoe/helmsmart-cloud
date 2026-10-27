@@ -540,18 +540,20 @@ def get_messages(queue_url, num_receive):
       print(f"sqs_post_poller:Processing received message : {count} : len={len(message['Body'])}")
       
       message_body = message['Body']
-      receipt_handle = message['ReceiptHandle']
+      device_id = message_body.get('device_id')
+      print(f"sqs_post_poller:Processing message  device_id={device_id}")
+      #receipt_handle = message['ReceiptHandle']
 
       #if debug_all: log.info("Read SQS:  message_body %s: ", message_body)
 
-      if debug_all: log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
+      #if debug_all: log.info("Read SQS:  receipt_handle %s: ", receipt_handle)
 
       #if debug_all: log.info("get_messages:  response %s: ", rs['Messages'][0])
-      mpartition = message_body.get('partition')
-      device_id = message_body.get('device_id')
+      #mpartition = message_body.get('partition')
+      #device_id = message_body.get('device_id')
 
       #print(f"sqs_post_poller:Processing message  {count} : len={message_body} device_id={device_id} : mpartition={mpartition}")
-      print(f"sqs_post_poller:Processing message  device_id={device_id} : mpartition={mpartition}")
+      #print(f"sqs_post_poller:Processing message  device_id={device_id} : mpartition={mpartition}")
       #if debug_all: log.info('sqs_post_poller:get_messages read %s', len(rs))
 
       #return rs
