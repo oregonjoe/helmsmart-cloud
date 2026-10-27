@@ -667,7 +667,7 @@ def transaction(func, sqs_message):
   #if debug_all: log.info('sqs_post_poller: transaction %s', sqs_message.get_body())
   try:
     
-    if debug_all: log.info('sqs_post_poller:transaction message %s', sqs_message['Body'])
+    if debug_all: log.info('sqs_post_poller:transaction message %s', sqs_message[0]['Body'])
     #queue_url = environ.get('SQS_QUEUE_URL')
     #func(sqs_message.get_body())
     #func(sqs_message['Body'])
