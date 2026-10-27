@@ -666,8 +666,8 @@ def transaction(func, sqs_message):
   """Delete message if no errors."""
   #if debug_all: log.info('sqs_post_poller: transaction %s', sqs_message.get_body())
   try:
-    
-    if debug_all: log.info('sqs_post_poller:transaction message %s', sqs_message[0]['Body'])
+    print('sqs_post_poller:transaction message...')
+    #if debug_all: log.info('sqs_post_poller:transaction message %s', sqs_message[0]['Body'])
     #queue_url = environ.get('SQS_QUEUE_URL')
     #func(sqs_message.get_body())
     #func(sqs_message['Body'])
@@ -677,8 +677,8 @@ def transaction(func, sqs_message):
     #sqs_message.delete()
 
     #receipt_handle = sqs_message['ReceiptHandle']
-    receipt_handle = sqs_message['ReceiptHandle']
-    if debug_all: log.info('sqs_post_poller: transaction ReceiptHandle  %s', receipt_handle)
+    #receipt_handle = sqs_message['ReceiptHandle']
+    #if debug_all: log.info('sqs_post_poller: transaction ReceiptHandle  %s', receipt_handle)
 
     # Delete received message from queue
     sqs_queue.delete_message(
