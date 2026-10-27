@@ -719,11 +719,11 @@ def transaction(func, sqs_messages):
 
 
       message_body = json.loads(sqs_message['Body'])
-      #print(f"sqs_post_poller:Processing message  message_body={message_body}")
+      print(f"sqs_post_poller:Processing message  message_body={message_body}")
       
 
-      mpartition = message_body.get('partition',"")
-      device_id = message_body.get('device_id',"")
+      #mpartition = message_body.get('partition',"")
+      #device_id = message_body.get('device_id',"")
 
 
 
@@ -735,8 +735,8 @@ def transaction(func, sqs_messages):
       )
       
       #print('Received and deleted message: %s' % sqs_message)
-      #print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
-      print(f"sqs_post_poller:Received and deleted messages {count}: bytes {len(sqs_message['Body'])}: {device_id} : {mpartition}")
+      print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
+      #print(f"sqs_post_poller:Received and deleted messages {count}: bytes {len(sqs_message['Body'])}: {device_id} : {mpartition}")
       
     
   except AttributeError as e:
