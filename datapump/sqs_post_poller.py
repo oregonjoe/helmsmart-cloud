@@ -535,7 +535,7 @@ def proc(message):
 #reads num_receive messeges from SQS que
 def get_messages(queue_url, num_receive):
   if debug_all: log.info('sqs_post_poller:get_messages %s', num_receive)
-  print("sqs_post_poller:getting messages from queue")
+  print(f"sqs_post_poller:getting {num_receive} messages from queue")
   try:
     
     # read message from SQS queue
@@ -653,7 +653,7 @@ def process_queue(config):
 
       if count == 0:
         # if we had messages process right away, else
-        if debug_all: log.info('sqs_post_poller process_queue sleeping: ')
+        if debug_all: log.info('sqs_post_poller: process_queue sleeping {sqs_sleep} secs')
         sleep(sqs_sleep)
 
     except NameError as e:
