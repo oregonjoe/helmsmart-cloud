@@ -617,7 +617,9 @@ def get_messages(queue_url, num_receive):
 def process_queue(config):  
   #queue = boto.connect_sqs().lookup(os.environ['SQS_QUEUE'])
   #queue_url = environ.get('SQS_QUEUE_URL')
-  num_receive = int(os.environ.get('NUM_MESSAGES', 10))
+  num_receive = int(os.environ.get('SQS_NUM_MESSAGES', 1))
+
+  sqs_sleep =int(os.environ.get('SQS_SLEEP_SECS', 1))
   
   if debug_all: log.info('sqs_post_poller start process_queue %s: ', num_receive)
   # get redis que info
@@ -652,7 +654,7 @@ def process_queue(config):
       if count == 0:
         # if we had messages process right away, else
         if debug_all: log.info('sqs_post_poller process_queue sleeping: ')
-        sleep(5)
+        sleep(sqs_sleep)
 
     except NameError as e:
       #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
