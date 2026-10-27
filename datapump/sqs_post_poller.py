@@ -688,7 +688,7 @@ def transaction(func, sqs_message):
     )
     
     #print('Received and deleted message: %s' % sqs_message)
-    print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
+    print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message[0]['Body'])}" )
     
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
