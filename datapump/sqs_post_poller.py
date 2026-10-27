@@ -537,7 +537,7 @@ def get_messages(queue_url, num_receive):
     for message in messages:
       
       count = count + 1
-      print(f"sqs_post_poller:Processing received message : {count} : len={len(message['Body'])}")
+     #print(f"sqs_post_poller:Processing received message : {count} : len={len(message['Body'])}")
       
       message_body = json.loads(message['Body'])
       #print(f"sqs_post_poller:Processing message  message_body={message_body}")
@@ -554,7 +554,7 @@ def get_messages(queue_url, num_receive):
       mpartition = message_body.get('partition',"")
       device_id = message_body.get('device_id',"")
 
-      print(f"sqs_post_poller:Processing message {count}: {len(message['Body'])}: {device_id} : {mpartition}")
+      print(f"sqs_post_poller:Processing message {count}: bytes {len(message['Body'])}: {device_id} : {mpartition}")
       #print(f"sqs_post_poller:Processing message  device_id={device_id} : mpartition={mpartition}")
       #if debug_all: log.info('sqs_post_poller:get_messages read %s', len(rs))
 
