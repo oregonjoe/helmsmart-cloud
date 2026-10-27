@@ -249,20 +249,24 @@ def get_messages(queue_url, num_receive):
   except botocore.exceptions.ClientError as e:
     #if debug_all: log.info("Read SQS:ClientError device_id %s:  ", device_id)
     if debug_all: log.info('Read SQS:ClientError  Error in que SQS %s:  ' % str(e))
-
+    raise
+  
   except botocore.exceptions.ParamValidationError as e:
    # if debug_all: log.info("Read SQS:ParamValidationError device_id %s:  ", device_id)
     if debug_all: log.info('Read SQS:ParamValidationError  Error in que SQS %s:  ' % str(e))
-
+    raise
+  
   except NameError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
     if debug_all: log.info('Read SQS:NameError  Error in que SQS %s:  ' % str(e))
-    
+    raise
+  
   except:
     e = sys.exc_info()[0]
     #if debug_all: log.info("Send SQS:device_id %s:  ", device_id)
     if debug_all: log.info('Send SQS: Error in que SQS %s:  ' % str(e))
-
+    raise
+  
     log.warn(e)
     return []
 
@@ -418,7 +422,8 @@ def best_effort(func, pushsmart_message):
     
     
     retry_count = message.get('retries', 0) + 1
-    if retry_count > env.max_retries:
+    #if retry_count > env.max_retries:
+    if retry_count > 5:
       log.exception('Discarding due to errors: %s', pushsmart_message)
       if debug_all: log.info('firebase_poller:best_effort Discarding')
       
@@ -443,7 +448,8 @@ def best_effort(func, pushsmart_message):
           MessageBody=(json.dumps(retry))
       )
       
-      print(f"firebase_poller:Retry message: retry_count={retry_count} : len={len(message)} : {message} " )
+      #print(f"firebase_poller:Retry message: retry_count={retry_count} : len={len(message)} : {message} " )
+      print(f"sqs_post_poller: Retry message: retry_count={retry_count} : {message.get('device_id', 'missing')} : {message.get('partition', 'missing')}  " )
       #print(response['MessageId'])
 
       if debug_all: log.info("firebase_poller:device_id %s:  response %s: ", device_id,response['MessageId'])
