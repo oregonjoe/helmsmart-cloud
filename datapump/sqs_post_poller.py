@@ -535,6 +535,7 @@ def proc(message):
 #reads num_receive messeges from SQS que
 def get_messages(queue_url, num_receive):
   if debug_all: log.info('sqs_post_poller:get_messages %s', num_receive)
+  print("sqs_post_poller:getting messages from queue")
   try:
     
     # read message from SQS queue
@@ -691,7 +692,7 @@ def transaction(func, sqs_messages):
   """Delete message if no errors."""
   #if debug_all: log.info('sqs_post_poller: transaction %s', sqs_message.get_body())
   try:
-    print('sqs_post_poller:transaction message...')
+    #print('sqs_post_poller:transaction message...')
     #if debug_all: log.info('sqs_post_poller:transaction message %s', sqs_message[0]['Body'])
     #queue_url = environ.get('SQS_QUEUE_URL')
     #func(sqs_message.get_body())
@@ -705,6 +706,7 @@ def transaction(func, sqs_messages):
 
       #parse message
       #func(sqs_message[0])
+      #uses best_effort to process message and retries if there are errors
       func(sqs_message)
       print(f'sqs_post_poller:transaction func(sqs_message)...{count}')
       #proc(sqs_message)
@@ -714,6 +716,18 @@ def transaction(func, sqs_messages):
       #receipt_handle = sqs_message[0]['ReceiptHandle']
       if debug_all: log.info('sqs_post_poller: transaction ReceiptHandle  %s', receipt_handle)
 
+
+
+      message_body = json.loads(sqs_message['Body'])
+      #print(f"sqs_post_poller:Processing message  message_body={message_body}")
+      
+
+      mpartition = message_body.get('partition',"")
+      device_id = message_body.get('device_id',"")
+
+
+
+
       # Delete received message from queue
       sqs_queue.delete_message(
           QueueUrl=queue_url,
@@ -721,7 +735,9 @@ def transaction(func, sqs_messages):
       )
       
       #print('Received and deleted message: %s' % sqs_message)
-      print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
+      #print(f"sqs_post_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
+      print(f"sqs_post_poller:Received and deleted messages {count}: bytes {len(sqs_message['Body'])}: {device_id} : {mpartition}")
+      
     
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
