@@ -372,12 +372,12 @@ def transaction(func, sqs_messages):
       
       print(f'firebase_poller: transaction receipt_handle...{receipt_handle}')
 
-      message_body = json.loads(sqs_message['Body'])
-      print(f"sqs_post_poller:Processing message  message_body={message_body}")
+      #message_body = json.loads(sqs_message['Body'])
+      #print(f"sqs_post_poller:Processing message  message_body={message_body}")
       
 
-      mpartition = message_body.get('partition',"")
-      device_id = message_body.get('device_id',"")
+      #mpartition = message_body.get('partition',"")
+      #device_id = message_body.get('device_id',"")
 
       # Delete received message from queue
       sqs_queue.delete_message(
@@ -386,8 +386,8 @@ def transaction(func, sqs_messages):
       )
       
       if debug_all: log.info('firebase_poller:Received and deleted message: %s' % receipt_handle)
-      #print(f"firebase_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
-      print(f"firebase_poller: Received and deleted message {count}: bytes {len(sqs_message['Body'])}: {device_id} : {mpartition}")
+      print(f"firebase_poller:Received and deleted message: len={len(sqs_message['Body'])}" )
+      #print(f"firebase_poller: Received and deleted message {count}: bytes {len(sqs_message['Body'])}: {device_id} : {mpartition}")
 
   except AttributeError as e:
     #if debug_all: log.info("Read SQS:NameError device_id %s:  ", device_id)
