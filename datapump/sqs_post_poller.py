@@ -714,8 +714,8 @@ def best_effort(func, pushsmart_message):
   message = json.loads(pushsmart_message['Body'])
 
   #if debug_all: log.info('sqs_post_poller:best_effort message %s', pushsmart_message['Body'])
-  if debug_all: log.info('sqs_post_poller:best_effort message %s', message)
-
+  #if debug_all: log.info('sqs_post_poller:best_effort message %s', message)
+  if debug_all: log.info('sqs_post_poller:best_effort message ', )
   
   try:
     func(message)
