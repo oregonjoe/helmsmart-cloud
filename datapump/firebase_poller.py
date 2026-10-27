@@ -200,7 +200,7 @@ def get_messages(queue_url, num_receive):
       message_body = message['Body']
       receipt_handle = message['ReceiptHandle']
 
-      if debug_all: log.info("firebase_poller:Read SQS:  message_body %s: ", message_body)
+      #if debug_all: log.info("firebase_poller:Read SQS:  message_body %s: ", message_body)
 
       if debug_all: log.info("firebase_poller:Read SQS:  receipt_handle %s: ", receipt_handle)
 
@@ -299,7 +299,7 @@ def process_queue(config):
 
       if debug_all: log.info('firebase_poller: process_queue %s: ', count)
 
-      if debug_all: log.info("process_queue:  message %s: ", message)
+      #if debug_all: log.info("process_queue:  message %s: ", message)
       #if debug_all: log.info("process_queue:  message_MessageId %s: ", message['MessageId'])
       
       #try to get messages from the SQS queue and parse them
@@ -413,7 +413,7 @@ def best_effort(func, pushsmart_message):
   message = json.loads(pushsmart_message['Body'])
 
   #if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message['Body'])
-  if debug_all: log.info('firebase_poller:best_effort message %s', message)
+  #if debug_all: log.info('firebase_poller:best_effort message %s', message)
 
   
   try:
