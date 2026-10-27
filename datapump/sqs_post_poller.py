@@ -395,7 +395,7 @@ def proc(message):
         # write parsed nmea data to database
         dump_influxdb_cloud(device_id, partition, records)
 
-        #raise ValueError("Force an error for retry testing")      
+        raise ValueError("Force an error for retry testing")      
 
       except TypeError as e:
         if debug_all: log.info('sqs_post_poller:proc: TypeError in SSA300  %s:  ', partition)
@@ -778,7 +778,8 @@ def best_effort(func, pushsmart_message):
       )
 
       #print(response['MessageId'])
-      print(f"sqs_post_poller:Retry message: retry_count={retry_count} : len={len(message)} : {message} " )
+      #print(f"sqs_post_poller:Retry message: retry_count={retry_count} : len={len(message.get('payload', 'missing'))} : {message.get('device_id', 'missing')} " )
+      print(f"sqs_post_poller:Retry message: retry_count={retry_count} : {message.get('device_id', 'missing')} : {message.get('partition', 'missing')}  " )
       #if debug_all: log.info("sqs_post_poller Send SQS:device_id %s:  response %s: ", device_id,response['MessageId'])
 
       
