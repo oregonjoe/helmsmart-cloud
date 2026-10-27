@@ -460,6 +460,8 @@ def proc(message):
         # write parsed nmea data to database
         dump_influxdb_cloud(device_id, partition, records)
 
+        raise ValueError("Force an error for retry testing")
+
       except TypeError as e:
         if debug_all: log.info('sqs_post_poller:proc: TypeError in proc SSLOG00  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: TypeError in proc SSLOG00  %s:  ' % str(e))
@@ -471,6 +473,10 @@ def proc(message):
       except NameError as e:
         if debug_all: log.info('sqs_post_poller:proc: NameError in proc SSLOG00  %s:  ', partition)
         if debug_all: log.info('sqs_post_poller:proc: NameError in proc SSLOG00  %s:  ' % str(e))
+
+      except ValueError as e:
+        if debug_all: log.info('sqs_post_poller:proc: ValueError in proc SSLOG00  %s:  ', partition)
+        if debug_all: log.info('sqs_post_poller:proc: ValueError in proc SSLOG00  %s:  ' % str(e))
 
         
       except:
@@ -730,6 +736,8 @@ def best_effort(func, pushsmart_message):
   if debug_all: log.info('sqs_post_poller:best_effort message ', )
   
   try:
+   # this will call the proc() function to parse message
+   # and return an exception if it fails
     func(message)
   except  Exception as e:
     if debug_all: log.info('sqs_post_poller:best_effort error %s' % str(e))
