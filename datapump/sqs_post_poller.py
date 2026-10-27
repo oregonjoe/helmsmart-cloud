@@ -539,7 +539,7 @@ def get_messages(queue_url, num_receive):
       count = count + 1
       print(f"sqs_post_poller:Processing received message : {count} : len={len(message['Body'])}")
       
-      message_body = jsonify(message['Body'])
+      message_body = json.loads(message['Body'])
       #print(f"sqs_post_poller:Processing message  message_body={message_body}")
       
       device_id = message_body.get('device_id',"")
