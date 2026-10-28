@@ -41,8 +41,8 @@ import logging
 #NOTSET
 #If you set the root logger level when configuring as logging.DEBUG, it will write all the logs with the levels above that.
 
-logging.basicConfig(level=logging.DEBUG, force=True )
-#logging.basicConfig(level=logging.CRITICAL)
+#logging.basicConfig(level=logging.DEBUG, force=True )
+logging.basicConfig(level=logging.CRITICAL)
 
 log = logging
 # *******************************************************************
@@ -50,7 +50,7 @@ log = logging
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-debug_all = True
+#debug_all = True
 
 # *******************************************************************
 # Define to use AWS SQS Queues for Firebase writes
@@ -475,6 +475,7 @@ def best_effort(func, message):
     fbBucket = "missing"
     partition = "missing"
 
+    #Be careful - message['Body'] is actually an array so you can access it directly  - message_body[0].get()
     message_body = json.loads(message['Body'])
         
     # Retrieve the custom MessageAttributes dictionary
