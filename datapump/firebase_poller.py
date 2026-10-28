@@ -350,7 +350,8 @@ def process_queue(config):
 
       if count == 0:
         # if we had messages process right away, else
-        if debug_all: log.info('sqs_alerts_poller process_queue sleeping: ')
+        if debug_all: log.info('firebase_poller: process_queue sleeping: ')
+        print(f'firebase_poller: process_queue sleeping {sqs_sleep} secs')
         sleep(sqs_sleep)
 
     except NameError as e:
