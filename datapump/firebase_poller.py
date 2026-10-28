@@ -462,6 +462,7 @@ def best_effort(func, message):
   except  Exception as e:
     if debug_all: log.info('firebase_poller:best_effort error %s' % str(e))
 
+    if debug_all: log.info('firebase_poller:best_effort message %s', message)
     
     # Retrieve the custom MessageAttributes dictionary
     # Use .get() because MessageAttributes won't exist if the sender didn't attach any
