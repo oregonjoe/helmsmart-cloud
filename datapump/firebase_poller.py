@@ -500,8 +500,8 @@ def best_effort(func, message):
     if debug_all: log.info("firebase_poller:best_effort:  MessageAttribute partition %s: ", partition)
 
     
-    #retry_count = message.get('retries', 0) + 1
-    retry_count =1
+    retry_count = message_body[0].get('retries', 0) + 1
+    #retry_count =1
     
     #if retry_count > env.max_retries:
     if retry_count > 5:
