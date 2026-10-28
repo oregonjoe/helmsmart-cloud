@@ -419,7 +419,7 @@ def best_effort(func, pushsmart_message):
   #if debug_all: log.info('s3_poller:best_effort starting')
   
   #message = json.loads(pushsmart_message['Body'])
-  message = json.loads(pushsmart_message['Body'])
+  message = json.loads(pushsmart_message)
 
   #if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message['Body'])
   #if debug_all: log.info('firebase_poller:best_effort message %s', message)
