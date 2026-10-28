@@ -545,6 +545,7 @@ def seasmart_timestamp(timestamp, EPOCH=1262304000000):
 def dump_pcdinfirebase(device, eventtype, partition, data):
 
   if debug_all: log.info('sync: dump_pcdinfirebase start %s:%s', partition, device)
+
   print(f'sync: dump_pcdinfirebase {eventtype} : {device}')
   #if debug_all: log.info('sync: dump_pcdinfirebase %s:%s', device, data)
   
