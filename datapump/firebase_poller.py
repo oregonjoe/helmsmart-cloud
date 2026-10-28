@@ -157,7 +157,7 @@ def proc(fb_message):
   """
   try:
     
-    print(f"firebase_poller:Processing received message : {count} : len={len(message['Body'])}")
+    print(f"firebase_poller:proc: Processing received message :  len={len(message['Body'])}")
 
   
     message_body = message['Body']
