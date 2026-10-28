@@ -514,7 +514,7 @@ def best_effort(func, message):
     if retry_count > 5:
       log.exception('Discarding due to errors: %s', message)
       if debug_all: log.info('firebase_poller:best_effort Discarding')
-      print(f"sqs_post_poller: Retry message -Discarding due to errors : {deviceid} : {partition}  " )
+      print(f"firebase_poller: Retry message -Discarding due to errors : {deviceid} : {partition}  " )
       
     else:
       log.exception('Retrying')
