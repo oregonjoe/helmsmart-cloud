@@ -395,7 +395,7 @@ def proc(message):
         # write parsed nmea data to database
         dump_influxdb_cloud(device_id, partition, records)
 
-        #raise ValueError("Force an error for retry testing")      
+        raise ValueError("Force an error for retry testing")      
 
       except TypeError as e:
         if debug_all: log.info('sqs_post_poller:proc: TypeError in SSA300  %s:  ', partition)
