@@ -140,7 +140,7 @@ def dump_influxdb_cloud(device, partition, records):
 def proc(message):
 
   #if debug_all: log.info("firebase_poller:firebase_message %s pgns", len(fb_message))
-  #if debug_all: log.info("firebase_poller:proc fb_message %s ", fb_message)
+  if debug_all: log.info("firebase_poller:proc fb_message %s ", message)
 
   """  
   alertKey = alert_message.get('key', 0) 
@@ -463,7 +463,12 @@ def best_effort(func, message):
     if debug_all: log.info('firebase_poller:best_effort error %s' % str(e))
 
     if debug_all: log.info('firebase_poller:best_effort message %s', message)
-    
+
+
+    deviceid = "missing"
+    fbBucket = "missing"
+    partition = "missing"
+        
     # Retrieve the custom MessageAttributes dictionary
     # Use .get() because MessageAttributes won't exist if the sender didn't attach any
     message_attributes = message.get('MessageAttributes', {})
@@ -473,20 +478,20 @@ def best_effort(func, message):
       deviceid_data = message_attributes['DeviceID']
       deviceid = deviceid_data.get('StringValue')
       
-    if debug_all: log.info("firebase_poller:proc:  MessageAttribute DeviceID %s: ", deviceid)
+    if debug_all: log.info("firebase_poller:best_effort:  MessageAttribute DeviceID %s: ", deviceid)
 
     if 'fbBucket' in message_attributes:
       fbBucket_data = message_attributes['fbBucket']
       fbBucket = fbBucket_data.get('StringValue')
       
-    if debug_all: log.info("firebase_poller:proc:  MessageAttribute fbBucket %s: ", fbBucket)
+    if debug_all: log.info("firebase_poller:best_effort:  MessageAttribute fbBucket %s: ", fbBucket)
 
 
     if 'Partition' in message_attributes:
       partition_data = message_attributes['Partition']
       partition = partition_data.get('StringValue')
       
-    if debug_all: log.info("firebase_poller:proc:  MessageAttribute partition %s: ", partition)
+    if debug_all: log.info("firebase_poller:best_effort:  MessageAttribute partition %s: ", partition)
 
     
     retry_count = message.get('retries', 0) + 1
@@ -507,7 +512,8 @@ def best_effort(func, message):
 
       #env.queue.write( env.queue.new_message(json.dumps(retry)) )
       #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
-
+      if debug_all: log.info("firebase_poller:best_effort:  retry %s: ", retry)
+      
       # Send message to SQS queue
       response = sqs_queue.send_message(
           QueueUrl=queue_url,
