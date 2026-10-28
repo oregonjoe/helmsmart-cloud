@@ -205,6 +205,8 @@ def proc(message):
 
     if debug_all: log.info("firebase_poller:proc:  sent to firebase deviceid:%s fbBucket:%s partition:%s ", deviceid, fbBucket, partition )
 
+    raise ValueError("Force an error for retry testing")
+    
   except botocore.exceptions.ClientError as e:
     #if debug_all: log.info("Read SQS:ClientError device_id %s:  ", device_id)
     if debug_all: log.info('firebase_poller:proc:ClientError  Error in que SQS %s:  ' % str(e))
