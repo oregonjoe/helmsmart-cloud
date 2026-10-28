@@ -411,7 +411,7 @@ def transaction(func, sqs_messages):
       receipt_handle = sqs_message['ReceiptHandle']
       if debug_all: log.info('firebase_poller: transaction ReceiptHandle  %s', receipt_handle)
       
-      print(f'firebase_poller: transaction receipt_handle...{receipt_handle}')
+      #print(f'firebase_poller: transaction receipt_handle...{receipt_handle}')
 
       #message_body = json.loads(sqs_message['Body'])
       #print(f"sqs_post_poller:Processing message  message_body={message_body}")
