@@ -572,7 +572,8 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
       
       ref.set(skdata)
 
-
+      print(f'sync: dump_pcdinfirebase signalk {eventtype} : {device}')
+      
     else:
       try:
         # **************************************************
@@ -588,6 +589,8 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
 
         
         ref.set(json.loads(data))
+
+        print(f'sync: dump_pcdinfirebase json {eventtype} : {device}')
 
       except AttributeError as e:
         if debug_all: log.info('Sync: dump_pcdinfirebase1 AttributeError in data %s:  ', data)
