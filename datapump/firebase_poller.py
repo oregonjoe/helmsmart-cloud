@@ -41,8 +41,8 @@ import logging
 #NOTSET
 #If you set the root logger level when configuring as logging.DEBUG, it will write all the logs with the levels above that.
 
-#logging.basicConfig(level=logging.DEBUG, force=True )
-logging.basicConfig(level=logging.CRITICAL)
+logging.basicConfig(level=logging.DEBUG, force=True )
+#logging.basicConfig(level=logging.CRITICAL)
 
 log = logging
 # *******************************************************************
@@ -50,7 +50,7 @@ log = logging
 # Comment to enable/disable
 # ********************************************************************
 debug_all = False
-#debug_all = True
+debug_all = True
 
 # *******************************************************************
 # Define to use AWS SQS Queues for Firebase writes
@@ -204,7 +204,9 @@ def proc(message):
       dump_pcdinfirebase(deviceid, "SIGNALK", partition, message_body)
 
     if debug_all: log.info("firebase_poller:proc:  sent to firebase deviceid:%s fbBucket:%s partition:%s ", deviceid, fbBucket, partition )
+    print(f"firebase_poller:proc:  sent to firebase deviceid:{deviceid} fbBucket:{fbBucket} partition:{partition} " )
 
+    
     #raise ValueError("Force an error for retry testing")
     
   except botocore.exceptions.ClientError as e:
