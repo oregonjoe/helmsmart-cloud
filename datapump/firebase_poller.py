@@ -508,7 +508,8 @@ def best_effort(func, message):
       log.exception('Retrying')
       if debug_all: log.info('firebase_poller:best_effort retrying')
       
-      retry = message_body.copy()
+      #retry = message_body.copy()
+      retry =message['Body']
       retry['retries'] = retry_count
       
       retry['errors'] = retry.get('errors', [])
