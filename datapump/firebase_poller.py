@@ -137,7 +137,7 @@ def dump_influxdb_cloud(device, partition, records):
     if debug_all: log.info("firebase_poller: in dump_influxdb_cloud SSA300 Error: %s" % str(e))
 
 
-def proc(fb_message):
+def proc(message):
 
   #if debug_all: log.info("firebase_poller:firebase_message %s pgns", len(fb_message))
   #if debug_all: log.info("firebase_poller:proc fb_message %s ", fb_message)
