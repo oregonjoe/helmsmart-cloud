@@ -516,10 +516,10 @@ def best_effort(func, message):
       retry = message_body
       if debug_all: log.info("firebase_poller:best_effort:  retry1 %s: ", retry)
       #retry =message['Body']
-      retry['retries'] = retry_count
+      retry[0]['retries'] = retry_count
       
-      retry['errors'] = retry.get('errors', [])
-      retry['errors'].append(str(e))
+      retry[0]['errors'] = retry.get('errors', [])
+      retry[0]['errors'].append(str(e))
 
       #env.queue.write( env.queue.new_message(json.dumps(retry)) )
       #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
