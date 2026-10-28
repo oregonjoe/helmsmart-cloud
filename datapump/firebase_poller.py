@@ -139,7 +139,7 @@ def dump_influxdb_cloud(device, partition, records):
 
 def proc(fb_message):
 
-  if debug_all: log.info("firebase_poller:firebase_message %s bytes", len(fb_message))
+  if debug_all: log.info("firebase_poller:firebase_message %s pgns", len(fb_message))
   #if debug_all: log.info("firebase_poller:firebase_message %s ", fb_message)
 
   """  
@@ -243,7 +243,7 @@ def get_messages(queue_url, num_receive):
 
       if debug_all: log.info("firebase_poller:Read SQS:  sent to firebase deviceid:%s fbBucket:%s partition:%s ", deviceid, fbBucket, partition )
 
-    #raise ValueError("Force an error for retry testing")   
+    raise ValueError("Force an error for retry testing")   
     # return all messages recieved in case of errors and need to retry SQS que by rewriting messages      
     return messages
   
