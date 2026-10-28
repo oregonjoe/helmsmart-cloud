@@ -447,12 +447,12 @@ def transaction(func, sqs_messages):
 # tries to get pushsmart messages
 # and if there is a problem will retry several times (3)?
 # times before deleting them from the queue
-def best_effort(func, pushsmart_message):
+def best_effort(func, message):
   #if debug_all: log.info('s3_poller:best_effort starting')
   
   #message = json.loads(pushsmart_message['Body'])
   #message = json.loads(pushsmart_message)
-  message = pushsmart_message
+  #message = pushsmart_message
   #if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message['Body'])
   #if debug_all: log.info('firebase_poller:best_effort message %s', message)
 
@@ -463,11 +463,35 @@ def best_effort(func, pushsmart_message):
     if debug_all: log.info('firebase_poller:best_effort error %s' % str(e))
 
     
+    # Retrieve the custom MessageAttributes dictionary
+    # Use .get() because MessageAttributes won't exist if the sender didn't attach any
+    message_attributes = message.get('MessageAttributes', {})
+
+    # SQS stores values in StringValue, BinaryValue, or Number (which maps to StringValue)
+    if 'DeviceID' in message_attributes:
+      deviceid_data = message_attributes['DeviceID']
+      deviceid = deviceid_data.get('StringValue')
+      
+    if debug_all: log.info("firebase_poller:proc:  MessageAttribute DeviceID %s: ", deviceid)
+
+    if 'fbBucket' in message_attributes:
+      fbBucket_data = message_attributes['fbBucket']
+      fbBucket = fbBucket_data.get('StringValue')
+      
+    if debug_all: log.info("firebase_poller:proc:  MessageAttribute fbBucket %s: ", fbBucket)
+
+
+    if 'Partition' in message_attributes:
+      partition_data = message_attributes['Partition']
+      partition = partition_data.get('StringValue')
+      
+    if debug_all: log.info("firebase_poller:proc:  MessageAttribute partition %s: ", partition)
+
     
     retry_count = message.get('retries', 0) + 1
     #if retry_count > env.max_retries:
     if retry_count > 5:
-      log.exception('Discarding due to errors: %s', pushsmart_message)
+      log.exception('Discarding due to errors: %s', message)
       if debug_all: log.info('firebase_poller:best_effort Discarding')
       
     else:
@@ -490,12 +514,15 @@ def best_effort(func, pushsmart_message):
           #MessageAttributes={ 'Device': {  'deviceid':device_id} },
           MessageBody=(json.dumps(retry))
       )
+
+
+
       
       #print(f"firebase_poller:Retry message: retry_count={retry_count} : len={len(message)} : {message} " )
-      print(f"sqs_post_poller: Retry message: retry_count={retry_count} : {message.get('device_id', 'missing')} : {message.get('partition', 'missing')}  " )
+      print(f"sqs_post_poller: Retry message: retry_count={retry_count} : {deviceid} : {partition}  " )
       #print(response['MessageId'])
 
-      if debug_all: log.info("firebase_poller:device_id %s:  response %s: ", device_id,response['MessageId'])
+      if debug_all: log.info("firebase_poller:device_id %s:  response %s: ", deviceid , response['MessageId'])
 
       
   
