@@ -139,8 +139,8 @@ def dump_influxdb_cloud(device, partition, records):
 
 def proc(message):
 
-  #if debug_all: log.info("firebase_poller:firebase_message %s pgns", len(fb_message))
-  if debug_all: log.info("firebase_poller:proc fb_message %s ", message)
+  if debug_all: log.info("firebase_poller:firebase_message %s pgns", len(message))
+  #if debug_all: log.info("firebase_poller:proc fb_message %s ", message)
 
   """  
   alertKey = alert_message.get('key', 0) 
@@ -466,7 +466,7 @@ def best_effort(func, message):
   except  Exception as e:
     if debug_all: log.info('firebase_poller:best_effort error %s' % str(e))
 
-    if debug_all: log.info('firebase_poller:best_effort message %s', message)
+    #if debug_all: log.info('firebase_poller:best_effort message %s', message)
 
 
     deviceid = "missing"
@@ -514,7 +514,7 @@ def best_effort(func, message):
       
       #retry = message_body[0].copy()
       retry = message_body
-      if debug_all: log.info("firebase_poller:best_effort:  retry1 %s: ", retry)
+      #if debug_all: log.info("firebase_poller:best_effort:  retry1 %s: ", retry)
       #retry =message['Body']
       retry[0]['retries'] = retry_count
       
@@ -523,7 +523,7 @@ def best_effort(func, message):
 
       #env.queue.write( env.queue.new_message(json.dumps(retry)) )
       #queue_url = environ.get('SQS_QUEUE_ALERTS_URL')
-      if debug_all: log.info("firebase_poller:best_effort:  retry2 %s: ", retry)
+      #if debug_all: log.info("firebase_poller:best_effort:  retry2 %s: ", retry)
       
       # Send message to SQS queue
       response = sqs_queue.send_message(
