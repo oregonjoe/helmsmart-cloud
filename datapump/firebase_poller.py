@@ -518,7 +518,7 @@ def best_effort(func, message):
       #retry =message['Body']
       retry[0]['retries'] = retry_count
       
-      retry[0]['errors'] = retry.get('errors', [])
+      retry[0]['errors'] = retry[0].get('errors', [])
       retry[0]['errors'].append(str(e))
 
       #env.queue.write( env.queue.new_message(json.dumps(retry)) )
