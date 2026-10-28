@@ -468,6 +468,8 @@ def best_effort(func, message):
     deviceid = "missing"
     fbBucket = "missing"
     partition = "missing"
+
+    message_body = json.loads(message['Body'])
         
     # Retrieve the custom MessageAttributes dictionary
     # Use .get() because MessageAttributes won't exist if the sender didn't attach any
@@ -504,7 +506,7 @@ def best_effort(func, message):
       log.exception('Retrying')
       if debug_all: log.info('firebase_poller:best_effort retrying')
       
-      retry = message.copy()
+      retry = message_body.copy()
       retry['retries'] = retry_count
       
       retry['errors'] = retry.get('errors', [])
@@ -518,7 +520,7 @@ def best_effort(func, message):
       response = sqs_queue.send_message(
           QueueUrl=queue_url,
           DelaySeconds=10,
-          #MessageAttributes={ 'Device': {  'deviceid':device_id} },
+          MessageAttributes=message_attributes,
           MessageBody=(json.dumps(retry))
       )
 
