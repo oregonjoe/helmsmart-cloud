@@ -139,8 +139,8 @@ def dump_influxdb_cloud(device, partition, records):
 
 def proc(fb_message):
 
-  if debug_all: log.info("firebase_poller:firebase_message %s pgns", len(fb_message))
-  #if debug_all: log.info("firebase_poller:firebase_message %s ", fb_message)
+  #if debug_all: log.info("firebase_poller:firebase_message %s pgns", len(fb_message))
+  if debug_all: log.info("firebase_poller:proc fb_message %s ", fb_message)
 
   """  
   alertKey = alert_message.get('key', 0) 
@@ -190,7 +190,7 @@ def get_messages(queue_url, num_receive):
     messages = response.get('Messages', [])
     print(f"firebase_poller:Number of messages received: {len(messages)}")
     #print(messages)
-    #if debug_all: log.info("Read SQS:  message %s: ", message)
+    #if debug_all: log.info("Read SQS:  message %s: ", messages)
 
     for message in messages:
       
@@ -243,7 +243,7 @@ def get_messages(queue_url, num_receive):
 
       if debug_all: log.info("firebase_poller:Read SQS:  sent to firebase deviceid:%s fbBucket:%s partition:%s ", deviceid, fbBucket, partition )
 
-    raise ValueError("Force an error for retry testing")   
+    #raise ValueError("Force an error for retry testing")   
     # return all messages recieved in case of errors and need to retry SQS que by rewriting messages      
     return messages
   
@@ -302,16 +302,16 @@ def process_queue(config):
 
       #get messages from SQS queue and try to process them with the PROC function
       #for message in get_messages(queue_url, num_receive):
-      message=get_messages(queue_url, num_receive)
+      messages=get_messages(queue_url, num_receive)
 
       if debug_all: log.info('firebase_poller: process_queue %s: ', count)
 
-      #if debug_all: log.info("process_queue:  message %s: ", message)
-      #if debug_all: log.info("process_queue:  message_MessageId %s: ", message['MessageId'])
+      #if debug_all: log.info("process_queue:  messages %s: ", messages)
+      #if debug_all: log.info("process_queue:  message_MessageId %s: ", messages['MessageId'])
       
       #try to get messages from the SQS queue and parse them
-      if message != []:
-        transaction(handle,  message)
+      if messages != []:
+        transaction(handle,  messages)
         count += 1
 
       if count == 0:
@@ -417,6 +417,8 @@ def transaction(func, sqs_messages):
 # times before deleting them from the queue
 def best_effort(func, pushsmart_message):
   #if debug_all: log.info('s3_poller:best_effort starting')
+  
+  #message = json.loads(pushsmart_message['Body'])
   message = json.loads(pushsmart_message['Body'])
 
   #if debug_all: log.info('sqs_poller:best_effort message %s', pushsmart_message['Body'])
