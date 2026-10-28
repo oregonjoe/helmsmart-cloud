@@ -546,7 +546,7 @@ def dump_pcdinfirebase(device, eventtype, partition, data):
 
   if debug_all: log.info('sync: dump_pcdinfirebase start %s:%s', partition, device)
 
-  print(f'sync: dump_pcdinfirebase {eventtype} : {device}')
+  #print(f'sync: dump_pcdinfirebase {eventtype} : {device}')
   #if debug_all: log.info('sync: dump_pcdinfirebase %s:%s', device, data)
   
   #var gDeviceKey="001EC010AD69"; // WinChuckWiFI
