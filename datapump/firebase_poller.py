@@ -469,7 +469,7 @@ def best_effort(func, message):
     fbBucket = "missing"
     partition = "missing"
 
-    message_body = json.loads(message[0]['Body'])
+    message_body = json.loads(message['Body'])
         
     # Retrieve the custom MessageAttributes dictionary
     # Use .get() because MessageAttributes won't exist if the sender didn't attach any
@@ -508,7 +508,7 @@ def best_effort(func, message):
       log.exception('Retrying')
       if debug_all: log.info('firebase_poller:best_effort retrying')
       
-      retry = message_body.copy()
+      retry = message_body[0].copy()
       #retry =message['Body']
       retry['retries'] = retry_count
       
