@@ -803,7 +803,7 @@ def best_effort(func, pushsmart_message):
       # Send message to SQS queue
       response = sqs_queue.send_message(
           QueueUrl=queue_url,
-          DelaySeconds=10,
+          DelaySeconds=30,
           #MessageAttributes={ 'Device': {  'deviceid':device_id} },
           MessageBody=(json.dumps(retry))
       )
