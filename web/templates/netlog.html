@@ -527,6 +527,37 @@ var mytimestamp;
 							uploadType = 1;
 						}
 				  }
+				  
+				  //$PCDIN,01F010,0000MA03,FF,00061751A014E231*2C
+				  mySubString = mySubStrings[myIndex];
+				  myPos = mySubString.indexOf("$PCDIN,01F010,")
+				  if(myPos !=  -1)
+				  {
+						mytimestamp = mySubString.substr(myPos+14,6);
+						
+						myHexStr = "0x" + myHexStr.substr((32), 2) + myHexStr.substr((30), 2);
+                        myPGNValue = parseInt(myHexStr);
+
+                        vGDay = (myPGNValue * 86400) * 1000;
+						
+						myHexStr = "0x" + myHexStr.substr(40, 2) + myHexStr.substr(38, 2) + myHexStr.substr(36, 2) + myHexStr.substr(34, 2);
+
+                        myPGNValue = parseInt(myHexStr);
+						vGSec =  myPGNValue/ 1000;		 
+								 
+								 
+						vGSec = Math.floor(vGSec + vGDay);
+                        NGTDate.setTime(vGSec);	
+						
+						myNGTStrinfg = NGTDate.toUTCString()		 
+								 
+						mySubString = mySubString.substr(myPos,43);
+						myPos = mySubString.indexOf(",99E1")
+				  }
+				  
+				  
+				  
+				  
 
 			  }  
 
