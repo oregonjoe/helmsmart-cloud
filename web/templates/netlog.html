@@ -490,6 +490,7 @@ var mytimestamp;
 			myuploadDeviceID = "";
 
 			mySubStrings = mytext.split("\n");
+			mySubStrings.sort();
 			myArrayLength = mySubStrings.length;
 
 
@@ -573,7 +574,12 @@ var mytimestamp;
 						vGSec = Math.floor(vGSec + vGDay);
                         NGTDate.setTime(vGSec);	
 						
-						myNGTStrinfg = NGTDate.toUTCString()		 
+						myNGTStrinfg = NGTDate.toUTCString()	
+
+						var mySeaSmartSecs = vGSec/1000;
+						mySeaSmartSecs = mySeaSmartSecs - 1262304000;
+						
+						var mySeaSmartSecsStr = mySeaSmartSecs.toString(32); 
 								 
 						mySubString = mySubString.substr(myPos,43);
 						myPos = mySubString.indexOf(",99E1")
