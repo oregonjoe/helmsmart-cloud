@@ -453,6 +453,28 @@ var myprogressbar = $id("ulprogressBar");
 var uploadbuttondiv = $id("uploadbuttondiv");
 var mytimestamp;
 
+
+  var mySubStrings = new Array();
+   var myIndex;
+    var myRowIndex;
+    var myPGNInstance;
+    var myPGN;
+    var myPGNValue;
+   
+    var vGN2KTime = new Array();
+    var myHexStr = new String();
+    var myHexLBStr = new String();
+    var myTimeStr = new String();
+
+	    var vGYear;
+    var vGMonth;
+    var vGDay;
+    var vGHour;
+    var vGMin;
+    var vGSec;
+
+    var NGTDate = new Date(0);
+
         // clear message buffer
 		ClearOutput();
 
@@ -530,6 +552,7 @@ var mytimestamp;
 				  
 				  //$PCDIN,01F010,0000MA03,FF,00061751A014E231*2C
 				  mySubString = mySubStrings[myIndex];
+				  myHexStr = mySubStrings[myIndex];
 				  myPos = mySubString.indexOf("$PCDIN,01F010,")
 				  if(myPos !=  -1)
 				  {
