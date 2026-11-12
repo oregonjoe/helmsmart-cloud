@@ -452,7 +452,7 @@ var myprogressvalue = $id("progressvalue");
 var myprogressbar = $id("ulprogressBar");
 var uploadbuttondiv = $id("uploadbuttondiv");
 var mytimestamp;
-
+var mySeaSmartSecsStr="";
 
   var mySubStrings = new Array();
    var myIndex;
@@ -579,7 +579,7 @@ var mytimestamp;
 						var mySeaSmartSecs = vGSec/1000;
 						mySeaSmartSecs = mySeaSmartSecs - 1262304000;
 						
-						var mySeaSmartSecsStr = mySeaSmartSecs.toString(32); 
+						mySeaSmartSecsStr = mySeaSmartSecs.toString(32); 
 								 
 						mySubString = mySubString.substr(myPos,43);
 						myPos = mySubString.indexOf(",99E1")
@@ -590,6 +590,26 @@ var mytimestamp;
 				  
 
 			  }  
+			  
+			  
+			  // if we have a good mySeaSmartSecsStr=""
+				if(mySeaSmartSecsStr != "")
+				{
+					// Get all the elements and parse into variables
+					for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
+					{
+						mySubString = mySubStrings[myIndex];
+				  
+						myPDNSubStrings = mySubString.split(",");
+						
+						var mySMTimestamp = myPDNSubStrings[1];
+						
+						myPDNSubStrings[1] = mySeaSmartSecsStr.toUpperCase();
+						
+					}
+				  
+				}
+			  
 
 				Output(
 					"<p><strong>" + file.name + ":</strong></p>" +
