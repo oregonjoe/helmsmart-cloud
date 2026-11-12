@@ -561,13 +561,13 @@ var mytimestamp;
 						myHexStr = "0x" + myHexStr.substr((32), 2) + myHexStr.substr((30), 2);
                         myPGNValue = parseInt(myHexStr);
 
-                        vGDay = (myPGNValue * 86400) ;
+                        vGDay = (myPGNValue * 86400) * 1000 ;
 						
 						 myHexStr = mySubStrings[myIndex];
 						myHexStr = "0x" + myHexStr.substr(40, 2) + myHexStr.substr(38, 2) + myHexStr.substr(36, 2) + myHexStr.substr(34, 2);
 
                         myPGNValue = parseInt(myHexStr);
-						vGSec =  myPGNValue/ 1000;		 
+						vGSec =  myPGNValue/ 10;		 
 								 
 								 
 						vGSec = Math.floor(vGSec + vGDay);
