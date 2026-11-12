@@ -599,12 +599,18 @@ var mySeaSmartSecsStr="";
 					for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
 					{
 						mySubString = mySubStrings[myIndex];
+						
+						
 				  
 						myPDNSubStrings = mySubString.split(",");
 						
-						var mySMTimestamp = myPDNSubStrings[1];
+						if(myPDNSubStrings.length == 5 )
+						{
 						
-						myPDNSubStrings[1] = mySeaSmartSecsStr.toUpperCase();
+							var mySMTimestamp = myPDNSubStrings[2];
+							
+							myPDNSubStrings[2] = mySeaSmartSecsStr.toUpperCase();
+						}
 						
 					}
 				  
