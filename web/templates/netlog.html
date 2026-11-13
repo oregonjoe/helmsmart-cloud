@@ -448,7 +448,10 @@ function parseFileForTimestamp(textfile)
 
 var mytimestamp;
 var mySeaSmartSecsStr="";
-
+var NGTDate = new Date(0);
+var myNGTStrinfg = "";
+var myUpdatedFile = "";	
+	
 	var mySubStrings = textfile.split("\n");
 	mySubStrings.sort();
 	var myArrayLength = mySubStrings.length;
@@ -491,6 +494,63 @@ var mySeaSmartSecsStr="";
 					}
 			  
 			  }
+			  
+			  
+			  // if we have a good mySeaSmartSecsStr=""
+				if(mySeaSmartSecsStr != "")
+				{
+					// Get all the elements and parse into variables
+					for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
+					{
+						mySubString = mySubStrings[myIndex];
+						
+						
+				  
+						myPDNSubStrings = mySubString.split(",");
+						
+						if(myPDNSubStrings.length == 5 )
+						{
+						
+							var mySMTimestamp = myPDNSubStrings[2];
+							
+							myPDNSubStrings[2] = mySeaSmartSecsStr.toUpperCase() + myIndex.toString(32).padStart(2, '0');;
+							
+							var myPayloads = myPDNSubStrings[4].split('*') 
+						
+							var myPayload = myPayloads[0];
+							
+							var PCDINString = myPDNSubStrings[0] + "," +  myPDNSubStrings[1] + "," +  myPDNSubStrings[2] + "," +  myPDNSubStrings[3] + "," +  myPayloads[0]; 
+							
+							var checksum = 0;
+							
+							for(j=1; j< PCDINString.length; j++)
+							{
+								checksum = checksum ^ PCDINString.charCodeAt(j);
+							  
+							}
+					  
+							//PCDINString = PCDINString + "*" + zHexpad(checksum,2) + "\r\n"
+							mySubStrings[myIndex] = PCDINString + "*" + zHexpad(checksum,2) + "\r\n";
+							
+							
+						}
+						
+					
+						
+						
+					}
+			  
+			  		myUpdatedFile = "";
+					// Get all the elements and parse into variables
+					for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
+					{
+					
+						if (mySubStrings[myIndex].length > 5)
+						{
+							myUpdatedFile = myUpdatedFile + mySubStrings[myIndex];
+						}
+					
+					}
 		
 
 }
