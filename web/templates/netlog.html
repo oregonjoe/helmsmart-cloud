@@ -551,6 +551,14 @@ var myUpdatedFile = "";
 						}
 					
 					}
+					
+					return myUpdatedFile;
+				}
+				
+				else
+				{
+				
+					return textfile;
 				}
 
 }
@@ -844,9 +852,9 @@ async function uploadFileBlobInChunks(file, index){
 	}
 		
 	var blob = file.slice(start,start+step+1);
-	const PStext = await blob.text();
+	//const PStext = await blob.text();
 	
-	parseFileForTimestamp(PStext);
+	const PStext = parseFileForTimestamp(PStext);
 	
 	return;
 	
