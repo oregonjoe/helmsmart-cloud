@@ -662,9 +662,8 @@ var mySeaSmartSecsStr="";
 					"<p>File information: <strong>" + file.name +
 					"</strong> type: <strong>" + file.type +
 					"</strong> size: <strong>" + file.size +
-					"</strong> size: <strong>" + myNGTStrinfg +
 					"</strong> bytes</p>" +
-					"<p><strong> TimeStamp: " +  + " </strong></p>" +
+					"<p><strong> TimeStamp: " + myNGTStrinfg + " </strong></p>" +
 					"<pre class=\"auto-style5\">" +
 					//e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
 					myUpdatedFile +
@@ -673,7 +672,7 @@ var mySeaSmartSecsStr="";
 			}
 			//var blob = file.slice(0,4096*2);
 			
-			new blob([myUpdatedFile], { type: "text/plain" });
+			var new blob([myUpdatedFile], { type: "text/plain" });
 	
 			reader.readAsText(blob);
 			//reader.readAsText(file);
