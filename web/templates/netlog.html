@@ -443,7 +443,57 @@ function ChangedSpan()
  }
 	 
  
- 
+function parseFileForTimestamp(textfile)
+{
+
+var mytimestamp;
+var mySeaSmartSecsStr="";
+
+	var mySubStrings = textfile.split("\n");
+	var mySubStrings.sort();
+	var myArrayLength = mySubStrings.length;
+
+
+			  // Get all the elements and parse into variables
+			  for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
+			  {
+			  
+					myPDNSubStrings = mySubString[myIndex].split(",");
+					
+					 //$PCDIN,01F010,0000MA03,FF,00061751A014E231*2C
+					if(myPDNSubStrings[1] == "01F010")
+					{
+					
+						mytimestamp = myPDNSubStrings[4].substr(4,12);
+						
+						PGNdays = "0x" + mytimestamp.substr(2, 2) + mytimestamp.substr(0, 2);
+                        myPGNValue = parseInt(PGNdays);
+
+                        vGDay = (myPGNValue * 86400) * 1000 ;
+						
+						 
+						PGNsecs = "0x" + mytimestamp.substr(10, 2) + mytimestamp.substr(8, 2) + mytimestamp.substr(6, 2) + mytimestamp.substr(4, 2);
+
+                        myPGNValue = parseInt(PGNsecs);
+						vGSec =  myPGNValue/ 10;		 
+								 
+								 
+						vGSec = Math.floor(vGSec + vGDay);
+                        NGTDate.setTime(vGSec);	
+						
+						myNGTString = NGTDate.toUTCString()	
+
+						var mySeaSmartSecs = vGSec/1000;
+						mySeaSmartSecs = mySeaSmartSecs - 1262304000;
+						
+						mySeaSmartSecsStr = mySeaSmartSecs.toString(32); 
+					
+					}
+			  
+			  }
+		
+
+}
  
 // output file information
 function ParseFile(file) {
@@ -735,6 +785,10 @@ async function uploadFileBlobInChunks(file, index){
 		
 	var blob = file.slice(start,start+step+1);
 	const PStext = await blob.text();
+	
+	parseFileForTimestamp(PStext);
+	
+	return;
 	
 	chunkcount = await uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, total);
 	
