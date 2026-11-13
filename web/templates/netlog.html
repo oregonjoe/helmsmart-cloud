@@ -856,7 +856,7 @@ async function uploadFileBlobInChunks(file, index){
 	
 	PStext = parseFileForTimestamp(PStext);
 	
-	return;
+	//return;
 	
 	chunkcount = await uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, total);
 	
@@ -885,7 +885,7 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, 
 		var myFileNameParts = file.name.split(".");
 		var myFileNamePart =  myFileNameParts[0].split("_");
 	
-		return;
+	
 		
 		if(chunkcount < 10)
 		{
@@ -912,7 +912,9 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, 
 						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3);
 		}
 	
-					
+			
+		return;
+			
 		xhr.open("POST", postfilename, true);
 		xhr.setRequestHeader("X_FILENAME", file.name);
 				
