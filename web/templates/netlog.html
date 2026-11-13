@@ -670,9 +670,11 @@ var mySeaSmartSecsStr="";
 					"</pre>"
 				);
 			}
-			//var blob = file.slice(0,4096*2);
 			
-			const blob = new Blob([myUpdatedFile], { type: "text/plain" });
+			
+			var blob = file.slice(0,4096*2);
+			
+			//const blob = new Blob([myUpdatedFile], { type: "text/plain" });
 	
 			reader.readAsText(blob);
 			//reader.readAsText(file);
