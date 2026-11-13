@@ -449,7 +449,7 @@ function parseFileForTimestamp(textfile)
 var mytimestamp;
 var mySeaSmartSecsStr="";
 var NGTDate = new Date(0);
-var myNGTStrinfg = "";
+var myNGTString = "";
 var myUpdatedFile = "";	
 	
 	var mySubStrings = textfile.split("\n");
@@ -560,13 +560,13 @@ var myUpdatedFile = "";
 					
 					}
 					
-					return myUpdatedFile;
+					return [myUpdatedFile, myNGTString];
 				}
 				
 				else
 				{
 				
-					return textfile;
+					return [textfile, myNGTString];
 				}
 
 }
@@ -680,6 +680,8 @@ var mySeaSmartSecsStr="";
 						}
 				  }
 				  
+				  
+				  /*
 				  //$PCDIN,01F010,0000MA03,FF,00061751A014E231*2C
 				  mySubString = mySubStrings[myIndex];
 				  myHexStr = mySubStrings[myIndex];
@@ -714,13 +716,14 @@ var mySeaSmartSecsStr="";
 						myPos = mySubString.indexOf(",99E1")
 				  }
 				  
-				  
+				  */
 				  
 				  
 
 			  }  
 			  
-			  
+			  var parseFileForTimestampResults =  parseFileForTimestamp(mytext);
+			  /*
 			  // if we have a good mySeaSmartSecsStr=""
 				if(mySeaSmartSecsStr != "")
 				{
@@ -780,6 +783,8 @@ var mySeaSmartSecsStr="";
 					myUpdatedFile.replace(/</g, "&lt;").replace(/>/g, "&gt;")
 				  
 				}
+				
+				*/
 			  
 
 				Output(
@@ -789,10 +794,10 @@ var mySeaSmartSecsStr="";
 					"</strong> type: <strong>" + file.type +
 					"</strong> size: <strong>" + file.size +
 					"</strong> bytes</p>" +
-					"<p><strong> TimeStamp: " + myNGTStrinfg + " </strong></p>" +
+					"<p><strong> TimeStamp: " + parseFileForTimestampResults[0] + " </strong></p>" +
 					"<pre class=\"auto-style5\">" +
 					//e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
-					myUpdatedFile +
+					parseFileForTimestampResults[0] +
 					"</pre>"
 				);
 			}
@@ -862,11 +867,12 @@ async function uploadFileBlobInChunks(file, index){
 	var blob = file.slice(start,start+step+1);
 	var PStext = await blob.text();
 	
-	PStext = parseFileForTimestamp(PStext);
+	//PStext = parseFileForTimestamp(PStext);
+	var parseFileForTimestampResults =  parseFileForTimestamp(PStext);
 	
 	//return;
 	
-	chunkcount = await uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, total);
+	chunkcount = await uploadPSfile(file, index, parseFileForTimestampResults[0], chunkcount, numofchunks, step, total);
 	
 
 	
