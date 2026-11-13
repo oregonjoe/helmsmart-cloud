@@ -912,6 +912,23 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, 
 						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3);
 		}
 	
+	
+				chunkcount = chunkcount + 1;
+								 
+								myloaded = myloaded + step;
+														   
+														
+							m_uploadmessages.innerHTML = "Uploaded " + chunkcount + " of " +  (numofchunks + 1);
+
+							myprogressbar.value = Math.round((chunkcount / numofchunks * 100));
+
+							//myprogressvalue.innerHTML = (Math.round((chunkcount / numofchunks * 100))) + " %";
+							 myprogressvalue.innerHTML = (Math.round((myloaded / total * 100))) + " % -> file " + index;
+								 
+								 
+								 return chunkcount;
+	
+	
 			
 		return;
 			
