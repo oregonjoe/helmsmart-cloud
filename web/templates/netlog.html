@@ -476,6 +476,7 @@ var mySeaSmartSecsStr="";
     var vGSec;
 
     var NGTDate = new Date(0);
+	var myNGTStrinfg = "";
 
         // clear message buffer
 		ClearOutput();
@@ -661,13 +662,18 @@ var mySeaSmartSecsStr="";
 					"<p>File information: <strong>" + file.name +
 					"</strong> type: <strong>" + file.type +
 					"</strong> size: <strong>" + file.size +
-					"</strong> bytes</p><pre class=\"auto-style5\">" +
+					"</strong> size: <strong>" + myNGTStrinfg +
+					"</strong> bytes</p>" +
+					"<p><strong> TimeStamp: " +  + " </strong></p>" +
+					"<pre class=\"auto-style5\">" +
 					//e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
 					myUpdatedFile +
 					"</pre>"
 				);
 			}
-			var blob = file.slice(0,4096*2);
+			//var blob = file.slice(0,4096*2);
+			
+			new blob([myUpdatedFile], { type: "text/plain" });
 	
 			reader.readAsText(blob);
 			//reader.readAsText(file);
