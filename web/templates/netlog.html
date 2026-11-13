@@ -467,6 +467,14 @@ var myUpdatedFile = "";
 					if(myPDNSubStrings[1] == "01F010")
 					{
 					
+						var myPStimestampStr = myPDNSubStrings[2].substr(0,6)
+						var myPStimestamp = parseInt(myPStimestampStr);
+						
+						
+						NGTDate.setTime(myPStimestamp-1262304000);	
+						
+						myNGTString = NGTDate.toUTCString()	
+					
 						mytimestamp = myPDNSubStrings[4].substr(4,12);
 						
 						PGNdays = "0x" + mytimestamp.substr(2, 2) + mytimestamp.substr(0, 2);
