@@ -468,7 +468,7 @@ var myUpdatedFile = "";
 					{
 					
 						var myPStimestampStr = myPDNSubStrings[2].substr(0,6)
-						var myPStimestamp = parseInt(myPStimestampStr);
+						var myPStimestamp = parseInt(myPStimestampStr, 32);
 						
 						
 						NGTDate.setTime(myPStimestamp-1262304000);	
