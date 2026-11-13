@@ -465,6 +465,8 @@ var mySeaSmartSecsStr="";
     var myHexStr = new String();
     var myHexLBStr = new String();
     var myTimeStr = new String();
+	
+	var myUpdatedFile = "";
 
 	    var vGYear;
     var vGMonth;
@@ -635,6 +637,20 @@ var mySeaSmartSecsStr="";
 						
 						
 					}
+					
+					 myUpdatedFile = "";
+					// Get all the elements and parse into variables
+					for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
+					{
+					
+						if (mySubStrings[myIndex].length > 5)
+						{
+							myUpdatedFile = myUpdatedFile +mySubStrings[myIndex];
+						}
+					
+					}
+					
+					myUpdatedFile.replace(/</g, "&lt;").replace(/>/g, "&gt;")
 				  
 				}
 			  
@@ -646,7 +662,8 @@ var mySeaSmartSecsStr="";
 					"</strong> type: <strong>" + file.type +
 					"</strong> size: <strong>" + file.size +
 					"</strong> bytes</p><pre class=\"auto-style5\">" +
-					e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+					//e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+					myUpdatedFile +
 					"</pre>"
 				);
 			}
