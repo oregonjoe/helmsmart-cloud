@@ -497,6 +497,8 @@ var myUpdatedFile = "";
 						var mySeaSmartSecs = vGSec/1000;
 						mySeaSmartSecs = mySeaSmartSecs - 1262304000;
 						
+						mySeaSmartSecs = mySeaSmartSecs + (10 * 32 * 32);
+						
 						mySeaSmartSecsStr = mySeaSmartSecs.toString(32); 
 					
 					}
@@ -794,10 +796,10 @@ var mySeaSmartSecsStr="";
 					"</strong> type: <strong>" + file.type +
 					"</strong> size: <strong>" + file.size +
 					"</strong> bytes</p>" +
-					"<p><strong> TimeStamp: " + parseFileForTimestampResults[0] + " </strong></p>" +
+					"<p><strong> TimeStamp: " + parseFileForTimestampResults[1] + " </strong></p>" +
 					"<pre class=\"auto-style5\">" +
 					//e.target.result.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
-					parseFileForTimestampResults[1] +
+					parseFileForTimestampResults[0] +
 					"</pre>"
 				);
 			}
