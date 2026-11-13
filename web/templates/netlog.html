@@ -852,7 +852,7 @@ async function uploadFileBlobInChunks(file, index){
 	}
 		
 	var blob = file.slice(start,start+step+1);
-	const PStext = await blob.text();
+	var PStext = await blob.text();
 	
 	PStext = parseFileForTimestamp(PStext);
 	
