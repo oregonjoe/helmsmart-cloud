@@ -672,7 +672,7 @@ var mySeaSmartSecsStr="";
 			}
 			//var blob = file.slice(0,4096*2);
 			
-			var blob([myUpdatedFile], { type: "text/plain" });
+			const blob = new Blob([myUpdatedFile], { type: "text/plain" });
 	
 			reader.readAsText(blob);
 			//reader.readAsText(file);
