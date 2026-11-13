@@ -609,11 +609,24 @@ var mySeaSmartSecsStr="";
 						
 							var mySMTimestamp = myPDNSubStrings[2];
 							
-							myPDNSubStrings[2] = mySeaSmartSecsStr.toUpperCase() + myIndex.toString(32);
+							myPDNSubStrings[2] = mySeaSmartSecsStr.toUpperCase() + myIndex.toString(32).padStart(2, '0');;
 							
 							var myPayloads = myPDNSubStrings[4].split('*') 
 						
 							var myPayload = myPayloads[0];
+							
+							var PCDINString = myPDNSubStrings[0] + "," +  myPDNSubStrings[1] + "," +  myPDNSubStrings[2] + "," +  myPDNSubStrings[3] + "," +  myPDNSubStrings[3]; 
+							
+							
+							for(j=1; j< PCDINString.length; j++)
+							{
+								checksum = checksum ^ PCDINString.charCodeAt(j);
+							  
+							}
+					  
+							//PCDINString = PCDINString + "*" + zHexpad(checksum,2) + "\r\n"
+							mySubStrings[myIndex] = PCDINString + "*" + zHexpad(checksum,2))
+							
 							
 						}
 						
