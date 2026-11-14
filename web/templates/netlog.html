@@ -486,39 +486,39 @@ var myUpdatedFile = "";
 						myNGTString = NGTDate.toUTCString()	
 						
 						// Compare SeaSmart Time stamp to 1/1/2010
-						if (myPStimestamp > 1577836800000)//1577836800 01/01/2020
+						if (myPStimestamp <= 1577836800000)//1577836800 01/01/2020
 						{
-							return [textfile, myNGTString];
+							
+						
+							// SeaSmart TimeStamp is invalid so we use the NMEA 2000 Date/Time PGN
+							// get the Date Time payload
+							mytimestamp = myPDNSubStrings[4].substr(4,12);
+							
+							PGNdays = "0x" + mytimestamp.substr(2, 2) + mytimestamp.substr(0, 2);
+							myPGNValue = parseInt(PGNdays);
+
+							vGDay = (myPGNValue * 86400) * 1000 ;
+							
+							 
+							PGNsecs = "0x" + mytimestamp.substr(10, 2) + mytimestamp.substr(8, 2) + mytimestamp.substr(6, 2) + mytimestamp.substr(4, 2);
+
+							myPGNValue = parseInt(PGNsecs);
+							vGSec =  myPGNValue/ 10;		 
+									 
+							// convert to UTC time		 
+							vGSec = Math.floor(vGSec + vGDay);
+							NGTDate.setTime(vGSec);	
+							
+							myNGTString = NGTDate.toUTCString()	
+
+							// convertt to SeaSmart TimeStamp Hex32 format
+							var mySeaSmartSecs = vGSec/1000;
+							mySeaSmartSecs = mySeaSmartSecs - 1262304000;
+							
+							mySeaSmartSecs = mySeaSmartSecs + gtimezoneOffset;
+							// we now have a valid SeaSmart TimeStamp in HEX32
+							mySeaSmartSecsStr = mySeaSmartSecs.toString(32); 
 						}
-						
-						// SeaSmart TimeStamp is invalid so we use the NMEA 2000 Date/Time PGN
-						// get the Date Time payload
-						mytimestamp = myPDNSubStrings[4].substr(4,12);
-						
-						PGNdays = "0x" + mytimestamp.substr(2, 2) + mytimestamp.substr(0, 2);
-                        myPGNValue = parseInt(PGNdays);
-
-                        vGDay = (myPGNValue * 86400) * 1000 ;
-						
-						 
-						PGNsecs = "0x" + mytimestamp.substr(10, 2) + mytimestamp.substr(8, 2) + mytimestamp.substr(6, 2) + mytimestamp.substr(4, 2);
-
-                        myPGNValue = parseInt(PGNsecs);
-						vGSec =  myPGNValue/ 10;		 
-								 
-						// convert to UTC time		 
-						vGSec = Math.floor(vGSec + vGDay);
-                        NGTDate.setTime(vGSec);	
-						
-						myNGTString = NGTDate.toUTCString()	
-
-						// convertt to SeaSmart TimeStamp Hex32 format
-						var mySeaSmartSecs = vGSec/1000;
-						mySeaSmartSecs = mySeaSmartSecs - 1262304000;
-						
-						mySeaSmartSecs = mySeaSmartSecs + gtimezoneOffset;
-						// we now have a valid SeaSmart TimeStamp in HEX32
-						mySeaSmartSecsStr = mySeaSmartSecs.toString(32); 
 					
 					}
 					
