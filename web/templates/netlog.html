@@ -939,7 +939,7 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, 
 						var postfilename = "https://www.helmsmart-cloud.com/devices/"+ myuploadDeviceID +"/PushCache/" + myFileName + zpad(chunkcount, 3);
 		}
 	
-	
+	/*
 				chunkcount = chunkcount + 1;
 								 
 								myloaded = myloaded + step;
@@ -958,6 +958,8 @@ async function uploadPSfile(file, index, PStext, chunkcount, numofchunks, step, 
 	
 			
 		return;
+		
+		*/
 			
 		xhr.open("POST", postfilename, true);
 		xhr.setRequestHeader("X_FILENAME", file.name);
