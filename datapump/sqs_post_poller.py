@@ -390,6 +390,7 @@ def proc(message):
         print(f'sqs_post_poller: PS message dump_influxdb_cloud device_id = {device_id} : partition = {partition}')
           
         if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device_id, partition)
+        if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud records: %s ', records)
         #if debug_all: log.info('sqs_post_poller: PS message dump_influxdb_cloud %s: %s ', device, partition)
         #081316 JLB - added influxdb-cloud update
         # write parsed nmea data to database
