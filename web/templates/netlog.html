@@ -457,7 +457,11 @@ var myUpdatedFile = "";
 	var myArrayLength = mySubStrings.length;
 
 
-			  // Get all the elements and parse into variables
+			// search for a NMEA 2000 Date/Time PGN to see if matches the SeaSmart TimeStamp
+			// $PCDIN,01F010,FQNUA109,FF,00061751205B462F*54
+			// if the SeaSmart Time stamp is less then 1/1/2010 the we will use the NMEA 2000 Date/Time PGN
+			
+			 // Get all the elements and parse into variables
 			  for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
 			  {
 			  
@@ -466,10 +470,12 @@ var myUpdatedFile = "";
 					 //$PCDIN,01F010,0000MA03,FF,00061751A014E231*2C
 					if(myPDNSubStrings[1] == "01F010")
 					{
-					
+						mySeaSmartSecsStr != ""
+						// gat a copy of the SeaSmart TimeStamp in Hex32
 						var myPStimestampStr = myPDNSubStrings[2].substr(0,6)
 						var myPStimestamp = parseInt(myPStimestampStr, 32);
 						
+						// convertt to UTC Tume
 						myPStimestamp = (myPStimestamp+1262304000)*1000;
 						
 					
@@ -479,13 +485,14 @@ var myUpdatedFile = "";
 						
 						myNGTString = NGTDate.toUTCString()	
 						
-						
+						// Compare SeaSmart Time stamp to 1/1/2010
 						if (myPStimestamp > 1577836800000)//1577836800 01/01/2020
 						{
 							return [textfile, myNGTString];
 						}
 						
-					
+						// SeaSmart TimeStamp is invalid so we use the NMEA 2000 Date/Time PGN
+						// get the Date Time payload
 						mytimestamp = myPDNSubStrings[4].substr(4,12);
 						
 						PGNdays = "0x" + mytimestamp.substr(2, 2) + mytimestamp.substr(0, 2);
@@ -499,28 +506,32 @@ var myUpdatedFile = "";
                         myPGNValue = parseInt(PGNsecs);
 						vGSec =  myPGNValue/ 10;		 
 								 
-								 
+						// convert to UTC time		 
 						vGSec = Math.floor(vGSec + vGDay);
                         NGTDate.setTime(vGSec);	
 						
 						myNGTString = NGTDate.toUTCString()	
 
+						// convertt to SeaSmart TimeStamp Hex32 format
 						var mySeaSmartSecs = vGSec/1000;
 						mySeaSmartSecs = mySeaSmartSecs - 1262304000;
 						
 						mySeaSmartSecs = mySeaSmartSecs + gtimezoneOffset;
-						
+						// we now have a valid SeaSmart TimeStamp in HEX32
 						mySeaSmartSecsStr = mySeaSmartSecs.toString(32); 
 					
 					}
+					
+					
 			  
-			  }
+			 }
+			 
 			  
-			  
-			  // if we have a good mySeaSmartSecsStr=""
-				if(mySeaSmartSecsStr != "")
-				{
+			  // if we have a good mySeaSmartSecsStr="" to replace the invalid ones
+			if(mySeaSmartSecsStr != "")
+			{
 					// Get all the elements and parse into variables
+					// we want to replace all the invalid SeaSmart Time stamps with the NMEA 2000 Date
 					for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
 					{
 						mySubString = mySubStrings[myIndex];
@@ -534,14 +545,17 @@ var myUpdatedFile = "";
 						
 							var mySMTimestamp = myPDNSubStrings[2];
 							
+							// add HEX32 indedex count to end of HEX32 TimeStamp
 							myPDNSubStrings[2] = mySeaSmartSecsStr.toUpperCase() + myIndex.toString(32).padStart(2, '0');;
 							
+							// grab the payload so we can fix the checksum becasue we changed the timestamp
 							var myPayloads = myPDNSubStrings[4].split('*') 
 						
 							var myPayload = myPayloads[0];
 							
 							var PCDINString = myPDNSubStrings[0] + "," +  myPDNSubStrings[1] + "," +  myPDNSubStrings[2] + "," +  myPDNSubStrings[3] + "," +  myPayloads[0]; 
 							
+							// add valid checksum
 							var checksum = 0;
 							
 							for(j=1; j< PCDINString.length; j++)
@@ -550,6 +564,7 @@ var myUpdatedFile = "";
 							  
 							}
 					  
+							// reconstruct final PGN
 							//PCDINString = PCDINString + "*" + zHexpad(checksum,2) + "\r\n"
 							mySubStrings[myIndex] = PCDINString + "*" + zHexpad(checksum,2) + "\r\n";
 							
@@ -561,26 +576,23 @@ var myUpdatedFile = "";
 						
 					}
 			  
-			  		myUpdatedFile = "";
-					// Get all the elements and parse into variables
-					for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
-					{
+			  }
 					
-						if (mySubStrings[myIndex].length > 5)
-						{
-							myUpdatedFile = myUpdatedFile + mySubStrings[myIndex];
-						}
+			// rewrite the file with the new timestamp values
+			 myUpdatedFile = "";
+			/// Get all the elements and parse into variables
+			for (myIndex = 0; myIndex < myArrayLength; myIndex++) 
+			{
 					
-					}
-					
-					return [myUpdatedFile, myNGTString];
-				}
-				
-				else
+				if (mySubStrings[myIndex].length > 5)
 				{
-				
-					return [textfile, myNGTString];
+					myUpdatedFile = myUpdatedFile + mySubStrings[myIndex];
 				}
+					
+			}
+					
+			return [myUpdatedFile, myNGTString];
+				
 
 }
  
